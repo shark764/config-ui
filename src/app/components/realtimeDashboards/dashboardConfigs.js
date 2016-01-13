@@ -56,6 +56,7 @@ angular.module("liveopsConfigPanel")
                 "statistic":"queue-length",
                 "statisticLookup":"recordsCount",
                 "additionalParams":[],
+                "displayType": "count",
                 "groupName":"queue1",
                 "resourceIdName":"queue-id",
                 "resourceId":null,
@@ -70,8 +71,8 @@ angular.module("liveopsConfigPanel")
                         "height":5
                     },
                     "position":{
-                        "row":3,
-                        "col":2
+                      "row":3,
+                      "col":2
                     }
                 }
             },
@@ -88,6 +89,7 @@ angular.module("liveopsConfigPanel")
                 "statistic":"queue-duration",
                 "statisticLookup":"avg",
                 "additionalParams":[],
+                "displayType": "duration",
                 "groupName":"queue1",
                 "resourceIdName":"queue-id",
                 "resourceId":null,
@@ -97,38 +99,6 @@ angular.module("liveopsConfigPanel")
                         "text":"Avg. Queue Wait Time"
                     },
                     "unit":"",
-                    "size":{
-                        "width":5,
-                        "height":5
-                    },
-                    "position":{
-                        "row":9,
-                        "col":2
-                    }
-                }
-            },
-            "chart":{
-                "indicator":{
-
-                }
-            }
-        },
-        {
-            "id":"queue-group-1-queue-abandons",
-            "type":"statistic",
-            "config":{
-                "statistic":"abandon-queue-instance",
-                "statisticLookup":"recordsCount",
-                "additionalParams":[],
-                "groupName":"queue1",
-                "resourceIdName":"queue-id",
-                "resourceId":null,
-                "ui":{
-                    "title":{
-                        "show":true,
-                        "text":"Total Abandons"
-                    },
-                    "unit":"customers",
                     "size":{
                         "width":5,
                         "height":5
@@ -146,12 +116,46 @@ angular.module("liveopsConfigPanel")
             }
         },
         {
+            "id":"queue-group-1-queue-abandons",
+            "type":"statistic",
+            "config":{
+                "statistic":"abandon-queue-instance",
+                "statisticLookup":"recordsCount",
+                "additionalParams":[],
+                "displayType": "count",
+                "groupName":"queue1",
+                "resourceIdName":"queue-id",
+                "resourceId":null,
+                "ui":{
+                    "title":{
+                        "show":true,
+                        "text":"Total Abandons"
+                    },
+                    "unit":"customers",
+                    "size":{
+                        "width":5,
+                        "height":5
+                    },
+                    "position":{
+                        "row":9,
+                        "col":2
+                    }
+                }
+            },
+            "chart":{
+                "indicator":{
+
+                }
+            }
+        },
+        {
            "id":"queue-group-1-queue-duration-max",
            "type":"statistic",
            "config":{
                "statistic":"queue-duration",
                "statisticLookup":"max",
                "additionalParams":[],
+               "displayType": "duration",
                "groupName":"queue1",
                "resourceIdName":"queue-id",
                "resourceId":null,
@@ -209,6 +213,7 @@ angular.module("liveopsConfigPanel")
                 "statistic":"queue-length",
                 "statisticLookup":"recordsCount",
                 "additionalParams":[],
+                "displayType": "count",
                 "groupName":"queue2",
                 "resourceIdName":"queue-id",
                 "resourceId":null,
@@ -241,6 +246,7 @@ angular.module("liveopsConfigPanel")
                 "statistic":"queue-duration",
                 "statisticLookup":"avg",
                 "additionalParams":[],
+                "displayType": "duration",
                 "groupName":"queue2",
                 "resourceIdName":"queue-id",
                 "resourceId":null,
@@ -273,6 +279,7 @@ angular.module("liveopsConfigPanel")
                 "statistic":"abandon-queue-instance",
                 "statisticLookup":"recordsCount",
                 "additionalParams":[],
+                "displayType": "count",
                 "groupName":"queue2",
                 "resourceIdName":"queue-id",
                 "resourceId":null,
@@ -287,7 +294,7 @@ angular.module("liveopsConfigPanel")
                         "height":5
                     },
                     "position":{
-                        "row":3,
+                        "row":9,
                         "col":15
                     }
                 }
@@ -305,6 +312,7 @@ angular.module("liveopsConfigPanel")
                "statistic":"queue-duration",
                "statisticLookup":"max",
                "additionalParams":[],
+               "displayType": "duration",
                "groupName":"queue2",
                "resourceIdName":"queue-id",
                "resourceId":null,
@@ -356,6 +364,7 @@ angular.module("liveopsConfigPanel")
                 "statistic":"resources-ready",
                 "statisticLookup":"value",
                 "additionalParams":[],
+                "displayType": "count",
                 "ui":{
                     "title":{
                         "show":true,
@@ -385,6 +394,7 @@ angular.module("liveopsConfigPanel")
                 "statistic":"resources-away",
                 "statisticLookup":"value",
                 "additionalParams":[],
+                "displayType": "count",
                 "ui":{
                     "title":{
                         "show":true,
@@ -414,6 +424,7 @@ angular.module("liveopsConfigPanel")
                 "statistic":"resources-busy",
                 "statisticLookup":"value",
                 "additionalParams":[],
+                "displayType": "count",
                 "ui":{
                     "title":{
                         "show":true,
@@ -443,6 +454,7 @@ angular.module("liveopsConfigPanel")
                 "statistic":"conversation-duration",
                 "statisticLookup":"avg",
                 "additionalParams":[],
+                "displayType": "duration",
                 "ui":{
                     "title":{
                         "show":true,
@@ -472,6 +484,7 @@ angular.module("liveopsConfigPanel")
                 "statistic":"time-to-answer-duration",
                 "statisticLookup":"avg",
                 "additionalParams":[],
+                "displayType": "duration",
                 "ui":{
                     "title":{
                         "show":true,
@@ -501,6 +514,7 @@ angular.module("liveopsConfigPanel")
                 "statistic":"resource-hold-duration",
                 "statisticLookup":"recordsCount",
                 "additionalParams":[],
+                "displayType": "duration",
                 "ui":{
                     "title":{
                         "show":true,
@@ -549,6 +563,7 @@ angular.module("liveopsConfigPanel")
                 "statistic":"queue-length",
                 "statisticLookup":"recordsCount",
                 "additionalParams":[],
+                "displayType": "count",
                 "ui":{
                     "title":{
                         "show":true,
@@ -578,6 +593,7 @@ angular.module("liveopsConfigPanel")
                 "statistic":"queue-duration",
                 "statisticLookup":"max",
                 "additionalParams":[],
+                "displayType": "duration",
                 "ui":{
                     "title":{
                         "show":true,
@@ -607,6 +623,7 @@ angular.module("liveopsConfigPanel")
                 "statistic":"abandon-queue-instance",
                 "statisticLookup":"recordsCount",
                 "additionalParams":[],
+                "displayType": "count",
                 "ui":{
                     "title":{
                         "show":true,
@@ -636,6 +653,7 @@ angular.module("liveopsConfigPanel")
                 "statistic":"interaction-duration",
                 "statisticLookup":"avg",
                 "additionalParams":[],
+                "displayType": "duration",
                 "ui":{
                     "title":{
                         "show":true,
@@ -665,6 +683,7 @@ angular.module("liveopsConfigPanel")
                 "statistic":"interactions-in-conversation-count",
                 "statisticLookup":"recordsCount",
                 "additionalParams":[],
+                "displayType": "count",
                 "ui":{
                     "title":{
                         "show":true,
@@ -694,6 +713,7 @@ angular.module("liveopsConfigPanel")
                 "statistic":"abandon-time-duration",
                 "statisticLookup":"avg",
                 "additionalParams":[],
+                "displayType": "duration",
                 "ui":{
                     "title":{
                         "show":true,
@@ -725,7 +745,7 @@ angular.module("liveopsConfigPanel")
     "gridster":{
         "columns":60,
         "minRows":10,
-        "maxRows":40,
+        "maxRows":100,
         "margins":[
             20,
             20
@@ -765,6 +785,7 @@ angular.module("liveopsConfigPanel")
                 "statistic":"resources-ready",
                 "statisticLookup":"value",
                 "additionalParams":[],
+                "displayType": "count",
                 "ui":{
                     "title":{
                         "show":true,
@@ -794,6 +815,7 @@ angular.module("liveopsConfigPanel")
                 "statistic":"resources-ready",
                 "statisticLookup":"max",
                 "additionalParams":['gaugeStart','gaugeEnd'],
+                "displayType": "count",
                 "ui":{
                     "title":{
                         "show":true,
@@ -823,6 +845,7 @@ angular.module("liveopsConfigPanel")
                 "statistic":"resources-ready",
                 "statisticLookup":"min",
                 "additionalParams":['gaugeStart','gaugeEnd'],
+                "displayType": "count",
                 "ui":{
                     "title":{
                         "show":true,
@@ -871,6 +894,7 @@ angular.module("liveopsConfigPanel")
                 "statistic":"resources-away",
                 "statisticLookup":"value",
                 "additionalParams":[],
+                "displayType": "count",
                 "ui":{
                     "title":{
                         "show":true,
@@ -900,6 +924,7 @@ angular.module("liveopsConfigPanel")
                 "statistic":"resources-away",
                 "statisticLookup":"max",
                 "additionalParams":['gaugeStart','gaugeEnd'],
+                "displayType": "count",
                 "ui":{
                     "title":{
                         "show":true,
@@ -929,6 +954,7 @@ angular.module("liveopsConfigPanel")
                 "statistic":"resources-away",
                 "statisticLookup":"min",
                 "additionalParams":['gaugeStart','gaugeEnd'],
+                "displayType": "count",
                 "ui":{
                     "title":{
                         "show":true,
@@ -977,6 +1003,7 @@ angular.module("liveopsConfigPanel")
                 "statistic":"resources-busy",
                 "statisticLookup":"value",
                 "additionalParams":[],
+                "displayType": "count",
                 "ui":{
                     "title":{
                         "show":true,
@@ -1006,6 +1033,7 @@ angular.module("liveopsConfigPanel")
                 "statistic":"resources-busy",
                 "statisticLookup":"max",
                 "additionalParams":['gaugeStart','gaugeEnd'],
+                "displayType": "count",
                 "ui":{
                     "title":{
                         "show":true,
@@ -1035,6 +1063,7 @@ angular.module("liveopsConfigPanel")
                 "statistic":"resources-busy",
                 "statisticLookup":"min",
                 "additionalParams":['gaugeStart','gaugeEnd'],
+                "displayType": "count",
                 "ui":{
                     "title":{
                         "show":true,
@@ -1048,6 +1077,333 @@ angular.module("liveopsConfigPanel")
                     "position":{
                         "row":3,
                         "col":50
+                    }
+                }
+            },
+            "chart":{
+                "indicator":{
+
+                }
+            }
+        },
+        {
+            "id":"holds-title",
+            "type":"title",
+            "config":{
+                "ui":{
+                    "size":{
+                        "width":15,
+                        "height":2
+                    },
+                    "position":{
+                        "row":9,
+                        "col":6
+                    }
+                }
+            },
+            "chart":{
+                "data":"Hold Duration"
+            }
+        },
+        {
+            "id":"avg-hold-time",
+            "type":"statistic",
+            "config":{
+                "statistic":"resource-hold-duration",
+                "statisticLookup":"avg",
+                "additionalParams":[],
+                "displayType": "duration",
+                "ui":{
+                    "title":{
+                        "show":true,
+                        "text":"Avg. Hold Time"
+                    },
+                    "unit":"",
+                    "size":{
+                        "width":5,
+                        "height":5
+                    },
+                    "position":{
+                        "row":12,
+                        "col":6
+                    }
+                }
+            },
+            "chart":{
+                "indicator":{
+
+                }
+            }
+        },
+        {
+            "id":"min-hold-time",
+            "type":"statistic",
+            "config":{
+                "statistic":"resource-hold-duration",
+                "statisticLookup":"min",
+                "additionalParams":[],
+                "displayType": "duration",
+                "ui":{
+                    "title":{
+                        "show":true,
+                        "text":"Min. Hold Time"
+                    },
+                    "unit":"",
+                    "size":{
+                        "width":5,
+                        "height":5
+                    },
+                    "position":{
+                        "row":12,
+                        "col":11
+                    }
+                }
+            },
+            "chart":{
+                "indicator":{
+
+                }
+            }
+        },
+        {
+            "id":"max-hold-time",
+            "type":"statistic",
+            "config":{
+                "statistic":"resource-hold-duration",
+                "statisticLookup":"max",
+                "additionalParams":[],
+                "displayType": "duration",
+                "ui":{
+                    "title":{
+                        "show":true,
+                        "text":"Max. Hold Time"
+                    },
+                    "unit":"",
+                    "size":{
+                        "width":5,
+                        "height":5
+                    },
+                    "position":{
+                        "row":12,
+                        "col":16
+                    }
+                }
+            },
+            "chart":{
+                "indicator":{
+
+                }
+            }
+        },
+        {
+            "id":"conversation-title",
+            "type":"title",
+            "config":{
+                "ui":{
+                    "size":{
+                        "width":15,
+                        "height":2
+                    },
+                    "position":{
+                        "row":17,
+                        "col":6
+                    }
+                }
+            },
+            "chart":{
+                "data":"In Conversation Duration"
+            }
+        },
+        {
+            "id":"avg-convo-duration",
+            "type":"statistic",
+            "config":{
+                "statistic":"conversation-duration",
+                "statisticLookup":"avg",
+                "additionalParams":[],
+                "displayType": "duration",
+                "ui":{
+                    "title":{
+                        "show":true,
+                        "text":"Avg. Conversation Duration"
+                    },
+                    "unit":"",
+                    "size":{
+                        "width":5,
+                        "height":5
+                    },
+                    "position":{
+                        "row":19,
+                        "col":6
+                    }
+                }
+            },
+            "chart":{
+                "indicator":{
+
+                }
+            }
+        },
+        {
+            "id":"min-convo-duration",
+            "type":"statistic",
+            "config":{
+                "statistic":"conversation-duration",
+                "statisticLookup":"min",
+                "additionalParams":[],
+                "displayType": "duration",
+                "ui":{
+                    "title":{
+                        "show":true,
+                        "text":"Min. Conversation Duration"
+                    },
+                    "unit":"",
+                    "size":{
+                        "width":5,
+                        "height":5
+                    },
+                    "position":{
+                        "row":19,
+                        "col":11
+                    }
+                }
+            },
+            "chart":{
+                "indicator":{
+
+                }
+            }
+        },
+        {
+            "id":"max-convo-duration",
+            "type":"statistic",
+            "config":{
+                "statistic":"conversation-duration",
+                "statisticLookup":"max",
+                "additionalParams":[],
+                "displayType": "duration",
+                "ui":{
+                    "title":{
+                        "show":true,
+                        "text":"Max. Conversation Duration"
+                    },
+                    "unit":"",
+                    "size":{
+                        "width":5,
+                        "height":5
+                    },
+                    "position":{
+                        "row":19,
+                        "col":16
+                    }
+                }
+            },
+            "chart":{
+                "indicator":{
+
+                }
+            }
+        },
+        {
+            "id":"tta-title",
+            "type":"title",
+            "config":{
+                "ui":{
+                    "size":{
+                        "width":15,
+                        "height":2
+                    },
+                    "position":{
+                        "row":88,
+                        "col":6
+                    }
+                }
+            },
+            "chart":{
+                "data":"Time To Answe Duration"
+            }
+        },
+        {
+            "id":"avg-tta",
+            "type":"statistic",
+            "config":{
+                "statistic":"time-to-answer-duration",
+                "statisticLookup":"avg",
+                "additionalParams":[],
+                "displayType": "duration",
+                "ui":{
+                    "title":{
+                        "show":true,
+                        "text":"Avg. Time To Answer"
+                    },
+                    "unit":"",
+                    "size":{
+                        "width":5,
+                        "height":5
+                    },
+                    "position":{
+                        "row":90,
+                        "col":6
+                    }
+                }
+            },
+            "chart":{
+                "indicator":{
+
+                }
+            }
+        },
+        {
+            "id":"min-tta",
+            "type":"statistic",
+            "config":{
+                "statistic":"time-to-answer-duration",
+                "statisticLookup":"min",
+                "additionalParams":[],
+                "displayType": "duration",
+                "ui":{
+                    "title":{
+                        "show":true,
+                        "text":"Min. Time To Answer"
+                    },
+                    "unit":"",
+                    "size":{
+                        "width":5,
+                        "height":5
+                    },
+                    "position":{
+                        "row":90,
+                        "col":11
+                    }
+                }
+            },
+            "chart":{
+                "indicator":{
+
+                }
+            }
+        },
+        {
+            "id":"max-tta",
+            "type":"statistic",
+            "config":{
+                "statistic":"time-to-answer-duration",
+                "statisticLookup":"max",
+                "additionalParams":[],
+                "displayType": "duration",
+                "ui":{
+                    "title":{
+                        "show":true,
+                        "text":"Max. Time To Answer"
+                    },
+                    "unit":"",
+                    "size":{
+                        "width":5,
+                        "height":5
+                    },
+                    "position":{
+                        "row":90,
+                        "col":16
                     }
                 }
             },
@@ -1082,12 +1438,12 @@ angular.module("liveopsConfigPanel")
     },
     "widgets":[
         {
-            "id":"00000000-0000-0000-000000000001",
+            "id":"all-queues-title",
             "type":"title",
             "config":{
                 "ui":{
                     "size":{
-                        "width":15,
+                        "width":47,
                         "height":2
                     },
                     "position":{
@@ -1101,18 +1457,19 @@ angular.module("liveopsConfigPanel")
             }
         },
         {
-            "id":"00000000-0000-0000-000000000090",
+            "id":"all-queues-length",
             "type":"statistic",
             "config":{
-                "statistic":"calls-answered-percent",
-                "statisticLookup":"calls-answered",
+                "statistic":"queue-length",
+                "statisticLookup":"recordsCount",
                 "additionalParams":[],
+                "displayType": "count",
                 "ui":{
                     "title":{
                         "show":true,
-                        "text":"Answered < 20s"
+                        "text":"Queue Length"
                     },
-                    "unit":"Answered < 20s",
+                    "unit":"",
                     "size":{
                         "width":5,
                         "height":5
@@ -1125,18 +1482,19 @@ angular.module("liveopsConfigPanel")
             }
         },
         {
-            "id":"00000000-0000-0000-000000000002",
+            "id":"all-queues-calls-percent",
             "type":"statistic",
             "config":{
-                "statistic":"handle-time-duration",
-                "statisticLookup":"avg",
+                "statistic":"calls-answered-percent",
+                "statisticLookup":"calls-answered",
                 "additionalParams":[],
+                "displayType": "count",
                 "ui":{
                     "title":{
                         "show":true,
-                        "text":"Avg Wait Time"
+                        "text":"Answered < 20s"
                     },
-                    "unit":"",
+                    "unit":"Answered < 20s",
                     "size":{
                         "width":5,
                         "height":5
@@ -1149,16 +1507,17 @@ angular.module("liveopsConfigPanel")
             }
         },
         {
-            "id":"00000000-0000-0000-000000000003",
+            "id":"all-queues-abandons",
             "type":"statistic",
             "config":{
-                "statistic":"handle-time-duration",
-                "statisticLookup":"max",
+                "statistic":"abandon-queue-instance",
+                "statisticLookup":"recordsCount",
                 "additionalParams":[],
+                "displayType": "count",
                 "ui":{
                     "title":{
                         "show":true,
-                        "text":"Max Wait Time"
+                        "text":"Abandons"
                     },
                     "unit":"",
                     "size":{
@@ -1173,54 +1532,101 @@ angular.module("liveopsConfigPanel")
             }
         },
         {
-            "id":"00000000-0000-0000-000000000004",
+            "id":"all-queues-avg-wait",
             "type":"statistic",
             "config":{
-                "statistic":"interaction-abandon-instance",
-                "statisticLookup":"recordsCount",
+                "statistic":"queue-duration",
+                "statisticLookup":"avg",
                 "additionalParams":[],
+                "displayType": "duration",
                 "ui":{
                     "title":{
                         "show":true,
-                        "text":"Abandons"
+                        "text":"Avg. Wait Time"
                     },
-                    "unit":"customers",
+                    "unit":"",
                     "size":{
                         "width":5,
                         "height":5
                     },
                     "position":{
-                        "row":9,
-                        "col":7
+                        "row":3,
+                        "col":20
                     }
                 }
             }
         },
         {
-            "id":"00000000-0000-0000-000000000030",
+            "id":"all-queues-duration-min",
             "type":"statistic",
             "config":{
-                "statistic":"queue-length",
-                "statisticLookup":"recordsCount",
+                "statistic":"queue-duration",
+                "statisticLookup":"min",
                 "additionalParams":[],
+                "displayType": "duration",
                 "ui":{
                     "title":{
                         "show":true,
-                        "text":"Queue Length"
+                        "text":"Min Wait Time"
                     },
+                    "unit":"",
                     "size":{
                         "width":5,
                         "height":5
                     },
                     "position":{
-                        "row":9,
-                        "col":13
+                        "row":3,
+                        "col":25
                     }
                 }
             }
         },
         {
-            "id":"00000000-0000-0000-000000000066",
+            "id":"all-queues-duration-max",
+            "type":"statistic",
+            "config":{
+                "statistic":"queue-duration",
+                "statisticLookup":"max",
+                "additionalParams":[],
+                "displayType": "duration",
+                "ui":{
+                    "title":{
+                        "show":true,
+                        "text":"Max Wait Time"
+                    },
+                    "unit":"",
+                    "size":{
+                        "width":5,
+                        "height":5
+                    },
+                    "position":{
+                        "row":3,
+                        "col":30
+                    }
+                }
+            }
+        },
+        {
+            "id":"all-queues-spacer",
+            "type":"title",
+            "config":{
+                "ui":{
+                    "size":{
+                        "width":31,
+                        "height":2
+                    },
+                    "position":{
+                        "row":9,
+                        "col":5
+                    }
+                }
+            },
+            "chart":{
+                "data":""
+            }
+        },
+        {
+            "id":"source-switcher-1",
             "type":"sourceSwitcher",
             "config":{
                 "groupName":"queue1",
@@ -1235,110 +1641,30 @@ angular.module("liveopsConfigPanel")
                     },
                     "size":{
                         "width":15,
-                        "height":2
+                        "height":3
                     },
                     "position":{
-                        "row":0,
-                        "col":22
+                        "row":11,
+                        "col":5
                     }
                 }
             }
         },
         {
-            "id":"00000000-0000-0000-000000000091",
+            "id":"queue-group-1-queue-length",
             "type":"statistic",
             "config":{
-                "statistic":"calls-answered-percent",
-                "statisticLookup":"calls-answered",
-                "additionalParams":[],
-                "groupName":"queue1",
-                "resourceIdName":"queue-id",
-                "resourceId":null,
-                "ui":{
-                    "title":{
-                        "show":true,
-                        "text":"Answered < 20s"
-                    },
-                    "unit":"Answered < 20s",
-                    "size":{
-                        "width":5,
-                        "height":5
-                    },
-                    "position":{
-                        "row":3,
-                        "col":22
-                    }
-                }
-            }
-        },
-        {
-            "id":"00000000-0000-0000-000000000007",
-            "type":"statistic",
-            "config":{
-                "statistic":"handle-time-duration",
-                "statisticLookup":"avg",
-                "additionalParams":[],
-                "groupName":"queue1",
-                "resourceIdName":"queue-id",
-                "resourceId":null,
-                "ui":{
-                    "title":{
-                        "show":true,
-                        "text":"Avg Wait Time"
-                    },
-                    "unit":"",
-                    "size":{
-                        "width":5,
-                        "height":5
-                    },
-                    "position":{
-                        "row":3,
-                        "col":27
-                    }
-                }
-            }
-        },
-        {
-            "id":"00000000-0000-0000-000000000008",
-            "type":"statistic",
-            "config":{
-                "statistic":"handle-time-duration",
-                "statisticLookup":"max",
-                "additionalParams":[],
-                "groupName":"queue1",
-                "resourceIdName":"queue-id",
-                "resourceId":null,
-                "ui":{
-                    "title":{
-                        "show":true,
-                        "text":"Max Wait Time"
-                    },
-                    "unit":"",
-                    "size":{
-                        "width":5,
-                        "height":5
-                    },
-                    "position":{
-                        "row":3,
-                        "col":32
-                    }
-                }
-            }
-        },
-        {
-            "id":"00000000-0000-0000-000000000009",
-            "type":"statistic",
-            "config":{
-                "statistic":"interaction-abandon-instance",
+                "statistic":"queue-length",
                 "statisticLookup":"recordsCount",
                 "additionalParams":[],
+                "displayType": "count",
                 "groupName":"queue1",
                 "resourceIdName":"queue-id",
                 "resourceId":null,
                 "ui":{
                     "title":{
                         "show":true,
-                        "text":"Abandons"
+                        "text":"Current Queue Length"
                     },
                     "unit":"customers",
                     "size":{
@@ -1346,8 +1672,8 @@ angular.module("liveopsConfigPanel")
                         "height":5
                     },
                     "position":{
-                        "row":9,
-                        "col":24
+                      "row":14,
+                      "col":5
                     }
                 }
             },
@@ -1358,33 +1684,172 @@ angular.module("liveopsConfigPanel")
             }
         },
         {
-            "id":"00000000-0000-0000-000000000010",
+            "id":"queue-group-1-calls-answered",
             "type":"statistic",
             "config":{
-                "statistic":"queue-length",
-                "statisticLookup":"recordsCount",
+                "statistic":"calls-answered-percent",
+                "statisticLookup":"calls-answered",
                 "additionalParams":[],
+                "displayType": "count",
                 "groupName":"queue1",
                 "resourceIdName":"queue-id",
                 "resourceId":null,
                 "ui":{
                     "title":{
                         "show":true,
-                        "text":"Queue Length"
+                        "text":"Answered < 20s"
                     },
+                    "unit":"Answered < 20s",
                     "size":{
                         "width":5,
                         "height":5
                     },
                     "position":{
-                        "row":9,
-                        "col":30
+                        "row":14,
+                        "col":10
                     }
+                }
+            },
+            "chart":{
+                "indicator":{
+
                 }
             }
         },
         {
-            "id":"00000000-0000-0000-000000000066",
+            "id":"queue-group-1-queue-abandons",
+            "type":"statistic",
+            "config":{
+                "statistic":"abandon-queue-instance",
+                "statisticLookup":"recordsCount",
+                "additionalParams":[],
+                "displayType": "count",
+                "groupName":"queue1",
+                "resourceIdName":"queue-id",
+                "resourceId":null,
+                "ui":{
+                    "title":{
+                        "show":true,
+                        "text":"Total Abandons"
+                    },
+                    "unit":"customers",
+                    "size":{
+                        "width":5,
+                        "height":5
+                    },
+                    "position":{
+                        "row":14,
+                        "col":15
+                    }
+                }
+            },
+            "chart":{
+                "indicator":{
+
+                }
+            }
+        },
+        {
+           "id":"queue-group-1-queue-duration-avg",
+           "type":"statistic",
+           "config":{
+               "statistic":"queue-duration",
+               "statisticLookup":"avg",
+               "additionalParams":[],
+               "displayType": "duration",
+               "groupName":"queue1",
+               "resourceIdName":"queue-id",
+               "resourceId":null,
+               "ui":{
+                   "title":{
+                       "show":true,
+                       "text":"Avg Queue Wait Time"
+                   },
+                   "unit":"",
+                   "size":{
+                       "width":5,
+                       "height":5
+                   },
+                   "position":{
+                       "row":19,
+                       "col":5
+                   }
+               }
+           },
+           "chart":{
+               "indicator":{
+
+               }
+           }
+        },
+        {
+           "id":"queue-group-1-queue-duration-min",
+           "type":"statistic",
+           "config":{
+               "statistic":"queue-duration",
+               "statisticLookup":"min",
+               "additionalParams":[],
+               "displayType": "duration",
+               "groupName":"queue1",
+               "resourceIdName":"queue-id",
+               "resourceId":null,
+               "ui":{
+                   "title":{
+                       "show":true,
+                       "text":"Min Queue Wait Time"
+                   },
+                   "unit":"",
+                   "size":{
+                       "width":5,
+                       "height":5
+                   },
+                   "position":{
+                       "row":19,
+                       "col":10
+                   }
+               }
+           },
+           "chart":{
+               "indicator":{
+
+               }
+           }
+        },
+        {
+           "id":"queue-group-1-queue-duration-max",
+           "type":"statistic",
+           "config":{
+               "statistic":"queue-duration",
+               "statisticLookup":"max",
+               "displayType": "duration",
+               "additionalParams":[],
+               "groupName":"queue1",
+               "resourceIdName":"queue-id",
+               "resourceId":null,
+               "ui":{
+                   "title":{
+                       "show":true,
+                       "text":"Max Queue Wait Time"
+                   },
+                   "unit":"",
+                   "size":{
+                       "width":5,
+                       "height":5
+                   },
+                   "position":{
+                       "row":19,
+                       "col":15
+                   }
+               }
+           },
+           "chart":{
+               "indicator":{
+
+               }
+           }
+        },
+        {
+            "id":"source-switcher-2",
             "type":"sourceSwitcher",
             "config":{
                 "groupName":"queue2",
@@ -1399,22 +1864,56 @@ angular.module("liveopsConfigPanel")
                     },
                     "size":{
                         "width":15,
-                        "height":2
+                        "height":3
                     },
                     "position":{
-                        "row":0,
-                        "col":39
+                        "row":11,
+                        "col":21
                     }
                 }
             }
         },
         {
-            "id":"00000000-0000-0000-000000000092",
+            "id":"queue-group-2-queue-length",
+            "type":"statistic",
+            "config":{
+                "statistic":"queue-length",
+                "statisticLookup":"recordsCount",
+                "additionalParams":[],
+                "displayType": "count",
+                "groupName":"queue2",
+                "resourceIdName":"queue-id",
+                "resourceId":null,
+                "ui":{
+                    "title":{
+                        "show":true,
+                        "text":"Current Queue Length"
+                    },
+                    "unit":"customers",
+                    "size":{
+                        "width":5,
+                        "height":5
+                    },
+                    "position":{
+                      "row":14,
+                      "col":21
+                    }
+                }
+            },
+            "chart":{
+                "indicator":{
+
+                }
+            }
+        },
+        {
+            "id":"queue-group-2-calls-answered",
             "type":"statistic",
             "config":{
                 "statistic":"calls-answered-percent",
                 "statisticLookup":"calls-answered",
                 "additionalParams":[],
+                "displayType": "count",
                 "groupName":"queue2",
                 "resourceIdName":"queue-id",
                 "resourceId":null,
@@ -1429,80 +1928,32 @@ angular.module("liveopsConfigPanel")
                         "height":5
                     },
                     "position":{
-                        "row":3,
-                        "col":39
+                        "row":14,
+                        "col":26
                     }
+                }
+            },
+            "chart":{
+                "indicator":{
+
                 }
             }
         },
         {
-            "id":"00000000-0000-0000-000000000013",
+            "id":"queue-group-2-queue-abandons",
             "type":"statistic",
             "config":{
-                "statistic":"handle-time-duration",
-                "statisticLookup":"avg",
-                "additionalParams":[],
-                "groupName":"queue2",
-                "resourceIdName":"queue-id",
-                "resourceId":null,
-                "ui":{
-                    "title":{
-                        "show":true,
-                        "text":"Avg Wait Time"
-                    },
-                    "unit":"",
-                    "size":{
-                        "width":5,
-                        "height":5
-                    },
-                    "position":{
-                        "row":3,
-                        "col":44
-                    }
-                }
-            }
-        },
-        {
-            "id":"00000000-0000-0000-000000000014",
-            "type":"statistic",
-            "config":{
-                "statistic":"handle-time-duration",
-                "statisticLookup":"max",
-                "additionalParams":[],
-                "groupName":"queue2",
-                "resourceIdName":"queue-id",
-                "resourceId":null,
-                "ui":{
-                    "title":{
-                        "show":true,
-                        "text":"Max Wait Time"
-                    },
-                    "unit":"",
-                    "size":{
-                        "width":5,
-                        "height":5
-                    },
-                    "position":{
-                        "row":3,
-                        "col":49
-                    }
-                }
-            }
-        },
-        {
-            "id":"00000000-0000-0000-000000000015",
-            "type":"statistic",
-            "config":{
-                "statistic":"interaction-abandon-instance",
+                "statistic":"abandon-queue-instance",
                 "statisticLookup":"recordsCount",
                 "additionalParams":[],
+                "displayType": "count",
                 "groupName":"queue2",
                 "resourceIdName":"queue-id",
                 "resourceId":null,
                 "ui":{
                     "title":{
                         "show":true,
-                        "text":"Abandons"
+                        "text":"Total Abandons"
                     },
                     "unit":"customers",
                     "size":{
@@ -1510,37 +1961,115 @@ angular.module("liveopsConfigPanel")
                         "height":5
                     },
                     "position":{
-                        "row":9,
-                        "col":41
+                        "row":14,
+                        "col":31
                     }
+                }
+            },
+            "chart":{
+                "indicator":{
+
                 }
             }
         },
         {
-            "id":"00000000-0000-0000-000000000016",
-            "type":"statistic",
-            "config":{
-                "statistic":"queue-length",
-                "statisticLookup":"recordsCount",
-                "additionalParams":[],
-                "groupName":"queue2",
-                "resourceIdName":"queue-id",
-                "resourceId":null,
-                "ui":{
-                    "title":{
-                        "show":true,
-                        "text":"Queue Length"
-                    },
-                    "size":{
-                        "width":5,
-                        "height":5
-                    },
-                    "position":{
-                        "row":9,
-                        "col":47
-                    }
-                }
-            }
+           "id":"queue-group-2-queue-duration-avg",
+           "type":"statistic",
+           "config":{
+               "statistic":"queue-duration",
+               "statisticLookup":"avg",
+               "additionalParams":[],
+               "displayType": "time",
+               "groupName":"queue2",
+               "resourceIdName":"queue-id",
+               "resourceId":null,
+               "ui":{
+                   "title":{
+                       "show":true,
+                       "text":"Avg Queue Wait Time"
+                   },
+                   "unit":"",
+                   "size":{
+                       "width":5,
+                       "height":5
+                   },
+                   "position":{
+                       "row":19,
+                       "col":21
+                   }
+               }
+           },
+           "chart":{
+               "indicator":{
+
+               }
+           }
+        },
+        {
+           "id":"queue-group-2-queue-duration-min",
+           "type":"statistic",
+           "config":{
+               "statistic":"queue-duration",
+               "statisticLookup":"min",
+               "additionalParams":[],
+               "displayType": "time",
+               "groupName":"queue2",
+               "resourceIdName":"queue-id",
+               "resourceId":null,
+               "ui":{
+                   "title":{
+                       "show":true,
+                       "text":"Min Queue Wait Time"
+                   },
+                   "unit":"",
+                   "size":{
+                       "width":5,
+                       "height":5
+                   },
+                   "position":{
+                       "row":19,
+                       "col":26
+                   }
+               }
+           },
+           "chart":{
+               "indicator":{
+
+               }
+           }
+        },
+        {
+           "id":"queue-group-2-queue-duration-max",
+           "type":"statistic",
+           "config":{
+               "statistic":"queue-duration",
+               "statisticLookup":"max",
+               "additionalParams":[],
+               "displayType": "time",
+               "groupName":"queue2",
+               "resourceIdName":"queue-id",
+               "resourceId":null,
+               "ui":{
+                   "title":{
+                       "show":true,
+                       "text":"Max Queue Wait Time"
+                   },
+                   "unit":"",
+                   "size":{
+                       "width":5,
+                       "height":5
+                   },
+                   "position":{
+                       "row":19,
+                       "col":31
+                   }
+               }
+           },
+           "chart":{
+               "indicator":{
+
+               }
+           }
         }
     ]
 },
@@ -1572,12 +2101,12 @@ angular.module("liveopsConfigPanel")
             "config":{
                 "ui":{
                     "size":{
-                        "width":20,
+                        "width":40,
                         "height":2
                     },
                     "position":{
                         "row":0,
-                        "col":0
+                        "col":10
                     }
                 }
             },
@@ -1586,66 +2115,19 @@ angular.module("liveopsConfigPanel")
             }
         },
         {
-            "id":"00000000-0000-0000-000000000002",
+            "id":"int-in-convo-live",
             "type":"statistic",
             "config":{
-                "statistic":"interaction-duration",
+                "statistic":"interactions-in-conversation-count",
                 "statisticLookup":"recordsCount",
                 "additionalParams":[],
-                "ui":{
-                    "title":{
-                        "show":true,
-                        "text":"Total Active"
-                    },
-                    "unit":"interactions",
-                    "size":{
-                        "width":5,
-                        "height":5
-                    },
-                    "position":{
-                        "row":3,
-                        "col":0
-                    }
-                }
-            }
-        },
-        {
-            "id":"00000000-0000-0000-000000000003",
-            "type":"statistic",
-            "config":{
-                "statistic":"conversation-duration",
-                "statisticLookup":"recordsCount",
-                "additionalParams":[],
+                "displayType": "count",
                 "ui":{
                     "title":{
                         "show":true,
                         "text":"In Conversation"
                     },
-                    "unit":"interactions",
-                    "size":{
-                        "width":5,
-                        "height":5
-                    },
-                    "position":{
-                        "row":3,
-                        "col":5
-                    }
-                }
-            }
-        },
-        {
-            "id":"00000000-0000-0000-000000000004",
-            "type":"statistic",
-            "config":{
-                "statistic":"interaction-duration",
-                "statisticLookup":"recordsCount",
-                "additionalParams":[],
-                "ui":{
-                    "title":{
-                        "show":true,
-                        "text":"Total Today"
-                    },
-                    "unit":"interactions",
+                    "unit":"",
                     "size":{
                         "width":5,
                         "height":5
@@ -1658,18 +2140,19 @@ angular.module("liveopsConfigPanel")
             }
         },
         {
-            "id":"00000000-0000-0000-000000000030",
+            "id":"int-start-instance",
             "type":"statistic",
             "config":{
-                "statistic":"queue-duration",
+                "statistic":"interaction-start-instance",
                 "statisticLookup":"recordsCount",
                 "additionalParams":[],
+                "displayType": "count",
                 "ui":{
                     "title":{
                         "show":true,
-                        "text":"In Queue"
+                        "text":"Interactions Started"
                     },
-                    "unit":"interactions",
+                    "unit":"",
                     "size":{
                         "width":5,
                         "height":5
@@ -1682,16 +2165,167 @@ angular.module("liveopsConfigPanel")
             }
         },
         {
-            "id":"00000000-0000-0000-000000000006",
+            "id":"int-in-queue",
+            "type":"statistic",
+            "config":{
+                "statistic":"queue-length",
+                "statisticLookup":"recordsCount",
+                "additionalParams":[],
+                "displayType": "count",
+                "ui":{
+                    "title":{
+                        "show":true,
+                        "text":"Interactions In Queue"
+                    },
+                    "unit":"",
+                    "size":{
+                        "width":5,
+                        "height":5
+                    },
+                    "position":{
+                        "row":3,
+                        "col":20
+                    }
+                }
+            }
+        },
+        {
+            "id":"int-aband-queue-inst",
+            "type":"statistic",
+            "config":{
+                "statistic":"abandon-queue-instance",
+                "statisticLookup":"recordsCount",
+                "additionalParams":[],
+                "displayType": "count",
+                "ui":{
+                    "title":{
+                        "show":true,
+                        "text":"Queues Abandoned"
+                    },
+                    "unit":"",
+                    "size":{
+                        "width":5,
+                        "height":5
+                    },
+                    "position":{
+                        "row":3,
+                        "col":25
+                    }
+                }
+            }
+        },
+        {
+            "id":"int-ivr-abandon",
+            "type":"statistic",
+            "config":{
+                "statistic":"interactions-in-routing-abandon-count",
+                "statisticLookup":"recordsCount",
+                "additionalParams":[],
+                "displayType": "count",
+                "ui":{
+                    "title":{
+                        "show":true,
+                        "text":"IVR Abandons"
+                    },
+                    "unit":"",
+                    "size":{
+                        "width":5,
+                        "height":5
+                    },
+                    "position":{
+                        "row":3,
+                        "col":30
+                    }
+                }
+            }
+        },
+        {
+            "id":"avg-aband-time",
+            "type":"statistic",
+            "config":{
+                "statistic":"abandon-time-duration",
+                "statisticLookup":"avg",
+                "additionalParams":[],
+                "displayType": "time",
+                "ui":{
+                    "title":{
+                        "show":true,
+                        "text":"Avg. Abandon Time"
+                    },
+                    "unit":"",
+                    "size":{
+                        "width":5,
+                        "height":5
+                    },
+                    "position":{
+                        "row":3,
+                        "col":35
+                    }
+                }
+            }
+        },
+        {
+            "id":"max-aband-time",
+            "type":"statistic",
+            "config":{
+                "statistic":"abandon-time-duration",
+                "statisticLookup":"max",
+                "additionalParams":[],
+                "displayType": "time",
+                "ui":{
+                    "title":{
+                        "show":true,
+                        "text":"Max Abandon Time"
+                    },
+                    "unit":"",
+                    "size":{
+                        "width":5,
+                        "height":5
+                    },
+                    "position":{
+                        "row":3,
+                        "col":40
+                    }
+                }
+            }
+        },
+        {
+            "id":"min-aband-time",
+            "type":"statistic",
+            "config":{
+                "statistic":"abandon-time-duration",
+                "statisticLookup":"min",
+                "additionalParams":[],
+                "displayType": "time",
+                "ui":{
+                    "title":{
+                        "show":true,
+                        "text":"Min Abandon Time"
+                    },
+                    "unit":"",
+                    "size":{
+                        "width":5,
+                        "height":5
+                    },
+                    "position":{
+                        "row":3,
+                        "col":45
+                    }
+                }
+            }
+        },
+        {
+            "id":"avg-interaction-dur",
             "type":"statistic",
             "config":{
                 "statistic":"interaction-duration",
                 "statisticLookup":"avg",
                 "additionalParams":[],
+                "displayType": "time",
                 "ui":{
                     "title":{
                         "show":true,
-                        "text":"Avg. Interaction Duration"
+                        "text":"Avg. Interaction Time"
                     },
                     "unit":"",
                     "size":{
@@ -1700,72 +2334,25 @@ angular.module("liveopsConfigPanel")
                     },
                     "position":{
                         "row":9,
-                        "col":0
-                    }
-                }
-            }
-        },
-        {
-            "id":"00000000-0000-0000-000000000007",
-            "type":"statistic",
-            "config":{
-                "statistic":"interaction-abandon-instance",
-                "statisticLookup":"recordsCount",
-                "additionalParams":[],
-                "ui":{
-                    "title":{
-                        "show":true,
-                        "text":"Abandons"
-                    },
-                    "unit":"interactions",
-                    "size":{
-                        "width":5,
-                        "height":5
-                    },
-                    "position":{
-                        "row":9,
-                        "col":5
-                    }
-                }
-            }
-        },
-        {
-            "id":"00000000-0000-0000-000000000008",
-            "type":"statistic",
-            "config":{
-                "statistic":"interaction-transfer-instance",
-                "statisticLookup":"recordsCount",
-                "additionalParams":[],
-                "ui":{
-                    "title":{
-                        "show":true,
-                        "text":"Transfers"
-                    },
-                    "unit":"interactions",
-                    "size":{
-                        "width":5,
-                        "height":5
-                    },
-                    "position":{
-                        "row":9,
                         "col":10
                     }
                 }
             }
         },
         {
-            "id":"00000000-0000-0000-000000000009",
+            "id":"total-interaction-dur",
             "type":"statistic",
             "config":{
-                "statistic":"interaction-abandon-instance",
-                "statisticLookup":"recordsCount",
+                "statistic":"interaction-duration",
+                "statisticLookup":"total",
                 "additionalParams":[],
+                "displayType": "time",
                 "ui":{
                     "title":{
                         "show":true,
-                        "text":"IVR Abandons"
+                        "text":"Total Interaction Time"
                     },
-                    "unit":"interactions",
+                    "unit":"",
                     "size":{
                         "width":5,
                         "height":5
@@ -1773,6 +2360,156 @@ angular.module("liveopsConfigPanel")
                     "position":{
                         "row":9,
                         "col":15
+                    }
+                }
+            }
+        },
+        {
+            "id":"max-interaction-dur",
+            "type":"statistic",
+            "config":{
+                "statistic":"interaction-duration",
+                "statisticLookup":"max",
+                "additionalParams":[],
+                "displayType": "time",
+                "ui":{
+                    "title":{
+                        "show":true,
+                        "text":"Max Interaction Time"
+                    },
+                    "unit":"",
+                    "size":{
+                        "width":5,
+                        "height":5
+                    },
+                    "position":{
+                        "row":9,
+                        "col":20
+                    }
+                }
+            }
+        },
+        {
+            "id":"min-interaction-dur",
+            "type":"statistic",
+            "config":{
+                "statistic":"interaction-duration",
+                "statisticLookup":"min",
+                "additionalParams":[],
+                "displayType": "time",
+                "ui":{
+                    "title":{
+                        "show":true,
+                        "text":"Min Interaction Time"
+                    },
+                    "unit":"",
+                    "size":{
+                        "width":5,
+                        "height":5
+                    },
+                    "position":{
+                        "row":9,
+                        "col":25
+                    }
+                }
+            }
+        },
+        {
+            "id":"avg-hold-duration",
+            "type":"statistic",
+            "config":{
+                "statistic":"interaction-hold-duration",
+                "statisticLookup":"avg",
+                "additionalParams":[],
+                "displayType": "time",
+                "ui":{
+                    "title":{
+                        "show":true,
+                        "text":"Avg. Hold Duration"
+                    },
+                    "unit":"",
+                    "size":{
+                        "width":5,
+                        "height":5
+                    },
+                    "position":{
+                        "row":9,
+                        "col":30
+                    }
+                }
+            }
+        },
+        {
+            "id":"total-hold-duration",
+            "type":"statistic",
+            "config":{
+                "statistic":"interaction-hold-duration",
+                "statisticLookup":"total",
+                "additionalParams":[],
+                "displayType": "time",
+                "ui":{
+                    "title":{
+                        "show":true,
+                        "text":"Total Hold Duration"
+                    },
+                    "unit":"",
+                    "size":{
+                        "width":5,
+                        "height":5
+                    },
+                    "position":{
+                        "row":9,
+                        "col":35
+                    }
+                }
+            }
+        },
+        {
+            "id":"max-hold-duration",
+            "type":"statistic",
+            "config":{
+                "statistic":"interaction-hold-duration",
+                "statisticLookup":"max",
+                "additionalParams":[],
+                "displayType": "time",
+                "ui":{
+                    "title":{
+                        "show":true,
+                        "text":"Max Hold Duration"
+                    },
+                    "unit":"",
+                    "size":{
+                        "width":5,
+                        "height":5
+                    },
+                    "position":{
+                        "row":9,
+                        "col":40
+                    }
+                }
+            }
+        },
+        {
+            "id":"min-hold-duration",
+            "type":"statistic",
+            "config":{
+                "statistic":"interaction-hold-duration",
+                "statisticLookup":"min",
+                "additionalParams":[],
+                "displayType": "time",
+                "ui":{
+                    "title":{
+                        "show":true,
+                        "text":"Min Hold Duration"
+                    },
+                    "unit":"",
+                    "size":{
+                        "width":5,
+                        "height":5
+                    },
+                    "position":{
+                        "row":9,
+                        "col":45
                     }
                 }
             }
