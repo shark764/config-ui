@@ -17,7 +17,7 @@ angular.module("liveopsConfigPanel")
         ],
         "outerMargin":false,
         "draggable":{
-            "enabled":false
+            "enabled":true
         },
         "resizable":{
             "enabled":false
@@ -102,8 +102,8 @@ angular.module("liveopsConfigPanel")
                         "height":5
                     },
                     "position":{
-                        "row":3,
-                        "col":8
+                        "row":9,
+                        "col":2
                     }
                 }
             },
@@ -134,8 +134,8 @@ angular.module("liveopsConfigPanel")
                         "height":5
                     },
                     "position":{
-                        "row":9,
-                        "col":5
+                        "row":3,
+                        "col":8
                     }
                 }
             },
@@ -144,6 +144,38 @@ angular.module("liveopsConfigPanel")
 
                 }
             }
+        },
+        {
+           "id":"queue-group-1-queue-duration-max",
+           "type":"statistic",
+           "config":{
+               "statistic":"queue-duration",
+               "statisticLookup":"max",
+               "additionalParams":[],
+               "groupName":"queue1",
+               "resourceIdName":"queue-id",
+               "resourceId":null,
+               "ui":{
+                   "title":{
+                       "show":true,
+                       "text":"Max Queue Wait Time"
+                   },
+                   "unit":"",
+                   "size":{
+                       "width":5,
+                       "height":5
+                   },
+                   "position":{
+                       "row":9,
+                       "col":8
+                   }
+               }
+           },
+           "chart":{
+               "indicator":{
+
+               }
+           }
         },
         {
             "id":"source-switcher-2",
@@ -255,8 +287,8 @@ angular.module("liveopsConfigPanel")
                         "height":5
                     },
                     "position":{
-                        "row":9,
-                        "col":18
+                        "row":3,
+                        "col":15
                     }
                 }
             },
@@ -265,6 +297,38 @@ angular.module("liveopsConfigPanel")
 
                 }
             }
+        },
+        {
+           "id":"queue-group-2-queue-duration-max",
+           "type":"statistic",
+           "config":{
+               "statistic":"queue-duration",
+               "statisticLookup":"max",
+               "additionalParams":[],
+               "groupName":"queue2",
+               "resourceIdName":"queue-id",
+               "resourceId":null,
+               "ui":{
+                   "title":{
+                       "show":true,
+                       "text":"Max Queue Wait Time"
+                   },
+                   "unit":"",
+                   "size":{
+                       "width":5,
+                       "height":5
+                   },
+                   "position":{
+                       "row":9,
+                       "col":21
+                   }
+               }
+           },
+           "chart":{
+               "indicator":{
+
+               }
+           }
         },
         {
             "id":"all-agents-group-title",
@@ -508,18 +572,18 @@ angular.module("liveopsConfigPanel")
             }
         },
         {
-            "id":"all-interactions-group-total-interactions-in-conversation",
+            "id":"all-interactions-group-max-queue-duration",
             "type":"statistic",
             "config":{
-                "statistic":"interactions-in-conversation-count",
-                "statisticLookup":"recordsCount",
+                "statistic":"queue-duration",
+                "statisticLookup":"max",
                 "additionalParams":[],
                 "ui":{
                     "title":{
                         "show":true,
-                        "text":"Interactions in Conversation"
+                        "text":"Max Queue Wait Time"
                     },
-                    "unit":"interactions",
+                    "unit":"customers",
                     "size":{
                         "width":5,
                         "height":5
@@ -584,7 +648,36 @@ angular.module("liveopsConfigPanel")
                     },
                     "position":{
                         "row":9,
-                        "col":45
+                        "col":43
+                    }
+                }
+            },
+            "chart":{
+                "indicator":{
+
+                }
+            }
+        },
+        {
+            "id":"all-interactions-group-total-interactions-in-conversation",
+            "type":"statistic",
+            "config":{
+                "statistic":"interactions-in-conversation-count",
+                "statisticLookup":"recordsCount",
+                "additionalParams":[],
+                "ui":{
+                    "title":{
+                        "show":true,
+                        "text":"Interactions in Conversation"
+                    },
+                    "unit":"interactions",
+                    "size":{
+                        "width":5,
+                        "height":5
+                    },
+                    "position":{
+                        "row":9,
+                        "col":48
                     }
                 }
             },
@@ -613,7 +706,7 @@ angular.module("liveopsConfigPanel")
                     },
                     "position":{
                         "row":9,
-                        "col":50
+                        "col":53
                     }
                 }
             },
@@ -639,7 +732,7 @@ angular.module("liveopsConfigPanel")
         ],
         "outerMargin":false,
         "draggable":{
-            "enabled":false
+            "enabled":true
         },
         "resizable":{
             "enabled":false
