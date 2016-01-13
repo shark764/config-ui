@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+
+## 301
+- finalized all 4 dashboards and added/removed stats as needed based on feedback
+
 ## 294
 
 ##### Realtime Dashboards
