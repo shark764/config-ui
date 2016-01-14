@@ -179,7 +179,7 @@ angular.module('liveopsConfigPanel')
         $scope.selectedTenantUser = tenantUser;
       });
       
-      $scope.updateStatus = function(newVal){
+      $scope.updateStatus = function(){
         if ($scope.selectedTenantUser.status !== 'accepted' && $scope.selectedTenantUser.status !== 'disabled'){
           return;
         }

@@ -60,7 +60,7 @@ angular.module('liveopsConfigPanel')
         vm.create();
       });
       
-      vm.updateActive = function(newVal){
+      vm.updateActive = function(){
         if (vm.selectedList.tenantId !== Session.tenant.tenantId){
           return;
         }

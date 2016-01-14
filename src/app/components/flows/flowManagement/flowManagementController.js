@@ -120,7 +120,7 @@ angular.module('liveopsConfigPanel')
         });
       };
       
-      $scope.updateActive = function(newVal){
+      $scope.updateActive = function(){
         var flowCopy = new Flow({
           id: $scope.selectedFlow.id,
           tenantId: $scope.selectedFlow.tenantId,

@@ -81,7 +81,7 @@ angular.module('liveopsConfigPanel')
         }
       });
       
-      $scope.updateActive = function(newVal){
+      $scope.updateActive = function(){
         var tenantCopy = new Tenant({
           id: $scope.selectedTenant.id,
           regionId: $scope.selectedTenant.regionId,

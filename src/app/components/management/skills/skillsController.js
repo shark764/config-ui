@@ -141,7 +141,7 @@ angular.module('liveopsConfigPanel')
         }
       };
       
-      $scope.updateActive = function(newVal){
+      $scope.updateActive = function(){
         var skillCopy = new Skill({
           id: $scope.selectedSkill.id,
           tenantId: $scope.selectedSkill.tenantId,
