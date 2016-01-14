@@ -34,8 +34,10 @@
       ng-resource="selectedFlow"
       lo-form-submit lo-form-cancel lo-form-alert>
 
-      <div class="detail-header" ng-include="'app/components/flows/flowManagement/flowDetailHeader.html'">
-      </div>
+      <ng-form name="forms.headerForm" separate-validation>
+        <div class="detail-header" ng-include="'app/components/flows/flowManagement/flowDetailHeader.html'">
+        </div>
+      </ng-form>
 
       <div class="detail-body" ng-include="'app/components/flows/flowManagement/flowDetailBody.html'">
       </div>

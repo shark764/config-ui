@@ -38,10 +38,12 @@
     lo-form-cancel
     lo-form-alert>
     
-    <div class="detail-header"
-      ng-include src="'app/components/management/groups/groupDetailHeader.html'">
-    </div>
-
+    <ng-form name="forms.headerForm" separate-validation>
+      <div class="detail-header"
+        ng-include src="'app/components/management/groups/groupDetailHeader.html'">
+      </div>
+    </ng-form>
+    
     <div class="detail-body"
       ng-include src="'app/components/management/groups/groupDetailBody.html'">
     </div>
