@@ -96,7 +96,7 @@ describe('tableControls directive', function() {
       id: 'somethingelse'
     });
     doCompile();
-    expect($scope.selected).toEqual(null);
+    expect($scope.selected).toBeFalsy();
   });
 
   it('should select nothing on init if there is no id param', function() {
@@ -335,22 +335,6 @@ describe('tableControls directive', function() {
       isolateScope.$digest();
       expect(isolateScope.filtered.length).toBe(1);
       expect(isolateScope.filtered[0].id).toEqual('item2');
-    });
-
-    it('watch should set selected item to null if there isn\'t one', function() {
-      spyOn(isolateScope, 'selectItem');
-      delete isolateScope.selected;
-      isolateScope.searchQuery = 'item1';
-      isolateScope.$digest();
-      expect(isolateScope.selectItem).toHaveBeenCalledWith(null);
-    });
-
-    it('watch should reset selected item if old one gets filtered', function() {
-      spyOn(isolateScope, 'selectItem');
-      isolateScope.selected = $scope.items[2];
-      isolateScope.searchQuery = 'item1';
-      isolateScope.$digest();
-      expect(isolateScope.selectItem).toHaveBeenCalledWith(null);
     });
 
     it('watch should uncheck items that have been filtered out', function() {
