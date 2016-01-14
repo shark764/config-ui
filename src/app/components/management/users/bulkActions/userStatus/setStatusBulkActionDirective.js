@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('baSetStatus', ['TenantUser', 'Session', '$q', 'Alert', '$translate', 'BulkAction', 'statuses',
-    function(TenantUser, Session, $q, Alert, $translate, BulkAction, statuses) {
+  .directive('baSetStatus', ['TenantUser', 'Session', '$q', 'Alert', '$translate', 'BulkAction',
+    function(TenantUser, Session, $q, Alert, $translate, BulkAction) {
       return {
         restrict: 'E',
         require: '?^bulkActionExecutor',
@@ -10,15 +10,23 @@ angular.module('liveopsConfigPanel')
         templateUrl: 'app/components/management/users/bulkActions/userStatus/setStatusBulkAction.html',
         link: function($scope, elem, attr, bulkActionExecutor) {
           $scope.bulkAction = new BulkAction();
-          
+
           if (bulkActionExecutor) {
             bulkActionExecutor.register($scope.bulkAction);
           }
-          
-          $scope.$evalAsync(function() {
-            $scope.statuses = statuses();
-          });
-          
+
+          $scope.statuses = [{
+            'display': 'Disabled',
+            'value': 'disabled'
+          }, {
+            'display': 'Enabled',
+            'value': 'accepted'
+          }];
+
+          $scope.bulkAction.doesQualify = function doesQualify(tenantUser) {
+            return ['disabled', 'accepted'].indexOf(tenantUser.status) > -1;
+          };
+
           $scope.bulkAction.apply = function(tenantUser) {
             if ($scope.status === 'disabled' && tenantUser.id === Session.user.id) {
               Alert.error($translate.instant('bulkActions.enable.users.fail'));
