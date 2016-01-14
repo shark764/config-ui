@@ -31,6 +31,17 @@ angular.module('liveopsConfigPanel')
               .loFormSubmitController
               .populateApiErrors(response);
 
+            $scope.form.$setPristine();
+
+            var unbindWatch = $scope.$watch('form.$dirty', function (dirty, oldVal) {
+              if (!dirty || (dirty === oldVal)) {
+                return;
+              }
+
+              $scope.form.extensions.$setDirty();
+              unbindWatch();
+            });
+
             Alert.error($translate.instant('details.extensions.error'));
           }
           

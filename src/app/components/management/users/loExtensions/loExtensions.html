@@ -15,6 +15,9 @@
         </select>
       </label>
 
+      <form-error field="form.extensions"></form-error>
+      <input type="hidden" name="extensions" ng-model="extensions"/>
+
       <form-error field="form.type"
         error-type-required="{{'details.extension.type.required' | translate}}" >
       </form-error>
