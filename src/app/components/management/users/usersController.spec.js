@@ -48,6 +48,7 @@ describe('users controller', function() {
 
     expect($scope.selectedTenantUser.$user).toBeDefined();
     expect($scope.selectedTenantUser.$user.isNew()).toBeTruthy();
+    expect($scope.selectedTenantUser.status).toEqual('invited');
   });
 
   describe('ON $scope.scenario', function() {

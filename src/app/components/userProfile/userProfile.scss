@@ -19,6 +19,10 @@
    width: 100%;
    padding-left: 200px;
   }
+  
+  .null {
+    max-width: $details-table-width;
+  }
 
   .submit-wrapper {
     text-align: right;

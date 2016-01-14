@@ -84,7 +84,9 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.create = function() {
-        $scope.selectedTenantUser = new TenantUser();
+        $scope.selectedTenantUser = new TenantUser({
+          status: 'invited'
+        });
         $scope.selectedTenantUser.$user = new User();
       };
 
