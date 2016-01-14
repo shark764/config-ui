@@ -17,7 +17,7 @@ angular.module("liveopsConfigPanel")
         ],
         "outerMargin":false,
         "draggable":{
-            "enabled":true
+            "enabled":false
         },
         "resizable":{
             "enabled":false
@@ -514,7 +514,7 @@ angular.module("liveopsConfigPanel")
                 "statistic":"resource-hold-duration",
                 "statisticLookup":"recordsCount",
                 "additionalParams":[],
-                "displayType": "duration",
+                "displayType": "count",
                 "ui":{
                     "title":{
                         "show":true,
@@ -752,7 +752,7 @@ angular.module("liveopsConfigPanel")
         ],
         "outerMargin":false,
         "draggable":{
-            "enabled":true
+            "enabled":false
         },
         "resizable":{
             "enabled":false
@@ -1430,7 +1430,7 @@ angular.module("liveopsConfigPanel")
         ],
         "outerMargin":false,
         "draggable":{
-            "enabled":true
+            "enabled":false
         },
         "resizable":{
             "enabled":false
@@ -2088,7 +2088,7 @@ angular.module("liveopsConfigPanel")
         ],
         "outerMargin":false,
         "draggable":{
-            "enabled":true
+            "enabled":false
         },
         "resizable":{
             "enabled":false
