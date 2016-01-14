@@ -122,4 +122,70 @@ describe('MediaMappings directive', function() {
       expect($scope.form.defaultMediaKey.$setTouched).toHaveBeenCalled();
     });
   });
+  
+  describe('onSelect function', function() {
+    beforeEach(function() {
+      $scope.form.mediaMap = {
+        $setDirty: jasmine.createSpy('dirtySpy'),
+        $setTouched: jasmine.createSpy('touchedSpy')
+      };
+    });
+
+    it('should exist', function() {
+      expect(isolateScope.onSelect).toBeDefined();
+      expect(isolateScope.onSelect).toEqual(jasmine.any(Function));
+    });
+
+    it('should return a function', function() {
+      expect(isolateScope.onSelect({})).toEqual(jasmine.any(Function));
+    });
+    
+    it('should dirty the form mediaMap field when the result is called', function() {
+      isolateScope.onSelect({})({id: '1234'});
+      expect($scope.form.mediaMap.$setDirty).toHaveBeenCalled();
+      expect($scope.form.mediaMap.$setTouched).toHaveBeenCalled();
+    });
+    
+    it('should set the mediaMap id to that of the selected media', function() {
+      var mediaMap = {};
+      isolateScope.onSelect(mediaMap)({id: '1234'});
+      expect(mediaMap.id).toEqual('1234');
+    });
+  });
+  
+  describe('initMapping function', function() {
+    it('should exist', function() {
+      expect(isolateScope.initMapping).toBeDefined();
+      expect(isolateScope.initMapping).toEqual(jasmine.any(Function));
+    });
+
+    it('should fetch the list of medias', inject(function($httpBackend, apiHostname, queryCache, Session) {
+      queryCache.removeAll();
+      Session.tenant.tenantId = 'mytenant';
+      $httpBackend.expectGET(apiHostname + '/v1/tenants/mytenant/media').respond(200);
+      isolateScope.initMapping({id: '1234'});
+      $httpBackend.flush();
+    }));
+    
+    it('should set the $media property with the marching media item for the given mediaMap', inject(function($httpBackend, apiHostname, queryCache, Session) {
+      queryCache.removeAll();
+      Session.tenant.tenantId = 'mytenant';
+      $httpBackend.expectGET(apiHostname + '/v1/tenants/mytenant/media').respond(200, {
+        result: [{
+          id: '1234',
+          name: 'first media'
+        }, {
+          id: '5432',
+          name: 'second media'
+        }]
+      });
+      
+      var mediamap = {id: '5432'};
+      isolateScope.initMapping(mediamap);
+      $httpBackend.flush();
+      
+      expect(mediamap.$media.id).toEqual('5432');
+      expect(mediamap.$media.name).toEqual('second media');
+    }));
+  });
 });
