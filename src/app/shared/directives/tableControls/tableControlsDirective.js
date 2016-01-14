@@ -123,9 +123,7 @@ angular.module('liveopsConfigPanel')
               return;
             }
 
-            if (newItems.length === 0) {
-              $rootScope.$broadcast(loEvents.tableControls.itemCreate);
-            } else if (parseStateKey($location.search())) {
+            if (parseStateKey($location.search())) {
               //Init the selected item based on URL param
               var params = {};
               params[$scope.resourceKey] = parseStateKey($location.search());
@@ -152,11 +150,6 @@ angular.module('liveopsConfigPanel')
                 item.checked = false;
               }
             });
-
-            if ($scope.filtered.length === 0) {
-              $rootScope.$broadcast(loEvents.tableControls.itemCreate);
-              return;
-            }
           });
 
           $scope.sortTable = function(field) {
