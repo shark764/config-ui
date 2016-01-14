@@ -44,7 +44,7 @@ angular.module('liveopsConfigPanel')
           
           for(var errorIndex = 0; errorIndex < errorType.length; errorIndex++) {
             var errorModel = errorType[errorIndex];
-            if(extensionFields.indexOf(errorModel.$name) > 0) {
+            if(extensionFields.indexOf(errorModel.$name) > -1) {
               continue;
             }
             
