@@ -43,15 +43,16 @@
         </select>
       </div>
 
-      <div ng-show="newExtension.type == 'pstn'" class="secondary-field-col phone-number-col"  >
+      <div ng-show="newExtension.type == 'pstn'" class="secondary-field-col"  >
         <input id="extension-value-field" type="tel" name="telValue"
+          style="phone-number-col"
           ng-disabled="ngDisabled"
           ng-required="newExtension.type == 'pstn'"
           placeholder="{{'details.extension.value' | translate}}"
           ng-model="phoneNumber">
         </input>
         <input id="extension-ext-field" type="text"
-          style="width: 85px"
+          style="ext-col"
           name="phoneExtension"
           pattern="\d*"
           placeholder="{{'details.phone.extension.value' | translate}}"
