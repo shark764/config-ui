@@ -59,56 +59,8 @@
   </div>
 
   <div class="input-group" ng-show="hc.isHoursCustom || hc.hasHours()">
-    <form-error field="hc.forms.detailsForm.sunStartTimeMinutes"
-      error-type-required="{{'hours.day.startTime.required' | translate:generateHoursMessage('sunday')}}">
-    </form-error>
-    <form-error field="hc.forms.detailsForm.sunEndTimeMinutes"
-      error-type-required="{{'hours.day.endTime.required' | translate:generateHoursMessage('sunday')}}">
-    </form-error>
 
-    <form-error field="hc.forms.detailsForm.monStartTimeMinutes"
-      error-type-required="{{'hours.day.startTime.required' | translate:generateHoursMessage('monday')}}">
-    </form-error>
-    <form-error field="hc.forms.detailsForm.monEndTimeMinutes"
-      error-type-required="{{'hours.day.endTime.required' | translate:generateHoursMessage('monday')}}">
-    </form-error>
-
-    <form-error field="hc.forms.detailsForm.tueStartTimeMinutes"
-      error-type-required="{{'hours.day.startTime.required' | translate:generateHoursMessage('tuesday')}}">
-    </form-error>
-    <form-error field="hc.forms.detailsForm.tueEndTimeMinutes"
-      error-type-required="{{'hours.day.endTime.required' | translate:generateHoursMessage('tuesday')}}">
-    </form-error>
-
-    <form-error field="hc.forms.detailsForm.wedStartTimeMinutes"
-      error-type-required="{{'hours.day.startTime.required' | translate:generateHoursMessage('wednesday')}}">
-    </form-error>
-    <form-error field="hc.forms.detailsForm.wedEndTimeMinutes"
-      error-type-required="{{'hours.day.endTime.required' | translate:generateHoursMessage('wednesday')}}">
-    </form-error>
-
-    <form-error field="hc.forms.detailsForm.thuStartTimeMinutes"
-      error-type-required="{{'hours.day.startTime.required' | translate:generateHoursMessage('thursday')}}">
-    </form-error>
-    <form-error field="hc.forms.detailsForm.thuEndTimeMinutes"
-      error-type-required="{{'hours.day.endTime.required' | translate:generateHoursMessage('thursday')}}">
-    </form-error>
-
-    <form-error field="hc.forms.detailsForm.friStartTimeMinutes"
-      error-type-required="{{'hours.day.startTime.required' | translate:generateHoursMessage('friday')}}">
-    </form-error>
-    <form-error field="hc.forms.detailsForm.friEndTimeMinutes"
-      error-type-required="{{'hours.day.endTime.required' | translate:generateHoursMessage('friday')}}">
-    </form-error>
-
-    <form-error field="hc.forms.detailsForm.satStartTimeMinutes"
-      error-type-required="{{'hours.day.startTime.required' | translate:generateHoursMessage('saturday')}}">
-    </form-error>
-    <form-error field="hc.forms.detailsForm.satEndTimeMinutes"
-      error-type-required="{{'hours.day.endTime.required' | translate:generateHoursMessage('saturday')}}">
-    </form-error>
-
-    <table id="week-hours-table" class="table">
+   <table id="week-hours-table" class="table">
       <thead>
         <tr>
           <th>&nbsp;</th>
@@ -117,102 +69,23 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <th scope="row">{{'hours.sunday' | translate}}</th>
+        <tr ng-repeat="dayPrefix in hc.dayPrefixes">
+          <th scope="row">{{('hours.' + dayPrefix.long) | translate}}</th>
           <td>
-            <input type="time" name="sunStartTimeMinutes"
-              ng-model="hc.selectedHour.sunStartTimeMinutes"
-              date-to-minute-converter>
-          </td>
-          <td>
-            <input type="time" name="sunEndTimeMinutes"
-              ng-model="hc.selectedHour.sunEndTimeMinutes"
-              date-to-minute-converter/>
-          </td>
-        </tr>
+            <form-error field="hc.forms.detailsForm[dayPrefix.short + 'StartTimeMinutes']"
+              error-type-required="{{'hours.day.startTime.required' | translate:generateHoursMessage(dayPrefix.long)}}">
+            </form-error>
 
-        <tr>
-          <th scope="row">{{'hours.monday' | translate}}</th>
-          <td>
-            <input type="time" name="monStartTimeMinutes"
-              ng-model="hc.selectedHour.monStartTimeMinutes"
-              ng-required="false"
-              date-to-minute-converter>
+            <lo-time-picker name="{{dayPrefix.short}}StartTimeMinutes"
+              ng-model="hc.selectedHour[dayPrefix.short + 'StartTimeMinutes']"></lo-time-picker>
           </td>
           <td>
-            <input type="time" name="monEndTimeMinutes"
-              ng-model="hc.selectedHour.monEndTimeMinutes"
-              date-to-minute-converter/>
-          </td>
-        </tr>
+            <form-error field="hc.forms.detailsForm[dayPrefix.short + 'EndTimeMinutes']"
+              error-type-required="{{'hours.day.endTime.required' | translate:generateHoursMessage(dayPrefix.long)}}">
+            </form-error>
 
-        <tr>
-          <th scope="row">{{'hours.tuesday' | translate}}</th>
-          <td>
-            <input type="time" name="tueStartTimeMinutes"
-              ng-model="hc.selectedHour.tueStartTimeMinutes"
-              date-to-minute-converter>
-          </td>
-          <td>
-            <input type="time" name="tueEndTimeMinutes"
-              ng-model="hc.selectedHour.tueEndTimeMinutes"
-              date-to-minute-converter/>
-          </td>
-        </tr>
-
-        <tr>
-          <th scope="row">{{'hours.wednesday' | translate}}</th>
-          <td>
-            <input type="time" name="wedStartTimeMinutes"
-              ng-model="hc.selectedHour.wedStartTimeMinutes"
-              date-to-minute-converter>
-          </td>
-          <td>
-            <input type="time" name="wedEndTimeMinutes"
-              ng-model="hc.selectedHour.wedEndTimeMinutes"
-              date-to-minute-converter/>
-          </td>
-        </tr>
-
-        <tr>
-          <th scope="row">{{'hours.thursday' | translate}}</th>
-          <td>
-            <input type="time" name="thuStartTimeMinutes"
-              ng-model="hc.selectedHour.thuStartTimeMinutes"
-              date-to-minute-converter>
-          </td>
-          <td>
-            <input type="time" name="thuEndTimeMinutes"
-              ng-model="hc.selectedHour.thuEndTimeMinutes"
-              date-to-minute-converter/>
-          </td>
-        </tr>
-
-        <tr>
-          <th scope="row">{{'hours.friday' | translate}}</th>
-          <td>
-            <input type="time" name="friStartTimeMinutes"
-              ng-model="hc.selectedHour.friStartTimeMinutes"
-              date-to-minute-converter>
-          </td>
-          <td>
-            <input type="time" name="friEndTimeMinutes"
-              ng-model="hc.selectedHour.friEndTimeMinutes"
-              date-to-minute-converter/>
-          </td>
-        </tr>
-
-        <tr>
-          <th scope="row">{{'hours.saturday' | translate}}</th>
-          <td>
-            <input type="time" name="satStartTimeMinutes"
-              ng-model="hc.selectedHour.satStartTimeMinutes"
-              date-to-minute-converter>
-          </td>
-          <td>
-            <input type="time" name="satEndTimeMinutes"
-              ng-model="hc.selectedHour.satEndTimeMinutes"
-              date-to-minute-converter/>
+            <lo-time-picker name="{{dayPrefix.short}}EndTimeMinutes"
+              ng-model="hc.selectedHour[dayPrefix.short + 'EndTimeMinutes']"></lo-time-picker>
           </td>
         </tr>
       </tbody>

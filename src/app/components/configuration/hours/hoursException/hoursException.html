@@ -23,9 +23,7 @@
       <th>{{'value.description' | translate}}</th>
       <th>{{'value.start' | translate}}</th>
       <th>{{'value.end' | translate}}</th>
-      <th ng-show="(['MANAGE_ALL_BUSINESS_HOURS'] | hasPermission)">
-        {{'value.remove' | translate}}
-      </th>
+      <th ng-show="(['MANAGE_ALL_BUSINESS_HOURS'] | hasPermission)"></th>
     </tr>
   </thead>
   <tbody>
@@ -103,14 +101,10 @@
       error-type-required="{{'hours.exception.startTime.required' | translate}}">
     </form-error>
 
-    <input type="text" name="{{'startTimeMinutes' + exceptionHour.$originalIndex}}"
+    <lo-time-picker name="{{'startTimeMinutes' + exceptionHour.$originalIndex}}"
     ng-model="exceptionHour.startTimeMinutes" 
-    moment-picker="exceptionHour.startTimeMinutes" 
-    format="HH:mm"
-    start-view="day"
     ng-change="hec.reValidateExceptionHours()"
-    ng-required="exceptionHour && !exceptionHour.isAllDay"
-    date-to-minute-converter />
+    ng-required="exceptionHour && !exceptionHour.isAllDay"></lo-time-picker>
 
   </div>
 
@@ -123,14 +117,10 @@
       error-type-required="{{'hours.exception.endTime.required' | translate}}">
     </form-error>
 
-    <input type="text" name="{{'endTimeMinutes' + exceptionHour.$originalIndex}}"
+    <lo-time-picker name="{{'endTimeMinutes' + exceptionHour.$originalIndex}}"
     ng-model="exceptionHour.endTimeMinutes" 
-    moment-picker="exceptionHour.endTimeMinutes" 
-    format="HH:mm"
-    start-view="day"
     ng-change="hec.reValidateExceptionHours()"
-    ng-required="exceptionHour && !exceptionHour.isAllDay"
-    date-to-minute-converter />
+    ng-required="exceptionHour && !exceptionHour.isAllDay"></lo-time-picker>
 
   </div>
 

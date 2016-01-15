@@ -6,7 +6,28 @@ angular.module('liveopsConfigPanel')
     function ($scope, $translate, $moment, $q, Session, BusinessHour, Timezone, hoursTableConfig, loEvents) {
 
       var vm = this;
-      vm.dayPrefixes = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+      vm.dayPrefixes = [{
+        short: 'sun',
+        long: 'sunday'
+      }, {
+        short: 'mon',
+        long: 'monday'
+      }, {
+        short: 'tue',
+        long: 'tuesday'
+      }, {
+        short: 'wed',
+        long: 'wednesday'
+      }, {
+        short: 'thu',
+        long: 'thursday'
+      }, {
+        short: 'fri',
+        long: 'friday'
+      }, {
+        short: 'sat',
+        long: 'saturday'
+      }]
 
       vm.loadTimezones = function() {
         vm.timezones = Timezone.query();
@@ -29,11 +50,6 @@ angular.module('liveopsConfigPanel')
             if(!exception.isNew()) {
               return;
             }
-            
-            if (!exception.allDay){
-              exception.startTimeMinutes = convertToMinutes(exception.startTimeMinutes);
-              exception.endTimeMinutes = convertToMinutes(exception.endTimeMinutes);
-            }
 
             promises.push(exception.save({
               tenantId: Session.tenant.tenantId,
@@ -50,18 +66,6 @@ angular.module('liveopsConfigPanel')
 
           return $q.all(promises);
         }).catch(vm.saveError);
-      };
-
-      var convertToMinutes = function (value){
-        var newValue = null;
-        if(value === null) {
-          return -1;
-        } else if(!(value instanceof Date)) {
-          var timeParts = value.split(':');
-          newValue = new Date(0,0,0, timeParts[0], timeParts[1], 0, 0);
-        }
-
-        return (newValue.getHours() * 60) + newValue.getMinutes();
       };
 
       vm.saveError = function(error) {
@@ -96,7 +100,7 @@ angular.module('liveopsConfigPanel')
 
         var hasHours = false;
         for (var index = 0; index < vm.dayPrefixes.length; index++) {
-          var dayPrefix = vm.dayPrefixes[index];
+          var dayPrefix = vm.dayPrefixes[index].short;
 
           hasHours = vm.selectedHour[dayPrefix + 'StartTimeMinutes'] &&
             vm.selectedHour[dayPrefix + 'StartTimeMinutes'] !== -1;
@@ -114,8 +118,8 @@ angular.module('liveopsConfigPanel')
       vm.onIsHoursCustomChanged = function (isCustom) {
         if (!isCustom) {
           angular.forEach(vm.dayPrefixes, function(dayPrefix) {
-            vm.selectedHour[dayPrefix + 'StartTimeMinutes'] = -1;
-            vm.selectedHour[dayPrefix + 'EndTimeMinutes'] = -1;
+            vm.selectedHour[dayPrefix.short + 'StartTimeMinutes'] = -1;
+            vm.selectedHour[dayPrefix.short + 'EndTimeMinutes'] = -1;
           });
         }
       };
