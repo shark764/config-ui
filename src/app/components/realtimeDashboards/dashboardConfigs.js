@@ -511,10 +511,10 @@ angular.module("liveopsConfigPanel")
             "id":"all-agents-group-agents-hold-count",
             "type":"statistic",
             "config":{
-                "statistic":"resource-hold-duration",
+                "statistic":"resource-hold-start-instance",
                 "statisticLookup":"recordsCount",
                 "additionalParams":[],
-                "displayType": "duration",
+                "displayType": "count",
                 "ui":{
                     "title":{
                         "show":true,
@@ -789,7 +789,7 @@ angular.module("liveopsConfigPanel")
                 "ui":{
                     "title":{
                         "show":true,
-                        "text":"Current"
+                        "text":"Concurrent"
                     },
                     "unit":"Resources",
                     "size":{
@@ -1109,7 +1109,7 @@ angular.module("liveopsConfigPanel")
             "id":"avg-hold-time",
             "type":"statistic",
             "config":{
-                "statistic":"resource-hold-duration",
+                "statistic":"interaction-hold-duration",
                 "statisticLookup":"avg",
                 "additionalParams":[],
                 "displayType": "duration",
@@ -1139,7 +1139,7 @@ angular.module("liveopsConfigPanel")
             "id":"min-hold-time",
             "type":"statistic",
             "config":{
-                "statistic":"resource-hold-duration",
+                "statistic":"interaction-hold-duration",
                 "statisticLookup":"min",
                 "additionalParams":[],
                 "displayType": "duration",
@@ -1169,7 +1169,7 @@ angular.module("liveopsConfigPanel")
             "id":"max-hold-time",
             "type":"statistic",
             "config":{
-                "statistic":"resource-hold-duration",
+                "statistic":"interaction-hold-duration",
                 "statisticLookup":"max",
                 "additionalParams":[],
                 "displayType": "duration",
@@ -1320,7 +1320,7 @@ angular.module("liveopsConfigPanel")
                 }
             },
             "chart":{
-                "data":"Time To Answe Duration"
+                "data":"Time To Answer Duration"
             }
         },
         {
@@ -1485,8 +1485,8 @@ angular.module("liveopsConfigPanel")
             "id":"all-queues-calls-percent",
             "type":"statistic",
             "config":{
-                "statistic":"calls-answered-percent",
-                "statisticLookup":"calls-answered",
+                "statistic":"service-level",
+                "statisticLookup":"service-level",
                 "additionalParams":[],
                 "displayType": "count",
                 "ui":{
@@ -1494,7 +1494,7 @@ angular.module("liveopsConfigPanel")
                         "show":true,
                         "text":"Answered < 20s"
                     },
-                    "unit":"Answered < 20s",
+                    "unit":"percent",
                     "size":{
                         "width":5,
                         "height":5
@@ -1687,8 +1687,8 @@ angular.module("liveopsConfigPanel")
             "id":"queue-group-1-calls-answered",
             "type":"statistic",
             "config":{
-                "statistic":"calls-answered-percent",
-                "statisticLookup":"calls-answered",
+                "statistic":"service-level",
+                "statisticLookup":"service-level",
                 "additionalParams":[],
                 "displayType": "count",
                 "groupName":"queue1",
@@ -1699,7 +1699,7 @@ angular.module("liveopsConfigPanel")
                         "show":true,
                         "text":"Answered < 20s"
                     },
-                    "unit":"Answered < 20s",
+                    "unit":"percent",
                     "size":{
                         "width":5,
                         "height":5
@@ -1910,8 +1910,8 @@ angular.module("liveopsConfigPanel")
             "id":"queue-group-2-calls-answered",
             "type":"statistic",
             "config":{
-                "statistic":"calls-answered-percent",
-                "statisticLookup":"calls-answered",
+                "statistic":"service-level",
+                "statisticLookup":"service-level",
                 "additionalParams":[],
                 "displayType": "count",
                 "groupName":"queue2",
@@ -1922,7 +1922,7 @@ angular.module("liveopsConfigPanel")
                         "show":true,
                         "text":"Answered < 20s"
                     },
-                    "unit":"Answered < 20s",
+                    "unit":"percent",
                     "size":{
                         "width":5,
                         "height":5
