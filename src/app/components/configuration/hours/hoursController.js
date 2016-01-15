@@ -89,7 +89,7 @@ angular.module('liveopsConfigPanel')
 
         vm.forms
           .detailsForm
-          .resetController
+          .loFormResetController
           .reset(hour);
       };
 
@@ -143,8 +143,8 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.$watch('hc.selectedHour', function(newHour, oldHour) {
-        if (oldHour) {
-          vm.reset(oldHour);
+        if (newHour) {
+          vm.reset(newHour);
         }
       });
 
