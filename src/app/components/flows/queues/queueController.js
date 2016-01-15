@@ -147,7 +147,7 @@ angular.module('liveopsConfigPanel')
         }
       };
 
-      vm.updateActive = function(newVal){
+      vm.updateActive = function(){
         var queueCopy = new Queue({
           id: vm.selectedQueue.id,
           tenantId: vm.selectedQueue.tenantId,

@@ -49,7 +49,7 @@ angular.module('liveopsConfigPanel')
         $scope.create();
       });
       
-      $scope.updateActive = function(newVal){
+      $scope.updateActive = function(){
         var dmCopy = new DispatchMapping({
           id: $scope.selectedDispatchMapping.id,
           tenantId: $scope.selectedDispatchMapping.tenantId,

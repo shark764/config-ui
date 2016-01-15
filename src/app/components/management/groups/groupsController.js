@@ -93,7 +93,7 @@ angular.module('liveopsConfigPanel')
         };
       };
       
-      $scope.updateActive = function(newVal){
+      $scope.updateActive = function(){
         var groupCopy = new Group({
           id: $scope.selectedGroup.id,
           tenantId: $scope.selectedGroup.tenantId,

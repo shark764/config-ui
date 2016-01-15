@@ -23,7 +23,7 @@ angular.module('liveopsConfigPanel')
         return $scope.selectedIntegration.save();
       };
       
-      $scope.updateActive = function(newVal){
+      $scope.updateActive = function(){
         var integrationCopy = new Integration({
           id: $scope.selectedIntegration.id,
           tenantId: $scope.selectedIntegration.tenantId,

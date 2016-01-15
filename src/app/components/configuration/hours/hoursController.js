@@ -109,7 +109,7 @@ angular.module('liveopsConfigPanel')
         };
       };
       
-      vm.updateActive = function(newVal){
+      vm.updateActive = function(){
         var hoursCopy = new BusinessHour({
           id: vm.selectedHour.id,
           tenantId: vm.selectedHour.tenantId,
