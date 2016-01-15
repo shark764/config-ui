@@ -32,10 +32,12 @@
     disable-contents="! ('MANAGE_ALL_LISTS' | hasPermission)"
     lo-form-submit lo-form-cancel lo-form-alert>
     
-    <div class="detail-header"
-      ng-include="'app/components/configuration/genericLists/genericListDetailHeader.html'">
-    </div>
-
+    <ng-form name="gc.forms.headerForm" separate-validation>
+      <div class="detail-header"
+        ng-include="'app/components/configuration/genericLists/genericListDetailHeader.html'">
+      </div>
+    </ng-form>
+    
     <div class="detail-body"
       ng-include="'app/components/configuration/genericLists/genericListDetailBody.html'">
     </div>

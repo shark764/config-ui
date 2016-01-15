@@ -135,4 +135,131 @@ describe('groups controller', function() {
 
     }));
   });
+
+  describe('removeMember function', function() {
+    it('should delete the record', inject(function(Session) {
+      $scope.selectedGroup = {
+        id: '1234',
+        $memberList: []
+      };
+
+      $httpBackend.expectDELETE(apiHostname + '/v1/tenants/' + Session.tenant.tenantId + '/groups/1234/users/6543').respond(200);
+
+      $scope.removeMember({
+        memberId: '6543'
+      });
+
+      $httpBackend.flush();
+    }));
+  });
+
+  describe('submit function', function() {
+    it('should save the selected group', inject(function(Session, Group) {
+      $scope.selectedGroup = new Group({
+        tenantId: 'tenant-id'
+      });
+
+      $httpBackend.when('GET', apiHostname + '/v1/tenants/tenant-id/groups/1234/users').respond(200);
+      $httpBackend.expectPOST(apiHostname + '/v1/tenants/tenant-id/groups').respond(200, {
+        result: {
+          id: '1234',
+          tenantId: 'tenant-id'
+        }
+      });
+
+      $scope.submit();
+
+      $httpBackend.flush();
+    }));
+  });
+  
+  describe('ON updateActive', function() {
+    it('should save the group', inject(function(Group) {
+      $scope.selectedGroup = new Group({
+        tenantId: 'myTenant',
+        active: false,
+        id: '1234'
+      });
+      $scope.selectedGroup.$original = $scope.selectedGroup;
+
+      $httpBackend.expectPUT(apiHostname + '/v1/tenants/myTenant/groups/1234').respond(200);
+      $scope.updateActive();
+
+      $httpBackend.flush();
+    }));
+    
+    it('should toggle the active property to true when it is false', inject(function(Group) {
+      $scope.selectedGroup = new Group({
+        tenantId: 'myTenant',
+        active: false,
+        id: '1234'
+      });
+      $scope.selectedGroup.$original = $scope.selectedGroup;
+
+      $httpBackend.expectPUT(apiHostname + '/v1/tenants/myTenant/groups/1234', {
+        active: true
+      }).respond(200);
+      $scope.updateActive();
+
+      $httpBackend.flush();
+    }));
+    
+    it('should toggle the active property to false when it is true', inject(function(Group) {
+      $scope.selectedGroup = new Group({
+        tenantId: 'myTenant',
+        active: true,
+        id: '1234'
+      });
+      $scope.selectedGroup.$original = $scope.selectedGroup;
+
+      $httpBackend.expectPUT(apiHostname + '/v1/tenants/myTenant/groups/1234', {
+        active: false
+      }).respond(200);
+      $scope.updateActive();
+
+      $httpBackend.flush();
+    }));
+
+    it('should update only the active status', inject(function(Group) {
+      $scope.selectedGroup = new Group({
+        tenantId: 'myTenant',
+        active: false,
+        id: '1234',
+        anotherProperty: 'somevalue'
+      });
+
+      $scope.selectedGroup.$original = $scope.selectedGroup;
+      $httpBackend.expectPUT(apiHostname + '/v1/tenants/myTenant/groups/1234', {
+        active: true
+      }).respond(200);
+      $scope.updateActive();
+
+      $httpBackend.flush();
+    }));
+
+    it('should update the $original value on success', inject(function(Group) {
+      $scope.selectedGroup = new Group({
+        tenantId: 'myTenant',
+        active: false,
+        id: '1234'
+      });
+
+      $scope.selectedGroup.$original = angular.copy($scope.selectedGroup);
+      expect($scope.selectedGroup.$original.active).toBeFalsy();
+
+      $httpBackend.expectPUT(apiHostname + '/v1/tenants/myTenant/groups/1234').respond(200, {
+        result: {
+          tenantId: 'myTenant',
+          active: true,
+          id: '1234'
+        }
+      });
+      
+      $scope.updateActive();
+
+      $httpBackend.flush();
+      
+      expect($scope.selectedGroup.$original.active).toBeTruthy();
+    }));
+  });
 });

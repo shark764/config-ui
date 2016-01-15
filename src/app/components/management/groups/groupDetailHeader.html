@@ -2,7 +2,8 @@
   <toggle class="status-toggle" ng-model="selectedGroup.active" name="active" 
   confirm-disable-message="{{'group.details.disable.confirm' | translate}}"
   confirm-enable-message="{{'group.details.enable.confirm' | translate}}"
-  ng-disabled="!('MANAGE_ALL_GROUPS' | hasPermission) || selectedGroup.$original.type == 'everyone'"></toggle>
+  ng-disabled="!('MANAGE_ALL_GROUPS' | hasPermission) || selectedGroup.$original.type == 'everyone'"
+  on-confirm="updateActive()"></toggle>
 
   <div class="info">
      <h1 id="group-details-name-header">{{selectedGroup.$original.name}}</h1>

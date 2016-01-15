@@ -95,6 +95,13 @@ describe('loExtensions controller', function() {
     }));
 
     it('should reset the user on fail', inject(function($httpBackend, apiHostname) {
+      $scope.form = {
+        $setPristine: jasmine.createSpy('$setPristine'),
+        loFormSubmitController: {
+          populateApiErrors: jasmine.createSpy('populateApiErrors')
+        }
+      };
+
       spyOn(mockTenantUsers[0], 'reset');
       $httpBackend.expectPUT(apiHostname + '/v1/tenants/tenant-id/users/userId1').respond(400, {
         error: {

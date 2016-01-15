@@ -32,10 +32,12 @@
     lo-form-reset
     lo-form-alert>
 
-    <div class="detail-header"
-      ng-include src="'app/components/configuration/hours/hoursDetailHeader.html'">
-    </div>
-
+    <ng-form name="hc.forms.headerForm" separate-validation>
+      <div class="detail-header"
+        ng-include src="'app/components/configuration/hours/hoursDetailHeader.html'">
+      </div>
+    </ng-form>
+    
     <div class="detail-body"
       ng-include src="'app/components/configuration/hours/hoursDetailBody.html'">
     </div>

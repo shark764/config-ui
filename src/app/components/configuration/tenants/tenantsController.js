@@ -80,6 +80,18 @@ angular.module('liveopsConfigPanel')
           });
         }
       });
+      
+      $scope.updateActive = function(){
+        var tenantCopy = new Tenant({
+          id: $scope.selectedTenant.id,
+          regionId: $scope.selectedTenant.regionId,
+          active: ! $scope.selectedTenant.active
+        });
+        
+        return tenantCopy.save(function(result){
+          $scope.selectedTenant.$original.active = result.active;
+        });
+      };
 
       $scope.tableConfig = tenantTableConfig(function() {
         return $scope.tenants;

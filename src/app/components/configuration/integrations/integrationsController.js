@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('IntegrationsController', ['$scope', 'Session', 'Integration', 'integrationTableConfig', 'loEvents',
-    function($scope, Session, Integration, integrationTableConfig, loEvents) {
+  .controller('IntegrationsController', ['$scope', 'Session', 'Integration', 'integrationTableConfig', 'loEvents', '$q',
+    function($scope, Session, Integration, integrationTableConfig, loEvents, $q) {
 
       $scope.fetchIntegrations = function() {
         return Integration.cachedQuery({
@@ -21,6 +21,20 @@ angular.module('liveopsConfigPanel')
 
       $scope.submit = function() {
         return $scope.selectedIntegration.save();
+      };
+      
+      $scope.updateActive = function(){
+        var integrationCopy = new Integration({
+          id: $scope.selectedIntegration.id,
+          tenantId: $scope.selectedIntegration.tenantId,
+          active: ! $scope.selectedIntegration.active
+        });
+        
+        return integrationCopy.save().then(function(result){
+          $scope.selectedIntegration.$original.active = result.active;
+        }, function(errorResponse){
+          return $q.reject(errorResponse.data.error.attribute.active);
+        });
       };
 
       $scope.tableConfig = integrationTableConfig;

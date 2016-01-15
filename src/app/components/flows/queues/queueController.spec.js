@@ -250,4 +250,22 @@ describe('QueueController', function() {
       expect(controller.selectedQueueVersion.query).toEqual('12345');
     });
   });
+  
+  describe('toggleDetails function', function() {
+    it('should be defined', function() {
+      expect(controller.toggleDetails).toBeDefined();
+    });
+    
+    it('should be toggle viewing when viewing is true', function() {
+      controller.versions = [{viewing: true}];
+      controller.toggleDetails(controller.versions[0]);
+      expect(controller.versions[0].viewing).toBeFalsy();
+    });
+    
+    it('should be toggle viewing when viewing is false', function() {
+      controller.versions = [{viewing: false}];
+      controller.toggleDetails(controller.versions[0]);
+      expect(controller.versions[0].viewing).toBeTruthy();
+    });
+  });
 });

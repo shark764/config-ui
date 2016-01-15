@@ -147,6 +147,17 @@ angular.module('liveopsConfigPanel')
         }
       };
 
+      vm.updateActive = function(){
+        var queueCopy = new Queue({
+          id: vm.selectedQueue.id,
+          tenantId: vm.selectedQueue.tenantId,
+          active: ! vm.selectedQueue.active
+        });
+        
+        return queueCopy.save(function(result){
+          vm.selectedQueue.$original.active = result.active;
+        });
+      };
 
       $scope.$watch(function() {
         return vm.selectedQueue;

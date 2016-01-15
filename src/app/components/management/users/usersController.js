@@ -44,7 +44,7 @@ angular.module('liveopsConfigPanel')
           
           for(var errorIndex = 0; errorIndex < errorType.length; errorIndex++) {
             var errorModel = errorType[errorIndex];
-            if(extensionFields.indexOf(errorModel.$name) > 0) {
+            if(extensionFields.indexOf(errorModel.$name) > -1) {
               continue;
             }
             
@@ -84,7 +84,9 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.create = function() {
-        $scope.selectedTenantUser = new TenantUser();
+        $scope.selectedTenantUser = new TenantUser({
+          status: 'invited'
+        });
         $scope.selectedTenantUser.$user = new User();
       };
 
@@ -176,5 +178,21 @@ angular.module('liveopsConfigPanel')
       $scope.$on('email:validator:found', function(event, tenantUser) {
         $scope.selectedTenantUser = tenantUser;
       });
+      
+      $scope.updateStatus = function(){
+        if ($scope.selectedTenantUser.status !== 'accepted' && $scope.selectedTenantUser.status !== 'disabled'){
+          return;
+        }
+        
+        var userCopy = new TenantUser({
+          id: $scope.selectedTenantUser.id,
+          tenantId: $scope.selectedTenantUser.tenantId,
+          status: $scope.selectedTenantUser.status === 'accepted' ? 'disabled' : 'accepted'
+        });
+        
+        return userCopy.save(function(result){
+          $scope.selectedTenantUser.$original.status = result.status;
+        });
+      };
     }
   ]);
