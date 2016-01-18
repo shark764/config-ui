@@ -28,8 +28,9 @@
     ng-show="hc.selectedHour && !showBulkActions"
     name="hc.forms.detailsForm"
     ng-model="hc.selectedHour"
+    ng-resource="hc.selectedHour"
     lo-form-submit
-    lo-form-reset
+    lo-form-cancel
     lo-form-alert>
 
     <ng-form name="hc.forms.headerForm" separate-validation>
@@ -45,7 +46,7 @@
     <div class="detail-controls">
       <input id="cancel-details-btn" type="button" class="btn"
         value="{{'value.cancel' | translate}}"
-        ng-click="hc.reset(hc.selectedHour)">
+        lo-cancel>
       </input>
       <input id="submit-details-btn" class="btn btn-primary"
         type="submit" value="{{'value.submit' | translate}}"

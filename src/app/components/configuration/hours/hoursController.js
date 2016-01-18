@@ -27,7 +27,7 @@ angular.module('liveopsConfigPanel')
       }, {
         short: 'sat',
         long: 'saturday'
-      }]
+      }];
 
       vm.loadTimezones = function() {
         vm.timezones = Timezone.query();
@@ -82,15 +82,9 @@ angular.module('liveopsConfigPanel')
         return $q.reject(error);
       };
 
-      vm.reset = function(hour) {
+      vm.reset = function() {
         vm.isHoursCustom = vm.hasHours();
         vm.exceptionHour = null;
-        hour.$exceptions = angular.copy(hour.$original.$exceptions);
-
-        vm.forms
-          .detailsForm
-          .loFormResetController
-          .reset(hour);
       };
 
       vm.hasHours = function() {
@@ -115,8 +109,9 @@ angular.module('liveopsConfigPanel')
         return false;
       };
 
-      vm.onIsHoursCustomChanged = function (isCustom) {
-        if (!isCustom) {
+      vm.onIsHoursCustomChanged = function () {
+        //TODO: figure out why switching between 24/7 and scheduled hours on an exsting resource will wipe the configured hours
+        if (! vm.isHoursCustom) {
           angular.forEach(vm.dayPrefixes, function(dayPrefix) {
             vm.selectedHour[dayPrefix.short + 'StartTimeMinutes'] = -1;
             vm.selectedHour[dayPrefix.short + 'EndTimeMinutes'] = -1;
@@ -142,7 +137,7 @@ angular.module('liveopsConfigPanel')
         });
       };
 
-      $scope.$watch('hc.selectedHour', function(newHour, oldHour) {
+      $scope.$watch('hc.selectedHour', function(newHour) {
         if (newHour) {
           vm.reset(newHour);
         }
