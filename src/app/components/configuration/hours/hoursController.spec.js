@@ -218,4 +218,94 @@ describe('hoursController', function() {
       });
     });
   });
+  
+  describe('ON updateActive', function() {
+    it('should save the business hour', function() {
+      controller.selectedHour = new BusinessHour({
+        tenantId: 'myTenant',
+        active: false,
+        id: '1234'
+      });
+      controller.selectedHour.$original = controller.selectedHour;
+
+      $httpBackend.expectPUT(apiHostname + '/v1/tenants/myTenant/business-hours/1234').respond(200);
+      controller.updateActive();
+
+      $httpBackend.flush();
+    });
+    
+    it('should toggle the active property to true when it is false', function() {
+      controller.selectedHour = new BusinessHour({
+        tenantId: 'myTenant',
+        active: false,
+        id: '1234'
+      });
+      controller.selectedHour.$original = controller.selectedHour;
+
+      $httpBackend.expectPUT(apiHostname + '/v1/tenants/myTenant/business-hours/1234', {
+        active: true
+      }).respond(200);
+      controller.updateActive();
+
+      $httpBackend.flush();
+    });
+    
+    it('should toggle the active property to false when it is true', function() {
+      controller.selectedHour = new BusinessHour({
+        tenantId: 'myTenant',
+        active: true,
+        id: '1234'
+      });
+      controller.selectedHour.$original = controller.selectedHour;
+
+      $httpBackend.expectPUT(apiHostname + '/v1/tenants/myTenant/business-hours/1234', {
+        active: false
+      }).respond(200);
+      controller.updateActive();
+
+      $httpBackend.flush();
+    });
+
+    it('should update only the active status', function() {
+      controller.selectedHour = new BusinessHour({
+        tenantId: 'myTenant',
+        active: false,
+        id: '1234',
+        anotherProperty: 'somevalue'
+      });
+
+      controller.selectedHour.$original = controller.selectedHour;
+      $httpBackend.expectPUT(apiHostname + '/v1/tenants/myTenant/business-hours/1234', {
+        active: true
+      }).respond(200);
+      controller.updateActive();
+
+      $httpBackend.flush();
+    });
+
+    it('should update the $original value on success', function() {
+      controller.selectedHour = new BusinessHour({
+        tenantId: 'myTenant',
+        active: false,
+        id: '1234'
+      });
+
+      controller.selectedHour.$original = angular.copy(controller.selectedHour);
+      expect(controller.selectedHour.$original.active).toBeFalsy();
+
+      $httpBackend.expectPUT(apiHostname + '/v1/tenants/myTenant/business-hours/1234').respond(200, {
+        result: {
+          tenantId: 'myTenant',
+          active: true,
+          id: '1234'
+        }
+      });
+      
+      controller.updateActive();
+
+      $httpBackend.flush();
+      
+      expect(controller.selectedHour.$original.active).toBeTruthy();
+    });
+  });
 });
