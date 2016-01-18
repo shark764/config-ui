@@ -4,6 +4,9 @@ angular.module('liveopsConfigPanel')
   .service('recordingsTableConfig', ['$translate', 'UserPermissions', 'helpDocsHostname',
     function ($translate, UserPermissions, helpDocsHostname) {
       return {
+        'controls': {
+          'transclude': true
+        },
         'fields': [{
           'header': {
             'display': $translate.instant('value.name')

@@ -1,0 +1,71 @@
+<ng-form id="recording-filters"
+  name="forms.recordingFilterForm"
+  lo-form-submit>
+  <div class="col">
+    <div class="input-group">
+      <label>{{'recordings.table.filter.agent' | translate}}</label>
+      <div>
+        <type-ahead name-field="agentId" 
+          placeholder="{{'recordings.table.filter.agent' | translate}}" 
+          items="tenantUsers"
+          on-select="rc.onFilterAgentSelect(selectedItem)">
+        </type-ahead>
+      </div>
+    </div>
+    
+    <div class="input-group">
+      <label>{{'recordings.details.extension' | translate}}</label>
+      <div>
+        <input type="text"
+          ng-model="filters.extension">
+        </input>
+      </div>
+    </div>
+  </div>
+
+  <div class="col">
+    <div class="input-group">
+      <label>{{'recordings.table.filter.startDate' | translate}}</label>
+      <div>
+        <input type="date"
+          ng-model="filters.startDate">
+        </input>
+      </div>
+    </div>
+    
+    <div class="input-group">
+      <label>{{'recordings.table.filter.endDate' | translate}}</label>
+      <div>
+        <input type="date"
+          ng-model="filters.endDate">
+        </input>
+      </div>
+    </div>
+    
+    <div class="input-group">
+      <label>{{'recordings.table.flow' | translate}}</label>
+      <div>
+        <type-ahead name-field="flowId" 
+          placeholder="{{'recordings.table.filter.flow' | translate}}" 
+          items="flows"
+          on-select="rc.onFlowSelect(selectedItem)">
+        </type-ahead>
+      </div>
+    </div>
+  </div>
+  
+  <div class="detail-controls">
+    <input id="cancel-details-btn" type="button" class="btn"
+      value="{{'recordings.table.filter.clear' | translate}}"
+      ng-model="selectedRecording"
+      lo-reset>
+    </input>
+    <input id="submit-details-btn" class="btn btn-primary"
+      type="submit" value="{{'recordings.table.filter.search' | translate}}"
+      ng-disabled="forms.recordingFilterForm.$invalid || ! forms.recordingFilterForm.$dirty"
+      lo-submit="rc.searchRecordings()"
+      lo-submit-spinner
+      lo-submit-spinner-status="selectedRecording.$busy">
+    </input>
+  </div>
+</ng-form>

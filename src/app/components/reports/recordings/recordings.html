@@ -9,7 +9,11 @@
     <i class="fa fa-play"></i>
   </div>
   
-  </table-controls>
+  <div name="table-controls">
+    <ng-include src="'app/components/reports/recordings/recordingsTableControls.html'">
+    </ng-include>
+  </div>
+</table-controls>
 
 <resize-handle
   ng-show="!! selectedRecording"
@@ -46,7 +50,7 @@
       <input id="submit-details-btn" class="btn btn-primary"
         type="submit" value="{{'value.submit' | translate}}"
         ng-disabled="forms.recordingForm.$invalid || ! forms.recordingForm.$dirty"
-        lo-submit="recordingDetailsController.submit()"
+        lo-submit="rc.submit()"
         lo-submit-spinner
         lo-submit-spinner-status="selectedRecording.$busy">
       </input>

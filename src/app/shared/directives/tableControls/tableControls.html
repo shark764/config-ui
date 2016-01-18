@@ -19,7 +19,11 @@
       </button>
     </div>
   </div>
-
+  
+  <named-transclude name="table-controls"
+    ng-if="config.controls.transclude">
+  </named-transclude>
+  
   <div class="table-controls">
     <div class="col">
       <div ng-show="showSearch" class="inner-addon right">

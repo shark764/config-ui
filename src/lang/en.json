@@ -535,6 +535,12 @@
   "list.details.disable.confirm": "Are you sure you want to disable this list?",
   "list.details.enable.confirm": "Are you sure you want to enable this list?",
   
+  "recordings.table.filter.agent": "Agent",
+  "recordings.table.filter.startDate": "Start Date",
+  "recordings.table.filter.endDate": "End Date",
+  "recordings.table.filter.clear": "Clear Filters",
+  "recordings.table.filter.search": "Search Recordings",
+  "recordings.table.filter.flow": "Flow",
   "recordings.table.title": "Recordings",
   "recordings.table.audio": "Audio",
   "recordings.table.datetime": "Date & Time",
