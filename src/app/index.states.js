@@ -418,21 +418,29 @@ angular.module('liveopsConfigPanel')
           templateUrl: 'app/components/reporting/realtime/realtimeDashboardsManagement.html',
           controller: 'RealtimeDashboardsManagementController',
           resolve: {
-            dashboards: ['dashboardOverview', 'dashboardInteractions', 'dashboardResources', 'dashboardQueues', 'dashboardDev', function(dashboardOverview, dashboardInteractions, dashboardResources, dashboardQueues, dashboardDev) {
+            dashboards: ['dashboardDev', 'dashboardInteractions', 'dashboardQueues', 'dashboardResources', 'dashboardOverview', function(dashboardDev, dashboardInteractions, dashboardQueues, dashboardResources, dashboardOverview) {
               var dashboards = [];
-              dashboards.push(dashboardDev);
-              dashboards.push(dashboardInteractions);
-              dashboards.push(dashboardQueues);
               dashboards.push(dashboardOverview);
               dashboards.push(dashboardResources);
+              dashboards.push(dashboardQueues);
+              dashboards.push(dashboardInteractions);
+              console.table(dashboards);
               return dashboards;
             }]
           }
+        })
+        .state('content.realtime-dashboards-management.editor', {
+          url: '/editor?id',
+          templateUrl: 'app/components/reporting/realtime/realtimeDashboardEditor/realtimeDashboardsEditor.html',
+          controller: 'realtimeDashboardsEditorController',
+          resolve: {
+            dashboard: ['$stateParams', 'dashboards', function($stateParams, dashboards) {
+              var dashboard = _.filter(dashboards, function(dash) {
+                return dash.id === $stateParams.id;
+              });
+              return dashboard[0];
+            }]
+          }
         });
-        // .state('content.dashboard', {
-        //   url: '/dash?id',
-        //   templateUrl: 'app/components/realtimeDashboards/dash.html',
-        //   controller: 'DashController'
-        // });
     }
   ]);

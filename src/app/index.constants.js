@@ -68,32 +68,30 @@ angular.module('liveopsConfigPanel.config', [])
     };
   })
 
-.constant('userStates', [{
-  'display': 'Busy',
-  'value': 'busy'
-}, {
-  'display': 'Ready',
-  'value': 'ready'
-}, {
-  'display': 'Not Ready',
-  'value': 'notready'
-}, {
-  'display': 'Allocated',
-  'value': 'allocated'
-}, {
-  'display': 'Offline',
-  'value': 'offline'
-}])
+  .constant('userStates', [{
+    'display': 'Busy',
+    'value': 'busy'
+  }, {
+    'display': 'Ready',
+    'value': 'ready'
+  }, {
+    'display': 'Not Ready',
+    'value': 'notready'
+  }, {
+    'display': 'Allocated',
+    'value': 'allocated'
+  }, {
+    'display': 'Offline',
+    'value': 'offline'
+  }])
 
-.constant('userRoles', [{
-  'value': 'admin',
-  'display': 'Admin'
-}, {
-  'value': 'user',
-  'display': 'User'
-}, {
-  'value': 'other',
-  'display': 'Other'
-}])
-
-;
+  .constant('userRoles', [{
+    'value': 'admin',
+    'display': 'Admin'
+  }, {
+    'value': 'user',
+    'display': 'User'
+  }, {
+    'value': 'other',
+    'display': 'Other'
+  }]);
