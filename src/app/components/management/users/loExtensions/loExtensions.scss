@@ -34,14 +34,6 @@ lo-extensions {
         width: 20%;
       }
 
-      .secondary-field-col {
-        width: 70%;
-
-      }
-    }
-
-    .phone-number-col input {
-      width: 50%;
     }
 
     .lo-extension-table-body {
@@ -71,3 +63,14 @@ lo-extensions {
     }
   }
 }
+
+ .secondary-field-col {
+    width: 100%;
+  }
+  
+  .phone-number-col {
+    width: 70%;
+  }
+  .ext-col {
+    width: 30%;
+  }
