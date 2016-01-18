@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('realtimeDashboardsTableConfig', ['$translate',
+  .service('realtimeDashboardsManagementTableConfig', ['$translate',
     function($translate) {
       return {
         'fields': [{

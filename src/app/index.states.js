@@ -413,15 +413,26 @@ angular.module('liveopsConfigPanel')
             }]
           }
         })
-        .state('content.realtime-dashboards', {
+        .state('content.realtime-dashboards-management', {
           url: '/realtime-dashboards',
-          templateUrl: 'app/components/realtimeDashboards/realtimeDashboards.html',
-          controller: 'RealtimeDashboardsController'
-        })
-        .state('content.dashboard', {
-          url: '/dash?id',
-          templateUrl: 'app/components/realtimeDashboards/dash.html',
-          controller: 'DashController'
+          templateUrl: 'app/components/reporting/realtime/realtimeDashboardsManagement.html',
+          controller: 'RealtimeDashboardsManagementController',
+          resolve: {
+            dashboards: ['dashboardOverview', 'dashboardInteractions', 'dashboardResources', 'dashboardQueues', 'dashboardDev', function(dashboardOverview, dashboardInteractions, dashboardResources, dashboardQueues, dashboardDev) {
+              var dashboards = [];
+              dashboards.push(dashboardDev);
+              dashboards.push(dashboardInteractions);
+              dashboards.push(dashboardQueues);
+              dashboards.push(dashboardOverview);
+              dashboards.push(dashboardResources);
+              return dashboards;
+            }]
+          }
         });
+        // .state('content.dashboard', {
+        //   url: '/dash?id',
+        //   templateUrl: 'app/components/realtimeDashboards/dash.html',
+        //   controller: 'DashController'
+        // });
     }
   ]);
