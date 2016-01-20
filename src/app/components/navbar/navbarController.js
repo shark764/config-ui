@@ -6,6 +6,7 @@ angular.module('liveopsConfigPanel')
       var vm = this;
       $scope.hovering = false;
       $scope.Session = Session;
+      $scope.hoverTracker = [];
 
       $scope.populateTenantsHandler = function() {
         if (!Session.isAuthenticated()) {
@@ -40,8 +41,6 @@ angular.module('liveopsConfigPanel')
         $scope.tenantDropdownItems = tenantDropdownItems;
       };
 
-      $scope.hoverTracker = [];
-
       $scope.isActive = function(viewLocation) {
         return $state.current.name !== '' ? $state.href($state.current.name).indexOf(viewLocation) === 1 : false;
       };
@@ -71,7 +70,6 @@ angular.module('liveopsConfigPanel')
       $scope.$watch('Session.tenants', $scope.populateTenantsHandler);
 
       vm.getManagementConfig = function() {
-
         var items = [];
 
         //Note: see TITAN2-5445 for why VIEW_ALL_USERS permission on its own is not sufficient
@@ -122,7 +120,7 @@ angular.module('liveopsConfigPanel')
       vm.getConfigurationConfig = function() {
         var items = [];
 
-        if (UserPermissions.hasPermissionInList(PermissionGroups.accessAllTenants)) {
+        if (UserPermissions.hasPermissionInList(PermissionGroups.accessTenants)) {
           items.push({
             label: $translate.instant('navbar.configuration.tenants.title'),
             stateLink: 'content.configuration.tenants',
@@ -198,7 +196,7 @@ angular.module('liveopsConfigPanel')
           });
         }
 
-        if (UserPermissions.hasPermissionInList(PermissionGroups.accsessAllDispatchMappings)) {
+        if (UserPermissions.hasPermissionInList(PermissionGroups.accessAllDispatchMappings)) {
           items.push({
             label: $translate.instant('navbar.flows.dispatchmappings.title'),
             stateLink: 'content.flows.dispatchMappings',
@@ -215,19 +213,9 @@ angular.module('liveopsConfigPanel')
           label: $translate.instant('navbar.reports.rtd.title'),
           stateLink: 'content.realtime-dashboards',
           id: 'realtime-dashboard-link',
-          order: 2
+          order: 1
         }];
       };
-
-      // {
-      //     label: $translate.instant('navbar.reports.hd.title'),
-      //     stateLink: 'content.reports',
-      //     stateLinkParams: {
-      //       id: 'historical-dashboards'
-      //     },
-      //     id: 'reports-management-link',
-      //     order: 1
-      //   },
 
       vm.updateTopbarConfig = function() {
         $scope.managementDropConfig = vm.getManagementConfig();

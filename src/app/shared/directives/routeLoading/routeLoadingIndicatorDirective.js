@@ -35,7 +35,7 @@ angular.module('liveopsConfigPanel')
 
         $scope.$on('$stateChangeSuccess', transitionDone);
         $scope.$on('$stateChangeError', transitionDone);
-        $scope.$on('loStateChangeCanceled', transitionDone);
+        $scope.$on('loStateChangeCanceled', transitionDone); //Fired by unsavedChangesWarning if user selects "cancel" to keep their changes
       }
     };
   }]);
