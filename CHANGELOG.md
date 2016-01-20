@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 311
+##### Realtime Dashboards
+- Re-wrote all 4 dashboards in new DSL
+
 ## 309
 ##### Realtime Dashboards
 - Fixed numerous realtime dashboards UI bugs such as typos, inconsistent text, and wrong stats being queried. Removed the 'this dashboard refreshes every 15s' disclaimer.
