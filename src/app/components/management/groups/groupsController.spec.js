@@ -75,10 +75,10 @@ describe('groups controller', function() {
 
     it('should set the member property on the item', inject(function(mockGroupUsers) {
       $httpBackend.expectGET(apiHostname + '/v1/tenants/tenant-id/groups/groupId1/users').respond(200, mockGroupUsers);
-      expect(mockGroups[0].members).toBeUndefined();
+      expect(mockGroups[0].$members).toBeUndefined();
       mockGroups[0].fetchGroupUsers();
       $httpBackend.flush();
-      expect(mockGroups[0].members.length).toBe(3);
+      expect(mockGroups[0].$members.length).toBe(3);
     }));
 
     it('should set the memberList property on the selected group', inject(function(mockGroupUsers) {

@@ -17,7 +17,7 @@ angular.module('liveopsConfigPanel')
           $scope.selectedGroup.$memberList = result;
         }
 
-        this.members = result;
+        this.$members = result;
         return result;
       };
 
@@ -80,8 +80,6 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.submit = function() {
-        delete $scope.selectedGroup.members;
-
         return $scope.selectedGroup.save(function(result) {
           result.fetchGroupUsers();
         });

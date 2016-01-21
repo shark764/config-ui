@@ -30,7 +30,6 @@ describe('tableControls directive', function() {
       };
       $scope.selected = {};
       $scope.resourceName = 'resource';
-      $scope.extendScope = {};
       $scope.id = 'my-table';
       $scope.items = [];
       $scope.items.$promise = {
@@ -41,7 +40,7 @@ describe('tableControls directive', function() {
       $scope.items.$resolved = true;
 
       doCompile = function() {
-        element = $compile('<table-controls items="items" config="config" selected="selected" resource-name="{{resourceName}}" extend-scope="extendScope" id="id"></table-controls>')($scope);
+        element = $compile('<table-controls items="items" config="config" selected="selected" resource-name="{{resourceName}}" id="id"></table-controls>')($scope);
         $scope.$digest();
         isolateScope = element.isolateScope();
       };
@@ -51,15 +50,6 @@ describe('tableControls directive', function() {
   it('should create a table', function() {
     doCompile();
     expect(element.find('table').length).toEqual(2); //Two tables are present due to scroll-table directive
-  });
-
-  it('should add extendscope to its own scope', function() {
-    $scope.extendScope = {
-      'newProperty': 'neat'
-    };
-    doCompile();
-    expect(isolateScope.newProperty).toBeDefined();
-    expect(isolateScope.newProperty).toEqual('neat');
   });
 
   it('should select item based on url param', function() {

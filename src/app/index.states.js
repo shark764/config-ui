@@ -107,7 +107,7 @@ angular.module('liveopsConfigPanel')
           reloadOnSearch: false,
           resolve: {
             hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
-              return UserPermissions.resolvePermissions(PermissionGroups.accessAllTenants);
+              return UserPermissions.resolvePermissions(PermissionGroups.accessTenants);
             }]
           }
         })
@@ -234,7 +234,7 @@ angular.module('liveopsConfigPanel')
           reloadOnSearch: false,
           resolve: {
             hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
-              return UserPermissions.resolvePermissions(PermissionGroups.accsessAllDispatchMappings);
+              return UserPermissions.resolvePermissions(PermissionGroups.accessAllDispatchMappings);
             }]
           }
         })

@@ -24,13 +24,6 @@ describe('unsavedChangesWarning directive', function() {
     expect(DirtyForms.registerForm).toHaveBeenCalled();
   }));
 
-  it('should do nothing if there is no form controller', inject(function(DirtyForms, $compile) {
-    spyOn(DirtyForms, 'registerForm');
-    element = $compile('<div unsaved-changes-warning></div>')($scope);
-    $scope.$digest();
-    expect(DirtyForms.registerForm).not.toHaveBeenCalled();
-  }));
-
   it('should unregister the form from the DirtyForms service when destroyed', inject(function(DirtyForms) {
     doDefaultCompile();
     var removeSpy = spyOn(DirtyForms, 'removeForm');
