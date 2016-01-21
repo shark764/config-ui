@@ -31,6 +31,21 @@ describe('setSkillsBulkAction directive', function() {
       $httpBackend.flush();
     }
   ]));
+  
+  it('should register the bulkAction with bulkActionExecutor if present', inject(function($compile, $rootScope) {
+    element = $compile('<bulk-action-executor></bulk-action-executor>')($scope);
+    $scope.$digest();
+    var baExecutorController = element.controller('bulkActionExecutor');
+    spyOn(baExecutorController, 'register');
+    
+    var childElement = angular.element('<ba-user-skills></ba-user-skills>');
+    element.append(childElement);
+    var childScope = $rootScope.$new();
+    childElement = $compile(childElement)(childScope);
+    childScope.$digest();
+
+    expect(baExecutorController.register).toHaveBeenCalled();
+  }));
 
   describe('ON bulkAction.execute', function() {
     it('should override bulkAction.execute', function() {

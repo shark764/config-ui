@@ -20,6 +20,21 @@ describe('setStatusBulkAction directive', function() {
     }
   ]));
 
+  it('should register the bulkAction with bulkActionExecutor if present', inject(function($compile, $rootScope) {
+    element = $compile('<bulk-action-executor></bulk-action-executor>')($scope);
+    $scope.$digest();
+    var baExecutorController = element.controller('bulkActionExecutor');
+    spyOn(baExecutorController, 'register');
+    
+    var childElement = angular.element('<ba-set-status></ba-set-status>');
+    element.append(childElement);
+    var childScope = $rootScope.$new();
+    childElement = $compile(childElement)(childScope);
+    childScope.$digest();
+
+    expect(baExecutorController.register).toHaveBeenCalled();
+  }));
+
   it('should override bulkAction.execute', function() {
     expect(isolateScope.bulkAction.apply).toBeDefined();
   });
