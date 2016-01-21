@@ -19,11 +19,36 @@ describe('setTenantStatusBulkAction directive', function() {
       $httpBackend = _$httpBackend;
       apiHostname = _apiHostname;
 
-      element = $compile('<ba-set-tenant-status bulk-action="bulkAction"></ba-set-tenant-status>')($scope);
+      element = $compile('<ba-set-tenant-status></ba-set-tenant-status>')($scope);
       $scope.$digest();
       isolateScope = element.isolateScope();
     }
   ]));
+  
+  it('should register the bulkAction with bulkActionExecutor if present', inject(function($compile, $rootScope) {
+    element = $compile('<bulk-action-executor></bulk-action-executor>')($scope);
+    $scope.$digest();
+    var baExecutorController = element.controller('bulkActionExecutor');
+    spyOn(baExecutorController, 'register');
+    
+    var childElement = angular.element('<ba-set-tenant-status></ba-set-tenant-status>');
+    element.append(childElement);
+    var childScope = $rootScope.$new();
+    childElement = $compile(childElement)(childScope);
+    childScope.$digest();
+
+    expect(baExecutorController.register).toHaveBeenCalled();
+  }));
+
+  it('should override bulkAction.reset', function() {
+    expect(isolateScope.bulkAction.reset).toBeDefined();
+
+    isolateScope.bulkAction.checked = true;
+    isolateScope.active = true;
+    isolateScope.bulkAction.reset();
+    expect(isolateScope.active).toBeFalsy();
+    expect(isolateScope.bulkAction.checked).toBeFalsy();
+  });
 
   it('should override bulkAction.execute', function() {
     expect(isolateScope.bulkAction.apply).toBeDefined();

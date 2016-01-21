@@ -95,6 +95,19 @@ describe('MediaMappings directive', function() {
 
       expect($scope.collection.defaultMediaKey).toBeUndefined();
     });
+
+    it('should leave the defaultMediaKey property alone if removing a different mediaMap', function() {
+      $scope.collection.mediaMap = [{
+        id: 'uuid-value'
+      }, {
+        id: 'my-default-mapping'
+      }];
+
+      $scope.collection.defaultMediaKey = $scope.collection.mediaMap[1];
+      isolateScope.removeMapping(0);
+
+      expect($scope.collection.defaultMediaKey).toEqual({id: 'my-default-mapping'});
+    });
   });
 
   describe('resetDefaultMediaKey function', function() {
@@ -166,7 +179,12 @@ describe('MediaMappings directive', function() {
       isolateScope.initMapping({id: '1234'});
       $httpBackend.flush();
     }));
-    
+
+    it('should do nothing if given mediaMap has no id', inject(function($httpBackend) {
+      isolateScope.initMapping({});
+      $httpBackend.verifyNoOutstandingRequest();
+    }));
+
     it('should set the $media property with the marching media item for the given mediaMap', inject(function($httpBackend, apiHostname, queryCache, Session) {
       queryCache.removeAll();
       Session.tenant.tenantId = 'mytenant';

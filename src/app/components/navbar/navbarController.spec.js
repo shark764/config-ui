@@ -90,6 +90,14 @@ describe('NavbarController', function() {
       expect(Session.tenant.tenantId).toEqual(mockTenants[1].tenantId);
     });
 
+    it('should do nothing on drop down click if selecting the current tenant', function() {
+      Session.tenant.tenantId = $scope.tenantDropdownItems[1].tenantId;
+
+      spyOn(Session, 'setTenant');
+      $scope.tenantDropdownItems[1].onClick();
+      expect(Session.setTenant).not.toHaveBeenCalled();
+    });
+
     it('should call $scope.logout on logout click', function() {
       spyOn($scope, 'logout');
 
@@ -347,6 +355,72 @@ describe('NavbarController', function() {
         tenantsConfigItem = tenantsConfigItem[0];
 
         expect(tenantsConfigItem.stateLink).toEqual('content.configuration.tenants');
+      }
+    }));
+
+    it('should add the Lists link if the user has permissions', inject(function(UserPermissions, filterFilter) {
+      var permissionsList = ['MANAGE_ALL_LISTS'];
+      var currentPermission;
+      spyOn(UserPermissions, 'hasPermission').and.callFake(function(permission) {
+        switch (permission) {
+          case currentPermission:
+            return true;
+          default:
+            return false;
+        }
+      });
+
+      for (var i = 0; i < permissionsList.length; i++) {
+        currentPermission = permissionsList[i];
+
+        $controller('NavbarController', {
+          '$scope': $scope
+        });
+        $scope.$digest();
+
+        expect($scope.configurationDropConfig).toBeDefined();
+        expect($scope.configurationDropConfig.length).toBeGreaterThan(0);
+
+        var listConfigItem = filterFilter($scope.configurationDropConfig, {
+          id: 'lists-configuration-link'
+        });
+        expect(listConfigItem.length).toBe(1);
+        listConfigItem = listConfigItem[0];
+
+        expect(listConfigItem.stateLink).toEqual('content.configuration.genericLists');
+      }
+    }));
+
+    it('should add the Business Hours link if the user has permissions', inject(function(UserPermissions, filterFilter) {
+      var permissionsList = ['VIEW_ALL_BUSINESS_HOURS', 'MANAGE_ALL_BUSINESS_HOURS'];
+      var currentPermission;
+      spyOn(UserPermissions, 'hasPermission').and.callFake(function(permission) {
+        switch (permission) {
+          case currentPermission:
+            return true;
+          default:
+            return false;
+        }
+      });
+
+      for (var i = 0; i < permissionsList.length; i++) {
+        currentPermission = permissionsList[i];
+
+        $controller('NavbarController', {
+          '$scope': $scope
+        });
+        $scope.$digest();
+
+        expect($scope.configurationDropConfig).toBeDefined();
+        expect($scope.configurationDropConfig.length).toBeGreaterThan(0);
+
+        var bhConfigItem = filterFilter($scope.configurationDropConfig, {
+          id: 'hours-configuration-link'
+        });
+        expect(bhConfigItem.length).toBe(1);
+        bhConfigItem = bhConfigItem[0];
+
+        expect(bhConfigItem.stateLink).toEqual('content.configuration.hours');
       }
     }));
 
