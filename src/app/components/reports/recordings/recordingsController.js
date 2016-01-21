@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('RecordingsController', ['$scope', '$q', '$parse', 'Recording', 'Session', 'recordingsTableConfig', 'RealtimeStatisticInteraction', 'TenantUser', 'Flow',
-    function ($scope, $q, $parse, Recording, Session, recordingsTableConfig, RealtimeStatisticInteraction, TenantUser, Flow) {
+  .controller('RecordingsController', ['$scope', '$q', '$parse', '$moment', 'Recording', 'Session', 'recordingsTableConfig', 'RealtimeStatisticInteraction', 'TenantUser', 'Flow',
+    function ($scope, $q, $parse, $moment, Recording, Session, recordingsTableConfig, RealtimeStatisticInteraction, TenantUser, Flow) {
       var vm = this;
       
       vm.filterObject = function(params, predicate) {
@@ -17,17 +17,18 @@ angular.module('liveopsConfigPanel')
       };
       
       vm.massageFilters = function() {
+        var start = $moment.utc($scope.filters.startDate);
+        var end = $moment.utc($scope.filters.endDate);
+        
         var params = vm.filterObject({
           'tenantId': '308878f0-a2c7-11e5-a0ce-c1ae7ae4ed37',
-          'start': '2016-01-14T00:00:00.000Z',
-          'end': '2016-01-14T23:59:59.000Z',
+          'start': start.startOf('day').format(),
+          'end': end.endOf('day').format(),
           'resource-id': $scope.filters.resource ? $scope.filters.resource.id : null,
           'flow-id': $scope.filters.flow ? $scope.filters.flow.id : null
         }, function(value) {
           return !!value;
         });
-        
-        //TODO: DO SOMETHING WITH DATES
         
         return params;
       };
@@ -84,11 +85,21 @@ angular.module('liveopsConfigPanel')
         });
       };
       
+      $scope.$watchGroup(['filters.startDate', 'filters.endDate'], function() {
+        $scope.forms.recordingFilterForm.$setDirty();
+        $scope.forms.recordingFilterForm.$setTouched();
+      });
+      
       vm.loadTenantUsers();
       vm.loadFlows();
       
       $scope.tableConfig = recordingsTableConfig;
-      $scope.filters = {};
+      
+      $scope.filters = {
+        startDate: $moment.utc(),
+        endDate: $moment.utc()
+      };
+      
       $scope.forms = {};
       
       vm.searchRecordings();

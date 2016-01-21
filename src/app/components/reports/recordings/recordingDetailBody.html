@@ -40,7 +40,7 @@
 <div class="input-group">
   <label>{{'recordings.table.datetime' | translate}}</label>
   <div>
-    {{selectedRecording.$interaction.startTime}}
+    {{selectedRecording.$interaction.startTime | date:'yyyy-MM-dd H:mm:ss'}}
   </div>
 </div>
 
