@@ -12,9 +12,9 @@ angular.module('liveopsConfigPanel.config').constant('dashboardOverview',
         "text": "All Agents"
       },
       "sizeX": 15,
-      "sizeY": 2,
+      "sizeY": 1,
       "col": 4,
-      "row": 1
+      "row": 2
     },
     {
       "id": "title-widget2",
@@ -24,9 +24,9 @@ angular.module('liveopsConfigPanel.config').constant('dashboardOverview',
         "text": "All Interactions"
       },
       "sizeX": 15,
-      "sizeY": 2,
+      "sizeY": 1,
       "col": 21,
-      "row": 1
+      "row": 2
     },
     {
       "id": "widget1",
@@ -35,7 +35,6 @@ angular.module('liveopsConfigPanel.config').constant('dashboardOverview',
         "api": "realtime-statistics",
         "endpoint": "resources-ready",
         "responseKey": "value",
-        "latestResult": null,
         "parameters": {}
       },
       "presentation": {
@@ -65,7 +64,6 @@ angular.module('liveopsConfigPanel.config').constant('dashboardOverview',
         "api": "realtime-statistics",
         "endpoint": "resources-away",
         "responseKey": "value",
-        "latestResult": null,
         "parameters": {}
       },
       "presentation": {
@@ -95,7 +93,6 @@ angular.module('liveopsConfigPanel.config').constant('dashboardOverview',
         "api": "realtime-statistics",
         "endpoint": "resources-busy",
         "responseKey": "value",
-        "latestResult": null,
         "parameters": {}
       },
       "presentation": {
@@ -125,7 +122,6 @@ angular.module('liveopsConfigPanel.config').constant('dashboardOverview',
         "api": "realtime-statistics",
         "endpoint": "conversation-duration",
         "responseKey": "avg",
-        "latestResult": null,
         "parameters": {}
       },
       "presentation": {
@@ -155,7 +151,6 @@ angular.module('liveopsConfigPanel.config').constant('dashboardOverview',
         "api": "realtime-statistics",
         "endpoint": "time-to-answer-duration",
         "responseKey": "avg",
-        "latestResult": null,
         "parameters": {}
       },
       "presentation": {
@@ -185,7 +180,6 @@ angular.module('liveopsConfigPanel.config').constant('dashboardOverview',
         "api": "realtime-statistics",
         "endpoint": "resource-hold-start-instance",
         "responseKey": "recordsCount",
-        "latestResult": null,
         "parameters": {}
       },
       "presentation": {
@@ -215,13 +209,12 @@ angular.module('liveopsConfigPanel.config').constant('dashboardOverview',
         "api": "realtime-statistics",
         "endpoint": "queue-length",
         "responseKey": "recordsCount",
-        "latestResult": null,
         "parameters": {}
       },
       "presentation": {
         "header": {
           "show": true,
-          "text": "Total In Queue"
+          "text": "Currently In Queue"
         },
         "value": {
           "format": "count"
@@ -245,7 +238,6 @@ angular.module('liveopsConfigPanel.config').constant('dashboardOverview',
         "api": "realtime-statistics",
         "endpoint": "queue-duration",
         "responseKey": "max",
-        "latestResult": null,
         "parameters": {}
       },
       "presentation": {
@@ -275,7 +267,6 @@ angular.module('liveopsConfigPanel.config').constant('dashboardOverview',
         "api": "realtime-statistics",
         "endpoint": "abandon-queue-instance",
         "responseKey": "recordsCount",
-        "latestResult": null,
         "parameters": {}
       },
       "presentation": {
@@ -305,7 +296,6 @@ angular.module('liveopsConfigPanel.config').constant('dashboardOverview',
         "api": "realtime-statistics",
         "endpoint": "interaction-duration",
         "responseKey": "avg",
-        "latestResult": null,
         "parameters": {}
       },
       "presentation": {
@@ -335,7 +325,6 @@ angular.module('liveopsConfigPanel.config').constant('dashboardOverview',
         "api": "realtime-statistics",
         "endpoint": "interactions-in-conversation-count",
         "responseKey": "recordsCount",
-        "latestResult": null,
         "parameters": {}
       },
       "presentation": {
@@ -365,7 +354,6 @@ angular.module('liveopsConfigPanel.config').constant('dashboardOverview',
         "api": "realtime-statistics",
         "endpoint": "abandon-time-duration",
         "responseKey": "avg",
-        "latestResult": null,
         "parameters": {}
       },
       "presentation": {
@@ -387,6 +375,412 @@ angular.module('liveopsConfigPanel.config').constant('dashboardOverview',
       "minSizeY": 3,
       "col": 31,
       "row": 6
+    },
+    {
+      "id": "source-switcher1",
+      "type": "source-switcher",
+      "entity": "queue",
+      "presentation": {
+        "title": {
+          "show": true,
+          "text": "Specific Queue"
+        }
+      },
+      "sizeX": 15,
+      "sizeY": 2,
+      "minSizeX": 10,
+      "minSizeY": 2,
+      "col": 4,
+      "row": 10
+    },
+    {
+      "id": "widget13",
+      "type": "statistic",
+      "query": {
+        "api": "realtime-statistics",
+        "endpoint": "queue-length",
+        "responseKey": "recordsCount",
+        "parameters": {
+          "queue-id": "source-switcher1"
+        }
+      },
+      "presentation": {
+        "header": {
+          "show": true,
+          "text": "Currently In Queue"
+        },
+        "value": {
+          "format": "count"
+        },
+        "footer": {
+          "show": false,
+          "text": ""
+        }
+      },
+      "sizeX": 5,
+      "sizeY": 3,
+      "minSizeX": 5,
+      "minSizeY": 3,
+      "col": 4,
+      "row": 12
+    },
+    {
+      "id": "widget14",
+      "type": "statistic",
+      "query": {
+        "api": "realtime-statistics",
+        "endpoint": "service-level",
+        "responseKey": "serviceLevel",
+        "parameters": {
+          "queue-id": "source-switcher1"
+        }
+      },
+      "presentation": {
+        "header": {
+          "show": true,
+          "text": "Answered in < 20s"
+        },
+        "value": {
+          "format": "percent"
+        },
+        "footer": {
+          "show": false,
+          "text": ""
+        }
+      },
+      "sizeX": 5,
+      "sizeY": 3,
+      "minSizeX": 5,
+      "minSizeY": 3,
+      "col": 9,
+      "row": 12
+    },
+    {
+      "id": "widget15",
+      "type": "statistic",
+      "query": {
+        "api": "realtime-statistics",
+        "endpoint": "abandon-queue-instance",
+        "responseKey": "recordsCount",
+        "parameters": {
+          "queue-id": "source-switcher1"
+        }
+      },
+      "presentation": {
+        "header": {
+          "show": true,
+          "text": "Queue Abandons"
+        },
+        "value": {
+          "format": "count"
+        },
+        "footer": {
+          "show": false,
+          "text": ""
+        }
+      },
+      "sizeX": 5,
+      "sizeY": 3,
+      "minSizeX": 5,
+      "minSizeY": 3,
+      "col": 14,
+      "row": 12
+    },
+    {
+      "id": "widget16",
+      "type": "statistic",
+      "query": {
+        "api": "realtime-statistics",
+        "endpoint": "queue-duration",
+        "responseKey": "avg",
+        "parameters": {
+          "queue-id": "source-switcher1"
+        }
+      },
+      "presentation": {
+        "header": {
+          "show": true,
+          "text": "Avg. Queue Wait Time"
+        },
+        "value": {
+          "format": "time"
+        },
+        "footer": {
+          "show": false,
+          "text": ""
+        }
+      },
+      "sizeX": 5,
+      "sizeY": 3,
+      "minSizeX": 5,
+      "minSizeY": 3,
+      "col": 4,
+      "row": 15
+    },
+    {
+      "id": "widget17",
+      "type": "statistic",
+      "query": {
+        "api": "realtime-statistics",
+        "endpoint": "queue-duration",
+        "responseKey": "min",
+        "parameters": {
+          "queue-id": "source-switcher1"
+        }
+      },
+      "presentation": {
+        "header": {
+          "show": true,
+          "text": "Min Queue Wait Time"
+        },
+        "value": {
+          "format": "time"
+        },
+        "footer": {
+          "show": false,
+          "text": ""
+        }
+      },
+      "sizeX": 5,
+      "sizeY": 3,
+      "minSizeX": 5,
+      "minSizeY": 3,
+      "col": 9,
+      "row": 15
+    },
+    {
+      "id": "widget18",
+      "type": "statistic",
+      "query": {
+        "api": "realtime-statistics",
+        "endpoint": "queue-duration",
+        "responseKey": "max",
+        "parameters": {
+          "queue-id": "source-switcher1"
+        }
+      },
+      "presentation": {
+        "header": {
+          "show": true,
+          "text": "Max Queue Wait Time"
+        },
+        "value": {
+          "format": "time"
+        },
+        "footer": {
+          "show": false,
+          "text": ""
+        }
+      },
+      "sizeX": 5,
+      "sizeY": 3,
+      "minSizeX": 5,
+      "minSizeY": 3,
+      "col": 14,
+      "row": 15
+    },
+    {
+      "id": "source-switcher2",
+      "type": "source-switcher",
+      "entity": "queue",
+      "presentation": {
+        "title": {
+          "show": true,
+          "text": "Specific Queue"
+        }
+      },
+      "sizeX": 15,
+      "sizeY": 2,
+      "minSizeX": 10,
+      "minSizeY": 2,
+      "col": 21,
+      "row": 10
+    },
+    {
+      "id": "widget19",
+      "type": "statistic",
+      "query": {
+        "api": "realtime-statistics",
+        "endpoint": "queue-length",
+        "responseKey": "recordsCount",
+        "parameters": {
+          "queue-id": "source-switcher2"
+        }
+      },
+      "presentation": {
+        "header": {
+          "show": true,
+          "text": "Currently In Queue"
+        },
+        "value": {
+          "format": "count"
+        },
+        "footer": {
+          "show": false,
+          "text": ""
+        }
+      },
+      "sizeX": 5,
+      "sizeY": 3,
+      "minSizeX": 5,
+      "minSizeY": 3,
+      "col": 21,
+      "row": 12
+    },
+    {
+      "id": "widget20",
+      "type": "statistic",
+      "query": {
+        "api": "realtime-statistics",
+        "endpoint": "service-level",
+        "responseKey": "serviceLevel",
+        "parameters": {
+          "queue-id": "source-switcher2"
+        }
+      },
+      "presentation": {
+        "header": {
+          "show": true,
+          "text": "Answered in < 20s"
+        },
+        "value": {
+          "format": "percent"
+        },
+        "footer": {
+          "show": false,
+          "text": ""
+        }
+      },
+      "sizeX": 5,
+      "sizeY": 3,
+      "minSizeX": 5,
+      "minSizeY": 3,
+      "col": 26,
+      "row": 12
+    },
+    {
+      "id": "widget21",
+      "type": "statistic",
+      "query": {
+        "api": "realtime-statistics",
+        "endpoint": "abandon-queue-instance",
+        "responseKey": "recordsCount",
+        "parameters": {
+          "queue-id": "source-switcher2"
+        }
+      },
+      "presentation": {
+        "header": {
+          "show": true,
+          "text": "Queue Abandons"
+        },
+        "value": {
+          "format": "count"
+        },
+        "footer": {
+          "show": false,
+          "text": ""
+        }
+      },
+      "sizeX": 5,
+      "sizeY": 3,
+      "minSizeX": 5,
+      "minSizeY": 3,
+      "col": 31,
+      "row": 12
+    },
+    {
+      "id": "widget22",
+      "type": "statistic",
+      "query": {
+        "api": "realtime-statistics",
+        "endpoint": "queue-duration",
+        "responseKey": "avg",
+        "parameters": {
+          "queue-id": "source-switcher2"
+        }
+      },
+      "presentation": {
+        "header": {
+          "show": true,
+          "text": "Avg. Queue Wait Time"
+        },
+        "value": {
+          "format": "time"
+        },
+        "footer": {
+          "show": false,
+          "text": ""
+        }
+      },
+      "sizeX": 5,
+      "sizeY": 3,
+      "minSizeX": 5,
+      "minSizeY": 3,
+      "col": 21,
+      "row": 15
+    },
+    {
+      "id": "widget23",
+      "type": "statistic",
+      "query": {
+        "api": "realtime-statistics",
+        "endpoint": "queue-duration",
+        "responseKey": "min",
+        "parameters": {
+          "queue-id": "source-switcher2"
+        }
+      },
+      "presentation": {
+        "header": {
+          "show": true,
+          "text": "Min Queue Wait Time"
+        },
+        "value": {
+          "format": "time"
+        },
+        "footer": {
+          "show": false,
+          "text": ""
+        }
+      },
+      "sizeX": 5,
+      "sizeY": 3,
+      "minSizeX": 5,
+      "minSizeY": 3,
+      "col": 26,
+      "row": 15
+    },
+    {
+      "id": "widget24",
+      "type": "statistic",
+      "query": {
+        "api": "realtime-statistics",
+        "endpoint": "queue-duration",
+        "responseKey": "max",
+        "parameters": {
+          "queue-id": "source-switcher2"
+        }
+      },
+      "presentation": {
+        "header": {
+          "show": true,
+          "text": "Max Queue Wait Time"
+        },
+        "value": {
+          "format": "time"
+        },
+        "footer": {
+          "show": false,
+          "text": ""
+        }
+      },
+      "sizeX": 5,
+      "sizeY": 3,
+      "minSizeX": 5,
+      "minSizeY": 3,
+      "col": 31,
+      "row": 15
     }
   ]
 }
