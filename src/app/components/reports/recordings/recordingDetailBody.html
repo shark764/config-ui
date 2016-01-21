@@ -3,15 +3,9 @@
 </div>
 
 <div class="input-group">
-  <label>{{'value.name' | translate}} *</label>
-  <form-error field="forms.recordingForm.name"
-    error-type-required="{{'recording.details.name.error' | translate}}">
-  </form-error>
+  <label>{{'value.id' | translate}}</label>
   <div>
-    <input type="text" name="name"
-      ng-required="true"
-      ng-model="selectedRecording.name">
-    </input>
+    {{selectedRecording.id}}
   </div>
 </div>
 
@@ -46,8 +40,7 @@
 <div class="input-group">
   <label>{{'recordings.table.datetime' | translate}}</label>
   <div>
-    <!-- {{selectedRecording.$interaction.startTime}} -->
-    11/09/2015 11:45:54 PM
+    {{selectedRecording.$interaction.startTime}}
   </div>
 </div>
 
@@ -61,7 +54,7 @@
 <div class="input-group">
   <label>{{'recordings.table.flow' | translate}}</label>
   <div>
-    {{selectedRecording.$interaction.flowId}}
+    {{selectedRecording.$interaction.$flowName}}
   </div>
 </div>
 
@@ -71,26 +64,3 @@
     {{selectedRecording.$interaction.customer}}
   </div>
 </div>
-
-<div class="divider-header first-header">
-  <h4>{{'details.header.agent' | translate}}</h4>
-</div>
-
-<table class="table">
-  <thead>
-    <tr>
-      <th>{{'value.name' | translate}}</th>
-      <th>{{'value.email' | translate}}</th>
-      <th>{{'recordings.details.extension' | translate}}</td>
-    </tr>
-  </thead>
-  <tbody>
-    <tr ng-repeat="agent in selectedRecording.participants | filter:{ type: 'resource' }">
-      <!-- <td>{{agent.name}}</td> -->
-      <td>Agent Smith</td>
-      <!-- <td>{{agent.email}}</td> -->
-      <td>asmith@liveops.com</td>
-      <td>{{agent.extension}}</td>
-    </tr>
-  </tbody>
-</table>

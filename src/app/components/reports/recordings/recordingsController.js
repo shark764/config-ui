@@ -18,10 +18,11 @@ angular.module('liveopsConfigPanel')
       
       vm.massageFilters = function() {
         var params = vm.filterObject({
-          tenantId: Session.tenant.tenantId,
-          startDate: $scope.filters.startDate,
-          endDate: $scope.filters.endDate,
-          resourceId: $scope.filters.resourceId
+          'tenantId': '308878f0-a2c7-11e5-a0ce-c1ae7ae4ed37',
+          'start': '2016-01-14T00:00:00.000Z',
+          'end': '2016-01-14T23:59:59.000Z',
+          'resource-id': $scope.filters.resource ? $scope.filters.resource.id : null,
+          'flow-id': $scope.filters.flow ? $scope.filters.flow.id : null
         }, function(value) {
           return !!value;
         });
@@ -38,59 +39,37 @@ angular.module('liveopsConfigPanel')
         interactionSearch.$promise.then(function (interactionSearch) {
           $scope.recordings = [];
           var promises = [];
-          // angular.forEach(interactionSearch.interactions, function(interaction) {
+          angular.forEach(interactionSearch.interactions, function(interaction) {
             var recordings = Recording.query({
-              // tenantId: interactionSearch['tenant-id'],
-              // interactionId: interaction.id
-              tenantId: '308878f0-a2c7-11e5-a0ce-c1ae7ae4ed37',
-              interactionId: '9066db20-baf2-11e5-97cb-c1ae7ae4ed37'
+              tenantId: interactionSearch.tenantId,
+              interactionId: interaction.id
+              // tenantId: '308878f0-a2c7-11e5-a0ce-c1ae7ae4ed37',
+              // interactionId: '9066db20-baf2-11e5-97cb-c1ae7ae4ed37'
             });
             
             promises.push(recordings.$promise.then(function(recordings) {
               angular.forEach(recordings, function(recording) {
-                recording.$interaction = interactionSearch.interactions[0];
-                // recording.$interaction = interaction;
+                // recording.$interaction = interactionSearch.interactions[0];
+                recording.$interaction = interaction;
               });
               return recordings;
             }));
-          // });
+          });
           
           $q.all(promises).then(function(promiseValues) {
-            var allRecordings = [];
             angular.forEach(promiseValues, function(recordings) {
-              Array.prototype.push.apply(allRecordings, recordings);
+              Array.prototype.push.apply($scope.recordings, recordings);
             });
-            
-            $scope.recordings = vm.postSearchFilter(allRecordings);
+            $scope.forms.recordingFilterForm.$setUntouched();
+            $scope.forms.recordingFilterForm.$setPristine();
           });
         });
       };
       
-      vm.postSearchFilter = function(recordings) {
-        var filtered = recordings.filter(vm.extensionFilter);
-        return filtered.filter(vm.flowFilter);
-      };
-      
-      vm.extensionFilter = function(recording) {
-        if(!$scope.filters.extension) {
-          return true;
-        }
-        
-        var include = false;
-        angular.forEach(recording.participants, function(participant) {
-          include = include || participant.extension.indexOf($scope.filters.extension) > -1;
-        });
-        return include;
-      };
-      
-      vm.flowFilter = function(recording) {
-        return $scope.filters.flowId ?
-          recording.flowId === $scope.filters.flowId :
-          true;
-      };
-      
       vm.submit = function() {
-        return $scope.selectedRecording.save();
+        return $scope.selectedRecording.save({
+          interactionId: $scope.selectedRecording.interactionId
+        });
       };
       
       vm.loadTenantUsers = function() {
@@ -105,23 +84,12 @@ angular.module('liveopsConfigPanel')
         });
       };
       
-      vm.onFilterAgentSelect = function(tenantUser) {
-        if(tenantUser) {
-          $scope.filters.resourceId = tenantUser.id;
-        }
-      };
-      
-      vm.onFlowSelect = function(flow) {
-        if(flow) {
-          $scope.filters.flowId = flow.id;
-        }
-      };
-      
       vm.loadTenantUsers();
       vm.loadFlows();
       
       $scope.tableConfig = recordingsTableConfig;
       $scope.filters = {};
+      $scope.forms = {};
       
       vm.searchRecordings();
     }
