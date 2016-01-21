@@ -1,15 +1,15 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('userSkills', ['TenantUserSkill', 'Skill', 'Session', 'Alert', '$translate', 'filterFilter', 'queryCache', 'TenantSkillUser',
-    function (TenantUserSkill, Skill, Session, Alert, $translate, filterFilter, queryCache, TenantSkillUser) {
+  .directive('userSkills', ['TenantUserSkill', 'Skill', 'Session', 'Alert', '$translate', 'filterFilter', 'queryCache', 'TenantSkillUser', '$q',
+    function (TenantUserSkill, Skill, Session, Alert, $translate, filterFilter, queryCache, TenantSkillUser, $q) {
       return {
         restrict: 'E',
         scope: {
           user: '='
         },
         templateUrl: 'app/components/management/users/userSkills/userSkills.html',
-        link: function ($scope) {
+        link: function ($scope, $element) {
 
           $scope.fetchSkills = function() {
             return Skill.cachedQuery({
@@ -63,25 +63,33 @@ angular.module('liveopsConfigPanel')
           };
 
           $scope.save = function (selectedSkill) {
-            if (selectedSkill === null) {
+            if (selectedSkill === null || selectedSkill === '') {
               return;
             }
 
+            var promise;
             $scope.saving = true;
 
             if (angular.isString(selectedSkill)) {
-              new Skill({
+              var skill = new Skill({
                 name: selectedSkill,
                 hasProficiency: (typeof $scope.newUserSkill.proficiency === 'undefined' ? false : true),
                 tenantId: Session.tenant.tenantId,
                 description: '',
                 active: true
-              }).save(function (result) {
+              });
+
+              promise = skill.save(function (result) {
                 $scope.saveUserSkill(result);
+              }, function(response){
+                $scope.saving = false;
+                return $q.reject(response);
               });
             } else {
-              $scope.saveUserSkill(selectedSkill);
+              promise = $scope.saveUserSkill(selectedSkill);
             }
+
+            return promise;
           };
 
           $scope.saveUserSkill = function (selectedSkill) {
@@ -93,24 +101,17 @@ angular.module('liveopsConfigPanel')
               $scope.newUserSkill.proficiency = 1;
             }
 
-            $scope.newUserSkill.save(function (tenantUserSkill) {
+            return $scope.newUserSkill.save(function (tenantUserSkill) {
               $scope.userSkills.push(tenantUserSkill);
               $scope.user.$skills.push({
                 id: tenantUserSkill.skillId,
                 name: tenantUserSkill.name
               });
 
-              Alert.success($translate.instant('skill.details.add.success'));
-
-              //TODO: remove once skills api returns members list
-              //Reset cache of users for this skill
-              queryCache.remove('skills/' + selectedSkill.id + '/users');
-
               $scope.reset();
-            }, function () {
-              Alert.error($translate.instant('skill.details.add.fail'));
-            }).finally(function(){
+            }, function (response) {
               $scope.saving = false;
+              return $q.reject(response);
             });
           };
 
@@ -158,6 +159,12 @@ angular.module('liveopsConfigPanel')
             }, true);
 
             return matchingSkills.length === 0;
+          };
+
+          $scope.onEnter = function(){
+            //Trigger the lo-submit handler that is attached to the type-ahead
+            //Normally they are only triggered by click, but it does support custom events
+            $element.find('type-ahead').trigger('skills.enter.event');
           };
         }
       };

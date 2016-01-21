@@ -266,16 +266,6 @@ describe('userSkills directive', function(){
       expect(isolateScope.reset).toHaveBeenCalled();
       expect(isolateScope.saving).toBeFalsy();
     });
-
-    it('should show an error alert on fail', inject(['Alert', function(Alert) {
-      spyOn(Alert, 'error');
-      $httpBackend.expectPOST(apiHostname + '/v1/tenants/tenant-id/users/userId1/skills').respond(500);
-
-      isolateScope.saveUserSkill(mockSkills[0]);
-      $httpBackend.flush();
-
-      expect(Alert.error).toHaveBeenCalled();
-    }]));
   });
 
   describe('updateUserSkill function', function() {

@@ -181,14 +181,6 @@ describe('userGroups directive', function () {
         isolateScope.save('new-group');
         $httpBackend.flush();
       }));
-
-      it('should alert if creating a group failed', inject(['Alert', function (Alert) {
-        spyOn(Alert, 'error');
-        $httpBackend.expectPOST(apiHostname + '/v1/tenants/tenant-id/groups').respond(500);
-        isolateScope.save('a group');
-        $httpBackend.flush();
-        expect(Alert.error).toHaveBeenCalled();
-      }]));
     });
 
     describe('saveUserGroup function', function () {
