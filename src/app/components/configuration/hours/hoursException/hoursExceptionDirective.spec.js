@@ -3,6 +3,7 @@
 describe('hoursExceptionController', function () {
   var $scope,
     controller,
+    element,
     $httpBackend,
     apiHostname,
     mockBusinessHours,
@@ -31,7 +32,7 @@ describe('hoursExceptionController', function () {
     }
   ]));
 
-  beforeEach(inject(['$rootScope', '$controller', function ($rootScope, $controller) {
+  beforeEach(inject(['$compile', '$rootScope', '$controller', function ($compile, $rootScope, $controller) {
     mockQueriedBusinessHours = BusinessHour.query({
       tenantId: 'tenant-id'
     });
@@ -43,7 +44,7 @@ describe('hoursExceptionController', function () {
       $setDirty: jasmine.createSpy('setDirty')
     };
 
-
+    element = $compile('<hours-exceptions></hours-exceptions>')($scope);
     controller = $controller('hoursExceptionController', {
       '$scope': $scope
     });

@@ -10,34 +10,36 @@ angular.module('liveopsConfigPanel.shared.directives')
         var itemsGetter = $parse(attr.items);
         var exceptionHourGetter = $parse(attr.ngResource);
 
-        var compareExceptionHourOverlap = function(viewDate, targetExceptionHour, currentExceptionHour) {
-          if(currentExceptionHour === targetExceptionHour) {
+        ngModelCtrl.compareExceptionHourOverlap = function(existingExceptionHour, currentExceptionHour) {
+
+          if(currentExceptionHour === existingExceptionHour) { 
             return false;
           }
 
-          var itemStart = $moment.utc(viewDate),
-            itemEnd = $moment.utc(viewDate),
-            valStart = $moment.utc(targetExceptionHour.date),
-            valEnd = $moment.utc(targetExceptionHour.date);
+          var newItemStart = $moment.utc(currentExceptionHour.date),
+            newItemEnd = $moment.utc(currentExceptionHour.date),
+            existingStart = $moment.utc(existingExceptionHour.date),
+            existingEnd = $moment.utc(existingExceptionHour.date);
+
 
           if (currentExceptionHour.isAllDay) {
-            valStart.startOf('day');
-            valEnd.endOf('day');
+            newItemStart.startOf('day');
+            newItemEnd.endOf('day');
           } else {
-            valStart.add(currentExceptionHour.startTimeMinutes, 'minutes');
-            valEnd.add(currentExceptionHour.endTimeMinutes, 'minutes');
+            newItemStart.add(currentExceptionHour.startTimeMinutes, 'minutes');
+            newItemEnd.add(currentExceptionHour.endTimeMinutes, 'minutes');
           }
 
-          if (targetExceptionHour.isAllDay) {
-            itemStart.startOf('day');
-            itemEnd.endOf('day');
+          if (existingExceptionHour.isAllDay) {
+            existingStart.startOf('day');
+            existingEnd.endOf('day');
           } else {
-            itemStart.add(targetExceptionHour.startTimeMinutes, 'minutes');
-            itemEnd.add(targetExceptionHour.endTimeMinutes, 'minutes');
+            existingStart.add(existingExceptionHour.startTimeMinutes, 'minutes');
+            existingEnd.add(existingExceptionHour.endTimeMinutes, 'minutes');
           }
 
-          var itemRange = $moment.range(itemStart, itemEnd),
-            valRange = $moment.range(valStart, valEnd);
+          var itemRange = $moment.range(newItemStart, newItemEnd),
+            valRange = $moment.range(existingStart, existingEnd);
 
           return itemRange.overlaps(valRange);
         };
@@ -47,10 +49,9 @@ angular.module('liveopsConfigPanel.shared.directives')
           var items = itemsGetter($scope);
           var currentExceptionHour = exceptionHourGetter($scope);
           for(var itemIndex = 0; itemIndex < items.length; itemIndex++) {
-            var exceptionHour = items[itemIndex];
-            valid = valid && !compareExceptionHourOverlap(viewValue, exceptionHour, currentExceptionHour);
+            var existingExceptionHour = items[itemIndex];
+            valid = valid && !ngModelCtrl.compareExceptionHourOverlap(existingExceptionHour, currentExceptionHour);
           }
-
           return valid;
         };
       }
