@@ -45,31 +45,5 @@ angular.module('liveopsConfigPanel')
 
       $scope.fetch();
     }
-  ])
-
-  //TODO: move into config-shared
-  .factory('Recording', ['LiveopsResourceFactory', 'apiHostname',
-    function (LiveopsResourceFactory, apiHostname) {
-      var Recording = LiveopsResourceFactory.create({
-        endpoint: apiHostname + '/v1/tenants/:tenantId/interactions/:interactionId/recordings/:id',
-        resourceName: 'Recording'
-      });
+  ]);
   
-      Recording.prototype.getDisplay = function () {
-        return this.name;
-      };
-  
-      return Recording;
-    }
-  ])
-  .factory('RealtimeStatisticInteraction', ['LiveopsResourceFactory', 'apiHostname',
-    function (LiveopsResourceFactory, apiHostname) {
-      var RealtimeStatisticInteraction = LiveopsResourceFactory.create({
-        endpoint: apiHostname + '/v1/tenants/:tenantId/realtime-statistics/interactions',
-        resourceName: 'RealtimeStatisticInteraction'
-      });
-  
-      return RealtimeStatisticInteraction;
-    }
-  ])
-  ;
