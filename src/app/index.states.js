@@ -424,7 +424,6 @@ angular.module('liveopsConfigPanel')
               dashboards.push(dashboardResources);
               dashboards.push(dashboardQueues);
               dashboards.push(dashboardInteractions);
-              console.table(dashboards);
               return dashboards;
             }]
           }
@@ -439,6 +438,16 @@ angular.module('liveopsConfigPanel')
                 return dash.id === $stateParams.id;
               });
               return dashboard[0];
+            }],
+            queues: ['Queue', 'Session', function(Queue, Session) {
+              return Queue.cachedQuery({
+                tenantId: Session.tenant.tenantId
+              });
+            }],
+            users: ['User', 'Session', function(User, Session) {
+              return User.cachedQuery({
+                tenantId: Session.tenant.tenantId
+              });
             }]
           }
         });

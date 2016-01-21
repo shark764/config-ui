@@ -61,6 +61,25 @@ div[gridster-item] {
 
   .widget {
 
+    .source-switcher-widget {
+      border-bottom: 2px solid #eee;
+
+      h2 {
+        font-size: 1.5vw;
+        display: inline-block;
+        margin: 0;
+        position: relative;
+        top: 5px;
+        padding: 0 0 10px 0;
+      }
+
+      select {
+        width: 50%;
+        float: right;
+        display: inline-block;
+      };
+    }
+
     .label-widget {
       border-bottom: 2px solid #eee;
 

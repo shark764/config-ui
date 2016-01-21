@@ -1,6 +1,8 @@
 'use strict';
 
-angular.module('liveopsConfigPanel.config').constant('dashboardInteractions', {
+angular.module('liveopsConfigPanel.config').constant('dashboardInteractions',
+
+{
   "id": "interactions-dashboard",
   "name": "Interactions Dashboard",
   "widgets": [
@@ -12,9 +14,9 @@ angular.module('liveopsConfigPanel.config').constant('dashboardInteractions', {
         "text": "All Interactions"
       },
       "sizeX": 20,
-      "sizeY": 2,
+      "sizeY": 1,
       "col": 10,
-      "row": 1
+      "row": 2
     },
     {
       "id": "widget1",
@@ -23,8 +25,9 @@ angular.module('liveopsConfigPanel.config').constant('dashboardInteractions', {
         "api": "realtime-statistics",
         "endpoint": "interactions-in-conversation-count",
         "responseKey": "recordsCount",
-        "latestResult": null,
-        "parameters": {}
+        "parameters": {
+          "queue": "source-switcher1"
+        }
       },
       "presentation": {
         "header": {
@@ -53,7 +56,6 @@ angular.module('liveopsConfigPanel.config').constant('dashboardInteractions', {
         "api": "realtime-statistics",
         "endpoint": "interaction-start-instance",
         "responseKey": "recordsCount",
-        "latestResult": null,
         "parameters": {}
       },
       "presentation": {
@@ -83,7 +85,6 @@ angular.module('liveopsConfigPanel.config').constant('dashboardInteractions', {
         "api": "realtime-statistics",
         "endpoint": "queue-length",
         "responseKey": "recordsCount",
-        "latestResult": null,
         "parameters": {}
       },
       "presentation": {
@@ -113,7 +114,6 @@ angular.module('liveopsConfigPanel.config').constant('dashboardInteractions', {
         "api": "realtime-statistics",
         "endpoint": "abandon-queue-instance",
         "responseKey": "recordsCount",
-        "latestResult": null,
         "parameters": {}
       },
       "presentation": {
@@ -143,7 +143,6 @@ angular.module('liveopsConfigPanel.config').constant('dashboardInteractions', {
         "api": "realtime-statistics",
         "endpoint": "interactions-in-routing-abandon-count",
         "responseKey": "recordsCount",
-        "latestResult": null,
         "parameters": {}
       },
       "presentation": {
@@ -173,7 +172,6 @@ angular.module('liveopsConfigPanel.config').constant('dashboardInteractions', {
         "api": "realtime-statistics",
         "endpoint": "abandon-time-duration",
         "responseKey": "avg",
-        "latestResult": null,
         "parameters": {}
       },
       "presentation": {
@@ -203,7 +201,6 @@ angular.module('liveopsConfigPanel.config').constant('dashboardInteractions', {
         "api": "realtime-statistics",
         "endpoint": "abandon-time-duration",
         "responseKey": "max",
-        "latestResult": null,
         "parameters": {}
       },
       "presentation": {
@@ -233,7 +230,6 @@ angular.module('liveopsConfigPanel.config').constant('dashboardInteractions', {
         "api": "realtime-statistics",
         "endpoint": "abandon-time-duration",
         "responseKey": "min",
-        "latestResult": null,
         "parameters": {}
       },
       "presentation": {
@@ -263,7 +259,6 @@ angular.module('liveopsConfigPanel.config').constant('dashboardInteractions', {
         "api": "realtime-statistics",
         "endpoint": "interaction-duration",
         "responseKey": "avg",
-        "latestResult": null,
         "parameters": {}
       },
       "presentation": {
@@ -293,7 +288,6 @@ angular.module('liveopsConfigPanel.config').constant('dashboardInteractions', {
         "api": "realtime-statistics",
         "endpoint": "interaction-duration",
         "responseKey": "total",
-        "latestResult": null,
         "parameters": {}
       },
       "presentation": {
@@ -323,7 +317,6 @@ angular.module('liveopsConfigPanel.config').constant('dashboardInteractions', {
         "api": "realtime-statistics",
         "endpoint": "interaction-duration",
         "responseKey": "max",
-        "latestResult": null,
         "parameters": {}
       },
       "presentation": {
@@ -353,7 +346,6 @@ angular.module('liveopsConfigPanel.config').constant('dashboardInteractions', {
         "api": "realtime-statistics",
         "endpoint": "interaction-duration",
         "responseKey": "min",
-        "latestResult": null,
         "parameters": {}
       },
       "presentation": {
@@ -383,7 +375,6 @@ angular.module('liveopsConfigPanel.config').constant('dashboardInteractions', {
         "api": "realtime-statistics",
         "endpoint": "interaction-hold-duration",
         "responseKey": "avg",
-        "latestResult": null,
         "parameters": {}
       },
       "presentation": {
@@ -413,7 +404,6 @@ angular.module('liveopsConfigPanel.config').constant('dashboardInteractions', {
         "api": "realtime-statistics",
         "endpoint": "interaction-hold-duration",
         "responseKey": "total",
-        "latestResult": null,
         "parameters": {}
       },
       "presentation": {
@@ -443,7 +433,6 @@ angular.module('liveopsConfigPanel.config').constant('dashboardInteractions', {
         "api": "realtime-statistics",
         "endpoint": "interaction-hold-duration",
         "responseKey": "max",
-        "latestResult": null,
         "parameters": {}
       },
       "presentation": {
@@ -473,7 +462,6 @@ angular.module('liveopsConfigPanel.config').constant('dashboardInteractions', {
         "api": "realtime-statistics",
         "endpoint": "interaction-hold-duration",
         "responseKey": "min",
-        "latestResult": null,
         "parameters": {}
       },
       "presentation": {
@@ -497,4 +485,6 @@ angular.module('liveopsConfigPanel.config').constant('dashboardInteractions', {
       "row": 12
     }
   ]
-});
+}
+
+);
