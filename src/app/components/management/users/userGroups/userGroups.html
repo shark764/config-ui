@@ -5,17 +5,36 @@
 <loading ng-show="!fetchGroups().$resolved && userGroups && !userGroups.$resolved"></loading>
 
 <div ng-show="fetchGroups().$resolved && userGroups.$resolved" class="detail-group">
-  <ng-form class="instant-add" separate-validation id="addGroup" name="addGroup" ng-show="['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_TENANT_ENROLLMENT'] | hasPermission">
-    <type-ahead name-field="name" 
-      placeholder="{{'details.groups.placeholder' | translate}}" 
-      items="fetchGroups()" 
-      is-required="true" 
-      on-enter="save(item)"
-      selected-item="selectedGroup"
-      filters="filterGroups"></type-ahead>
-    <div>
-      <a lo-submit-spinner lo-submit-spinner-status="saving" id="add-group-btn" ng-disabled="!selectedGroup" class="btn" ng-click="save(selectedGroup)" title="{{'value.save' | translate}}"><i class="fa fa-plus"></i></a>
-    </div>
+  <ng-form class="instant-add"
+    lo-form-submit
+    lo-form-alert
+    separate-validation id="addGroup" 
+    name="addGroup"
+    ng-show="['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_TENANT_ENROLLMENT'] | hasPermission">
+      <div>
+        <form-error field="addGroup.name"></form-error>
+    
+        <type-ahead name-field="name" 
+          placeholder="{{'details.groups.placeholder' | translate}}" 
+          items="fetchGroups()" 
+          is-required="true" 
+          on-enter="onEnter(item)"
+          selected-item="selectedGroup"
+          filters="filterGroups"
+          lo-submit="save(selectedGroup)"
+          event="groups.enter.event"></type-ahead>
+      </div>
+      <div>
+        <a lo-submit-spinner 
+          lo-submit-spinner-status="saving"
+          id="add-group-btn"
+          ng-disabled="!selectedGroup"
+          class="btn"
+          lo-submit="save(selectedGroup)"
+          title="{{'value.save' | translate}}">
+            <i class="fa fa-plus"></i>
+        </a>
+      </div>
   </ng-form>
 
   <p ng-hide="fetchGroups().$resolved && userGroups.$resolved && fetchGroups().length" class="null">{{'details.groups.none' | translate}}</p>
