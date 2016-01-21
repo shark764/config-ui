@@ -5,15 +5,11 @@ angular.module('liveopsConfigPanel')
     function (TenantUserGroups, TenantGroupUsers, Group, Session, $timeout, $filter, $translate, Alert, $q, queryCache) {
       return {
         restrict: 'E',
-
         scope: {
           user: '='
         },
-
         templateUrl: 'app/components/management/users/userGroups/userGroups.html',
-
-        link: function ($scope) {
-
+        link: function ($scope, $element) {
           var tagWrapper = angular.element(document.querySelector('#tags-inside'));
 
           $scope.reset = function () {
@@ -33,34 +29,39 @@ angular.module('liveopsConfigPanel')
           };
 
           $scope.save = function (selectedGroup) {
-            if (selectedGroup === null) {
+            if (selectedGroup === null || selectedGroup === '') {
               return;
             }
 
+            var promise;
             $scope.saving = true;
 
             if (angular.isString(selectedGroup)) {
-              new Group({
+              var group = new Group({
                 name: selectedGroup,
                 tenantId: Session.tenant.tenantId,
                 description: '',
                 active: true,
                 owner: Session.user.id
-              }).save(function(result){
-                $scope.saveUserGroup(result);
-              }, function () {
+              });
+
+              promise = group.save().then(function(result){
+                return $scope.saveUserGroup(result);
+              }, function (response) {
                 $scope.saving = false;
-                Alert.error($translate.instant('group.details.create.fail'));
+                return $q.reject(response);
               });
             } else {
-              $scope.saveUserGroup(selectedGroup);
+              promise = $scope.saveUserGroup(selectedGroup);
             }
+
+            return promise;
           };
 
           $scope.saveUserGroup = function (selectedGroup) {
             $scope.newGroupUser.groupId = selectedGroup.id;
 
-            $scope.newGroupUser.$save(function (data) {
+            return $scope.newGroupUser.$save(function (data) {
               var newUserGroup = new TenantUserGroups(data);
               newUserGroup.groupName = selectedGroup.name;
 
@@ -71,20 +72,15 @@ angular.module('liveopsConfigPanel')
 
               $scope.userGroups.push(newUserGroup);
 
-              //TODO: remove once groups api returns members list
-              //Reset cache of users for this group
-              queryCache.remove('groups/' + selectedGroup.id + '/users');
-
               $timeout(function () { //Timeout prevents simultaneous $digest cycles
                 $scope.updateCollapseState(tagWrapper.height());
               }, 200);
 
               $scope.reset();
-            }, function () {
-              Alert.error($translate.instant('group.details.add.fail'));
+              return data;
+            }, function (response) {
               $scope.saving = false;
-            }).then(function() {
-              Alert.success($translate.instant('group.details.add.success'));
+              return $q.reject(response);
             });
           };
 
@@ -156,6 +152,12 @@ angular.module('liveopsConfigPanel')
             }, true);
 
             return matchingGroups.length === 0;
+          };
+          
+          $scope.onEnter = function(){
+            //Trigger the lo-submit handler that is attached to the type-ahead
+            //Normally they are only triggered by click, but it does support custom events
+            $element.find('type-ahead').trigger('groups.enter.event');
           };
 
           //This is just for presentation, to only show the expander thing when there is more than three rows of data
