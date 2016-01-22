@@ -48,6 +48,7 @@ angular.module('liveopsConfigPanel')
           };
 
           $scope.reset = function () {
+            $scope.saving = false;
             $scope.selectedSkill = null;
 
             if ($scope.skillsForm.name) {
