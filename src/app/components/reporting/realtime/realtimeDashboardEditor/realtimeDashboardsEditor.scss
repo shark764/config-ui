@@ -1,6 +1,5 @@
 *, div {
   box-sizing: border-box;
-  font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;
 }
 
 * {
@@ -9,6 +8,7 @@
 }
 
 .realtime-dashboard-editor-wrapper {
+  font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;
   position: relative;
   height: 100%;
   width: 100%;
