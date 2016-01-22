@@ -21,11 +21,11 @@ angular.module('liveopsConfigPanel')
         var end = $moment.utc($scope.filters.endDate);
         
         var params = vm.filterObject({
-          'tenantId': '308878f0-a2c7-11e5-a0ce-c1ae7ae4ed37',
+          'tenantId': Session.tenantId,
           'start': start.startOf('day').format(),
           'end': end.endOf('day').format(),
-          'resource-id': $scope.filters.resource ? $scope.filters.resource.id : null,
-          'flow-id': $scope.filters.flow ? $scope.filters.flow.id : null
+          'resourceId': $scope.filters.resource ? $scope.filters.resource.id : null,
+          'flowId': $scope.filters.flow ? $scope.filters.flow.id : null
         }, function(value) {
           return !!value;
         });
@@ -44,13 +44,10 @@ angular.module('liveopsConfigPanel')
             var recordings = Recording.query({
               tenantId: interactionSearch.tenantId,
               interactionId: interaction.id
-              // tenantId: '308878f0-a2c7-11e5-a0ce-c1ae7ae4ed37',
-              // interactionId: '9066db20-baf2-11e5-97cb-c1ae7ae4ed37'
             });
             
             promises.push(recordings.$promise.then(function(recordings) {
               angular.forEach(recordings, function(recording) {
-                // recording.$interaction = interactionSearch.interactions[0];
                 recording.$interaction = interaction;
               });
               return recordings;
