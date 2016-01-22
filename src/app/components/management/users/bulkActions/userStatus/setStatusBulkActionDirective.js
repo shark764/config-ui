@@ -15,7 +15,7 @@ angular.module('liveopsConfigPanel')
             bulkActionExecutor.register($scope.bulkAction);
           }
 
-          $scope.statuses = userToggleStatuses;
+          $scope.statuses = userToggleStatuses();
 
           $scope.bulkAction.doesQualify = function doesQualify(tenantUser) {
             return ['disabled', 'accepted'].indexOf(tenantUser.status) > -1;
