@@ -46,7 +46,8 @@ describe('The create new tenants view', function() {
     });
   });
 
-  it('should successfully create a new tenant and add to the tenants table and dropdown', function() {
+  // TODO TITAN2-7078
+  xit('should successfully create a new tenant and add to the tenants table and dropdown', function() {
     shared.createBtn.click();
     randomTenant = Math.floor((Math.random() * 1000) + 1);
     var tenantAdded = false;
@@ -83,7 +84,8 @@ describe('The create new tenants view', function() {
     });
   });
 
-  it('should not add new tenant to the tenants nav dropdown when current user is not selected as admin', function() {
+// TODO TITAN2-7078
+  xit('should not add new tenant to the tenants nav dropdown when current user is not selected as admin', function() {
     shared.createBtn.click();
     randomTenant = Math.floor((Math.random() * 1000) + 1);
     var tenantAdded = false;
@@ -212,8 +214,8 @@ describe('The create new tenants view', function() {
     expect(shared.tableElements.count()).toBe(tenantCount);
   });
 
-
-  it('should not change selected navbar tenant when new tenant is created', function() {
+  // TODO TITAN2-7078
+  xit('should not change selected navbar tenant when new tenant is created', function() {
     shared.tenantsNavDropdown.click();
     shared.tenantsNavDropdownContents.get(1).getText().then(function(selectedTenantName) {
       shared.tenantsNavDropdownContents.get(1).click();

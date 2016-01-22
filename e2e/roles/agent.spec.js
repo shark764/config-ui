@@ -6,6 +6,7 @@ describe('The Agent role', function() {
     users = require('../management/users.po.js'),
     invites = require('../invitations/invites.po.js'),
     profile = require('../userProfile/profile.po.js'),
+    extensions = require('../management/extensions.po.js'),
     params = browser.params,
     agentEmail,
     randomUser;
@@ -47,7 +48,8 @@ describe('The Agent role', function() {
 
         invites.submitFormBtn.click().then(function() {
           expect(shared.message.isDisplayed()).toBeTruthy();
-          expect(shared.message.getText()).toBe('Your invitation has been accepted!');
+          expect(browser.getCurrentUrl()).not.toContain('invite-accept');
+          expect(browser.getCurrentUrl()).toContain(shared.profilePageUrl);
         });
       });
     });
@@ -140,9 +142,11 @@ describe('The Agent role', function() {
     expect(browser.getCurrentUrl()).toContain('userprofile?messageKey=permissions.unauthorized.message');
     expect(shared.message.isDisplayed()).toBeTruthy();
     expect(shared.message.getText()).toContain('Sorry, your account does not have the correct permissions to view that page.');
+    shared.message.click();
   });
 
   it('should have access to user profile details', function() {
+    browser.get(shared.profilePageUrl);
     expect(profile.userEmail.getAttribute('value')).toContain(agentEmail);
     expect(profile.firstNameFormField.getAttribute('value')).toBe('Agent' + randomUser);
     expect(profile.lastNameFormField.getAttribute('value')).toBe('Role' + randomUser);
@@ -153,18 +157,23 @@ describe('The Agent role', function() {
   });
 
   it('should have access to edit user profile details', function() {
-    profile.firstNameFormField.sendKeys('Update');
-    profile.lastNameFormField.sendKeys('Update');
-    profile.resetPasswordButton.click();
-    profile.passwordFormField.sendKeys('newpassword');
+    // Sanity check: if user never got created, titan user will still be logged in
+    profile.userEmail.getAttribute('value').then(function(userEmail) {
+      if (userEmail != params.login.user) {
+        profile.firstNameFormField.sendKeys('Update');
+        profile.lastNameFormField.sendKeys('Update');
+        profile.resetPasswordButton.click();
+        profile.passwordFormField.sendKeys('newpassword1!');
 
-    profile.updateProfileBtn.click().then(function() {
-      shared.waitForSuccess();
-      shared.successMessage.click();
-      expect(profile.firstNameFormField.getAttribute('value')).toBe('Agent' + randomUser + 'Update');
-      expect(profile.lastNameFormField.getAttribute('value')).toBe('Role' + randomUser + 'Update');
-      expect(shared.welcomeMessage.getText()).toContain('Agent' + randomUser + 'Update');
-      expect(shared.welcomeMessage.getText()).toContain('Role' + randomUser + 'Update');
+        profile.updateProfileBtn.click().then(function() {
+          shared.waitForSuccess();
+          shared.successMessage.click();
+          expect(profile.firstNameFormField.getAttribute('value')).toBe('Agent' + randomUser + 'Update');
+          expect(profile.lastNameFormField.getAttribute('value')).toBe('Role' + randomUser + 'Update');
+          expect(shared.welcomeMessage.getText()).toContain('Agent' + randomUser + 'Update');
+          expect(shared.welcomeMessage.getText()).toContain('Role' + randomUser + 'Update');
+        });
+      }
     });
   });
 

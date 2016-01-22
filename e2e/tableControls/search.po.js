@@ -7,7 +7,7 @@ var Search = function() {
     var searchTermFound = false;
 
     // Users name, email, skills, or groups contain search phrase
-    for (var i = 0; i < rows.length && i < 10; ++i) { // Limit test length
+    for (var i = 0; i < rows.length && i < 5; ++i) { // Limit test length
       rows[i].click();
       rows[i].getText().then(function(userRowText) {
         userRowText = userRowText.replace(/(?:\r\n|\r|\n)/g, ' ');
@@ -42,7 +42,7 @@ var Search = function() {
     var searchTermFound = false;
 
     // Users name, email, skills, or groups contain search phrase
-    for (var i = 0; i < rows.length && i < 10; ++i) { // Limit test length
+    for (var i = 0; i < rows.length && i < 5; ++i) { // Limit test length
       rows[i].click();
       rows[i].getText().then(function(userRowText) {
         if (userRowText.toLowerCase().search(searchTermRegex) > -1) {

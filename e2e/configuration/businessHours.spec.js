@@ -45,8 +45,8 @@ describe('The business hours view', function() {
     expect(hours.descriptionFormField.isDisplayed()).toBeTruthy();
 
     // Display timezone and default to US/Eastern
-    expect(hours.timezoneDropDown.isDisplayed()).toBeTruthy();
-    expect(hours.timezoneDropDown.$('option:checked').getText()).toBe('US/Eastern');
+    expect(hours.timezoneFormDropDown.isDisplayed()).toBeTruthy();
+    expect(hours.timezoneFormDropDown.$('option:checked').getText()).toBe('(-05:00) US/Eastern');
 
     // Display hours radio buttons and default to 24/7
     expect(hours.customHoursRadio.isDisplayed()).toBeTruthy();
@@ -54,10 +54,12 @@ describe('The business hours view', function() {
     expect(hours.customHoursRadio.isSelected()).toBeFalsy();
     expect(hours.allHoursRadio.isSelected()).toBeTruthy();
 
-    // Not display custom hours table or exceptions fields
+    // Not display custom hours table
     expect(hours.customHoursTable.isDisplayed()).toBeFalsy();
-    expect(hours.addExceptionBtn.isDisplayed()).toBeFalsy();
-    expect(hours.addExceptionForm.isDisplayed()).toBeFalsy();
+
+    // Display exceptions fields
+    expect(hours.addExceptionBtn.isDisplayed()).toBeTruthy();
+    expect(hours.addExceptionForm.isPresent()).toBeFalsy();
     expect(hours.exceptionsTable.isDisplayed()).toBeFalsy();
 
     // Should display Submit and cancel buttons
@@ -89,16 +91,16 @@ describe('The business hours view', function() {
 
     // Verify hours name in table matches populated field
     expect(hours.firstTableRow.element(by.css(hours.nameColumn)).getText()).toContain(hours.nameFormField.getAttribute('value'));
-    expect(hours.firstTableRow.element(by.css(hours.descriptionColumn)).getText()).toBeTruthy();
-    expect(hours.firstTableRow.element(by.css(hours.timezoneColumn)).getText()).toContain(hours.timezoneDropDown.$('option:checked').getText());
+    expect(hours.firstTableRow.element(by.css(hours.descriptionColumn)).getText()).toBe(hours.descriptionFormField.getAttribute('value'));
+    expect(hours.timezoneFormDropDown.$('option:checked').getText()).toContain(hours.firstTableRow.element(by.css(hours.timezoneColumn)).getText());
 
     hours.secondTableRow.isPresent().then(function(secondRowExists) {
       if (secondRowExists) {
         // Change selected hours and ensure details are updated
         hours.secondTableRow.click();
         expect(hours.secondTableRow.element(by.css(hours.nameColumn)).getText()).toContain(hours.nameFormField.getAttribute('value'));
-        expect(hours.secondTableRow.element(by.css(hours.descriptionColumn)).getText()).toBeTruthy();
-        expect(hours.secondTableRow.element(by.css(hours.timezoneColumn)).getText()).toContain(hours.timezoneDropDown.$('option:checked').getText());
+        expect(hours.secondTableRow.element(by.css(hours.descriptionColumn)).getText()).toBe(hours.descriptionFormField.getAttribute('value'));
+        expect(hours.timezoneFormDropDown.$('option:checked').getText()).toContain(hours.secondTableRow.element(by.css(hours.timezoneColumn)).getText());
       }
     });
   });
@@ -143,7 +145,8 @@ describe('The business hours view', function() {
     });
   });
 
-  it('should reset fields after editing and selecting Cancel', function() {
+  // TODO TITAN2-6929
+  xit('should reset fields after editing and selecting Cancel', function() {
     random = Math.floor((Math.random() * 500) + 1);
     hours.firstTableRow.click();
 
@@ -154,7 +157,9 @@ describe('The business hours view', function() {
     // Edit fields
     hours.nameFormField.sendKeys('Edit');
     hours.descriptionFormField.sendKeys('Edit');
-    hours.adminFormDropDown.all(by.css('option')).get(random).click();
+    hours.timezoneFormDropDown.all(by.css('option')).count().then(function(timezoneCount) {
+      hours.timezoneFormDropDown.all(by.css('option')).get((random % timezoneCount) + 1).click();
+    });
     hours.regularHours.getAttribute('value').then(function(customHours) {
       if (customHours) { // Switch to 24/7 hours
         hours.allHoursRadio.click();
@@ -173,6 +178,7 @@ describe('The business hours view', function() {
       // Fields reset to original values
       expect(hours.nameFormField.getAttribute('value')).toBe(originalName);
       expect(hours.descriptionFormField.getAttribute('value')).toBe(originalDescription);
+      expect(hours.timezoneFormDropDown.getAttribute('value')).toBe(originalTimezone);
       expect(hours.regularHours.getAttribute('value')).toBe(customHours);
     });
   });

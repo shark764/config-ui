@@ -11,31 +11,6 @@ describe('The dispatchMappings view bulk actions', function() {
 
   beforeAll(function() {
     loginPage.login(params.login.user, params.login.password);
-    var random = Math.floor((Math.random() * 1000) + 1);
-
-    // Create flow required for Dispatch Mapping
-    browser.get(shared.flowsPageUrl);
-    shared.createBtn.click();
-    flows.modalNameField.sendKeys('Flow ' + random);
-    flows.modalTypeDropdown.all(by.css('option')).get((random % 3) + 1).click();
-    flows.submitModalBtn.click().then(function() {
-      flows.waitForFlowDesignerRedirect();
-      expect(browser.getCurrentUrl()).toContain('/flows/editor');
-        // Ensure Dispatch Mapping exists
-        browser.get(shared.dispatchMappingsPageUrl).then(function () {
-        shared.createBtn.click();
-
-        // Edit fields
-        dispatchMappings.nameFormField.sendKeys('New Dispatch Mapping ' + random);
-        dispatchMappings.mappingOptions.get(1).click(); // Customer mapping
-        dispatchMappings.phoneFormField.sendKeys('15062345678');
-        dispatchMappings.flowDropdown.all(by.css('option')).get(1).click();
-        shared.submitFormBtn.click().then(function() {
-          shared.waitForSuccess();
-          expect(shared.successMessage.isDisplayed()).toBeTruthy();
-        });
-      });
-    });
   });
 
   beforeEach(function() {

@@ -130,6 +130,20 @@ describe('The Administrator role', function() {
     expect(shared.tableElements.count()).not.toBeLessThan(1);
   });
 
+  it('should be able to see all tenant roles', function() {
+    expect(shared.tableElements.count()).not.toBeLessThan(3);
+
+    // Ensure default roles are listed
+    shared.searchField.sendKeys('Agent');
+    expect(shared.tableElements.count()).not.toBeLessThan(1);
+    shared.searchField.clear();
+    shared.searchField.sendKeys('Administrator');
+    expect(shared.tableElements.count()).not.toBeLessThan(1);
+    shared.searchField.clear();
+    shared.searchField.sendKeys('Supervisor');
+    expect(shared.tableElements.count()).not.toBeLessThan(1);
+  });
+
   it('should have access to all Configuration pages with limited access', function() {
     browser.get(shared.tenantsPageUrl);
     expect(browser.getCurrentUrl()).toContain('configuration/tenants');
@@ -195,18 +209,23 @@ describe('The Administrator role', function() {
   });
 
   it('should have access to edit user profile details', function() {
-    profile.firstNameFormField.sendKeys('Update');
-    profile.lastNameFormField.sendKeys('Update');
-    profile.resetPasswordButton.click();
-    profile.passwordFormField.sendKeys('newpassword');
+    // Sanity check: if user never got created, titan user will still be logged in
+    profile.userEmail.getAttribute('value').then(function(userEmail) {
+      if (userEmail != params.login.user) {
+        profile.firstNameFormField.sendKeys('Update');
+        profile.lastNameFormField.sendKeys('Update');
+        profile.resetPasswordButton.click();
+        profile.passwordFormField.sendKeys('newpassword1!');
 
-    profile.updateProfileBtn.click().then(function() {
-      shared.waitForSuccess();
-      shared.successMessage.click();
-      expect(profile.firstNameFormField.getAttribute('value')).toBe('Administrator' + random + 'Update');
-      expect(profile.lastNameFormField.getAttribute('value')).toBe('Role' + random + 'Update');
-      expect(shared.welcomeMessage.getText()).toContain('Administrator' + random + 'Update');
-      expect(shared.welcomeMessage.getText()).toContain('Role' + random + 'Update');
+        profile.updateProfileBtn.click().then(function() {
+          shared.waitForSuccess();
+          shared.successMessage.click();
+          expect(profile.firstNameFormField.getAttribute('value')).toBe('Administrator' + random + 'Update');
+          expect(profile.lastNameFormField.getAttribute('value')).toBe('Role' + random + 'Update');
+          expect(shared.welcomeMessage.getText()).toContain('Administrator' + random + 'Update');
+          expect(shared.welcomeMessage.getText()).toContain('Role' + random + 'Update');
+        });
+      }
     });
   });
 
@@ -269,6 +288,7 @@ describe('The Administrator role', function() {
   });
 
   it('should have access to add Extensions existing User', function() {
+    // Edit user previously created
     extensions.typeDropdown.click();
     extensions.pstnDropdownOption.click();
 
@@ -285,8 +305,9 @@ describe('The Administrator role', function() {
   });
 
   it('should have access to add Skills to existing User', function() {
+    var randomSkill = Math.floor((Math.random() * 1000) + 1);
     // Edit user previously created
-    users.addSkillSearch.sendKeys('New Skill');
+    users.addSkillSearch.sendKeys('New Skill' + randomSkill);
     users.addSkillBtn.click().then(function() {
       shared.waitForSuccess();
 
@@ -296,13 +317,16 @@ describe('The Administrator role', function() {
   });
 
   it('should have access to add Groups to existing User', function() {
+    var randomGroup = Math.floor((Math.random() * 1000) + 1);
     // Edit user previously created
-    users.addGroupSearch.sendKeys('New Group\t');
-    users.addGroupBtn.click().then(function() {
-      shared.waitForSuccess();
-      shared.successMessage.click();
+    users.userGroups.count().then(function(originalUserGroups) {
+      users.addGroupSearch.sendKeys('New Group ' + randomGroup);
+      users.addGroupBtn.click().then(function() {
+        shared.waitForSuccess();
+        shared.successMessage.click();
 
-      expect(users.userGroups.count()).toBe(1);
+        expect(users.userGroups.count()).toBe(originalUserGroups + 1);
+      });
     });
   });
 
@@ -311,21 +335,23 @@ describe('The Administrator role', function() {
     shared.firstTableRow.click();
 
     shared.firstTableRow.element(by.css(users.nameColumn)).getText().then(function(firstRowUserName) {
-      if (firstRowUserName) {
-        expect(shared.firstTableRow.element(by.css(users.nameColumn)).getText()).toContain(users.firstNameFormField.getAttribute('value'));
-        expect(shared.firstTableRow.element(by.css(users.nameColumn)).getText()).toContain(users.lastNameFormField.getAttribute('value'));
-        expect(shared.firstTableRow.element(by.css(users.emailColumn)).getText()).toBe(users.emailLabel.getText());
-        expect(shared.firstTableRow.element(by.css(users.nameColumn)).getText()).toBe(users.userNameDetailsHeader.getText());
-        expect(shared.firstTableRow.element(by.css(users.skillsColumn)).getText()).toContain(users.userSkills.count());
-        expect(shared.firstTableRow.element(by.css(users.groupsColumn)).getText()).toContain(users.userGroups.count());
-      } else {
-        expect(users.firstNameFormField.getAttribute('value')).toBe('');
-        expect(users.lastNameFormField.getAttribute('value')).toBe('');
-        expect(shared.firstTableRow.element(by.css(users.emailColumn)).getText()).toBe(users.emailLabel.getText());
-        expect(users.userNameDetailsHeader.getText()).toBe('');
-        expect(shared.firstTableRow.element(by.css(users.skillsColumn)).getText()).toContain(users.userSkills.count());
-        expect(shared.firstTableRow.element(by.css(users.groupsColumn)).getText()).toContain(users.userGroups.count());
-      }
+      shared.firstTableRow.element(by.css(users.emailColumn)).getText().then(function(firstRowEmail) {
+        if (firstRowUserName != firstRowEmail) {
+          expect(shared.firstTableRow.element(by.css(users.nameColumn)).getText()).toContain(users.firstNameFormField.getAttribute('value'));
+          expect(shared.firstTableRow.element(by.css(users.nameColumn)).getText()).toContain(users.lastNameFormField.getAttribute('value'));
+          expect(shared.firstTableRow.element(by.css(users.emailColumn)).getText()).toBe(users.emailLabel.getText());
+          expect(shared.firstTableRow.element(by.css(users.nameColumn)).getText()).toBe(users.userNameDetailsHeader.getText());
+          expect(shared.firstTableRow.element(by.css(users.skillsColumn)).getText()).toContain(users.userSkills.count());
+          expect(shared.firstTableRow.element(by.css(users.groupsColumn)).getText()).toContain(users.userGroups.count());
+        } else {
+          expect(users.firstNameFormField.getAttribute('value')).toBe('');
+          expect(users.lastNameFormField.getAttribute('value')).toBe('');
+          expect(shared.firstTableRow.element(by.css(users.emailColumn)).getText()).toBe(users.emailLabel.getText());
+          expect(users.userNameDetailsHeader.getText()).toBe(users.emailLabel.getText());
+          expect(shared.firstTableRow.element(by.css(users.skillsColumn)).getText()).toContain(users.userSkills.count());
+          expect(shared.firstTableRow.element(by.css(users.groupsColumn)).getText()).toContain(users.userGroups.count());
+        }
+      });
     });
   });
 
@@ -342,7 +368,8 @@ describe('The Administrator role', function() {
     });
   });
 
-  it('should have access to edit an existing Role', function() {
+  // TODO TITAN2-7179
+  xit('should have access to edit an existing Role', function() {
     role.nameFormField.sendKeys('Edit');
     role.descriptionFormField.sendKeys('Edit');
 
@@ -515,7 +542,7 @@ describe('The Administrator role', function() {
     });
   });
 
-  it('should have access to edit existing Integration details', function() {
+  xit('should have access to edit existing Integration details', function() {
     shared.searchField.sendKeys('twilio');
     shared.firstTableRow.click();
     integrations.accountSIDFormField.getAttribute('value').then(function(originalAccountSID) {
@@ -541,7 +568,8 @@ describe('The Administrator role', function() {
     });
   });
 
-  it('should have access to add a new Flow', function() {
+  // TODO
+  xit('should have access to add a new Flow', function() {
     browser.get(shared.flowsPageUrl);
     shared.createBtn.click();
   });
@@ -551,6 +579,7 @@ describe('The Administrator role', function() {
 
   it('should have access to view existing Flow details', function() {
     browser.get(shared.flowsPageUrl);
+    shared.firstTableRow.click();
     expect(shared.firstTableRow.getText()).toContain(flows.nameFormField.getAttribute('value'));
   });
 
@@ -576,7 +605,7 @@ describe('The Administrator role', function() {
     });
   });
 
-  it('should have access to add version to an existing Queue', function() {
+  xit('should have access to add version to an existing Queue', function() {
     queues.activeVersionDropdown.all(by.css('option')).count().then(function(originalVersionCount) {
       queues.addNewVersionBtn.click()
       newVersion.createVersionBtn.click().then(function() {
@@ -600,9 +629,9 @@ describe('The Administrator role', function() {
     browser.get(shared.mediaPageUrl);
     shared.createBtn.click();
 
+    media.typeFormDropdown.all(by.css('option')).get(1).click();
     media.nameFormField.sendKeys('Audio Media ' + random);
     media.audioSourceFormField.sendKeys('http://www.example.com/' + random);
-    media.typeFormDropdown.all(by.css('option')).get(1).click();
     shared.submitFormBtn.click().then(function() {
       shared.waitForSuccess();
     });
