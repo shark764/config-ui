@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('baSetStatus', ['TenantUser', 'Session', '$q', 'Alert', '$translate', 'BulkAction',
-    function(TenantUser, Session, $q, Alert, $translate, BulkAction) {
+  .directive('baSetStatus', ['TenantUser', 'Session', '$q', 'Alert', '$translate', 'BulkAction', 'userToggleStatuses',
+    function(TenantUser, Session, $q, Alert, $translate, BulkAction, userToggleStatuses) {
       return {
         restrict: 'E',
         require: '?^bulkActionExecutor',
@@ -15,13 +15,7 @@ angular.module('liveopsConfigPanel')
             bulkActionExecutor.register($scope.bulkAction);
           }
 
-          $scope.statuses = [{
-            'display': 'Disabled',
-            'value': 'disabled'
-          }, {
-            'display': 'Enabled',
-            'value': 'accepted'
-          }];
+          $scope.statuses = userToggleStatuses();
 
           $scope.bulkAction.doesQualify = function doesQualify(tenantUser) {
             return ['disabled', 'accepted'].indexOf(tenantUser.status) > -1;

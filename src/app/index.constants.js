@@ -25,6 +25,18 @@ angular.module('liveopsConfigPanel.config', [])
   };
 })
 
+.factory('userToggleStatuses', ['$translate', function($translate) {
+  return function() {
+    return [{
+      'display': $translate.instant('value.disabled'),
+      'value': 'disabled'
+    }, {
+      'display': $translate.instant('value.enabled'),
+      'value': 'accepted'
+    }];
+  };
+}])
+
 .factory('statuses', ['$translate', function($translate) {
     return function() {
       return [{
