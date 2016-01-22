@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 315
+##### Realtime Dashboards
+- Updated realtime dashboards version import
+
 ## 311
 ##### Realtime Dashboards
 - Re-wrote all 4 dashboards in new DSL
