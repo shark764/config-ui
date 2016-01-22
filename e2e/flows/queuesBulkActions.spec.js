@@ -77,7 +77,7 @@ describe('The queues view bulk actions', function() {
     });
   });
 
-  it('should allow all selected queue\'s status to be Enabled', function() {
+  it('should allow all selected queue\'s status to be Enabled', function() {    
     shared.actionsBtn.click();
 
     shared.tableElements.count().then(function(queueCount) {

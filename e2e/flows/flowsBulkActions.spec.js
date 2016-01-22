@@ -10,7 +10,7 @@ describe('The flows view bulk actions', function() {
 
   beforeAll(function() {
     loginPage.login(params.login.user, params.login.password);
-    var randomFlow = Math.floor((Math.random() * 1000) + 1);
+    /*var randomFlow = Math.floor((Math.random() * 1000) + 1);
 
     // Create new flow
     browser.get(shared.flowsPageUrl);
@@ -22,7 +22,7 @@ describe('The flows view bulk actions', function() {
       expect(browser.getCurrentUrl()).toContain('/flows/editor');
 
       browser.get(shared.flowsPageUrl);
-    });
+    });*/
   });
 
   beforeEach(function() {

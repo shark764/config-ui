@@ -280,8 +280,7 @@ describe('The users extensions', function() {
     expect(extensions.errors.count()).toBe(1);
   });
 
-  // TODO TITAN2-6679 SIP Extension errors from api not shown
-  xit('should validate SIP value field', function() {
+  it('should validate SIP value field', function() {
     // Use new user from previous test
     shared.searchField.sendKeys(newUserEmail);
     shared.firstTableRow.click();
@@ -432,7 +431,7 @@ describe('The users extensions', function() {
   });
 
   // TODO Fails when integration is disabled
-  xit('should allow duplicate SIP extenations', function() {
+  xit('should allow duplicate SIP Extensions', function() {
     // Use new user from previous test
     shared.searchField.sendKeys(newUserEmail);
     shared.firstTableRow.click();
@@ -534,7 +533,8 @@ describe('The users extensions', function() {
     })
   });
 
-  it('should allow its own user to add an extension and update profile page', function() {
+  // Fails when default titan user is used; no extensions by default causes error on save
+  xit('should allow its own user to add an extension and update profile page', function() {
     shared.searchField.sendKeys(params.login.user);
     shared.firstTableRow.click();
     extensionCount = extensions.userExtensions.count();

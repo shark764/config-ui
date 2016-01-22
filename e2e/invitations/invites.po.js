@@ -42,16 +42,26 @@ var InvitePage = function() {
     var newestMessage;
     var newestMessageContents;
 
-    browser.sleep(2000).then(function() {
+    browser.sleep(5000).then(function() {
       req.get('https://api.mailinator.com/api/inbox?to=titantest&token=' + params.mailinator.token, '', function(error, response, body) {
         if (body) {
+          console.log('Mailinator inbox');
           newestMessage = JSON.parse(body).messages[JSON.parse(body).messages.length - 1];
 
-          browser.sleep(2000).then(function() {
+          browser.sleep(5000).then(function() {
             req.get('https://api.mailinator.com/api/email?id=' + newestMessage.id + '&token=' + params.mailinator.token, '', function(error, response, body) {
               if (body) {
+                console.log('Mailinator email');
                 newestMessageContents = JSON.parse(body).data.parts[0].body;
                 browser.get(newestMessageContents.split('Log in automatically by clicking ')[1].split('\n')[0]);
+
+                browser.driver.wait(function() {
+                  return browser.getCurrentUrl().then(function(url) {
+                    return url.indexOf('invite-accept') > -1;
+                  });
+                }, 10000);
+
+                expect(browser.getCurrentUrl()).toContain('invite-accept');
               } else {
                 console.log('Mailinator email error: ' + error);
               }

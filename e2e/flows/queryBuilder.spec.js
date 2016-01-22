@@ -58,7 +58,7 @@ describe('The basic query builder', function() {
 
           expect(groupNameList.length).toBe(shared.tableElements.count());
 
-          for (var i = 0; i < groupNameList.length && i < 10; i++) {
+          for (var i = 0; i < groupNameList.length && i < 5; i++) {
             shared.searchField.clear();
             shared.searchField.sendKeys(groupNameList[i]);
             expect(shared.tableElements.count()).toBeGreaterThan(0);
@@ -100,7 +100,7 @@ describe('The basic query builder', function() {
 
           expect(skillNameList.length).toBe(shared.tableElements.count());
 
-          for (var i = 0; i < skillNameList.length && i < 10; i++) {
+          for (var i = 0; i < skillNameList.length && i < 5; i++) {
             shared.searchField.clear();
             shared.searchField.sendKeys(skillNameList[i]);
             expect(shared.tableElements.count()).toBeGreaterThan(0);

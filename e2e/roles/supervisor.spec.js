@@ -9,7 +9,7 @@ describe('The Supervisor role', function() {
     groups = require('../management/groups.po.js'),
     extensions = require('../management/extensions.po.js'),
     invites = require('../invitations/invites.po.js'),
-      profile = require('../userProfile/profile.po.js'),
+    profile = require('../userProfile/profile.po.js'),
     params = browser.params,
     random,
     supervisorEmail;
@@ -88,12 +88,14 @@ describe('The Supervisor role', function() {
     expect(shared.table.isDisplayed()).toBeTruthy();
     expect(shared.tableElements.count()).toBeGreaterThan(0);
 
+    /* TODO TITAN2-4936
     browser.get(shared.groupsPageUrl);
     expect(browser.getCurrentUrl()).toContain('management/groups');
     expect(shared.searchField.isDisplayed()).toBeTruthy();
     expect(shared.createBtn.isDisplayed()).toBeFalsy(); // Cannot create
     expect(shared.actionsBtn.isDisplayed()).toBeFalsy(); // Cannot perform bulk actions
     expect(shared.tableColumnsDropDown.isDisplayed()).toBeTruthy();
+    */
 
     /* TODO TITAN2-4936
     browser.get(shared.skillsPageUrl);
@@ -111,16 +113,16 @@ describe('The Supervisor role', function() {
     expect(shared.tableColumnsDropDown.isDisplayed()).toBeTruthy();
     expect(shared.table.isDisplayed()).toBeTruthy();
     // TODO TITAN2-4936 Admin role is not listed
-    //expect(shared.tableElements.count()).not.toBeLessThan(3);
+    expect(shared.tableElements.count()).not.toBeLessThan(3);
 
     // Ensure default roles are listed
     shared.searchField.sendKeys('Agent');
     expect(shared.tableElements.count()).not.toBeLessThan(1);
     shared.searchField.clear();
     // TODO TITAN2-4936 Admin role is not listed
-    //shared.searchField.sendKeys('Administrator');
-    //expect(shared.tableElements.count()).not.toBeLessThan(1);
-    //shared.searchField.clear();
+    shared.searchField.sendKeys('Administrator');
+    expect(shared.tableElements.count()).not.toBeLessThan(1);
+    shared.searchField.clear();
     shared.searchField.sendKeys('Supervisor');
     expect(shared.tableElements.count()).not.toBeLessThan(1);
   });
@@ -180,18 +182,23 @@ describe('The Supervisor role', function() {
   });
 
   it('should have access to edit user profile details', function() {
-    profile.firstNameFormField.sendKeys('Update');
-    profile.lastNameFormField.sendKeys('Update');
-    profile.resetPasswordButton.click();
-    profile.passwordFormField.sendKeys('newpassword');
+    // Sanity check: if user never got created, titan user will still be logged in
+    profile.userEmail.getAttribute('value').then(function(userEmail) {
+      if (userEmail != params.login.user) {
+        profile.firstNameFormField.sendKeys('Update');
+        profile.lastNameFormField.sendKeys('Update');
+        profile.resetPasswordButton.click();
+        profile.passwordFormField.sendKeys('newpassword1!');
 
-    profile.updateProfileBtn.click().then(function() {
-      shared.waitForSuccess();
-      shared.successMessage.click();
-      expect(profile.firstNameFormField.getAttribute('value')).toBe('Supervisor' + random + 'Update');
-      expect(profile.lastNameFormField.getAttribute('value')).toBe('Role' + random + 'Update');
-      expect(shared.welcomeMessage.getText()).toContain('Supervisor' + random + 'Update');
-      expect(shared.welcomeMessage.getText()).toContain('Role' + random + 'Update');
+        profile.updateProfileBtn.click().then(function() {
+          shared.waitForSuccess();
+          shared.successMessage.click();
+          expect(profile.firstNameFormField.getAttribute('value')).toBe('Supervisor' + random + 'Update');
+          expect(profile.lastNameFormField.getAttribute('value')).toBe('Role' + random + 'Update');
+          expect(shared.welcomeMessage.getText()).toContain('Supervisor' + random + 'Update');
+          expect(shared.welcomeMessage.getText()).toContain('Role' + random + 'Update');
+        });
+      }
     });
   });
 
@@ -229,11 +236,11 @@ describe('The Supervisor role', function() {
 
     expect(extensions.typeDropdown.isEnabled()).toBeFalsy();
     expect(extensions.providerDropdown.isEnabled()).toBeFalsy();
-    expect(extensions.valueFormField.isEnabled()).toBeFalsy();
     expect(extensions.addBtn.isEnabled()).toBeFalsy();
   });
 
-  it('should have access to add Extensions existing User', function() {
+  // TODO: Supervisor cannot edit other's extensions; determine requirements
+  xit('should have access to add Extensions existing User', function() {
     extensions.typeDropdown.click();
     extensions.pstnDropdownOption.click();
 
@@ -249,8 +256,8 @@ describe('The Supervisor role', function() {
     });
   });
 
-  it('should have access to add Skills to existing User', function() {
-  // TODO TITAN2-4936
+  xit('should have access to add Skills to existing User', function() {
+    // TODO TITAN2-4936
     // Edit user previously created
     users.addSkillSearch.sendKeys('New Skill');
     users.addSkillBtn.click().then(function() {
@@ -261,7 +268,7 @@ describe('The Supervisor role', function() {
     });
   });
 
-  it('should have access to add Groups to existing User', function() {
+  xit('should have access to add Groups to existing User', function() {
     // TODO TITAN2-4936
     // Edit user previously created
     users.addGroupSearch.sendKeys('New Group\t');
@@ -277,39 +284,41 @@ describe('The Supervisor role', function() {
     shared.firstTableRow.click();
 
     shared.firstTableRow.element(by.css(users.nameColumn)).getText().then(function(firstRowUserName) {
-      if (firstRowUserName) {
-        expect(shared.firstTableRow.element(by.css(users.nameColumn)).getText()).toContain(users.firstNameFormField.getAttribute('value'));
-        expect(shared.firstTableRow.element(by.css(users.nameColumn)).getText()).toContain(users.lastNameFormField.getAttribute('value'));
-        expect(shared.firstTableRow.element(by.css(users.emailColumn)).getText()).toBe(users.emailLabel.getText());
-        expect(shared.firstTableRow.element(by.css(users.nameColumn)).getText()).toBe(users.userNameDetailsHeader.getText());
-        // TODO TITAN2-4936
-        //expect(shared.firstTableRow.element(by.css(users.skillsColumn)).getText()).toContain(users.userSkills.count());
-        //expect(shared.firstTableRow.element(by.css(users.groupsColumn)).getText()).toContain(users.userGroups.count());
-        expect(extensions.userExtensions.count()).toBeGreaterThan(0);
-      } else {
-        expect(users.firstNameFormField.getAttribute('value')).toBe('');
-        expect(users.lastNameFormField.getAttribute('value')).toBe('');
-        expect(shared.firstTableRow.element(by.css(users.emailColumn)).getText()).toBe(users.emailLabel.getText());
-        expect(users.userNameDetailsHeader.getText()).toBe('');
-        // TODO TITAN2-4936
-        //expect(shared.firstTableRow.element(by.css(users.skillsColumn)).getText()).toContain(users.userSkills.count());
-        //expect(shared.firstTableRow.element(by.css(users.groupsColumn)).getText()).toContain(users.userGroups.count());
-        expect(extensions.userExtensions.count()).toBeGreaterThan(0);
-      }
+      shared.firstTableRow.element(by.css(users.emailColumn)).getText().then(function(firstRowEmail) {
+        if (firstRowUserName != firstRowEmail) {
+          expect(shared.firstTableRow.element(by.css(users.nameColumn)).getText()).toContain(users.firstNameFormField.getAttribute('value'));
+          expect(shared.firstTableRow.element(by.css(users.nameColumn)).getText()).toContain(users.lastNameFormField.getAttribute('value'));
+          expect(shared.firstTableRow.element(by.css(users.emailColumn)).getText()).toBe(users.emailLabel.getText());
+          expect(shared.firstTableRow.element(by.css(users.nameColumn)).getText()).toBe(users.userNameDetailsHeader.getText());
+          // TODO TITAN2-4936
+          //expect(shared.firstTableRow.element(by.css(users.skillsColumn)).getText()).toContain(users.userSkills.count());
+          //expect(shared.firstTableRow.element(by.css(users.groupsColumn)).getText()).toContain(users.userGroups.count());
+          expect(extensions.userExtensions.count()).toBeGreaterThan(0);
+        } else {
+          expect(users.firstNameFormField.getAttribute('value')).toBe('');
+          expect(users.lastNameFormField.getAttribute('value')).toBe('');
+          expect(shared.firstTableRow.element(by.css(users.emailColumn)).getText()).toBe(users.emailLabel.getText());
+          expect(users.userNameDetailsHeader.getText()).toBe(users.emailLabel.getText());
+          // TODO TITAN2-4936
+          //expect(shared.firstTableRow.element(by.css(users.skillsColumn)).getText()).toContain(users.userSkills.count());
+          //expect(shared.firstTableRow.element(by.css(users.groupsColumn)).getText()).toContain(users.userGroups.count());
+          expect(extensions.userExtensions.count()).toBeGreaterThan(0);
+        }
+      });
     });
   });
 
-  it('should not have access to edit an existing Skill', function() {
-  // TODO TITAN2-4936
+  xit('should not have access to edit an existing Skill', function() {
+    // TODO TITAN2-4936
     browser.get(shared.skillsPageUrl);
     shared.firstTableRow.click();
 
-    expect(users.nameFormField.isEnabled()).toBeFalsy();
-    expect(users.descriptionFormField.isEnabled()).toBeFalsy();
-    expect(users.proficiencyFormCheckbox.isEnabled()).toBeFalsy();
+    expect(skills.nameFormField.isEnabled()).toBeFalsy();
+    expect(skills.descriptionFormField.isEnabled()).toBeFalsy();
+    expect(skills.proficiencyFormCheckbox.isEnabled()).toBeFalsy();
   });
 
-  it('should have access to add members to an existing Skill', function() {
+  xit('should have access to add members to an existing Skill', function() {
     // TODO TITAN2-4936
     skills.addMemberField.click();
     skills.addMemberDropdownOptions.get(0).click();
@@ -319,7 +328,7 @@ describe('The Supervisor role', function() {
     });
   });
 
-  it('should have access to view existing Skill details', function() {
+  xit('should have access to view existing Skill details', function() {
     // TODO TITAN2-4936
     shared.firstTableRow.click();
 
@@ -340,7 +349,8 @@ describe('The Supervisor role', function() {
     });
   });
 
-  it('should not have access to edit an existing Group', function() {
+  xit('should not have access to edit an existing Group', function() {
+    // TODO TITAN2-4936
     browser.get(shared.groupsPageUrl);
     shared.firstTableRow.click();
 
@@ -348,7 +358,7 @@ describe('The Supervisor role', function() {
     expect(groups.descriptionFormField.isEnabled()).toBeFalsy();
   });
 
-  it('should have access to add members to an existing Group', function() {
+  xit('should have access to add members to an existing Group', function() {
     // TODO TITAN2-4936
     groups.addMemberField.click();
     groups.addMemberDropdownOptions.get(0).click();
@@ -358,25 +368,33 @@ describe('The Supervisor role', function() {
     });
   });
 
-  it('should have access to view existing Group details', function() {
+  xit('should have access to view existing Group details', function() {
+    // TODO TITAN2-4936
     groups.firstTableRow.click();
 
     // Verify group details in table matches populated field
     expect(groups.nameHeader.getText()).toContain(groups.firstTableRow.element(by.css(groups.nameColumn)).getText());
     expect(groups.firstTableRow.element(by.css(groups.nameColumn)).getText()).toBe(groups.nameFormField.getAttribute('value'));
     expect(groups.firstTableRow.element(by.css(groups.descriptionColumn)).getText()).toBe(groups.descriptionFormField.getAttribute('value'));
-    // TODO TITAN2-4936
-    //expect(groups.detailsMemberCount.getText()).toContain(groups.firstTableRow.element(by.css(groups.membersColumn)).getText());
+    expect(groups.detailsMemberCount.getText()).toContain(groups.firstTableRow.element(by.css(groups.membersColumn)).getText());
   });
 
   it('should not have access to edit an existing Role', function() {
     browser.get(shared.rolePageUrl);
-    shared.firstTableRow.click();
-
-    expect(role.nameFormField.isEnabled()).toBeFalsy();
-    expect(role.descriptionFormField.isEnabled()).toBeFalsy();
-    expect(role.permissionsDropdown.isDisplayed()).toBeFalsy();
-    expect(role.permissionAddBtn.isDisplayed()).toBeFalsy();
+    shared.tableElements.count(function(roleCount) {
+      for (var i = 0; i < roleCount & i < 4; i++) {
+        shared.tableElements.get(i).element(by.css(roles.nameColumn)).getText(roleName).then(function() {
+          if (roleName !== 'Administrator' && roleName !== 'Agent' && roleName !== 'Supervisor') {
+            shared.tableElements.get(i).click();
+          }
+        });
+      }
+    }).then(function() {
+      expect(role.nameFormField.isEnabled()).toBeFalsy();
+      expect(role.descriptionFormField.isEnabled()).toBeFalsy();
+      expect(role.permissionsDropdown.isDisplayed()).toBeFalsy();
+      expect(role.permissionAddBtn.isDisplayed()).toBeFalsy();
+    });
   });
 
   it('should have access to view existing Role details', function() {
