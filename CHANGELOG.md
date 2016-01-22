@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 318
+##### Realtime Dashboards
+- Update import of realtime dashboards to v2.1.2
+
 ## 317
 ##### All Modules
 - Constrained Helvetica font to not be global
