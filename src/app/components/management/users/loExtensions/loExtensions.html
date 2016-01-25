@@ -1,141 +1,89 @@
-<div class="instant-add">
-  <div>
-    <div class="input-group">
-      <label>
-        <select id="extension-type-dropdown" name="type"
-          ng-disabled="ngDisabled"
-          ng-required="true"
-          ng-class="{'default-selected': ! newExtension.type}"
-          ng-model="newExtension.type"
-          ng-change="clearValues()"
-          ng-options="type.value as type.display for type in loExtensionTypes">
-          <option class="disabled" value="" ng-disabled="true">
-            {{'details.extension.type' | translate}}
-          </option>
-        </select>
-      </label>
-
-      <form-error field="form.extensions"></form-error>
-      <input type="hidden" name="extensions" ng-model="extensions"/>
-
-      <form-error field="form.type"
-        error-type-required="{{'details.extension.type.required' | translate}}" >
-      </form-error>
-      <form-error field="form.provider"
-        error-type-required="{{'details.extension.provider.required' | translate}}" >
-      </form-error>
-      <form-error field="form.telValue"
-        error-type-required="{{'details.extension.value.required' | translate}}"
-        error-type-phone-number="{{'details.phoneNumber.error' | translate}}" >
-      </form-error>
-      <form-error field="form.sipValue"
-        error-type-required="{{'details.extension.value.required' | translate}}"
-        error-type-pattern="{{'details.extensions.sipformat.error' | translate}}" >
-      </form-error>
-
-      <div ng-show="newExtension.type == 'webrtc'" class="secondary-field-col">
-        <select id="extension-provider-dropdown" name="provider"
-          ng-disabled="ngDisabled"
-          ng-required="newExtension.type == 'webrtc'"
-          ng-class="{'default-selected': ! newExtension.provider}"
-          ng-model="newExtension.provider"
-          ng-options="provider.value as provider.display for provider in loExtensionProviders">
-          <option class="disabled" value="" ng-disabled="true">
-            {{'details.extension.provider' | translate}}
-          </option>
-        </select>
-      </div>
-
-      <div ng-show="newExtension.type == 'pstn'" class="secondary-field-col"  >
-        <input id="extension-value-field" type="tel" name="telValue"
-          style="phone-number-col"
-          ng-disabled="ngDisabled"
-          ng-required="newExtension.type == 'pstn'"
-          placeholder="{{'details.extension.value' | translate}}"
-          ng-model="phoneNumber">
-        </input>
-        <input id="extension-ext-field" type="text"
-          style="ext-col"
-          name="phoneExtension"
-          pattern="\d*"
-          placeholder="{{'details.phone.extension.value' | translate}}"
-          ng-disabled="ngDisabled"
-          ng-model="phoneExtension">
-        </input>
-      </div>
-
-      <div ng-show="newExtension.type == 'sip'" class="secondary-field-col">
-          <input id="extension-value-field" type="text" name="sipValue"
-          ng-disabled="ngDisabled"
-          ng-required="newExtension.type == 'sip'"
-          ng-pattern="sipPattern"
-          placeholder="{{'details.extension.value' | translate}}"
-          ng-model="sipExtension">
-          </input>
-      </div>
-    </div>
-
-    <div class="input-group">
-      <label>{{'value.description' | translate}} *</label>
-      <form-error field="form.extensiondescription"
-        error-type-required="{{'details.extension.description.required' | translate}}" >
-      </form-error>
-      <input type="text"
-          ng-disabled="ngDisabled"
-          ng-required="true"
-          name="extensiondescription"
-          placeholder="{{'value.description' | translate}}"
-          ng-model="newExtension.description">
-      </input>
-    </div>
-  </div>
-
-  <div class="button-wrapper">
-    <button id="add-extension-btn" class="btn" type="button"
-      ng-click="add()"
-      ng-disabled="form.$invalid">
+<div class="divider-header">
+    <h4>{{'details.extensions' | translate}}</h4>
+    <button id="add-extension-btn" class="btn pull-right" type="button"
+      ng-click="createExtension()"
+      ng-disabled="creatingExtension">
       <i class="fa fa-plus"></i>
     </button>
   </div>
+
+<form-error field="form.extensions"></form-error>
+<input type="hidden" name="extensions" ng-model="extensions"/>
+
+<div ng-show="creatingExtension" class="add-extension">
+  <lo-extension-editor extension="newExtension"></lo-extension-editor>
+  
+  <div class="input-group">
+    <label></label>
+    <div class="submit-controls">
+      <a class="btn" ng-click="creatingExtension = false">{{'value.cancel' | translate}}</a>
+      <a class="btn btn-primary" ng-click="add()">{{'value.save' | translate}}</a>
+    </div>
+  </div>
 </div>
 
-<div class="lo-extension-table">
-  <div class="lo-extension-table-body"
-    dnd-list="tenantUser.extensions">
-    <div class="lo-extension-table-row"
-      ng-repeat="extension in tenantUser.extensions"
-      dnd-draggable="extension"
-      dnd-effect-allowed="move"
-      dnd-moved="moved($index)"
-      dnd-selected="tenantUser.extensions.selected = extension"
-      id="{{extension.type | translate}}-{{extension.provider | translate}}">
+<div class="lo-extension-table" dnd-list="tenantUser.extensions">
+  <div ng-repeat="extension in tenantUser.extensions"
+    dnd-draggable="extension"
+    dnd-effect-allowed="move"
+    dnd-moved="moved($index)"
+    dnd-selected="tenantUser.extensions.selected = extension"
+    id="{{extension.type | translate}}-{{extension.provider | translate}}">
 
-      <div class="lo-extension-table-col type-col">
+    <div class="lo-extension-table-row" ng-class="{'default-extension': $index === 0}" ng-hide="lec.editingExtension === extension">
+      <div class="lo-extension-table-col control-col">
         <div class="handle" title="{{'details.extension.drag.titletext' | translate}}">:::</div>
-        <span dnd-nodrag>
-          {{extension.type | translate}}
-        </span>
       </div>
-      <div class="lo-extension-table-col provider-col" dnd-nodrag>
+
+      <div class="lo-extension-table-col small-col" dnd-nodrag>
+        {{extension.type | translate}}
+      </div>
+
+      <div class="lo-extension-table-col" dnd-nodrag>
         {{extension.provider | translate}}
-      </div>
-      <div class="lo-extension-table-col lo-extension-table-col phone-number-col" dnd-nodrag>
         <span ng-show="!(extension.type === 'webrtc' && extension.provider === 'twilio')">{{extension.value}}</span>
-        <span ng-show="$index === 0">({{'details.primary' | translate}})</span>
+        <span ng-show="$index === 0" class="primary">({{'details.primary' | translate}})</span>
       </div>
-      <div class="lo-extension-table-col description-col" dnd-nodrag>
+
+      <div class="lo-extension-table-col description" dnd-nodrag>
         {{extension.description | translate}}
       </div>
-      <div class="lo-extension-table-col remove-col" dnd-nodrag>
+
+      <div class="lo-extension-table-col small-col" dnd-nodrag>
+        <a ng-click="lec.editingExtension = extension" 
+          ng-hide="extension.type === 'webrtc' && extension.provider === 'twilio'">
+            ({{'value.edit' | translate}})
+        </a>
+      </div>
+      <div class="lo-extension-table-col control-col" dnd-nodrag>
         <i class="fa fa-close remove"
-          ng-if="!(extension.type === 'webrtc' && extension.provider === 'twilio')"
+          ng-hide="extension.type === 'webrtc' && extension.provider === 'twilio'"
           ng-disabled="ngDisabled"
-          ng-click="remove(extension)">
+          ng-click="remove(extension)"
+          title="{{'value.remove' | translate}}">
         </i>
       </div>
     </div>
-    <div class="dndPlaceholder lo-highlight">
-      {{'details.extension.drop' | translate}}
+
+    <div class="lo-extension-table-row edit-extension" ng-show="lec.editingExtension === extension">
+      <div class="lo-extension-table-col control-col">
+        <div class="handle" title="{{'details.extension.drag.titletext' | translate}}">:::</div>
+      </div>
+      
+      <ng-form name="extensions{{$index}}">
+        <lo-extension-editor  extension="extension" dnd-nodrag></lo-extension-editor>
+      </form>
+      <div class="input-group" dnd-nodrag>
+        <label></label>
+        <div class="submit-controls">
+          <a class="btn" ng-click="lec.editingExtension = null">{{'value.cancel' | translate}}</a>
+          <a class="btn btn-primary" ng-click="lec.save()">{{'value.save' | translate}}</a>
+        </div>
+      </div>
     </div>
+  </div>
+
+  <div class="dndPlaceholder lo-highlight">
+    {{'details.extension.drop' | translate}}
   </div>
 </div>
