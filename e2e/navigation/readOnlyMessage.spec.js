@@ -67,12 +67,14 @@ describe('The read only message', function() {
 
   it('should be not displayed for custom groups', function() {
     shared.tableElements.then(function(allGroups) {
-      if (allGroups.length > 3) {
+      if (allGroups.length > 1) {
         for (var i = 0; i < allGroups.length && i < 5; i++) {
-          if (allGroups[i].indexOf('everyone') == -1) {
-            shared.tableElements.get(i).click();
-            expect(shared.readOnlyMessage.isDisplayed()).toBeFalsy();
-          }
+          allGroups[i].getText().then(function (groupRowText) {
+            if (groupRowText.indexOf('everyone') == -1) {
+              shared.tableElements.get(i).click();
+              expect(shared.readOnlyMessage.isDisplayed()).toBeFalsy();
+            }
+          });
         }
       }
     });
