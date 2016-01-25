@@ -3,6 +3,7 @@
 describe('userGroupBulkAction directive', function() {
   var $scope,
     $httpBackend,
+    apiHostname,
     element,
     isolateScope,
     mockGroups,
@@ -15,10 +16,11 @@ describe('userGroupBulkAction directive', function() {
   beforeEach(module('liveopsConfigPanel.tenant.group.mock'));
   beforeEach(module('liveopsConfigPanel.tenant.user.group.mock'));
 
-  beforeEach(inject(['$compile', '$rootScope', '$httpBackend', 'mockGroups', 'mockUsers', 'UserGroupBulkAction',
-    function($compile, $rootScope, _$httpBackend, _mockGroups, _mockUsers, _UserGroupBulkAction) {
+  beforeEach(inject(['$compile', '$rootScope', '$httpBackend', 'mockGroups', 'mockUsers', 'UserGroupBulkAction', 'apiHostname',
+    function($compile, $rootScope, _$httpBackend, _mockGroups, _mockUsers, _UserGroupBulkAction, _apiHostname) {
       $scope = $rootScope.$new();
       $httpBackend = _$httpBackend;
+      apiHostname = _apiHostname;
       mockGroups = _mockGroups;
       mockUsers = _mockUsers;
       UserGroupBulkAction = _UserGroupBulkAction;
@@ -31,6 +33,21 @@ describe('userGroupBulkAction directive', function() {
       $httpBackend.flush();
     }
   ]));
+
+  it('should register the bulkAction with bulkActionExecutor if present', inject(function($compile, $rootScope) {
+    element = $compile('<bulk-action-executor></bulk-action-executor>')($scope);
+    $scope.$digest();
+    var baExecutorController = element.controller('bulkActionExecutor');
+    spyOn(baExecutorController, 'register');
+    
+    var childElement = angular.element('<ba-user-groups users="users"></ba-user-groups>');
+    element.append(childElement);
+    var childScope = $rootScope.$new();
+    childElement = $compile(childElement)(childScope);
+    childScope.$digest();
+
+    expect(baExecutorController.register).toHaveBeenCalled();
+  }));
 
   describe('ON bulkAction.execute', function() {
     it('should override bulkAction.execute', function() {
@@ -121,6 +138,19 @@ describe('userGroupBulkAction directive', function() {
       isolateScope.addUserGroupBulkAction();
 
       expect(isolateScope.bulkAction.userGroupBulkActions.length).toEqual(2);
+    });
+  });
+
+  describe('ON fetchGroups', function() {
+    it('should query Groups if the current type is not "remove"', function() {
+      $httpBackend.expectGET(apiHostname + '/v1/tenants/tenant-id/groups').respond(200, {
+        result: [mockGroups[0], mockGroups[1]]
+      });
+      
+      isolateScope.fetchGroups();
+      $httpBackend.flush();
+      expect(isolateScope.availableGroups).toBeDefined();
+      expect(isolateScope.availableGroups.length).toBe(2);
     });
   });
 });
