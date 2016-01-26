@@ -23,14 +23,12 @@
       <th>{{'value.description' | translate}}</th>
       <th>{{'value.start' | translate}}</th>
       <th>{{'value.end' | translate}}</th>
-      <th ng-show="(['MANAGE_ALL_BUSINESS_HOURS'] | hasPermission)">
-        {{'value.remove' | translate}}
-      </th>
+      <th ng-show="(['MANAGE_ALL_BUSINESS_HOURS'] | hasPermission)"></th>
     </tr>
   </thead>
   <tbody>
     <tr ng-repeat="exception in hours.$exceptions | newResource:true | orderBy:'date'">
-      <td>{{exception.date | date:'dd-MM-yyyy':'UTC'}}</td>
+      <td>{{exception.date | date:'yyyy-MM-dd':'UTC'}}</td>
       <td>{{exception.description}}</td>
       <td>{{exception.startTimeMinutes | minutesToTime}}</td>
       <td>{{exception.endTimeMinutes | minutesToTime}}</td>
@@ -58,14 +56,18 @@
     >
     </form-error>
 
-    <input type="date" name="{{'date' + exceptionHour.$originalIndex}}"
-      ng-model="exceptionHour.date"
-      ng-required="exceptionHour"
-      ng-model-options="{timezone: 'UTC'}"
-      utc-date-converter
-      ng-resource="exceptionHour"
-      lo-hour-exception-overlap
-      items="hours.$exceptions">
+  <input type="text" name="{{'date' + exceptionHour.$originalIndex}}"
+    ng-model="exceptionHour.date" 
+    moment-picker="exceptionHour.date" 
+    format="YYYY-MM-DD"
+    start-view="month"
+    max-view="month"
+    ng-required="exceptionHour"
+    ng-model-options="{timezone: 'UTC'}"
+    ng-resource="exceptionHour"
+    lo-hour-exception-overlap
+    items="hours.$exceptions">
+
   </div>
 
   <div class="input-group">
@@ -98,11 +100,12 @@
       error-type-time="{{'hours.exception.startTime.required' | translate}}"
       error-type-required="{{'hours.exception.startTime.required' | translate}}">
     </form-error>
-    <input type="time" name="{{'startTimeMinutes' + exceptionHour.$originalIndex}}"
-      ng-model="exceptionHour.startTimeMinutes"
-      ng-required="exceptionHour && !exceptionHour.isAllDay"
-      ng-change="hec.reValidateExceptionHours()"
-      date-to-minute-converter/>
+
+    <lo-time-picker name="{{'startTimeMinutes' + exceptionHour.$originalIndex}}"
+    ng-model="exceptionHour.startTimeMinutes" 
+    ng-change="hec.reValidateExceptionHours()"
+    ng-required="exceptionHour && !exceptionHour.isAllDay"></lo-time-picker>
+
   </div>
 
   <div class="input-group"
@@ -113,11 +116,12 @@
       error-type-time="{{'hours.exception.endTime.required' | translate}}"
       error-type-required="{{'hours.exception.endTime.required' | translate}}">
     </form-error>
-    <input type="time" name="{{'endTimeMinutes' + exceptionHour.$originalIndex}}"
-      ng-model="exceptionHour.endTimeMinutes"
-      ng-required="exceptionHour && !exceptionHour.isAllDay"
-      ng-change="hec.reValidateExceptionHours()"
-      date-to-minute-converter/>
+
+    <lo-time-picker name="{{'endTimeMinutes' + exceptionHour.$originalIndex}}"
+    ng-model="exceptionHour.endTimeMinutes" 
+    ng-change="hec.reValidateExceptionHours()"
+    ng-required="exceptionHour && !exceptionHour.isAllDay"></lo-time-picker>
+
   </div>
 
 </div>
