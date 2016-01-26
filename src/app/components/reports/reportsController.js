@@ -46,3 +46,4 @@ angular.module('liveopsConfigPanel')
       $scope.fetch();
     }
   ]);
+  
