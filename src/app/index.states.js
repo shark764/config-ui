@@ -399,8 +399,11 @@ angular.module('liveopsConfigPanel')
           reloadOnSearch: false,
           resolve: {
             hasPermission: ['UserPermissions', function(UserPermissions) {
-              //TODO: fill in permissions
-              return UserPermissions.resolvePermissions([]);
+              return UserPermissions.resolvePermissions([
+                'VIEW_ALL_RECORDINGS',
+                'VIEW_MY_RECORDINGS',
+                'MANAGE_ALL_RECORDINGS',
+                'DELETE_ALL_RECORDED_FILES']);
             }]
           }
         })
