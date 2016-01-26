@@ -72,41 +72,6 @@ describe('loExtensions controller', function() {
       expect($scope.tenantUser.extensions.length).toBe(1);
       expect($scope.tenantUser.extensions[0].value).toEqual('mynewnumber');
     }));
-
-//    it('should add the pstn extension to the number, if given', inject(function($q) {
-//      spyOn(controller, 'save').and.returnValue($q.when());
-//
-//      $scope.phoneNumber = 'mynewnumber';
-//      $scope.phoneExtension = '1234';
-//      $scope.add();
-//      expect($scope.tenantUser.extensions.length).toBe(1);
-//      expect($scope.tenantUser.extensions[0].value).toEqual('mynewnumberx1234');
-//    }));
-//
-//    it('should set the sip value, if given', inject(function($q) {
-//      spyOn(controller, 'save').and.returnValue($q.when());
-//
-//      $scope.sipExtension = 'sip:user@example.com';
-//      $scope.add();
-//      expect($scope.tenantUser.extensions.length).toBe(1);
-//      expect($scope.tenantUser.extensions[0].value).toEqual('sip:user@example.com');
-//    }));
-//
-//    it('should reset the phone number values on success', inject(function($q) {
-//      spyOn(controller, 'save').and.returnValue($q.when());
-//
-//      $scope.phoneNumber = '12345';
-//      $scope.phoneExtension = '123';
-//      $scope.sipExtension = 'aaaa';
-//      $scope.newExtension.provider = '4566';
-//      $scope.add();
-//      $scope.$digest();
-//
-//      expect($scope.phoneNumber).toBeFalsy();
-//      expect($scope.phoneExtension).toBeFalsy();
-//      expect($scope.sipExtension).toBeFalsy();
-//      expect($scope.newExtension.provider).toBeFalsy();
-//    }));
   });
 
   describe('remove function', function() {
