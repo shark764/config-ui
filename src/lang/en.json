@@ -470,7 +470,7 @@
   "bulkActions.enable.queues": "Enable/Disable Queues",
   "bulkAction.success": "Bulk action successful!",
   "bulkActions.status.placeholder": "Select new status...",
-  "bulkActions.enable.hours": "Enable Hours",
+  "bulkActions.enable.hours": "Enable/Disable Hours",
 
   "user.profile.save.success": "Your details have been updated.",
   "user.profile.save.fail": "An error occurred while updating your details.",

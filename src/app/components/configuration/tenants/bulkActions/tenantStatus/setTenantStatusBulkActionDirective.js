@@ -10,14 +10,11 @@ angular.module('liveopsConfigPanel')
         templateUrl: 'app/components/configuration/tenants/bulkActions/tenantStatus/setTenantStatusBulkAction.html',
         link: function($scope, elem, attr, bulkActionExecutor) {
           $scope.bulkAction = new BulkAction();
+          $scope.statuses = statuses();
 
           if (bulkActionExecutor) {
             bulkActionExecutor.register($scope.bulkAction);
           }
-          
-          $scope.$evalAsync(function() {
-            $scope.statuses = statuses();
-          });
 
           $scope.bulkAction.apply = function(tenant) {
             var tenantCopy = new Tenant();
@@ -32,8 +29,10 @@ angular.module('liveopsConfigPanel')
 
           $scope.bulkAction.reset = function() {
             $scope.bulkAction.checked = false;
-            $scope.active = '';
+            $scope.active = false;
           };
+
+          $scope.bulkAction.reset();
         }
       };
     }
