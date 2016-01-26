@@ -1,6 +1,11 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
+  /** table-controls element directive
+   * Monster component to generate a sortable filterable, searchable, scrollable full-page table of elements
+   * 
+   * Note: Uses 100% height, thus requiring that its parent has a defined height
+   * 
   //Accepted config values:
   // * fields (array of objects): The config items for the columns. Config for headers accepts:
   //    - checked (boolean): Whether to show the column. Defaults to true
@@ -33,17 +38,16 @@ angular.module('liveopsConfigPanel')
   //    can search complex object like {skills: [{id: 1234, name: 'Skill 1'}, {id: 5432, name: 'A Skill'}]}
   // * sref (string): Name of the state to go to when clicking a table row. Defaults to ''
   // * title (string): The title of the page. Also used as the key for storing the user's column preferences. Defaults to ''
+    */
 
   .directive('tableControls', ['$rootScope', '$filter', '$location', '$parse', 'loEvents', 'DirtyForms', 'Session',
     function($rootScope, $filter, $location, $parse, loEvents, DirtyForms, Session) {
       return {
         restrict: 'E',
         scope: {
-          id: '@',
           config: '=',
           items: '=',
-          selected: '=',
-          resourceName: '@'
+          selected: '='
         },
         templateUrl: 'app/shared/directives/tableControls/tableControls.html',
         transclude: true,
@@ -72,16 +76,6 @@ angular.module('liveopsConfigPanel')
             parseStateKey = $parse($scope.stateKey);
           });
 
-          $scope.$on('created:resource:' + $scope.resourceName,
-            function(event, item) {
-              //Select the newly created item and set the URL param
-              $scope.selected = item;
-
-              var params = {};
-              params[$scope.stateKey] = parseResourceKey(item);
-              $location.search(params);
-            });
-
           $scope.$on('dropdown:item:checked', function() {
             //Save the user's preferred column config
             var columnPreferences = Session.columnPreferences;
@@ -94,6 +88,14 @@ angular.module('liveopsConfigPanel')
               $rootScope.$broadcast(loEvents.tableControls.itemCreate);
             });
           };
+
+          $scope.$on('created:resource', function(event, item) {
+            if (item.id === $scope.selectedItem.id){
+              var params = {};
+              params[$scope.stateKey] = parseResourceKey(item);
+              $location.search(params);
+            }
+          });
 
           $scope.onActionsClick = function() {
             DirtyForms.confirmIfDirty(function() {
