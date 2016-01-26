@@ -10,5 +10,8 @@ angular.module('liveopsConfigPanel')
     },
     bulkActions: {
       close: 'details:panel:close'
+    },
+    state: {
+      changeCanceled: 'loStateChangeCanceled'
     }
   });

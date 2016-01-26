@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('routeLoadingIndicator', ['$timeout', function($timeout) {
+  .directive('routeLoadingIndicator', ['$timeout', 'loEvents', function($timeout, loEvents) {
     return {
       restrict: 'E',
       // for some reason; we can't load template URLs while resolves are firing
@@ -35,7 +35,7 @@ angular.module('liveopsConfigPanel')
 
         $scope.$on('$stateChangeSuccess', transitionDone);
         $scope.$on('$stateChangeError', transitionDone);
-        $scope.$on('loStateChangeCanceled', transitionDone); //Fired by unsavedChangesWarning if user selects "cancel" to keep their changes
+        $scope.$on(loEvents.state.changeCanceled, transitionDone); //Fired by unsavedChangesWarning if user selects "cancel" to keep their changes
       }
     };
   }]);

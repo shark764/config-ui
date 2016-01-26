@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('baUserGroups', ['$q', 'UserGroupBulkAction', 'userGroupBulkActionTypes', 'Group', 'TenantGroupUsers', 'Session', 'BulkAction',
-    function($q, UserGroupBulkAction, userGroupBulkActionTypes, Group, TenantGroupUsers, Session, BulkAction) {
+  .directive('baUserGroups', ['$q', 'UserGroupBulkAction', 'userGroupBulkActionTypes', 'Group', 'TenantGroupUsers', 'Session', 'BulkAction', 'loEvents',
+    function($q, UserGroupBulkAction, userGroupBulkActionTypes, Group, TenantGroupUsers, Session, BulkAction, loEvents) {
       return {
         restrict: 'E',
         require: '?^bulkActionExecutor',
@@ -96,7 +96,7 @@ angular.module('liveopsConfigPanel')
             $scope.bulkAction.reset();
           });
 
-          $scope.$on('table:resource:checked', function() {
+          $scope.$on(loEvents.tableControls.itemChecked, function() {
             $scope.fetchGroups();
           });
 
