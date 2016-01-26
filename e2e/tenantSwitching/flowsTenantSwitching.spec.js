@@ -33,13 +33,14 @@ describe('When switching tenants', function() {
     shared.tearDown();
   });
 
+  // TODO TITAN2-7078
   describe('Flow Management page', function() {
     beforeAll(function() {
       browser.get(shared.flowsPageUrl);
       elementCount = shared.tableElements.count();
     });
 
-    it('should create a new Flow in one and not the previous', function() {
+    xit('should create a new Flow in one and not the previous', function() {
       // Create Flow in new tenant
       var randomFlow = Math.floor((Math.random() * 1000) + 1);
       var newTenantFlow = 'New Tenant Flow ' + randomFlow;
@@ -104,11 +105,11 @@ describe('When switching tenants', function() {
       elementCount = shared.tableElements.count();
     });
 
-    it('should display the correct Media for the current tenant', function() {
+    xit('should display the correct Media for the current tenant', function() {
       expect(elementCount).toBe(0);
     });
 
-    it('should create a new Media in one and not the previous', function() {
+    xit('should create a new Media in one and not the previous', function() {
       // Create Media in new tenant
       var newTenantMedia = 'New Tenant Media ' + Math.floor((Math.random() * 1000) + 1);
       shared.createBtn.click();
@@ -157,11 +158,11 @@ describe('When switching tenants', function() {
       elementCount = shared.tableElements.count();
     });
 
-    it('should display the correct Media Collections for the current tenant', function() {
+    xit('should display the correct Media Collections for the current tenant', function() {
       expect(elementCount).toBe(0);
     });
 
-    it('should create a new Media Collection in one and not the previous', function() {
+    xit('should create a new Media Collection in one and not the previous', function() {
       // Create MediaCollection in new tenant
       var newTenantMediaCollection = 'New Tenant MediaCollection ' + Math.floor((Math.random() * 1000) + 1);
       shared.createBtn.click();
@@ -214,11 +215,11 @@ describe('When switching tenants', function() {
       elementCount = shared.tableElements.count();
     });
 
-    it('should display the correct Dispatch Mappings for the current tenant', function() {
+    xit('should display the correct Dispatch Mappings for the current tenant', function() {
       expect(elementCount).toBe(0);
     });
 
-    it('should create a new Dispatch Mapping in one and not the previous', function() {
+    xit('should create a new Dispatch Mapping in one and not the previous', function() {
       // Create DispatchMapping in new tenant
       var newTenantDispatchMapping = 'New Tenant DispatchMapping ' + Math.floor((Math.random() * 1000) + 1);
       shared.createBtn.click();
@@ -269,11 +270,11 @@ describe('When switching tenants', function() {
       elementCount = shared.tableElements.count();
     });
 
-    it('should display the correct Queues for the current tenant', function() {
+    xit('should display the correct Queues for the current tenant', function() {
       expect(elementCount).toBe(0);
     });
 
-    it('should create a new Queue in one and not the previous', function() {
+    xit('should create a new Queue in one and not the previous', function() {
       // Create Queue in new tenant
       var newTenantQueue = 'New Tenant Queue ' + Math.floor((Math.random() * 1000) + 1);
       shared.createBtn.click();

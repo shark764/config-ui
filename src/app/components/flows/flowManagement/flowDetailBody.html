@@ -24,14 +24,15 @@
     </div>
   </div>
 
-  <div ng-if="! selectedFlow.isNew()" class="input-group">
-    <label>{{'value.version' | translate}} *</label>
+  <div ng-if="(! selectedFlow.isNew())" class="input-group">
+    <label>{{'value.version' | translate}} <span ng-show="getVersions().length > 0">*</span></label>
     <form-error field="forms.detailsForm.activeVersion"
       error-type-required="{{'flow.details.activeVersion.error' | translate}}">
     </form-error>
     <div>
       <select name="activeVersion"
-        ng-required="true"
+        ng-required="getVersions().length > 0"
+        ng-disabled="! getVersions().length > 0"
         ng-model="selectedFlow.activeVersion"
         ng-options="version.version as (version.fakeVersion + ' - ' + version.name) for version in getVersions() | orderBy:'created':'reverse'">
         <option disabled value="">{{'flow.details.version.choose' | translate}}</option>

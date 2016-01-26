@@ -23,6 +23,7 @@ describe('The bulk actions', function() {
   });
 
   it('should be displayed including checkboxes on supported Management pages', function() {
+    // NOTE May timeout if page load for users/groups is too long
     // User Management Page
     expect(shared.actionsBtn.isDisplayed()).toBeTruthy();
     shared.tableElements.count().then(function(numUsers) {
@@ -253,11 +254,11 @@ describe('The bulk actions', function() {
     });
   });
 
-  it('should maintain number of selected items when Bulk Actions selction is opened and closed', function() {
+  it('should maintain number of selected items when Bulk Actions section is opened and closed', function() {
     // Select items
     shared.tableElements.count().then(function(tableCount) {
       var numSelected = 0;
-      for (var i = 0; i < tableCount; i++) {
+      for (var i = 0; i < tableCount && i < 10; i++) {
         if ((i % 2) > 0) {
           // Select some but not all items
           bulkActions.selectItemTableCells.get(i).click();
@@ -294,7 +295,7 @@ describe('The bulk actions', function() {
     // Select items
     shared.tableElements.count().then(function(tableCount) {
       var numSelected = 0;
-      for (var i = 0; i < tableCount; i++) {
+      for (var i = 0; i < tableCount && i < 10; i++) {
         if ((i % 2) > 0) {
           // Select some but not all items
           bulkActions.selectItemTableCells.get(i).click();

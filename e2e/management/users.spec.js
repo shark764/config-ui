@@ -182,7 +182,6 @@ describe('The users view', function() {
       shared.tableColumnsDropDown.click();
 
       // Select user row
-      shared.searchField.sendKeys(params.login.user);
       shared.firstTableRow.click();
 
       // Update User details
@@ -191,10 +190,8 @@ describe('The users view', function() {
       users.externalIdFormField.sendKeys('test');
 
       users.submitFormBtn.click().then(function() {
-        expect(shared.successMessage.isDisplayed()).toBeTruthy();
+        shared.waitForSuccess();
 
-        shared.searchField.clear();
-        shared.searchField.sendKeys(params.login.user);
         expect(shared.firstTableRow.element(by.css(users.nameColumn)).getText()).toContain(users.firstNameFormField.getAttribute('value'));
         expect(shared.firstTableRow.element(by.css(users.nameColumn)).getText()).toContain(users.lastNameFormField.getAttribute('value'));
         expect(shared.firstTableRow.element(by.css(users.externalIdColumn)).getText()).toBe(users.externalIdFormField.getAttribute('value'));
@@ -202,9 +199,6 @@ describe('The users view', function() {
       }).then(function() {
         // Refresh browser and ensure changes persist
         browser.refresh();
-
-        shared.searchField.sendKeys(params.login.user);
-        shared.firstTableRow.click();
 
         expect(shared.firstTableRow.element(by.css(users.nameColumn)).getText()).toContain(users.firstNameFormField.getAttribute('value'));
         expect(shared.firstTableRow.element(by.css(users.nameColumn)).getText()).toContain(users.lastNameFormField.getAttribute('value'));
@@ -216,7 +210,7 @@ describe('The users view', function() {
         users.lastNameFormField.sendKeys('\u0008\u0008\u0008\u0008');
         users.externalIdFormField.sendKeys('\u0008\u0008\u0008\u0008');
         users.submitFormBtn.click().then(function() {
-          expect(shared.successMessage.isDisplayed()).toBeTruthy();
+          shared.waitForSuccess();
         });
       });
     });
@@ -299,14 +293,13 @@ describe('The users view', function() {
 
   it('should not require External Id when editing', function() {
     // Select first user from table
-    shared.searchField.sendKeys(params.login.user);
     shared.firstTableRow.click();
 
     // Edit fields
     users.externalIdFormField.sendKeys('not required'); // Incase the field was already empty
     users.externalIdFormField.clear();
     users.submitFormBtn.click().then(function() {
-      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+      shared.waitForSuccess();
     });
   });
 

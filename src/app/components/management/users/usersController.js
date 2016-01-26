@@ -194,5 +194,24 @@ angular.module('liveopsConfigPanel')
           $scope.selectedTenantUser.$original.status = result.status;
         });
       };
+
+      $scope.invitedUserExistsOnPlatform = function(){
+        if (!$scope.selectedTenantUser || ! $scope.selectedTenantUser.$user){
+          //Non-relevant selected tenant user
+          return false;
+        }
+
+        if ($scope.selectedTenantUser.$user.status === 'pending'){
+          //User hasn't signed up on the platform yet
+          return false;
+        }
+
+        if ($scope.selectedTenantUser.status === 'accepted' || $scope.selectedTenantUser.status === 'disabled'){
+          //User is already part of the tenant
+          return false;
+        }
+
+        return true;
+      };
     }
   ]);

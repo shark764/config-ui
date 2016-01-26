@@ -14,7 +14,7 @@ Visual front-end for the LiveOps Configuration API.
 1. npm install
 1. bower install
 1. if necessary, login to the docker.liveopslabs.com (if you need creds, please check confluence)
-1. docker run -it --privileged=true -v /var/lib/docker:/var/lib/docker -p 9080:9080 --name bs-api docker.liveopslabs.com/bs-api
+1. run api according to https://github.com/liveops/api-containers
 1. gulp serve
 
 *To configure the API end-point, you can change the app/env.js apiHostname.

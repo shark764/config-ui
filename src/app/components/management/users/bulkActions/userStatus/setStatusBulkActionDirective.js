@@ -16,10 +16,10 @@ angular.module('liveopsConfigPanel')
           }
 
           $scope.statuses = [{
-            'display': 'Disabled',
+            'displayKey': 'value.disabled',
             'value': 'disabled'
           }, {
-            'display': 'Enabled',
+            'displayKey': 'value.enabled',
             'value': 'accepted'
           }];
 
@@ -30,9 +30,7 @@ angular.module('liveopsConfigPanel')
           $scope.bulkAction.apply = function(tenantUser) {
             if ($scope.status === 'disabled' && tenantUser.id === Session.user.id) {
               Alert.error($translate.instant('bulkActions.enable.users.fail'));
-              var deferred = $q.defer();
-              deferred.reject($translate.instant('bulkActions.enable.users.fail'));
-              return deferred.promise;
+              return $q.reject($translate.instant('bulkActions.enable.users.fail'));
             }
 
             var newUser = new TenantUser();
@@ -48,7 +46,7 @@ angular.module('liveopsConfigPanel')
 
           $scope.bulkAction.reset = function() {
             $scope.bulkAction.checked = false;
-            $scope.status = '';
+            $scope.status = 'disabled';
           };
 
           $scope.bulkAction.reset();

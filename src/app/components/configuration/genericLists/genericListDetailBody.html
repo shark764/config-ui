@@ -2,10 +2,11 @@
   <h4>{{'details' | translate}}</h4>
 </div>
 
-<div ng-show="gc.selectedList.tenantId !== Session.tenant.tenantId">
-  <p class="lo-alert">
+<div>
+  <p class="lo-alert" ng-show="gc.selectedList.tenantId !== Session.tenant.tenantId">
     {{'list.readonly.warning' | translate}}
   </p>
+
   <div class="input-group">
     <label>{{'value.name' | translate}}</label>
     <p>{{gc.selectedList.name}}</p>

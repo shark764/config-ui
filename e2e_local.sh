@@ -5,9 +5,6 @@ set -e
 export E2E_LOG_FILE="$( cd "$(dirname "${BASH_SOURCE}")" ; pwd -P )"/../e2e_log.txt
 cd "$( cd "$(dirname "${BASH_SOURCE}")" ; pwd -P )"
 
-export SAUCE_BUILD=stageing
-export SAUCE_TAG=regression
-
 FILES="$( cd "$(dirname "${BASH_SOURCE}")" ; pwd -P )"/e2e/**/*.spec.js
 
 echo "***** Config-UI E2E Tests *****" | tee -a ${E2E_LOG_FILE}

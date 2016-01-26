@@ -466,7 +466,7 @@ describe('The media view', function() {
     var editedSource = media.ttsSourceFormField.getAttribute('value');
 
     shared.submitFormBtn.click().then(function() {
-      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+      shared.waitForSuccess();
 
       // Changes persist
       browser.refresh();
@@ -491,7 +491,7 @@ describe('The media view', function() {
     var editedVoice = media.voiceFormDropdown.$('option:checked').getText();
 
     shared.submitFormBtn.click().then(function() {
-      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+      shared.waitForSuccess();
 
       // Changes persist
       browser.refresh();

@@ -268,8 +268,8 @@ describe('The user groups component of User view', function() {
   });
 
   it('should link user members from group page', function() {
-    //Create a new group
     browser.get(shared.groupsPageUrl);
+    shared.searchField.sendKeys('Group Name'); // Can timeout if 'everyone' group is selected
     shared.firstTableRow.click();
     groups.groupMembersRows.then(function(memberDetails) {
       if (memberDetails.length > 0) {
@@ -278,7 +278,7 @@ describe('The user groups component of User view', function() {
         memberDetails[0].element(by.css('a')).click().then(function() {
           browser.driver.wait(function() {
             return browser.getCurrentUrl().then(function(url) {
-              return url.indexOf(shared.groupsPageUrl) == -1;
+              return url.indexOf(shared.usersPageUrl) > -1;
             });
           }, 5000);
 

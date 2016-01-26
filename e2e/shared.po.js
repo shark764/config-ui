@@ -21,6 +21,7 @@ var Shared = function() {
   this.tenantsPageUrl = this.configurationUrl + 'tenants';
   this.integrationsPageUrl = this.configurationUrl + 'integrations';
   this.listsPageUrl = this.configurationUrl + 'lists';
+  this.businessHoursPageUrl = this.configurationUrl + 'hours';
 
   this.flowsPageUrl = this.flowsUrl + 'management';
   this.queuesPageUrl = this.flowsUrl + 'queues';
@@ -48,6 +49,8 @@ var Shared = function() {
   // Shared page elements
   this.pageHeader = element(by.css('h2.ng-binding'));
   this.detailsFormHeader = element(by.css('.detail-header  h1'));
+  this.activeFormToggle = element(by.css('.detail-header .status-toggle'));
+  this.activeToggleInput = this.activeFormToggle.element(by.css('label:nth-child(2) > input'));
 
   // Table controls
   this.table = element(by.id('items-table'));

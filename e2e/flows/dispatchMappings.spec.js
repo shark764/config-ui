@@ -389,8 +389,8 @@ describe('The dispatch mappings view', function() {
         expect(dispatchMappings.directionFormDropdown.isDisplayed()).toBeFalsy();
       } else if (mapping == 3) { // Direction
         expect(dispatchMappings.mappingDropdown.$('option:checked').getText()).toBe('Direction');
-        expect(dispatchMappings.phoneFormField.isPresent()).toBeFalsy();
-        expect(dispatchMappings.integrationFormDropdown.isPresent()).toBeFalsy();
+        expect(dispatchMappings.phoneFormField.isDisplayed()).toBeFalsy();
+        expect(dispatchMappings.integrationFormDropdown.isDisplayed()).toBeFalsy();
         expect(dispatchMappings.directionFormDropdown.isDisplayed()).toBeTruthy();
       } else {
         // Test failed
