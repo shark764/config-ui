@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('baSetStatus', ['TenantUser', 'Session', '$q', 'Alert', '$translate', 'BulkAction', 'userToggleStatuses',
-    function(TenantUser, Session, $q, Alert, $translate, BulkAction, userToggleStatuses) {
+  .directive('baSetStatus', ['TenantUser', 'Session', '$q', 'Alert', '$translate', 'BulkAction',
+    function(TenantUser, Session, $q, Alert, $translate, BulkAction) {
       return {
         restrict: 'E',
         require: '?^bulkActionExecutor',
@@ -15,7 +15,13 @@ angular.module('liveopsConfigPanel')
             bulkActionExecutor.register($scope.bulkAction);
           }
 
-          $scope.statuses = userToggleStatuses();
+          $scope.statuses = [{
+            'displayKey': 'value.disabled',
+            'value': 'disabled'
+          }, {
+            'displayKey': 'value.enabled',
+            'value': 'accepted'
+          }];
 
           $scope.bulkAction.doesQualify = function doesQualify(tenantUser) {
             return ['disabled', 'accepted'].indexOf(tenantUser.status) > -1;
@@ -24,9 +30,7 @@ angular.module('liveopsConfigPanel')
           $scope.bulkAction.apply = function(tenantUser) {
             if ($scope.status === 'disabled' && tenantUser.id === Session.user.id) {
               Alert.error($translate.instant('bulkActions.enable.users.fail'));
-              var deferred = $q.defer();
-              deferred.reject($translate.instant('bulkActions.enable.users.fail'));
-              return deferred.promise;
+              return $q.reject($translate.instant('bulkActions.enable.users.fail'));
             }
 
             var newUser = new TenantUser();
@@ -42,7 +46,7 @@ angular.module('liveopsConfigPanel')
 
           $scope.bulkAction.reset = function() {
             $scope.bulkAction.checked = false;
-            $scope.status = '';
+            $scope.status = 'disabled';
           };
 
           $scope.bulkAction.reset();

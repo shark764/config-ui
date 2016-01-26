@@ -25,60 +25,53 @@ angular.module('liveopsConfigPanel.config', [])
   };
 })
 
-.factory('userToggleStatuses', ['$translate', function($translate) {
+//Using displayKeys to fix TITAN2-6886: select boxes not repainting after translate filter runs
+.factory('statuses', ['$translate', function($translate) {
   return function() {
     return [{
       'display': $translate.instant('value.disabled'),
-      'value': 'disabled'
+      'displayKey': 'value.disabled',
+      'value': false
     }, {
       'display': $translate.instant('value.enabled'),
-      'value': 'accepted'
+      'displayKey': 'value.enabled',
+      'value': true
     }];
   };
 }])
 
-.factory('statuses', ['$translate', function($translate) {
-    return function() {
-      return [{
-        'display': $translate.instant('value.disabled'),
-        'value': false
-      }, {
-        'display': $translate.instant('value.enabled'),
-        'value': true
-      }];
-    };
-  }])
-  .factory('ynStatuses', function() {
-    return function() {
-      return [{
-        'display': 'No',
-        'value': false
-      }, {
-        'display': 'Yes',
-        'value': true
-      }];
-    };
-  })
-  .factory('tenantStatuses', function() {
-    return function() {
-      return [{
-        'display': 'Disabled',
-        'value': 'disabled'
-      }, {
-        'display': 'Expired Invitation',
-        'value': 'expired'
-      }, {
-        'display': 'Pending Invitation',
-        'value': 'pending'
-      }, {
-        'display': 'Accepted',
-        'value': 'accepted'
-      }, {
-        'display': 'Pending Acceptance',
-        'value': 'invited'
-      }];
-    };
-  })
+.factory('ynStatuses', function() {
+  return function() {
+    return [{
+      'display': 'No',
+      'value': false
+    }, {
+      'display': 'Yes',
+      'value': true
+    }];
+  };
+})
+
+.factory('tenantStatuses', function() {
+  return function() {
+    return [{
+      'display': 'Disabled',
+      'value': 'disabled'
+    }, {
+      'display': 'Expired Invitation',
+      'value': 'expired'
+    }, {
+      'display': 'Pending Invitation',
+      'value': 'pending'
+    }, {
+      'display': 'Accepted',
+      'value': 'accepted'
+    }, {
+      'display': 'Pending Acceptance',
+      'value': 'invited'
+    }];
+  };
+})
 
 .constant('userStates', [{
   'display': 'Busy',
