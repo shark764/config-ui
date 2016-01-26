@@ -6,11 +6,8 @@ describe('UserProfileController', function() {
     $httpBackend,
     controller;
 
-  beforeEach(module('liveopsConfigPanel'));
-  beforeEach(module('gulpAngular'));
-  beforeEach(module('liveopsConfigPanel.mock'));
-  beforeEach(module('liveopsConfigPanel.tenant.user.mock'));
-  beforeEach(module('liveopsConfigPanel.user.mock'));
+  beforeEach(module('liveopsConfigPanel', 'gulpAngular', 'liveopsConfigPanel.mock', 
+      'liveopsConfigPanel.tenant.user.mock', 'liveopsConfigPanel.user.mock', 'liveopsConfigPanel.mockutils'));
 
   beforeEach(inject(['$rootScope', '$controller', '$httpBackend', 'apiHostname',
     function($rootScope, $controller, _$httpBackend, _apiHostname) {
@@ -44,28 +41,24 @@ describe('UserProfileController', function() {
       expect($scope.submit).toBeDefined();
     });
 
-    it('should PUT to /v1/users on submit', function() {
+    it('should PUT to /v1/users on submit', inject(function(mockModel) {
       $httpBackend.expect('PUT', apiHostname + '/v1/users/userId1').respond(200);
       $scope.userForm = {
-        password: {
-          $setPristine: jasmine.createSpy('$setPristine')
-        }
+        password: mockModel()
       };
 
       $scope.submit();
 
       $httpBackend.flush();
-    });
+    }));
 
-    it('should update your existing token', inject(function(Session) {
+    it('should update your existing token', inject(function(Session, mockModel) {
       $httpBackend.expect('PUT', apiHostname + '/v1/users/userId1').respond(200);
       $scope.userForm = {
-        password: {
-          $dirty: true,
-          $setPristine: jasmine.createSpy('$setPristine')
-        }
+        password: mockModel()
       };
-
+      
+      $scope.userForm.password.$dirty = true;
       $scope.tenantUser.$user.password = 'password1';
       var currentToken = Session.token;
 

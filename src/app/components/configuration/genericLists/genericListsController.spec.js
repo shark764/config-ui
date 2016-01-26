@@ -11,10 +11,8 @@ describe('genericListsController', function() {
     mockListTypes,
     loEvents;
 
-  beforeEach(module('gulpAngular'));
-  beforeEach(module('liveopsConfigPanel'));
-  beforeEach(module('liveopsConfigPanel.tenant.list.mock'));
-  beforeEach(module('liveopsConfigPanel.tenant.listType.mock'));
+  beforeEach(module('gulpAngular', 'liveopsConfigPanel', 'liveopsConfigPanel.tenant.list.mock', 
+      'liveopsConfigPanel.tenant.listType.mock', 'liveopsConfigPanel.mockutils'));
 
   beforeEach(inject(['$rootScope', '$controller', '$httpBackend', 'apiHostname', 'List', 'ListType', 'mockLists', 'mockListTypes', 'loEvents',
     function($rootScope, $controller, _$httpBackend, _apiHostname, _List, _ListType, _mockLists, _mockListTypes, _loEvents) {
@@ -87,18 +85,16 @@ describe('genericListsController', function() {
   });
 
   describe('ON addListItem', function() {
-    beforeEach(function() {
+    beforeEach(inject(function(mockForm) {
       controller.selectedList = {};
       controller.selectedList.items = [];
       controller.selectedList.$original = {};
       controller.selectedList.$original.items = [];
       
       controller.forms = {
-        detailsForm: {
-          $setDirty: jasmine.createSpy('setDirty')
-        }
+        detailsForm: mockForm()
       };
-    });
+    }));
 
     it('should exist on controller', function () {
       expect(controller.addListItem).toBeDefined();
@@ -122,18 +118,16 @@ describe('genericListsController', function() {
   describe('ON removeListItem', function() {
     var listItem = {};
 
-    beforeEach(function() {
+    beforeEach(inject(function(mockForm) {
       controller.selectedList = {};
       controller.selectedList.items = [listItem];
       controller.selectedList.$original = {};
       controller.selectedList.$original.items = [listItem];
 
       controller.forms = {
-        detailsForm: {
-          $setDirty: jasmine.createSpy('setDirty')
-        }
+        detailsForm: mockForm()
       };
-    });
+    }));
 
     it('should exist on controller', function () {
       expect(controller.removeListItem).toBeDefined();

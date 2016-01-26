@@ -5,11 +5,9 @@ describe('loExtensions controller', function() {
     controller,
     mockTenantUsers;
 
-  beforeEach(module('liveopsConfigPanel'));
-  beforeEach(module('gulpAngular'));
-  beforeEach(module('liveopsConfigPanel.tenant.user.mock'));
+  beforeEach(module('liveopsConfigPanel', 'gulpAngular', 'liveopsConfigPanel.tenant.user.mock', 'liveopsConfigPanel.mockutils'));
 
-  beforeEach(inject(['$controller', '$rootScope', 'mockTenantUsers', function($controller, $rootScope, _mockTenantUsers) {
+  beforeEach(inject(['$controller', '$rootScope', 'mockTenantUsers', 'mockModel', function($controller, $rootScope, _mockTenantUsers, mockModel) {
     $scope = $rootScope.$new();
     mockTenantUsers = _mockTenantUsers;
 
@@ -17,47 +15,14 @@ describe('loExtensions controller', function() {
     $scope.tenantUser.extensions = [];
 
     $scope.form = {
-      type: {
-        $setPristine: jasmine.createSpy('$setPristine'),
-        $setUntouched: jasmine.createSpy('$setUntouched'),
-        $setValidity: jasmine.createSpy('$setPristine')
-      },
-      provider: {
-        $setPristine: jasmine.createSpy('$setPristine'),
-        $setUntouched: jasmine.createSpy('$setUntouched'),
-        $setValidity: jasmine.createSpy('$setPristine')
-      },
-      value: {
-        $setPristine: jasmine.createSpy('$setPristine'),
-        $setUntouched: jasmine.createSpy('$setUntouched'),
-        $setValidity: jasmine.createSpy('$setPristine')
-      },
-      sipValue: {
-        $setPristine: jasmine.createSpy('$setPristine'),
-        $setUntouched: jasmine.createSpy('$setUntouched'),
-        $setValidity: jasmine.createSpy('$setPristine')
-      },
-      telValue: {
-        $setPristine: jasmine.createSpy('$setPristine'),
-        $setUntouched: jasmine.createSpy('$setUntouched'),
-        $setValidity: jasmine.createSpy('$setPristine')
-      },
-      extensiondescription: {
-        $setPristine: jasmine.createSpy('$setPristine'),
-        $setUntouched: jasmine.createSpy('$setUntouched'),
-        $setValidity: jasmine.createSpy('$setPristine')
-      },
-      extensions: {
-        $setPristine: jasmine.createSpy('$setPristine'),
-        $setUntouched: jasmine.createSpy('$setUntouched'),
-        $setValidity: jasmine.createSpy('$setPristine')
-      },
-      activeExtension: {
-        $setPristine: jasmine.createSpy('$setPristine'),
-        $setUntouched: jasmine.createSpy('$setUntouched'),
-        $setValidity: jasmine.createSpy('$setPristine'),
-        $setDirty: jasmine.createSpy('$setDirty')
-      },
+      type: mockModel(),
+      provider: mockModel(),
+      value: mockModel(),
+      sipValue: mockModel(),
+      telValue: mockModel(),
+      extensiondescription: mockModel(),
+      extensions: mockModel(),
+      activeExtension: mockModel(),
       loFormSubmitController: {
         populateApiErrors: jasmine.createSpy('populateApiErrors')
       }
@@ -94,12 +59,10 @@ describe('loExtensions controller', function() {
       expect($scope.form.extensiondescription.$setUntouched).toHaveBeenCalled();
     }));
 
-    it('should reset the user on fail', inject(function($httpBackend, apiHostname) {
-      $scope.form = {
-        $setPristine: jasmine.createSpy('$setPristine'),
-        loFormSubmitController: {
-          populateApiErrors: jasmine.createSpy('populateApiErrors')
-        }
+    it('should reset the user on fail', inject(function($httpBackend, apiHostname, mockForm) {
+      $scope.form = mockForm();
+      $scope.form.loFormSubmitController = {
+        populateApiErrors: jasmine.createSpy('populateApiErrors')
       };
 
       spyOn(mockTenantUsers[0], 'reset');

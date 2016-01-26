@@ -16,9 +16,10 @@ describe('Versions directive controller', function() {
   beforeEach(module('liveopsConfigPanel.mock'));
   beforeEach(module('liveopsConfigPanel.tenant.flow.mock'));
   beforeEach(module('liveopsConfigPanel.tenant.flow.version.mock'));
+  beforeEach(module('liveopsConfigPanel.mockutils'));
 
-  beforeEach(inject(['$rootScope', '$controller', '$httpBackend', 'FlowVersion', 'apiHostname', 'mockFlows', 'mockFlowVersions', 'Session',
-    function($rootScope, $controller, _$httpBackend, _FlowVersion, _apiHostname, _mockFlows, _mockFlowVersions, _Session) {
+  beforeEach(inject(['$rootScope', '$controller', '$httpBackend', 'FlowVersion', 'apiHostname', 'mockFlows', 'mockFlowVersions', 'Session', 'mockForm',
+    function($rootScope, $controller, _$httpBackend, _FlowVersion, _apiHostname, _mockFlows, _mockFlowVersions, _Session, mockForm) {
       $scope = $rootScope.$new();
       $httpBackend = _$httpBackend;
       mockFlows = _mockFlows;
@@ -29,10 +30,7 @@ describe('Versions directive controller', function() {
 
       $scope.flow = mockFlows[0];
 
-      $scope.createVersionForm = {
-        $setPristine: angular.noop,
-        $setUntouched: angular.noop
-      };
+      $scope.createVersionForm = mockForm();
 
       $controller('FlowVersionsController', {
         '$scope': $scope
@@ -89,8 +87,6 @@ describe('Versions directive controller', function() {
         'result': mockFlowVersions[0]
       });
 
-      spyOn($scope.createVersionForm, '$setPristine');
-      spyOn($scope.createVersionForm, '$setUntouched');
       spyOn($scope, 'createVersion');
       $scope.saveVersion();
       $httpBackend.flush();

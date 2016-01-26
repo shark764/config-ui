@@ -5,8 +5,7 @@ describe('duplicateValidator directive', function() {
     element,
     isolateScope;
 
-  beforeEach(module('liveopsConfigPanel'));
-  beforeEach(module('gulpAngular'));
+  beforeEach(module('liveopsConfigPanel', 'gulpAngular', 'liveopsConfigPanel.mockutils'));
 
   beforeEach(inject(['$compile', '$rootScope', 'MediaCollection', function($compile, $rootScope, MediaCollection) {
     $scope = $rootScope.$new();
@@ -22,14 +21,9 @@ describe('duplicateValidator directive', function() {
   }]));
 
   describe('mediaMap watch', function() {
-    it('should set the validity on all mediaMap form elements', function() {
-      $scope.form.mapping0 = {
-        $setValidity: jasmine.createSpy('mapping0Validity')
-      };
-
-      $scope.form.mapping1 = {
-        $setValidity: jasmine.createSpy('mapping1Validity')
-      };
+    it('should set the validity on all mediaMap form elements', inject(function(mockModel) {
+      $scope.form.mapping0 = mockModel();
+      $scope.form.mapping1 = mockModel();
 
       $scope.resource.mediaMap.push({
         lookup: 'Mapping 0'
@@ -42,20 +36,12 @@ describe('duplicateValidator directive', function() {
       isolateScope.$digest();
       expect($scope.form.mapping0.$setValidity).toHaveBeenCalled();
       expect($scope.form.mapping1.$setValidity).toHaveBeenCalled();
-    });
+    }));
 
-    it('should set duplicate named mappings invalid', function() {
-      $scope.form.mapping0 = {
-        $setValidity: jasmine.createSpy('mapping0Validity')
-      };
-
-      $scope.form.mapping1 = {
-        $setValidity: jasmine.createSpy('mapping1Validity')
-      };
-
-      $scope.form.mapping2 = {
-        $setValidity: jasmine.createSpy('mapping2Validity')
-      };
+    it('should set duplicate named mappings invalid', inject(function(mockModel) {
+      $scope.form.mapping0 = mockModel();
+      $scope.form.mapping1 = mockModel();
+      $scope.form.mapping2 = mockModel();
 
       $scope.resource.mediaMap.push({
         lookup: 'duplicate'
@@ -73,6 +59,6 @@ describe('duplicateValidator directive', function() {
       expect($scope.form.mapping0.$setValidity).toHaveBeenCalledWith('mediaMapDuplicate', false);
       expect($scope.form.mapping1.$setValidity).toHaveBeenCalledWith('mediaMapDuplicate', false);
       expect($scope.form.mapping2.$setValidity).toHaveBeenCalledWith('mediaMapDuplicate', true);
-    });
+    }));
   });
 });

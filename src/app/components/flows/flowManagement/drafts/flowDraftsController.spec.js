@@ -15,9 +15,10 @@ describe('flowDraft controller', function() {
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('liveopsConfigPanel.tenant.flow.mock'));
   beforeEach(module('liveopsConfigPanel.tenant.flow.draft.mock'));
+  beforeEach(module('liveopsConfigPanel.mockutils'));
 
-  beforeEach(inject(['$rootScope', '$controller', '$httpBackend', 'FlowDraft', 'apiHostname', 'mockFlows', 'mockFlowDrafts', 'Session',
-    function($rootScope, $controller, _$httpBackend, _FlowDraft, _apiHostname, _mockFlows, _mockFlowDrafts, _Session) {
+  beforeEach(inject(['$rootScope', '$controller', '$httpBackend', 'FlowDraft', 'apiHostname', 'mockFlows', 'mockFlowDrafts', 'Session', 'mockForm',
+    function($rootScope, $controller, _$httpBackend, _FlowDraft, _apiHostname, _mockFlows, _mockFlowDrafts, _Session, mockForm) {
       $scope = $rootScope.$new();
       $httpBackend = _$httpBackend;
       apiHostname = _apiHostname;
@@ -34,10 +35,7 @@ describe('flowDraft controller', function() {
 
       $httpBackend.flush();
 
-      $scope.createDraftForm = {
-        $setPristine: jasmine.createSpy('$setPristine'),
-        $setUntouched: jasmine.createSpy('$setUntouched')
-      };
+      $scope.createDraftForm = mockForm();
     }
   ]));
 

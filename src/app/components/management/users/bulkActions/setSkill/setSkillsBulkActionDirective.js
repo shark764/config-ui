@@ -107,17 +107,6 @@ angular.module('liveopsConfigPanel')
             }
           };
 
-          $scope.findSkillForId = function(skills, id) {
-            var foundSkill;
-            angular.forEach(skills, function(skill) {
-              if (skill.id === id) {
-                foundSkill = skill;
-              }
-            });
-
-            return foundSkill;
-          };
-
           $scope.$watch('bulkAction.params', function() {
             $scope.bulkAction.reset();
           });

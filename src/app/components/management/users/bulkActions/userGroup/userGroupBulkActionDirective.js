@@ -92,17 +92,6 @@ angular.module('liveopsConfigPanel')
             $scope.fetchGroups();
           };
 
-          $scope.findGroupForId = function(groups, id) {
-            var foundGroup;
-            angular.forEach(groups, function(group) {
-              if (group.id === id) {
-                foundGroup = group;
-              }
-            });
-
-            return foundGroup;
-          };
-
           $scope.$watch('bulkAction', function() {
             $scope.bulkAction.reset();
           });

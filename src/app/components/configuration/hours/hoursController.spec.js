@@ -12,10 +12,8 @@ describe('hoursController', function() {
     BusinessHour,
     BusinessHourException;
 
-  beforeEach(module('gulpAngular'));
-  beforeEach(module('liveopsConfigPanel'));
-  beforeEach(module('liveopsConfigPanel.timezone.mock'));
-  beforeEach(module('liveopsConfigPanel.tenant.businessHour.mock'));
+  beforeEach(module('gulpAngular', 'liveopsConfigPanel', 'liveopsConfigPanel.timezone.mock', 
+      'liveopsConfigPanel.tenant.businessHour.mock', 'liveopsConfigPanel.mockutils'));
 
   beforeEach(inject(['$rootScope', '$httpBackend', 'apiHostname', 'Session', 'mockBusinessHours', 'loEvents', 'BusinessHour', 'BusinessHourException', '$controller',
     function($rootScope, _$httpBackend, _apiHostname, _Session, _mockBusinessHours, _loEvents, _BusinessHour, _BusinessHourException, $controller) {
@@ -36,6 +34,29 @@ describe('hoursController', function() {
     }
   ]));
 
+  it('should call reset when selectedHour changes', function() {
+    spyOn(controller, 'reset');
+    $scope.$apply('hc.selectedHour = {id: \'1234\'}');
+    expect(controller.reset).toHaveBeenCalled();
+  });
+
+  it('should initialize a new selectedHour on table create event', inject(function($rootScope, loEvents) {
+    controller.exceptionHour = {};
+    controller.selectedHour = {
+      id: 'existing',
+      active: false,
+      timezone: 'anotherZone'
+    };
+
+    $rootScope.$broadcast(loEvents.tableControls.itemCreate);
+    $scope.$digest();
+    
+    expect(controller.selectedHour.id).toBeFalsy();
+    expect(controller.selectedHour.active).toBeTruthy();
+    expect(controller.selectedHour.timezone).toEqual('US/Eastern');
+    expect(controller.exceptionHour).toBeNull();
+  }));
+
   describe('ON loadTimezones', function() {
     it('should initialize controller.timezones', function() {
       expect(controller.timezones).toBeDefined();
@@ -47,6 +68,16 @@ describe('hoursController', function() {
     it('should initialize controller.hours', function() {
       expect(controller.hours).toBeDefined();
       expect(controller.hours.length).toEqual(2);
+    });
+  });
+  
+  describe('ON reset', function() {
+    it('should reset', function() {
+      spyOn(controller, 'hasHours').and.returnValue(true);
+      
+      controller.reset();
+      expect(controller.isHoursCustom).toBeTruthy();
+      expect(controller.exceptionHour).toBeNull();
     });
   });
 
@@ -93,20 +124,43 @@ describe('hoursController', function() {
 
       $httpBackend.flush();
     });
+    
+    it('should set the form error if saving an exception fails', inject(function(mockForm, mockModel) {
+      controller.forms = {};
+      controller.forms.detailsForm = mockForm();
+      controller.forms.detailsForm.startTimeMinutes0 = mockModel();
+
+      $httpBackend.expect('POST', apiHostname + '/v1/tenants/tenant-id/business-hours').respond(200, {
+        result: {
+          id: '1234',
+          $exceptions: [new BusinessHourException()]
+        }
+      });
+
+      $httpBackend.expect('POST', apiHostname + '/v1/tenants/tenant-id/business-hours/1234/exceptions').respond(500, {
+        error: {
+          attribute: {
+            startTimeMinutes: 'Invalid exception'
+          }
+        }
+      });
+
+      controller.selectedHour = new BusinessHour();
+      controller.submit();
+
+      $httpBackend.flush();
+      expect(controller.forms.detailsForm.startTimeMinutes0.$setValidity).toHaveBeenCalled();
+    }));
   });
 
   describe('saveError function', function() {
-    beforeEach(function(){
-      controller.forms = {
-        detailsForm: {
-          $setPristine: jasmine.createSpy('$setPristine'),
-          $dirty: false,
-          loFormResetController: {
-            resetErrors: jasmine.createSpy('resetErrors')
-          }
-        }
+    beforeEach(inject(function(mockForm){
+      controller.forms = {};
+      controller.forms.detailsForm = mockForm();
+      controller.forms.detailsForm.loFormResetController = {
+          resetErrors: jasmine.createSpy('resetErrors')
       };
-    });
+    }));
 
     it('should return a rejected promise', function(done) {
       controller.saveError('error').catch(function(){
@@ -140,6 +194,12 @@ describe('hoursController', function() {
   describe('ON hasHours', function() {
     it('should be defined on controller', function() {
       expect(controller.hasHours).toBeDefined();
+    });
+    
+    it('should return false if there is no selected hour', function() {
+      controller.selectedHour = null;
+      var result = controller.hasHours();
+      expect(result).toBeFalsy();
     });
 
     it('should return false if all times are null', function() {
@@ -183,6 +243,21 @@ describe('hoursController', function() {
 
     it('should be defined on controller', function() {
       expect(controller.onIsHoursCustomChanged).toBeDefined();
+    });
+
+    it('should do nothing if isHoursCustom is true', function() {
+      angular.forEach(['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'], function(day) {
+        controller.selectedHour[day + 'StartTimeMinutes'] = 10;
+        controller.selectedHour[day + 'EndTimeMinutes'] = 11;
+      });
+
+      controller.isHoursCustom = true;
+      controller.onIsHoursCustomChanged();
+
+      angular.forEach(['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'], function(day) {
+        expect(controller.selectedHour[day + 'StartTimeMinutes']).toEqual(10);
+        expect(controller.selectedHour[day + 'EndTimeMinutes']).toEqual(11);
+      });
     });
 
     it('should set all times to -1 on isCustom false', function() {

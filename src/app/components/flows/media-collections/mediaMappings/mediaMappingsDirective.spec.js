@@ -5,22 +5,16 @@ describe('MediaMappings directive', function() {
     element,
     isolateScope;
 
-  beforeEach(module('gulpAngular'));
-  beforeEach(module('liveopsConfigPanel'));
-  beforeEach(module('liveopsConfigPanel.mock'));
-  beforeEach(module('liveopsConfigPanel.tenant.media.mock'));
-  beforeEach(module('liveopsConfigPanel.tenant.mediaCollection.mock'));
+  beforeEach(module('gulpAngular', 'liveopsConfigPanel', 'liveopsConfigPanel.mock', 
+      'liveopsConfigPanel.tenant.media.mock', 'liveopsConfigPanel.tenant.mediaCollection.mock', 'liveopsConfigPanel.mockutils'));
 
-  beforeEach(inject(['$rootScope', '$compile', 'mockMediaCollections',
-    function($rootScope, $compile, mockMediaCollections) {
+  beforeEach(inject(['$rootScope', '$compile', 'mockMediaCollections', 'mockModel',
+    function($rootScope, $compile, mockMediaCollections, mockModel) {
       $scope = $rootScope.$new();
 
       $scope.collection = mockMediaCollections[0];
       $scope.form = {
-        mediaMap: {
-          $setDirty: jasmine.createSpy('dirtySpy'),
-          $setTouched: jasmine.createSpy('touchedSpy')
-        }
+        mediaMap: mockModel()
       };
 
       element = $compile('<media-mappings collection="collection" form="form"></media-mappings>')($scope);
@@ -111,12 +105,9 @@ describe('MediaMappings directive', function() {
   });
 
   describe('resetDefaultMediaKey function', function() {
-    beforeEach(function() {
-      $scope.form.defaultMediaKey = {
-        $setDirty: jasmine.createSpy('dirtySpy'),
-        $setTouched: jasmine.createSpy('touchedSpy')
-      };
-    });
+    beforeEach(inject(function(mockModel) {
+      $scope.form.defaultMediaKey = mockModel();
+    }));
 
     it('should exist', function() {
       expect(isolateScope.resetDefaultMediaKey).toBeDefined();
@@ -137,12 +128,9 @@ describe('MediaMappings directive', function() {
   });
   
   describe('onSelect function', function() {
-    beforeEach(function() {
-      $scope.form.mediaMap = {
-        $setDirty: jasmine.createSpy('dirtySpy'),
-        $setTouched: jasmine.createSpy('touchedSpy')
-      };
-    });
+    beforeEach(inject(function(mockModel) {
+      $scope.form.mediaMap = mockModel();
+    }));
 
     it('should exist', function() {
       expect(isolateScope.onSelect).toBeDefined();

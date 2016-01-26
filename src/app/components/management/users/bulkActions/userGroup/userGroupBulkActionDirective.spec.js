@@ -10,11 +10,8 @@ describe('userGroupBulkAction directive', function() {
     mockUsers,
     UserGroupBulkAction;
 
-  beforeEach(module('gulpAngular'));
-  beforeEach(module('liveopsConfigPanel'));
-  beforeEach(module('liveopsConfigPanel.user.mock'));
-  beforeEach(module('liveopsConfigPanel.tenant.group.mock'));
-  beforeEach(module('liveopsConfigPanel.tenant.user.group.mock'));
+  beforeEach(module('gulpAngular', 'liveopsConfigPanel', 'liveopsConfigPanel.user.mock', 
+      'liveopsConfigPanel.tenant.group.mock', 'liveopsConfigPanel.tenant.user.group.mock', 'liveopsConfigPanel.tenant.user.mock'));
 
   beforeEach(inject(['$compile', '$rootScope', '$httpBackend', 'mockGroups', 'mockUsers', 'UserGroupBulkAction', 'apiHostname',
     function($compile, $rootScope, _$httpBackend, _mockGroups, _mockUsers, _UserGroupBulkAction, _apiHostname) {
@@ -47,6 +44,13 @@ describe('userGroupBulkAction directive', function() {
     childScope.$digest();
 
     expect(baExecutorController.register).toHaveBeenCalled();
+  }));
+  
+  it('should fetchGeoups() on checking a table item', inject(function($rootScope) {
+    spyOn(isolateScope, 'fetchGroups');
+    $rootScope.$broadcast('table:resource:checked');
+    $scope.$digest();
+    expect(isolateScope.fetchGroups).toHaveBeenCalled();
   }));
 
   describe('ON bulkAction.execute', function() {
@@ -151,6 +155,61 @@ describe('userGroupBulkAction directive', function() {
       $httpBackend.flush();
       expect(isolateScope.availableGroups).toBeDefined();
       expect(isolateScope.availableGroups.length).toBe(2);
+    });
+  });
+  
+  describe('fetchGroups function', function() {
+    it('should include only groups belonging to at least one selected user on remove', inject(function($httpBackend, mockTenantUsers) {
+      isolateScope.currSelectedType = 'remove';
+      mockTenantUsers[0].$groups = [mockGroups[0]];
+      mockTenantUsers[1].$groups = [mockGroups[1]];
+      mockTenantUsers[0].checked = true;
+      mockTenantUsers[1].checked = false;
+
+      isolateScope.users = [mockTenantUsers[0], mockTenantUsers[1]];
+      isolateScope.fetchGroups();
+      $httpBackend.flush();
+      isolateScope.$digest();
+      expect(isolateScope.availableGroups.length).toBe(1);
+      expect(isolateScope.availableGroups[0].id).toBe(mockGroups[0].id);
+    }));
+    
+    it('should not duplicate groups on remove', inject(function($httpBackend, mockTenantUsers) {
+      isolateScope.currSelectedType = 'remove';
+      mockTenantUsers[0].$groups = [mockGroups[0]];
+      mockTenantUsers[1].$groups = [mockGroups[1]];
+      mockTenantUsers[2].$groups = [mockGroups[0]];
+      mockTenantUsers[0].checked = true;
+      mockTenantUsers[1].checked = true;
+      mockTenantUsers[2].checked = true;
+
+      isolateScope.users = [mockTenantUsers[0], mockTenantUsers[1], mockTenantUsers[2]];
+      isolateScope.fetchGroups();
+      $httpBackend.flush();
+      isolateScope.$digest();
+      expect(isolateScope.availableGroups.length).toBe(2);
+      expect(isolateScope.availableGroups[0].id).toBe(mockGroups[0].id);
+      expect(isolateScope.availableGroups[1].id).toBe(mockGroups[1].id);
+    }));
+  });
+  
+  describe('onTypeChange function', function() {
+    it('should set currSelectedType', function() {
+      spyOn(isolateScope, 'fetchGroups');
+      isolateScope.onTypeChange({selectedType : {
+        value : 'myType'
+      }});
+      
+      expect(isolateScope.currSelectedType).toEqual('myType');
+    });
+    
+    it('should call fetchGroups', function() {
+      spyOn(isolateScope, 'fetchGroups');
+      isolateScope.onTypeChange({selectedType : {
+        value : 'myType'
+      }});
+      
+      expect(isolateScope.fetchGroups).toHaveBeenCalled();
     });
   });
 });
