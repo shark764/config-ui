@@ -413,15 +413,43 @@ angular.module('liveopsConfigPanel')
             }]
           }
         })
-        .state('content.realtime-dashboards', {
+        .state('content.realtime-dashboards-management', {
           url: '/realtime-dashboards',
-          templateUrl: 'app/components/realtimeDashboards/realtimeDashboards.html',
-          controller: 'RealtimeDashboardsController'
+          templateUrl: 'app/components/reporting/realtime/realtimeDashboardsManagement.html',
+          controller: 'RealtimeDashboardsManagementController',
+          resolve: {
+            dashboards: ['dashboardDev', 'dashboardInteractions', 'dashboardQueues', 'dashboardResources', 'dashboardOverview', function(dashboardDev, dashboardInteractions, dashboardQueues, dashboardResources, dashboardOverview) {
+              var dashboards = [];
+              dashboards.push(dashboardOverview);
+              dashboards.push(dashboardResources);
+              dashboards.push(dashboardQueues);
+              dashboards.push(dashboardInteractions);
+              return dashboards;
+            }]
+          }
         })
-        .state('content.dashboard', {
-          url: '/dash?id',
-          templateUrl: 'app/components/realtimeDashboards/dash.html',
-          controller: 'DashController'
+        .state('content.realtime-dashboards-management.editor', {
+          url: '/editor?id',
+          templateUrl: 'app/components/reporting/realtime/realtimeDashboardEditor/realtimeDashboardsEditor.html',
+          controller: 'realtimeDashboardsEditorController',
+          resolve: {
+            dashboard: ['$stateParams', 'dashboards', function($stateParams, dashboards) {
+              var dashboard = _.filter(dashboards, function(dash) {
+                return dash.id === $stateParams.id;
+              });
+              return dashboard[0];
+            }],
+            queues: ['Queue', 'Session', function(Queue, Session) {
+              return Queue.cachedQuery({
+                tenantId: Session.tenant.tenantId
+              });
+            }],
+            users: ['User', 'Session', function(User, Session) {
+              return User.cachedQuery({
+                tenantId: Session.tenant.tenantId
+              });
+            }]
+          }
         });
     }
   ]);

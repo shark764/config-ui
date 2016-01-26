@@ -41,5 +41,10 @@ angular.module('liveopsConfigPanel', [
     $rootScope.$on('$stateChangeSuccess', function() {
       queryCache.removeAll();
     });
-
+    $rootScope.$on('$stateChangeError', function() {
+      console.error('State change error!');
+    });
+    $rootScope.$on('$stateNotFound', function() {
+      console.error('State not found!');
+    });
   }]);
