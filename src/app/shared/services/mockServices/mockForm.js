@@ -2,9 +2,9 @@
 
 angular.module('liveopsConfigPanel.mockutils', [])
 
-.factory('mockForm', function() {
-  return function() {
-    return {
+.factory('mockForm', ['mockModel', function(mockModel) {
+  return function(fieldList) {
+    var form = {
       $setPristine: jasmine.createSpy('$setPristine'),
       $setValidity: jasmine.createSpy('$setValidity'),
       $setUntouched: jasmine.createSpy('$setUntouched'),
@@ -15,8 +15,16 @@ angular.module('liveopsConfigPanel.mockutils', [])
       $touched: false,
       $error: {}
     };
+
+    if (angular.isArray(fieldList)){
+      angular.forEach(fieldList, function(fieldName){
+        form[fieldName] = mockModel();
+      });
+    }
+
+    return form;
   };
-})
+}])
 
 .factory('mockModel', function() {
   return function() {

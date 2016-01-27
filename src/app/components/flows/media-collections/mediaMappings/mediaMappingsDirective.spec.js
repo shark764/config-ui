@@ -8,14 +8,12 @@ describe('MediaMappings directive', function() {
   beforeEach(module('gulpAngular', 'liveopsConfigPanel', 'liveopsConfigPanel.mock', 
       'liveopsConfigPanel.tenant.media.mock', 'liveopsConfigPanel.tenant.mediaCollection.mock', 'liveopsConfigPanel.mockutils'));
 
-  beforeEach(inject(['$rootScope', '$compile', 'mockMediaCollections', 'mockModel',
-    function($rootScope, $compile, mockMediaCollections, mockModel) {
+  beforeEach(inject(['$rootScope', '$compile', 'mockMediaCollections', 'mockForm',
+    function($rootScope, $compile, mockMediaCollections, mockForm) {
       $scope = $rootScope.$new();
 
       $scope.collection = mockMediaCollections[0];
-      $scope.form = {
-        mediaMap: mockModel()
-      };
+      $scope.form = mockForm(['mediaMap']);
 
       element = $compile('<media-mappings collection="collection" form="form"></media-mappings>')($scope);
       $scope.$digest();

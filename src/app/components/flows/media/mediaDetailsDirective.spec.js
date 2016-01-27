@@ -8,7 +8,7 @@ describe('media details directive', function() {
 
   beforeEach(module('liveopsConfigPanel', 'gulpAngular', 'liveopsConfigPanel.mock', 'liveopsConfigPanel.mockutils'));
 
-  beforeEach(inject(['$compile', '$rootScope', 'mockModel', function($compile, $rootScope, mockModel) {
+  beforeEach(inject(['$compile', '$rootScope', 'mockForm', function($compile, $rootScope, mockForm) {
     $scope = $rootScope.$new();
 
     element = $compile('<lo-media-details></lo-media-details>')($scope);
@@ -17,9 +17,7 @@ describe('media details directive', function() {
     controller = element.controller('loMediaDetails');
 
     $scope.forms = {
-      mediaForm: {
-        audiosourcefile: mockModel()
-      }
+      mediaForm: mockForm(['audiosourcefile'])
     };
   }]));
 

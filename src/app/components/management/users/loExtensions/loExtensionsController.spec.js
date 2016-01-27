@@ -15,18 +15,9 @@ describe('loExtensions controller', function() {
     $scope.tenantUser.extensions = [];
 
     $scope.loExtensionsForm = mockForm();
-    $scope.form = {
-      type: mockModel(),
-      provider: mockModel(),
-      value: mockModel(),
-      sipValue: mockModel(),
-      telValue: mockModel(),
-      extensiondescription: mockModel(),
-      extensions: mockModel(),
-      activeExtension: mockModel(),
-      loFormSubmitController: {
-        populateApiErrors: jasmine.createSpy('populateApiErrors')
-      }
+    $scope.form = mockForm(['type', 'provider', 'value', 'sipValue', 'telValue', 'extensiondescription', 'extensions', 'activeExtension']);
+    $scope.form.loFormSubmitController = {
+      populateApiErrors: jasmine.createSpy('populateApiErrors')
     };
 
     controller = $controller('loExtensionsController', {
