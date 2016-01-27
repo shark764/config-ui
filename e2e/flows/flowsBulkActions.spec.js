@@ -3,6 +3,7 @@
 describe('The flows view bulk actions', function() {
   var loginPage = require('../login/login.po.js'),
     bulkActions = require('../tableControls/bulkActions.po.js'),
+    columns = require('../tableControls/columns.po.js'),
     shared = require('../shared.po.js'),
     flows = require('./flows.po.js'),
     params = browser.params,
@@ -10,19 +11,6 @@ describe('The flows view bulk actions', function() {
 
   beforeAll(function() {
     loginPage.login(params.login.user, params.login.password);
-    /*var randomFlow = Math.floor((Math.random() * 1000) + 1);
-
-    // Create new flow
-    browser.get(shared.flowsPageUrl);
-    shared.createBtn.click();
-    flows.modalNameField.sendKeys('Flow ' + randomFlow);
-    flows.modalTypeDropdown.all(by.css('option')).get((randomFlow % 3) + 1).click();
-    flows.submitModalBtn.click().then(function() {
-      flows.waitForFlowDesignerRedirect();
-      expect(browser.getCurrentUrl()).toContain('/flows/editor');
-
-      browser.get(shared.flowsPageUrl);
-    });*/
   });
 
   beforeEach(function() {
@@ -69,46 +57,63 @@ describe('The flows view bulk actions', function() {
         expect(disabledTotal).toBe(flowCount);
       });
 
-      // TODO Create flow modal opens when table search is empty
-      // Select Enabled from Status drop down
-      /*bulkActions.statuses.get(0).click();
-      bulkActions.statuses.get(1).click();
-      shared.tableElements.count().then(function(enabledTotal) {
-        expect(enabledTotal).toBe(0);
-      });*/
-    });
-  });
-
-  // TODO Doesnt Enable flows without an Active version
-  xit('should allow all selected flow\'s status to be Enabled', function() {
-    // Update All bulk actions
-    shared.actionsBtn.click();
-    bulkActions.selectAllTableHeader.click();
-
-    bulkActions.selectEnable.click();
-    bulkActions.enableDropdownOption.click();
-
-    expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeFalsy();
-    bulkActions.submitFormBtn.click();
-
-    expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
-    bulkActions.confirmOK.click().then(function() {
-      shared.waitForSuccess();
-
-      // All flows are set to enabled
-      // TODO Create flow modal opens when table search is empty
-      // Leave Disabled selected from Status drop down
-      /*bulkActions.statusColumnDropDownLabel.click();
-      bulkActions.statuses.get(1).click();
-      shared.tableElements.count().then(function(disabledTotal) {
-        expect(disabledTotal).toBe(0);
-      });*/
-
       // Select Enabled from Status drop down
       bulkActions.statuses.get(0).click();
       bulkActions.statuses.get(1).click();
       shared.tableElements.count().then(function(enabledTotal) {
-        expect(enabledTotal).toBe(flowCount);
+        expect(enabledTotal).toBe(0);
+      });
+    });
+  });
+
+  it('should allow all selected flow\'s status to be Enabled', function() {
+    var selectedFlows = 0;
+    // Sort by active version
+    columns.columnFourHeader.click();
+    var hasActiveVersion = true;
+    shared.tableElements.then(function(flowRows) {
+      for (var i = 0; i < flowRows.length && hasActiveVersion; i++) {
+        flowRows[i].element(by.css('td:nth-child(4)')).getText().then(function(flowActiveVersion) {
+          if (flowActiveVersion) {
+            // Select flow row for bulk actions
+            selectedFlows++;
+          } else {
+            hasActiveVersion = false;
+          }
+        });
+      }
+    }).then(function() {
+      // Select first rows that had versions
+      for (var i = 0; i < selectedFlows; i++) {
+        bulkActions.selectItemTableCells.get(i).click();
+      }
+
+      // Update All bulk actions
+      shared.actionsBtn.click();
+      bulkActions.selectEnable.click();
+      bulkActions.enableDropdownOption.click().then(function() {
+        bulkActions.submitFormBtn.click();
+
+        expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
+        bulkActions.confirmOK.click().then(function() {
+          shared.waitForSuccess();
+
+          shared.tableElements.then(function(flowRows) {
+            // Leave Disabled selected from Status drop down
+            bulkActions.statusColumnDropDownLabel.click();
+            bulkActions.statuses.get(1).click();
+            shared.tableElements.count().then(function(disabledTotal) {
+              expect(disabledTotal).toBe(flowRows.length - selectedFlows);
+            });
+
+            // Select Enabled from Status drop down
+            bulkActions.statuses.get(0).click();
+            bulkActions.statuses.get(1).click();
+            shared.tableElements.count().then(function(enabledTotal) {
+              expect(enabledTotal).toBe(selectedFlows);
+            });
+          });
+        });
       });
     });
   });
