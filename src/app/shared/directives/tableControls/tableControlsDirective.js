@@ -2,52 +2,52 @@
 
 angular.module('liveopsConfigPanel')
   /** table-controls element directive
-   * Monster component to generate a sortable filterable, searchable, scrollable full-page table of elements
+   * Monster component to generate a sortable, filterable, searchable, scrollable full-page table of elements
    * 
    * Note: Uses 100% height, thus requiring that its parent has a defined height
    * 
-  //Accepted config values:
-  // * fields (array of objects): The config items for the columns. Config for headers accepts:
-  //    - checked (boolean): Whether to show the column. Defaults to true
-  //    - resolve (function): Optional function to generate the table cell content
-  //    - transclude (boolean): Whether to use transcluded content for the table cell content
-  //    - name (string): If transclude is false, the property of the item that is displayed in the table cell. 
-  //                     If transclude is true, the name attribute of the transcluded element to use as the table cell contents
-  //    - sortOn (string): What property to be used when sorting the column. Defaults to the value of 'name' config value
-  //    - filterOrderBy (string): Optional property used to order the filter-dropdown items
-  //    - header (object): The config for the header of the column
-  //        * display (string): The column title. Defaults to ''
-  //        * options (object or function): Optional config options that are passed to the filter-dropdown. 
-  //                                        If function, function will be called and expected to return a filter-dropdown config
-  //        * valuePath (string): Property path to get the filter-dropdown item values
-  //        * displayPath (string) Property path to get the filter-dropdown item labels
-  //        *
-  // * helpLink (string): The URL for the help link icon. Defaults to '' and is hidden.
-  // * orderBy (string): The default property used to order the items. Defaults to ''
-  // * resourceKey (string): The property on the items to be used as their ID for the URL params. Defaults to 'id'
-  // * showBulkActions (boolean): Whether to show the 'Actions' button and checkbox column. Defaults to true
-  // * showCreate (boolean): Whether to show the 'Create' button. Defaults to true
-  // * stateKey (string): The name of the URL param that identifies an item. Defaults to 'id'
-  // * searchOn (array of strings or objects): Array of strings gives property names. Array of objects like:
-  //     [{
-  //        path: 'skills',
-  //        inner: {
-  //          path: 'name'
-  //        }
-  //      }]
-  //    can search complex object like {skills: [{id: 1234, name: 'Skill 1'}, {id: 5432, name: 'A Skill'}]}
-  // * sref (string): Name of the state to go to when clicking a table row. Defaults to ''
-  // * title (string): The title of the page. Also used as the key for storing the user's column preferences. Defaults to ''
-    */
+   * Accepted config values:
+   * * fields (array of objects): The config items for the columns. Config for headers accepts:
+   *     - checked (boolean): Whether to show the column. Defaults to true
+   *     - resolve (function): Optional function to generate the table cell content. The resolve function will be passed the row item. Expected to return a string.
+   *     - transclude (boolean): Whether to use transcluded content for the table cell content. (See 'name')
+   *     - name (string): If transclude is false, the property of the item that will be displayed in the table cell. 
+   *                      If transclude is true, the name attribute of the transcluded element to use as the table cell contents
+   *     - sortOn (string): What property to be used when sorting the column. Defaults to the property given by 'name' config value
+   *     - filterOrderBy (string): If 'header.options' is defined, optional property used to order the filter-dropdown items. Default ordering is ordered as given by 'header.options'
+   *     - header (object): The config for the header of the column
+   *         * display (string): The column title. Defaults to undefined
+   *         * options (object or function): Optional config options that are passed to filter-dropdown
+   *                                         If function, the function will be evaluated and the return value will be passed as config options to filter-dropdown
+   *         * valuePath (string): Property path to get the filter-dropdown item values. See filter-dropdown directive
+   *         * displayPath (string) Property path to get the filter-dropdown item labels. See filter-dropdown directive
+   * 
+   *  * helpLink (string): The URL for the help link icon. Defaults to undefined, and the help icon is hidden.
+   *  * orderBy (string): The default property used to order the items. Defaults to undefined, and items are ordered as given by the items attribute
+   *  * resourceKey (string): The property on the items to be used as their ID for the URL params. Defaults to 'id'
+   *  * showBulkActions (boolean): Whether to show the 'Actions' button and checkbox column. Defaults to true
+   *  * showCreate (boolean): Whether to show the 'Create' button. Defaults to true
+   *  * stateKey (string): The name of the URL param that identifies an item. Defaults to 'id'
+   *  * searchOn (array of strings or objects): Array of strings gives property names. Array of objects like:
+   *      [{
+   *         path: 'skills',
+   *         inner: {
+   *           path: 'name'
+   *         }
+   *       }]
+   *     can search complex object like {skills: [{id: 1234, name: 'Skill 1'}, {id: 5432, name: 'A Skill'}]}
+   *  * sref (string): Optional name of the state to go to when clicking a table row. Defaults to undefined
+   *  * title (string): The title of the page. Also used as the key for storing the user's column preferences. Defaults to undefined
+   */
 
   .directive('tableControls', ['$rootScope', '$filter', '$location', '$parse', 'loEvents', 'DirtyForms', 'Session',
     function($rootScope, $filter, $location, $parse, loEvents, DirtyForms, Session) {
       return {
         restrict: 'E',
         scope: {
-          config: '=',
-          items: '=',
-          selected: '='
+          config: '=', //Config object. See above for accepted values
+          items: '=', //Source list of items to be added to the table
+          selected: '=' //Expose the currently selected table item
         },
         templateUrl: 'app/shared/directives/tableControls/tableControls.html',
         transclude: true,
@@ -90,7 +90,7 @@ angular.module('liveopsConfigPanel')
           };
 
           $scope.$on('created:resource', function(event, item) {
-            if (item.id === $scope.selectedItem.id){
+            if ($scope.selected && item && item.id === $scope.selected.id){
               var params = {};
               params[$scope.stateKey] = parseResourceKey(item);
               $location.search(params);
