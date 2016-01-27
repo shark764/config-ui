@@ -20,14 +20,11 @@
     </div>
   </div>
   
-  <named-transclude name="table-controls"
-    ng-if="config.controls.transclude">
-  </named-transclude>
-  
   <div class="table-controls">
     <div class="col">
       <div ng-show="showSearch" class="inner-addon right">
-        <input type="text" ng-model="searchQuery"
+        <input type="text" 
+          ng-model="searchQuery"
           placeholder="{{'table.search.placeholder' | translate}}">
         </input>
         <i class="fa fa-search lo-main-bg"></i>
@@ -51,110 +48,3 @@
     </div>
   </div>
 </div>
-
-<loading ng-show="items && items.$promise && !items.$resolved"></loading>
-
-<p class="null" ng-show="!items || (items.$resolved && !items.length)">
-  {{'table.results.none' | translate}}
-</p>
-
-<p class="filtered" ng-show="filtered.length != items.length">
-  <span translate="table.filtered.status"
-    translate-value-count="{{filtered.length}}"
-    translate-value-total="{{items.length}}">
-  </span>
-  <a ng-click="clearAllFilters()">
-    {{'table.clear.link' | translate}}
-  </a>
-</p>
-
-<table scroll-table class="table" ng-show="items.length" id="items-table">
-  <thead>
-    <tr>
-      <th id="bulk-actions-select-table-header" class="check-col"
-        ng-show="showBulkActions">
-      <input type="checkbox"
-        ng-model="checkAll"
-        ng-change="toggleAll(checkAll)" />
-
-      </th>
-      <th class="sortable-header"
-        ng-repeat="field in config.fields"
-        ng-if="field.checked"
-        ng-class="{'filter-header': !!field.header.options}"
-        ng-click="sortTable(field)">
-
-        <i class="sort-icon fa pull-left"
-          ng-show="orderBy == field.name || orderBy == field.sortOn"
-          ng-class="{'fa-arrow-up' : reverseSortOrder, 'fa-arrow-down': ! reverseSortOrder}"></i>
-        <div ng-if="!field.header.options">
-          {{field.header.display}}
-        </div>
-        <div ng-if="!!field.header.options" class="filter-header-content">
-          <div class="filter-header-name">
-            {{field.header.display}}
-          </div>
-          <filter-dropdown id="{{field.id}}" ng-if="(field.header.options | invoke).length" show-all="true"
-            style="vertical-align:middle;text-align:right"
-            ng-click="$event.stopPropagation()"
-            options="field.header.options | invoke"
-            value-path="{{field.header.valuePath}}"
-            display-path="{{field.header.displayPath}}"
-            order-by="{{field.filterOrderBy}}"
-            all="field.header.all">
-          </filter-dropdown>
-        </div>
-      </th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <tr ng-repeat="item in (filtered = (items |
-        selectedTableOptions:config.fields |
-        search:config.searchOn:searchQuery |
-        orderBy:orderBy:reverseSortOrder))"
-      ng-init="item.$index = $index"
-      ng-class="{selected: item === selected, 'lo-highlight': item === selected}">
-
-      <td id="bulk-actions-select-table-cell" class="check-col"
-        ng-show="showBulkActions"
-        ng-click="checkItem(item)">
-
-        <input type="checkbox" ng-checked="item.checked"/>
-      </td>
-
-      <td ng-if="field.checked"
-        ng-repeat="field in config.fields"
-        ng-click="onSelectItem(item)"
-        ng-switch="!!config.sref">
-          <a ng-switch-when="true" ui-sref="{{config.sref}}(stateParam(item))" ui-sref-args="{reload: true}">
-            <table-cell name="{{field.name}}"
-              ng-if="field.transclude"
-              item="item"
-              options="field.header.options">
-            </table-cell>
-  
-            <span
-              ng-if="!field.transclude"
-              title="{{parse(item, field)}}">
-              {{parse(item, field)}}
-            </span>
-          </a>
-          
-          <div ng-switch-default>
-            <table-cell name="{{field.name}}"
-              ng-if="field.transclude"
-              item="item"
-              options="field.header.options">
-            </table-cell>
-  
-            <span
-              ng-if="!field.transclude"
-              title="{{parse(item, field)}}">
-              {{parse(item, field)}}
-            </span>
-          </div>
-      </td>
-    </tr>
-  </tbody>
-</table>

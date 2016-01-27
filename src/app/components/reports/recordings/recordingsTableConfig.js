@@ -1,12 +1,9 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('recordingsTableConfig', ['$translate', 'UserPermissions', 'helpDocsHostname',
-    function ($translate, UserPermissions, helpDocsHostname) {
+  .service('recordingsTableConfig', ['$translate',
+    function ($translate) {
       return {
-        'controls': {
-          'transclude': true
-        },
         'fields': [{
           'header': {
             'display': $translate.instant('value.id')
@@ -38,13 +35,11 @@ angular.module('liveopsConfigPanel')
           },
           'name': '$interaction.customer'
         }],
-        'showSearch': false,
         'orderBy': '$original.name',
-        'title': $translate.instant('recordings.table.title'),
         'sref': 'content.recordings.recording',
-        'showBulkActions': UserPermissions.hasPermission('MANAGE_ALL_RECORDINGS'),
-        'showCreate': false //,
-          //'helpLink' : helpDocsHostname + '/Content/Managing%20Flows/Add_media.htm'
+        'showBulkActions': false,
+        'showSearch': false,
+        'showCreate': false
       };
     }
   ]);

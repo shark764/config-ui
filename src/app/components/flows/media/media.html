@@ -1,15 +1,22 @@
-<table-controls
-  id="table-pane"
-  config="tableConfig"
-  items="fetchMedias()"
-  selected="selectedMedia">
-  
-  <div name="$original.type">
-    <span ng-show="item.type === 'tts'">{{'media.details.mediaTypes.tts' | translate}}</span>
-    <span ng-show="item.type === 'audio'">{{'media.details.mediaTypes.audio' | translate}}</span>
-  </div>
-  
+<div id="table-pane">
+  <table-controls
+    config="tableConfig"
+    items="fetchMedias()"
+    search-query="searchQuery">
   </table-controls>
+  
+  <lo-resource-table
+    config="tableConfig"
+    items="fetchMedias()"
+    selected="selectedMedia"
+    search-query="searchQuery">
+
+    <div name="$original.type">
+      <span ng-show="item.type === 'tts'">{{'media.details.mediaTypes.tts' | translate}}</span>
+      <span ng-show="item.type === 'audio'">{{'media.details.mediaTypes.audio' | translate}}</span>
+    </div>
+  </lo-resource-table>
+</div>
 
 <resize-handle
   ng-show="!! selectedMedia"
