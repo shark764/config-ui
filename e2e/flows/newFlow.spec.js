@@ -70,8 +70,7 @@ describe('The create new flows view', function() {
     });
   });
 
-  xit('should require unique flow names', function() {
-    // TODO No error returned from bs-api
+  it('should require unique flow names', function() {
     shared.firstTableRow.element(by.css(flows.nameColumn)).getText().then(function(existingFlowName) {
       shared.createBtn.click();
 

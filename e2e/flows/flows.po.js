@@ -6,6 +6,7 @@ var FlowPage = function() {
   this.typeFormDropdown = element(by.model('selectedFlow.type'));
   this.activeFormToggle = element(by.model('selectedFlow.active'));
   this.activeVersionDropdown = element(by.model('selectedFlow.activeVersion'));
+  this.activeVersionDropdownOptions = this.activeVersionDropdown.all(by.css('option'));
 
   this.versionsTable = element(by.id('flow-details-versions-table'));
   this.versionsTableElements = this.versionsTable.all(by.repeater('version in getVersions() | orderBy:\'created\':\'reverse\''));
