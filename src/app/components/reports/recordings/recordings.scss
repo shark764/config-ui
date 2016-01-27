@@ -1,0 +1,31 @@
+#recording-details-panel {
+  .input-group div * {
+    margin-right: 8px;
+  }
+}
+
+#controls-wrapper {
+  #recording-filters >:first-child {
+    margin-right: 50px;
+  }
+  
+  #recording-filters {
+    .input-group type-ahead {
+      position: relative;
+    }
+    
+    .col {
+      display: inline-block;
+    }
+    
+    >:first-child {
+      vertical-align: top;
+    }
+    
+    .detail-controls {
+      margin-left: 540px;
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+  }
+}

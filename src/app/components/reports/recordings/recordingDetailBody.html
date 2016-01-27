@@ -1,0 +1,66 @@
+<div class="divider-header first-header">
+  <h4>{{'details' | translate}}</h4>
+</div>
+
+<div class="input-group">
+  <label>{{'value.id' | translate}}</label>
+  <div>
+    {{selectedRecording.id}}
+  </div>
+</div>
+
+<div class="input-group">
+  <label>{{'recordings.details.play' | translate}}</label>
+  <div>
+    <audio lo-audio-control name="recordingAudio" src="{{selectedRecording.url | trusted}}"></audio>
+    <i class="fa fa-backward"
+      ng-click="recordingAudio.rewind()">
+    </i>
+    <i class="fa fa-play"
+      ng-show="recordingAudio.audioElement.paused"
+      ng-click="recordingAudio.play()">
+    </i>
+    <i class="fa fa-pause"
+      ng-hide="recordingAudio.audioElement.paused"
+      ng-click="recordingAudio.pause()">
+    </i>
+    <i class="fa fa-forward"
+      ng-click="recordingAudio.forward()">
+    </i>
+  </div>
+</div>
+
+<div class="input-group">
+  <label>{{'recordings.details.duration' | translate}}</label>
+  <div>
+    {{selectedRecording.duration}}
+  </div>
+</div>
+
+<div class="input-group">
+  <label>{{'recordings.table.datetime' | translate}}</label>
+  <div>
+    {{selectedRecording.$interaction.startTime | date:'medium'}}
+  </div>
+</div>
+
+<div class="input-group">
+  <label class="textarea-label">{{'value.description' | translate}}</label>
+  <div>
+    <textarea ng-model="selectedRecording.description"></textarea>
+  </div>
+</div>
+
+<div class="input-group">
+  <label>{{'recordings.table.flow' | translate}}</label>
+  <div>
+    {{selectedRecording.$interaction.$flowName}}
+  </div>
+</div>
+
+<div class="input-group">
+  <label>{{'recordings.table.callerani' | translate}}</label>
+  <div>
+    {{selectedRecording.$interaction.customer}}
+  </div>
+</div>

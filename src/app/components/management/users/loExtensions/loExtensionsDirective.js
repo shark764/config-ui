@@ -5,13 +5,16 @@ angular.module('liveopsConfigPanel')
     function() {
       return {
         restrict: 'E',
+        require: '^form',
         scope: {
           tenantUser: '=',
-          ngDisabled: '=',
-          form: '='
+          ngDisabled: '='
         },
         templateUrl: 'app/components/management/users/loExtensions/loExtensions.html',
-        controller: 'loExtensionsController'
+        controller: 'loExtensionsController as lec',
+        link: function($scope, element, attrs, ngFormController){
+          $scope.form = ngFormController;
+        }
       };
     }
   ]);
