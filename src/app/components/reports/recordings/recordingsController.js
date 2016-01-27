@@ -4,7 +4,8 @@ angular.module('liveopsConfigPanel')
   .controller('RecordingsController', ['$scope', '$q', '$parse', '$moment', 'Recording', 'Session', 'recordingsTableConfig', 'RealtimeStatisticInteraction', 'TenantUser', 'Flow',
     function ($scope, $q, $parse, $moment, Recording, Session, recordingsTableConfig, RealtimeStatisticInteraction, TenantUser, Flow) {
       var vm = this;
-      
+      $scope.forms = {};
+
       vm.filterObject = function(params, predicate) {
         var newParam = {};
         for(var paramIndex in params) {
@@ -82,9 +83,10 @@ angular.module('liveopsConfigPanel')
         });
       };
       
-      $scope.$watchGroup(['filters.startDate', 'filters.endDate'], function() {
-        $scope.forms.recordingFilterForm.$setDirty();
-        $scope.forms.recordingFilterForm.$setTouched();
+      $scope.$watchGroup(['filters.startDate', 'filters.endDate'], function(newVal) {
+        if ($scope.forms.recordingFilterForm){
+          $scope.forms.recordingFilterForm.$setDirty();
+        }
       });
       
       vm.loadTenantUsers();
@@ -96,8 +98,6 @@ angular.module('liveopsConfigPanel')
         startDate: $moment.utc(),
         endDate: $moment.utc()
       };
-      
-      $scope.forms = {};
       
       vm.searchRecordings();
     }

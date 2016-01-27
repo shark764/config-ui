@@ -1,13 +1,11 @@
 $action-container-height: 100px;
 
 table-controls {
-  display: table-cell;
+  display: block;
   padding: 20px;
+  padding-bottom: 0;
   box-sizing: border-box;
-  vertical-align: top;
-  height: 100%;
-  overflow-y: auto;
-
+  
   #controls-wrapper {
     position: relative;
     margin-bottom: 20px;
@@ -57,108 +55,6 @@ table-controls {
     .dropdown-container {
       top: -3px;
     }
-  }
-
-  .scrollable-table-container {
-   /* 99% height instead of 100% to account for rounding?*/
-    height: calc(99% - #{$action-container-height});
-    -webkit-box-sizing: content-box;
-  }
-
-  .table {
-    border-collapse: collapse;
-
-    th, td {
-      padding: 8px;
-    }
-
-    th {
-      font-weight: bold;
-      text-align: left;
-      border-right: 1px solid #dadada;
-    }
-
-    th.filter-header {
-      overflow: visible;
-
-      a:not(:hover) {
-        color: #474747;
-      }
-
-      .filter-header-content {
-        align-items: center;
-        @include display-flex();
-        white-space: nowrap;
-      }
-
-      .filter-header-name {
-        flex: 1 auto;
-        overflow: hidden;
-      }
-
-      filter-dropdown {
-        justify-content: flex-end;
-        text-align: right;
-      }
-
-      .dropdown-label {
-        color: $grey;
-      }
-
-      .dropdown-label:hover {
-        color: $darkest-grey;
-      }
-    }
-    th:last-child {
-      border-right: none;
-    }
-
-    td {
-      border-top: 1px solid #ddd;
-      text-overflow: ellipsis;
-      overflow: hidden;
-      white-space: nowrap;
-
-      > a {
-        color: $dark-grey;
-        display: block;
-      }
-
-      > a:hover {
-        color: $dark-grey;
-      }
-    }
-
-    tr:last-child td{
-      border-bottom: 1px solid #ddd;
-    }
-
-    .check-col {
-      width: 40px;
-    }
-
-    .disabled {
-      color: $grey;
-    }
-
-    .sortable-header:hover {
-      background-color: $lightest-grey;
-    }
-
-    .sort-icon {
-      color: $light-grey;
-    }
-
-    .dropdown-label {
-      display: inline-block;
-      width: auto;
-    }
-  }
-
-  .filtered {
-    color: $grey;
-    margin: 0;
-    margin-bottom: 5px;
   }
 
   .help-indicator {

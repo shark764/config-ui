@@ -1,22 +1,30 @@
-
-<table-controls
-  id="table-pane"
-  config="userTableConfig.getConfig()"
-  items="fetchTenantUsers()"
-  selected="selectedTenantUser">
-
-  <tenant-user-status name="$original.status"
-    ng-model="item.$original.status">
-  </tenant-user-status>
-
-  <user-state name="$original.state" ng-model="item.$original.state"></user-state>
-
-  <div name="$original.$user.status">
-    <span ng-show="item.$user.status === 'enabled'">{{'value.enabled' | translate}}</span>
-    <span ng-show="item.$user.status === 'pending'">{{'value.pending' | translate}}</span>
-    <span ng-show="item.$user.status === 'disabled'" class="disabled">{{'value.disabled' | translate}}</span>
-  </div>
-</table-controls>
+<div id="table-pane">
+  <table-controls
+    config="userTableConfig.getConfig()"
+    items="fetchTenantUsers()"
+    search-query="searchQuery">
+  </table-controls>
+  
+  <lo-resource-table
+    config="userTableConfig.getConfig()"
+    items="fetchTenantUsers()"
+    selected="selectedTenantUser"
+    search-query="searchQuery">
+    
+    <tenant-user-status name="$original.status"
+      ng-model="item.$original.status">
+    </tenant-user-status>
+  
+    <user-state name="$original.state" ng-model="item.$original.state"></user-state>
+  
+    <div name="$original.$user.status">
+      <span ng-show="item.$user.status === 'enabled'">{{'value.enabled' | translate}}</span>
+      <span ng-show="item.$user.status === 'pending'">{{'value.pending' | translate}}</span>
+      <span ng-show="item.$user.status === 'disabled'" class="disabled">{{'value.disabled' | translate}}</span>
+    </div>
+  
+  </lo-resource-table>
+</div>
 
 <resize-handle
     ng-show="selectedTenantUser || showBulkActions"

@@ -1,11 +1,17 @@
-
-<table-controls
-  id="table-pane"
-  config="roleTableConfig"
-  items="fetchTenantRoles()"
-  selected="selectedTenantRole">
-
-</table-controls>
+<div id="table-pane">
+  <table-controls
+    config="roleTableConfig"
+    items="fetchTenantRoles()"
+    search-query="searchQuery">
+  </table-controls>
+  
+  <lo-resource-table
+    config="roleTableConfig"
+    items="fetchTenantRoles()"
+    selected="selectedTenantRole"
+    search-query="searchQuery">
+  </lo-resource-table>
+</div>
 
 <resize-handle
     ng-show="selectedTenantRole || showBulkActions"

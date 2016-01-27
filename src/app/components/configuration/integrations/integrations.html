@@ -1,15 +1,22 @@
-<table-controls
-  id="table-pane"
-  config="tableConfig"
-  items="fetchIntegrations()"
-  selected="selectedIntegration">
-
-  <span name="$original.active">
-    <span ng-if="item.active">{{'value.enabled' | translate}}</span>
-    <span ng-if="!item.active" class="disabled">{{'value.disabled' | translate}}</span>
-  </span>
+<div id="table-pane">
+  <table-controls
+    config="tableConfig"
+    items="fetchIntegrations()"
+    search-query="searchQuery">
+  </table-controls>
   
-</table-controls>
+  <lo-resource-table
+    config="tableConfig"
+    items="fetchIntegrations()"
+    selected="selectedIntegration"
+    search-query="searchQuery">
+
+    <span name="$original.active">
+      <span ng-if="item.active">{{'value.enabled' | translate}}</span>
+      <span ng-if="!item.active" class="disabled">{{'value.disabled' | translate}}</span>
+    </span>
+  </lo-resource-table>
+</div>
 
 <resize-handle
   ng-show="!! selectedIntegration || showBulkActions"

@@ -1,15 +1,16 @@
-<table-controls
-  id="table-pane"
-  config="tableConfig"
-  items="recordings"
-  selected="selectedRecording"
-  resource-name="Recording">
-  
-  <div name="table-controls">
-    <ng-include src="'app/components/reports/recordings/recordingsTableControls.html'">
-    </ng-include>
-  </div>
-</table-controls>
+<div id="table-pane" class="recordings-table">
+  <ng-include src="'app/components/reports/recordings/recordingsTableControls.html'"></ng-include>
+
+  <table-controls 
+     config="tableConfig"
+     items="recordings"></table-controls>
+
+  <lo-resource-table
+    config="tableConfig"
+    items="recordings"
+    selected="selectedRecording">
+  </lo-resource-table>
+</div>
 
 <resize-handle
   ng-show="!! selectedRecording"

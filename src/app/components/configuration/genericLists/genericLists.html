@@ -1,15 +1,22 @@
-<table-controls
-  id="table-pane"
-  config="gc.tableConfig"
-  items="gc.lists"
-  selected="gc.selectedList">
-    
-  <span name="active">
-    <span ng-if="item.$original.active">{{'value.enabled' | translate}}</span>
-    <span ng-if="!item.$original.active" class="disabled">{{'value.disabled' | translate}}</span>
-  </span>  
+<div id="table-pane">
+  <table-controls
+    config="gc.tableConfig"
+    items="gc.lists"
+    search-query="searchQuery">
+  </table-controls>
   
-</table-controls>
+  <lo-resource-table
+    config="gc.tableConfig"
+    items="gc.lists"
+    selected="gc.selectedList"
+    search-query="searchQuery">
+
+    <span name="active">
+      <span ng-if="item.$original.active">{{'value.enabled' | translate}}</span>
+      <span ng-if="!item.$original.active" class="disabled">{{'value.disabled' | translate}}</span>
+    </span>  
+  </lo-resource-table>
+</div>
 
 <resize-handle
   ng-show="gc.selectedList"

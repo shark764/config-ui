@@ -1,8 +1,16 @@
 <div id="main-content" ui-view>
-	<table-controls
-	  id="table-pane"
-	  config="realtimeDashboardsManagementTableConfig"
-	  items="dashboards"
-	  selected="selectedDashboard">
-	</table-controls>
+  <div id="table-pane">
+    <table-controls
+      config="realtimeDashboardsManagementTableConfig"
+      items="dashboards"
+      search-query="searchQuery">
+    </table-controls>
+    
+    <lo-resource-table
+      config="realtimeDashboardsManagementTableConfig"
+      items="dashboards"
+      selected="selectedDashboard"
+      search-query="searchQuery">
+    </lo-resource-table>
+  </div>
 </div>
