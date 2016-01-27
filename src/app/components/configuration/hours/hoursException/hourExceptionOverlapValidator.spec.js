@@ -2,21 +2,15 @@
 
 describe('hoursExcpetionOverlap', function () {
   var $scope,
-    controller,
-    $httpBackend,
     element,
-    apiHostname,
     Session;
 
-  beforeEach(module('gulpAngular'));
-  beforeEach(module('liveopsConfigPanel'));
+  beforeEach(module('gulpAngular', 'liveopsConfigPanel'));
 
-  beforeEach(inject(['$compile', '$rootScope', '$httpBackend', 'apiHostname', 'Session',
-    function ($compile, $rootScope, _$httpBackend, _apiHostname_, _Session_) {
+  beforeEach(inject(['$compile', '$rootScope', 'Session',
+    function ($compile, $rootScope, _Session) {
       $scope = $rootScope.$new();
-      $httpBackend = _$httpBackend;
-      Session = _Session_;
-      apiHostname = _apiHostname_;
+      Session = _Session;
 
       $scope.exceptionHour = {};
       var tempDate = new Date('2016-01-20');

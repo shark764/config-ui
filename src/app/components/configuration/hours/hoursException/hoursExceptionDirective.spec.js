@@ -13,10 +13,8 @@ describe('hoursExceptionController', function () {
     BusinessHour,
     BusinessHourException;
 
-  beforeEach(module('gulpAngular'));
-  beforeEach(module('liveopsConfigPanel'));
-  beforeEach(module('liveopsConfigPanel.timezone.mock'));
-  beforeEach(module('liveopsConfigPanel.tenant.businessHour.mock'));
+  beforeEach(module('gulpAngular', 'liveopsConfigPanel', 'liveopsConfigPanel.timezone.mock', 
+      'liveopsConfigPanel.tenant.businessHour.mock', 'liveopsConfigPanel.mockutils'));
 
   beforeEach(inject(['$rootScope', '$httpBackend', 'apiHostname', 'Session', 'mockBusinessHours', 'loEvents', 'BusinessHour', 'BusinessHourException',
     function ($rootScope, _$httpBackend, _apiHostname_, _Session_, _mockBusinessHours_, _loEvents_, _BusinessHour_, _BusinessHourException_) {
@@ -32,7 +30,7 @@ describe('hoursExceptionController', function () {
     }
   ]));
 
-  beforeEach(inject(['$compile', '$rootScope', '$controller', function ($compile, $rootScope, $controller) {
+  beforeEach(inject(['$compile', '$rootScope', '$controller', 'mockForm', function ($compile, $rootScope, $controller, mockForm) {
     mockQueriedBusinessHours = BusinessHour.query({
       tenantId: 'tenant-id'
     });
@@ -40,9 +38,7 @@ describe('hoursExceptionController', function () {
     $httpBackend.flush();
 
     $scope.hours = mockQueriedBusinessHours[0];
-    $scope.form = {
-      $setDirty: jasmine.createSpy('setDirty')
-    };
+    $scope.form = mockForm();
 
     element = $compile('<hours-exceptions></hours-exceptions>')($scope);
     controller = $controller('hoursExceptionController', {

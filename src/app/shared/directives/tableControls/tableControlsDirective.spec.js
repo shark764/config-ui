@@ -29,8 +29,6 @@ describe('tableControls directive', function() {
         searchOn: ['id']
       };
       $scope.selected = {};
-      $scope.resourceName = 'resource';
-      $scope.id = 'my-table';
       $scope.items = [];
       $scope.items.$promise = {
         then: function(callback) {
@@ -40,7 +38,7 @@ describe('tableControls directive', function() {
       $scope.items.$resolved = true;
 
       doCompile = function() {
-        element = $compile('<table-controls items="items" config="config" selected="selected" resource-name="{{resourceName}}" id="id"></table-controls>')($scope);
+        element = $compile('<table-controls items="items" config="config" selected="selected"></table-controls>')($scope);
         $scope.$digest();
         isolateScope = element.isolateScope();
       };
@@ -135,15 +133,23 @@ describe('tableControls directive', function() {
     expect(element.find('table').find('filter-dropdown').length).toBe(2); //Doubled due to scroll-table directive
   });
 
-  it('should catch the created:resource event and select the newly created item', inject(function($rootScope) {
+  it('should catch the created:resource event and update the location params, if created item\'s id matches the selected item', inject(function($rootScope, $location) {
     doCompile();
     var newItem = {
       id: 'myNewItem'
     };
-    $rootScope.$broadcast('created:resource:resource', newItem);
+    
+    isolateScope.selected = {
+      id: 'myNewItem'
+    };
+
+    spyOn($location, 'search');
+    $rootScope.$broadcast('created:resource', newItem);
 
     isolateScope.$digest();
-    expect(isolateScope.selected).toEqual(newItem);
+    expect($location.search).toHaveBeenCalledWith({
+      id: 'myNewItem'
+    });
   }));
 
   describe('onSelectItem function', function() {

@@ -12,10 +12,8 @@ describe('QueueController', function() {
     controller,
     loEvents;
 
-  beforeEach(module('gulpAngular'));
-  beforeEach(module('liveopsConfigPanel'));
-  beforeEach(module('liveopsConfigPanel.tenant.queue.mock'));
-  beforeEach(module('liveopsConfigPanel.tenant.queue.version.mock'));
+  beforeEach(module('gulpAngular', 'liveopsConfigPanel', 'liveopsConfigPanel.tenant.queue.mock', 
+      'liveopsConfigPanel.tenant.queue.version.mock', 'liveopsConfigPanel.mockutils'));
 
   beforeEach(inject(['$rootScope', '$controller', '$httpBackend', 'Queue', 'apiHostname', 'Session', 'mockQueues', 'mockQueueVersions', 'QueueVersion', 'loEvents',
     function($rootScope, $controller, _$httpBackend, _Queue, _apiHostname, _Session, _mockQueues, _mockQueueVersions, _QueueVersion, _loEvents) {
@@ -220,13 +218,10 @@ describe('QueueController', function() {
       $httpBackend.flush();
     });
 
-    it('ON save failure should copy the initial queue version', function() {
+    it('ON save failure should copy the initial queue version', inject(function(mockModel) {
       controller.forms = {
         versionForm: {
-          query: {
-            $setValidity: jasmine.createSpy('setValidity'),
-            $setTouched: jasmine.createSpy('setTouched')
-          }
+          query: mockModel()
         }
       };
 
@@ -248,7 +243,7 @@ describe('QueueController', function() {
       $httpBackend.flush();
 
       expect(controller.selectedQueueVersion.query).toEqual('12345');
-    });
+    }));
   });
   
   describe('toggleDetails function', function() {

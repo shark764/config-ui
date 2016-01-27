@@ -38,7 +38,7 @@ angular.module('liveopsConfigPanel')
         });
       });
 
-      $scope.$on('details:panel:close', function() {
+      $scope.$on(loEvents.bulkActions.close, function() {
         vm.selectedQueueVersion = null;
       });
 
@@ -174,7 +174,7 @@ angular.module('liveopsConfigPanel')
         }
       });
 
-      $scope.$on('table:resource:selected', function() {
+      $scope.$on(loEvents.tableControls.itemSelected, function() {
         vm.selectedQueueVersion = null;
       });
 

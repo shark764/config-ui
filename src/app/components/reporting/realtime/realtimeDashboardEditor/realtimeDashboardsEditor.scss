@@ -1,0 +1,135 @@
+*, div {
+  box-sizing: border-box;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+}
+
+.realtime-dashboard-editor-wrapper {
+  font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+.dashboard-fullscreen {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.dashboard-loading {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  font-size: 12px;
+  color: #cecece;
+
+  i {
+    margin-right: 5px;
+  }
+}
+
+div[gridster-item] {
+  position: absolute;
+
+  &.wrapper-statistic {
+    border-radius: 5px;
+    box-shadow: 1px 1px 2px #ececec;
+    background-color: #fff;
+    padding: 2px;
+    border: 1px solid #ececec;
+  }
+}
+
+.widget-wrapper {
+
+  .handle-se {
+    cursor: se-resize;
+    width: 0;
+    transform: rotate(135deg);
+    height: 0;
+    right: -5px;
+    bottom: -1px;
+    border-style: double;
+    border-width: 0 8px 8px 8px;
+  }
+
+  .widget {
+
+    .source-switcher-widget {
+      border-bottom: 2px solid #eee;
+
+      h2 {
+        font-size: 1.5vw;
+        display: inline-block;
+        margin: 0;
+        position: relative;
+        top: 5px;
+        padding: 0 0 10px 0;
+      }
+
+      select {
+        width: 50%;
+        float: right;
+        display: inline-block;
+      };
+    }
+
+    .label-widget {
+      border-bottom: 2px solid #eee;
+
+      h2 {
+        font-size: 1.5vw;
+        margin: 0;
+        padding: 0;
+      }
+    }
+
+    .statistic-widget {
+      text-align: center;
+      height: 100%;
+      position: relative;
+
+      .stat-header, .stat-footer {
+        color: #777;
+        font-size: 1vw;
+        font-weight: 200;
+        white-space:nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .stat-header {}
+
+      .stat-value-loading {
+        font-size: 2vw;
+        color: #777;
+        width: 100%;
+        text-align: center;
+        position: relative;
+        top: 15px;
+      }
+
+      .stat-value {
+        font-size: 3vw;
+        color: #777;
+        font-weight: normal;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      .stat-footer {
+        position: absolute;
+        width: 100%;
+        bottom: 0;
+      }
+    }
+  }
+}

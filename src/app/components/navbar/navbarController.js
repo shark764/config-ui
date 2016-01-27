@@ -211,7 +211,7 @@ angular.module('liveopsConfigPanel')
       vm.getReportingConfig = function() {
         return [{
           label: $translate.instant('navbar.reports.rtd.title'),
-          stateLink: 'content.realtime-dashboards',
+          stateLink: 'content.realtime-dashboards-management',
           id: 'realtime-dashboard-link',
           order: 1
         }, {

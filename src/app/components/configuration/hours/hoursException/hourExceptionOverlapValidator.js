@@ -44,7 +44,7 @@ angular.module('liveopsConfigPanel.shared.directives')
           return itemRange.overlaps(valRange);
         };
 
-        ngModelCtrl.$validators.overlap = function(modelValue, viewValue) {
+        ngModelCtrl.$validators.overlap = function() {
           var valid = true;
           var items = itemsGetter($scope);
           var currentExceptionHour = exceptionHourGetter($scope);

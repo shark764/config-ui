@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('realtimeDashboardsTableConfig', ['$translate',
+  .service('realtimeDashboardsManagementTableConfig', ['$translate',
     function($translate) {
       return {
         'fields': [{
@@ -13,7 +13,7 @@ angular.module('liveopsConfigPanel')
         'searchOn': ['name'],
         'orderBy': 'name',
         'title': $translate.instant('realtimeDashboards.table.title'),
-        'sref': 'content.dashboard',
+        'sref': 'content.realtime-dashboards-management.editor',
         'showBulkActions': false,
         'showCreate': false
       };

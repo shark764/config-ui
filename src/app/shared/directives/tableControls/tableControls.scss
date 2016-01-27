@@ -1,6 +1,13 @@
 $action-container-height: 100px;
 
 table-controls {
+  display: table-cell;
+  padding: 20px;
+  box-sizing: border-box;
+  vertical-align: top;
+  height: 100%;
+  overflow-y: auto;
+
   #controls-wrapper {
     position: relative;
     margin-bottom: 20px;

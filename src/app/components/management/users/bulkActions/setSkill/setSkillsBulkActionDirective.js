@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('baUserSkills', ['$q', 'UserSkillsBulkAction', 'userSkillsBulkActionTypes', 'Skill', 'Session', 'queryCache', 'BulkAction',
-    function($q, UserSkillsBulkAction, userSkillsBulkActionTypes, Skill, Session, queryCache, BulkAction) {
+  .directive('baUserSkills', ['$q', 'UserSkillsBulkAction', 'userSkillsBulkActionTypes', 'Skill', 'Session', 'queryCache', 'BulkAction', 'loEvents',
+    function($q, UserSkillsBulkAction, userSkillsBulkActionTypes, Skill, Session, queryCache, BulkAction, loEvents) {
       return {
         restrict: 'E',
         require: '?^bulkActionExecutor',
@@ -107,22 +107,11 @@ angular.module('liveopsConfigPanel')
             }
           };
 
-          $scope.findSkillForId = function(skills, id) {
-            var foundSkill;
-            angular.forEach(skills, function(skill) {
-              if (skill.id === id) {
-                foundSkill = skill;
-              }
-            });
-
-            return foundSkill;
-          };
-
           $scope.$watch('bulkAction.params', function() {
             $scope.bulkAction.reset();
           });
 
-          $scope.$on('table:resource:checked', function() {
+          $scope.$on(loEvents.tableControls.itemChecked, function() {
             $scope.fetchSkills();
           });
 
