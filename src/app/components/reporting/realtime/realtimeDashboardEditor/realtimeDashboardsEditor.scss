@@ -14,9 +14,15 @@
   width: 100%;
 }
 
+.dashboard-directive {
+  position: relative;
+  top: -50px;
+  z-index: 5;
+}
+
 .dashboard-fullscreen {
   position: absolute;
-  top: 10px;
+  top: 80px;
   right: 10px;
   font-size: 20px;
   cursor: pointer;
@@ -35,7 +41,19 @@
 }
 
 .dashboard-selector {
+  display: inline-block;
   padding: 25px;
+  position: relative;
+  width: 20%;
+  z-index: 10;
+}
+
+.dashboard-title {
+  display: inline-block;
+  position: relative;
+  text-align: center;
+  vertical-align: middle;
+  width: 60%;
 }
 
 div[gridster-item] {
@@ -48,6 +66,10 @@ div[gridster-item] {
     padding: 2px;
     border: 1px solid #ececec;
   }
+}
+
+.gridster {
+  margin: 20px auto;
 }
 
 .widget-wrapper {
