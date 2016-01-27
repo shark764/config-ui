@@ -41,11 +41,9 @@ describe('UserProfileController', function() {
       expect($scope.submit).toBeDefined();
     });
 
-    it('should PUT to /v1/users on submit', inject(function(mockModel) {
+    it('should PUT to /v1/users on submit', inject(function(mockForm) {
       $httpBackend.expect('PUT', apiHostname + '/v1/users/userId1').respond(200);
-      $scope.userForm = {
-        password: mockModel()
-      };
+      $scope.userForm = mockForm(['password']);
 
       $scope.submit();
 

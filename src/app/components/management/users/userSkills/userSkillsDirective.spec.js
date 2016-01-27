@@ -131,10 +131,8 @@ describe('userSkills directive', function(){
       expect(isolateScope.newUserSkill.skillId).toBeNull();
     });
 
-    it('should reset the form name field', inject(function(mockModel) {
-      isolateScope.skillsForm = {
-          name : mockModel()
-      };
+    it('should reset the form name field', inject(function(mockForm) {
+      isolateScope.skillsForm = mockForm(['name']);
 
       isolateScope.reset();
       expect(isolateScope.skillsForm.name.$setPristine).toHaveBeenCalled();

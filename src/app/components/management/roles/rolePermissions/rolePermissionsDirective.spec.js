@@ -85,12 +85,10 @@ describe('rolePermissions directive', function() {
       expect(Alert.error).toHaveBeenCalled();
     }));
 
-    it('should set the permissionchanges input dirty if the role is new', inject(function(mockModel) {
+    it('should set the permissionchanges input dirty if the role is new', inject(function(mockForm) {
       isolateScope.filtered = mockTenantPermissions;
       spyOn($scope.role, 'isNew').and.returnValue(true);
-      isolateScope.addPermission = {
-        permissionchanges: mockModel()
-      };
+      isolateScope.addPermission = mockForm(['permissionchanges']);
 
       isolateScope.selectedPermission = mockTenantPermissions[0];
 
@@ -160,14 +158,12 @@ describe('rolePermissions directive', function() {
       expect($scope.role.$update).toHaveBeenCalled();
     });
 
-    it('should set the permissionchanges input dirty if the role is new', inject(function(mockModel) {
+    it('should set the permissionchanges input dirty if the role is new', inject(function(mockForm) {
       isolateScope.filtered = [];
       isolateScope.role.permissions = [mockTenantPermissions[0].id, mockTenantPermissions[1].id, mockTenantPermissions[2].id];
       isolateScope.rolePermissions = mockTenantPermissions;
       spyOn($scope.role, 'isNew').and.returnValue(true);
-      isolateScope.addPermission = {
-        permissionchanges: mockModel()
-      };
+      isolateScope.addPermission = mockForm(['permissionchanges']);
 
       isolateScope.remove(mockTenantPermissions[0]);
       expect(isolateScope.addPermission.permissionchanges.$setDirty).toHaveBeenCalled();

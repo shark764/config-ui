@@ -21,9 +21,8 @@ describe('duplicateValidator directive', function() {
   }]));
 
   describe('mediaMap watch', function() {
-    it('should set the validity on all mediaMap form elements', inject(function(mockModel) {
-      $scope.form.mapping0 = mockModel();
-      $scope.form.mapping1 = mockModel();
+    it('should set the validity on all mediaMap form elements', inject(function(mockForm) {
+      isolateScope.form = mockForm(['mapping0', 'mapping1']);
 
       $scope.resource.mediaMap.push({
         lookup: 'Mapping 0'
@@ -34,14 +33,12 @@ describe('duplicateValidator directive', function() {
       });
 
       isolateScope.$digest();
-      expect($scope.form.mapping0.$setValidity).toHaveBeenCalled();
-      expect($scope.form.mapping1.$setValidity).toHaveBeenCalled();
+      expect(isolateScope.form.mapping0.$setValidity).toHaveBeenCalled();
+      expect(isolateScope.form.mapping1.$setValidity).toHaveBeenCalled();
     }));
 
-    it('should set duplicate named mappings invalid', inject(function(mockModel) {
-      $scope.form.mapping0 = mockModel();
-      $scope.form.mapping1 = mockModel();
-      $scope.form.mapping2 = mockModel();
+    it('should set duplicate named mappings invalid', inject(function(mockForm) {
+      isolateScope.form = mockForm(['mapping0', 'mapping1', 'mapping2']);
 
       $scope.resource.mediaMap.push({
         lookup: 'duplicate'
@@ -56,9 +53,9 @@ describe('duplicateValidator directive', function() {
       });
 
       isolateScope.$digest();
-      expect($scope.form.mapping0.$setValidity).toHaveBeenCalledWith('mediaMapDuplicate', false);
-      expect($scope.form.mapping1.$setValidity).toHaveBeenCalledWith('mediaMapDuplicate', false);
-      expect($scope.form.mapping2.$setValidity).toHaveBeenCalledWith('mediaMapDuplicate', true);
+      expect(isolateScope.form.mapping0.$setValidity).toHaveBeenCalledWith('mediaMapDuplicate', false);
+      expect(isolateScope.form.mapping1.$setValidity).toHaveBeenCalledWith('mediaMapDuplicate', false);
+      expect(isolateScope.form.mapping2.$setValidity).toHaveBeenCalledWith('mediaMapDuplicate', true);
     }));
   });
 });

@@ -218,11 +218,9 @@ describe('QueueController', function() {
       $httpBackend.flush();
     });
 
-    it('ON save failure should copy the initial queue version', inject(function(mockModel) {
+    it('ON save failure should copy the initial queue version', inject(function(mockForm) {
       controller.forms = {
-        versionForm: {
-          query: mockModel()
-        }
+        versionForm: mockForm(['query'])
       };
 
       controller.initialVersion = new QueueVersion({

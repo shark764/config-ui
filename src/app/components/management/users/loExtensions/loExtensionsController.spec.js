@@ -7,25 +7,17 @@ describe('loExtensions controller', function() {
 
   beforeEach(module('liveopsConfigPanel', 'gulpAngular', 'liveopsConfigPanel.tenant.user.mock', 'liveopsConfigPanel.mockutils'));
 
-  beforeEach(inject(['$controller', '$rootScope', 'mockTenantUsers', 'mockModel', function($controller, $rootScope, _mockTenantUsers, mockModel) {
+  beforeEach(inject(['$controller', '$rootScope', 'mockTenantUsers', 'mockModel', 'mockForm', function($controller, $rootScope, _mockTenantUsers, mockModel, mockForm) {
     $scope = $rootScope.$new();
     mockTenantUsers = _mockTenantUsers;
 
     $scope.tenantUser = mockTenantUsers[0];
     $scope.tenantUser.extensions = [];
 
-    $scope.form = {
-      type: mockModel(),
-      provider: mockModel(),
-      value: mockModel(),
-      sipValue: mockModel(),
-      telValue: mockModel(),
-      extensiondescription: mockModel(),
-      extensions: mockModel(),
-      activeExtension: mockModel(),
-      loFormSubmitController: {
-        populateApiErrors: jasmine.createSpy('populateApiErrors')
-      }
+    $scope.loExtensionsForm = mockForm();
+    $scope.form = mockForm(['type', 'provider', 'value', 'sipValue', 'telValue', 'extensiondescription', 'extensions', 'activeExtension']);
+    $scope.form.loFormSubmitController = {
+      populateApiErrors: jasmine.createSpy('populateApiErrors')
     };
 
     controller = $controller('loExtensionsController', {
