@@ -1,3 +1,9 @@
 <div id="main-content" class="realtime-dashboard-wrapper">
+  <div class="dashboard-selector">
+    <form name="dashboardSelector">
+      <select ng-options="item.name for item in dashboards" ng-model="dashboard" ng-change="$state.go('content.realtime-dashboards-management.editor', {id: item.id}, {reload:true})">
+      </select>
+    </form>
+  </div>
   <reporting-dashboard dashboard="dashboard" queues="queues" users="users">
 </div>
