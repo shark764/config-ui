@@ -25,9 +25,7 @@ angular.module('liveopsConfigPanel.config').constant('dashboardInteractions',
         "api": "realtime-statistics",
         "endpoint": "interactions-in-conversation-count",
         "responseKey": "recordsCount",
-        "parameters": {
-          "queue": "source-switcher1"
-        }
+        "parameters": {}
       },
       "presentation": {
         "header": {
