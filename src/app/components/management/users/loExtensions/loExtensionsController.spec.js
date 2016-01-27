@@ -7,13 +7,14 @@ describe('loExtensions controller', function() {
 
   beforeEach(module('liveopsConfigPanel', 'gulpAngular', 'liveopsConfigPanel.tenant.user.mock', 'liveopsConfigPanel.mockutils'));
 
-  beforeEach(inject(['$controller', '$rootScope', 'mockTenantUsers', 'mockModel', function($controller, $rootScope, _mockTenantUsers, mockModel) {
+  beforeEach(inject(['$controller', '$rootScope', 'mockTenantUsers', 'mockModel', 'mockForm', function($controller, $rootScope, _mockTenantUsers, mockModel, mockForm) {
     $scope = $rootScope.$new();
     mockTenantUsers = _mockTenantUsers;
 
     $scope.tenantUser = mockTenantUsers[0];
     $scope.tenantUser.extensions = [];
 
+    $scope.loExtensionsForm = mockForm();
     $scope.form = {
       type: mockModel(),
       provider: mockModel(),

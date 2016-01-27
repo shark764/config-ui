@@ -11,6 +11,7 @@ angular.module('liveopsConfigPanel')
         $scope.newExtension.type = 'webrtc';
         vm.editingExtension = null;
         $scope.creatingExtension = false;
+        $scope.loExtensionsForm.$setPristine();
       };
 
       vm.save = function() {
