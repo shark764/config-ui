@@ -22,7 +22,7 @@ angular.module('liveopsConfigPanel')
         var end = $moment.utc($scope.filters.endDate);
         
         var params = vm.filterObject({
-          'tenantId': Session.tenantId,
+          'tenantId': Session.tenant.tenantId,
           'start': start.startOf('day').format(),
           'end': end.endOf('day').format(),
           'resourceId': $scope.filters.resource ? $scope.filters.resource.id : null,
