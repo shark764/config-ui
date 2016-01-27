@@ -3,6 +3,7 @@
 describe('The create new queues view', function() {
   var loginPage = require('../login/login.po.js'),
     newQueue = require('./newQueue.po.js'),
+    newVersion = require('./newQueueVersion.po.js'),
     queues = require('./queues.po.js'),
     shared = require('../shared.po.js'),
     params = browser.params,
@@ -43,17 +44,25 @@ describe('The create new queues view', function() {
     newQueue.addFilterBtn.click();
     newQueue.addFilterDropdown.click();
     newQueue.skillFilterDropdownOption.click();
+    newQueue.addFilterBtn.click();
+    newQueue.addFilterDropdown.click();
+    newQueue.userFilterDropdownOption.click();
     newQueue.addFilterBtn.click().then(function() {
       // Query fields
       expect(newQueue.allGroupsTypeAhead.isDisplayed()).toBeTruthy();
       expect(newQueue.anyGroupsTypeAhead.isDisplayed()).toBeTruthy();
       expect(newQueue.allSkillsTypeAhead.isDisplayed()).toBeTruthy();
       expect(newQueue.anySkillsTypeAhead.isDisplayed()).toBeTruthy();
+      expect(newQueue.anyUsersTypeAhead.isDisplayed()).toBeTruthy();
 
       expect(newQueue.allGroupsAdd.isDisplayed()).toBeTruthy();
       expect(newQueue.anyGroupsAdd.isDisplayed()).toBeTruthy();
       expect(newQueue.allSkillsAdd.isDisplayed()).toBeTruthy();
       expect(newQueue.anySkillsAdd.isDisplayed()).toBeTruthy();
+      expect(newQueue.anyUsersAdd.isDisplayed()).toBeTruthy();
+
+      // All Users section is not displayed
+      expect(newQueue.basicQueryAllUsers.isPresent()).toBeFalsy();
 
       // Priority fields with defaults
       expect(newQueue.minPriorityInputField.isDisplayed()).toBeTruthy();
@@ -84,12 +93,16 @@ describe('The create new queues view', function() {
     newQueue.addFilterBtn.click();
     newQueue.addFilterDropdown.click();
     newQueue.skillFilterDropdownOption.click();
+    newQueue.addFilterBtn.click();
+    newQueue.addFilterDropdown.click();
+    newQueue.userFilterDropdownOption.click();
     newQueue.addFilterBtn.click().then(function() {
       // Basic Query fields are displayed
       expect(newQueue.allGroupsTypeAhead.isDisplayed()).toBeTruthy();
       expect(newQueue.anyGroupsTypeAhead.isDisplayed()).toBeTruthy();
       expect(newQueue.allSkillsTypeAhead.isDisplayed()).toBeTruthy();
       expect(newQueue.anySkillsTypeAhead.isDisplayed()).toBeTruthy();
+      expect(newQueue.anyUsersTypeAhead.isDisplayed()).toBeTruthy();
 
       newQueue.showAdvancedQueryLink.click().then(function() {
         expect(newQueue.showAdvancedQueryLink.isDisplayed()).toBeFalsy();
@@ -97,13 +110,14 @@ describe('The create new queues view', function() {
 
         // Advanced query field is displayed
         expect(newQueue.advancedQueryFormField.isDisplayed()).toBeTruthy();
-        expect(newQueue.advancedQueryFormField.getAttribute('value')).toBe('[{:after-seconds-in-queue 0 :query {:groups (and (and) (or)) :skills (and (and) (or))}}]');
+        expect(newQueue.advancedQueryFormField.getAttribute('value')).toBe('[{:after-seconds-in-queue 0 :query {:groups (and (and) (or)) :skills (and (and) (or)) :user-id (and (and) (or))}}]');
 
         // Basic Query fields are not displayed
         expect(newQueue.allGroupsTypeAhead.isPresent()).toBeFalsy();
         expect(newQueue.anyGroupsTypeAhead.isPresent()).toBeFalsy();
         expect(newQueue.allSkillsTypeAhead.isPresent()).toBeFalsy();
         expect(newQueue.anySkillsTypeAhead.isPresent()).toBeFalsy();
+        expect(newQueue.anyUsersTypeAhead.isPresent()).toBeFalsy();
       }).then(function() {
         newQueue.showBasicQueryLink.click().then(function() {
           expect(newQueue.showAdvancedQueryLink.isDisplayed()).toBeTruthy();
@@ -117,6 +131,7 @@ describe('The create new queues view', function() {
           expect(newQueue.anyGroupsTypeAhead.isDisplayed()).toBeTruthy();
           expect(newQueue.allSkillsTypeAhead.isDisplayed()).toBeTruthy();
           expect(newQueue.anySkillsTypeAhead.isDisplayed()).toBeTruthy();
+          expect(newQueue.anyUsersTypeAhead.isDisplayed()).toBeTruthy();
         });
       });
     });
@@ -141,10 +156,6 @@ describe('The create new queues view', function() {
       expect(queues.activeVersionDropdown.$('option:checked').getText()).toBe('v1');
       expect(queues.queueVersions.count()).toBe(1);
       expect(queues.queueVersions.get(0).getText()).toContain('v1');
-
-      // Queue is enabled by default
-      expect(shared.firstTableRow.getText()).toContain('Enabled');
-      expect(queues.activeFormToggle.element(by.css('label.switch:nth-child(2) > input:nth-child(1)')).isSelected()).toBeTruthy();
     });
   });
 
@@ -190,8 +201,7 @@ describe('The create new queues view', function() {
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 
-  xit('should require unique name', function() {
-    // TODO No error returned from bs-api
+  it('should require unique name', function() {
     shared.createBtn.click();
 
     // Complete queue form and submit with existing queue name
@@ -221,13 +231,13 @@ describe('The create new queues view', function() {
     expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
     shared.submitFormBtn.click();
 
-    // TODO Errors not displayed
-    //expect(queues.requiredErrors.get(0).isDisplayed()).toBeTruthy();
-    //expect(queues.requiredErrors.get(0).getText()).toBe('Field "Query" is required.');
+    expect(queues.requiredErrors.get(0).isDisplayed()).toBeTruthy();
+    expect(queues.requiredErrors.get(0).getText()).toBe('Field "Query" is required.');
     expect(shared.tableRows.count()).toBe(queueCount);
     expect(shared.successMessage.isPresent()).toBeFalsy();
   });
 
+  // TODO TITAN2-7365
   xit('should validate query field', function() {
     shared.createBtn.click();
     randomQueue = Math.floor((Math.random() * 100) + 1);
@@ -238,13 +248,26 @@ describe('The create new queues view', function() {
     newQueue.advancedQueryFormField.clear();
     newQueue.advancedQueryFormField.sendKeys('This is not a valid query\t');
 
-    expect(shared.submitFormBtn.getAttribute('disabled')).toBeTruthy();
     shared.submitFormBtn.click().then(function() {
-      // TODO Errors not displayed
-      //expect(queues.requiredErrors.get(0).isDisplayed()).toBeTruthy();
-      //expect(queues.requiredErrors.get(0).getText()).toContain('Your query is invalid, please fix your query.');
-      expect(shared.tableRows.count()).toBe(queueCount);
-      expect(shared.successMessage.isPresent()).toBeFalsy();
+      shared.waitForSuccess();
+      expect(shared.errorMessage.isDisplayed()).toBeTruthy();
+
+      // Queue is created without a version
+      expect(newVersion.newQueueVersionPanel.isDisplayed()).toBeTruthy();
+      expect(queues.requiredErrors.get(0).isDisplayed()).toBeTruthy();
+      expect(queues.requiredErrors.get(0).getText()).toContain('Your query is invalid, please fix your query.');
+
+      // Complete query fields and select version
+      newVersion.advancedQueryFormField.clear();
+      newVersion.advancedQueryFormField.sendKeys('[{:after-seconds-in-queue 0 :query {}}]');
+      newVersion.createVersionBtn.click().then(function() {
+        shared.waitForSuccess();
+
+        queues.activeVersionDropdown.all(by.css('option')).get(1).click();
+        shared.submitFormBtn.click().then(function() {
+          shared.waitForSuccess();
+        });
+      });
     });
   });
 
@@ -253,9 +276,6 @@ describe('The create new queues view', function() {
     newQueue.showAdvancedQueryLink.click();
     newQueue.advancedQueryFormField.clear();
     newQueue.advancedQueryFormField.sendKeys('This is not a valid query\t');
-    // TODO Errors not displayed
-    //expect(queues.requiredErrors.get(0).isDisplayed()).toBeTruthy();
-    //expect(queues.requiredErrors.get(0).getText()).toContain('Your query is invalid, please fix your query.');
 
     newQueue.showBasicQueryLink.click().then(function() {
       expect(shared.confirmModal.isDisplayed()).toBeTruthy();
@@ -266,6 +286,7 @@ describe('The create new queues view', function() {
         expect(newQueue.anyGroupsTypeAhead.isPresent()).toBeFalsy();
         expect(newQueue.allSkillsTypeAhead.isPresent()).toBeFalsy();
         expect(newQueue.anySkillsTypeAhead.isPresent()).toBeFalsy();
+        expect(newQueue.anyUsersTypeAhead.isPresent()).toBeFalsy();
 
         // Advanced query details are cleared
         newQueue.showAdvancedQueryLink.click();
@@ -274,11 +295,11 @@ describe('The create new queues view', function() {
     });
   });
 
-  xit('should add filters to basic query builder when advanced query field is updated', function() {
+  it('should add filters to basic query builder when advanced query field is updated', function() {
     shared.createBtn.click();
     newQueue.showAdvancedQueryLink.click();
     newQueue.advancedQueryFormField.clear();
-    newQueue.advancedQueryFormField.sendKeys('[{:after-seconds-in-queue 0 :query {:skills (and (and) (or)) :groups (and (and) (or))}}]\t');
+    newQueue.advancedQueryFormField.sendKeys('[{:after-seconds-in-queue 0 :query {:groups (and (and) (or)) :skills (and (and) (or)) :user-id (and (and) (or))}}]\t');
 
     newQueue.showBasicQueryLink.click();
 
@@ -287,6 +308,7 @@ describe('The create new queues view', function() {
     expect(newQueue.anyGroupsTypeAhead.isDisplayed()).toBeTruthy();
     expect(newQueue.allSkillsTypeAhead.isDisplayed()).toBeTruthy();
     expect(newQueue.anySkillsTypeAhead.isDisplayed()).toBeTruthy();
+    expect(newQueue.anyUsersTypeAhead.isDisplayed()).toBeTruthy();
   });
 
   it('should not require description or query filters', function() {
@@ -317,9 +339,8 @@ describe('The create new queues view', function() {
 
     expect(queues.requiredErrors.get(0).isDisplayed()).toBeTruthy();
     expect(queues.requiredErrors.get(0).getText()).toBe('Field "Name" is required.');
-    // TODO Errors not displayed
-    //expect(queues.requiredErrors.get(1).isDisplayed()).toBeTruthy();
-    //expect(queues.requiredErrors.get(1).getText()).toBe('Field "Query" is required.');
+    expect(queues.requiredErrors.get(1).isDisplayed()).toBeTruthy();
+    expect(queues.requiredErrors.get(1).getText()).toBe('Field "Query" is required.');
 
     expect(shared.successMessage.isPresent()).toBeFalsy();
     expect(shared.tableRows.count()).toBe(queueCount);

@@ -14,9 +14,11 @@ var NewQueue = function() {
   this.addFilterDropdown = this.addFilterSection.element(by.id('select-filter-dropdown'));
   this.groupFilterDropdownOption = this.addFilterDropdown.all(by.css('[value=":groups"]'));
   this.skillFilterDropdownOption = this.addFilterDropdown.all(by.css('[value=":skills"]'));
+  this.userFilterDropdownOption = this.addFilterDropdown.all(by.css('[value=":user-id"]'));
   this.addFilterBtn = this.addFilterSection.element(by.id('add-filter-btn'));
   this.removeGroupsFilter = this.newQueueQuerySection.element(by.id(':groups-remove'));
   this.removeSkillsFilter = this.newQueueQuerySection.element(by.id(':skills-remove'));
+  this.removeUsersFilter = this.newQueueQuerySection.element(by.id(':user-id-remove'));
 
   this.basicQueryAllGroups = this.newQueueQuerySection.element(by.id(':groups-all'));
   this.allGroupsTypeAhead = this.basicQueryAllGroups.element(by.id('typeahead-container'));
@@ -45,6 +47,14 @@ var NewQueue = function() {
   this.anySkillsProficiencyValue = this.basicQueryAnySkills.element(by.id('proficiency-value'));
   this.anySkillsAdd = this.basicQueryAnySkills.element(by.css('.fa-plus'));
   this.anySkillsSelected = this.basicQueryAnySkills.all(by.repeater('condition in cqe.conditionGroup.conditions'));
+
+  this.basicQueryAllUsers = this.newQueueQuerySection.element(by.id(':user-id-all'));
+
+  this.basicQueryAnyUsers = this.newQueueQuerySection.element(by.id(':user-id-any'));
+  this.anyUsersTypeAhead = this.basicQueryAnyUsers.element(by.id('typeahead-container'));
+  this.anyUsersDropdownUsers = this.basicQueryAnyUsers.all(by.repeater('item in filtered = (items | filter:filterCriteria | orderBy:getDisplayString)'));
+  this.anyUsersAdd = this.basicQueryAnyUsers.element(by.css('.fa-plus'));
+  this.anyUsersSelected = this.basicQueryAnyUsers.all(by.repeater('condition in cqe.conditionGroup.conditions'));
 
   // Escalation query
   this.escalationQuerySections = element.all(by.repeater('escalation in qlc.escalationList.escalations'));
