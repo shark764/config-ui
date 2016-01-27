@@ -72,8 +72,7 @@ describe('The queues view', function() {
     expect(queues.requiredErrors.get(0).getText()).toBe('Field \"Name\" is required.');
   });
 
-  xit('should require unique name when editing a Queue', function() {
-    // TODO No error returned from bs-api
+  it('should require unique name when editing a Queue', function() {
     shared.tableElements.count().then(function(queueCount) {
       if (queueCount > 1) {
         shared.firstTableRow.element(by.css(queues.nameColumn)).getText().then(function(existingQueueName) {
@@ -325,13 +324,24 @@ describe('The queues view', function() {
     expect(newVersion.createVersionBtn.isDisplayed()).toBeTruthy();
     expect(newVersion.cancelVersionBtn.isDisplayed()).toBeTruthy();
 
-    // Add Groups & Skills filter
+    // Add Groups, Skills & Users filter
     newVersion.addFilterDropdown.click();
     newVersion.groupFilterDropdownOption.click();
     newVersion.addFilterBtn.click();
     newVersion.addFilterDropdown.click();
     newVersion.skillFilterDropdownOption.click();
     newVersion.addFilterBtn.click();
+    newVersion.addFilterDropdown.click();
+    newVersion.userFilterDropdownOption.click();
+    newVersion.addFilterBtn.click();
+
+    // Group, Skills & User filters are displayed
+    expect(newVersion.basicQueryAnyGroups.isDisplayed()).toBeTruthy();
+    expect(newVersion.basicQueryAllGroups.isDisplayed()).toBeTruthy();
+    expect(newVersion.basicQueryAnySkills.isDisplayed()).toBeTruthy();
+    expect(newVersion.basicQueryAllSkills.isDisplayed()).toBeTruthy();
+    expect(newVersion.basicQueryAnyUsers.isDisplayed()).toBeTruthy();
+    expect(newVersion.basicQueryAllUsers.isPresent()).toBeFalsy();
 
     expect(newVersion.basicQueryDetailsAll.count()).toBe(0);
 
@@ -342,7 +352,7 @@ describe('The queues view', function() {
     expect(newVersion.priorityRateUnitField.$('option:checked').getText()).toBe(queues.priorityRateUnitDefault);
 
     newVersion.showAdvancedQueryLink.click();
-    expect(newVersion.advancedQueryFormField.getAttribute('value')).toBe('[{:after-seconds-in-queue 0 :query {:groups (and (and) (or)) :skills (and (and) (or))}}]');
+    expect(newVersion.advancedQueryFormField.getAttribute('value')).toBe('[{:after-seconds-in-queue 0 :query {:groups (and (and) (or)) :skills (and (and) (or)) :user-id (and (and) (or))}}]');
   });
 
   it('should display copy version panel when copy is selected', function() {
@@ -384,6 +394,13 @@ describe('The queues view', function() {
       newVersion.anySkillsSelected.count().then(function(anySkillCount) {
         for (var i = 0; i < anySkillCount; i++) {
           expect(newVersion.anySkillsSelected.get(i).getText()).toBe(queues.basicQueryDetails.get(activeVersionValue).element(by.id(':skills-any')).all(by.repeater('condition in cqe.conditionGroup.conditions')).get(i).getText());
+        }
+      });
+
+      // Any users match
+      newVersion.anyUsersSelected.count().then(function(anyUserCount) {
+        for (var i = 0; i < anyUserCount; i++) {
+          expect(newVersion.anyUsersSelected.get(i).getText()).toBe(queues.basicQueryDetails.get(activeVersionValue).element(by.id(':user-id-any')).all(by.repeater('condition in cqe.conditionGroup.conditions')).get(i).getText());
         }
       });
 
@@ -430,8 +447,7 @@ describe('The queues view', function() {
     });
   });
 
-  xit('should require advanced query when adding a new queue version', function() {
-    // TODO TITAN2-6164 Submit button enabled when advanced query is not valid
+  it('should require advanced query when adding a new queue version', function() {
     shared.firstTableRow.click();
     queues.activeVersionDropdown.$('option:checked').getAttribute('value').then(function(activeVersionValue) {
       queues.copyVersionBtn.get(activeVersionValue).click();
@@ -507,8 +523,7 @@ describe('The queues view', function() {
     });
   });
 
-  xit('should allow advanced query field to be edited after submitting new version with invalid input', function() {
-    // TODO TITAN2-6164 Blank query saved when advanced query is not valid
+  it('should allow advanced query field to be edited after submitting new version with invalid input', function() {
     shared.firstTableRow.click();
     var originalVersionCount = queues.queueVersions.count();
 

@@ -38,11 +38,13 @@ var QueuePage = function() {
   this.basicQueryAnyGroupSection = this.versionsTable.element(by.id(':groups-any'));
   this.basicQueryAllSkillSection = this.versionsTable.element(by.id(':skills-all'));
   this.basicQueryAnySkillSection = this.versionsTable.element(by.id(':skills-any'));
+  this.basicQueryAnyUserSection = this.versionsTable.element(by.id(':user-id-any'));
 
   this.basicQueryAllGroups = this.basicQueryAllGroupSection.all(by.repeater('condition in cqe.conditionGroup.conditions'));
   this.basicQueryAnyGroups = this.basicQueryAnyGroupSection.all(by.repeater('condition in cqe.conditionGroup.conditions'));
   this.basicQueryAllSkills = this.basicQueryAllSkillSection.all(by.repeater('condition in cqe.conditionGroup.conditions'));
   this.basicQueryAnySkills = this.basicQueryAnySkillSection.all(by.repeater('condition in cqe.conditionGroup.conditions'));
+  this.basicQueryAnyUsers = this.basicQueryAnyUserSection.all(by.repeater('condition in cqe.conditionGroup.conditions'));
 
   this.advancedQueryFormField = this.versionsTable.all(by.id('advanced-query-field'));
 
