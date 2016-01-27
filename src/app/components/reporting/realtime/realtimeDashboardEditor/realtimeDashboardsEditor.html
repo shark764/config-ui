@@ -1,3 +1,15 @@
 <div id="main-content" class="realtime-dashboard-wrapper">
-  <reporting-dashboard dashboard="dashboard" queues="queues" users="users">
+  <div class="dashboard-selector">
+    <form name="dashboardSelector">
+      <select ng-options="item.name for item in dashboards" ng-model="selectedDashboard">
+      </select>
+    </form>
+  </div>
+  <div class="dashboard-title">
+    <h1>{{dashboard.name}}</h1>
+  </div>
+  <div class="dashboard-fullscreen">
+    <i class="fa fa-arrows-alt" ng-click="toggleFullscreen(dashboard.id)"></i>
+  </div>
+  <reporting-dashboard class="dashboard-directive" id="dashboard-directive" dashboard="dashboard" queues="queues" users="users">
 </div>
