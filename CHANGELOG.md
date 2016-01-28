@@ -2,9 +2,15 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## 319
+## 330
 ##### Flow designer
 - Update import of flow designer to v1.4.1. Should fix TITAN2-7417 and TITAN2-6978
+##### Realtime Dashboards
+- Added a title header to all dashboards
+- Added a quick dashboard switcher dropdown - fixes TITAN2-7134
+- Fixed typo in interaction holds count DSL query - fixes TITAN2-7190
+##### General
+- Switching tenants in the navbar now does different (non-breaking) things based on your current context - fixes TITAN2-7180
 
 ## 318
 ##### Realtime Dashboards
