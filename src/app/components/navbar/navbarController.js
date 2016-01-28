@@ -25,12 +25,23 @@ angular.module('liveopsConfigPanel')
                 DirtyForms.confirmIfDirty(function() {
                   Session.setTenant(tenant);
                   vm.updateTopbarConfig();
-                  $state.go($state.current, {
+               var goTo = $state.current;  
+              if($state.includes("content.realtime-dashboards-management.editor")) {
+
+                  goTo = "content.realtime-dashboards-management";
+
+                } else if ($state.includes("content.flows.editor")){
+
+                   goTo = "content.flows.flowManagement";
+                   
+                }
+                  $state.go(goTo, {
                     id: null
                   }, {
                     reload: true,
                     inherit: false
                   });
+
                 });
               }
             }
