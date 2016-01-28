@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 319
+##### Flow designer
+- Update import of flow designer to v1.4.1. Should fix TITAN2-7417 and TITAN2-6978
+
 ## 318
 ##### Realtime Dashboards
 - Update import of realtime dashboards to v2.1.2
