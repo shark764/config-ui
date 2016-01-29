@@ -1,20 +1,26 @@
-<table-controls
-  id="table-pane"
-  config="qc.tableConfig"
-  items="qc.fetchQueues()"
-  selected="qc.selectedQueue"
-  resource-name="Queue">
+<div id="table-pane">
+  <table-controls
+    config="qc.tableConfig"
+    items="qc.fetchQueues()"
+    search-query="searchQuery">
+  </table-controls>
+  
+  <lo-resource-table
+    config="qc.tableConfig"
+    items="qc.fetchQueues()"
+    selected="qc.selectedQueue"
+    search-query="searchQuery">
 
-  <span name="$original.active">
-    <span ng-if="item.$original.active">{{'value.enabled' | translate}}</span>
-    <span ng-if="!item.$original.active" class="disabled">{{'value.disabled' | translate}}</span>
-  </span>
-
-  <span name="$original.activeQueue">
-    {{item.$original.activeQueue.name}}
-  </span>
-
-</table-controls>
+    <span name="$original.active">
+      <span ng-if="item.$original.active">{{'value.enabled' | translate}}</span>
+      <span ng-if="!item.$original.active" class="disabled">{{'value.disabled' | translate}}</span>
+    </span>
+  
+    <span name="$original.activeQueue">
+      {{item.$original.activeQueue.name}}
+    </span>
+  </lo-resource-table>
+</div>
 
 <resize-handle
   ng-show="!! qc.selectedQueue || showBulkActions"
@@ -33,9 +39,11 @@
     ng-resource="qc.selectedQueue"
     lo-form-submit lo-form-cancel lo-form-alert>
 
-    <div class="detail-header"
-      ng-include src="'app/components/flows/queues/queueDetailHeader.html'">
-    </div>
+    <ng-form name="qc.forms.headerForm" separate-validation>
+      <div class="detail-header"
+        ng-include src="'app/components/flows/queues/queueDetailHeader.html'">
+      </div>
+    </ng-form>
 
     <div class="detail-body"
       ng-include src="'app/components/flows/queues/queueDetailBody.html'">

@@ -12,11 +12,8 @@ describe('userGroups directive', function () {
     Session,
     mockTenantUsers;
 
-  beforeEach(module('gulpAngular'));
-  beforeEach(module('liveopsConfigPanel'));
-  beforeEach(module('liveopsConfigPanel.tenant.user.mock'));
-  beforeEach(module('liveopsConfigPanel.tenant.group.mock'));
-  beforeEach(module('liveopsConfigPanel.tenant.user.group.mock'));
+  beforeEach(module('gulpAngular', 'liveopsConfigPanel', 'liveopsConfigPanel.tenant.user.mock', 
+      'liveopsConfigPanel.tenant.group.mock', 'liveopsConfigPanel.tenant.user.group.mock', 'liveopsConfigPanel.mockutils'));
 
   var doDefaultCompile = function () {
     //Mock the group services
@@ -134,11 +131,8 @@ describe('userGroups directive', function () {
         expect(isolateScope.reset).toEqual(jasmine.any(Function));
       }));
 
-      it('should reset the context', inject(function () {
-        isolateScope.addGroup.name = {
-          $setUntouched: jasmine.createSpy('$setUntouched'),
-          $setPristine: jasmine.createSpy('$setPristine')
-        };
+      it('should reset the context', inject(function (mockModel) {
+        isolateScope.addGroup.name = mockModel();
 
         isolateScope.reset();
         expect(isolateScope.selectedgroup).toBeUndefined();
@@ -181,14 +175,6 @@ describe('userGroups directive', function () {
         isolateScope.save('new-group');
         $httpBackend.flush();
       }));
-
-      it('should alert if creating a group failed', inject(['Alert', function (Alert) {
-        spyOn(Alert, 'error');
-        $httpBackend.expectPOST(apiHostname + '/v1/tenants/tenant-id/groups').respond(500);
-        isolateScope.save('a group');
-        $httpBackend.flush();
-        expect(Alert.error).toHaveBeenCalled();
-      }]));
     });
 
     describe('saveUserGroup function', function () {

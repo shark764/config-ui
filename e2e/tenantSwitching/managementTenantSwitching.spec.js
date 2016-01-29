@@ -33,6 +33,8 @@ describe('When switching tenants', function() {
   afterAll(function() {
     shared.tearDown();
   });
+
+  // TODO TITAN2-7078
   // TODO Bug TITAN2-5854
   describe('Users Management page', function() {
     beforeAll(function() {

@@ -56,6 +56,7 @@ describe('The integrations view', function() {
 
   describe('birst integration', function() {
     beforeEach(function() {
+      shared.searchField.clear();
       shared.searchField.sendKeys('birst');
     });
 

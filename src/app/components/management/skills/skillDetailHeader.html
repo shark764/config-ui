@@ -2,6 +2,7 @@
   <toggle class="status-toggle" ng-model="selectedSkill.active" 
     confirm-disable-message="{{'skill.details.disable.confirm' | translate}}"
     confirm-enable-message="{{'skill.details.enable.confirm' | translate}}"
+    on-confirm="updateActive()"
     ng-disabled="! ('MANAGE_ALL_SKILLS' | hasPermission)"></toggle>
 
   <div class="info">

@@ -6,7 +6,28 @@ angular.module('liveopsConfigPanel')
     function ($scope, $translate, $moment, $q, Session, BusinessHour, Timezone, hoursTableConfig, loEvents) {
 
       var vm = this;
-      vm.dayPrefixes = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+      vm.dayPrefixes = [{
+        short: 'sun',
+        long: 'sunday'
+      }, {
+        short: 'mon',
+        long: 'monday'
+      }, {
+        short: 'tue',
+        long: 'tuesday'
+      }, {
+        short: 'wed',
+        long: 'wednesday'
+      }, {
+        short: 'thu',
+        long: 'thursday'
+      }, {
+        short: 'fri',
+        long: 'friday'
+      }, {
+        short: 'sat',
+        long: 'saturday'
+      }];
 
       vm.loadTimezones = function() {
         vm.timezones = Timezone.query();
@@ -54,22 +75,16 @@ angular.module('liveopsConfigPanel')
             return;
           }
 
-          vm.forms.detailsForm.resetController.resetErrors();
+          vm.forms.detailsForm.loFormResetController.resetErrors();
           unbindWatch();
         });
 
         return $q.reject(error);
       };
 
-      vm.reset = function(hour) {
+      vm.reset = function() {
         vm.isHoursCustom = vm.hasHours();
         vm.exceptionHour = null;
-        hour.$exceptions = angular.copy(hour.$original.$exceptions);
-
-        vm.forms
-          .detailsForm
-          .resetController
-          .reset(hour);
       };
 
       vm.hasHours = function() {
@@ -79,7 +94,7 @@ angular.module('liveopsConfigPanel')
 
         var hasHours = false;
         for (var index = 0; index < vm.dayPrefixes.length; index++) {
-          var dayPrefix = vm.dayPrefixes[index];
+          var dayPrefix = vm.dayPrefixes[index].short;
 
           hasHours = vm.selectedHour[dayPrefix + 'StartTimeMinutes'] &&
             vm.selectedHour[dayPrefix + 'StartTimeMinutes'] !== -1;
@@ -94,11 +109,12 @@ angular.module('liveopsConfigPanel')
         return false;
       };
 
-      vm.onIsHoursCustomChanged = function (isCustom) {
-        if (!isCustom) {
+      vm.onIsHoursCustomChanged = function () {
+        //TODO: figure out why switching between 24/7 and scheduled hours on an exsting resource will wipe the configured hours
+        if (! vm.isHoursCustom) {
           angular.forEach(vm.dayPrefixes, function(dayPrefix) {
-            vm.selectedHour[dayPrefix + 'StartTimeMinutes'] = -1;
-            vm.selectedHour[dayPrefix + 'EndTimeMinutes'] = -1;
+            vm.selectedHour[dayPrefix.short + 'StartTimeMinutes'] = -1;
+            vm.selectedHour[dayPrefix.short + 'EndTimeMinutes'] = -1;
           });
         }
       };
@@ -108,10 +124,22 @@ angular.module('liveopsConfigPanel')
           day: $translate.instant('hours.' + day)
         };
       };
+      
+      vm.updateActive = function(){
+        var hoursCopy = new BusinessHour({
+          id: vm.selectedHour.id,
+          tenantId: vm.selectedHour.tenantId,
+          active: ! vm.selectedHour.active
+        });
+        
+        return hoursCopy.save(function(result){
+          vm.selectedHour.$original.active = result.active;
+        });
+      };
 
-      $scope.$watch('hc.selectedHour', function(newHour, oldHour) {
-        if (oldHour) {
-          vm.reset(oldHour);
+      $scope.$watch('hc.selectedHour', function(newHour) {
+        if (newHour) {
+          vm.reset(newHour);
         }
       });
 

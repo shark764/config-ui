@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('loDetailsPanel', ['$location', 'DirtyForms',
-    function($location, DirtyForms) {
+  .directive('loDetailsPanel', ['$location', 'DirtyForms', 'loEvents',
+    function($location, DirtyForms, loEvents) {
       return {
         restrict: 'E',
         require: ['ngResource'],
@@ -18,7 +18,7 @@ angular.module('liveopsConfigPanel')
                 id: null
               });
               $scope.ngResource = null;
-              $scope.$emit('details:panel:close');
+              $scope.$emit(loEvents.bulkActions.close);
             });
           };
 

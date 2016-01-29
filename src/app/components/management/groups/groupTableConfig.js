@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('groupTableConfig', ['statuses', '$translate', 'UserPermissions', 'helpDocsHostname',
-    function(statuses, $translate, UserPermissions, helpDocsHostname) {
+  .service('groupTableConfig', ['statuses', '$translate', 'UserPermissions', 'helpDocsHostname', 'PermissionGroups',
+    function(statuses, $translate, UserPermissions, helpDocsHostname, PermissionGroups) {
       var config = {
         'searchOn': ['$original.name', '$original.description'],
         'orderBy': '$original.name',
@@ -29,14 +29,14 @@ angular.module('liveopsConfigPanel')
         'name': '$original.description'
       }];
 
-      if (UserPermissions.hasPermissionInList(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_TENANT_ENROLLMENT'])) {
+      if (UserPermissions.hasPermissionInList(PermissionGroups.viewGroupMembers)) {
         config.fields.push({
           'header': {
             'display': $translate.instant('group.table.members')
           },
-          'name': 'members',
+          'name': '$members',
           'transclude': true,
-          'sortOn': 'members.length'
+          'sortOn': '$members.length'
         });
       }
 

@@ -6,7 +6,7 @@ describe('The empty role', function() {
     role = require('../management/role.po.js'),
     users = require('../management/users.po.js'),
     invites = require('../invitations/invites.po.js'),
-    role = require('../management/role.po.js'),
+    extensions = require('../management/extensions.po.js'),
     profile = require('../userProfile/profile.po.js'),
     params = browser.params,
     random,
@@ -51,8 +51,8 @@ describe('The empty role', function() {
           return invites.submitFormBtn.isPresent().then(function(submitBtn) {
             return submitBtn;
           });
-        }, 10000).then(function() {
-          invites.passwordFormField.sendKeys('password');
+        }, 50000).then(function() {
+          invites.passwordFormField.sendKeys('password1!');
 
           invites.submitFormBtn.click().then(function() {
             expect(shared.message.isDisplayed()).toBeTruthy();
@@ -152,7 +152,7 @@ describe('The empty role', function() {
     expect(shared.message.getText()).toContain('Sorry, your account does not have the correct permissions to view that page.');
   });
 
-  it('should not have access to user profile details', function() {
+  xit('should not have access to user profile details', function() {
     expect(profile.userEmail.getAttribute('value')).toContain(emptyRoleEmail);
     expect(profile.firstNameFormField.getAttribute('value')).toBe('Agent' + random);
     expect(profile.lastNameFormField.getAttribute('value')).toBe('Role' + random);
@@ -162,13 +162,13 @@ describe('The empty role', function() {
     expect(profile.userGroupsSectionHeader.isDisplayed()).toBeTruthy();
   });
 
-  it('should not have access to user profile details', function() {
+  xit('should not have access to user profile details', function() {
     expect(profile.firstNameFormField.isEnabled()).toBeFalsy();
     expect(profile.lastNameFormField.isEnabled()).toBeFalsy();
     expect(profile.resetPasswordButton.isEnabled()).toBeFalsy();
   });
 
-  it('should allow user to add an extension', function() {
+  xit('should allow user to add an extension', function() {
     extensions.userExtensions.count().then(function(originalExtensionCount) {
       extensions.typeDropdown.click();
       extensions.pstnDropdownOption.click();

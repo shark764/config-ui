@@ -1,7 +1,7 @@
 'use strict';
 
 var Extensions = function() {
-  this.extensionsSection = element(by.id('user-extensions-section'));
+  this.extensionsSection = element(by.css('lo-extensions'));
 
   this.typeDropdown = this.extensionsSection.element(by.id('extension-type-dropdown'));
   this.pstnDropdownOption = this.typeDropdown.element(by.css('[label="PSTN"]'));

@@ -608,8 +608,7 @@ describe('The table filters', function() {
       expect(columns.dropdownStatusInputs.get(2).isSelected()).toBeTruthy();
     });
 
-    xit('should display elements by Status', function() {
-      // TODO TITAN2-6035 Create modal opens when no results are found
+    it('should display elements by Status', function() {
       columns.statusTableDropDownLabel.click();
 
       // Select input from drop down
@@ -668,7 +667,7 @@ describe('The table filters', function() {
       });
     });
 
-    xit('should display filtered message and Clear Filters link', function() {
+    it('should display filtered message and Clear Filters link', function() {
       expect(shared.filteredResultsMessage.isDisplayed()).toBeFalsy();
       expect(shared.clearAllResultsLink.isDisplayed()).toBeFalsy();
 

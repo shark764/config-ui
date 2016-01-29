@@ -26,7 +26,6 @@ describe('IntegrationsController', function() {
     }
   ]));
 
-
   describe('ON fetchIntegrations', function() {
     it('should fetch the list of integrations on load', function() {
       var integrations = $scope.fetchIntegrations();
@@ -44,4 +43,131 @@ describe('IntegrationsController', function() {
     });
   });
 
+  describe('ON submit', function() {
+    it('should save the integration', inject(function(Integration, apiHostname) {
+      $scope.selectedIntegration = new Integration({
+        tenantId: 'myTenant'
+      });
+
+      $httpBackend.expectPOST(apiHostname + '/v1/tenants/myTenant/integrations').respond(200);
+      $scope.submit();
+
+      $httpBackend.flush();
+    }));
+  });
+
+  describe('ON updateActive', function() {
+    it('should save the integration', inject(function(Integration, apiHostname) {
+      $scope.selectedIntegration = new Integration({
+        tenantId: 'myTenant',
+        active: false,
+        id: '1234'
+      });
+      $scope.selectedIntegration.$original = $scope.selectedIntegration;
+
+      $httpBackend.expectPUT(apiHostname + '/v1/tenants/myTenant/integrations/1234').respond(200);
+      $scope.updateActive();
+
+      $httpBackend.flush();
+    }));
+    
+    it('should toggle the active property to true when it is false', inject(function(Integration, apiHostname) {
+      $scope.selectedIntegration = new Integration({
+        tenantId: 'myTenant',
+        active: false,
+        id: '1234'
+      });
+      $scope.selectedIntegration.$original = $scope.selectedIntegration;
+
+      $httpBackend.expectPUT(apiHostname + '/v1/tenants/myTenant/integrations/1234', {
+        active: true
+      }).respond(200);
+      $scope.updateActive();
+
+      $httpBackend.flush();
+    }));
+    
+    it('should toggle the active property to false when it is true', inject(function(Integration, apiHostname) {
+      $scope.selectedIntegration = new Integration({
+        tenantId: 'myTenant',
+        active: true,
+        id: '1234'
+      });
+      $scope.selectedIntegration.$original = $scope.selectedIntegration;
+
+      $httpBackend.expectPUT(apiHostname + '/v1/tenants/myTenant/integrations/1234', {
+        active: false
+      }).respond(200);
+      $scope.updateActive();
+
+      $httpBackend.flush();
+    }));
+
+    it('should update only the active status', inject(function(Integration, apiHostname) {
+      $scope.selectedIntegration = new Integration({
+        tenantId: 'myTenant',
+        active: false,
+        id: '1234',
+        anotherProperty: 'somevalue'
+      });
+
+      $scope.selectedIntegration.$original = $scope.selectedIntegration;
+      $httpBackend.expectPUT(apiHostname + '/v1/tenants/myTenant/integrations/1234', {
+        active: true
+      }).respond(200);
+      $scope.updateActive();
+
+      $httpBackend.flush();
+    }));
+
+    it('should update the $original value on success', inject(function(Integration, apiHostname) {
+      $scope.selectedIntegration = new Integration({
+        tenantId: 'myTenant',
+        active: false,
+        id: '1234'
+      });
+
+      $scope.selectedIntegration.$original = angular.copy($scope.selectedIntegration);
+      expect($scope.selectedIntegration.$original.active).toBeFalsy();
+
+      $httpBackend.expectPUT(apiHostname + '/v1/tenants/myTenant/integrations/1234').respond(200, {
+        result: {
+          tenantId: 'myTenant',
+          active: true,
+          id: '1234'
+        }
+      });
+      
+      $scope.updateActive();
+
+      $httpBackend.flush();
+      
+      expect($scope.selectedIntegration.$original.active).toBeTruthy();
+    }));
+
+    it('should return a rejected promise with the error message on error', function(done){
+      inject(function(Integration, apiHostname) {
+        $scope.selectedIntegration = new Integration({
+          tenantId: 'myTenant',
+          active: false,
+          id: '1234'
+        });
+  
+        $httpBackend.expectPUT(apiHostname + '/v1/tenants/myTenant/integrations/1234').respond(400, {
+          error: {
+            attribute : {
+              active : 'This integration cannot be enabled'
+            }
+          }
+        });
+        
+        $scope.updateActive().catch(function(error){
+          expect(error).toEqual('This integration cannot be enabled');
+          done();
+        });
+  
+        $httpBackend.flush();
+      });
+    });
+  });
 });

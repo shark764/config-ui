@@ -13,11 +13,8 @@ describe('userSkills directive', function(){
     mockTenantUsers,
     TenantUserSkill;
 
-  beforeEach(module('gulpAngular'));
-  beforeEach(module('liveopsConfigPanel'));
-  beforeEach(module('liveopsConfigPanel.mock'));
-  beforeEach(module('liveopsConfigPanel.tenant.user.mock'));
-  beforeEach(module('liveopsConfigPanel.tenant.skill.mock'));
+  beforeEach(module('gulpAngular', 'liveopsConfigPanel', 'liveopsConfigPanel.mock', 
+      'liveopsConfigPanel.tenant.user.mock', 'liveopsConfigPanel.tenant.skill.mock', 'liveopsConfigPanel.mockutils'));
 
   beforeEach(inject(['$compile', '$rootScope', '$httpBackend', 'Session', 'apiHostname', 'mockSkills', 'mockUserSkills', 'mockTenantUsers', 'TenantUserSkill', 'tenantUserTransformer',
     function($compile, $rootScope, _$httpBackend, _Session, _apiHostname, _mockSkills, _mockUserSkills, _mockTenantUsers, _TenantUserSkill, tenantUserTransformer) {
@@ -134,18 +131,13 @@ describe('userSkills directive', function(){
       expect(isolateScope.newUserSkill.skillId).toBeNull();
     });
 
-    it('should reset the form name field', function() {
-      isolateScope.skillsForm = {
-          name : {
-            $setPristine : jasmine.createSpy('$setPristine'),
-            $setUntouched : jasmine.createSpy('$setUntouched')
-          }
-      };
+    it('should reset the form name field', inject(function(mockForm) {
+      isolateScope.skillsForm = mockForm(['name']);
 
       isolateScope.reset();
       expect(isolateScope.skillsForm.name.$setPristine).toHaveBeenCalled();
       expect(isolateScope.skillsForm.name.$setUntouched).toHaveBeenCalled();
-    });
+    }));
   });
 
   describe('save function', function() {
@@ -266,16 +258,6 @@ describe('userSkills directive', function(){
       expect(isolateScope.reset).toHaveBeenCalled();
       expect(isolateScope.saving).toBeFalsy();
     });
-
-    it('should show an error alert on fail', inject(['Alert', function(Alert) {
-      spyOn(Alert, 'error');
-      $httpBackend.expectPOST(apiHostname + '/v1/tenants/tenant-id/users/userId1/skills').respond(500);
-
-      isolateScope.saveUserSkill(mockSkills[0]);
-      $httpBackend.flush();
-
-      expect(Alert.error).toHaveBeenCalled();
-    }]));
   });
 
   describe('updateUserSkill function', function() {

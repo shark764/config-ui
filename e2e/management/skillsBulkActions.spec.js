@@ -10,16 +10,6 @@ describe('The skills view bulk actions', function() {
 
   beforeAll(function() {
     loginPage.login(params.login.user, params.login.password);
-
-    // Ensure skill exists
-    var random = Math.floor((Math.random() * 1000) + 1);
-    browser.get(shared.skillsPageUrl);
-    shared.createBtn.click();
-    skills.nameFormField.sendKeys('Skill Name ' + random);
-
-    shared.submitFormBtn.click().then(function() {
-      expect(shared.successMessage.isDisplayed()).toBeTruthy();
-    });
   });
 
   beforeEach(function() {
@@ -59,7 +49,7 @@ describe('The skills view bulk actions', function() {
 
     expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
     bulkActions.confirmOK.click().then(function() {
-      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+      shared.waitForSuccess();
 
       // All skills are set to disabled
       // Leave Disabled selected from Status drop down
@@ -91,7 +81,7 @@ describe('The skills view bulk actions', function() {
 
     expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
     bulkActions.confirmOK.click().then(function() {
-      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+      shared.waitForSuccess();
 
       // All skills are set to enabled
       // Leave Disabled selected from Status drop down
@@ -175,7 +165,7 @@ describe('The skills view bulk actions', function() {
 
     expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
     bulkActions.confirmOK.click().then(function() {
-      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+      shared.waitForSuccess();
 
       // First table row Proficiency is true
       expect(shared.firstTableRow.getText()).toContain('Yes');
@@ -200,7 +190,7 @@ describe('The skills view bulk actions', function() {
 
     expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
     bulkActions.confirmOK.click().then(function() {
-      expect(shared.successMessage.isDisplayed()).toBeTruthy();
+      shared.waitForSuccess();
 
       // All table rows Proficiency are true
       shared.tableElements.each(function (skill) {
@@ -228,7 +218,7 @@ describe('The skills view bulk actions', function() {
 
       expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
       bulkActions.confirmOK.click().then(function() {
-        expect(shared.successMessage.isDisplayed()).toBeTruthy();
+        shared.waitForSuccess();
 
         // Only selected skills are updated
         for (var i = 0; i < originalSkills.length; i++) {

@@ -1,16 +1,22 @@
-<table-controls
-  id="table-pane"
-  config="hc.tableConfig"
-  items="hc.hours"
-  selected="hc.selectedHour"
-  resource-name="BusinessHour">
+<div id="table-pane">
+  <table-controls
+    config="hc.tableConfig"
+    items="hc.hours"
+    search-query="searchQuery">
+  </table-controls>
+  
+  <lo-resource-table
+    config="hc.tableConfig"
+    items="hc.hours"
+    selected="hc.selectedHour"
+    search-query="searchQuery">
 
-  <span name="$original.active">
-    <span ng-if="item.active">{{'value.enabled' | translate}}</span>
-    <span ng-if="!item.active" class="disabled">{{'value.disabled' | translate}}</span>
-  </span>
-
-</table-controls>
+    <span name="$original.active">
+      <span ng-if="item.active">{{'value.enabled' | translate}}</span>
+      <span ng-if="!item.active" class="disabled">{{'value.disabled' | translate}}</span>
+    </span>
+  </lo-resource-table>
+</div>
 
 <resize-handle
   ng-show="!! hc.selectedHour || showBulkActions"
@@ -28,14 +34,18 @@
     ng-show="hc.selectedHour && !showBulkActions"
     name="hc.forms.detailsForm"
     ng-model="hc.selectedHour"
+    ng-resource="hc.selectedHour"
     lo-form-submit
-    lo-form-reset
-    lo-form-alert>
+    lo-form-cancel
+    lo-form-alert
+    lo-form-reset>
 
-    <div class="detail-header"
-      ng-include src="'app/components/configuration/hours/hoursDetailHeader.html'">
-    </div>
-
+    <ng-form name="hc.forms.headerForm" separate-validation>
+      <div class="detail-header"
+        ng-include src="'app/components/configuration/hours/hoursDetailHeader.html'">
+      </div>
+    </ng-form>
+    
     <div class="detail-body"
       ng-include src="'app/components/configuration/hours/hoursDetailBody.html'">
     </div>
@@ -43,7 +53,7 @@
     <div class="detail-controls">
       <input id="cancel-details-btn" type="button" class="btn"
         value="{{'value.cancel' | translate}}"
-        ng-click="hc.reset(hc.selectedHour)">
+        lo-cancel>
       </input>
       <input id="submit-details-btn" class="btn btn-primary"
         type="submit" value="{{'value.submit' | translate}}"

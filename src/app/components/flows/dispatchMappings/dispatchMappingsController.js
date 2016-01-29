@@ -49,6 +49,18 @@ angular.module('liveopsConfigPanel')
         $scope.create();
       });
       
+      $scope.updateActive = function(){
+        var dmCopy = new DispatchMapping({
+          id: $scope.selectedDispatchMapping.id,
+          tenantId: $scope.selectedDispatchMapping.tenantId,
+          active: ! $scope.selectedDispatchMapping.active
+        });
+        
+        return dmCopy.save(function(result){
+          $scope.selectedDispatchMapping.$original.active = result.active;
+        });
+      };
+      
       vm.loadIntegrations();
       vm.loadFlows();
       vm.loadDispatchMappings();

@@ -1,19 +1,17 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('loExtensionsController', ['$scope', '$q', '$translate', 'Session', 'loExtensionProviders', 'loExtensionTypes', '_', 'Alert',
-    function($scope, $q, $translate, Session, loExtensionProviders, loExtensionTypes, _, Alert) {
+  .controller('loExtensionsController', ['$scope', '$q', '$translate', 'Session', '_', 'Alert',
+    function($scope, $q, $translate, Session, _, Alert) {
       var vm = this;
-      $scope.loExtensionProviders = loExtensionProviders;
-      $scope.loExtensionTypes = loExtensionTypes;
-      $scope.sipPattern = '[s|S]{1}[i|I]{1}[p|P]{1}:.*';
-
       $scope.newExtension = {};
 
       vm.resetExtension = function() {
         $scope.newExtension = {};
         $scope.newExtension.type = 'webrtc';
-        $scope.clearValues();
+        vm.editingExtension = null;
+        $scope.creatingExtension = false;
+        $scope.loExtensionsForm.$setPristine();
       };
 
       vm.save = function() {
@@ -31,6 +29,17 @@ angular.module('liveopsConfigPanel')
               .loFormSubmitController
               .populateApiErrors(response);
 
+            $scope.form.$setPristine();
+
+            var unbindWatch = $scope.$watch('form.$dirty', function (dirty, oldVal) {
+              if (!dirty || (dirty === oldVal)) {
+                return;
+              }
+
+              $scope.form.extensions.$setDirty();
+              unbindWatch();
+            });
+
             Alert.error($translate.instant('details.extensions.error'));
           }
           
@@ -41,33 +50,10 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.add = function() {
-        $scope.newExtension.value = $scope.phoneNumber;
-        if ($scope.phoneExtension) {
-          $scope.newExtension.value += 'x' + $scope.phoneExtension;
-        } else if ($scope.sipExtension) {
-          $scope.newExtension.value = $scope.sipExtension;
-        }
-
         $scope.tenantUser.extensions.push($scope.newExtension);
         return vm.save().then(function(tenantUser) {
           vm.resetExtension();
           return tenantUser;
-        });
-      };
-
-      $scope.clearValues = function() {
-        $scope.phoneNumber = null;
-        $scope.phoneExtension = null;
-        $scope.sipExtension = null;
-        $scope.newExtension.description = null;
-        delete($scope.newExtension.provider);
-
-        angular.forEach([
-          'type', 'provider', 'telValue', 'sipValue', 'extensiondescription'
-        ], function(field) {
-          $scope.form[field].$setPristine();
-          $scope.form[field].$setUntouched();
-          $scope.form[field].$setValidity('api', true);
         });
       };
 
@@ -97,6 +83,11 @@ angular.module('liveopsConfigPanel')
 
           $scope.tenantUser.activeExtension = extension;
         }
+      };
+
+      $scope.createExtension = function(){
+        vm.resetExtension();
+        $scope.creatingExtension = true;
       };
 
       $scope.newExtension.type = 'webrtc';

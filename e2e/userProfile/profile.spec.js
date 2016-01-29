@@ -28,7 +28,7 @@ describe('The profile view', function() {
     profile.lastNameFormField.clear();
     profile.lastNameFormField.sendKeys(params.login.lastName);
     profile.resetPasswordButton.click();
-    
+
     // Does not update password if current user is titantest
     if (params.login.user !== 'titan@liveops.com') {
       profile.passwordFormField.clear();
@@ -353,7 +353,8 @@ describe('The profile view', function() {
     });
   });
 
-  it('should display user groups and skills for the current tenant', function() {
+  // TODO TITAN2-7078
+  xit('should display user groups and skills for the current tenant', function() {
     browser.get(shared.tenantsPageUrl);
     shared.tenantsNavDropdown.getText().then(function(selectTenantNav) {
       defaultTenantName = selectTenantNav;
@@ -370,7 +371,8 @@ describe('The profile view', function() {
     expect(profile.userGroups.get(0).getText()).toBe('everyone');
   });
 
-  it('should add new user groups and skills for the current tenant', function() {
+  // TODO TITAN2-7078
+  xit('should add new user groups and skills for the current tenant', function() {
     tenants.selectTenant(newTenantName);
 
     // Add user skill and group
@@ -403,33 +405,36 @@ describe('The profile view', function() {
   });
 
   it('should allow user to add an extension', function() {
-    extensions.userExtensions.count().then(function(originalExtensionCount) {
-      extensions.typeDropdown.click();
-      extensions.pstnDropdownOption.click();
+    // Do not update if current user is titantest
+    if (params.login.user !== 'titan@liveops.com') {
+      extensions.userExtensions.count().then(function(originalExtensionCount) {
+        extensions.typeDropdown.click();
+        extensions.pstnDropdownOption.click();
 
-      extensions.pstnValueFormField.sendKeys('15064561234\t');
-      extensions.extFormField.sendKeys('12345');
+        extensions.pstnValueFormField.sendKeys('15064561234\t');
+        extensions.extFormField.sendKeys('12345');
 
-      extensions.descriptionFormField.sendKeys('PSTN Extension description');
+        extensions.descriptionFormField.sendKeys('PSTN Extension description');
 
-      extensions.addBtn.click().then(function() {
-        shared.waitForSuccess();
+        extensions.addBtn.click().then(function() {
+          shared.waitForSuccess();
 
-        expect(extensions.userExtensions.count()).toBe(originalExtensionCount + 1);
-        var newExtension = extensions.userExtensions.get(originalExtensionCount);
-        expect(newExtension.element(by.css('.type-col')).getText()).toContain('PSTN');
-        expect(newExtension.element(by.css('.phone-number-col')).getText()).toBe('+15064561234x12345');
-        expect(newExtension.element(by.css('.description-col')).getText()).toBe('PSTN Extension description');
-        expect(newExtension.element(by.css('.remove')).isDisplayed()).toBeTruthy();
+          expect(extensions.userExtensions.count()).toBe(originalExtensionCount + 1);
+          var newExtension = extensions.userExtensions.get(originalExtensionCount);
+          expect(newExtension.element(by.css('.type-col')).getText()).toContain('PSTN');
+          expect(newExtension.element(by.css('.phone-number-col')).getText()).toBe('+15064561234x12345');
+          expect(newExtension.element(by.css('.description-col')).getText()).toBe('PSTN Extension description');
+          expect(newExtension.element(by.css('.remove')).isDisplayed()).toBeTruthy();
 
-        // Fields are reset
-        expect(extensions.typeDropdown.$('option:checked').getText()).toContain('WebRTC');
-        expect(extensions.providerDropdown.$('option:checked').getText()).toContain('Provider');
-        expect(extensions.pstnValueFormField.isDisplayed()).toBeFalsy();
-        expect(extensions.extFormField.isDisplayed()).toBeFalsy();
-        expect(extensions.descriptionFormField.getAttribute('value')).toBe('');
+          // Fields are reset
+          expect(extensions.typeDropdown.$('option:checked').getText()).toContain('WebRTC');
+          expect(extensions.providerDropdown.$('option:checked').getText()).toContain('Provider');
+          expect(extensions.pstnValueFormField.isDisplayed()).toBeFalsy();
+          expect(extensions.extFormField.isDisplayed()).toBeFalsy();
+          expect(extensions.descriptionFormField.getAttribute('value')).toBe('');
+        });
       });
-    });
+    }
   });
 
   it('should require description when adding an extension', function() {
@@ -455,42 +460,48 @@ describe('The profile view', function() {
   });
 
   it('should add an extension and update user page', function() {
-    extensionCount = extensions.userExtensions.count();
-
-    extensions.typeDropdown.click();
-    extensions.pstnDropdownOption.click();
-
-    extensions.pstnValueFormField.sendKeys('15064657894\t');
-    extensions.extFormField.sendKeys('12345');
-
-    extensions.descriptionFormField.sendKeys('PSTN Extension description');
-    extensions.addBtn.click().then(function() {
-      shared.waitForSuccess();
-
-      expect(extensions.userExtensions.count()).toBeGreaterThan(extensionCount);
+    // Do not update if current user is titantest
+    if (params.login.user !== 'titan@liveops.com') {
       extensionCount = extensions.userExtensions.count();
 
-      browser.get(shared.usersPageUrl);
-      shared.searchField.sendKeys(params.login.user);
-      shared.firstTableRow.click();
-      expect(extensions.userExtensions.count()).toBe(extensionCount);
-    });
+      extensions.typeDropdown.click();
+      extensions.pstnDropdownOption.click();
+
+      extensions.pstnValueFormField.sendKeys('15064657894\t');
+      extensions.extFormField.sendKeys('12345');
+
+      extensions.descriptionFormField.sendKeys('PSTN Extension description');
+      extensions.addBtn.click().then(function() {
+        shared.waitForSuccess();
+
+        expect(extensions.userExtensions.count()).toBeGreaterThan(extensionCount);
+        extensionCount = extensions.userExtensions.count();
+
+        browser.get(shared.usersPageUrl);
+        shared.searchField.sendKeys(params.login.user);
+        shared.firstTableRow.click();
+        expect(extensions.userExtensions.count()).toBe(extensionCount);
+      });
+    }
   });
 
   it('should remove an extension and update user page', function() {
-    extensionCount = extensions.userExtensions.count();
-
-    extensions.removeBtns.get(0).click().then(function() {
-      shared.waitForSuccess();
-
-      expect(extensions.userExtensions.count()).toBeLessThan(extensionCount);
+    // Do not update if current user is titantest
+    if (params.login.user !== 'titan@liveops.com') {
       extensionCount = extensions.userExtensions.count();
 
-      browser.get(shared.usersPageUrl);
-      shared.searchField.sendKeys(params.login.user);
-      shared.firstTableRow.click();
-      expect(extensions.userExtensions.count()).toBe(extensionCount);
-    });
+      extensions.removeBtns.get(0).click().then(function() {
+        shared.waitForSuccess();
+
+        expect(extensions.userExtensions.count()).toBeLessThan(extensionCount);
+        extensionCount = extensions.userExtensions.count();
+
+        browser.get(shared.usersPageUrl);
+        shared.searchField.sendKeys(params.login.user);
+        shared.firstTableRow.click();
+        expect(extensions.userExtensions.count()).toBe(extensionCount);
+      });
+    }
   });
 
   xit('should update order on user profile page', function() {

@@ -43,21 +43,21 @@ describe('The role view', function() {
     expect(shared.tableElements.count()).toBe(1);
     expect(shared.firstTableRow.getText()).toContain('Administrator');
     expect(shared.firstTableRow.getText()).toContain('tenant administrator');
-    expect(shared.firstTableRow.getText()).toContain('35');
+    expect(shared.firstTableRow.getText()).toContain('42');
 
     shared.searchField.clear();
     shared.searchField.sendKeys('Agent');
     expect(shared.tableElements.count()).toBe(1);
     expect(shared.firstTableRow.getText()).toContain('Agent');
     expect(shared.firstTableRow.getText()).toContain('tenant agent');
-    expect(shared.firstTableRow.getText()).toContain('1');
+    expect(shared.firstTableRow.getText()).toContain('6');
 
     shared.searchField.clear();
     shared.searchField.sendKeys('Supervisor');
     expect(shared.tableElements.count()).toBe(1);
     expect(shared.firstTableRow.getText()).toContain('Supervisor');
     expect(shared.firstTableRow.getText()).toContain('tenant supervisor');
-    expect(shared.firstTableRow.getText()).toContain('6');
+    expect(shared.firstTableRow.getText()).toContain('13');
   });
 
   it('should include valid Role fields when creating a new Role', function() {
@@ -391,8 +391,8 @@ describe('The role view', function() {
 
     expect(role.nameFormField.getAttribute('value')).toBe('Administrator');
     expect(role.descriptionFormField.getAttribute('value')).toBe('tenant administrator');
-    expect(role.rolePermissions.count()).toBe(35);
-    expect(role.detailsPermissionCount.getText()).toBe('(35)');
+    expect(role.rolePermissions.count()).toBe(42);
+    expect(role.detailsPermissionCount.getText()).toBe('(42)');
   });
 
   it('should not allow updates to Agent role', function() {
@@ -406,8 +406,8 @@ describe('The role view', function() {
 
     expect(role.nameFormField.getAttribute('value')).toBe('Agent');
     expect(role.descriptionFormField.getAttribute('value')).toBe('tenant agent');
-    expect(role.rolePermissions.count()).toBe(1);
-    expect(role.detailsPermissionCount.getText()).toBe('(1)');
+    expect(role.rolePermissions.count()).toBe(6);
+    expect(role.detailsPermissionCount.getText()).toBe('(6)');
   });
 
   it('should not allow updates to Supervisor role', function() {
@@ -421,8 +421,8 @@ describe('The role view', function() {
 
     expect(role.nameFormField.getAttribute('value')).toBe('Supervisor');
     expect(role.descriptionFormField.getAttribute('value')).toBe('tenant supervisor');
-    expect(role.rolePermissions.count()).toBe(6);
-    expect(role.detailsPermissionCount.getText()).toBe('(6)');
+    expect(role.rolePermissions.count()).toBe(13);
+    expect(role.detailsPermissionCount.getText()).toBe('(13)');
   });
 
   it('should list all roles on the User Management page', function() {

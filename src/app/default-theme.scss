@@ -18,3 +18,16 @@
 #topnav > ul > li:hover #logo {
   box-shadow: inset 0px -5px 0px 0px $accent1;
 }
+
+lo-time-picker select:not([disabled]) {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("/assets/images/down-arrow.png");
+  background-repeat: no-repeat;
+  background-position: right 5px center;
+  background-size: 13px 13px;
+}
+
+lo-time-picker select::-ms-expand {
+  display: none;
+}

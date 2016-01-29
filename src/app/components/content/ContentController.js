@@ -20,6 +20,10 @@ angular.module('liveopsConfigPanel')
       $scope.$on(loEvents.bulkActions.close, function() {
         $scope.showBulkActions = false;
       });
+      
+      $scope.$on('$stateChangeSuccess', function(){
+        $scope.showBulkActions = false;
+      });
 
       if ($stateParams.messageKey) {
         Alert.info($translate.instant($stateParams.messageKey), '', {

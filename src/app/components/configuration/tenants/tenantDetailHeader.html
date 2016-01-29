@@ -2,7 +2,8 @@
   <toggle class="status-toggle" ng-model="selectedTenant.active" 
   confirm-disable-message="{{'tenant.details.disable.confirm' | translate}}"
   confirm-enable-message="{{'tenant.details.enable.confirm' | translate}}"
-  ng-disabled="! (['PLATFORM_MANAGE_ALL_TENANTS', 'MANAGE_TENANT'] | hasPermission)"></toggle>
+  ng-disabled="! (['PLATFORM_MANAGE_ALL_TENANTS', 'MANAGE_TENANT'] | hasPermission)"
+  on-confirm="updateActive()"></toggle>
   
   <div class="info">
     <h1>{{selectedTenant.$original.name}}</h1>

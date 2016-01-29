@@ -1,25 +1,31 @@
-<table-controls
-  id="table-pane"
-  config="tableConfig"
-  items="fetchSkills()"
-  selected="selectedSkill"
-  resource-name="Skill">
-
-  <div name="$original.hasProficiency">
-    <span ng-if="item.$original.hasProficiency">{{'value.yes' | translate}}</span>
-    <span ng-if="!item.$original.hasProficiency" class="disabled">{{'value.no' | translate}}</span>
-  </div>
-
-  <span name="$original.active">
-    <span ng-if="item.$original.active">{{'value.enabled' | translate}}</span>
-    <span ng-if="!item.$original.active" class="disabled">{{'value.disabled' | translate}}</span>
-  </span>
+<div id="table-pane">
+  <table-controls
+    config="tableConfig"
+    items="fetchSkills()"
+    search-query="searchQuery">
+  </table-controls>
   
-  <span name="$members">
-    {{item.fetchSkillUsers().length}}
-  </span>
-
-</table-controls>
+  <lo-resource-table
+    config="tableConfig"
+    items="fetchSkills()"
+    selected="selectedSkill"
+    search-query="searchQuery">
+    
+    <div name="$original.hasProficiency">
+      <span ng-if="item.$original.hasProficiency">{{'value.yes' | translate}}</span>
+      <span ng-if="!item.$original.hasProficiency" class="disabled">{{'value.no' | translate}}</span>
+    </div>
+  
+    <span name="$original.active">
+      <span ng-if="item.$original.active">{{'value.enabled' | translate}}</span>
+      <span ng-if="!item.$original.active" class="disabled">{{'value.disabled' | translate}}</span>
+    </span>
+  
+    <span name="$members">
+      {{item.fetchSkillUsers().length}}
+    </span>
+  </lo-resource-table>
+</div>
 
 <resize-handle
   ng-show="selectedSkill || showBulkActions"
@@ -40,9 +46,11 @@
     lo-form-cancel
     lo-form-alert>
 
-    <div class="detail-header"
-      ng-include src="'app/components/management/skills/skillDetailHeader.html'">
-    </div>
+    <ng-form name="forms.headerForm" separate-validation>
+      <div class="detail-header"
+         ng-include src="'app/components/management/skills/skillDetailHeader.html'">
+       </div>
+    </ng-form>
 
     <div class="detail-body"
       ng-include src="'app/components/management/skills/skillDetailBody.html'">

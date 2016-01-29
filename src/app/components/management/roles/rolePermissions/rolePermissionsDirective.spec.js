@@ -7,10 +7,8 @@ describe('rolePermissions directive', function() {
     mockRoles,
     mockTenantPermissions;
 
-  beforeEach(module('gulpAngular'));
-  beforeEach(module('liveopsConfigPanel'));
-  beforeEach(module('liveopsConfigPanel.tenant.role.mock'));
-  beforeEach(module('liveopsConfigPanel.tenant.permission.mock'));
+  beforeEach(module('gulpAngular', 'liveopsConfigPanel', 'liveopsConfigPanel.tenant.role.mock', 
+      'liveopsConfigPanel.tenant.permission.mock','liveopsConfigPanel.mockutils'));
 
   beforeEach(inject(['$compile', '$rootScope', 'mockRoles', 'mockTenantPermissions',
     function($compile, $rootScope, _mockRoles, _mockTenantPermissions) {
@@ -64,21 +62,39 @@ describe('rolePermissions directive', function() {
       isolateScope.save();
       expect($scope.role.$update).toHaveBeenCalled();
     });
+    
+    it('should display an alert if updating the role succeeded', inject(function(Alert, $httpBackend, apiHostname) {
+      spyOn(Alert, 'success');
+      $httpBackend.expectPUT(apiHostname + '/v1/tenants/tenant-id/roles/roleId1').respond(200);
+      isolateScope.filtered = mockTenantPermissions;
+      isolateScope.selectedPermission = mockTenantPermissions[0];
 
-    it('should set the permissionchanges input dirty if the role is new', function() {
+      isolateScope.save();
+      $httpBackend.flush();
+      expect(Alert.success).toHaveBeenCalled();
+    }));
+    
+    it('should display an alert if updating the role failed', inject(function(Alert, $httpBackend, apiHostname) {
+      spyOn(Alert, 'error');
+      $httpBackend.expectPUT(apiHostname + '/v1/tenants/tenant-id/roles/roleId1').respond(400);
+      isolateScope.filtered = mockTenantPermissions;
+      isolateScope.selectedPermission = mockTenantPermissions[0];
+
+      isolateScope.save();
+      $httpBackend.flush();
+      expect(Alert.error).toHaveBeenCalled();
+    }));
+
+    it('should set the permissionchanges input dirty if the role is new', inject(function(mockForm) {
       isolateScope.filtered = mockTenantPermissions;
       spyOn($scope.role, 'isNew').and.returnValue(true);
-      isolateScope.addPermission = {
-        permissionchanges: {
-          $setDirty: jasmine.createSpy('$setDirty')
-        }
-      };
+      isolateScope.addPermission = mockForm(['permissionchanges']);
 
       isolateScope.selectedPermission = mockTenantPermissions[0];
 
       isolateScope.save();
       expect(isolateScope.addPermission.permissionchanges.$setDirty).toHaveBeenCalled();
-    });
+    }));
   });
 
   describe('updateFiltered function', function() {
@@ -99,7 +115,7 @@ describe('rolePermissions directive', function() {
       expect(isolateScope.fetchPermissions).toHaveBeenCalled();
     }));
 
-    it('should fetch the role permissions', inject(['mockRoles', '$q', '$httpBackend', function(mockRoles, $q, $httpBackend) {
+    it('should fetch the role permissions', inject(['mockRoles', '$httpBackend', function(mockRoles, $httpBackend) {
       spyOn(isolateScope, 'fetchRolePermissions');
 
       $scope.role = mockRoles[1];
@@ -142,19 +158,41 @@ describe('rolePermissions directive', function() {
       expect($scope.role.$update).toHaveBeenCalled();
     });
 
-    it('should set the permissionchanges input dirty if the role is new', function() {
+    it('should set the permissionchanges input dirty if the role is new', inject(function(mockForm) {
       isolateScope.filtered = [];
       isolateScope.role.permissions = [mockTenantPermissions[0].id, mockTenantPermissions[1].id, mockTenantPermissions[2].id];
       isolateScope.rolePermissions = mockTenantPermissions;
       spyOn($scope.role, 'isNew').and.returnValue(true);
-      isolateScope.addPermission = {
-        permissionchanges: {
-          $setDirty: jasmine.createSpy('$setDirty')
-        }
-      };
+      isolateScope.addPermission = mockForm(['permissionchanges']);
 
       isolateScope.remove(mockTenantPermissions[0]);
       expect(isolateScope.addPermission.permissionchanges.$setDirty).toHaveBeenCalled();
-    });
+    }));
+    
+    it('should display an alert if updating the role succeeded', inject(function(Alert, $httpBackend, apiHostname) {
+      spyOn(Alert, 'success');
+      spyOn(isolateScope, 'fetchRolePermissions');
+      $httpBackend.expectPUT(apiHostname + '/v1/tenants/tenant-id/roles/roleId1').respond(200);
+      isolateScope.filtered = [];
+      isolateScope.role.permissions = [mockTenantPermissions[0].id, mockTenantPermissions[1].id, mockTenantPermissions[2].id];
+      isolateScope.rolePermissions = mockTenantPermissions;
+
+      isolateScope.remove(mockTenantPermissions[0]);
+      $httpBackend.flush();
+      expect(Alert.success).toHaveBeenCalled();
+    }));
+    
+    it('should display an alert if updating the role failed', inject(function(Alert, $httpBackend, apiHostname) {
+      spyOn(Alert, 'error');
+      spyOn(isolateScope, 'fetchRolePermissions');
+      $httpBackend.expectPUT(apiHostname + '/v1/tenants/tenant-id/roles/roleId1').respond(400);
+      isolateScope.filtered = [];
+      isolateScope.role.permissions = [mockTenantPermissions[0].id, mockTenantPermissions[1].id, mockTenantPermissions[2].id];
+      isolateScope.rolePermissions = mockTenantPermissions;
+
+      isolateScope.remove(mockTenantPermissions[0]);
+      $httpBackend.flush();
+      expect(Alert.error).toHaveBeenCalled();
+    }));
   });
 });

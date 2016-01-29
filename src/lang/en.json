@@ -1,4 +1,5 @@
 {
+  "value.id": "ID",
   "value.cancel": "Cancel",
   "value.close": "Close",
   "value.create": "Create",
@@ -15,6 +16,7 @@
   "value.disabled": "Disabled",
   "value.disable": "Disable",
   "value.displayName": "{{displayName}}",
+  "value.edit": "Edit",
   "value.enabled": "Enabled",
   "value.enable": "Enable",
   "value.email": "Email",
@@ -155,6 +157,7 @@
   "details.tenantStatus.help": "Tenant Statuses: <ul><li>Pending Invitation</li><li>Pending Acceptance</li><li>Accepted</li><li>Disabled</li><li>Expired Invitation</li></ul>",
   "details.inviteNow.help": "<center><p>To invite this user now select, click \"Submit\" with \"Invite Now\" selected</p> <p>or</p> <p>To set this user to a pending invite status de-select \"Invite Now and click \"Submit\"</p></center>",
   "details.tenantStatus.notInvited": "This user has not been invited to join the tenant, to invite them now select \"Invite Now\" and click \"Submit\"",
+  "details.header.agent": "Agent(s)",
 
   "user.details.disable.confirm": "This will disable this user and prevent them from logging in. Do you want to continue?",
   "user.details.enable.confirm": "This will enable this user and allow them to log in. Do you want to continue?",
@@ -321,6 +324,8 @@
   "media.details.source.error": "Please enter a source",
   "media.details.type.error": "Please enter a type",
   "media.details.type.select": "Select Type...",
+  "media.details.property.language.select": "Select Language...",
+  "media.details.property.voice.select": "Select Voice...",
   "media.details.properties.error": "Please enter properties as JSON",
   "media.details.name.error": "Please enter a name",
   "media.details.url.error": "URL is required",
@@ -337,6 +342,8 @@
   "media.details.source.text": "Text",
   "media.details.property.voice": "Voice",
   "media.details.property.language": "Language",
+  "media.details.voice.error": "Please enter a voice",
+  "media.details.language.error": "Please enter a language",
 
   "media.collections.media.mapping": "Media Mappings",
   "media.collections.media.new": "Create New Media",
@@ -466,7 +473,7 @@
   "bulkActions.enable.queues": "Enable/Disable Queues",
   "bulkAction.success": "Bulk action successful!",
   "bulkActions.status.placeholder": "Select new status...",
-  "bulkActions.enable.hours": "Enable Hours",
+  "bulkActions.enable.hours": "Enable/Disable Hours",
 
   "user.profile.save.success": "Your details have been updated.",
   "user.profile.save.fail": "An error occurred while updating your details.",
@@ -529,6 +536,26 @@
   "list.table.title": "List Item(s)",
   "list.details.disable.confirm": "Are you sure you want to disable this list?",
   "list.details.enable.confirm": "Are you sure you want to enable this list?",
+  
+  "recordings.table.filter.agent": "Agent",
+  "recordings.table.filter.startDate": "Start Date",
+  "recordings.table.filter.endDate": "End Date",
+  "recordings.table.filter.clear": "Clear Filters",
+  "recordings.table.filter.search": "Search Recordings",
+  "recordings.table.filter.flow": "Flow",
+  "recordings.table.title": "Recordings",
+  "recordings.table.audio": "Audio",
+  "recordings.table.datetime": "Date & Time",
+  "recordings.table.resources": "Resources",
+  "recordings.table.emails": "Emails",
+  "recordings.table.extensions": "Extensions",
+  "recordings.table.flow": "Flow",
+  "recordings.table.callerani": "Caller ANI",
+  "recordings.table.flag": "Flag",
+  "recordings.table.note": "Note",
+  "recordings.details.duration": "Duration",
+  "recordings.details.play": "Play",
+  "recordings.details.extension": "Extension",
 
   "webrtc": "WebRTC",
   "twilio": "Twilio",
@@ -573,6 +600,6 @@
   "hours.exception.remove.success": "Exception removed successfully!",
   "hours.exception.remove.failure": "Exception removal failure!",
   "hours.timezone.required": "Field \"Timezone\" is required.",
-  
+
   "realtimeDashboards.table.title": "Realtime Dashboards"
 }

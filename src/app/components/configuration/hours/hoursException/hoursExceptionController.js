@@ -6,6 +6,7 @@ angular.module('liveopsConfigPanel')
       var vm = this;
 
       vm.addHoursException = function () {
+        //Init date to tomorrow
         var newLocalDate = new Date();
         var newUTCDate = $moment.utc([
           newLocalDate.getFullYear(), newLocalDate.getMonth(), newLocalDate.getDate()
@@ -15,7 +16,9 @@ angular.module('liveopsConfigPanel')
 
         var newExceptionHour = new BusinessHourException({
           date: newUTCDate,
-          isAllDay: true
+          isAllDay: true,
+          startTimeMinutes: -1,
+          endTimeMinutes: -1
         });
 
         if ($scope.hours.$exceptions && angular.isArray($scope.hours.$exceptions)) {

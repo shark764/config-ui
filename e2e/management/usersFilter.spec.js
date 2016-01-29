@@ -669,8 +669,7 @@ describe('The users table filter', function() {
       users.dropdownTenantStatuses.get(1).click();
       users.dropdownTenantStatuses.get(2).click();
       users.dropdownTenantStatuses.get(3).click();
-      users.dropdownTenantStatuses.get(4).click();
-      users.dropdownTenantStatuses.get(5).click().then(function() {
+      users.dropdownTenantStatuses.get(4).click().then(function() {
         // All input is unselected
         expect(users.dropdownTenantStatusInputs.get(0).isSelected()).toBeFalsy();
         // Disabled input is selected

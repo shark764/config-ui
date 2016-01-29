@@ -1,12 +1,17 @@
-<table-controls
-  id="table-pane"
-  ng-if="tableConfig"
-  config="tableConfig"
-  selected="selectedItem"
-  items="list.items"
-  resource-name="Item">
-
-</table-controls>
+<div id="table-pane">
+  <table-controls
+    config="tableConfig"
+    items="list.items"
+    search-query="searchQuery">
+  </table-controls>
+  
+  <lo-resource-table
+    config="tableConfig"
+    items="list.items"
+    selected="selectedItem"
+    search-query="searchQuery">
+  </lo-resource-table>
+</div>
 
 <resize-handle id="resize-pane"
   ng-show="selectedItem"

@@ -8,6 +8,7 @@ describe('The users view bulk actions', function() {
     columns = require('../tableControls/columns.po.js'),
     users = require('./users.po.js'),
     params = browser.params,
+    newSkillName,
     userCount;
 
   beforeAll(function() {
@@ -99,8 +100,6 @@ describe('The users view bulk actions', function() {
     expect(bulkActions.confirmModal.isDisplayed()).toBeTruthy();
     bulkActions.confirmOK.click().then(function() {
       expect(shared.successMessage.isPresent()).toBeFalsy();
-      expect(shared.errorMessage.isDisplayed()).toBeTruthy();
-      expect(shared.errorMessage.getText()).toContain('You cannot disable your own account.');
 
       // Form not reset
       expect(bulkActions.submitFormBtn.getAttribute('disabled')).toBeFalsy();
@@ -126,7 +125,6 @@ describe('The users view bulk actions', function() {
         users.dropdownTenantStatuses.get(1).click();
         users.dropdownTenantStatuses.get(2).click();
         users.dropdownTenantStatuses.get(4).click();
-        users.dropdownTenantStatuses.get(5).click();
 
         shared.tableElements.count().then(function(acceptedUserCount) {
           if (acceptedUserCount > 1) { // Ignore current user
@@ -178,7 +176,6 @@ describe('The users view bulk actions', function() {
               bulkActions.tenantStatuses.get(2).click();
               bulkActions.tenantStatuses.get(3).click();
               bulkActions.tenantStatuses.get(4).click();
-              bulkActions.tenantStatuses.get(5).click();
               bulkActions.tenantStatusColumnDropDownLabel.click();
               shared.tableElements.count().then(function(disabledTotal) {
                 expect(disabledTotal).not.toBeLessThan(Math.min(acceptedUserCount - 1, 9)); // Should be at least equal to the number reset - current user
@@ -208,7 +205,6 @@ describe('The users view bulk actions', function() {
         users.dropdownTenantStatuses.get(2).click();
         users.dropdownTenantStatuses.get(3).click();
         users.dropdownTenantStatuses.get(4).click();
-        users.dropdownTenantStatuses.get(5).click();
 
         shared.tableElements.count().then(function(disabledUserCount) {
           if (disabledUserCount > 0) {
@@ -260,7 +256,6 @@ describe('The users view bulk actions', function() {
                 users.dropdownTenantStatuses.get(2).click();
                 users.dropdownTenantStatuses.get(3).click();
                 users.dropdownTenantStatuses.get(4).click();
-                users.dropdownTenantStatuses.get(5).click();
                 bulkActions.tenantStatusColumnDropDownLabel.click();
                 expect(shared.tableElements.count()).toBe(0);
 
@@ -503,11 +498,11 @@ describe('The users view bulk actions', function() {
     });
   });
 
-  it('should update proficiency when updating a skill for existing users with the skill', function() {
+  it('should add skill when updating a skill for existing users', function() {
     // Create new skill to ensure the skill isn't already added to a user
     browser.get(shared.skillsPageUrl);
     var randomSkill = Math.floor((Math.random() * 1000) + 1);
-    var newSkillName = 'Update Proficiency Skill Name ' + randomSkill;
+    newSkillName = 'Update Proficiency Skill Name ' + randomSkill;
     shared.createBtn.click();
 
     // Edit fields
@@ -555,44 +550,50 @@ describe('The users view bulk actions', function() {
           expect(skillAdded).toBeTruthy();
         });
       });
-    }).then(function() {
-      // Update proficiency
-      shared.actionsBtn.click().then(function() {
-        // TITAN2-5373 Bulk actions not reset
-        //bulkActions.selectChangeSkills.click();
+    });
+  });
 
-        // Update newly added skill proficiency
-        bulkActions.addSkillDropdownFields.get(0).all(by.css('option')).get(2).click();
-        expect(bulkActions.addSkillDropdownFields.get(0).$('option:checked').getText()).toBe('Update Skill');
+  it('should update proficiency when updating a skill for existing users with the skill', function() {
+    // NOTE: Uses skill and user from previous test
+    shared.actionsBtn.click();
+    bulkActions.selectItemTableCells.get(0).click();
 
-        // Select skill to 'update' for users
-        bulkActions.selectSkillsInputFields.get(0).sendKeys(newSkillName + '\t');
-        bulkActions.skillProficiencyFields.get(0).click();
-        bulkActions.skillProficiencyFields.get(0).element(by.css('input')).sendKeys('55\t');
+    // Update proficiency
+    shared.actionsBtn.click().then(function() {
+      bulkActions.selectChangeSkills.click();
 
-        bulkActions.submitFormBtn.click();
-        shared.waitForConfirm();
-        bulkActions.confirmOK.click().then(function() {
+      // Update newly added skill proficiency
+      bulkActions.addSkillDropdownFields.get(0).all(by.css('option')).get(2).click();
+      expect(bulkActions.addSkillDropdownFields.get(0).$('option:checked').getText()).toBe('Update Skill');
 
-          // Verify skill is added to user with default proficiency
-          shared.firstTableRow.click();
-          // Wait for skills to be populated
-          browser.driver.wait(function() {
-            return users.userSkills.count().then(function(userSkillCount) {
-              return userSkillCount;
-            });
-          }, 5000);
-          var skillUpdated = false
-          users.userSkills.each(function(userSkillElement, skillIndex) {
-            userSkillElement.getText().then(function(userSkillText) {
-              if (userSkillText.indexOf(newSkillName) > -1) {
-                skillUpdated = true;
-                expect(users.editSkillProficiencyTds.get(skillIndex).getAttribute('value')).toBe('55');
-              }
-            });
-          }).then(function() {
-            expect(skillUpdated).toBeTruthy();
+      // Select skill to 'update' for users
+      bulkActions.selectSkillsInputFields.get(0).sendKeys(newSkillName + '\t');
+      bulkActions.skillProficiencyFields.get(0).click();
+      bulkActions.skillProficiencyFields.get(0).element(by.css('input')).sendKeys('55\t');
+
+      bulkActions.submitFormBtn.click();
+      shared.waitForConfirm();
+      bulkActions.confirmOK.click().then(function() {
+        shared.waitForSuccess();
+
+        // Verify skill is added to user with default proficiency
+        shared.firstTableRow.click();
+        // Wait for skills to be populated
+        browser.driver.wait(function() {
+          return users.userSkills.count().then(function(userSkillCount) {
+            return userSkillCount;
           });
+        }, 5000);
+        var skillUpdated = false
+        users.userSkills.each(function(userSkillElement, skillIndex) {
+          userSkillElement.getText().then(function(userSkillText) {
+            if (userSkillText.indexOf(newSkillName) > -1) {
+              skillUpdated = true;
+              expect(users.editSkillProficiencyTds.get(skillIndex).getAttribute('value')).toBe('55');
+            }
+          });
+        }).then(function() {
+          expect(skillUpdated).toBeTruthy();
         });
       });
     });

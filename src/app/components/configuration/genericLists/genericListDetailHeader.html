@@ -3,7 +3,8 @@
     ng-model="gc.selectedList.active"
     confirm-disable-message="{{'list.details.disable.confirm' | translate}}"
     confirm-enable-message="{{'list.details.enable.confirm' | translate}}"
-    ng-disabled="! (['MANAGE_ALL_LISTS'] | hasPermission)">
+    ng-disabled="(! (['MANAGE_ALL_LISTS'] | hasPermission)) || gc.selectedList.tenantId !== Session.tenant.tenantId"
+    on-confirm="gc.updateActive()">
   </toggle>
 
   <div class="info">

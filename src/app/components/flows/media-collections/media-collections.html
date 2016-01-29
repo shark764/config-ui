@@ -1,13 +1,17 @@
-
-<table-controls
-  id="table-pane"
-  config="tableConfig"
-  items="fetchMediaCollections()"
-  selected="selectedMediaCollection"
-  resource-name="MediaCollection"
-  hide-bulk-actions="true">
-
-</table-controls>
+<div id="table-pane">
+  <table-controls
+    config="tableConfig"
+    items="fetchMediaCollections()"
+    search-query="searchQuery">
+  </table-controls>
+  
+  <lo-resource-table
+    config="tableConfig"
+    items="fetchMediaCollections()"
+    selected="selectedMediaCollection"
+    search-query="searchQuery">
+  </lo-resource-table>
+</div>
 
 <resize-handle
   ng-show="!! selectedMediaCollection"

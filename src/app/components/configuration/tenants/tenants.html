@@ -1,15 +1,22 @@
-<table-controls
-  id="table-pane"
-  config="tableConfig"
-  items="tenants"
-  selected="selectedTenant"
-  resource-name="Tenant">
+<div id="table-pane">
+  <table-controls
+    config="tableConfig"
+    items="tenants"
+    search-query="searchQuery">
+  </table-controls>
+  
+  <lo-resource-table
+    config="tableConfig"
+    items="tenants"
+    selected="selectedTenant"
+    search-query="searchQuery">
 
-  <span name="active">
-    <span ng-if="item.active">{{'value.enabled' | translate}}</span>
-    <span ng-if="!item.active" class="disabled">{{'value.disabled' | translate}}</span>
-  </span>
-</table-controls>
+    <span name="active">
+      <span ng-if="item.active">{{'value.enabled' | translate}}</span>
+      <span ng-if="!item.active" class="disabled">{{'value.disabled' | translate}}</span>
+    </span>
+  </lo-resource-table>
+</div>
 
 <resize-handle
   ng-show="selectedTenant || showBulkActions"
@@ -31,9 +38,11 @@
       ng-resource="selectedTenant"
       lo-form-submit lo-form-cancel lo-form-alert>
 
-      <div class="detail-header" ng-include="'app/components/configuration/tenants/tenantDetailHeader.html'">
-      </div>
-
+      <ng-form name="forms.headerForm" separate-validation>
+        <div class="detail-header" ng-include="'app/components/configuration/tenants/tenantDetailHeader.html'">
+        </div>
+      </ng-form>
+      
       <div class="detail-body" ng-include="'app/components/configuration/tenants/tenantDetailBody.html'">
       </div>
 
@@ -58,7 +67,7 @@
 
   <bulk-action-executor class="details-pane"
     ng-show="showBulkActions"
-    items="fetchTenants()"
+    items="tenants"
     show-bulk-actions="showBulkActions">
     
     <ba-set-tenant-status></ba-set-tenant-status>

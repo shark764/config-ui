@@ -6,10 +6,9 @@ describe('media details directive', function() {
     isolateScope,
     controller;
 
-  beforeEach(module('liveopsConfigPanel', 'liveopsConfigPanel.mock'));
-  beforeEach(module('gulpAngular'));
+  beforeEach(module('liveopsConfigPanel', 'gulpAngular', 'liveopsConfigPanel.mock', 'liveopsConfigPanel.mockutils'));
 
-  beforeEach(inject(['$compile', '$rootScope', function($compile, $rootScope) {
+  beforeEach(inject(['$compile', '$rootScope', 'mockForm', function($compile, $rootScope, mockForm) {
     $scope = $rootScope.$new();
 
     element = $compile('<lo-media-details></lo-media-details>')($scope);
@@ -18,13 +17,7 @@ describe('media details directive', function() {
     controller = element.controller('loMediaDetails');
 
     $scope.forms = {
-      mediaForm: {
-        audiosourcefile: {
-          $setDirty: jasmine.createSpy('$setDirty'),
-          $setPristine: jasmine.createSpy('$setPristine'),
-          $setUntouched: jasmine.createSpy('$setUntouched')
-        }
-      }
+      mediaForm: mockForm(['audiosourcefile'])
     };
   }]));
 
@@ -40,7 +33,7 @@ describe('media details directive', function() {
   });
 
   describe('submit function', function() {
-    it('should save the selectedMedia if the audio source isn\'t dirty', inject(['Media', '$httpBackend', 'apiHostname', function(Media, $httpBackend, apiHostname) {
+    it('should save the selectedMedia if the audio source isn\'t dirty', inject(function(Media, $httpBackend, apiHostname) {
       $scope.forms.mediaForm.audiosourcefile.$dirty = false;
 
       $scope.selectedMedia = new Media({
@@ -52,9 +45,9 @@ describe('media details directive', function() {
 
       controller.submit();
       $httpBackend.flush();
-    }]));
+    }));
 
-    it('should upload the new source and save the media if audio source is dirty', inject(['Media', 'Upload', '$q', '$httpBackend', 'apiHostname', function(Media, Upload, $q, $httpBackend, apiHostname) {
+    it('should upload the new source and save the media if audio source is dirty', inject(function(Media, Upload, $q, $httpBackend, apiHostname) {
       $scope.forms.mediaForm.audiosourcefile.$dirty = true;
 
       spyOn(Upload, 'upload').and.callFake(function() {
@@ -78,7 +71,6 @@ describe('media details directive', function() {
 
       controller.submit();
       $httpBackend.flush();
-    }]));
+    }));
   });
-
 });

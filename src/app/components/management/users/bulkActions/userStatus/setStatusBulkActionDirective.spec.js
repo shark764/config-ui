@@ -20,6 +20,21 @@ describe('setStatusBulkAction directive', function() {
     }
   ]));
 
+  it('should register the bulkAction with bulkActionExecutor if present', inject(function($compile, $rootScope) {
+    element = $compile('<bulk-action-executor></bulk-action-executor>')($scope);
+    $scope.$digest();
+    var baExecutorController = element.controller('bulkActionExecutor');
+    spyOn(baExecutorController, 'register');
+    
+    var childElement = angular.element('<ba-set-status></ba-set-status>');
+    element.append(childElement);
+    var childScope = $rootScope.$new();
+    childElement = $compile(childElement)(childScope);
+    childScope.$digest();
+
+    expect(baExecutorController.register).toHaveBeenCalled();
+  }));
+
   it('should override bulkAction.execute', function() {
     expect(isolateScope.bulkAction.apply).toBeDefined();
   });
@@ -72,4 +87,51 @@ describe('setStatusBulkAction directive', function() {
 
     expect(mockTenantUsers[0].status).toEqual('accepted');
   }));
+  
+  describe('doesQualify function', function() {
+    it('should pass if tenantUser.status is "accepted"', inject(function(TenantUser) {
+      var user = new TenantUser({
+        status: 'accepted'
+      });
+
+      var doesQualify = isolateScope.bulkAction.doesQualify(user);
+      expect(doesQualify).toBeTruthy();
+    }));
+
+    it('should pass if tenantUser.status is "disabled"', inject(function(TenantUser) {
+      var user = new TenantUser({
+        status: 'disabled'
+      });
+
+      var doesQualify = isolateScope.bulkAction.doesQualify(user);
+      expect(doesQualify).toBeTruthy();
+    }));
+
+    it('should not pass if tenantUser.status is "pending"', inject(function(TenantUser) {
+      var user = new TenantUser({
+        status: 'pending'
+      });
+
+      var doesQualify = isolateScope.bulkAction.doesQualify(user);
+      expect(doesQualify).toBeFalsy();
+    }));
+    
+    it('should not pass if tenantUser.status is "expired"', inject(function(TenantUser) {
+      var user = new TenantUser({
+        status: 'expired'
+      });
+
+      var doesQualify = isolateScope.bulkAction.doesQualify(user);
+      expect(doesQualify).toBeFalsy();
+    }));
+    
+    it('should not pass if tenantUser.status is "invited"', inject(function(TenantUser) {
+      var user = new TenantUser({
+        status: 'invited'
+      });
+
+      var doesQualify = isolateScope.bulkAction.doesQualify(user);
+      expect(doesQualify).toBeFalsy();
+    }));
+  });
 });

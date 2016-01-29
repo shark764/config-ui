@@ -21,7 +21,7 @@ var RolePage = function() {
   this.permissionsSection = element(by.css('role-permissions'));
   this.noPermissions = this.permissionsSection.element(by.id('no-role-permissions-msg'));
   this.permissionsDropdown = this.permissionsSection.element(by.id('addPermission'));
-  this.dropdownPermissions = this.permissionsSection.all(by.repeater('item in filtered = (items | filter:filterCriteria | orderBy:orderByFunction)'));
+  this.dropdownPermissions = this.permissionsSection.all(by.repeater('item in filtered = (items | filter:filterCriteria | orderBy:getDisplayString)'));
   this.rolePermissions = this.permissionsSection.all(by.repeater('permission in rolePermissions'));
   this.permissionAddBtn = this.permissionsSection.element(by.id('add-permission-btn'));
 };

@@ -17,7 +17,7 @@ angular.module('liveopsConfigPanel')
           $scope.selectedGroup.$memberList = result;
         }
 
-        this.members = result;
+        this.$members = result;
         return result;
       };
 
@@ -80,8 +80,6 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.submit = function() {
-        delete $scope.selectedGroup.members;
-
         return $scope.selectedGroup.save(function(result) {
           result.fetchGroupUsers();
         });
@@ -91,6 +89,18 @@ angular.module('liveopsConfigPanel')
         $scope.typeahead = {
           selectedUser: null
         };
+      };
+      
+      $scope.updateActive = function(){
+        var groupCopy = new Group({
+          id: $scope.selectedGroup.id,
+          tenantId: $scope.selectedGroup.tenantId,
+          active: ! $scope.selectedGroup.active
+        });
+        
+        return groupCopy.save(function(result){
+          $scope.selectedGroup.$original.active = result.active;
+        });
       };
 
       $scope.reset();

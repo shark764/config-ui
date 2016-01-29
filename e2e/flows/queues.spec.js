@@ -72,8 +72,7 @@ describe('The queues view', function() {
     expect(queues.requiredErrors.get(0).getText()).toBe('Field \"Name\" is required.');
   });
 
-  xit('should require unique name when editing a Queue', function() {
-    // TODO No error returned from bs-api
+  it('should require unique name when editing a Queue', function() {
     shared.tableElements.count().then(function(queueCount) {
       if (queueCount > 1) {
         shared.firstTableRow.element(by.css(queues.nameColumn)).getText().then(function(existingQueueName) {
@@ -215,9 +214,9 @@ describe('The queues view', function() {
       // If the advanced query is not the default value, expect the basic query details to be displayed
       activeVersionDetails.element(by.id('advanced-query-field')).getAttribute('value').then(function(advancedQuery) {
         if (advancedQuery == '[{:after-seconds-in-queue 0 :query {}}]') {
-          expect(activeVersionDetails.element(by.id('version-basic-query-details')).all(by.repeater('operand in operands')).count()).toBe(0);
+          expect(activeVersionDetails.element(by.id('version-basic-query-details')).all(by.repeater('condition in cqe.conditionGroup.conditions')).count()).toBe(0);
         } else {
-          expect(activeVersionDetails.element(by.id('version-basic-query-details')).all(by.repeater('operand in operands')).count()).toBeGreaterThan(0);
+          expect(activeVersionDetails.element(by.id('version-basic-query-details')).all(by.repeater('condition in cqe.conditionGroup.conditions')).count()).toBeGreaterThan(0);
         }
       });
 
@@ -325,13 +324,24 @@ describe('The queues view', function() {
     expect(newVersion.createVersionBtn.isDisplayed()).toBeTruthy();
     expect(newVersion.cancelVersionBtn.isDisplayed()).toBeTruthy();
 
-    // Add Groups & Skills filter
+    // Add Groups, Skills & Users filter
     newVersion.addFilterDropdown.click();
     newVersion.groupFilterDropdownOption.click();
     newVersion.addFilterBtn.click();
     newVersion.addFilterDropdown.click();
     newVersion.skillFilterDropdownOption.click();
     newVersion.addFilterBtn.click();
+    newVersion.addFilterDropdown.click();
+    newVersion.userFilterDropdownOption.click();
+    newVersion.addFilterBtn.click();
+
+    // Group, Skills & User filters are displayed
+    expect(newVersion.basicQueryAnyGroups.isDisplayed()).toBeTruthy();
+    expect(newVersion.basicQueryAllGroups.isDisplayed()).toBeTruthy();
+    expect(newVersion.basicQueryAnySkills.isDisplayed()).toBeTruthy();
+    expect(newVersion.basicQueryAllSkills.isDisplayed()).toBeTruthy();
+    expect(newVersion.basicQueryAnyUsers.isDisplayed()).toBeTruthy();
+    expect(newVersion.basicQueryAllUsers.isPresent()).toBeFalsy();
 
     expect(newVersion.basicQueryDetailsAll.count()).toBe(0);
 
@@ -342,7 +352,7 @@ describe('The queues view', function() {
     expect(newVersion.priorityRateUnitField.$('option:checked').getText()).toBe(queues.priorityRateUnitDefault);
 
     newVersion.showAdvancedQueryLink.click();
-    expect(newVersion.advancedQueryFormField.getAttribute('value')).toBe('[{:after-seconds-in-queue 0 :query {:groups (and (and) (or)) :skills (and (and) (or))}}]');
+    expect(newVersion.advancedQueryFormField.getAttribute('value')).toBe('[{:after-seconds-in-queue 0 :query {:groups (and (and) (or)) :skills (and (and) (or)) :user-id (and (and) (or))}}]');
   });
 
   it('should display copy version panel when copy is selected', function() {
@@ -359,31 +369,38 @@ describe('The queues view', function() {
       var copiedBasicQueryDetails = queues.basicQueryDetails.get(activeVersionValue);
       expect(newVersion.basicQueryDetailsAll.count()).toBe(copiedBasicQueryDetails.all(by.repeater('condition in cqe.conditionGroup.conditions')).count());
 
-      // All groups match
+      // All groups and skills match
       newVersion.allGroupsSelected.count().then(function(allGroupCount) {
         for (var i = 0; i < allGroupCount; i++) {
-          expect(newVersion.allGroupsSelected.get(i).getText()).toBe(queues.basicQueryDetails.get(activeVersionValue).all(by.repeater('condition in cqe.conditionGroup.conditions')).get(i).getText());
+          expect(newVersion.allGroupsSelected.get(i).getText()).toBe(queues.basicQueryDetails.get(activeVersionValue).element(by.id(':groups-all')).all(by.repeater('condition in cqe.conditionGroup.conditions')).get(i).getText());
         }
       });
 
       // Any groups match
       newVersion.anyGroupsSelected.count().then(function(anyGroupCount) {
         for (var i = 0; i < anyGroupCount; i++) {
-          expect(newVersion.anyGroupsSelected.get(i).getText()).toBe(queues.basicQueryDetails.get(activeVersionValue).all(by.repeater('condition in cqe.conditionGroup.conditions')).get(i).getText());
+          expect(newVersion.anyGroupsSelected.get(i).getText()).toBe(queues.basicQueryDetails.get(activeVersionValue).element(by.id(':groups-any')).all(by.repeater('condition in cqe.conditionGroup.conditions')).get(i).getText());
         }
       });
 
       // All skills match
       newVersion.allSkillsSelected.count().then(function(allSkillCount) {
         for (var i = 0; i < allSkillCount; i++) {
-          expect(newVersion.allSkillsSelected.get(i).getText()).toBe(queues.basicQueryDetails.get(activeVersionValue).all(by.repeater('condition in cqe.conditionGroup.conditions')).get(i).getText());
+          expect(newVersion.allSkillsSelected.get(i).getText()).toBe(queues.basicQueryDetails.get(activeVersionValue).element(by.id(':skills-all')).all(by.repeater('condition in cqe.conditionGroup.conditions')).get(i).getText());
         }
       });
 
       // Any skills match
       newVersion.anySkillsSelected.count().then(function(anySkillCount) {
         for (var i = 0; i < anySkillCount; i++) {
-          expect(newVersion.anySkillsSelected.get(i).getText()).toBe(queues.basicQueryDetails.get(activeVersionValue).all(by.repeater('condition in cqe.conditionGroup.conditions')).get(i).getText());
+          expect(newVersion.anySkillsSelected.get(i).getText()).toBe(queues.basicQueryDetails.get(activeVersionValue).element(by.id(':skills-any')).all(by.repeater('condition in cqe.conditionGroup.conditions')).get(i).getText());
+        }
+      });
+
+      // Any users match
+      newVersion.anyUsersSelected.count().then(function(anyUserCount) {
+        for (var i = 0; i < anyUserCount; i++) {
+          expect(newVersion.anyUsersSelected.get(i).getText()).toBe(queues.basicQueryDetails.get(activeVersionValue).element(by.id(':user-id-any')).all(by.repeater('condition in cqe.conditionGroup.conditions')).get(i).getText());
         }
       });
 
@@ -430,8 +447,7 @@ describe('The queues view', function() {
     });
   });
 
-  xit('should require advanced query when adding a new queue version', function() {
-    // TODO TITAN2-6164 Submit button enabled when advanced query is not valid
+  it('should require advanced query when adding a new queue version', function() {
     shared.firstTableRow.click();
     queues.activeVersionDropdown.$('option:checked').getAttribute('value').then(function(activeVersionValue) {
       queues.copyVersionBtn.get(activeVersionValue).click();
@@ -507,8 +523,7 @@ describe('The queues view', function() {
     });
   });
 
-  xit('should allow advanced query field to be edited after submitting new version with invalid input', function() {
-    // TODO TITAN2-6164 Blank query saved when advanced query is not valid
+  it('should allow advanced query field to be edited after submitting new version with invalid input', function() {
     shared.firstTableRow.click();
     var originalVersionCount = queues.queueVersions.count();
 

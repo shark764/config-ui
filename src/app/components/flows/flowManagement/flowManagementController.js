@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('FlowManagementController', ['$scope', '$state', '$document', '$compile', 'Session', 'Flow', 'flowTableConfig', 'flowTypes', 'FlowDraft', 'FlowVersion', 'loEvents',
-    function ($scope, $state, $document, $compile, Session, Flow, flowTableConfig, flowTypes, FlowDraft, FlowVersion, loEvents) {
+  .controller('FlowManagementController', ['$scope', '$state', '$document', '$compile', 'Session', 'Flow', 'flowTableConfig', 'flowTypes', 'FlowDraft', 'FlowVersion', 'loEvents', '$q',
+    function ($scope, $state, $document, $compile, Session, Flow, flowTableConfig, flowTypes, FlowDraft, FlowVersion, loEvents, $q) {
 
       $scope.getVersions = function(){
         if (! $scope.selectedFlow || $scope.selectedFlow.isNew()){
@@ -117,6 +117,20 @@ angular.module('liveopsConfigPanel')
       $scope.saveFlow = function(){
         return $scope.selectedFlow.save().then(function(flow){
           return flow;
+        });
+      };
+      
+      $scope.updateActive = function(){
+        var flowCopy = new Flow({
+          id: $scope.selectedFlow.id,
+          tenantId: $scope.selectedFlow.tenantId,
+          active: ! $scope.selectedFlow.active
+        });
+        
+        return flowCopy.save().then(function(result){
+          $scope.selectedFlow.$original.active = result.active;
+        }, function(errorResponse){
+          return $q.reject(errorResponse.data.error.attribute.active);
         });
       };
 

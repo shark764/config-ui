@@ -29,7 +29,8 @@ describe('When switching tenants', function() {
     shared.tearDown();
   });
 
-  it('the selected tenant should be shown as the current tenant in the navigation Tenant Dropdown', function() {
+  // TODO TITAN2-7078
+  xit('the selected tenant should be shown as the current tenant in the navigation Tenant Dropdown', function() {
     expect(shared.navBar.isDisplayed()).toBeTruthy();
     expect(shared.tenantsNavDropdown.isDisplayed()).toBeTruthy();
 
@@ -59,7 +60,7 @@ describe('When switching tenants', function() {
       expect(shared.tableRows.get(0).getText()).toBe('twilio Disabled');
     });
 
-    it('should edit details for an Integration in one and not the previous', function() {
+    xit('should edit details for an Integration in one and not the previous', function() {
       shared.searchField.sendKeys('twilio');
       shared.firstTableRow.click();
 

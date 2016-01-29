@@ -50,8 +50,8 @@ var BulkActions = function() {
   // Generic Management Bulk Actions
   this.selectEnable = element(by.id('select-enable-bulk-action'));
   this.enableDropdown = element(by.id('bulk-action-enable-select'));
-  this.enableDropdownOption = this.enableDropdown.element(by.css('[value="true"]'));
-  this.disableDropdownOption = this.enableDropdown.element(by.css('[value="false"]'));
+  this.enableDropdownOption = this.enableDropdown.element(by.css('[label="Enabled"]'));
+  this.disableDropdownOption = this.enableDropdown.element(by.css('[label="Disabled"]'));
 
   // Bulk Actions buttons
   this.submitFormBtn = this.bulkActionsForm.element(by.id('submit-bulk-actions-btn'));

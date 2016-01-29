@@ -22,6 +22,12 @@ describe('users controller', function() {
   beforeEach(module('liveopsConfigPanel.tenant.group.mock'));
   beforeEach(module('liveopsConfigPanel.tenant.role.mock'));
 
+  beforeEach(module(function($provide) {
+    $provide.value('tenantUserTransformer', {
+      transform: jasmine.createSpy('transform')
+    });
+  }));
+
   beforeEach(inject(['$compile', '$rootScope', '$httpBackend', '$controller', 'apiHostname', 'mockUsers', 'Session', 'User', 'TenantUser', 'mockTenantUsers', '$q', 'loEvents',
     function($compile, $rootScope, _$httpBackend, $controller, _apiHostname, _mockUsers, _Session, _User, _TenantUser, _mockTenantUsers, _$q, _loEvents) {
       $scope = $rootScope.$new();
@@ -48,6 +54,7 @@ describe('users controller', function() {
 
     expect($scope.selectedTenantUser.$user).toBeDefined();
     expect($scope.selectedTenantUser.$user.isNew()).toBeTruthy();
+    expect($scope.selectedTenantUser.status).toEqual('invited');
   });
 
   describe('ON $scope.scenario', function() {
@@ -286,6 +293,238 @@ describe('users controller', function() {
       $scope.expireTenantUser();
       $httpBackend.flush();
       expect($scope.selectedTenantUser.status).toEqual('pending');
+    }));
+  });
+
+  describe('isValid function', function() {
+    it('should return true if no form errors', function() {
+      $scope.forms = {
+          detailsForm: {
+            $error: {}
+          }
+      };
+
+      var result = $scope.isValid();
+      expect(result).toBeTruthy();
+    });
+
+    it('should return true if the only error is "duplicateEmail"', function() {
+      $scope.forms = {
+          detailsForm: {
+            $error: {duplicateEmail: 'You have a duplicate email'}
+          }
+      };
+
+      var result = $scope.isValid();
+      expect(result).toBeTruthy();
+    });
+    
+    it('should return true if the error is an extension error', function() {
+      $scope.forms = {
+          detailsForm: {}
+      };
+
+      var result;
+      var extensionFields = [
+         'extensions', 
+         'activeExtension',
+         'type',
+         'provider',
+         'telValue',
+         'phoneExtension',
+         'extensiondescription'
+     ];
+
+      for (var i = 0; i < extensionFields.length; i++){
+        $scope.forms.detailsForm.$error = {api: [{
+          $name: extensionFields[i],
+          $valid: false
+        }]};
+
+        result = $scope.isValid();
+        expect(result).toBeTruthy();
+      }
+    });
+    
+    it('should return false if the only error is a valid error', function() {
+      $scope.forms = {
+          detailsForm: {
+            $error: {name: 'Please enter a name'}
+          }
+      };
+
+      var result = $scope.isValid();
+      expect(result).toBeFalsy();
+    });
+  });
+
+  describe('namesRequired function', function() {
+    it('should return false if selectedTenantUser is not present', function() {
+      $scope.selectedTenantUser = null;
+      
+      var result = $scope.namesRequired();
+      expect(result).toBeFalsy();
+    });
+
+    it('should return true if updating an existing user', function() {
+      spyOn($scope, 'scenario').and.returnValue('update');
+      $scope.selectedTenantUser = new TenantUser();
+      $scope.selectedTenantUser.$user = {
+        status: 'accepted'
+      };
+
+      var result = $scope.namesRequired();
+      expect(result).toBeTruthy();
+    });
+
+    it('should return true if updating a disabled user', function() {
+      spyOn($scope, 'scenario').and.returnValue('update');
+      $scope.selectedTenantUser = new TenantUser();
+      $scope.selectedTenantUser.$user = {
+        status: 'disabled'
+      };
+
+      var result = $scope.namesRequired();
+      expect(result).toBeTruthy();
+    });
+
+    it('should return false if updating a new user', function() {
+      spyOn($scope, 'scenario').and.returnValue('update');
+      $scope.selectedTenantUser = new TenantUser();
+      $scope.selectedTenantUser.$user = {
+        status: 'pending'
+      };
+
+      var result = $scope.namesRequired();
+      expect(result).toBeFalsy();
+    });
+    
+    it('should return false if creating a new user', function() {
+      spyOn($scope, 'scenario').and.returnValue('invite:new:user');
+
+      var result = $scope.namesRequired();
+      expect(result).toBeFalsy();
+    });
+  });
+
+  describe('resend function', function() {
+    it('should update the tenantuser record', inject(function(Session) {
+      $scope.selectedTenantUser = new TenantUser({
+        id: '1234'
+      });
+
+      $httpBackend.expectPUT(apiHostname + '/v1/tenants/myTenant/users/1234', function(requestBody) {
+        var data = JSON.parse(requestBody);
+        return data.status === 'invited';
+      }).respond(200);
+
+      Session.tenant = {
+          tenantId: 'myTenant'
+      };
+
+      $scope.resend();
+      $httpBackend.flush();
+    }));
+  });
+  
+  describe('updateStatus function', function() {
+    it('should save the user', function() {
+      $scope.selectedTenantUser = new TenantUser({
+        tenantId: 'myTenant',
+        status: 'accepted',
+        id: '1234'
+      });
+      $scope.selectedTenantUser.$original = $scope.selectedTenantUser;
+
+      $httpBackend.expectPUT(apiHostname + '/v1/tenants/myTenant/users/1234').respond(200);
+      $scope.updateStatus();
+
+      $httpBackend.flush();
+    });
+    
+    it('should toggle the status property to accepted when it is disabled', function() {
+      $scope.selectedTenantUser = new TenantUser({
+        tenantId: 'myTenant',
+        status: 'disabled',
+        id: '1234'
+      });
+      $scope.selectedTenantUser.$original = $scope.selectedTenantUser;
+
+      $httpBackend.expectPUT(apiHostname + '/v1/tenants/myTenant/users/1234', {
+        status: 'accepted'
+      }).respond(200);
+      $scope.updateStatus();
+
+      $httpBackend.flush();
+    });
+    
+    it('should toggle the status property to disabled when it is accepted', function() {
+      $scope.selectedTenantUser = new TenantUser({
+        tenantId: 'myTenant',
+        status: 'accepted',
+        id: '1234'
+      });
+      $scope.selectedTenantUser.$original = $scope.selectedTenantUser;
+
+      $httpBackend.expectPUT(apiHostname + '/v1/tenants/myTenant/users/1234', {
+        status: 'disabled'
+      }).respond(200);
+      $scope.updateStatus();
+
+      $httpBackend.flush();
+    });
+
+    it('should update only the status', function() {
+      $scope.selectedTenantUser = new TenantUser({
+        tenantId: 'myTenant',
+        status: 'disabled',
+        id: '1234',
+        anotherProperty: 'somevalue'
+      });
+
+      $scope.selectedTenantUser.$original = $scope.selectedTenantUser;
+      $httpBackend.expectPUT(apiHostname + '/v1/tenants/myTenant/users/1234', {
+        status: 'accepted'
+      }).respond(200);
+      $scope.updateStatus();
+
+      $httpBackend.flush();
+    });
+
+    it('should update the $original value on success', function() {
+      $scope.selectedTenantUser = new TenantUser({
+        tenantId: 'myTenant',
+        status: 'disabled',
+        id: '1234'
+      });
+
+      $scope.selectedTenantUser.$original = angular.copy($scope.selectedTenantUser);
+      expect($scope.selectedTenantUser.$original.status).toEqual('disabled');
+
+      $httpBackend.expectPUT(apiHostname + '/v1/tenants/myTenant/users/1234').respond(200, {
+        result: {
+          tenantId: 'myTenant',
+          status: 'accepted',
+          id: '1234'
+        }
+      });
+      
+      $scope.updateStatus();
+
+      $httpBackend.flush();
+      
+      expect($scope.selectedTenantUser.$original.status).toEqual('accepted');
+    });
+
+    it('should do nothing if the status is pending', inject(function($http) {
+      $scope.selectedTenantUser = new TenantUser({
+        status: 'pending'
+      });
+
+      spyOn($http, 'put');
+      $scope.updateStatus();
+
+      expect($http.put).not.toHaveBeenCalled();
     }));
   });
 });

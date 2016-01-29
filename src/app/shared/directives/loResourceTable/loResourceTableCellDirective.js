@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel.shared.directives')
-  .directive('tableCell', [
+  .directive('loResourceTableCell', [
     function() {
       return {
         scope: {

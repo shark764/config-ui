@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('TenantsController', ['$scope', 'Session', 'Tenant', 'TenantUser', 'tenantTableConfig', 'UserPermissions', 'AuthService', 'Region', '$q', 'loEvents', 'Timezone',
-    function($scope, Session, Tenant, TenantUser, tenantTableConfig, UserPermissions, AuthService, Region, $q, loEvents, Timezone) {
+  .controller('TenantsController', ['$scope', 'Session', 'Tenant', 'TenantUser', 'tenantTableConfig', 'UserPermissions', 'AuthService', 'Region', '$q', 'loEvents', 'Timezone', 'PermissionGroups',
+    function($scope, Session, Tenant, TenantUser, tenantTableConfig, UserPermissions, AuthService, Region, $q, loEvents, Timezone, PermissionGroups) {
       var vm = this;
 
       vm.loadTimezones = function() {
@@ -10,15 +10,18 @@ angular.module('liveopsConfigPanel')
       };
 
       vm.loadTenants = function() {
-        if (UserPermissions.hasPermissionInList(['PLATFORM_VIEW_ALL_TENANTS', 'PLATFORM_MANAGE_ALL_TENANTS', 'PLATFORM_CREATE_ALL_TENANTS', 'PLATFORM_CREATE_TENANT_ROLES', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT'])) {
+        if (UserPermissions.hasPermissionInList(PermissionGroups.accessAllTenants)) {
+          //User has permission to view all tenants on the platform
           $scope.tenants = Tenant.cachedQuery({
             regionId: Session.activeRegionId
           });
         } else if (UserPermissions.hasPermission('MANAGE_TENANT')) {
+          //User has permission to view and modify only the currently selected tenant
           var params = {
             id: Session.tenant.tenantId
           };
 
+          //Set up the cache and $scope.tenants so it will be a ngResource array
           if (!Tenant.hasItem(params)) {
             Tenant.cachedGet(params);
           }
@@ -80,6 +83,18 @@ angular.module('liveopsConfigPanel')
           });
         }
       });
+      
+      $scope.updateActive = function(){
+        var tenantCopy = new Tenant({
+          id: $scope.selectedTenant.id,
+          regionId: $scope.selectedTenant.regionId,
+          active: ! $scope.selectedTenant.active
+        });
+        
+        return tenantCopy.save(function(result){
+          $scope.selectedTenant.$original.active = result.active;
+        });
+      };
 
       $scope.tableConfig = tenantTableConfig(function() {
         return $scope.tenants;

@@ -38,7 +38,7 @@ angular.module('liveopsConfigPanel')
         });
       });
 
-      $scope.$on('details:panel:close', function() {
+      $scope.$on(loEvents.bulkActions.close, function() {
         vm.selectedQueueVersion = null;
       });
 
@@ -147,6 +147,17 @@ angular.module('liveopsConfigPanel')
         }
       };
 
+      vm.updateActive = function(){
+        var queueCopy = new Queue({
+          id: vm.selectedQueue.id,
+          tenantId: vm.selectedQueue.tenantId,
+          active: ! vm.selectedQueue.active
+        });
+        
+        return queueCopy.save(function(result){
+          vm.selectedQueue.$original.active = result.active;
+        });
+      };
 
       $scope.$watch(function() {
         return vm.selectedQueue;
@@ -163,7 +174,7 @@ angular.module('liveopsConfigPanel')
         }
       });
 
-      $scope.$on('table:resource:selected', function() {
+      $scope.$on(loEvents.tableControls.itemSelected, function() {
         vm.selectedQueueVersion = null;
       });
 

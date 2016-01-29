@@ -5,26 +5,47 @@
 <loading ng-if="!fetchSkills().$resolved"></loading>
 
 <div ng-show="fetchSkills().$resolved" class="detail-group">
-<ng-form class="instant-add" separate-validation ng-disabled="saving" id="skillsForm" name="skillsForm"
-  ng-show="fetchSkills().$resolved && ['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_TENANT_ENROLLMENT'] | hasPermission">
-  <type-ahead placeholder="{{'details.skills.placeholder' | translate}}"
-      items="fetchSkills()"
-      name-field="name"
-      on-enter="save(item)"
-      selected-item="selectedSkill"
-      filters="filterSkills"></type-ahead>
-  <number-slider
-    id="new-user-skill-proficiency" ng-if="selectedSkill.hasProficiency || (skillsForm.name.$dirty && ! selectedSkill.id)"
-    placeholder="{{'skill.details.proficiency' | translate}}" value="newUserSkill.proficiency"
-    min-value="1" max-value="100" ></number-slider>
-  <div>
-    <a lo-submit-spinner lo-submit-spinner-status="saving" id="add-skill-btn" ng-disabled="!selectedSkill" ng-click="save(selectedSkill)" class="btn"><i class="fa fa-plus"></i></a>
-  </div>
-</ng-form>
+
+  <form-error field="skillsForm.name"></form-error>
+
+  <ng-form class="instant-add"
+    separate-validation
+    ng-disabled="saving"
+    id="skillsForm"
+    name="skillsForm"
+    lo-form-submit
+    lo-form-alert
+    ng-show="fetchSkills().$resolved && ['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_TENANT_ENROLLMENT'] | hasPermission">
+  
+        <type-ahead placeholder="{{'details.skills.placeholder' | translate}}"
+          items="fetchSkills()"
+          name-field="name"
+          selected-item="selectedSkill"
+          filters="filterSkills"
+          on-enter="onEnter(item)"
+          lo-submit="save(selectedSkill)"
+          event="skills.enter.event"></type-ahead>
+        <number-slider
+          id="new-user-skill-proficiency" ng-if="selectedSkill.hasProficiency || (skillsForm.name.$dirty && ! selectedSkill.id)"
+          placeholder="{{'skill.details.proficiency' | translate}}" value="newUserSkill.proficiency"
+          min-value="1" max-value="100" ></number-slider>
+  
+  
+      <div>
+        <a lo-submit-spinner
+          lo-submit-spinner-status="saving"
+          id="add-skill-btn"
+          ng-disabled="!selectedSkill"
+          lo-submit="save(selectedSkill)"
+          class="btn">
+            <i class="fa fa-plus"></i>
+        </a>
+      </div>
+  </ng-form>
 
   <p id="no-user-skills" class="null" ng-if="userSkills.length == 0">{{'details.skills.none' | translate}}</p>
   <ng-form separate-validation name="userSkillsForm">
-    <table scroll-table max-height="300" class="table" ng-show="userSkills.length > 0">
+    <table max-height="300" class="table" ng-show="userSkills.length > 0">
       <thead>
         <tr>
           <th>{{'value.name' | translate}}</th>
