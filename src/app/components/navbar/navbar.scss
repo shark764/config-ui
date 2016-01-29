@@ -57,6 +57,10 @@ navbar {
       }
     }
 
+    .dropdown-container {
+      z-index:15;
+    }
+
     .label-icon {
       display: table-cell;
     }

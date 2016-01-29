@@ -454,6 +454,9 @@ angular.module('liveopsConfigPanel')
               });
               return dashboard[0];
             }],
+            dashboards: ['dashboards', function(dashboards) {
+              return dashboards;
+            }],
             queues: ['Queue', 'Session', function(Queue, Session) {
               return Queue.cachedQuery({
                 tenantId: Session.tenant.tenantId
