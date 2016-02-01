@@ -445,7 +445,7 @@ angular.module('liveopsConfigPanel')
           resolve: {
             dashboard: ['$stateParams', 'RealtimeDashboardsSettings', function($stateParams, RealtimeDashboardsSettings) {
               var dashboard = _.filter(RealtimeDashboardsSettings.mockDashboards, function(dash) {
-                return dash.id === $stateParams.id'RealtimeDashboardsSettigns'
+                return dash.id === $stateParams.id;
               });
               return dashboard[0];
             }],
