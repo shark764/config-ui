@@ -11,6 +11,48 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Fixed typo in interaction holds count DSL query - fixes TITAN2-7190
 ##### General
 - Switching tenants in the navbar now does different (non-breaking) things based on your current context - fixes TITAN2-7180
+- 
+
+**Config-UI**
+Update E2E tests
+Unit test coverage
+Cleanup and code documentation
+
+TITAN2-4716 Add dropdowns for text-to-speech media and language types
+TITAN2-6691 Fix tenant bulk actions
+TITAN2-6694 Fix loading spinner stuck showing when cancellng navigation
+TITAN2-6510 Fix logo border in IE10
+TITAN2-6135 Save changes automatically after toggling active/enabled
+TITAN2-6793 IE10 and IE11 display fixes
+TITAN2-6790 Fix user status bulk action sending true/false instead of accepted/disabled
+TITAN2-6588 Remove functionality which closes side panel when resource doesn't meet search criteria
+TITAN2-6587 Fix user profile "no skills" message alignment
+TITAN2-6645 Fix user management 'invite now' becoming deselected when clicking 'Create' button twice
+TITAN2-6679 Display errors from API for user extensions
+TITAN2-6618 Remove scroll table from skills and groups members table
+TITAN2-6534 Use new custom time picker directive for business hours
+TITAN2-6929 Fix business hours form reset
+TITAN2-7083 TITAN2-7000 Add better handling of errors on user groups and user skills
+TITAN2-5018 Recordings management
+TITAN2-6453 Fix disable/hide logic for invited user info
+TITAN2-7183 Fix generic list name/description when list is owned by current tenant
+TITAN2-6530 Fix management table size for no elements
+TITAN2-6697 Allow flow active version to be optional if there aren't any published flow versions
+TITAN2-6698 Add ability to edit user extensions
+TITAN2-6886 Fix bulk action select boxes in IE10
+
+**Config-shared**
+Cleanup and code documentation
+
+TITAN2-6793 IE10 and IE11 display fixes
+TITAN2-4249 Add API error response interceptor
+TITAN2-6534 Add custom time picker directive
+TITAN2-6546 Remove 'All Users' filter in query editor
+TITAN2-7083 TITAN2-7000 Improve lo-submit error handling
+Fix typeAhead to dirty ngModel on select
+TITAN2-5018 Recordings resources
+TITAN2-6697 Allow flow active version to be optional
+
 
 ## 318
 ##### Realtime Dashboards
