@@ -433,13 +433,8 @@ angular.module('liveopsConfigPanel')
           templateUrl: 'app/components/reporting/realtime/realtimeDashboardsManagement.html',
           controller: 'RealtimeDashboardsManagementController',
           resolve: {
-            dashboards: ['dashboardDev', 'dashboardInteractions', 'dashboardQueues', 'dashboardResources', 'dashboardOverview', function(dashboardDev, dashboardInteractions, dashboardQueues, dashboardResources, dashboardOverview) {
-              var dashboards = [];
-              dashboards.push(dashboardOverview);
-              dashboards.push(dashboardResources);
-              dashboards.push(dashboardQueues);
-              dashboards.push(dashboardInteractions);
-              return dashboards;
+            dashboards: ['RealtimeDashboardsSettings', function(RealtimeDashboardsSettings) {
+              return RealtimeDashboardsSettings.mockDashboards;
             }]
           }
         })
@@ -448,14 +443,14 @@ angular.module('liveopsConfigPanel')
           templateUrl: 'app/components/reporting/realtime/realtimeDashboardEditor/realtimeDashboardsEditor.html',
           controller: 'realtimeDashboardsEditorController',
           resolve: {
-            dashboard: ['$stateParams', 'dashboards', function($stateParams, dashboards) {
-              var dashboard = _.filter(dashboards, function(dash) {
-                return dash.id === $stateParams.id;
+            dashboard: ['$stateParams', 'RealtimeDashboardsSettings', function($stateParams, RealtimeDashboardsSettings) {
+              var dashboard = _.filter(RealtimeDashboardsSettings.mockDashboards, function(dash) {
+                return dash.id === $stateParams.id'RealtimeDashboardsSettigns'
               });
               return dashboard[0];
             }],
-            dashboards: ['dashboards', function(dashboards) {
-              return dashboards;
+            dashboards: ['RealtimeDashboardsSettings', function(RealtimeDashboardsSettings) {
+              return RealtimeDashboardsSettings.mockDashboards;
             }],
             queues: ['Queue', 'Session', function(Queue, Session) {
               return Queue.cachedQuery({
