@@ -59,7 +59,8 @@
 div[gridster-item] {
   position: absolute;
 
-  &.wrapper-statistic {
+  &.wrapper-statistic,
+  &.wrapper-linechart {
     border-radius: 5px;
     box-shadow: 1px 1px 2px #ececec;
     background-color: #fff;
