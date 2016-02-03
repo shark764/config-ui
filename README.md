@@ -9,15 +9,18 @@ Visual front-end for the LiveOps Configuration API.
 ### How do I get set up? ###
 
 1. install nodejs (https://nodejs.org/download/)
-1. install docker (https://docs.docker.com/installation/)
+1. install docker (https://docs.docker.com/installation/) *
 1. npm install -g gulp
 1. npm install
 1. bower install
-1. if necessary, login to the docker.liveopslabs.com (if you need creds, please check confluence)
-1. run api according to https://github.com/liveops/api-containers
+1. if necessary, login to the docker.liveopslabs.com (if you need creds, please check confluence) *
+1. run api according to https://github.com/liveops/api-containers *
 1. gulp serve
 
-*To configure the API end-point, you can change the app/env.js apiHostname.
+<br>
+<sub>* For API development only</sub>
+
+**Note:** To configure the API end-point, you can change the app/env.js apiHostname.
 
 ### Unit tests ###
 Run all unit tests
@@ -58,3 +61,5 @@ $ ./e2e_sauce.sh <SAUCE_USERNAME> <SAUCE_ACCESS_KEY> <SAUCE_TUNNEL>
 * Samantha Routledge (samantha.routledge@bluespurs.com)
 * Sasha Wilcox (sasha.wilcox@bluespurs.com)
 * Greg Royan (greg.royan@bluespurs.com)
+* Todd Roper (troper@liveops.com)
+* Doron Orenstein (dorenstein@loveops.com)
