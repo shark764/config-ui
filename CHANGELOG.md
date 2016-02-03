@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 331
+- Update import of flow designer to v1.5.0-SNAPSHOT2. Should fix TITAN2-6290
+
 ## 330
 ##### Flow designer
 - Update import of flow designer to v1.4.1. Should fix TITAN2-7417 and TITAN2-6978
@@ -11,7 +14,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Fixed typo in interaction holds count DSL query - fixes TITAN2-7190
 ##### General
 - Switching tenants in the navbar now does different (non-breaking) things based on your current context - fixes TITAN2-7180
-- 
+-
 
 **Config-UI**
 Update E2E tests
