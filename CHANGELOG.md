@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 336
+- Update import of flow designer to v1.5.0-SNAPSHOT3. Designer changes for TITAN2-4976 Flow Notations - Check Business Hours
+
 ## 331
 - Update import of flow designer to v1.5.0-SNAPSHOT2. Should fix TITAN2-6290
 
