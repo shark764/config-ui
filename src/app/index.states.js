@@ -434,7 +434,9 @@ angular.module('liveopsConfigPanel')
           controller: 'RealtimeDashboardsManagementController',
           resolve: {
             dashboards: ['RealtimeDashboardsSettings', function(RealtimeDashboardsSettings) {
-              return RealtimeDashboardsSettings.mockDashboards;
+              return _.filter(RealtimeDashboardsSettings.mockDashboards, function(dash) {
+                return dash.enabled === true;
+              });
             }]
           }
         })
@@ -450,7 +452,9 @@ angular.module('liveopsConfigPanel')
               return dashboard[0];
             }],
             dashboards: ['RealtimeDashboardsSettings', function(RealtimeDashboardsSettings) {
-              return RealtimeDashboardsSettings.mockDashboards;
+              return _.filter(RealtimeDashboardsSettings.mockDashboards, function(dash) {
+                return dash.enabled === true;
+              });
             }],
             queues: ['Queue', 'Session', function(Queue, Session) {
               return Queue.cachedQuery({

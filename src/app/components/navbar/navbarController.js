@@ -220,12 +220,14 @@ angular.module('liveopsConfigPanel')
           stateLink: 'content.realtime-dashboards-management',
           id: 'realtime-dashboard-link',
           order: 1
-        }, {
-          label: 'Recordings',
-          stateLink: 'content.reports.recordings',
-          id: 'recording-management-link',
-          order: 2
-        }];
+        }
+        // , {
+        //   label: 'Recordings',
+        //   stateLink: 'content.reports.recordings',
+        //   id: 'recording-management-link',
+        //   order: 2
+        // }
+        ];
       };
 
       vm.updateTopbarConfig = function() {
