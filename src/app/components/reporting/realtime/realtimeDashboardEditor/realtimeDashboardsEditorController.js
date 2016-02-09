@@ -12,7 +12,7 @@ angular.module('liveopsConfigPanel')
 
     $scope.$watch('selectedDashboard', function(newValue, oldValue) {
       if (newValue === oldValue || oldValue === undefined) { return; }
-      $state.go('content.realtime-dashboards-management.editor', {id: newValue.id}, {reload:true})
+      $state.go('content.realtime-dashboards-management.editor', {id: newValue.id}, {reload:true});
     });
   }
 ]);
