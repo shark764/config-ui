@@ -54,6 +54,11 @@ angular.module('liveopsConfigPanel')
           'sortable': true,
           'transclude': true,
           'filter': 'selectedOptions'
+        }, {
+          'header': {
+            'display': 'Flow'
+          },
+          'name': '$original.flowId'
         }],
         'searchOn': ['$original.name'],
         'orderBy': '$original.name',
