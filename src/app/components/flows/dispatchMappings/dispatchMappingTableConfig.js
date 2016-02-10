@@ -3,6 +3,7 @@
 angular.module('liveopsConfigPanel')
   .service('dispatchMappingTableConfig', ['statuses', 'dispatchMappingInteractionFields', 'dispatchMappingChannelTypes', '$translate', 'UserPermissions', 'helpDocsHostname',
     function(statuses, dispatchMappingInteractionFields, dispatchMappingChannelTypes, $translate, UserPermissions, helpDocsHostname) {
+      var flowToEmit = ('$original.flowName' == 'undefined') ? '$original.flowName' : '$original.flowId';
       return {
         'fields': [{
           'header': {
@@ -58,7 +59,7 @@ angular.module('liveopsConfigPanel')
           'header': {
             'display': 'Flow'
           },
-          'name': '$original.flowId'
+          'name': flowToEmit
         }],
         'searchOn': ['$original.name'],
         'orderBy': '$original.name',
