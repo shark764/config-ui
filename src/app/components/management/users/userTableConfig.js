@@ -87,7 +87,7 @@ angular.module('liveopsConfigPanel')
               'display': $translate.instant('user.table.skills'),
               'valuePath': 'id',
               'displayPath': 'name',
-              'options': getSkillOptions,
+              'options': getSkillOptions
             },
             'lookup': '$skills:id',
             'name': 'skills',
@@ -106,7 +106,7 @@ angular.module('liveopsConfigPanel')
               'display': $translate.instant('user.table.groups'),
               'valuePath': 'id',
               'displayPath': 'name',
-              'options': getGroupOptions,
+              'options': getGroupOptions
             },
             'lookup': '$groups:id',
             'name': '$groups',
@@ -125,7 +125,7 @@ angular.module('liveopsConfigPanel')
               'display': $translate.instant('user.table.roles'),
               'valuePath': 'id',
               'displayPath': 'name',
-              'options': getRoleOptions,
+              'options': getRoleOptions
             },
             'name': '$original.$roleName',
             'id': 'user-roles-table-column',

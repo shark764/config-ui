@@ -51,6 +51,12 @@ angular.module('liveopsConfigPanel')
         return newItem;
       };
 
+      vm.itemEdit = function (item) {
+        if(item.tenantId === Session.tenant.tenantId) return item.$edit = !item.$edit;
+
+        return false;
+      }
+
       vm.removeListItem = function removeListItem(index) {
         vm.selectedList.items.splice(index, 1);
         vm.forms.detailsForm.$setDirty();

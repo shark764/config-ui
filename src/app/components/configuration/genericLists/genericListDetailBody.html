@@ -21,7 +21,7 @@
 
 <div class="divider-header">
   <h4>{{'list.items.header' | translate}}</h4>
-  <i class="fa fa-plus btn"
+  <i class="fa fa-plus btn" ng-show="gc.selectedList.tenantId === Session.tenant.tenantId"
     ng-click="gc.addListItem()">
   </i>
 </div>
@@ -48,12 +48,12 @@
       ng-class-odd="row-odd">
       
       <td ng-repeat="field in gc.selectedList.$listType.fields"
-        ng-click="item.$edit = !item.$edit">
+        ng-click="gc.itemEdit(item)">
         <span ng-show="item.$original[field.name]">{{item.$original[field.name]}}</span>
         <span ng-show="!item.$original[field.name]" class="null">{{'value.blank' | translate}}</span>
       </td>
       <td>
-        <i class="fa fa-times remove"
+        <i class="fa fa-times remove" ng-show="item.tenantId === Session.tenant.tenantId"
           ng-click="gc.removeListItem(index)">
         </i>
       </td>
