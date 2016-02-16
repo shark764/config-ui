@@ -8,6 +8,13 @@ angular.module('liveopsConfigPanel')
 
       $scope.showSignupForm = true;
 
+      $scope.checkPassword = function(t) {
+        var firstPassword = $scope.user.password;
+        var elem = angular.element('input[name=confirmPassword]'); // $scope.detailsForm["confirmPassword"];
+        var v = $scope.user.confirmPassword === $scope.user.password;
+        $scope.detailsForm.confirmPassword.$setValidity('required', v);
+      }; // */
+
       $scope.save = function() {
         $scope.loading = true;
 
