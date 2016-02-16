@@ -1,3 +1,4 @@
+'use strict';
 angular.module('liveopsConfigPanel')
     .directive('pwCheck', [function () {
         return {
@@ -12,5 +13,5 @@ angular.module('liveopsConfigPanel')
                 });
             });
         }
-    }
+    };
 }]);
