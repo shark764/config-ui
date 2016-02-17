@@ -2,10 +2,7 @@
   <div id="invite-accept-wrapper">
     <img ng-src="assets/images/liveops-logo.png" height="23" >
 
-    <ng-form
-      ng-show="showSignupForm"
-      name="detailsForm"
-      lo-form-submit>
+    <ng-form ng-show="showSignupForm" name="detailsForm" lo-form-submit>
 
       <div class="details-pane">
         <div class="detail-body clear">
@@ -30,9 +27,20 @@
 
           <div class="input-group">
             <label  class="textarea-label">{{'details.password' | translate}} *</label>
+
             <form-error field="detailsForm.password"
               error-type-required="{{'details.password.error' | translate}}"></form-error>
-            <input ng-required="true" autocomplete="off" ng-model="user.password" name="password" type="password"/>
+            <input ng-required="true" autocomplete="off" ng-model="user.password" name="password" type="password"  />
+          </div>
+
+          <div class="input-group">
+            <label  class="textarea-label">{{'details.confirm-password' | translate}} *</label>
+
+            <form-error field="detailsForm.confirmPassword"
+              error-type-required="{{'details.confirm-password.error' | translate}}"></form-error>
+            <input type="password" name="confirmPassword" ng-model="user.confirmPassword"
+              ng-required="true" ng-blur="checkPassword()" />
+
             <p id="password-policy"><small>{{'details.password.default.policy' | translate}}</small></p>
           </div>
 
@@ -68,7 +76,7 @@
 
           <input id="submit-invite-accept" lo-submit-spinner lo-submit-spinner-status="loading"
             lo-submit="save()" ng-disabled="detailsForm.$invalid || ! detailsForm.$dirty"
-           class="btn btn-primary pull-right" type="submit" value="{{'value.submit' | translate}}" />
+            class="btn btn-primary pull-right" type="submit" value="{{'value.submit' | translate}}" />
         </div>
       </div>
     </ng-form>
