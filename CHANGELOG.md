@@ -104,3 +104,6 @@ TITAN2-6697 Allow flow active version to be optional
 - made disclaimer more subtle and at the bottom of the screen
 - on the main dashboard, replaced wrap-up-duration w/ avg time-to-answer
 - made all statistic boxes the same size, and adjusted positions slightly to accommodate box size changes
+
+## [UNRELEASED]
+- Feb 17 2016: Added confirm password functionality to invitation flow.
