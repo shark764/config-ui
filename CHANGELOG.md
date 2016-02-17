@@ -107,3 +107,4 @@ TITAN2-6697 Allow flow active version to be optional
 
 ## [UNRELEASED]
 - Feb 17 2016: Added confirm password functionality to invitation flow.
+- Feb 17 2016: Updated Flow Designer to include various fixes and minimap for editor
