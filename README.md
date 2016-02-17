@@ -3,6 +3,9 @@
 ## Quick summary ##
 Visual front-end for the LiveOps Configuration API.
 
+## Current Build Status ##
+[![Build Status](https://vpn.liveopslabs.com/buildStatus/icon?job=config-ui)](http://jenkins.liveopslabs.com/job/config-ui/)
+
 ## Version ##
 0.0.0
 
