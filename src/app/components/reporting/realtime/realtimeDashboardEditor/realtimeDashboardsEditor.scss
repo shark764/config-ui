@@ -9,6 +9,26 @@ $queryDashboardSelector: 'body #queues-dashboard .gridster &';
   margin: 0;
 }
 
+.table-widget#table-pane {
+  display: block !important;
+
+  table-controls {
+    padding: 0;
+  }
+
+  .table-controls.top-row {
+    display: none;
+  }
+
+  lo-resource-table {
+    padding: 0;
+  }
+
+  table-controls {
+    display: none;
+  }
+}
+
 .realtime-dashboard-editor-wrapper {
   font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;
   position: relative;
