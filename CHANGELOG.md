@@ -2,8 +2,12 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unreleased]
+
 ## [2.0.4] - 2016-02-17
 * Updated CSS of tables on dashboards to be a bit more pleasing to the eyes
+* Added confirm password functionality to invitation flow.
+* Updated Flow Designer to include various fixes and minimap for editor
 
 # ^ henceforth config UI will use semver
 __________________________________________________________________________-
@@ -110,6 +114,3 @@ TITAN2-6697 Allow flow active version to be optional
 - made disclaimer more subtle and at the bottom of the screen
 - on the main dashboard, replaced wrap-up-duration w/ avg time-to-answer
 - made all statistic boxes the same size, and adjusted positions slightly to accommodate box size changes
-
-## [UNRELEASED]
-- Feb 17 2016: Added confirm password functionality to invitation flow.
