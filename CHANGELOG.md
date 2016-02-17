@@ -2,6 +2,12 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.0.4] - 2016-02-17
+* Updated CSS of tables on dashboards to be a bit more pleasing to the eyes
+
+# ^ henceforth config UI will use semver
+__________________________________________________________________________-
+
 ## 350
 - Update import of flow designer to v1.5.1. Small bug fixes
 
