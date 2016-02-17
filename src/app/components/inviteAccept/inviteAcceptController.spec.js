@@ -42,7 +42,7 @@ describe('invite accept controller', function() {
     it('should exist', function(){
       expect(scope.checkPassword).toBeDefined();
     });
-  }); // */
+  });
 
   describe('save function', function() {
     beforeEach(function() {

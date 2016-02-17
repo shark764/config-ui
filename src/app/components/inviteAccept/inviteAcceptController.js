@@ -11,7 +11,7 @@ angular.module('liveopsConfigPanel')
       $scope.checkPassword = function() {
         var v = $scope.user.confirmPassword === $scope.user.password;
         $scope.detailsForm.confirmPassword.$setValidity('required', v);
-      }; // */
+      };
 
       $scope.save = function() {
         $scope.loading = true;
