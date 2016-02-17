@@ -3,7 +3,7 @@
 /* global spyOn: false  */
 
 describe('invite accept controller', function() {
-  var $scope,
+  var scope,
     $httpBackend,
     $controller,
     apiHostname,
@@ -15,9 +15,9 @@ describe('invite accept controller', function() {
   beforeEach(module('liveopsConfigPanel.user.mock'));
   beforeEach(module('liveopsConfigPanel.tenant.user.mock'));
 
-  beforeEach(inject(['$compile', '$rootScope', '$httpBackend', '$controller', 'apiHostname', 'mockUsers', 'mockTenantUsers',
-    function($compile, $rootScope, _$httpBackend, _$controller, _apiHostname, _mockUsers, _mockTenantUsers) {
-      $scope = $rootScope.$new();
+  beforeEach(inject(['$rootScope', '$httpBackend', '$controller', 'apiHostname', 'mockUsers', 'mockTenantUsers',
+    function($rootScope, _$httpBackend, _$controller, _apiHostname, _mockUsers, _mockTenantUsers) {
+      scope = $rootScope.$new();
       $httpBackend = _$httpBackend;
       $controller = _$controller;
       mockUsers = _mockUsers;
@@ -31,22 +31,28 @@ describe('invite accept controller', function() {
       mockTenantUser.status = 'invited';
 
       $controller('InviteAcceptController', {
-        '$scope': $scope,
+        '$scope': scope,
         'invitedUser': mockUser,
         'invitedTenantUser': mockTenantUser
       });
     }
   ]));
 
+  describe('confirm password', function(){
+    it('should exist', function(){
+      expect(scope.checkPassword).toBeDefined();
+    });
+  }); // */
+
   describe('save function', function() {
     beforeEach(function() {
-      spyOn($scope, 'signupSuccess');
-      spyOn($scope, 'signupFailure');
+      spyOn(scope, 'signupSuccess');
+      spyOn(scope, 'signupFailure');
     });
 
     it('should exist', function() {
-      expect($scope.save).toBeDefined();
-      expect($scope.save).toEqual(jasmine.any(Function));
+      expect(scope.save).toBeDefined();
+      expect(scope.save).toEqual(jasmine.any(Function));
     });
 
     it('should save the user details', function() {
@@ -54,7 +60,7 @@ describe('invite accept controller', function() {
         'result': mockUsers[1]
       });
 
-      $scope.save();
+      scope.save();
       $httpBackend.flush();
     });
 
@@ -63,70 +69,70 @@ describe('invite accept controller', function() {
         'result': mockUsers[1]
       });
 
-      $scope.user.password = 'password';
-      expect($scope.newPassword).toBeUndefined();
-      $scope.save();
+      scope.user.password = 'password';
+      expect(scope.newPassword).toBeUndefined();
+      scope.save();
       $httpBackend.flush();
-      expect($scope.newPassword).toEqual('password');
+      expect(scope.newPassword).toEqual('password');
     });
 
     it('should call signupSuccess on successful update', function() {
       $httpBackend.expectPUT(apiHostname + '/v1/users/userId2').respond(200);
 
-      $scope.save();
+      scope.save();
       $httpBackend.flush();
-      expect($scope.signupSuccess).toHaveBeenCalled();
+      expect(scope.signupSuccess).toHaveBeenCalled();
     });
 
     it('should call signupFailure on unsuccessful update', function() {
       $httpBackend.expectPUT(apiHostname + '/v1/users/userId2').respond(500);
 
-      $scope.save();
+      scope.save();
       $httpBackend.flush();
-      expect($scope.signupFailure).toHaveBeenCalled();
+      expect(scope.signupFailure).toHaveBeenCalled();
     });
   });
 
   describe('signupFailure function', function() {
     it('should exist', function() {
-      expect($scope.signupFailure).toBeDefined();
-      expect($scope.signupFailure).toEqual(jasmine.any(Function));
+      expect(scope.signupFailure).toBeDefined();
+      expect(scope.signupFailure).toEqual(jasmine.any(Function));
     });
 
     it('should show an alert', inject(['Alert', function(Alert) {
       spyOn(Alert, 'error');
-      $scope.signupFailure();
+      scope.signupFailure();
       expect(Alert.error).toHaveBeenCalled();
     }]));
   });
 
   describe('acceptFailure function', function() {
     it('should exist', function() {
-      expect($scope.acceptFailure).toBeDefined();
-      expect($scope.acceptFailure).toEqual(jasmine.any(Function));
+      expect(scope.acceptFailure).toBeDefined();
+      expect(scope.acceptFailure).toEqual(jasmine.any(Function));
     });
 
     it('should show an alert', inject(['Alert', function(Alert) {
       spyOn(Alert, 'error');
-      $scope.acceptFailure();
+      scope.acceptFailure();
       expect(Alert.error).toHaveBeenCalled();
     }]));
   });
 
   describe('signupSuccess function', function() {
     beforeEach(inject([function() {
-      spyOn($scope, 'acceptSuccess');
-      spyOn($scope, 'acceptFailure');
+      spyOn(scope, 'acceptSuccess');
+      spyOn(scope, 'acceptFailure');
     }]));
 
     it('should exist', function() {
-      expect($scope.signupSuccess).toBeDefined();
-      expect($scope.signupSuccess).toEqual(jasmine.any(Function));
+      expect(scope.signupSuccess).toBeDefined();
+      expect(scope.signupSuccess).toEqual(jasmine.any(Function));
     });
 
     it('should update the tenant user', inject(['TenantUser', function(TenantUser) {
       spyOn(TenantUser, 'update');
-      $scope.signupSuccess(mockUsers[0]);
+      scope.signupSuccess(mockUsers[0]);
       expect(TenantUser.update).toHaveBeenCalled();
     }]));
   });
@@ -144,8 +150,8 @@ describe('invite accept controller', function() {
       spyOn(UserPermissions, 'hasPermissionInList').and.returnValue(true);
 
       $stateParams.userId = 'userId2';
-      $scope.acceptSuccess();
-      $scope.$digest();
+      scope.acceptSuccess();
+      scope.$digest();
       expect($state.transitionTo).toHaveBeenCalledWith('content.management.users', {
         id: 'userId2',
         messageKey: 'invite.accept.autologin.success'
@@ -160,8 +166,8 @@ describe('invite accept controller', function() {
       spyOn(UserPermissions, 'hasPermissionInList').and.returnValue(false);
 
       $stateParams.userId = 'userId2';
-      $scope.acceptSuccess();
-      $scope.$digest();
+      scope.acceptSuccess();
+      scope.$digest();
       expect($state.transitionTo).toHaveBeenCalledWith('content.userprofile', {
         messageKey: 'invite.accept.autologin.success'
       });
@@ -173,8 +179,8 @@ describe('invite accept controller', function() {
 
       spyOn(AuthService, 'login').and.returnValue(deferred.promise);
 
-      $scope.acceptSuccess();
-      $scope.$digest();
+      scope.acceptSuccess();
+      scope.$digest();
       expect($state.transitionTo).toHaveBeenCalledWith('login', {
         messageKey: 'invite.accept.autologin.fail'
       });
