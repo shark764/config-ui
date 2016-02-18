@@ -26,7 +26,7 @@ angular.module('liveopsConfigPanel')
                 DirtyForms.confirmIfDirty(function() {
                   Session.setTenant(tenant);
                   vm.updateTopbarConfig();
-                  var goTo = $state.current;  
+                  var goTo = $state.current;
                   if($state.includes('content.realtime-dashboards-management.editor')) {
                     goTo = 'content.realtime-dashboards-management';
                   } else if ($state.includes('content.flows.editor')){
@@ -217,7 +217,7 @@ angular.module('liveopsConfigPanel')
       vm.getReportingConfig = function() {
         return [{
           label: $translate.instant('navbar.reports.rtd.title'),
-          stateLink: 'content.realtime-dashboards-management',
+          stateLink: 'content.realtime-dashboards-management.editor({id: "overview-dashboard"})',
           id: 'realtime-dashboard-link',
           order: 1
         }

@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+* (Applying kirbys fix) link realtime straight to overview dashboard
 
 ## [2.0.6] - 2016-02-17
 * Update import of realtime dashboards to latest (2.4.1)
