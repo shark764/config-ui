@@ -4,6 +4,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 * (Applying kirbys fix) link realtime straight to overview dashboard
+* Updated scss to float queue selector dropdowns to float left instead of right
 
 ## [2.0.6] - 2016-02-17
 * Update import of realtime dashboards to latest (2.4.1)
