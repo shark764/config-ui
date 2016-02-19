@@ -1,6 +1,6 @@
 {
   "name": "liveopsConfigPanel",
-  "version": "2.0.7",
+  "version": "2.0.8-SNAPSHOT",
   "scripts": {
     "test": "gulp test"
   },
@@ -68,4 +68,3 @@
     "sauce-tunnel": "^2.2.3"
   }
 }
- 
