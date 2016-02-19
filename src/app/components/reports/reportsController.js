@@ -25,6 +25,8 @@ angular.module('liveopsConfigPanel')
           $scope.birst.module = 'designer';
         } else if ($state.params.id === 'chart-designer') {
           $scope.birst.module = 'visualizer';
+        } else {
+          $scope.birst.module = 'newDashboards';
         }
 
         var dashboardName = ''; // Name of the collection...
@@ -37,7 +39,7 @@ angular.module('liveopsConfigPanel')
         }
 
         if (dashboardName !== '' && pageName !== '') {
-          buildingUrl = buildingUrl + '&birst.dashbaord=' + dashboardName + '&birst.page=' + pageName;
+          buildingUrl = buildingUrl + '&birst.dashboard=' + dashboardName + '&birst.page=' + pageName;
         }
 
         $scope.birstUrl = $sce.trustAsResourceUrl(buildingUrl);
