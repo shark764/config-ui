@@ -9,6 +9,10 @@ $queryDashboardSelector: 'body #queues-dashboard .gridster &';
   margin: 0;
 }
 
+lo-resource-table {
+  border: 1px solid #ccc;
+}
+
 .table-widget#table-pane {
   display: block !important;
 
