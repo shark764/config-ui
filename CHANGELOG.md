@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## [2.0.7]
 * (Applying kirbys fix) link realtime straight to overview dashboard
 * Updated scss to float queue selector dropdowns to float left instead of right
 * Re-added Historical Dashboards page, added birst iframe
