@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+* Updated flow-designer to 1.6.2 which includes updated flow-library and includes activity defaults
 
 ## [2.0.7]
 * (Applying kirbys fix) link realtime straight to overview dashboard
