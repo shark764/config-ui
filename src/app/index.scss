@@ -14,3 +14,7 @@ html, body {
 body > .ng-view {
   height: calc(100% - #{$navbar-height});
 }
+
+.content-container {
+  overflow-y: scroll;
+}
