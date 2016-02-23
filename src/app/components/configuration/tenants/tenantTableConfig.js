@@ -56,7 +56,7 @@ angular.module('liveopsConfigPanel')
             return UserPermissions.hasPermissionInList(['PLATFORM_MANAGE_ALL_TENANTS', 'MANAGE_TENANT']);
           },
           'showCreate': function() {
-            return UserPermissions.hasPermission('PLATFORM_CREATE_ALL_TENANTS');
+            return UserPermissions.hasPermissionInList(['PLATFORM_CREATE_ALL_TENANTS', 'CREATE_CHILD_TENANT']);
           },
           'helpLink': helpDocsHostname + '/Content/Configuring%20CxEngage/Creating_Tenants.htm'
         };
