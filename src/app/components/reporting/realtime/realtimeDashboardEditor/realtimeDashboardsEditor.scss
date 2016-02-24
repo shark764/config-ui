@@ -91,12 +91,12 @@ lo-resource-table {
   display: inline-block;
   white-space: nowrap;
 }
-
-.spacer {
- display: inline-block;
- padding-left: 9px;
- padding-right:9px;
+.dashboard-title h1:after {
+  content:" / ";
+  height:1.7rem;
+  /*color:#474747;*/
 }
+
 
 .dashboard-selected {
   font-size: 1.5rem;
