@@ -14,5 +14,11 @@ angular.module('liveopsConfigPanel')
       if (newValue === oldValue || oldValue === undefined) { return; }
       $state.go('content.realtime-dashboards-management.editor', {id: newValue.id}, {reload:true});
     });
+
+    $scope.dashboards.forEach(function(item) {
+      item.onClick = function(event){
+        $scope.selectedDashboard = item;
+      };
+    });
   }
 ]);

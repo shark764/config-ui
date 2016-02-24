@@ -1,12 +1,10 @@
 <div id="main-content" class="realtime-dashboard-wrapper">
-  <div class="dashboard-selector">
-    <form name="dashboardSelector">
-      <select ng-options="item.name for item in dashboards" ng-model="selectedDashboard">
-      </select>
-    </form>
-  </div>
-  <div class="dashboard-title">
-    <h1>{{dashboard.name}}</h1>
+  <div class="dashboard-selector subhead">
+    <div class="dashboard-title">
+      <h1>Realtime</h1>
+      <h1 class="spacer">/</h1>
+    </div>
+    <dropdown items="dashboards" label="{{dashboard.name}}" display-path="name" class="dashboard-selected"></dropdown>
   </div>
   <div class="dashboard-fullscreen">
     <i class="fa fa-arrows-alt" ng-click="toggleFullscreen(dashboard.id)"></i>
