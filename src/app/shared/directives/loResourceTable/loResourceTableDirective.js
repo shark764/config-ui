@@ -3,15 +3,15 @@
 angular.module('liveopsConfigPanel')
   /** lo-resource-table element directive
    * Monster component to generate a sortable, filterable, scrollable full-page table of elements
-   * 
+   *
    * Note: Uses 100% height, thus requiring that its parent has a defined height
-   * 
+   *
    * Accepted config values:
    * * fields (array of objects): The config items for the columns. Config for headers accepts:
    *     - checked (boolean): Whether to show the column. Defaults to true
    *     - resolve (function): Optional function to generate the table cell content. The resolve function will be passed the row item. Expected to return a string.
    *     - transclude (boolean): Whether to use transcluded content for the table cell content. (See 'name')
-   *     - name (string): If transclude is false, the property of the item that will be displayed in the table cell. 
+   *     - name (string): If transclude is false, the property of the item that will be displayed in the table cell.
    *                      If transclude is true, the name attribute of the transcluded element to use as the table cell contents
    *     - sortOn (string): What property to be used when sorting the column. Defaults to the property given by 'name' config value
    *     - filterOrderBy (string): If 'header.options' is defined, optional property used to order the filter-dropdown items. Default ordering is ordered as given by 'header.options'
@@ -80,9 +80,11 @@ angular.module('liveopsConfigPanel')
           });
 
           $scope.onSelectItem = function(item) {
-            DirtyForms.confirmIfDirty(function() {
-              $scope.selectItem(item);
-            });
+            if(!$scope.config.freezeState){
+              DirtyForms.confirmIfDirty(function() {
+                $scope.selectItem(item);
+              });
+            }
           };
 
           $scope.selectItem = function(item) {
