@@ -4,7 +4,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 * Updated realtime-dashboards to 2.4.2-SNAPSHOT, see that repo for update notes
-* Updated flow-designer to 1.6.4-SNAPSHOT which includes updated flow-library and includes activity defaults
+* Updated flow-designer to 1.6.4 which includes updated flow-library and includes activity defaults
 * Updated accepted permissions to show create tenant button (Tenant Admin now able to create child tenants)
 
 ## [2.0.7]
