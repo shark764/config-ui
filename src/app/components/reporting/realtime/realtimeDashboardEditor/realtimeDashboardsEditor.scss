@@ -48,10 +48,11 @@ lo-resource-table {
 
 .dashboard-fullscreen {
   position: absolute;
-  top: 80px;
+  top: 60px;
   right: 10px;
   font-size: 20px;
   cursor: pointer;
+  z-index: 2;
 }
 
 .dashboard-loading {
@@ -66,20 +67,46 @@ lo-resource-table {
   }
 }
 
-.dashboard-selector {
-  display: inline-block;
-  padding: 25px;
+.subhead {
+  height: 7rem;
+  left: 0;
+  margin: 0;
+  padding: 8px 18px;
   position: relative;
-  width: 20%;
-  z-index: 10;
+  right: 0;
+  z-index: 1;
 }
 
 .dashboard-title {
   display: inline-block;
   position: relative;
-  text-align: center;
   vertical-align: middle;
-  width: 60%;
+  font-weight: 400;
+}
+
+.dashboard-title h1:first-child {
+  color:#919191;
+  font-size: 1.7rem;
+  line-height: 1.2;
+  display: inline-block;
+  white-space: nowrap;
+}
+.dashboard-title h1:after {
+  content:" / ";
+  height:1.7rem;
+  /*color:#474747;*/
+}
+
+
+.dashboard-selected {
+  font-size: 1.5rem;
+  line-height: 1.2;
+  display: inline-block;
+  position: relative;
+  vertical-align: middle;
+  font-weight: 400;
+  cursor: pointer;
+  top:2px;
 }
 
 .widget-error {
@@ -143,7 +170,7 @@ div[gridster-item] {
         #{$queryDashboardSelector} {
           float: none;
         }
-      };
+      }
     }
 
     .label-widget {
