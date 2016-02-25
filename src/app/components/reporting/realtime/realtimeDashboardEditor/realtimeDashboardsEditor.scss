@@ -1,3 +1,4 @@
+@import "../../node_modules/c3/c3.min.css";
 $queryDashboardSelector: 'body #queues-dashboard .gridster &';
 
 *, div {
@@ -224,5 +225,64 @@ div[gridster-item] {
         bottom: 0;
       }
     }
+
+    .gauge-widget {
+      text-align: center;
+      height: 100%;
+      position: relative;
+
+      .c3-chart-arcs-background{
+          fill:#e0e0e0;
+          stroke:none;
+       }
+       .c3-chart-arc .c3-gauge-value {
+         fill: #777;
+         font-size: 1.25vw;
+        }
+       .c3-gauge-value {
+         font-weight: normal;
+         position: absolute;
+         top: 50%;
+         left: 50%;
+         transform: translate(-50%, -50%);
+       }
+       .stat-header, .stat-footer {
+         color: #777;
+         font-size: 1vw;
+         font-weight: 200;
+         white-space:nowrap;
+         overflow: hidden;
+         text-overflow: ellipsis;
+       }
+
+       .stat-header {}
+
+       .stat-value-loading {
+         font-size: 2vw;
+         color: #777;
+         width: 100%;
+         text-align: center;
+         position: relative;
+         top: 15px;
+       }
+
+       .stat-value {
+         font-size: 3vw;
+         color: #777;
+         font-weight: normal;
+         position: absolute;
+         top: 50%;
+         left: 50%;
+         transform: translate(-50%, -50%);
+       }
+
+       .stat-footer {
+         position: relative;
+         padding-top: 5px;
+         width: 100%;
+         bottom: 0;
+       }
+    }
   }
+
 }
