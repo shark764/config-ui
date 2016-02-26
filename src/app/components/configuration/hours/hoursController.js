@@ -2,8 +2,8 @@
 
 angular.module('liveopsConfigPanel')
   .controller('hoursController', [
-    '$scope', '$translate', '$moment', '$q', 'Session', 'BusinessHour', 'Timezone', 'hoursTableConfig', 'loEvents',
-    function ($scope, $translate, $moment, $q, Session, BusinessHour, Timezone, hoursTableConfig, loEvents) {
+    '$scope', '$rootScope', '$translate', '$moment', '$q', 'Session', 'BusinessHour', 'Timezone', 'hoursTableConfig', 'loEvents',
+    function ($scope, $rootScope, $translate, $moment, $q, Session, BusinessHour, Timezone, hoursTableConfig, loEvents) {
 
       var vm = this;
       vm.dayPrefixes = [{
@@ -63,6 +63,10 @@ angular.module('liveopsConfigPanel')
               return $q.reject(response);
             }));
           });
+
+          // success
+          $rootScope.$broadcast('enableAddExceptionHour');
+          delete $rootScope.enableAddExceptionHour;
 
           return $q.all(promises);
         }).catch(vm.saveError);
@@ -124,14 +128,14 @@ angular.module('liveopsConfigPanel')
           day: $translate.instant('hours.' + day)
         };
       };
-      
+
       vm.updateActive = function(){
         var hoursCopy = new BusinessHour({
           id: vm.selectedHour.id,
           tenantId: vm.selectedHour.tenantId,
           active: ! vm.selectedHour.active
         });
-        
+
         return hoursCopy.save(function(result){
           vm.selectedHour.$original.active = result.active;
         });
