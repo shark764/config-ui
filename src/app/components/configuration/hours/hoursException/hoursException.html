@@ -1,10 +1,11 @@
 <div class="divider-header">
   <h4>{{'hours.exceptions.title' | translate}}</h4>
-  <a id="add-exception-btn" class="btn pull-right" title="Add a schedule exception"
+  <button id="add-exception-btn" class="btn pull-right" title="Add a schedule exception"
     ng-click="hec.addHoursException()"
-    ng-show="(['MANAGE_ALL_BUSINESS_HOURS'] | hasPermission)">
+    ng-show="(['MANAGE_ALL_BUSINESS_HOURS'] | hasPermission)"
+    ng-disabled="hec.addBtnDisabled">
     <i class="fa fa-plus center"></i>
-  </a>
+  </button>
 </div>
 
 <p class="null"
@@ -44,7 +45,7 @@
 </table>
 
 <div class="add-exception-form"
-  ng-repeat="exceptionHour in hours.$exceptions | newResource:false">
+  ng-repeat="exceptionHour in hours.$exceptions | newResource:false track by exceptionHour.$originalIndex"">
 
   <div class="input-group">
     <label>{{'value.date' | translate}} *</label>
@@ -57,8 +58,8 @@
     </form-error>
 
   <input type="text" name="{{'date' + exceptionHour.$originalIndex}}"
-    ng-model="exceptionHour.date" 
-    moment-picker="exceptionHour.date" 
+    ng-model="exceptionHour.date"
+    moment-picker="exceptionHour.date"
     format="YYYY-MM-DD"
     start-view="month"
     max-view="month"
@@ -66,6 +67,7 @@
     ng-model-options="{timezone: 'UTC'}"
     ng-resource="exceptionHour"
     lo-hour-exception-overlap
+    min-date=hec.provideDateToday
     items="hours.$exceptions">
 
   </div>
@@ -84,10 +86,10 @@
   <div class="input-group">
     <label></label>
     <div>
-      <input type="radio" id="exception-all-day" ng-model="exceptionHour.isAllDay" ng-value="true">
+      <input type="radio" id="exception-all-day" ng-model="exceptionHour.isAllDay" ng-value="true" ng-click="hec.reValidateExceptionHours()">
       <label>{{'hours.exception.isAllDay' | translate}}</label>
 
-      <input type="radio" id="exception-custom-hours" ng-model="exceptionHour.isAllDay" ng-value="false">
+      <input type="radio" id="exception-custom-hours" ng-model="exceptionHour.isAllDay" ng-value="false" ng-click="hec.reValidateExceptionHours()">
       <label>{{'hours.exception.custom' | translate}}</label>
     </div>
   </div>
@@ -102,7 +104,7 @@
     </form-error>
 
     <lo-time-picker name="{{'startTimeMinutes' + exceptionHour.$originalIndex}}"
-    ng-model="exceptionHour.startTimeMinutes" 
+    ng-model="exceptionHour.startTimeMinutes"
     ng-change="hec.reValidateExceptionHours()"
     ng-required="exceptionHour && !exceptionHour.isAllDay"></lo-time-picker>
 
@@ -118,7 +120,7 @@
     </form-error>
 
     <lo-time-picker name="{{'endTimeMinutes' + exceptionHour.$originalIndex}}"
-    ng-model="exceptionHour.endTimeMinutes" 
+    ng-model="exceptionHour.endTimeMinutes"
     ng-change="hec.reValidateExceptionHours()"
     ng-required="exceptionHour && !exceptionHour.isAllDay"></lo-time-picker>
 
