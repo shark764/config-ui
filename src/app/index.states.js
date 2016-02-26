@@ -456,16 +456,50 @@ angular.module('liveopsConfigPanel')
                 return dash.enabled === true;
               });
             }],
-            queues: ['Queue', 'Session', function(Queue, Session) {
-              return Queue.cachedQuery({
+
+
+            queues: ['Queue', 'Session', '$q', function(Queue, Session, $q) {
+              var deferred = $q.defer();
+
+              Queue.query({
                 tenantId: Session.tenant.tenantId
+              }, function(queues) {
+                console.log('results');
+                deferred.resolve(queues);
               });
+
+              return deferred.promise;
             }],
-            users: ['User', 'Session', function(User, Session) {
-              return User.cachedQuery({
+
+
+            users: ['User', 'Session', '$q', function(User, Session, $q) {
+              var deferred = $q.defer();
+
+              User.query({
                 tenantId: Session.tenant.tenantId
+              }, function(users) {
+                console.log('results');
+                deferred.resolve(users);
               });
+
+              return deferred.promise;
+            }],
+
+
+            flows: ['Flow', 'Session', '$q', function(Flow, Session, $q) {
+              var deferred = $q.defer();
+
+              Flow.query({
+                tenantId: Session.tenant.tenantId
+              }, function(flows) {
+                console.log('results');
+                deferred.resolve(flows);
+              });
+
+              return deferred.promise;
             }]
+
+
           }
         });
     }
