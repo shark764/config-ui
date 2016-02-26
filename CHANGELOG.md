@@ -1,11 +1,12 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
-
+ 
 ## [Unreleased]
 * Updated realtime-dashboards to 2.4.2-SNAPSHOT, see that repo for update notes
 * Updated flow-designer to 1.6.4 which includes updated flow-library and includes activity defaults
 * Updated accepted permissions to show create tenant button (Tenant Admin now able to create child tenants)
+* Show user friendly names for states and entities, remove dead code
 
 ## [2.0.7]
 * (Applying kirbys fix) link realtime straight to overview dashboard

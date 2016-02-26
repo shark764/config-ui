@@ -43,8 +43,10 @@ angular.module('liveopsConfigPanel', [
     });
     $rootScope.$on('$stateChangeError', function() {
       console.error('State change error!');
+      console.log(arguments);
     });
     $rootScope.$on('$stateNotFound', function() {
       console.error('State not found!');
+      console.log(arguments);
     });
   }]);
