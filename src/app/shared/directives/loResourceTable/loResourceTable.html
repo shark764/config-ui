@@ -1,6 +1,6 @@
 <loading ng-show="items && items.$promise && !items.$resolved"></loading>
 
-<p class="filtered" ng-show="items && (filtered.length != items.length)">
+<!-- <p class="filtered" ng-show="items && (filtered.length != items.length)">
   <span translate="table.filtered.status"
     translate-value-count="{{filtered.length}}"
     translate-value-total="{{items.length}}">
@@ -8,7 +8,7 @@
   <a ng-click="clearAllFilters()">
     {{'table.clear.link' | translate}}
   </a>
-</p>
+</p> -->
 
 <table scroll-table class="table" ng-hide="items && items.$promise && !items.$resolved" id="items-table">
   <thead>
@@ -80,21 +80,21 @@
               item="item"
               options="field.header.options">
             </lo-resource-table-cell>
-  
+
             <span
               ng-if="!field.transclude"
               title="{{parse(item, field)}}">
               {{parse(item, field)}}
             </span>
           </a>
-          
+
           <div ng-switch-default>
             <lo-resource-table-cell name="{{field.name}}"
               ng-if="field.transclude"
               item="item"
               options="field.header.options">
             </lo-resource-table-cell>
-  
+
             <span
               ng-if="!field.transclude"
               title="{{parse(item, field)}}">

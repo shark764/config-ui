@@ -471,9 +471,9 @@ angular.module('liveopsConfigPanel')
               });
               return deferred.promise;
             }],
-            users: ['User', 'Session', '$q', function(User, Session, $q) {
+            users: ['TenantUser', 'Session', '$q', function(TenantUser, Session, $q) {
               var deferred = $q.defer();
-              User.query({
+              TenantUser.query({
                 tenantId: Session.tenant.tenantId
               }, function(users) {
                 deferred.resolve(users);
