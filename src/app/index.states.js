@@ -418,10 +418,16 @@ angular.module('liveopsConfigPanel')
 
               var userResult = User.get({
                 id: $stateParams.userId
-              }, angular.noop, function() {
-                $state.go('login', {
-                  messageKey: 'invite.accept.expired'
-                });
+              }, angular.noop, function(error) {
+                if (error.data === 'Permission denied') {
+                  $state.go('login', {
+                    messageKey: 'permissions.unauthorized.message'
+                  });
+                } else {
+                  $state.go('login', {
+                    messageKey: 'invite.accept.expired'
+                  });
+                }
               });
 
               return userResult.$promise;
@@ -456,50 +462,34 @@ angular.module('liveopsConfigPanel')
                 return dash.enabled === true;
               });
             }],
-
-
             queues: ['Queue', 'Session', '$q', function(Queue, Session, $q) {
               var deferred = $q.defer();
-
               Queue.query({
                 tenantId: Session.tenant.tenantId
               }, function(queues) {
-                console.log('results');
                 deferred.resolve(queues);
               });
-
               return deferred.promise;
             }],
-
-
             users: ['User', 'Session', '$q', function(User, Session, $q) {
               var deferred = $q.defer();
-
               User.query({
                 tenantId: Session.tenant.tenantId
               }, function(users) {
-                console.log('results');
                 deferred.resolve(users);
               });
-
               return deferred.promise;
             }],
 
-
             flows: ['Flow', 'Session', '$q', function(Flow, Session, $q) {
               var deferred = $q.defer();
-
               Flow.query({
                 tenantId: Session.tenant.tenantId
               }, function(flows) {
-                console.log('results');
                 deferred.resolve(flows);
               });
-
               return deferred.promise;
             }]
-
-
           }
         });
     }

@@ -1,7 +1,7 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
- 
+
 ## [Unreleased]
 * Fixed multiple bugs with business hour exception form
 * Updated realtime-dashboards to 2.4.2-SNAPSHOT, see that repo for update notes
