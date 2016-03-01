@@ -5,7 +5,15 @@ angular.module('liveopsConfigPanel')
     function ($scope, $moment, $translate, $q, Session, BusinessHourException, Alert) {
       var vm = this;
 
+      vm.addBtnDisabled = false;
+
+      $scope.$on('enableAddExceptionHour', function () {
+        vm.addBtnDisabled = false;
+      });
+
       vm.addHoursException = function () {
+        vm.addBtnDisabled = true;
+
         //Init date to tomorrow
         var newLocalDate = new Date();
         var newUTCDate = $moment.utc([
@@ -20,6 +28,9 @@ angular.module('liveopsConfigPanel')
           startTimeMinutes: -1,
           endTimeMinutes: -1
         });
+
+        var today = new Date(newUTCDate._d);
+        vm.provideDateToday = $moment(today).format('YYYY-MM-DD');
 
         if ($scope.hours.$exceptions && angular.isArray($scope.hours.$exceptions)) {
           $scope.hours.$exceptions.push(newExceptionHour);
@@ -37,12 +48,12 @@ angular.module('liveopsConfigPanel')
         return exception.$delete({
           businessHourId: $scope.hours.id
         }).then(function () {
-          Alert.success($translate.instant('hours.exception.remove.success'));
-        }, function () {
-          Alert.error($translate.instant('hours.exception.remove.failure'));
-          $scope.hours.$exceptions.push(exception);
-        })
-        .finally(vm.reValidateExceptionHours);
+            Alert.success($translate.instant('hours.exception.remove.success'));
+          }, function () {
+            Alert.error($translate.instant('hours.exception.remove.failure'));
+            $scope.hours.$exceptions.push(exception);
+          })
+          .finally(vm.reValidateExceptionHours);
       };
 
       vm.reValidateExceptionHours = function() {
