@@ -4,6 +4,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [2.0.9]
+* Hotfix for table filter
+* Hotfix for /users not returning $resource objects
+* Import config-shared 1.0.53
+
 ## [2.0.8]
 * Fixed multiple bugs with business hour exception form
 * Updated realtime-dashboards to 2.4.2-SNAPSHOT, see that repo for update notes
