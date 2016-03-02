@@ -4,7 +4,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 * Updating version of flow designer [TITAN2-6225]
+* Updating version of realtime dashboards to 2.4.3
 * Updating flow designer and view controllers to handle new grouping
+* Added C3 imports for dashboard visualizations
+* Check for freezeState property on resource tables to disable clicking on Realtime Dashboard tables
 
 ## [2.0.9]
 * Hotfix for table filter
