@@ -4,6 +4,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 * Updating version of flow designer [TITAN2-6225]
+* Updating flow designer and view controllers to handle new grouping
 
 ## [2.0.9]
 * Hotfix for table filter
