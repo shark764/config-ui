@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+* Updating version of flow designer [TITAN2-6225]
 
 ## [2.0.9]
 * Hotfix for table filter
