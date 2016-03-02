@@ -15,8 +15,15 @@ angular.module('liveopsConfigPanel')
       FlowLibrary.loadData(parsedNotations);
 
       lodash.each(FlowResource.getFlows(), function(flow){
+        var opts = _.findWhere(parsedNotations.flows, {flow: flow.id});
+
         lodash.each(FlowResource.getVersions(flow.id), function(version){
-          FlowLibrary.registerCallActivity(flow, version);
+          if(opts){
+            FlowLibrary.registerCallActivity(flow, version, opts);
+          }
+          else{
+            FlowLibrary.registerCallActivity(flow, version, {stencilGroup: 'reusable'});
+          }
         });
       });
 
