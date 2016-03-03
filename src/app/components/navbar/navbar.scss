@@ -105,7 +105,7 @@ navbar {
       }
     }
 
-    li:not(#welcome) {
+    li:not(#welcome):not(#helpMenu) {
       dropdown:not(#tenant-dropdown){
         .dropdown {
           right: auto;
@@ -132,7 +132,7 @@ navbar {
 #welcome {
   padding: 0;
   position: absolute !important;
-  right: 0;
+  right: 20px;
   font-size: 11px;
 
   &:hover {
@@ -165,4 +165,42 @@ navbar {
     }
   }
 
+}
+
+#helpMenu {
+  position: absolute !important;
+  right: 0;
+  font-size: 11px;
+
+  &:hover {
+    .drop-label, .label-icon {
+      color: white;
+
+    }
+    span {
+      @include box-shadow(none  !important);
+    }
+  }
+
+  .drop-label {
+    color: $light-grey;
+
+    div {
+      padding: 10px;
+
+      span {
+        max-width: 300px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: table-cell;
+      }
+
+      i {
+        display: table-cell;
+        font-size: 20px;
+        color: $light-grey;}
+    }
+  }
+
+  .dropdown { right: 0; }
 }
