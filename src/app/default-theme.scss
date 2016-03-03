@@ -4,7 +4,7 @@
   background-image: url("/assets/images/square_bg.png"), linear-gradient(to bottom, lighten($main-color, 10), $accent1);
 }
 
-#topnav > ul > li:not(#welcome) .label-icon {
+#topnav > ul > li:not(#welcome):not(#helpMenu) .label-icon {
   color : $main-color;
 }
 

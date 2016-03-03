@@ -34,6 +34,10 @@
         <dropdown id="user-settings-dropdown" items="userDropdownItems" label="{{ 'navbar.welcome' | translate:Session.user }}" title="{{Session.user.displayName}}" expand-icon="fa fa-gear" collapse-icon="fa fa-gear">
         </dropdown>
       </li>
-    </ul>
+      <li id="helpMenu">
+        <dropdown id="user-help-dropdown" items="userHelpItems" expand-icon="fa fa-question-circle" collapse-icon="fa fa-question-circle">
+        </dropdown>
+      </li>
+      </ul>
   </nav>
 </div>

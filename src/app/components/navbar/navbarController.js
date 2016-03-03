@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('NavbarController', ['$rootScope', '$scope', '$state', 'AuthService', 'Session', 'DirtyForms', '$translate', 'UserPermissions', 'PermissionGroups',
-    function($rootScope, $scope, $state, AuthService, Session, DirtyForms, $translate, UserPermissions, PermissionGroups) {
+  .controller('NavbarController', ['$rootScope', '$scope', '$state', 'AuthService', 'Session', 'DirtyForms', '$translate', 'UserPermissions', 'PermissionGroups', '$window',
+    function($rootScope, $scope, $state, AuthService, Session, DirtyForms, $translate, UserPermissions, PermissionGroups, $window) {
       var vm = this;
       $scope.hovering = false;
       $scope.Session = Session;
@@ -70,6 +70,30 @@ angular.module('liveopsConfigPanel')
         },
         iconClass: 'fa fa-gear'
       }];
+
+      $scope.userHelpItems = [
+        {
+          label: 'Documentation',
+          onClick: function() {
+            var url = "https://beta-help-docs.liveopslabs.com";
+            $window.open(url);
+          }
+        },
+        {
+          label: 'Admin API Documentation',
+          onClick: function() {
+            var url = "https://beta-api-docs.liveopslabs.com/";
+            $window.open(url);
+          }
+        },
+        {
+          label: 'Reporting API',
+          onClick: function() {
+            var url = "https://beta-api-docs.liveopslabs.com/CxEngage-Reporting-API/Content/Home.htm";
+            $window.open(url);
+          }
+        }
+      ];
 
       $scope.$on('resource:create', $scope.onCreateClick);
       $scope.$on('resource:actions', $scope.onActionsClick);
