@@ -131,7 +131,9 @@ div[gridster-item] {
 .gridster {
   margin: 20px auto;
 }
-
+.gauge-no-data{
+  color: #ff0000;
+}
 .widget-wrapper {
 
   .handle-se {
@@ -284,5 +286,4 @@ div[gridster-item] {
        }
     }
   }
-
 }
