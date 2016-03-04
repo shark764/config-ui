@@ -153,8 +153,13 @@ div[gridster-item] {
 
   .widget {
 
+    lo-resource-table {
+      overflow: hidden;
+    }
+
     .scrollable-table-container {
       height: 100%;
+      -webkit-box-sizing: border-box;
     }
 
     .source-switcher-widget {
