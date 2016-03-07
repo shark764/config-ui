@@ -239,12 +239,14 @@ angular.module('liveopsConfigPanel')
       };
 
       vm.getReportingConfig = function() {
-        return [{
-          label: $translate.instant('navbar.reports.rtd.title'),
-          stateLink: 'content.realtime-dashboards-management.editor({id: "overview-dashboard"})',
-          id: 'realtime-dashboard-link',
-          order: 1
-        },{
+        return [
+          {
+            label: $translate.instant('navbar.reports.rtd.title'),
+            stateLink: 'content.realtime-dashboards-management.editor({id: "overview-dashboard"})',
+            id: 'realtime-dashboard-link',
+            order: 1
+          },
+          {
             label: $translate.instant('navbar.reports.hd.title'),
             stateLink: 'content.reports',
             stateLinkParams: {
@@ -252,7 +254,14 @@ angular.module('liveopsConfigPanel')
             },
             id: 'reports-management-link',
             order: 2
-        }];
+          },
+          {
+            label: 'Recordings',
+            stateLink: 'content.recordings',
+            id: 'recording-management-link',
+            order: 3
+          }
+        ];
       };
 
       vm.updateTopbarConfig = function() {

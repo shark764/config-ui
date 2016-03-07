@@ -392,7 +392,7 @@ angular.module('liveopsConfigPanel')
           templateUrl: 'app/components/reports/reports.html',
           controller: 'ReportsController'
         })
-        .state('content.reports.recordings', {
+        .state('content.recordings', {
           url: '/recordings?id',
           templateUrl: 'app/components/reports/recordings/recordings.html',
           controller: 'RecordingsController as rc',
