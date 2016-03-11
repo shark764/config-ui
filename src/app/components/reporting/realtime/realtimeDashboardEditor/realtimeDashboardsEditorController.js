@@ -9,6 +9,8 @@ angular.module('liveopsConfigPanel')
     $scope.dashboard = dashboard;
     $scope.dashboards = dashboards;
     $scope.toggleFullscreen = FullscreenService.toggleFullscreen;
+    $scope.channels = [{name:"All Channels", id:"all"},{name:"Voice", id:"voice"},{name:"SMS", id: "sms"}];
+    $scope.selectedChannel = $scope.channels[0];
 
     TableMiddlewareService.entities = TableMiddlewareService.entities.concat(users, queues, flows);
 
@@ -16,10 +18,19 @@ angular.module('liveopsConfigPanel')
       if (newValue === oldValue || oldValue === undefined) { return; }
       $state.go('content.realtime-dashboards-management.editor', {id: newValue.id}, {reload:true});
     });
+    $scope.$watch('selectedChannel', function(newValue, oldValue) {
+      if (newValue === oldValue || oldValue === undefined) { return; }
+      $scope.$broadcast('dashboardChannelChanged', {newChannel: $scope.selectedChannel.id})
+    });
 
     $scope.dashboards.forEach(function(item) {
       item.onClick = function(){
         $scope.selectedDashboard = item;
+      };
+    });
+    $scope.channels.forEach(function(item) {
+      item.onClick = function(){
+        $scope.selectedChannel = item;
       };
     });
   }
