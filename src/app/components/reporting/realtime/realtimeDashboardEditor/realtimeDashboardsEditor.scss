@@ -73,44 +73,44 @@ lo-resource-table {
 }
 
 .subhead {
-  height: 7rem;
-  left: 0;
-  margin: 0;
   padding: 8px 18px;
   position: relative;
-  right: 0;
   z-index: 1;
 }
 
-.dashboard-title {
-  display: inline-block;
-  position: relative;
-  vertical-align: middle;
-  font-weight: 400;
-}
-
-.dashboard-title h1:first-child {
-  color:#919191;
-  font-size: 1.7rem;
-  line-height: 1.2;
-  display: inline-block;
-  white-space: nowrap;
-}
-.dashboard-title h1:after {
-  content:" / ";
-  height:1.7rem;
-  /*color:#474747;*/
-}
-
-
-.dashboard-selected {
+.subhead dropdown {
   font-size: 1.5rem;
-  line-height: 1.2;
+}
+
+.subhead-right {
+  position: absolute;
+  z-index: 1;
+  top: 60px;
+  right: 50px;
+}
+
+.subhead-right dropdown {
+  font-size: 1.2rem;
+}
+
+.selector-title {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.selector-title:first-child {
+  color: #919191;
+}
+
+.selector-title h1:after,
+.selector-title h2:after {
+  content: " / ";
+}
+
+.dropdown-selected {
   display: inline-block;
   position: relative;
   vertical-align: middle;
-  font-weight: 400;
-  cursor: pointer;
   top:2px;
 }
 

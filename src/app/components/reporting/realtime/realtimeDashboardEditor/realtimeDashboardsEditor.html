@@ -1,9 +1,15 @@
 <div id="main-content" class="realtime-dashboard-wrapper">
-  <div class="dashboard-selector subhead">
-    <div class="dashboard-title">
+  <div class="subhead">
+    <div class="selector-title">
       <h1>Realtime</h1>
     </div>
-    <dropdown items="dashboards" label="{{dashboard.name}}" display-path="name" class="dashboard-selected"></dropdown>
+    <dropdown items="dashboards" label="{{dashboard.name}}" display-path="name" class="dropdown-selected"></dropdown>
+  </div>
+  <div class="subhead-right">
+    <div class="selector-title">
+      <h2>Channel</h2>
+    </div>
+    <dropdown items="channels" label="{{selectedChannel.name}}" display-path="name" class="dropdown-selected"></dropdown>
   </div>
   <div class="dashboard-fullscreen">
     <i class="fa fa-arrows-alt" ng-click="toggleFullscreen(dashboard.id)"></i>
