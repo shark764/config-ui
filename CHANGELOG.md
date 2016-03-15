@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+- Updating designer to 1.8.1 [TITAN2-8725]
 
 ## [2.0.11] - 2016-03-09
 * Added help menu for API, Reporting and general documentation.
