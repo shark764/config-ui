@@ -54,7 +54,7 @@ lo-resource-table {
 .dashboard-fullscreen {
   position: absolute;
   top: 60px;
-  right: 10px;
+  right: 18px;
   font-size: 20px;
   cursor: pointer;
   z-index: 2;
@@ -73,6 +73,8 @@ lo-resource-table {
 }
 
 .subhead {
+  width: 50%;
+  display:inline-block;
   padding: 8px 18px;
   position: relative;
   z-index: 1;
@@ -83,11 +85,15 @@ lo-resource-table {
 }
 
 .subhead-right {
-  position: absolute;
-  background-color: white;
+  position: relative;
   z-index: 1;
-  top: 60px;
-  right: 50px;
+  margin-top: 10px;
+  margin-right: 50px;
+  float:right;
+}
+
+.subhead-right::after {
+  clear:both;
 }
 
 .subhead-right dropdown {
