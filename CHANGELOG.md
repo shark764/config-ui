@@ -3,7 +3,10 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## [2.0.12]
 - Updating designer to 1.8.1 [TITAN2-8725]
+- Updating realtime-dashboards to 2.4.5
 
 ## [2.0.11] - 2016-03-09
 * Added help menu for API, Reporting and general documentation.
