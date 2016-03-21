@@ -5,7 +5,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 
 ## [2.0.12]
-- Updating designer to 1.8.1 [TITAN2-8725]
+- Updating designer to 1.8.3 [TITAN2-8725 TITAN2-8421]
 - Updating realtime-dashboards to 2.4.5
 
 ## [2.0.11] - 2016-03-09
