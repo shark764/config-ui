@@ -5,6 +5,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 
 ## [2.0.13]
+- Updating Config-Shared to 1.0.54
 - Updating for JSEDN fixes
 - Updating Designer to 1.8.4
 
