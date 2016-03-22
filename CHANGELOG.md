@@ -4,6 +4,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [2.0.13]
+- Updating for JSEDN fixes
+- Updating Designer to 1.8.4
+
 ## [2.0.12]
 - Updating designer to 1.8.1 [TITAN2-8725]
 - Updating realtime-dashboards to 2.4.5
