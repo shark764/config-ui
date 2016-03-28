@@ -60,23 +60,18 @@
   "value.blank": "blank",
   "value.start": "Start",
   "value.end": "End",
-  "value.unknown" : "Unknown",
-  "value.voice" : "Voice",
+  "value.unknown": "Unknown",
+  "value.voice": "Voice",
   "value.customer": "Customer",
   "value.contact.point": "Contact Point",
   "value.direction": "Direction",
-
   "loading": "Loading",
-
   "api.error": "The API could not be contacted. Please reload the page to try again. If this error persists, please contact your systems administrator",
   "permissions.unauthorized.message": "Sorry, your account does not have the correct permissions to view that page.",
-
   "login.button": "Login",
   "login.error": "Invalid username or password.",
   "login.unexpected.error": "An unexpected error occured. Please try again. If this error persists, please contact support.",
-
   "session.tenants.none": "No tenants available",
-
   "navbar.management.title": "User Management",
   "navbar.management.users.title": "Users",
   "navbar.management.roles.title": "Roles",
@@ -101,7 +96,6 @@
   "navbar.invites": "Invites",
   "navbar.create": "Create",
   "navbar.actions": "Actions",
-
   "details": "Details",
   "details.login": "Login",
   "details.firstName": "First Name",
@@ -142,9 +136,9 @@
   "details.phoneNumber": "Phone Number",
   "details.phoneNumber.error": "Phone number should be in E.164 format.",
   "details.extensions": "Extensions",
-  "details.extensions.sipformat.error":"Extensions must start with 'sip:'.",
-  "details.extensions.error":"Extensions failed to update.",
-  "details.extensions.success":"Extensions saved succesfully!",
+  "details.extensions.sipformat.error": "Extensions must start with 'sip:'.",
+  "details.extensions.error": "Extensions failed to update.",
+  "details.extensions.success": "Extensions saved succesfully!",
   "details.skills.none": "This user has not been assigned any skills",
   "details.skills.title": "Skills",
   "details.skills.placeholder": "Add Skill...",
@@ -160,7 +154,6 @@
   "details.inviteNow.help": "<center><p>To invite this user now select, click \"Submit\" with \"Invite Now\" selected</p> <p>or</p> <p>To set this user to a pending invite status de-select \"Invite Now and click \"Submit\"</p></center>",
   "details.tenantStatus.notInvited": "This user has not been invited to join the tenant, to invite them now select \"Invite Now\" and click \"Submit\"",
   "details.header.agent": "Agent(s)",
-
   "user.details.disable.confirm": "This will disable this user and prevent them from logging in. Do you want to continue?",
   "user.details.enable.confirm": "This will enable this user and allow them to log in. Do you want to continue?",
   "user.details.creating": "Creating New User",
@@ -181,13 +174,11 @@
   "user.table.groups": "Groups",
   "user.table.title": "User Management",
   "user.table.roles": "Roles",
-
   "tenant.user.details.status.pending": "Pending Invitation",
   "tenant.user.details.status.invited": "Pending Acceptance",
   "tenant.user.details.status.accepted": "Accepted",
   "tenant.user.details.status.removed": "Removed",
   "tenant.user.details.status.expired": "Expired Invitation",
-
   "group.details.members.none": "There are no members assigned to this group.",
   "group.details.creating": "Creating Group",
   "group.details.create.fail": "Failed to create new group",
@@ -202,7 +193,6 @@
   "group.table.remove.member": "Member successfully removed!",
   "group.table.remove.member.error": "Error removing member!",
   "group.readonly.warning": "This group is inherited and cannot be edited",
-
   "skill.details.hasProficiency": "Has Proficiency",
   "skill.details.name.error": "Please enter a name",
   "skill.details.description.error": "Description is required",
@@ -222,7 +212,6 @@
   "skill.details.add.fail": "Failed to add skill to user!",
   "skill.details.update.success": "User skill updated!",
   "skill.details.update.fail": "Failed to update user skill!",
-
   "flow.type": "Type",
   "flow.type.choose": "Select a Type...",
   "flow.type.customer": "Customer",
@@ -240,7 +229,6 @@
   "flow.details.version.add.alt": "Create a new version for this flow",
   "flow.details.mapping.add.alt": "Add a new media mapping",
   "flow.table.title": "Flow Management",
-
   "queue.details.version.error": "Active Version is required",
   "queue.details.createdBy": "Created By",
   "queue.details.createAdditionalVersions": "Versions: View & Create Additional Versions",
@@ -268,8 +256,8 @@
   "queue.details.version.copy": "Create Copy",
   "queue.create.invalid.query": "Sorry, the initial query for this queue was invalid. Please create a new query version.",
   "queue.table.title": "Queue Management",
-  "queues.query.builder.escalation.time.required" : "Time in queue is required",
-  "queues.query.builder.escalation.time.min" : "Time in queue must be greater then the previous value",
+  "queues.query.builder.escalation.time.required": "Time in queue is required",
+  "queues.query.builder.escalation.time.min": "Time in queue must be greater then the previous value",
   "queues.query.builder.filters.label": "Add a filter",
   "queues.query.builder.filters.placeholder": "Select filter...",
   "queues.query.builder.filters.remove": "(remove filter)",
@@ -310,18 +298,18 @@
   "queue.details.priorityRate.error": "Please enter a priority rate",
   "queue.details.priorityRate.error.min": "The priority rate must be greater than 0",
   "queue.details.priorityUnit": "Priority Unit",
-  "queue.query.filter.remove" : "(remove filter)",
-  "queue.query.escalation.level.remove" : "(remove level)",
-  "queue.query.escalation.level.remove.confirm" : "This search query has conditions. Are you sure you wish to remove it?",
+  "queue.query.filter.remove": "(remove filter)",
+  "queue.query.escalation.level.remove": "(remove level)",
+  "queue.query.escalation.level.remove.confirm": "This search query has conditions. Are you sure you wish to remove it?",
   "queue.query.readonly.after.seconds": "After {{seconds}} seconds",
   "queue.query.readonly.after.minutes": "After {{minutes}} minutes",
   "queue.details.priorityUnit.seconds": "seconds",
   "queue.details.priorityUnit.minutes": "minutes",
   "queue.details.priorityUnit.hours": "hours",
   "queue.details.priorityUnit.days": "days",
-  "queue.query.escalation" : "Escalation Query",
-  "queue.query.escalation.level" : "Search query level {{level}}",
-  "queue.query.add.escalation.level" : "Add level {{level}} search query",
+  "queue.query.escalation": "Escalation Query",
+  "queue.query.escalation.level": "Search query level {{level}}",
+  "queue.query.add.escalation.level": "Add level {{level}} search query",
   "media.details": "Media",
   "media.details.source.error": "Please enter a source",
   "media.details.type.error": "Please enter a type",
@@ -346,7 +334,6 @@
   "media.details.property.language": "Language",
   "media.details.voice.error": "Please enter a voice",
   "media.details.language.error": "Please enter a language",
-
   "media.collections.media.mapping": "Media Mappings",
   "media.collections.media.new": "Create New Media",
   "media.collections.media.add": "Add Media...",
@@ -361,7 +348,6 @@
   "media.collections.mapping.add": "Add media items with the plus button above.",
   "media.collections.defaultMediaKey": "Default Identifier",
   "media.collections.mapping.search.placeholder": "Search existing media...",
-
   "tenant.details.title": "Tenants",
   "tenant.details.name": "Tenant Name",
   "tenant.details.admin": "Tenant Admin",
@@ -377,7 +363,6 @@
   "tenant.details.enable.confirm": "This will enable this tenant. Do you want to continue?",
   "tenant.table.title": "Tenant Management",
   "tenant.details.parent": "Parent Tenant",
-
   "integration.details": "Integration",
   "integration.details.properties.accountSid": "Account SID",
   "integration.details.properties.authToken": "Auth Token",
@@ -405,7 +390,6 @@
   "integration.birstAdminPassword.error": "Please enter the Birst admin password",
   "integration.details.properties.birstAdminUsername": "Admin Username",
   "integration.birstAdminUsername.error": "Please enter the Birst admin username",
-
   "dispatchMappings.details.interactionType": "Interaction Type",
   "dispatchMappings.details.interactionType.select": "Select Interaction Type...",
   "dispatchMappings.details.interactionType.error": "Please select an interaction type",
@@ -429,19 +413,15 @@
   "dispatchmappings.table.title": "Dispatch Mapping Management",
   "dispatchMappings.inbound": "Inbound",
   "dispatchMappings.outbound": "Outbound",
-
   "table.search.placeholder": "Search",
   "table.actions.button": "Actions",
   "table.columns.button": "Columns",
   "table.results.none": "No results were found.",
   "table.filtered.status": "Showing {{count}} of {{total}} items",
   "table.clear.link": "(Clear all filters)",
-
   "content.notenants.warning": "You have no tenants assigned to you. Invite yourself to one!",
-
   "unsavedchanges.nav.warning": "You have unsaved changes that will be lost! Click OK to discard changes, or cancel to continue editing.",
   "unsavedchanges.reload.warning": "You have unsaved changes that will be lost!",
-
   "bulkActions.enable.users": "Enable/Disable Users",
   "bulkActions.enable.users.fail": "You cannot disable your own account.",
   "bulkActions.selected": "Selected ",
@@ -476,12 +456,10 @@
   "bulkAction.success": "Bulk action successful!",
   "bulkActions.status.placeholder": "Select new status...",
   "bulkActions.enable.hours": "Enable/Disable Hours",
-
   "user.profile.save.success": "Your details have been updated.",
   "user.profile.save.fail": "An error occurred while updating your details.",
   "profile.usergroups.none": "You have not been assigned to any groups.",
   "profile.skills.none": "You have not been assigned any skills.",
-
   "details.extension.type.required": "Type required",
   "details.extension.type": "Extension Type",
   "details.extension.provider": "Provider",
@@ -492,11 +470,9 @@
   "details.extension.drag.titletext": "Drag to reorder",
   "details.phone.extension.value": "Ext.",
   "details.extension.description.required": "Please provide a description",
-
   "multibox.add.placeholder": "Add Item...",
   "multibox.search.placeholder": "Search...",
   "multibox.create.btn": "Create New",
-
   "invite.accept.to.setup": "To set up your account, please:",
   "invite.accept.create.password": "Create a password for your account below in the password field",
   "invite.accept.confirm.name": "Confirm or enter your first and last names below",
@@ -512,11 +488,9 @@
   "invite.accept.expired": "Sorry, this invitation has expired. Please contact your account administrator.",
   "copyright": "Copyright © 2015 LiveOps, Inc. All rights reserved.",
   "signup.legal": "Access to this site requires separate permission from LiveOps. This site contains confidential information, and may also contain content and enable interaction with users from third-party sites subject to different terms that are outside of LiveOps control. By using or accessing this site, you have agreed to the Terms of Service as outlined in the Beta Service Agreement (\"Agreement\"). A copy of this Agreement is available from your LiveOps contact.",
-
   "flow.draft.delete.alt": "Delete this draft",
   "flow.draft.none": "There are no drafts saved for this flow. Drafts are created automatically from the Flow Designer.",
   "flow.draft.title": "Drafts",
-
   "role.details.creating": "Creating new role",
   "role.details.name.error": "Please enter a name",
   "role.table.title": "Role Management",
@@ -530,7 +504,6 @@
   "role.permission.add.success": "Added permission!",
   "role.permission.add.fail": "Sorry, there was an error adding that permission",
   "role.readonly.warning": "This role is inherited and cannot be edited",
-
   "list.readonly.warning": "This list is inherited, so its details cannot be edited",
   "list.field.required": "{{fieldLabel}} is required.",
   "list.items.required": "List needs at least one item.",
@@ -538,7 +511,6 @@
   "list.table.title": "List Item(s)",
   "list.details.disable.confirm": "Are you sure you want to disable this list?",
   "list.details.enable.confirm": "Are you sure you want to enable this list?",
-  
   "recordings.table.filter.agent": "Agent",
   "recordings.table.filter.startDate": "Start Date",
   "recordings.table.filter.endDate": "End Date",
@@ -558,13 +530,11 @@
   "recordings.details.duration": "Duration",
   "recordings.details.play": "Play",
   "recordings.details.extension": "Extension",
-
   "webrtc": "WebRTC",
   "twilio": "Twilio",
   "pstn": "PSTN",
   "plivo": "Plivo",
   "sip": "SIP",
-
   "hours.table.title": "Business Hours Management",
   "hours.details.creating": "Creating New Business Hours",
   "hours.details.disable.confirm": "This will disable these business hours. Do you want to continue?",
@@ -602,6 +572,31 @@
   "hours.exception.remove.success": "Exception removed successfully!",
   "hours.exception.remove.failure": "Exception removal failure!",
   "hours.timezone.required": "Field \"Timezone\" is required.",
+  "realtimeDashboards.table.title": "Realtime Dashboards",
 
-  "realtimeDashboards.table.title": "Realtime Dashboards"
+  "session.expired.notice": "Your session has expired. Please log in again. If this persists, please check your internet connection and ensure you are not logged in elsewhere.",
+  "client.timeOutOfSync.notice": "Your computer time seems to be incorrect and out of sync, please adjust your date and time settings. For assistance on your countries current time please visit http://www.timeanddate.com/worldclock",
+  "application.title": "LiveOps Agent Toolbar",
+  "login.error": "wrong user name password combination",
+  "phone.connecting": "connecting",
+  "phone.hangnup": "disconnecting",
+  "phoneNumberForm.phoneNumber": "Phone Number",
+  "phoneNumberForm.error.required": "Please enter a phone number",
+  "phoneNumberForm.error.invalid": "Invalid Contact Number. Please add an international country to the number Ex.(+18007930549) - (E.164 Format)",
+  "phoneNumberForm.error.phoneNumberInterpolated": "Formatted number differs from provided, please confirm before submitting",
+  "agentState.ready": "Ready",
+  "agentState.notReady": "Not Ready",
+  "agentState.waiting": "Waiting...",
+  "agentState.onCall": "On Call",
+  "agentState.wrapup": "Wrap-up",
+  "wrapup.target": "Target",
+  "wrapup.max": "Max",
+  "wrapup.end": "End Wrap-up",
+  "on": "On",
+  "off": "Off",
+  "interactions.noMessage": "No message selected",
+  "transfer.warm": "Warm Transfer",
+  "transfer.cold": "Cold Transfer",
+  "interactions.noMessage": "No message selected",
+  "connection.lost": "The connection has been lost. Attempting to re-establish connection."
 }

@@ -49,7 +49,11 @@ angular.module('liveopsConfigPanel')
         },
         templateUrl: 'app/shared/directives/loResourceTable/loResourceTable.html',
         transclude: true,
-        controller: function() {},
+        controller: ['$scope', function($scope) {
+          $scope.toggleToolbarVisibility = function (interactionId) {
+            $rootScope.$broadcast('silentMonitoring', interactionId);
+          };
+        }],
         link: function($scope) {
           var parseResourceKey = angular.noop;
           var parseStateKey = angular.noop;
