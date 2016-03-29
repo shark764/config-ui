@@ -3,8 +3,6 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
-
-## [2.0.16]
 * Updated bower.json to resolve bower component dependency conflicts resulting from bringing in agent toolbar
 
 ## [2.0.15]

@@ -9,6 +9,7 @@ html, body {
   min-width: $min-body-width;
   overflow-y: hidden; /*Required to prevent tooltips from (occasionally) briefly creating a scrollbar */
   overflow-x: auto; /*Required to show scrollbar on small windows */
+  position: static;
 }
 
 body > .ng-view {
