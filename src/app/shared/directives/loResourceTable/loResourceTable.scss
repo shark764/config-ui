@@ -69,13 +69,17 @@ lo-resource-table {
       overflow: hidden;
       white-space: nowrap;
 
-      > a {
+      > a,
+      > div a {
         color: $dark-grey;
         display: block;
       }
 
-      > a:hover {
-        color: $dark-grey;
+      > a,
+      > div a {
+        &:hover {
+          color: $dark-grey;
+        }
       }
     }
 
