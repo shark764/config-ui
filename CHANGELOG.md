@@ -4,6 +4,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [2.0.15]
+* Add silent monitoring controls to loResourceTable
+* Update soundwave to 1.12.3
+* Update realtime-dashboards to 2.4.6
+
 ## [2.0.14]
 - Quick fix for hiding recordings tab
 
