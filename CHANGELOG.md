@@ -4,6 +4,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [2.0.16]
+* Updated bower.json to resolve bower component dependency conflicts resulting from bringing in agent toolbar
+
 ## [2.0.15]
 * Add silent monitoring controls to loResourceTable
 * Update soundwave to 1.12.3
