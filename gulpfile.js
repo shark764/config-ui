@@ -18,7 +18,15 @@ var options = {
     };
   },
   wiredep: {
-    directory: 'bower_components'
+    directory: 'bower_components',
+    exclude: [
+      'bower_components/stackframe/stackframe.js',
+      'bower_components/error-stack-parser/error-stack-parser.js',
+      'bower_components/stack-generator/stack-generator.js',
+      'bower_components/source-map/source-map.js',
+      'bower_components/stacktrace-gps/dist/stacktrace-gps.js',
+      'bower_components/stacktrace-js/stacktrace.js'
+    ]
   }
 };
 
