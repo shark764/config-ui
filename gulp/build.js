@@ -88,6 +88,17 @@ module.exports = function(options) {
       .pipe(gulp.dest(options.dist + '/fonts/'));
   });
 
+  gulp.task('local-soundwave-files', function() {
+    gulp.src(options.fonts + '/**')
+      .pipe(gulp.dest(options.tmp + '/serve/fonts/'));
+
+    return gulp.src([
+        options.soundwaveImages + '/**',
+        '!' + options.soundwaveImages + '/liveops-logo.png'
+      ])
+      .pipe(gulp.dest(options.tmp + '/serve/assets/images/'));
+  });
+
   gulp.task('other', function () {
     return gulp.src([
       options.src + '/**/*',
