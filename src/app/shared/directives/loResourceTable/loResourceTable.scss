@@ -83,6 +83,10 @@ lo-resource-table {
       }
     }
 
+    td:focus {
+      outline: none;
+    }
+
     tr:last-child td{
       border-bottom: 1px solid #ddd;
     }
@@ -114,7 +118,7 @@ lo-resource-table {
     margin: 0;
     margin-bottom: 5px;
   }
-  
+
   td.null, tr:last-child td.null {
     border-bottom: none;
     padding: 20px;
