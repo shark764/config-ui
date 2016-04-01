@@ -3,9 +3,10 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
-* Updated bower.json to resolve bower component dependency conflicts resulting from bringing in agent toolbar
+* Fix gulp serve tasks for local development
 
 ## [2.0.17]
+* Updated bower.json to resolve bower component dependency conflicts resulting from bringing in agent toolbar
 * Update soundwave to 1.12.12
 
 ## [2.0.16]
