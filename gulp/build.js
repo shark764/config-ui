@@ -84,9 +84,7 @@ module.exports = function(options) {
   // Only applies for fonts from bower dependencies
   // Custom fonts are handled by the "other" task
   gulp.task('fonts', function () {
-    return gulp.src($.mainBowerFiles({}))
-      .pipe($.filter('**/*.{eot,svg,ttf,woff,woff2}'))
-      .pipe($.flatten())
+    return gulp.src(options.fonts + '/**')
       .pipe(gulp.dest(options.dist + '/fonts/'));
   });
 
@@ -105,5 +103,12 @@ module.exports = function(options) {
     $.del([options.dist + '/', options.tmp + '/', 'coverage/'], done);
   });
 
-  gulp.task('build', ['config', 'html', 'fonts', 'other']);
+  gulp.task('build', ['config', 'html', 'fonts', 'other'], function() {
+    return gulp.src([
+        options.soundwaveImages + '/**',
+        '!' + options.soundwaveImages + '/liveops-logo.png'
+      ])
+      .pipe($.debug())
+      .pipe(gulp.dest(options.dist + '/assets/images/'));
+  });
 };
