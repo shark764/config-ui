@@ -3,8 +3,12 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## [2.0.18]
 * Fix gulp serve tasks for local development
 * Remove CSS focus-ring from table cells.
+* Update API URL according to environment for soundwave
+* Update soundwave to 1.12.14
 
 ## [2.0.17]
 * Updated bower.json to resolve bower component dependency conflicts resulting from bringing in agent toolbar

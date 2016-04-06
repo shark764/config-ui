@@ -1,10 +1,12 @@
 #!/bin/bash
 
 CONFIG=/var/www/app/env.js
+VENDOR=$(find /var/www/scripts/vendor-*.js)
 
 if [ -n "$1" ]
   then
   sed -ri "s|('apiHostname', )(.*)(\).*)|\1\'$1\'\3|g" $CONFIG
+  sed -ri "s|(https://dev-api.liveopslabs.com)|$1|g" $VENDOR
 fi
 
 if [ -n "$2" ]

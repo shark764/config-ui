@@ -11,7 +11,7 @@ var options = {
   e2e: 'e2e',
   lang: 'src/lang',
   configShared: 'bower_components/liveops-config-panel-shared',
-  soundwaveImages: 'bower_components/agent-phone-panel/componentize/build/images',
+  soundwaveImages: 'bower_components/agent-phone-panel/build/images',
   fonts: 'bower_components/font-awesome/fonts',
   errorHandler: function(title) {
     return function(err) {
