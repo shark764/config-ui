@@ -7,6 +7,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [2.0.18]
 * Fix gulp serve tasks for local development
 * Remove CSS focus-ring from table cells.
+* added gear image asset
+* Updating the designer
 * Update API URL according to environment for soundwave
 * Update soundwave to 1.12.14
 
