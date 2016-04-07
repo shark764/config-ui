@@ -75,21 +75,21 @@ angular.module('liveopsConfigPanel')
         {
           label: 'Documentation',
           onClick: function() {
-            var url = "https://beta-help-docs.liveopslabs.com";
+            var url = "https://docs.cxengage.net";
             $window.open(url);
           }
         },
         {
           label: 'Admin API Documentation',
           onClick: function() {
-            var url = "https://beta-api-docs.liveopslabs.com/";
+            var url = "https://api-docs.cxengage.net/";
             $window.open(url);
           }
         },
         {
           label: 'Reporting API',
           onClick: function() {
-            var url = "https://beta-api-docs.liveopslabs.com/CxEngage-Reporting-API/Content/Home.htm";
+            var url = "https://api-docs.cxengage.net/CxEngage-Reporting-API/";
             $window.open(url);
           }
         }
