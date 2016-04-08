@@ -62,7 +62,7 @@ angular.module('liveopsConfigPanel')
               draftId: draft.id
             });
           }).catch(function(err){
-            Alert.error(err.data.error.attribute.name.charAt(0).toUpperCase() + err.data.error.attribute.name.slice(1));
+            Alert.error(err.data.error.attribute.name.capitalize());
           });
         };
 
