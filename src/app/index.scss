@@ -10,6 +10,8 @@ html, body {
   overflow-y: hidden; /*Required to prevent tooltips from (occasionally) briefly creating a scrollbar */
   overflow-x: auto; /*Required to show scrollbar on small windows */
   position: static;
+  -webkit-font-smoothing: auto !important;
+  -moz-osx-font-smoothing: auto !important;
 }
 
 body > .ng-view {
