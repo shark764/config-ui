@@ -33,7 +33,7 @@
 <div class="input-group">
   <label>{{'recordings.details.duration' | translate}}</label>
   <div>
-    {{selectedRecording.duration}}
+    {{selectedRecording.length | secondsToTime}}
   </div>
 </div>
 

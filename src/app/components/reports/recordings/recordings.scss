@@ -11,7 +11,7 @@
   padding-bottom: 0;
   box-sizing: border-box;
   width: 100%;
-  
+
   .recording-filters {
     @include flexbox;
     margin-top: 10px;
@@ -22,7 +22,7 @@
     float: left;
     width: 50%;
   }
-  
+
   .col > *:first-child {
     padding-top: 0;
   }
@@ -30,7 +30,7 @@
   .btn + .btn {
     margin-left: 10px;
   }
-  
+
   .detail-controls {
     margin-top: 20px;
     text-align: right;

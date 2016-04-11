@@ -1,5 +1,5 @@
 <div class="info">
-  <h1>{{selectedRecording.$original.name}}</h1>
+  <h1>{{selectedRecording.id}}</h1>
   <div class="details" ng-if="['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_USERS', 'MANAGE_ALL_USER_EXTENSIONS', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_ALL_USER_LOCATIONS', 'MANAGE_TENANT_ENROLLMENT'] | hasPermission">
     <b audit-text
       translation="value.createdby.time"
