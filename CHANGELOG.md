@@ -4,6 +4,14 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [2.0.19]
+* Fix bug preventing dropdown menus from dismissing on historical dashboard
+* Fix font issues on OS X
+* Recordings search has been fixed, feature is still disabled in this version
+* Disable silent monitoring features
+* Improve error messages on flow designer
+* Update LiveOps logo to CxEngage logo
+
 ## [2.0.18]
 * Fix gulp serve tasks for local development
 * Remove CSS focus-ring from table cells.
