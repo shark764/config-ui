@@ -254,12 +254,12 @@ angular.module('liveopsConfigPanel')
             },
             id: 'reports-management-link',
             order: 2
-          },
-          {
-            label: 'Recordings',
-            stateLink: 'content.recordings',
-            id: 'recording-management-link',
-            order: 3
+          // },
+          // {
+          //   label: 'Recordings',
+          //   stateLink: 'content.recordings',
+          //   id: 'recording-management-link',
+          //   order: 3
           }
         ];
       };
