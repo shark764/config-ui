@@ -4,6 +4,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [2.0.20]
+* Updating flow-designer to 1.9.1
+
 ## [2.0.19]
 * Fix bug preventing dropdown menus from dismissing on historical dashboard
 * Fix font issues on OS X
