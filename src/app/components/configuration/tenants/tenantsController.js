@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('TenantsController', ['$scope', 'Session', 'Tenant', 'TenantUser', 'tenantTableConfig', 'UserPermissions', 'AuthService', 'Region', '$q', 'loEvents', 'Timezone', 'PermissionGroups',
-    function($scope, Session, Tenant, TenantUser, tenantTableConfig, UserPermissions, AuthService, Region, $q, loEvents, Timezone, PermissionGroups) {
+  .controller('TenantsController', ['$scope', 'Session', 'Tenant', 'TenantUser', 'tenantTableConfig', 'UserPermissions', 'AuthService', 'Region', '$q', 'loEvents', 'Timezone', 'PermissionGroups', 'Alert',
+    function($scope, Session, Tenant, TenantUser, tenantTableConfig, UserPermissions, AuthService, Region, $q, loEvents, Timezone, PermissionGroups, Alert) {
       var vm = this;
 
       vm.loadTimezones = function() {
@@ -56,7 +56,13 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.submit = function() {
-        return $scope.selectedTenant.save();
+        return $scope.selectedTenant.save(null, null, function(err){
+          if (err.data.error.attribute.parentId) {
+            Alert.error(err.data.error.attribute.parentId);
+          } else if (err.data.error.attribute.name) {
+            Alert.error(err.data.error.attribute.name);
+          }
+        });
       };
 
       $scope.$on(loEvents.tableControls.itemCreate, function() {
@@ -83,14 +89,14 @@ angular.module('liveopsConfigPanel')
           });
         }
       });
-      
+
       $scope.updateActive = function(){
         var tenantCopy = new Tenant({
           id: $scope.selectedTenant.id,
           regionId: $scope.selectedTenant.regionId,
           active: ! $scope.selectedTenant.active
         });
-        
+
         return tenantCopy.save(function(result){
           $scope.selectedTenant.$original.active = result.active;
         });
