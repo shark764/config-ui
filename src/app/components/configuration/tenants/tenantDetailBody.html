@@ -5,7 +5,7 @@
 <div disable-contents="! (['PLATFORM_MANAGE_ALL_TENANTS', 'MANAGE_TENANT'] | hasPermission)">
   <div class="input-group">
     <label>{{'tenant.details.name' | translate}} *</label>
-    <form-error field="forms.detailsForm.name"
+    <form-error ng-if="!selectedTenant.name" field="forms.detailsForm.name"
       error-type-required="{{'tenant.details.name.error' | translate}}" >
     </form-error>
     <div>
@@ -62,12 +62,12 @@
   <div class="divider-header first-header">
     <h4>{{'tenant.details.parent' | translate}}</h4>
   </div>
-  
+
   <div class="input-group">
     <label class="textarea-label">{{'tenant.details.id' | translate}}</label>
     <p id="tenant-details-parent-id">{{selectedTenant.parent.id}}</p>
   </div>
-  
+
   <div class="input-group">
     <label class="textarea-label">{{'tenant.details.name' | translate}}</label>
     <p id="tenant-details-parent-name"

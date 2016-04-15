@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+* TITAN2-8731 Show better error message when tenant fails to save
 
 ## [2.0.20]
 * Updating flow-designer to 1.9.1
