@@ -15,27 +15,28 @@ angular.module('liveopsConfigPanel')
           },
           'name': '$interaction.startTime'
         }, {
-          'header': {
-            'display': $translate.instant('recordings.table.flag')
-          },
-          'name': '$original.reviewNeeded'
-        }, {
-          'header': {
-            'display': $translate.instant('recordings.table.note')
-          },
-          'name': '$original.reviewReason'
-        }, {
+        //   'header': {
+        //     'display': $translate.instant('recordings.table.flag')
+        //   },
+        //   'name': '$original.reviewNeeded'
+        // }, {
+        //   'header': {
+        //     'display': $translate.instant('recordings.table.note')
+        //   },
+        //   'name': '$original.reviewReason'
+        // }, {
           'header': {
             'display': $translate.instant('recordings.table.flow')
           },
-          'name': '$interaction.flowId'
+          'name': '$interaction.$flowName'
         }, {
           'header': {
             'display': $translate.instant('recordings.table.callerani')
           },
           'name': '$interaction.customer'
         }],
-        'orderBy': '$original.name',
+        'orderBy': '$interaction.startTime',
+        'reverseSort': 'true',
         'sref': 'content.recordings.recording',
         'showBulkActions': false,
         'showSearch': false,

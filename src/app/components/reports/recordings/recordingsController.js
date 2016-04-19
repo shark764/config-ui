@@ -42,12 +42,19 @@ angular.module('liveopsConfigPanel')
         $scope.recordings.$promise = true;
         $scope.recordings.$resolved = false;
         RealtimeStatisticInteraction.cachedGet(params).$promise.then(function (interactionSearch) {
+          var totalResolved = 0;
           if (interactionSearch.interactions === null) {
-            // If there aren't any interactions, this will tell loResourceTable that we're no longer "loading"
-            // and it will display "No results are found"
             $scope.recordings.$resolved = true;
           }
           angular.forEach(interactionSearch.interactions, function(interaction, idx) {
+
+            // Set flow names based on flow ids
+            var currentFlow = $scope.flows.$promise.then(function(flows) {
+              interaction.$flowName = flows.filter(function(flow) {
+                return interaction.flowId === flow.id;
+              })[0].name;
+            });
+
             Recording.query({
               tenantId: interactionSearch.tenantId,
               interactionId: interaction.id
@@ -56,11 +63,18 @@ angular.module('liveopsConfigPanel')
                 recording.$interaction = interaction;
               });
               $scope.recordings = $scope.recordings.concat(recordings);
-              // Now that we have at least one result, we can tell loResourceTable that we're no longer "loading"
-              // and it will display the results.
-              $scope.recordings.$resolved = true;
+              totalResolved++;
+              $scope.recordings.$promise = true;
+              $scope.recordings.$resolved = totalResolved === interactionSearch.interactions.length ? true : false;
+            })
+            .catch(function(err) {
+              totalResolved++;
+              if (totalResolved === interactionSearch.interactions.length) {
+                $scope.recordings.$resolved = true;
+              }
             });
           });
+
           $scope.forms.recordingFilterForm.$setUntouched();
           $scope.forms.recordingFilterForm.$setPristine();
         });
