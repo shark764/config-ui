@@ -32,6 +32,7 @@ angular.module('liveopsConfigPanel')
    *     See 'search' filter for more info
    *  * orderBy (string): The default property used to order the items. Defaults to undefined, and items are ordered as given by the items attribute
    *  * resourceKey (string): The property on the items to be used as their ID for the URL params. Defaults to 'id'
+   *  * reverseSort (boolean): When true, items will be displayed in descending order based on the orderBy field. Defaults to false (items displayed in ascending order)
    *  * showBulkActions (boolean): Whether to show the checkbox column. Defaults to true
    *  * stateKey (string): The name of the URL param that identifies an item. Defaults to 'id'
    *  * sref (string): Optional name of the state to go to when clicking a table row. Defaults to undefined
@@ -65,7 +66,7 @@ angular.module('liveopsConfigPanel')
             }
 
             $scope.showBulkActions = angular.isDefined($scope.config.showBulkActions) ? $scope.config.showBulkActions : true;
-            $scope.reverseSortOrder = false;
+            $scope.reverseSortOrder = $scope.config.reverseSort;
             $scope.orderBy = $scope.config.orderBy;
             $scope.resourceKey = $scope.config.resourceKey ? $scope.config.resourceKey : 'id';
             $scope.stateKey = $scope.config.stateKey ? $scope.config.stateKey : 'id';
