@@ -4,6 +4,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [2.0.22]
+* Updating realtime-dashboards to 2.4.8
+
 ## [2.0.21]
 * TITAN2-5018 View list of recordings and playback
 * TITAN2-8731 Show better error message when tenant fails to save
