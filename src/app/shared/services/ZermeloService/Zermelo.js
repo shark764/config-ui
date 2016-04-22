@@ -3,98 +3,48 @@
 angular.module('liveopsConfigPanel')
   .factory('ZermeloService', ['_', function(_) {
     return {
-      addAnyFilter: addAnyFilter,
-      removeAnyFilter: removeAnyFilter,
-      addAllFilter: addAllFilter,
-      removeAllFilter: removeAllFilter,
+      addFilter: addFilter,
+      removeFilter: removeFilter,
       addQueryLevel: addQueryLevel,
       removeQueryLevel: removeQueryLevel,
       updateQueryLevel: updateQueryLevel
     };
 
-    function addAnyFilter(level, type, query, itemId, condition) {
-      var newClause = {};
-      if (type === ":skills") {
-        newClause[itemId] = condition;
-      } else {
-        newClause = [itemId];
-      }
+    function addFilter(level, type, filter, query, itemId, condition) {
+      var newClause = makeNewClause(type, itemId, condition);
       if (angular.isDefined(query[level][":query"][type])) {
         var success = false;
         query[level][":query"][type].forEach(function(queryGroup, idx, groups) {
-          if (queryGroup[0] === "some") {
-            if (type === ":user-id" || type === ":groups") {
-              groups[idx][1].push(itemId);
-            } else if (type === ":skills") {
-              groups[idx][1][itemId] = condition;
-            }
+          if (queryGroup[0] === filter) {
+            pushNewRule(type, groups[idx][1], itemId, condition);
             success = true;
           }
         });
         if (!success) {
-          query[level][":query"][type].push(["some", newClause])
+          query[level][":query"][type].push([filter, newClause])
         }
         return;
       }
-      query[level][":query"][type] = [["some", newClause]];
+      query[level][":query"][type] = [[filter, newClause]];
     };
 
-    function removeAnyFilter(level, type, query, itemId) {
+    function removeFilter(level, type, filter, query, itemId) {
       var index;
-      query[level][":query"][type].forEach(function(queryGroup, idx, groups) {
-        if (queryGroup[0] === "some") {
+      var blockToEdit = query[level][":query"][type];
+
+      blockToEdit.forEach(function(queryGroup, idx, groups) {
+        if (queryGroup[0] === filter) {
           index = idx;
           type === ":skills" ? delete groups[idx][1][itemId] : _.pull(queryGroup[1], itemId);
         }
       });
-      if ((type === ":skills" && !Object.keys(query[level][":query"][":skills"][index][1]).length)
-          || (type !== ":skills" && !query[level][":query"][type][index][1].length)) {
-        query[level][":query"][type].splice(index, 1);
-        if (!query[level][":query"][type].length) {
-          delete query[level][":query"][type];
-        }
-      }
-    };
 
-    function addAllFilter(level, type, query, itemId, condition) {
-      var newClause = {};
-      if (type === ":skills") {
-        newClause[itemId] = condition;
-      } else {
-        newClause = [itemId];
-      }
-      if (angular.isDefined(query[level][":query"][type])) {
-        var success = false;
-        query[level][":query"][type].forEach(function(queryGroup, idx, groups) {
-          if (queryGroup[0] === "every") {
-            if (type === ":groups") {
-              groups[idx][1].push(itemId);
-            } else if (type === ":skills") {
-              groups[idx][1][itemId] = condition;
-            }
-            success = true;
-          }
-        });
-        if (!success) {
-          query[level][":query"][type].push(["every", newClause]);
-        }
-        return;
-      }
-      query[level][":query"][type] = [["every", newClause]];
-    };
+      var noSkillsRemaining = !Object.keys(blockToEdit[index][1]).length
+      var noGroupsRemaining = !blockToEdit[index][1].length;
 
-    function removeAllFilter(level, type, query, itemId) {
-      var index;
-      query[level][":query"][type].forEach(function(queryGroup, idx, groups) {
-        if (queryGroup[0] === "every") {
-          index = idx;
-          type === ":skills" ? delete groups[idx][1][itemId] : _.pull(queryGroup[1], itemId);
-        }
-      });
-      if ((type === ":skills" && !Object.keys(query[level][":query"][":skills"][index][1]).length)
-          || (type !== ":skills" && !query[level][":query"][type][index][1].length)) {
-        query[level][":query"][type].splice(index, 1);
-        if (!query[level][":query"][type].length) {
+      if ((type === ":skills" && noSkillsRemaining) || (type !== ":skills" && noGroupsRemaining)) {
+        blockToEdit.splice(index, 1);
+        if (!blockToEdit.length) {
           delete query[level][":query"][type];
         }
       }
@@ -114,6 +64,28 @@ angular.module('liveopsConfigPanel')
 
     function updateQueryLevel(query, level, time) {
       query[level][":after-seconds-in-queue"] = time;
+    };
+
+    // =============================================================
+    // Helper functions below are not exposed outside of the service
+    // =============================================================
+
+    function makeNewClause(type, itemId, condition) {
+      var newClause = {};
+      if (type === ":skills") {
+        newClause[itemId] = condition;
+        return newClause;
+      }
+      newClause = [itemId];
+      return newClause;
+    };
+
+    function pushNewRule(type, queryGroup, itemId, condition) {
+      if (type === ":skills") {
+        queryGroup[itemId] = condition;
+        return;
+      }
+      queryGroup.push(itemId);
     };
 
   }]);
