@@ -46,10 +46,10 @@ angular.module('liveopsConfigPanel')
           if (interactionSearch.interactions === null) {
             $scope.recordings.$resolved = true;
           }
-          angular.forEach(interactionSearch.interactions, function(interaction, idx) {
+          angular.forEach(interactionSearch.interactions, function(interaction) {
 
             // Set flow names based on flow ids
-            var currentFlow = $scope.flows.$promise.then(function(flows) {
+            $scope.flows.$promise.then(function(flows) {
               interaction.$flowName = flows.filter(function(flow) {
                 return interaction.flowId === flow.id;
               })[0].name;
@@ -68,7 +68,7 @@ angular.module('liveopsConfigPanel')
               $scope.recordings.$promise = true;
               $scope.recordings.$resolved = totalResolved === interactionSearch.interactions.length ? true : false;
             })
-            .catch(function(err) {
+            .catch(function() {
               totalResolved++;
               if (totalResolved === interactionSearch.interactions.length) {
                 $scope.recordings.$resolved = true;
@@ -99,7 +99,7 @@ angular.module('liveopsConfigPanel')
         });
       };
 
-      $scope.$watchGroup(['filters.startDate', 'filters.endDate'], function(newVal) {
+      $scope.$watchGroup(['filters.startDate', 'filters.endDate'], function() {
         if ($scope.forms.recordingFilterForm){
           $scope.forms.recordingFilterForm.$setDirty();
         }
