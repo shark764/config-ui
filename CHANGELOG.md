@@ -4,6 +4,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [2.0.23]
+* TITAN2-5018 Improve recordings UX
+
 ## [2.0.22]
 * Updating realtime-dashboards to 2.4.8
 
