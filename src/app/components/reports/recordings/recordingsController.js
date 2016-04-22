@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('RecordingsController', ['$scope', '$q', '$parse', '$moment', 'Recording', 'Session', 'recordingsTableConfig', 'RealtimeStatisticInteraction', 'TenantUser', 'Flow',
-    function ($scope, $q, $parse, $moment, Recording, Session, recordingsTableConfig, RealtimeStatisticInteraction, TenantUser, Flow) {
+  .controller('RecordingsController', ['$scope', '$q', '$parse', '$moment', '$filter', 'Recording', 'Session', 'recordingsTableConfig', 'RealtimeStatisticInteraction', 'TenantUser', 'Flow',
+    function ($scope, $q, $parse, $moment, $filter, Recording, Session, recordingsTableConfig, RealtimeStatisticInteraction, TenantUser, Flow) {
       var vm = this;
       $scope.forms = {};
 
@@ -61,6 +61,7 @@ angular.module('liveopsConfigPanel')
             }).$promise.then(function(recordings) {
               angular.forEach(recordings, function(recording) {
                 recording.$interaction = interaction;
+                recording.$interaction.startTime = $filter('date')(recording.$interaction.startTime, 'medium');
               });
               $scope.recordings = $scope.recordings.concat(recordings);
               totalResolved++;
