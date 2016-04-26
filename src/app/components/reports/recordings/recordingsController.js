@@ -18,13 +18,18 @@ angular.module('liveopsConfigPanel')
       };
 
       vm.massageFilters = function() {
-        var start = $moment.utc($scope.filters.startDate);
-        var end = $moment.utc($scope.filters.endDate);
+        if (!moment.isMoment($scope.filters.startDate) || !moment.isMoment($scope.filters.endDate)) {
+          $scope.filters.startDate = moment($scope.filters.startDate);
+          $scope.filters.endDate = moment($scope.filters.endDate);
+        }
+
+        var start = $scope.filters.startDate.startOf('day');
+        var end = $scope.filters.endDate.endOf('day');
 
         var params = vm.filterObject({
           'tenantId': Session.tenant.tenantId,
-          'start': start.startOf('day').format(),
-          'end': end.endOf('day').format(),
+          'start': start.toJSON(),
+          'end': end.toJSON(),
           'resourceId': $scope.filters.resource ? $scope.filters.resource.id : null,
           'flowId': $scope.filters.flow ? $scope.filters.flow.id : null
         }, function(value) {
@@ -75,9 +80,6 @@ angular.module('liveopsConfigPanel')
               }
             });
           });
-
-          $scope.forms.recordingFilterForm.$setUntouched();
-          $scope.forms.recordingFilterForm.$setPristine();
         });
       };
 
@@ -99,20 +101,14 @@ angular.module('liveopsConfigPanel')
         });
       };
 
-      $scope.$watchGroup(['filters.startDate', 'filters.endDate'], function() {
-        if ($scope.forms.recordingFilterForm){
-          $scope.forms.recordingFilterForm.$setDirty();
-        }
-      });
-
       vm.loadTenantUsers();
       vm.loadFlows();
 
       $scope.tableConfig = recordingsTableConfig;
 
       $scope.filters = {
-        startDate: $moment.utc(),
-        endDate: $moment.utc()
+        startDate: $moment(),
+        endDate: $moment()
       };
 
       vm.searchRecordings();
