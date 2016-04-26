@@ -4,6 +4,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [2.0.24]
+* TITAN2-5018 Fix timezone issue with recordings search
+
 ## [2.0.23]
 * TITAN2-5018 Improve recordings UX
 
