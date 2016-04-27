@@ -37,7 +37,6 @@ angular.module('liveopsConfigPanel')
         }],
         'orderBy': '$interaction.startTime',
         'reverseSort': 'true',
-        'sref': 'content.recordings.recording',
         'showBulkActions': false,
         'showSearch': false,
         'showCreate': false
