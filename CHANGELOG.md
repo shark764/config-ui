@@ -4,6 +4,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [2.0.25]
+* TITAN2-5018 Fix recordings search filters and state change errors
+
 ## [2.0.24]
 * TITAN2-5018 Fix timezone issue with recordings search
 
