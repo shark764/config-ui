@@ -62,7 +62,7 @@
         <input id="reset-filters-btn" type="button" class="btn"
           value="{{'recordings.table.filter.clear' | translate}}"
           ng-model="selectedRecording"
-          lo-reset/>
+          ng-click="rc.clearFilters()"/>
         <input id="submit-filters-btn" class="btn btn-primary"
           type="submit" value="{{'recordings.table.filter.search' | translate}}"
           lo-submit="rc.searchRecordings()"

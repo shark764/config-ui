@@ -39,6 +39,11 @@ angular.module('liveopsConfigPanel')
         return params;
       };
 
+      vm.clearFilters = function() {
+        $scope.filters.resource = null;
+        $scope.filters.flow = null;
+      };
+
       vm.searchRecordings = function() {
         var params = vm.massageFilters();
         $scope.recordings = [];
