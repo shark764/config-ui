@@ -2,7 +2,8 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [Unreleased] (2.1.0-SNAPSHOT)
+## [Unreleased] (2.2.0-SNAPSHOT)
+* CXV1-206 Add Plivo as another possible integration type
 * Updating realtime-dashboards to 2.4.8
 
 ## [2.0.26]
