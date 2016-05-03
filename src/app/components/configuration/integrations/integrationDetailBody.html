@@ -2,16 +2,28 @@
   <div class="divider-header first-header">
     <h4>{{'details' | translate}}</h4>
   </div>
-  
-  <div ng-if="selectedIntegration.type == 'twilio'">
-    <div class="input-group">
-      <label>{{'integration.details.properties.accountSid' | translate}} *</label>
-      <form-error field="forms.detailsForm.accountSid" error-type-required="{{'integration.accountsid.error' | translate}}" ></form-error>
-      <div>
-        <input ng-required="true" type="text" ng-model="selectedIntegration.properties.accountSid" name="accountSid"/>
+
+  <div ng-if="selectedIntegration.type == 'twilio' || selectedIntegration.type == 'plivo'">
+    <div ng-if="selectedIntegration.type == 'twilio'">
+      <div class="input-group">
+        <label>{{'integration.details.properties.accountSid' | translate}} *</label>
+        <form-error field="forms.detailsForm.accountSid" error-type-required="{{'integration.accountsid.error' | translate}}" ></form-error>
+        <div>
+          <input ng-required="true" type="text" ng-model="selectedIntegration.properties.accountSid" name="accountSid"/>
+        </div>
       </div>
     </div>
-    
+
+    <div ng-if="selectedIntegration.type == 'plivo'">
+      <div class="input-group">
+        <label>{{'integration.details.properties.authId' | translate}} *</label>
+        <form-error field="forms.detailsForm.authId" error-type-required="{{'integration.authid.error' | translate}}" ></form-error>
+        <div>
+          <input ng-required="true" type="text" ng-model="selectedIntegration.properties.authId" name="authId"/>
+        </div>
+      </div>
+    </div>
+
     <div class="input-group">
       <label>{{'integration.details.properties.authToken' | translate}} *</label>
       <form-error field="forms.detailsForm.authToken" error-type-required="{{'integration.authtoken.error' | translate}}" ></form-error>
@@ -19,7 +31,7 @@
         <input ng-required="true" type="password" ng-model="selectedIntegration.properties.authToken" name="authToken"/>
       </div>
     </div>
-    
+
     <div class="input-group">
       <label>{{'integration.details.properties.webRTC' | translate}}</label>
       <div>
@@ -27,7 +39,7 @@
       </div>
     </div>
   </div>
-  
+
   <div ng-if="selectedIntegration.type == 'client'">
     <div class="input-group">
       <label>{{'integration.details.properties.accessKey' | translate}} *</label>
@@ -36,7 +48,7 @@
         <input ng-required="true" type="text" ng-model="selectedIntegration.properties.accessKey" name="accessKey"/>
       </div>
     </div>
-    
+
     <div class="input-group">
       <label>{{'integration.details.properties.secretKey' | translate}} *</label>
       <form-error field="forms.detailsForm.secretKey" error-type-required="{{'integration.secretKey.error' | translate}}" ></form-error>
@@ -45,7 +57,7 @@
       </div>
     </div>
   </div>
-  
+
   <div ng-if="selectedIntegration.type == 'birst'">
     <div class="input-group">
       <label>{{'integration.details.properties.birstSpaceId' | translate}} *</label>
@@ -54,7 +66,7 @@
         <input uuid ng-required="true" type="text" ng-model="selectedIntegration.properties.birstSpaceId" name="birstSpaceId"/>
       </div>
     </div>
-    
+
     <div class="input-group">
       <label>{{'integration.details.properties.birstSsoPassword' | translate}} *</label>
       <form-error field="forms.detailsForm.birstSsoPassword" error-type-required="{{'integration.birstSsoPassword.error' | translate}}" ></form-error>
@@ -62,7 +74,7 @@
         <input ng-required="true" type="password" ng-model="selectedIntegration.properties.birstSsoPassword" name="birstSsoPassword"/>
       </div>
     </div>
-    
+
     <div class="input-group">
       <label>{{'integration.details.properties.birstBaseUrl' | translate}} *</label>
       <form-error field="forms.detailsForm.birstBaseUrl" error-type-required="{{'integration.birstBaseUrl.error' | translate}}" ></form-error>
@@ -70,7 +82,7 @@
         <input ng-required="true" type="text" ng-model="selectedIntegration.properties.birstBaseUrl" name="birstBaseUrl"/>
       </div>
     </div>
-    
+
     <div class="input-group">
       <label>{{'integration.details.properties.birstAdminPassword' | translate}} *</label>
       <form-error field="forms.detailsForm.birstAdminPassword" error-type-required="{{'integration.birstAdminPassword.error' | translate}}" ></form-error>
@@ -78,7 +90,7 @@
         <input ng-required="true" type="password" ng-model="selectedIntegration.properties.birstAdminPassword" name="birstAdminPassword"/>
       </div>
     </div>
-    
+
     <div class="input-group">
       <label>{{'integration.details.properties.birstAdminUsername' | translate}} *</label>
       <form-error field="forms.detailsForm.birstAdminUsername" error-type-required="{{'integration.birstAdminUsername.error' | translate}}" ></form-error>
