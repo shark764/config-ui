@@ -7,23 +7,21 @@ Visual front-end for the LiveOps Configuration API.
 [![Build Status](https://vpn.liveopslabs.com/buildStatus/icon?job=config-ui)](http://jenkins.liveopslabs.com/job/config-ui/)
 
 ## Version ##
-0.0.0
+2.1.0
 
 ### How do I get set up? ###
 
-1. install nodejs (https://nodejs.org/download/)
-1. install docker (https://docs.docker.com/installation/) *
-1. npm install -g gulp
-1. npm install
-1. bower install
-1. if necessary, login to the docker.liveopslabs.com (if you need creds, please check confluence) *
-1. run api according to https://github.com/liveops/api-containers *
-1. gulp serve
+1. Clone the repository
+1. From the root directory of the repo, run the following command: `npm install && bower install`
+1. Run `gulp serve` to start the application
 
-<br>
-<sub>* For API development only</sub>
+<sub>For API development, configurator must be set up according to [this article](https://liveops.atlassian.net/wiki/display/TITAN/Local+Configurator+Environment+Setup)</sub>
 
 **Note:** To configure the API end-point, you can change the app/env.js apiHostname.
+
+### How do I make a new release? ###
+
+[Click Here](https://liveops.atlassian.net/wiki/display/TITAN/Releasing+a+new+Config-UI)
 
 ### Unit tests ###
 Run all unit tests
@@ -34,6 +32,11 @@ $ gulp test
 Run unit tests and generate coverage report (view report at /coverage/PhantomJS [version]/index.html)
 ```shell
 $ gulp coverage
+```
+
+Run a single spec file
+```shell
+$ gulp test:single --specFile="path/to/file.spec.js"
 ```
 
 ### E2E tests ###
@@ -59,10 +62,7 @@ $ ./e2e_sauce.sh <SAUCE_USERNAME> <SAUCE_ACCESS_KEY> <SAUCE_TUNNEL>
 ```
 
 ## Team ##
-* John Benson (john.benson@bluespurs.com)
-* Phil Hachey (phil.hachey@bluespurs.com)
-* Samantha Routledge (samantha.routledge@bluespurs.com)
-* Sasha Wilcox (sasha.wilcox@bluespurs.com)
-* Greg Royan (greg.royan@bluespurs.com)
-* Todd Roper (troper@liveops.com)
-* Doron Orenstein (dorenstein@loveops.com)
+* Josh Stevens (jstevens@liveops.com)
+* Samuel Stiles (sstiles@liveops.com)
+* Matthew Jones (mjones@liveops.com)
+* Nick Fitzpatrick (nfitzpatrick@liveops.com)
