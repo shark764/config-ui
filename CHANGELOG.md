@@ -2,7 +2,8 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [Unreleased]
+## [Unreleased] (3.1.0)
+* Add silent monitoring toolbar
 
 ## [3.0.0]
 * CXV1-206 Add Plivo as another possible integration type

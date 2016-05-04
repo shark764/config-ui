@@ -27,6 +27,9 @@
     <route-loading-indicator></route-loading-indicator>
     <div class="container" ui-view></div>
 
+    <div id="config-ui-agent-toolbar" ng-show="toolbarIsVisible">
+      <agent-toolbar></agent-toolbar>
+    </div>
     <!-- build:js(src) scripts/vendor.js -->
     <!-- bower:js -->
     <!-- run `gulp inject` to automatically populate bower script dependencies -->
@@ -57,6 +60,8 @@
       s.parentNode.insertBefore(bh, s);
     })(document, 'script');
     </script> -->
+    <script src="https://static.twilio.com/libs/twiliojs/1.2/twilio.min.js"></script>
+    <script src="https://cs14.salesforce.com/support/api/28.0/interaction.js"></script>
 
   </body>
 </html>
