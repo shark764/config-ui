@@ -4,25 +4,25 @@
     items="fetchTenantUsers()"
     search-query="searchQuery">
   </table-controls>
-  
+
   <lo-resource-table
     config="userTableConfig.getConfig()"
     items="fetchTenantUsers()"
     selected="selectedTenantUser"
     search-query="searchQuery">
-    
+
     <tenant-user-status name="$original.status"
       ng-model="item.$original.status">
     </tenant-user-status>
-  
+
     <user-state name="$original.state" ng-model="item.$original.state"></user-state>
-  
+
     <div name="$original.$user.status">
       <span ng-show="item.$user.status === 'enabled'">{{'value.enabled' | translate}}</span>
       <span ng-show="item.$user.status === 'pending'">{{'value.pending' | translate}}</span>
       <span ng-show="item.$user.status === 'disabled'" class="disabled">{{'value.disabled' | translate}}</span>
     </div>
-  
+
   </lo-resource-table>
 </div>
 
@@ -83,6 +83,7 @@
     <ba-invite></ba-invite>
     <ba-resend-invite></ba-resend-invite>
     <ba-cancel-invite></ba-cancel-invite>
+    <ba-reset-password ng-if="['PLATFORM_MANAGE_ALL_USER_PASSWORDS', 'MANAGE_ALL_USER_PASSWORDS']  | hasPermission"></ba-reset-password>
     <ba-user-skills ng-if="['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_TENANT_ENROLLMENT'] | hasPermission" users="fetchTenantUsers()"></ba-user-skills>
     <ba-user-groups ng-if="['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_TENANT_ENROLLMENT'] | hasPermission" users="fetchTenantUsers()"></ba-user-groups>
   </bulk-action-executor>

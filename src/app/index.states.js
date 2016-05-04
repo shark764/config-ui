@@ -387,6 +387,12 @@ angular.module('liveopsConfigPanel')
           controller: 'LoginController',
           isPublic: true
         })
+        .state('reset-password', {
+          url: '/reset-password?userId&token',
+          templateUrl: 'app/components/resetPassword/resetPassword.html',
+          controller: 'ResetPasswordController',
+          isPublic: true
+        })
         .state('content.userprofile', {
           url: '/userprofile',
           templateUrl: 'app/components/userProfile/userProfile.html',

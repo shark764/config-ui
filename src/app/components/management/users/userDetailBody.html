@@ -84,6 +84,12 @@
       <div>
         <tenant-user-status ng-model="selectedTenantUser.status"></tenant-user-status>
         <help-icon id="tenant-status-help" translate-value="details.tenantStatus.help"></help-icon>
+        <div id="password-reset" disable-contents="(selectedTenantUser.status !== 'accepted') ||
+        (!(['PLATFORM_MANAGE_ALL_USER_PASSWORDS', 'MANAGE_ALL_USER_PASSWORDS']  | hasPermission) && (selectedTenantUser.id !== Session.user.id)) ||
+        (!(['PLATFORM_MANAGE_MY_PASSWORD']  | hasPermission) && (selectedTenantUser.id === Session.user.id))">
+          <input id="password-reset-btn" class="btn" type="button" ng-click="resetPassword()"
+            value="{{'value.passwordReset' | translate}}"></input>
+        </div>
       </div>
     </div>
 
@@ -133,7 +139,7 @@
           type="text"
           ng-required="namesRequired()"
           ng-model="selectedTenantUser.$user.firstName"></input>
-          
+
         <input ng-switch-when="true" type="text"></input>
       </div>
     </div>
@@ -148,7 +154,7 @@
           type="text"
           ng-required="namesRequired()"
           ng-model="selectedTenantUser.$user.lastName">
-          
+
         <input ng-switch-when="true" type="text"></input>
       </input>
       </div>
