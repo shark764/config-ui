@@ -2,8 +2,11 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [Unreleased] (3.1.0)
+## [Unreleased]
+
+## [3.1.0]
 * Add silent monitoring toolbar
+* Updating agent-phone-panel to 1.13.8
 
 ## [3.0.0]
 * CXV1-206 Add Plivo as another possible integration type

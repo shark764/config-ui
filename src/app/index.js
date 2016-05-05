@@ -29,7 +29,7 @@ angular.module('liveopsConfigPanel', [
         maxOpened: 3,
         positionClass: 'toast-top-right',
         preventOpenDuplicates: true,
-        newestOnTop: true,
+        newestOnTop: true
       });
 
       $translateProvider
