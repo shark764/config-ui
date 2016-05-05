@@ -1,1 +1,10 @@
-<iframe ng-src="{{birstUrl}}" style="width: 100%; height: 99%" name="internal" seamless></iframe>
+<div ng-hide="dashboardReady" class="page-loading-wrapper" style="z-index: 0;">
+  <loading ng-hide="dashboardError"></loading>
+  <div ng-hide="dashboardError">
+    {{birst.message}}
+  </div>
+  <div class="lo-alert lo-error ng-binding ng-scope" ng-hide="!dashboardError" style="width: auto;">
+    {{birst.message}}
+  </div>
+</div>
+<iframe ng-hide="!dashboardReady" id="birstFrame" ng-src="{{birstUrl}}" style="width: 100%; height: 99%" name="internal" seamless></iframe>
