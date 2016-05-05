@@ -1,19 +1,53 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('ReportsController', ['$scope', '$sce', '$http', 'Session', 'Report', '$state', 'BIRST_URL',
-    function($scope, $sce, $http, Session, Report, $state, BIRST_URL) {
+  .controller('ReportsController', ['$scope', '$sce', '$http', 'Session', 'Report', '$state', 'BIRST_URL', '$timeout', '$translate',
+    function($scope, $sce, $http, Session, Report, $state, BIRST_URL, $timeout, $translate) {
       $scope.birst = {};
+      $scope.dashboardReady = false;
+      $scope.birst.message = $translate.instant('reports.default');
+      var time = 0;
+      var sleepTime = 5;
+      var maxTimeout = 30;
+
+      $('#birstFrame').on('load', function() {
+        $scope.dashboardReady = true;
+        $scope.$apply();
+      });
 
       $scope.fetch = function() {
-
         Report.get({
           tenantId: Session.tenant.tenantId
         }, function(data) {
           $scope.birst.SSOToken = data.reportToken;
           $scope.buildUrl();
+        }, function(response) {
+          switch (response.status) {
+            case 418:
+              if(time <= maxTimeout) {
+                $scope.birst.message = $translate.instant('reports.provisioning');
+                $timeout(function() {
+                  time = time + sleepTime;
+                  $scope.fetch();
+                }, (sleepTime * 1000));
+              } else {
+                $scope.dashboardError = true;
+                $scope.birst.message = $translate.instant('reports.error');
+              }
+              break;
+            case 500:
+              $scope.dashboardError = true;
+              $scope.birst.message = $translate.instant('reports.serverError');
+              break;
+            case 503:
+              $scope.dashboardError = true;
+              $scope.birst.message = $translate.instant('reports.unavailable');
+              break;
+            default:
+              $scope.dashboardError = true;
+              $scope.birst.message = $translate.instant('reports.error');
+          }
         });
-
       };
 
       $scope.buildUrl = function() {
@@ -48,4 +82,3 @@ angular.module('liveopsConfigPanel')
       $scope.fetch();
     }
   ]);
-  

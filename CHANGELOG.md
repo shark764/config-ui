@@ -4,6 +4,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [3.1.1](https://github.com/liveops/config-ui/compare/3.1.0...3.1.1)
+* Improve the user experience when accessing historical-dashboards by adding load wheels and messages.
+
 ## [3.1.0]
 * Add silent monitoring toolbar
 * Updating agent-phone-panel to 1.13.8

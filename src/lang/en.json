@@ -600,5 +600,11 @@
   "transfer.warm": "Warm Transfer",
   "transfer.cold": "Cold Transfer",
   "interactions.noMessage": "No message selected",
-  "connection.lost": "The connection has been lost. Attempting to re-establish connection."
+  "connection.lost": "The connection has been lost. Attempting to re-establish connection.",
+
+  "reports.default": "Retrieving data, please wait.",
+  "reports.unavailable": "The service is temporarily unavailable. Please try again later.",
+  "reports.provisioning": "Your historical reporting space is being upgraded. Please wait.",
+  "reports.error": "Error. Please try again later.",
+  "reports.serverError": "The server encountered an internal error and was not able to complete your request. Please try again later. If this issue persists please contact your account administrator."
 }
