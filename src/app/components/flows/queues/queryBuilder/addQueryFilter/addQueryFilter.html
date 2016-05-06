@@ -1,0 +1,42 @@
+<!-- Add a filter -->
+<div class="input-group" id="add-query-filter">
+  <label>{{'queues.query.builder.filters.label' | translate}}</label>
+  <div class="instant-add add-filter">
+    <select id="select-filter-dropdown"
+      ng-model="aqfc.currentGroup"
+      ng-disabled="!aqfc.possibleGroups.length">
+      <option value="" disabled>{{'queues.query.builder.filters.placeholder' | translate}}</option>
+      <option ng-repeat="item in aqfc.possibleGroups" value="{{item}}">{{item.title}}</option>
+    </select>
+    <div class="add-group-button">
+      <button class="add btn" type="button"
+        ng-disabled="!aqfc.currentGroup"
+        ng-click="aqfc.addGroup()">
+        <i id="add-filter-btn" class="fa fa-plus"></i>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Skill/User/Group Filters -->
+<div ng-repeat="group in aqfc.groups">
+
+  <!-- Header -->
+  <div class="query-component">
+    <div class="divider-header">
+      <h4>{{ 'queues.query.builder.' + group.key + '.title' | translate }}</h4>
+      <a id="{{group.key}}-remove" class="pull-right" ng-click="aqfc.verifyRemoveGroup(group.key)">
+        {{'queue.query.filter.remove' | translate}}
+      </a>
+    </div>
+
+    <div class="details-group" ng-if="group.key !== ':user-id'">
+      <query-group ng-model="aqfc.query" type="all" group="group" level="level"></query-group>
+    </div>
+
+    <div class="details-group">
+      <query-group ng-model="aqfc.query" type="some" group="group" level="level"></query-group>
+    </div>
+
+  </div>
+</div>

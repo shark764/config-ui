@@ -2,101 +2,129 @@
 
 describe('Zermelo Query Service', function() {
   var $scope;
-  var ZermeloService;
+  var jsedn;
   var query;
+  var queryKey;
+  var usersKey;
+  var skillsKey;
+  var groupsKey;
+  var asiqKey;
+  var someKey;
+  var allKey;
+  var greaterKey;
+  var greaterEqualKey;
+  var ZermeloService;
   var mockId1 = '00000-00000';
   var mockId2 = '00000-00001';
   var condition1 = ['>', 5];
   var condition2 = ['>=', 3];
-  var skillMap;
-  var USER = ':user-id';
-  var GROUPS = ':groups';
-  var SKILLS = ':skills';
 
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('gulpAngular'));
 
-  beforeEach(inject(['$rootScope', 'ZermeloService', function($rootScope, _ZermeloService) {
+  beforeEach(inject(['$rootScope', 'jsedn', 'ZermeloService', function($rootScope, _jsedn, _ZermeloService) {
     $scope = $rootScope.$new();
     ZermeloService = _ZermeloService;
-    skillMap = {};
-    skillMap[mockId1] = condition1;
+    jsedn = _jsedn;
+    query = undefined;
 
-    query = [{
-      ':after-seconds-in-queue': 0,
-      ':query': {}
-    }];
+    queryKey = ZermeloService.keywordEnum.QUERY;
+    usersKey = ZermeloService.keywordEnum.USERS;
+    skillsKey = ZermeloService.keywordEnum.SKILLS;
+    groupsKey = ZermeloService.keywordEnum.GROUPS;
+    asiqKey = ZermeloService.keywordEnum.ASIQ;
+    someKey = ZermeloService.keywordEnum.some;
+    allKey = ZermeloService.keywordEnum.all;
+    greaterKey = ZermeloService.keywordEnum['>'];
+    greaterEqualKey = ZermeloService.keywordEnum['>='];
   }]));
 
   describe('User filters', function() {
 
-    describe('Adding a user', function() {
+    describe('adding a user', function() {
 
       it('should add the :user-id key if not already there', function() {
-        ZermeloService.addFilter(0, USER, 'some', query, mockId1);
-        expect(query[0][':query'][':user-id']).toBeDefined();
+        query = ZermeloService.addFilter(0, 'USERS', 'some', mockId1);
+        expect(query.at(0).at(queryKey).exists(usersKey)).toEqual(true);
       });
 
-      it('should associate the :user-id key with an array of arrays', function() {
-        ZermeloService.addFilter(0, USER, 'some', query, mockId1);
-        expect(Array.isArray(query[0][':query'][':user-id'])).toBe(true);
-        expect(Array.isArray(query[0][':query'][':user-id'][0])).toBe(true);
+      it('should associate the :user-id key with a Vector', function() {
+        query = ZermeloService.addFilter(0, 'USERS', 'some', mockId1);
+        expect(query.at(0).at(queryKey).at(usersKey) instanceof jsedn.Vector).toEqual(true);
       });
 
       it('should add a (some ...) expression associated with the ":user-id" key', function() {
-        ZermeloService.addFilter(0, USER, 'some', query, mockId1);
-        expect(query[0][':query'][':user-id'][0][0]).toEqual('some');
+        query = ZermeloService.addFilter(0, 'USERS', 'some', mockId1);
+        var expression = query.at(0).at(queryKey).at(usersKey).at(0);
+        expect(expression instanceof jsedn.List).toEqual(true);
+        expect(expression.at(0) instanceof jsedn.Symbol).toEqual(true);
+        expect(expression.at(0).val).toEqual('some');
       });
 
       it('should add an EDN set to the (some ...) expression if not already there', function() {
-        ZermeloService.addFilter(0, USER, 'some', query, mockId1);
-        expect(Array.isArray(query[0][':query'][':user-id'][0][1])).toBe(true);
-        expect(query[0][':query'][':user-id'][0][1]).toContain(mockId1);
+        query = ZermeloService.addFilter(0, 'USERS', 'some', mockId1);
+        var set = query.at(0).at(queryKey).at(usersKey).at(0).at(1);
+        expect(set instanceof jsedn.Set).toEqual(true);
+        expect(set.val).toContain(mockId1);
       });
 
       it('should add user id to existing set if already there', function() {
-        query[0][':query'][':user-id'] = [['some', [mockId1]]];
+        ZermeloService.addFilter(0, 'USERS', 'some', mockId1);
 
-        ZermeloService.addFilter(0, USER, 'some', query, mockId2);
-        expect(query[0][':query'][':user-id'][0][1]).toContain(mockId1);
-        expect(query[0][':query'][':user-id'][0][1]).toContain(mockId2);
+        query = ZermeloService.addFilter(0, 'USERS', 'some', mockId2);
+        expect(query.at(0).at(queryKey).at(usersKey).at(0).at(1).val).toContain(mockId1);
+        expect(query.at(0).at(queryKey).at(usersKey).at(0).at(1).val).toContain(mockId2);
       });
 
       it('should not effect groups or skills already in the query', function() {
-        query[0][':query'][':skills'] = [['some', skillMap]];
-        query[0][':query'][':groups'] = [['some', [mockId1]]];
-        var skillsBeforeAdd = query[0][':query'][':skills'];
-        var groupsBeforeAdd = query[0][':query'][':groups'];
+        ZermeloService.addFilter(0, 'SKILLS', 'some', mockId1, condition1);
+        query = ZermeloService.addFilter(0, 'GROUPS', 'some', mockId2);
+        var skillsBeforeAdd = query.at(0).at(queryKey).at(skillsKey);
+        var groupsBeforeAdd = query.at(0).at(queryKey).at(groupsKey);
 
-        ZermeloService.addFilter(0, USER, 'some', query, mockId1);
-        expect(query[0][':query'][':skills']).toEqual(skillsBeforeAdd);
-        expect(query[0][':query'][':groups']).toEqual(groupsBeforeAdd);
+        query = ZermeloService.addFilter(0, 'USERS', 'some', mockId1);
+        expect(query.at(0).at(queryKey).at(skillsKey)).toEqual(skillsBeforeAdd);
+        expect(query.at(0).at(queryKey).at(groupsKey)).toEqual(groupsBeforeAdd);
       });
 
     });
 
-    describe('Removing a user', function() {
+    describe('removing a user', function() {
 
       it('should no longer contain the user-id of the removed user in the query', function() {
-        query[0][':query'][':user-id'] = [['some', [mockId1, mockId2]]];
+        ZermeloService.addFilter(0, 'USERS', 'some', mockId1);
+        ZermeloService.addFilter(0, 'USERS', 'some', mockId2);
 
-        ZermeloService.removeFilter(0, USER, 'some', query, mockId1);
-        expect(query[0][':query'][':user-id'][0][1]).not.toContain(mockId1);
-        expect(query[0][':query'][':user-id'][0][1]).toContain(mockId2);
+        query = ZermeloService.removeFilter(0, 'USERS', 'some', mockId1);
+        expect(query.at(0).at(queryKey).at(usersKey).at(0).at(1).val).not.toContain(mockId1);
+        expect(query.at(0).at(queryKey).at(usersKey).at(0).at(1).val).toContain(mockId2);
       });
 
       it('should remove the :user-id key if there are no user ids', function() {
-        query[0][':query'][':user-id'] = [['some', [mockId1]]];
+        ZermeloService.addFilter(0, 'USERS', 'some', mockId1);
 
-        ZermeloService.removeFilter(0, USER, 'some', query, mockId1);
-        expect(query[0][':query'][':user-id']).toBeUndefined();
+        query = ZermeloService.removeFilter(0, 'USERS', 'some', mockId1);
+        expect(query.at(0).at(queryKey).exists(usersKey)).toEqual(false);
       });
 
       it('should NOT remove the :user-id key if there are still user ids', function() {
-        query[0][':query'][':user-id'] = [['some', [mockId1, mockId2]]];
+        ZermeloService.addFilter(0, 'USERS', 'some', mockId1);
+        ZermeloService.addFilter(0, 'USERS', 'some', mockId2);
 
-        ZermeloService.removeFilter(0, USER, 'some', query, mockId1);
-        expect(query[0][':query'][':user-id']).toBeDefined();
+        query = ZermeloService.removeFilter(0, 'USERS', 'some', mockId1);
+        expect(query.at(0).at(queryKey).exists(usersKey)).toEqual(true);
+      });
+
+      it('should not effect groups or skills already in the query', function() {
+        ZermeloService.addFilter(0, 'SKILLS', 'some', mockId1, condition1);
+        query = ZermeloService.addFilter(0, 'GROUPS', 'some', mockId2);
+        var skillsBeforeRemove = query.at(0).at(queryKey).at(skillsKey);
+        var groupsBeforeRemove = query.at(0).at(queryKey).at(groupsKey);
+
+        ZermeloService.addFilter(0, 'USERS', 'some', mockId1);
+        query = ZermeloService.removeFilter(0, 'USERS', 'some', mockId1);
+        expect(query.at(0).at(queryKey).at(skillsKey)).toEqual(skillsBeforeRemove);
+        expect(query.at(0).at(queryKey).at(groupsKey)).toEqual(groupsBeforeRemove);
       });
 
     });
@@ -105,168 +133,219 @@ describe('Zermelo Query Service', function() {
 
   describe('Group filters', function() {
 
-    describe('Adding a group to the set of "Any" queries', function() {
+    describe('adding a group to the set of "Any" queries', function() {
 
       it('should add the :groups key if not already there', function() {
-        ZermeloService.addFilter(0, GROUPS, 'some', query, mockId1);
-        expect(query[0][':query'][':groups']).toBeDefined();
+        query = ZermeloService.addFilter(0, 'GROUPS', 'some', mockId1);
+        expect(query.at(0).at(queryKey).exists(groupsKey)).toEqual(true);
       });
 
-      it('should associate the :groups key with an array of arrays', function() {
-        ZermeloService.addFilter(0, GROUPS, 'some', query, mockId1);
-        expect(Array.isArray(query[0][':query'][':groups'])).toBe(true);
-        expect(Array.isArray(query[0][':query'][':groups'][0])).toBe(true);
+      it('should associate the :groups key with a Vector', function() {
+        query = ZermeloService.addFilter(0, 'GROUPS', 'some', mockId1);
+        expect(query.at(0).at(queryKey).at(groupsKey) instanceof jsedn.Vector).toEqual(true);
       });
 
-      it('should add a (some ...) expression to the groups array', function() {
-        ZermeloService.addFilter(0, GROUPS, 'some', query, mockId1);
-        expect(query[0][':query'][':groups'][0][0]).toEqual('some');
+      it('should add a (some ...) expression associated with the ":groups" key', function() {
+        query = ZermeloService.addFilter(0, 'GROUPS', 'some', mockId1);
+        var expression = query.at(0).at(queryKey).at(groupsKey).at(0);
+        expect(expression instanceof jsedn.List).toEqual(true);
+        expect(expression.at(0) instanceof jsedn.Symbol).toEqual(true);
+        expect(expression.at(0).val).toEqual('some');
       });
 
       it('should add an EDN set to the (some ...) expression if not already there', function() {
-        ZermeloService.addFilter(0, GROUPS, 'some', query, mockId1);
-        expect(Array.isArray(query[0][':query'][':groups'][0][1])).toBe(true);
-        expect(query[0][':query'][':groups'][0][1]).toContain(mockId1);
+        query = ZermeloService.addFilter(0, 'GROUPS', 'some', mockId1);
+        var set = query.at(0).at(queryKey).at(groupsKey).at(0).at(1);
+        expect(set instanceof jsedn.Set).toEqual(true);
+        expect(set.val).toContain(mockId1);
       });
 
       it('should add group id to existing set if already there', function() {
-        query[0][':query'][':groups'] = [['some', [mockId1]]];
+        ZermeloService.addFilter(0, 'GROUPS', 'some', mockId1);
 
-        ZermeloService.addFilter(0, GROUPS, 'some', query, mockId2);
-        expect(query[0][':query'][':groups'][0][1]).toContain(mockId1);
-        expect(query[0][':query'][':groups'][0][1]).toContain(mockId2);
+        query = ZermeloService.addFilter(0, 'GROUPS', 'some', mockId2);
+        expect(query.at(0).at(queryKey).at(groupsKey).at(0).at(1).val).toContain(mockId1);
+        expect(query.at(0).at(queryKey).at(groupsKey).at(0).at(1).val).toContain(mockId2);
       });
 
       it('should not effect users or skills already in the query', function() {
-        query[0][':query'][':skills'] = [['some', skillMap]];
-        query[0][':query'][':user-id'] = [['some', [mockId1]]];
-        var skillsBeforeAdd = query[0][':query'][':skills'];
-        var usersBeforeAdd = query[0][':query'][':user-id'];
+        ZermeloService.addFilter(0, 'SKILLS', 'some', mockId1, condition1);
+        query = ZermeloService.addFilter(0, 'USERS', 'some', mockId2);
+        var skillsBeforeAdd = query.at(0).at(queryKey).at(skillsKey);
+        var usersBeforeAdd = query.at(0).at(queryKey).at(usersKey);
 
-        ZermeloService.addFilter(0, GROUPS, 'some', query, mockId1);
-        expect(query[0][':query'][':skills']).toEqual(skillsBeforeAdd);
-        expect(query[0][':query'][':user-id']).toEqual(usersBeforeAdd);
+        query = ZermeloService.addFilter(0, 'GROUPS', 'some', mockId1);
+        expect(query.at(0).at(queryKey).at(skillsKey)).toEqual(skillsBeforeAdd);
+        expect(query.at(0).at(queryKey).at(usersKey)).toEqual(usersBeforeAdd);
       });
 
       it('should not effect existing "All" filters', function() {
-        query[0][':query'][':groups'] = [['every', [mockId1]]];
+        ZermeloService.addFilter(0, 'GROUPS', 'all', mockId1);
 
-        ZermeloService.addFilter(0, GROUPS, 'some', query, mockId2);
-        expect(query[0][':query'][':groups'][0]).toEqual(['every', [mockId1]]);
-        expect(query[0][':query'][':groups'][1]).toEqual(['some', [mockId2]]);
+        query = ZermeloService.addFilter(0, 'GROUPS', 'some', mockId2);
+        expect(query.at(0).at(queryKey).at(groupsKey).exists(allKey)).toEqual(true);
+        expect(query.at(0).at(queryKey).at(groupsKey).at(0).at(1).val).toContain(mockId1);
+        expect(query.at(0).at(queryKey).at(groupsKey).at(0).at(1).val).not.toContain(mockId2);
+        expect(query.at(0).at(queryKey).at(groupsKey).exists(someKey)).toEqual(true);
+        expect(query.at(0).at(queryKey).at(groupsKey).at(1).at(1).val).toContain(mockId2);
+        expect(query.at(0).at(queryKey).at(groupsKey).at(1).at(1).val).not.toContain(mockId1);
       });
 
     });
 
-    describe('Adding a group to the set of "All" queries', function() {
+    describe('adding a group to the set of "All" queries', function() {
 
       it('should add the :groups key if not already there', function() {
-        ZermeloService.addFilter(0, GROUPS, 'every', query, mockId1);
-        expect(query[0][':query'][':groups']).toBeDefined();
+        query = ZermeloService.addFilter(0, 'GROUPS', 'all', mockId1);
+        expect(query.at(0).at(queryKey).exists(groupsKey)).toEqual(true);
       });
 
-      it('should associate the :groups key with an array of arrays', function() {
-        ZermeloService.addFilter(0, GROUPS, 'every', query, mockId1);
-        expect(Array.isArray(query[0][':query'][':groups'])).toBe(true);
-        expect(Array.isArray(query[0][':query'][':groups'][0])).toBe(true);
+      it('should associate the :groups key with a Vector', function() {
+        query = ZermeloService.addFilter(0, 'GROUPS', 'all', mockId1);
+        expect(query.at(0).at(queryKey).at(groupsKey) instanceof jsedn.Vector).toEqual(true);
       });
 
-      it('should add an (every ...) expression to the groups array', function() {
-        ZermeloService.addFilter(0, GROUPS, 'every', query, mockId1);
-        expect(query[0][':query'][':groups'][0][0]).toEqual('every');
+      it('should add an (all ...) expression associated with the ":groups" key', function() {
+        query = ZermeloService.addFilter(0, 'GROUPS', 'all', mockId1);
+        var expression = query.at(0).at(queryKey).at(groupsKey).at(0);
+        expect(expression instanceof jsedn.List).toEqual(true);
+        expect(expression.at(0) instanceof jsedn.Symbol).toEqual(true);
+        expect(expression.at(0).val).toEqual('every');
       });
 
-      it('should add an EDN set to the (every ...) expression if not already there', function() {
-        ZermeloService.addFilter(0, GROUPS, 'every', query, mockId1);
-        expect(Array.isArray(query[0][':query'][':groups'][0][1])).toBe(true);
-        expect(query[0][':query'][':groups'][0][1]).toContain(mockId1);
+      it('should add an EDN set to the (all ...) expression if not already there', function() {
+        query = ZermeloService.addFilter(0, 'GROUPS', 'all', mockId1);
+        var set = query.at(0).at(queryKey).at(groupsKey).at(0).at(1);
+        expect(set instanceof jsedn.Set).toEqual(true);
+        expect(set.val).toContain(mockId1);
       });
 
       it('should add group id to existing set if already there', function() {
-        query[0][':query'][':groups'] = [['every', [mockId1]]];
-
-        ZermeloService.addFilter(0, GROUPS, 'every', query, mockId2);
-        expect(query[0][':query'][':groups'][0][1]).toContain(mockId1);
-        expect(query[0][':query'][':groups'][0][1]).toContain(mockId2);
+        query = ZermeloService.addFilter(0, 'GROUPS', 'all', mockId1);
+        query = ZermeloService.addFilter(0, 'GROUPS', 'all', mockId2);
+        expect(query.at(0).at(queryKey).at(groupsKey).at(0).at(1).val).toContain(mockId1);
+        expect(query.at(0).at(queryKey).at(groupsKey).at(0).at(1).val).toContain(mockId2);
       });
 
       it('should not effect users or skills already in the query', function() {
-        query[0][':query'][':skills'] = [['every', skillMap]];
-        query[0][':query'][':user-id'] = [['some', [mockId1]]];
-        var skillsBeforeAdd = query[0][':query'][':skills'];
-        var usersBeforeAdd = query[0][':query'][':user-id'];
+        ZermeloService.addFilter(0, 'SKILLS', 'all', mockId1, condition1);
+        query = ZermeloService.addFilter(0, 'USERS', 'some', mockId2);
+        var skillsBeforeAdd = query.at(0).at(queryKey).at(skillsKey);
+        var usersBeforeAdd = query.at(0).at(queryKey).at(usersKey);
 
-        ZermeloService.addFilter(0, GROUPS, 'every', query, mockId1);
-        expect(query[0][':query'][':skills']).toEqual(skillsBeforeAdd);
-        expect(query[0][':query'][':user-id']).toEqual(usersBeforeAdd);
+        query = ZermeloService.addFilter(0, 'GROUPS', 'all', mockId1);
+        expect(query.at(0).at(queryKey).at(skillsKey)).toEqual(skillsBeforeAdd);
+        expect(query.at(0).at(queryKey).at(usersKey)).toEqual(usersBeforeAdd);
       });
 
-      it('should not effect existing "Any" filters', function() {
-        query[0][':query'][':groups'] = [['some', [mockId1]]];
+      it('should not effect existing "All" filters', function() {
+        ZermeloService.addFilter(0, 'GROUPS', 'some', mockId1);
 
-        ZermeloService.addFilter(0, GROUPS, 'every', query, mockId2);
-        expect(query[0][':query'][':groups'][0]).toEqual(['some', [mockId1]]);
-        expect(query[0][':query'][':groups'][1]).toEqual(['every', [mockId2]]);
-      });
-
-    });
-
-    describe('Removing a group from the set of "Any" queries', function() {
-
-      it('should no longer contain the group-id of the removed group in the query', function() {
-        query[0][':query'][':groups'] = [['some', [mockId1, mockId2]]];
-
-        ZermeloService.removeFilter(0, GROUPS, 'some', query, mockId1);
-        expect(query[0][':query'][':groups'][0][1]).not.toContain(mockId1);
-        expect(query[0][':query'][':groups'][0][1]).toContain(mockId2);
-      });
-
-      it('should remove the :groups key if there are no group ids', function() {
-        query[0][':query'][':groups'] = [['some', [mockId1]]];
-
-        ZermeloService.removeFilter(0, GROUPS, 'some', query, mockId1);
-        expect(query[0][':query'][':groups']).toBeUndefined();
-      });
-
-      it('should NOT remove the :groups key if there are more group ids', function() {
-        query[0][':query'][':groups'] = [['some', [mockId1, mockId2]]];
-        ZermeloService.removeFilter(0, GROUPS, 'some', query, mockId1);
-        expect(query[0][':query'][':groups']).toBeDefined();
-
-        query[0][':query'][':groups'] = [['some', [mockId2]], ['every', [mockId1]]];
-        ZermeloService.removeFilter(0, GROUPS, 'some', query, mockId2);
-        expect(query[0][':query'][':groups']).toBeDefined();
-        expect(query[0][':query'][':groups'].length).toEqual(1);
+        query = ZermeloService.addFilter(0, 'GROUPS', 'all', mockId2);
+        expect(query.at(0).at(queryKey).at(groupsKey).exists(someKey)).toEqual(true);
+        expect(query.at(0).at(queryKey).at(groupsKey).at(0).at(1).val).toContain(mockId1);
+        expect(query.at(0).at(queryKey).at(groupsKey).at(0).at(1).val).not.toContain(mockId2);
+        expect(query.at(0).at(queryKey).at(groupsKey).exists(allKey)).toEqual(true);
+        expect(query.at(0).at(queryKey).at(groupsKey).at(1).at(1).val).toContain(mockId2);
+        expect(query.at(0).at(queryKey).at(groupsKey).at(1).at(1).val).not.toContain(mockId1);
       });
 
     });
 
-    describe('Removing a group from the set of "All" queries', function() {
+    describe('removing a group from the set of "Any" queries', function() {
 
       it('should no longer contain the group-id of the removed group in the query', function() {
-        query[0][':query'][':groups'] = [['every', [mockId1, mockId2]]];
+        ZermeloService.addFilter(0, 'GROUPS', 'some', mockId1);
+        ZermeloService.addFilter(0, 'GROUPS', 'some', mockId2);
 
-        ZermeloService.removeFilter(0, GROUPS, 'every', query, mockId1);
-        expect(query[0][':query'][':groups'][0][1]).not.toContain(mockId1);
-        expect(query[0][':query'][':groups'][0][1]).toContain(mockId2);
+        query = ZermeloService.removeFilter(0, 'GROUPS', 'some', mockId1);
+        expect(query.at(0).at(queryKey).at(groupsKey).at(0).at(1).val).not.toContain(mockId1);
+        expect(query.at(0).at(queryKey).at(groupsKey).at(0).at(1).val).toContain(mockId2);
       });
 
       it('should remove the :groups key if there are no group ids', function() {
-        query[0][':query'][':groups'] = [['every', [mockId1]]];
+        ZermeloService.addFilter(0, 'GROUPS', 'some', mockId1);
 
-        ZermeloService.removeFilter(0, GROUPS, 'every', query, mockId1);
-        expect(query[0][':query'][':groups']).toBeUndefined();
+        query = ZermeloService.removeFilter(0, 'GROUPS', 'some', mockId1);
+        expect(query.at(0).at(queryKey).exists(groupsKey)).toEqual(false);
       });
 
       it('should NOT remove the :groups key if there are more group ids', function() {
-        query[0][':query'][':groups'] = [['every', [mockId1, mockId2]]];
-        ZermeloService.removeFilter(0, GROUPS, 'every', query, mockId1);
-        expect(query[0][':query'][':groups']).toBeDefined();
+        ZermeloService.addFilter(0, 'GROUPS', 'some', mockId1);
+        ZermeloService.addFilter(0, 'GROUPS', 'some', mockId2);
 
-        query[0][':query'][':groups'] = [['every', [mockId2]], ['some', [mockId1]]];
-        ZermeloService.removeFilter(0, GROUPS, 'every', query, mockId2);
-        expect(query[0][':query'][':groups']).toBeDefined();
-        expect(query[0][':query'][':groups'].length).toEqual(1);
+        query = ZermeloService.removeFilter(0, 'GROUPS', 'some', mockId1);
+        expect(query.at(0).at(queryKey).exists(groupsKey)).toEqual(true);
+      });
+
+      it('should not effect users or skills already in the query', function() {
+        ZermeloService.addFilter(0, 'SKILLS', 'some', mockId1, condition1);
+        query = ZermeloService.addFilter(0, 'USERS', 'some', mockId2);
+        var skillsBeforeRemove = query.at(0).at(queryKey).at(skillsKey);
+        var usersBeforeRemove = query.at(0).at(queryKey).at(usersKey);
+
+        ZermeloService.addFilter(0, 'GROUPS', 'some', mockId1);
+        query = ZermeloService.removeFilter(0, 'GROUPS', 'some', mockId1);
+        expect(query.at(0).at(queryKey).at(skillsKey)).toEqual(skillsBeforeRemove);
+        expect(query.at(0).at(queryKey).at(usersKey)).toEqual(usersBeforeRemove);
+      });
+
+      it('should not effect the set of "All" queries', function() {
+        query = ZermeloService.addFilter(0, 'GROUPS', 'all', mockId1);
+        var groupsBeforeRemove = query.at(0).at(queryKey).at(groupsKey);
+
+        ZermeloService.addFilter(0, 'GROUPS', 'some', mockId2);
+        query = ZermeloService.removeFilter(0, 'GROUPS', 'some', mockId2);
+        expect(query.at(0).at(queryKey).at(groupsKey)).toEqual(groupsBeforeRemove);
+      });
+
+    });
+
+    describe('removing a group from the set of "All" queries', function() {
+
+      it('should no longer contain the group-id of the removed group in the query', function() {
+        ZermeloService.addFilter(0, 'GROUPS', 'all', mockId1);
+        ZermeloService.addFilter(0, 'GROUPS', 'all', mockId2);
+
+        query = ZermeloService.removeFilter(0, 'GROUPS', 'all', mockId1);
+        expect(query.at(0).at(queryKey).at(groupsKey).at(0).at(1).val).not.toContain(mockId1);
+        expect(query.at(0).at(queryKey).at(groupsKey).at(0).at(1).val).toContain(mockId2);
+      });
+
+      it('should remove the :groups key if there are no group ids', function() {
+        ZermeloService.addFilter(0, 'GROUPS', 'all', mockId1);
+
+        query = ZermeloService.removeFilter(0, 'GROUPS', 'all', mockId1);
+        expect(query.at(0).at(queryKey).exists(groupsKey)).toEqual(false);
+      });
+
+      it('should NOT remove the :groups key if there are more group ids', function() {
+        ZermeloService.addFilter(0, 'GROUPS', 'all', mockId1);
+        ZermeloService.addFilter(0, 'GROUPS', 'all', mockId2);
+
+        query = ZermeloService.removeFilter(0, 'GROUPS', 'all', mockId1);
+        expect(query.at(0).at(queryKey).exists(groupsKey)).toEqual(true);
+      });
+
+      it('should not effect users or skills already in the query', function() {
+        ZermeloService.addFilter(0, 'SKILLS', 'all', mockId1, condition1);
+        query = ZermeloService.addFilter(0, 'USERS', 'all', mockId2);
+        var skillsBeforeRemove = query.at(0).at(queryKey).at(skillsKey);
+        var usersBeforeRemove = query.at(0).at(queryKey).at(usersKey);
+
+        ZermeloService.addFilter(0, 'GROUPS', 'all', mockId1);
+        query = ZermeloService.removeFilter(0, 'GROUPS', 'all', mockId1);
+        expect(query.at(0).at(queryKey).at(skillsKey)).toEqual(skillsBeforeRemove);
+        expect(query.at(0).at(queryKey).at(usersKey)).toEqual(usersBeforeRemove);
+      });
+
+      it('should not effect the set of "Any" queries', function() {
+        query = ZermeloService.addFilter(0, 'GROUPS', 'some', mockId1);
+        var groupsBeforeRemove = query.at(0).at(queryKey).at(groupsKey);
+
+        ZermeloService.addFilter(0, 'GROUPS', 'all', mockId2);
+        query = ZermeloService.removeFilter(0, 'GROUPS', 'all', mockId2);
+        expect(query.at(0).at(queryKey).at(groupsKey)).toEqual(groupsBeforeRemove);
       });
 
     });
@@ -275,174 +354,244 @@ describe('Zermelo Query Service', function() {
 
   describe('Skill filters', function() {
 
-    describe('Adding a skill to the set of "Any" queries', function() {
+    describe('adding a skill to the set of "Any" queries', function() {
 
       it('should add the :skills key if not already there', function() {
-        ZermeloService.addFilter(0, SKILLS, 'some', query, mockId1, condition1);
-        expect(query[0][':query'][':skills']).toBeDefined();
+        query = ZermeloService.addFilter(0, 'SKILLS', 'some', mockId1, condition1);
+        expect(query.at(0).at(queryKey).exists(skillsKey)).toEqual(true);
       });
 
-      it('should associate the :skills key with an array of arrays', function() {
-        ZermeloService.addFilter(0, SKILLS, 'some', query, mockId1, condition1);
-        expect(Array.isArray(query[0][':query'][':skills'])).toBe(true);
-        expect(Array.isArray(query[0][':query'][':skills'][0])).toBe(true);
+      it('should associate the :skills key with a Vector', function() {
+        query = ZermeloService.addFilter(0, 'SKILLS', 'some', mockId1, condition1);
+        expect(query.at(0).at(queryKey).at(skillsKey) instanceof jsedn.Vector).toEqual(true);
       });
 
-      it('should add a (some ...) expression to the skills array', function() {
-        ZermeloService.addFilter(0, SKILLS, 'some', query, mockId1, condition1);
-        expect(query[0][':query'][':skills'][0][0]).toEqual('some');
+      it('should add a (some ...) expression associated with the ":skills" key', function() {
+        query = ZermeloService.addFilter(0, 'SKILLS', 'some', mockId1, condition1);
+        var expression = query.at(0).at(queryKey).at(skillsKey).at(0);
+        expect(expression instanceof jsedn.List).toEqual(true);
+        expect(expression.at(0) instanceof jsedn.Symbol).toEqual(true);
+        expect(expression.at(0).val).toEqual('some');
       });
 
-      it('should add skill/comparator to a new attribute map in the (some ...) expression if not already there', function() {
-        ZermeloService.addFilter(0, SKILLS, 'some', query, mockId1, condition1);
-        expect(query[0][':query'][':skills'][0][1][mockId1]).toEqual(condition1);
+      it('should add an EDN map containing the skill id to the (some ...) expression if not already there', function() {
+        query = ZermeloService.addFilter(0, 'SKILLS', 'some', mockId1, condition1);
+        var map = query.at(0).at(queryKey).at(skillsKey).at(0).at(1);
+        expect(map instanceof jsedn.Map).toEqual(true);
+        expect(map.keys).toContain(mockId1);
       });
 
-      it('should add new skills/comparators to existing attribute map if it already exists', function() {
-        query[0][':query'][':skills'] = [['some', skillMap]];
+      it('should associate the skill id with a list containing a comparator symbol and number', function() {
+        query = ZermeloService.addFilter(0, 'SKILLS', 'some', mockId1, condition1);
+        var map = query.at(0).at(queryKey).at(skillsKey).at(0).at(1);
+        expect(map.at(mockId1) instanceof jsedn.List).toEqual(true);
+        expect(map.at(mockId1).at(0)).toEqual(greaterKey);
+        expect(map.at(mockId1).at(1)).toEqual(condition1[1]);
+      });
 
-        ZermeloService.addFilter(0, SKILLS, 'some', query, mockId2, condition2);
-        expect(query[0][':query'][':skills'][0][1][mockId1]).toEqual(condition1);
-        expect(query[0][':query'][':skills'][0][1][mockId2]).toEqual(condition2);
+      it('should add skill to existing EDN map if already there', function() {
+        ZermeloService.addFilter(0, 'SKILLS', 'some', mockId1, condition1);
+        query = ZermeloService.addFilter(0, 'SKILLS', 'some', mockId2, condition2);
+        var map = query.at(0).at(queryKey).at(skillsKey).at(0).at(1);
+        expect(map.keys).toContain(mockId1);
+        expect(map.keys).toContain(mockId2);
+        expect(map.at(mockId1).at(0)).toEqual(greaterKey);
+        expect(map.at(mockId1).at(1)).toEqual(condition1[1]);
+        expect(map.at(mockId2).at(0)).toEqual(greaterEqualKey);
+        expect(map.at(mockId2).at(1)).toEqual(condition2[1]);
       });
 
       it('should not effect users or groups already in the query', function() {
-        query[0][':query'][':user-id'] = [['some', [mockId1]]];
-        query[0][':query'][':groups'] = [['some', [mockId1]]];
-        var usersBeforeAdd = query[0][':query'][':user-id'];
-        var groupsBeforeAdd = query[0][':query'][':groups'];
+        ZermeloService.addFilter(0, 'USERS', 'some', mockId1);
+        query = ZermeloService.addFilter(0, 'GROUPS', 'some', mockId1);
+        var usersBeforeAdd = query.at(0).at(queryKey).at(usersKey);
+        var groupsBeforeAdd = query.at(0).at(queryKey).at(groupsKey);
 
-        ZermeloService.addFilter(0, SKILLS, 'some', query, mockId1, condition1);
-        expect(query[0][':query'][':groups']).toEqual(groupsBeforeAdd);
-        expect(query[0][':query'][':user-id']).toEqual(usersBeforeAdd);
+        query = ZermeloService.addFilter(0, 'SKILLS', 'some', mockId1, condition1);
+        expect(query.at(0).at(queryKey).at(groupsKey)).toEqual(groupsBeforeAdd);
+        expect(query.at(0).at(queryKey).at(usersKey)).toEqual(usersBeforeAdd);
       });
 
       it('should not effect existing "All" filters', function() {
-        query[0][':query'][':skills'] = [['every', skillMap]];
+        ZermeloService.addFilter(0, 'SKILLS', 'all', mockId1, condition1);
 
-        ZermeloService.addFilter(0, SKILLS, 'some', query, mockId1, condition1);
-        expect(query[0][':query'][':skills'][0]).toEqual(['every', skillMap]);
-        expect(query[0][':query'][':skills'][1]).toEqual(['some', skillMap]);
+        query = ZermeloService.addFilter(0, 'SKILLS', 'some', mockId2, condition2);
+        expect(query.at(0).at(queryKey).at(skillsKey).exists(allKey)).toEqual(true);
+        expect(query.at(0).at(queryKey).at(skillsKey).at(0).at(1).keys).toContain(mockId1);
+        expect(query.at(0).at(queryKey).at(skillsKey).at(0).at(1).keys).not.toContain(mockId2);
+        expect(query.at(0).at(queryKey).at(skillsKey).exists(someKey)).toEqual(true);
+        expect(query.at(0).at(queryKey).at(skillsKey).at(1).at(1).keys).toContain(mockId2);
+        expect(query.at(0).at(queryKey).at(skillsKey).at(1).at(1).keys).not.toContain(mockId1);
       });
 
     });
 
-    describe('Adding a skill to the set of "All" queries', function() {
+    describe('adding a skill to the set of "All" queries', function() {
 
       it('should add the :skills key if not already there', function() {
-        ZermeloService.addFilter(0, SKILLS, 'every', query, mockId1, condition1);
-        expect(query[0][':query'][':skills']).toBeDefined();
+        query = ZermeloService.addFilter(0, 'SKILLS', 'all', mockId1, condition1);
+        expect(query.at(0).at(queryKey).exists(skillsKey)).toEqual(true);
       });
 
-      it('should associate the :skills key with an array of arrays', function() {
-        ZermeloService.addFilter(0, SKILLS, 'every', query, mockId1, condition1);
-        expect(Array.isArray(query[0][':query'][':skills'])).toBe(true);
-        expect(Array.isArray(query[0][':query'][':skills'][0])).toBe(true);
+      it('should associate the :skills key with a Vector', function() {
+        query = ZermeloService.addFilter(0, 'SKILLS', 'all', mockId1, condition1);
+        expect(query.at(0).at(queryKey).at(skillsKey) instanceof jsedn.Vector).toEqual(true);
       });
 
-      it('should add an (every ...) expression to the skills array', function() {
-        ZermeloService.addFilter(0, SKILLS, 'every', query, mockId1, condition1);
-        expect(query[0][':query'][':skills'][0][0]).toEqual('every');
+      it('should add an (all ...) expression associated with the ":skills" key', function() {
+        query = ZermeloService.addFilter(0, 'SKILLS', 'all', mockId1, condition1);
+        var expression = query.at(0).at(queryKey).at(skillsKey).at(0);
+        expect(expression instanceof jsedn.List).toEqual(true);
+        expect(expression.at(0) instanceof jsedn.Symbol).toEqual(true);
+        expect(expression.at(0).val).toEqual('every');
       });
 
-      it('should add skill/comparator to a new attribute map in the (some ...) expression if not already there', function() {
-        ZermeloService.addFilter(0, SKILLS, 'every', query, mockId1, condition1);
-        expect(query[0][':query'][':skills'][0][1][mockId1]).toEqual(condition1);
+      it('should add an EDN map containing the skill id to the (all ...) expression if not already there', function() {
+        query = ZermeloService.addFilter(0, 'SKILLS', 'all', mockId1, condition1);
+        var map = query.at(0).at(queryKey).at(skillsKey).at(0).at(1);
+        expect(map instanceof jsedn.Map).toEqual(true);
+        expect(map.keys).toContain(mockId1);
       });
 
-      it('should add new skills/comparators to existing attribute map if it already exists', function() {
-        query[0][':query'][':skills'] = [['every', skillMap]];
+      it('should associate the skill id with a list containing a comparator symbol and number', function() {
+        query = ZermeloService.addFilter(0, 'SKILLS', 'all', mockId1, condition1);
+        var map = query.at(0).at(queryKey).at(skillsKey).at(0).at(1);
+        expect(map.at(mockId1) instanceof jsedn.List).toEqual(true);
+        expect(map.at(mockId1).at(0)).toEqual(greaterKey);
+        expect(map.at(mockId1).at(1)).toEqual(condition1[1]);
+      });
 
-        ZermeloService.addFilter(0, SKILLS, 'every', query, mockId2, condition2);
-        expect(query[0][':query'][':skills'][0][1][mockId1]).toEqual(condition1);
-        expect(query[0][':query'][':skills'][0][1][mockId2]).toEqual(condition2);
+      it('should add skill to existing EDN map if already there', function() {
+        ZermeloService.addFilter(0, 'SKILLS', 'all', mockId1, condition1);
+        query = ZermeloService.addFilter(0, 'SKILLS', 'all', mockId2, condition2);
+        var map = query.at(0).at(queryKey).at(skillsKey).at(0).at(1);
+        expect(map.keys).toContain(mockId1);
+        expect(map.keys).toContain(mockId2);
+        expect(map.at(mockId1).at(0)).toEqual(greaterKey);
+        expect(map.at(mockId1).at(1)).toEqual(condition1[1]);
+        expect(map.at(mockId2).at(0)).toEqual(greaterEqualKey);
+        expect(map.at(mockId2).at(1)).toEqual(condition2[1]);
       });
 
       it('should not effect users or groups already in the query', function() {
-        query[0][':query'][':user-id'] = [['some', [mockId1]]];
-        query[0][':query'][':groups'] = [['every', [mockId1]]];
-        var usersBeforeAdd = query[0][':query'][':user-id'];
-        var groupsBeforeAdd = query[0][':query'][':groups'];
+        ZermeloService.addFilter(0, 'USERS', 'all', mockId1);
+        query = ZermeloService.addFilter(0, 'GROUPS', 'all', mockId1);
+        var usersBeforeAdd = query.at(0).at(queryKey).at(usersKey);
+        var groupsBeforeAdd = query.at(0).at(queryKey).at(groupsKey);
 
-        ZermeloService.addFilter(0, SKILLS, 'every', query, mockId1, condition1);
-        expect(query[0][':query'][':groups']).toEqual(groupsBeforeAdd);
-        expect(query[0][':query'][':user-id']).toEqual(usersBeforeAdd);
+        query = ZermeloService.addFilter(0, 'SKILLS', 'all', mockId1, condition1);
+        expect(query.at(0).at(queryKey).at(groupsKey)).toEqual(groupsBeforeAdd);
+        expect(query.at(0).at(queryKey).at(usersKey)).toEqual(usersBeforeAdd);
       });
 
       it('should not effect existing "Any" filters', function() {
-        query[0][':query'][':skills'] = [['some', skillMap]];
+        ZermeloService.addFilter(0, 'SKILLS', 'some', mockId1, condition1);
 
-        ZermeloService.addFilter(0, SKILLS, 'every', query, mockId1, condition1);
-        expect(query[0][':query'][':skills'][0]).toEqual(['some', skillMap]);
-        expect(query[0][':query'][':skills'][1]).toEqual(['every', skillMap]);
+        query = ZermeloService.addFilter(0, 'SKILLS', 'all', mockId2, condition2);
+        expect(query.at(0).at(queryKey).at(skillsKey).exists(someKey)).toEqual(true);
+        expect(query.at(0).at(queryKey).at(skillsKey).at(0).at(1).keys).toContain(mockId1);
+        expect(query.at(0).at(queryKey).at(skillsKey).at(0).at(1).keys).not.toContain(mockId2);
+        expect(query.at(0).at(queryKey).at(skillsKey).exists(allKey)).toEqual(true);
+        expect(query.at(0).at(queryKey).at(skillsKey).at(1).at(1).keys).toContain(mockId2);
+        expect(query.at(0).at(queryKey).at(skillsKey).at(1).at(1).keys).not.toContain(mockId1);
       });
 
     });
 
-    describe('Removing a skill from the set of "Any" queries', function() {
+    describe('removing a skill from the set of "Any" queries', function() {
 
       it('should no longer contain the skill-id of the removed skill in the query', function() {
-        skillMap[mockId2] = condition2;
-        query[0][':query'][':skills'] = [['some', skillMap]];
+        ZermeloService.addFilter(0, 'SKILLS', 'some', mockId1, condition1);
+        ZermeloService.addFilter(0, 'SKILLS', 'some', mockId2, condition2);
 
-        ZermeloService.removeFilter(0, SKILLS, 'some', query, mockId1);
-        expect(Object.keys(query[0][':query'][':skills'][0][1])).not.toContain(mockId1);
-        expect(Object.keys(query[0][':query'][':skills'][0][1])).toContain(mockId2);
+        query = ZermeloService.removeFilter(0, 'SKILLS', 'some', mockId1);
+        expect(query.at(0).at(queryKey).at(skillsKey).at(0).at(1).exists(mockId1)).toEqual(false);
+        expect(query.at(0).at(queryKey).at(skillsKey).at(0).at(1).exists(mockId2)).toEqual(true);
       });
 
       it('should remove the :skills key if there are no skill ids', function() {
-        query[0][':query'][':skills'] = [['some', skillMap]];
+        ZermeloService.addFilter(0, 'SKILLS', 'some', mockId1, condition1);
 
-        ZermeloService.removeFilter(0, SKILLS, 'some', query, mockId1);
-        expect(query[0][':query'][':skills']).toBeUndefined();
+        query = ZermeloService.removeFilter(0, 'SKILLS', 'some', mockId1);
+        expect(query.at(0).at(queryKey).exists(skillsKey)).toEqual(false);
       });
 
       it('should NOT remove the :skills key if there are more skill ids', function() {
-        skillMap[mockId2] = condition2;
-        query[0][':query'][':skills'] = [['some', skillMap]];
+        ZermeloService.addFilter(0, 'SKILLS', 'some', mockId1, condition1);
+        ZermeloService.addFilter(0, 'SKILLS', 'some', mockId2, condition2);
 
-        ZermeloService.removeFilter(0, SKILLS, 'some', query, mockId1);
-        expect(query[0][':query'][':skills']).toBeDefined();
+        query = ZermeloService.removeFilter(0, 'SKILLS', 'some', mockId1);
+        expect(query.at(0).at(queryKey).exists(skillsKey)).toEqual(true);
+      });
 
-        var skillMap2 = {};
-        skillMap2[mockId1] = condition1;
-        query[0][':query'][':skills'].push(['every', skillMap2]);
+      it('should not effect users or groups already in the query', function() {
+        ZermeloService.addFilter(0, 'GROUPS', 'some', mockId1);
+        query = ZermeloService.addFilter(0, 'USERS', 'some', mockId2);
+        var groupsBeforeRemove = query.at(0).at(queryKey).at(groupsKey);
+        var usersBeforeRemove = query.at(0).at(queryKey).at(usersKey);
 
-        ZermeloService.removeFilter(0, SKILLS, 'some', query, mockId2);
-        expect(query[0][':query'][':skills']).toBeDefined();
+        ZermeloService.addFilter(0, 'SKILLS', 'some', mockId1, condition1);
+        query = ZermeloService.removeFilter(0, 'SKILLS', 'some', mockId1);
+        expect(query.at(0).at(queryKey).at(groupsKey)).toEqual(groupsBeforeRemove);
+        expect(query.at(0).at(queryKey).at(usersKey)).toEqual(usersBeforeRemove);
+      });
+
+      it('should not effect the set of "All" queries', function() {
+        query = ZermeloService.addFilter(0, 'SKILLS', 'all', mockId1, condition1);
+        var skillsBeforeRemove = query.at(0).at(queryKey).at(skillsKey);
+
+        ZermeloService.addFilter(0, 'SKILLS', 'some', mockId2, condition2);
+        query = ZermeloService.removeFilter(0, 'SKILLS', 'some', mockId2);
+        expect(query.at(0).at(queryKey).at(skillsKey)).toEqual(skillsBeforeRemove);
       });
 
     });
 
-    describe('Removing a skill from the set of "All" queries', function() {
+    describe('removing a skill from the set of "All" queries', function() {
 
       it('should no longer contain the skill-id of the removed skill in the query', function() {
-        skillMap[mockId2] = condition2;
-        query[0][':query'][':skills'] = [['every', skillMap]];
+        ZermeloService.addFilter(0, 'SKILLS', 'all', mockId1, condition1);
+        ZermeloService.addFilter(0, 'SKILLS', 'all', mockId2, condition2);
 
-        ZermeloService.removeFilter(0, SKILLS, 'every', query, mockId1);
-        expect(Object.keys(query[0][':query'][':skills'][0][1])).not.toContain(mockId1);
-        expect(Object.keys(query[0][':query'][':skills'][0][1])).toContain(mockId2);
+        query = ZermeloService.removeFilter(0, 'SKILLS', 'all', mockId1);
+        expect(query.at(0).at(queryKey).at(skillsKey).at(0).at(1).exists(mockId1)).toEqual(false);
+        expect(query.at(0).at(queryKey).at(skillsKey).at(0).at(1).exists(mockId2)).toEqual(true);
       });
 
       it('should remove the :skills key if there are no skill ids', function() {
-        query[0][':query'][':skills'] = [['every', skillMap]];
+        ZermeloService.addFilter(0, 'SKILLS', 'all', mockId1, condition1);
 
-        ZermeloService.removeFilter(0, SKILLS, 'every', query, mockId1);
-        expect(query[0][':query'][':skills']).toBeUndefined();
+        query = ZermeloService.removeFilter(0, 'SKILLS', 'all', mockId1);
+        expect(query.at(0).at(queryKey).exists(skillsKey)).toEqual(false);
       });
 
       it('should NOT remove the :skills key if there are more skill ids', function() {
-        skillMap[mockId2] = condition2;
-        query[0][':query'][':skills'] = [['every', skillMap]];
-        ZermeloService.removeFilter(0, SKILLS, 'every', query, mockId1);
-        expect(query[0][':query'][':skills']).toBeDefined();
+        ZermeloService.addFilter(0, 'SKILLS', 'all', mockId1, condition1);
+        ZermeloService.addFilter(0, 'SKILLS', 'all', mockId2, condition2);
 
-        var skillMap2 = {};
-        skillMap2[mockId1] = condition1;
-        query[0][':query'][':skills'].push(['some', skillMap2]);
-        ZermeloService.removeFilter(0, SKILLS, 'every', query, mockId2);
-        expect(query[0][':query'][':skills']).toBeDefined();
+        query = ZermeloService.removeFilter(0, 'SKILLS', 'all', mockId1);
+        expect(query.at(0).at(queryKey).exists(skillsKey)).toEqual(true);
+      });
+
+      it('should not effect users or groups already in the query', function() {
+        ZermeloService.addFilter(0, 'GROUPS', 'all', mockId1);
+        query = ZermeloService.addFilter(0, 'USERS', 'all', mockId2);
+        var groupsBeforeRemove = query.at(0).at(queryKey).at(groupsKey);
+        var usersBeforeRemove = query.at(0).at(queryKey).at(usersKey);
+
+        ZermeloService.addFilter(0, 'SKILLS', 'all', mockId1, condition1);
+        query = ZermeloService.removeFilter(0, 'SKILLS', 'all', mockId1);
+        expect(query.at(0).at(queryKey).at(groupsKey)).toEqual(groupsBeforeRemove);
+        expect(query.at(0).at(queryKey).at(usersKey)).toEqual(usersBeforeRemove);
+      });
+
+      it('should not effect the set of "Any" queries', function() {
+        query = ZermeloService.addFilter(0, 'SKILLS', 'some', mockId1, condition1);
+        var skillsBeforeRemove = query.at(0).at(queryKey).at(skillsKey);
+
+        ZermeloService.addFilter(0, 'SKILLS', 'all', mockId2, condition2);
+        query = ZermeloService.removeFilter(0, 'SKILLS', 'all', mockId2);
+        expect(query.at(0).at(queryKey).at(skillsKey)).toEqual(skillsBeforeRemove);
       });
 
     });
@@ -451,46 +600,34 @@ describe('Zermelo Query Service', function() {
 
   describe('Query levels', function() {
 
-    describe('Adding a query level', function() {
+    beforeEach(function() {
+      query = ZermeloService.addQueryLevel();
+    });
+
+    describe('adding a query level', function() {
 
       it('should add a backoff rule to the end of the existing list of rules', function() {
-        ZermeloService.addQueryLevel(query);
-        expect(query.length).toEqual(2);
+        expect(query.val.length).toEqual(2);
       });
 
       it('should create a backoff rule with ":after-seconds-in-queue" set to one more second than the previous level', function() {
-        ZermeloService.addQueryLevel(query);
-        expect(query[1][':after-seconds-in-queue']).toEqual(query[0][':after-seconds-in-queue'] + 1);
+        expect(query.at(1).at(asiqKey)).toEqual(query.at(0).at(asiqKey) + 1);
       });
 
     });
 
-    describe('Removing a query level', function() {
+    describe('removing a query level', function() {
 
       it('should remove a backoff rule from the list of rules', function() {
-        query.push({
-          ':after-seconds-in-queue': 1,
-          ':query': {}
-        });
-        ZermeloService.removeQueryLevel(query, 1);
-        expect(query.length).toEqual(1);
+        ZermeloService.removeQueryLevel(1);
+        expect(query.val.length).toEqual(1);
       });
 
       it('should specifically remove the query level specified', function() {
-        query.push({
-          ':after-seconds-in-queue': 1,
-          ':query': {}
-        });
-        query.push({
-          ':after-seconds-in-queue': 2,
-          ':query': {}
-        });
-        query.push({
-          ':after-seconds-in-queue': 3,
-          ':query': {}
-        });
-        ZermeloService.removeQueryLevel(query, 2);
-        expect(query[2][':after-seconds-in-queue']).not.toEqual(2);
+        ZermeloService.addQueryLevel();
+        ZermeloService.addQueryLevel();
+        query = ZermeloService.removeQueryLevel(2);
+        expect(query.at(2).at(asiqKey)).not.toEqual(2);
       });
 
     });
@@ -498,45 +635,31 @@ describe('Zermelo Query Service', function() {
     describe('Updating a query level', function() {
 
       it('should update the correct query level with a new ":after-seconds-in-queue" value', function() {
-        query.push({
-          ':after-seconds-in-queue': 1,
-          ':query': {}
-        });
-        query.push({
-          ':after-seconds-in-queue': 2,
-          ':query': {}
-        });
-        ZermeloService.updateQueryLevel(query, 1, 10);
-        expect(query[0][':after-seconds-in-queue']).toEqual(0);
-        expect(query[1][':after-seconds-in-queue']).toEqual(10);
-        expect(query[2][':after-seconds-in-queue']).toEqual(2);
+        ZermeloService.addQueryLevel();
+        ZermeloService.updateQueryLevel(1, 10);
+        expect(query.at(0).at(asiqKey)).toEqual(0);
+        expect(query.at(1).at(asiqKey)).toEqual(10);
+        expect(query.at(2).at(asiqKey)).toEqual(2);
       });
 
       it('should update the correct query level with user, group, and skill changes', function() {
-        query[0][':query'][':user-id'] = [['some', [mockId1]]];
-        query.push({
-          ':after-seconds-in-queue': 1,
-          ':query': {
-            ':groups': [['some', [mockId1]]]
-          }
-        });
-        query.push({
-          ':after-seconds-in-queue': 2,
-          ':query': {
-            ':skills': [['some', skillMap]]
-          }
-        });
-        expect(query[0][':query'][':user-id']).toBeDefined();
-        expect(query[1][':query'][':user-id']).toBeUndefined();
-        expect(query[2][':query'][':user-id']).toBeUndefined();
-        expect(query[0][':query'][':groups']).toBeUndefined();
-        expect(query[1][':query'][':groups']).toBeDefined();
-        expect(query[2][':query'][':groups']).toBeUndefined();
-        expect(query[0][':query'][':skills']).toBeUndefined();
-        expect(query[1][':query'][':skills']).toBeUndefined();
-        expect(query[2][':query'][':skills']).toBeDefined();
-        ZermeloService.removeFilter(1, GROUPS, 'some', query, mockId1);
-        expect(query[1][':query'][':groups']).toBeUndefined();
+        ZermeloService.addFilter(0, 'USERS', 'some', mockId1);
+        ZermeloService.addQueryLevel();
+        ZermeloService.addFilter(1, 'GROUPS', 'some', mockId1);
+        ZermeloService.addQueryLevel();
+        ZermeloService.addFilter(2, 'SKILLS', 'some', mockId1, condition1);
+
+        expect(query.at(0).at(queryKey).exists(usersKey)).toEqual(true);
+        expect(query.at(1).at(queryKey).exists(usersKey)).toEqual(false);
+        expect(query.at(2).at(queryKey).exists(usersKey)).toEqual(false);
+        expect(query.at(0).at(queryKey).exists(groupsKey)).toEqual(false);
+        expect(query.at(1).at(queryKey).exists(groupsKey)).toEqual(true);
+        expect(query.at(2).at(queryKey).exists(groupsKey)).toEqual(false);
+        expect(query.at(0).at(queryKey).exists(skillsKey)).toEqual(false);
+        expect(query.at(1).at(queryKey).exists(skillsKey)).toEqual(false);
+        expect(query.at(2).at(queryKey).exists(skillsKey)).toEqual(true);
+        ZermeloService.removeFilter(1, 'GROUPS', 'some', mockId1);
+        expect(query.at(1).at(queryKey).exists(groupsKey)).toEqual(false);
       });
 
     });

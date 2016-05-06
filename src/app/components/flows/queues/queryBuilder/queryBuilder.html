@@ -1,0 +1,59 @@
+<!-- Details -->
+<div class="divider-header first-header">
+  <h4>{{'value.details.query' | translate}}</h4>
+  <a class="pull-right">
+    <span id="show-advanced-query" ng-show="!qbc.isAdvancedMode" ng-click="qbc.advancedMode()">
+      {{'queue.details.version.query.advanced.link' | translate}}
+    </span>
+    <span class="pull-right"  id="show-basic-query" ng-show="qbc.isAdvancedMode" ng-click="qbc.basicMode()">
+      {{'queue.details.version.query.basic.link' | translate}}
+    </span>
+  </a>
+</div>
+
+<!-- Advanced Query -->
+<div class="input-group" ng-if="qbc.isAdvancedMode">
+  <label class="textarea-label">{{'value.details.query' | translate}}</label>
+  <textarea id="advanced-query-field"
+    ng-required="true" type="text" ng-model="qbc.advancedQuery" name="query"
+    ng-change="qbc.advancedQueryChanged()"></textarea>
+   <form-error field="form['query']"
+     error-type-required="{{'queue.details.queue.error' | translate}}"
+     error-type-zermelo="{{'queue.query.build.zermelo.invalid' | translate}}"
+     error-type-api>
+   </form-error>
+</div>
+
+<!-- Basic Query -->
+<div ng-if="!qbc.isAdvancedMode" class="query-component" ng-repeat="level in qbc.query.val">
+
+  <!-- Search query level X -->
+  <div class="divider-header" ng-if="!$first">
+    <h4 id="escalation-level-header">{{ 'queue.query.escalation.level' | translate:{level: $index} }}</h4>
+    <a id="remove-escalation-level" class="pull-right" ng-click="qbc.removeLevel($index)">{{ 'queue.query.escalation.level.remove'| translate}}</a>
+  </div>
+
+  <after-seconds-in-queue ng-model="qbc.query" ng-if="!$first" level="$index"></after-seconds-in-queue>
+
+  <add-query-filter ng-model="qbc.query" level="$index"></add-query-filter>
+
+  <div>
+
+    <!-- Escalation Query -->
+    <div class="divider-header" ng-if="$first">
+      <h4>{{ 'queue.query.escalation' | translate}}</h4>
+    </div>
+
+    <!-- Add search level -->
+    <div ng-if="$last" class="add-query detail-group">
+      <h4 id="add-escalation-label">{{ 'queue.query.add.escalation.level' | translate:{level: ($index+1)} }}</h4>
+      <div class="add-group-button">
+        <button class="add btn" type="button" ng-click="qbc.addLevel()">
+          <i id="add-escalation-btn" class="fa fa-plus"></i>
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+</div>

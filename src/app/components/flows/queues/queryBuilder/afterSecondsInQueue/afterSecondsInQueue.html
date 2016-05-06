@@ -1,0 +1,14 @@
+<ng-form name="asiqc.timeAfterForm">
+  <div class="input-group time-input">
+    <label>{{'queues.query.builder.after.seconds' | translate}}</label>
+    <div>
+      <input id="escalation-time-input" ng-required="true" name="amount" type="number" ng-model="asiqc.timeAmount" ng-change="asiqc.updateQueryLevel(level, asiqc.timeAmount, asiqc.timeAfterForm, asiqc.multiplier)" />
+      <select id="escalation-units-dropdown" ng-model="asiqc.multiplier" ng-options="option.value as option.label for option in asiqc.timeOptions" ng-change="asiqc.updateQueryLevel(level, asiqc.timeAmount, asiqc.timeAfterForm, asiqc.multiplier)">
+      </select>
+      <form-error field="asiqc.timeAfterForm.amount"
+        error-type-required="Time in queue is required"
+        error-type-min-time="Time in queue must be greater then the previous value">
+      </form-error>
+    </div>
+  </div>
+</ng-form>

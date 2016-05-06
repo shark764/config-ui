@@ -1,0 +1,23 @@
+<div class="input-group">
+  <label ng-class="{'has-elements': qgc.filters.length}">{{'queue.query.builder.' + group.key + '.' + type | translate}}</label>
+
+  <div class="instant-add">
+    <div>
+      <type-ahead hover="true" placeholder="{{'queue.query.builder.' + group.key + '.placeholder' | translate}}"
+      items="group.items" selected-item="qgc.selectedItem" nameField="name" filters="qgc.searchFilters">
+      </type-ahead>
+    </div>
+
+    <button class="add btn" ng-disabled="!qgc.selectedItem.id" type="button" ng-click="qgc.addFilter(level, group.zermeloKey, type, qgc.selectedItem.id)">
+      <i class="fa fa-plus"></i>
+    </button>
+  </div>
+
+  <div class="tag-wrapper clear">
+    <div class="tag" ng-repeat="filter in qgc.filters">
+      {{filter.getDisplay()}}
+      <a ng-click="qgc.removeFilter(filter)"><i class="fa fa-times"></i></a>
+    </div>
+  </div>
+
+</div>
