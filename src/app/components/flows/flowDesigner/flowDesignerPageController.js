@@ -24,7 +24,7 @@ angular.module('liveopsConfigPanel')
             FlowLibrary.registerCallActivity(flow, version, opts);
           }
           else{
-            FlowLibrary.registerCallActivity(flow, version, {stencilGroup: 'reusable'});
+            FlowLibrary.registerCallActivity(flow, version, {stencilGroup: 'reusable', versionSelect: true});
           }
         });
       });
