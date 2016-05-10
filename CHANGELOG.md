@@ -37,6 +37,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [2.0.21]
 * TITAN2-5018 View list of recordings and playback
 * TITAN2-8731 Show better error message when tenant fails to save
+* CXV1-572 passing platform flow ID to Flow designer
 
 ## [2.0.20]
 * Updating flow-designer to 1.9.1
