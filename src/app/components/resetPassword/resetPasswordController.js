@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('ResetPasswordController', ['$scope', 'ResetPassword', 'Session', function($scope, ResetPassword, Session) {
-    $scope.username = Session.user.displayName;
+  .controller('ResetPasswordController', ['$scope', '$state', '$translate', 'ResetPassword', 'Session', 'userToReset', function($scope, $state, $translate, ResetPassword, Session, userToReset) {
+    $scope.resetMessage = $translate.instant('value.passwordResetMessage', {user: userToReset.getDisplay()})
 
     $scope.checkValidity = function() {
       if ($scope.newPass !== $scope.confirmPass) {
@@ -14,9 +14,12 @@ angular.module('liveopsConfigPanel')
     };
 
     $scope.reset = function() {
-      ResetPassword.setNewPassword(Session.user.id, $scope.newPass)
+      $scope.loading = true;
+      ResetPassword.setNewPassword(userToReset.id, $scope.newPass)
         .then(function() {
-          $scope.success = true;
+          $state.go('login', {
+            messageKey: 'details.password.changeSuccess'
+          });
         })
         .catch(function(err) {
           if (err.data.error.message === "bad request parameters") {

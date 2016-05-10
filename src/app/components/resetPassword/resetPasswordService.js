@@ -24,5 +24,15 @@ angular.module('liveopsConfigPanel')
       });
     };
 
+    service.userInitiateReset = function(email) {
+      return $http({
+        method: 'PUT',
+        url: apiHostname + '/v1/request-password-reset',
+        data: {
+          "email": email
+        }
+      });
+    };
+
     return service;
   }]);

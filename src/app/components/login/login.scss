@@ -63,3 +63,13 @@ $form-height: 300px;
     @include border-radius-complex(0, 3px, 3px, 0);
   }
 }
+
+.forgot-pass {
+  margin-top: 20px;
+  text-align: center;
+
+  a {
+    color: #fff;
+    text-decoration: underline;
+  }
+}

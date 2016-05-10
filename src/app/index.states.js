@@ -387,11 +387,32 @@ angular.module('liveopsConfigPanel')
           controller: 'LoginController',
           isPublic: true
         })
+        .state('forgot-password', {
+          url: '/forgot-password',
+          templateUrl: 'app/components/forgotPassword/forgotPassword.html',
+          controller: 'ForgotPasswordController',
+          isPublic: true
+        })
         .state('reset-password', {
           url: '/reset-password?userId&token',
           templateUrl: 'app/components/resetPassword/resetPassword.html',
           controller: 'ResetPasswordController',
-          isPublic: true
+          isPublic: true,
+          resolve: {
+            userToReset: ['$stateParams', 'Session', 'User', '$q', '$state', function($stateParams, Session, User, $q, $state) {
+              Session.setToken('Token ' + $stateParams.token);
+
+              var userResult = User.get({
+                id: $stateParams.userId
+              }, angular.noop, function(error) {
+                $state.go('login', {
+                  messageKey: 'user.details.password.reset.expired'
+                });
+              });
+
+              return userResult.$promise;
+            }]
+          }
         })
         .state('content.userprofile', {
           url: '/userprofile',
