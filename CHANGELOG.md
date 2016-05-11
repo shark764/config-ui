@@ -4,6 +4,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 * CXV1-870 - Query builder for queues rewrite. *NOT PRODUCTION READY* - Contact Josh Stevens before making a release
+
+## [3.1.3]
 * CXV1-1446 - Fix bug with duplicate results for recordings search
 * Update realtime-dashboards to 3.0.1 (Hyperion hotfix)
 * Update recordings search endpoints (Hyperion hotfix)
