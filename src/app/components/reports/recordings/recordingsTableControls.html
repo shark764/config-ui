@@ -64,6 +64,7 @@
           ng-model="selectedRecording"
           ng-click="rc.clearFilters()"/>
         <input id="submit-filters-btn" class="btn btn-primary"
+          ng-disabled="!recordings.$resolved"
           type="submit" value="{{'recordings.table.filter.search' | translate}}"
           lo-submit="rc.searchRecordings()"
           lo-submit-spinner

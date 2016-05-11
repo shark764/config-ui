@@ -53,10 +53,10 @@ angular.module('liveopsConfigPanel')
         $scope.recordings.$resolved = false;
         RealtimeStatisticInteraction.cachedGet(params).$promise.then(function (interactionSearch) {
           var totalResolved = 0;
-          if (interactionSearch.interactions === null) {
+          if (interactionSearch.results.interactions === null) {
             $scope.recordings.$resolved = true;
           }
-          angular.forEach(interactionSearch.interactions, function(interaction) {
+          angular.forEach(interactionSearch.results.interactions, function(interaction) {
 
             // Set flow names based on flow ids
             $scope.flows.$promise.then(function(flows) {
@@ -66,7 +66,7 @@ angular.module('liveopsConfigPanel')
             });
 
             Recording.query({
-              tenantId: interactionSearch.tenantId,
+              tenantId: interactionSearch.results.tenantId,
               interactionId: interaction.id
             }).$promise.then(function(recordings) {
               angular.forEach(recordings, function(recording) {
@@ -76,11 +76,11 @@ angular.module('liveopsConfigPanel')
               $scope.recordings = $scope.recordings.concat(recordings);
               totalResolved++;
               $scope.recordings.$promise = true;
-              $scope.recordings.$resolved = totalResolved === interactionSearch.interactions.length ? true : false;
+              $scope.recordings.$resolved = totalResolved === interactionSearch.results.interactions.length ? true : false;
             })
             .catch(function() {
               totalResolved++;
-              if (totalResolved === interactionSearch.interactions.length) {
+              if (totalResolved === interactionSearch.results.interactions.length) {
                 $scope.recordings.$resolved = true;
               }
             });
