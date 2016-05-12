@@ -4,6 +4,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 * CXV1-870 - Query builder for queues rewrite. *NOT PRODUCTION READY* - Contact Josh Stevens before making a release
+* Bumping config-shared 
 
 ## [3.1.3]
 * CXV1-1446 - Fix bug with duplicate results for recordings search
