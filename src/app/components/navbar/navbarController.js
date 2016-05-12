@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('NavbarController', ['$rootScope', '$scope', '$state', 'AuthService', 'Session', 'DirtyForms', '$translate', 'UserPermissions', 'PermissionGroups', '$window',
-    function($rootScope, $scope, $state, AuthService, Session, DirtyForms, $translate, UserPermissions, PermissionGroups, $window) {
+  .controller('NavbarController', ['$rootScope', '$scope', '$state', 'AuthService', 'Session', 'DirtyForms', '$translate', 'UserPermissions', 'PermissionGroups', '$window', 'helpDocsHostname',
+    function($rootScope, $scope, $state, AuthService, Session, DirtyForms, $translate, UserPermissions, PermissionGroups, $window, helpDocsHostname) {
       var vm = this;
       $scope.hovering = false;
       $scope.Session = Session;
@@ -73,23 +73,16 @@ angular.module('liveopsConfigPanel')
 
       $scope.userHelpItems = [
         {
-          label: 'Documentation',
+          label: $translate.instant('navbar.help.help'),
           onClick: function() {
-            var url = 'https://docs.cxengage.net';
+            var url = helpDocsHostname + '/Help/Content/Home.htm';
             $window.open(url);
           }
         },
         {
-          label: 'Admin API Documentation',
+          label: $translate.instant('navbar.help.api'),
           onClick: function() {
             var url = 'https://api-docs.cxengage.net/';
-            $window.open(url);
-          }
-        },
-        {
-          label: 'Reporting API',
-          onClick: function() {
-            var url = 'https://api-docs.cxengage.net/CxEngage-Reporting-API/';
             $window.open(url);
           }
         }

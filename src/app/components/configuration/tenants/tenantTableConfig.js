@@ -58,7 +58,7 @@ angular.module('liveopsConfigPanel')
           'showCreate': function() {
             return UserPermissions.hasPermissionInList(['PLATFORM_CREATE_ALL_TENANTS', 'CREATE_CHILD_TENANT']);
           },
-          'helpLink': helpDocsHostname + '/Content/Configuring%20CxEngage/Creating_Tenants.htm'
+          'helpLink': helpDocsHostname + '/Help/Content/Configuring%20CxEngage/Creating_Tenants.htm'
         };
       };
     }

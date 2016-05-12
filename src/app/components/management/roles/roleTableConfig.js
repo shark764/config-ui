@@ -32,7 +32,7 @@ angular.module('liveopsConfigPanel')
         'showCreate': function() {
           return UserPermissions.hasPermissionInList(['PLATFORM_CREATE_TENANT_ROLES', 'MANAGE_ALL_ROLES']);
         },
-        'helpLink': helpDocsHostname + '/Content/Managing%20Users/Adding_roles.htm'
+        'helpLink': helpDocsHostname + '/Help/Content/Managing%20Users/Adding_roles.htm'
       };
     }
   ]);

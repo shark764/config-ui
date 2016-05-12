@@ -41,6 +41,6 @@ angular.module('liveopsConfigPanel')
       'showBulkActions': function () {
         return UserPermissions.hasPermission('MANAGE_ALL_BUSINESS_HOURS');
       },
-      'helpLink' : helpDocsHostname + '/Content/Configuring%20CxEngage/Creating_Business_Hours.htm'
+      'helpLink' : helpDocsHostname + '/Help/Content/Configuring%20CxEngage/Business%20Hours/Business_Hours.htm'
     };
   }]);

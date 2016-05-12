@@ -87,6 +87,8 @@
   "navbar.flows.mediacollections.title": "Media Collections",
   "navbar.flows.media.title": "Media",
   "navbar.flows.dispatchmappings.title": "Dispatch Mappings",
+  "navbar.help.help": "Help",
+  "navbar.help.api": "API Documentation",
   "navbar.reports.title": "Reporting",
   "navbar.reports.hd.title": "Historical Dashboards",
   "navbar.reports.rtd.title": "Realtime Dashboards",

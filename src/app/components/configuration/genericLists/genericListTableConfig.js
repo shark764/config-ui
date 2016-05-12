@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('genericListTableConfig', ['$translate', 'statuses',
-    function($translate, statuses) {
+  .service('genericListTableConfig', ['$translate', 'statuses', 'helpDocsHostname',
+    function($translate, statuses, helpDocsHostname) {
       return {
         'fields': [{
           'header': {
@@ -29,6 +29,7 @@ angular.module('liveopsConfigPanel')
           'filter': 'selectedOptions'
         }],
         'searchOn': ['name'],
+        'helpLink' : helpDocsHostname + '/Help/Content/Configuring%20CxEngage/Lists/Lists.htm',
         'orderBy': 'name',
         'title': $translate.instant('list.table.title'),
         'showCreate': false,

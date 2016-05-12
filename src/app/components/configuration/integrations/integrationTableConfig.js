@@ -29,6 +29,6 @@ angular.module('liveopsConfigPanel')
       'showBulkActions': function() {
         return UserPermissions.hasPermission('MANAGE_ALL_PROVIDERS');
       },
-      'helpLink': helpDocsHostname + '/Content/Configuring%20CxEngage/Creating_Integrations.htm'
+      'helpLink': helpDocsHostname + '/Help/Content/Configuring%20CxEngage/Integrations/Creating_Integrations.htm'
     };
   }]);
