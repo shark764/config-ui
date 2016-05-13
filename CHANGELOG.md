@@ -5,6 +5,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 * CXV1-870 - Query builder for queues rewrite. *NOT PRODUCTION READY* - Contact Josh Stevens before making a release
 * CXV1-767 - Update help links throughout UI
+* CXV1-803 - Admin initiated password reset
+* CXV1-807 - Admin initiated password reset - bulk action
 
 ## [3.1.4]
 * Updating agent-phone-panel to 1.14.6

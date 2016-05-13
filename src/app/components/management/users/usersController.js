@@ -1,22 +1,32 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('UsersController', ['$scope', '$translate', 'User', 'Session', 'userTableConfig', 'Alert', '$q', 'TenantUser', 'TenantRole', 'UserPermissions', 'PlatformRole', 'TenantUserGroups', 'Modal', 'loEvents',
-    function($scope, $translate, User, Session, userTableConfig, Alert, $q, TenantUser, TenantRole, UserPermissions, PlatformRole, TenantUserGroups, Modal, loEvents) {
+  .controller('UsersController', ['$scope', '$translate', 'User', 'Session', 'userTableConfig', 'Alert', '$q', 'TenantUser', 'TenantRole', 'UserPermissions', 'PlatformRole', 'TenantUserGroups', 'Modal', 'loEvents', 'ResetPassword',
+    function($scope, $translate, User, Session, userTableConfig, Alert, $q, TenantUser, TenantRole, UserPermissions, PlatformRole, TenantUserGroups, Modal, loEvents, ResetPassword) {
       var vm = this;
       $scope.forms = {};
       $scope.Session = Session;
       $scope.userTableConfig = userTableConfig;
-      
+
       var extensionFields = [
-        'extensions', 
+        'extensions',
         'activeExtension',
         'type',
         'provider',
         'telValue',
         'phoneExtension',
-        'extensiondescription'];
-      
+        'extensiondescription'
+      ];
+
+      $scope.resetPassword = function() {
+        return Modal.showConfirm(
+          {
+            message: $translate.instant('value.passwordResetConfirm', { email:$scope.selectedTenantUser.email }),
+            okCallback: ResetPassword.initiateReset.bind(null, $scope.selectedTenantUser.id)
+          }
+        );
+      };
+
       $scope.scenario = function() {
         if (!$scope.selectedTenantUser) {
           return;
@@ -30,7 +40,7 @@ angular.module('liveopsConfigPanel')
           return 'update';
         }
       };
-      
+
       //isValid is for the tenantUser submit button
       //it excludes error type of 'duplicateEmail' and any extension input
       $scope.isValid = function() {
@@ -39,22 +49,22 @@ angular.module('liveopsConfigPanel')
           if(errorTypeIndex === 'duplicateEmail') {
             continue;
           }
-          
+
           var errorType = $scope.forms.detailsForm.$error[errorTypeIndex];
-          
+
           for(var errorIndex = 0; errorIndex < errorType.length; errorIndex++) {
             var errorModel = errorType[errorIndex];
             if(extensionFields.indexOf(errorModel.$name) > -1) {
               continue;
             }
-            
+
             valid = valid && errorModel.$valid;
           }
         }
-        
+
         return valid;
       };
-      
+
       $scope.namesRequired = function() {
         if (!$scope.selectedTenantUser) {
           return false;
@@ -178,18 +188,18 @@ angular.module('liveopsConfigPanel')
       $scope.$on('email:validator:found', function(event, tenantUser) {
         $scope.selectedTenantUser = tenantUser;
       });
-      
+
       $scope.updateStatus = function(){
         if ($scope.selectedTenantUser.status !== 'accepted' && $scope.selectedTenantUser.status !== 'disabled'){
           return;
         }
-        
+
         var userCopy = new TenantUser({
           id: $scope.selectedTenantUser.id,
           tenantId: $scope.selectedTenantUser.tenantId,
           status: $scope.selectedTenantUser.status === 'accepted' ? 'disabled' : 'accepted'
         });
-        
+
         return userCopy.save(function(result){
           $scope.selectedTenantUser.$original.status = result.status;
         });
