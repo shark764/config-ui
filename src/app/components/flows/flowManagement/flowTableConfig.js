@@ -45,7 +45,7 @@ angular.module('liveopsConfigPanel')
         'showCreate': function() {
           return UserPermissions.hasPermission('MANAGE_ALL_FLOWS');
         },
-        'helpLink': helpDocsHostname + '/Content/Managing%20Flows/Create_flows.htm'
+        'helpLink': helpDocsHostname + '/Help/Content/Managing%20Flows/Flow_overview.htm'
       };
     }
   ]);

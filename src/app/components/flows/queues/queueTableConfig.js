@@ -42,6 +42,6 @@ angular.module('liveopsConfigPanel')
       'showCreate': function() {
         return UserPermissions.hasPermission('MANAGE_ALL_QUEUES');
       },
-      'helpLink': helpDocsHostname + '/Content/Managing%20Flows/Adding_queues.htm'
+      'helpLink': helpDocsHostname + '/Help/Content/Managing%20Flows/Create_queue.htm'
     };
   }]);

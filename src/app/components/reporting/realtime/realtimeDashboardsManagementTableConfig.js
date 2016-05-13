@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('realtimeDashboardsManagementTableConfig', ['$translate',
-    function($translate) {
+  .service('realtimeDashboardsManagementTableConfig', ['$translate', 'helpDocsHostname',
+    function($translate, helpDocsHostname) {
       return {
         'fields': [{
           'header': {
@@ -12,6 +12,7 @@ angular.module('liveopsConfigPanel')
         }],
         'searchOn': ['name'],
         'orderBy': 'name',
+        'helpLink': helpDocsHostname + '/Help/Content/Reporting/Realtime/Realtime_Report_Types.htm',
         'title': $translate.instant('realtimeDashboards.table.title'),
         'sref': 'content.realtime-dashboards-management.editor',
         'showBulkActions': false,

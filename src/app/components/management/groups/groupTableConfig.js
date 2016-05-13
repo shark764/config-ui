@@ -8,7 +8,7 @@ angular.module('liveopsConfigPanel')
         'orderBy': '$original.name',
         'sref': 'content.management.groups',
         'title': $translate.instant('group.table.title'),
-        'helpLink': helpDocsHostname + '/Content/Managing%20Users/Adding_groups.htm',
+        'helpLink': helpDocsHostname + '/Help/Content/Managing%20Users/Creating_Groups.htm',
         'showBulkActions': function() {
           return UserPermissions.hasPermission('MANAGE_ALL_GROUPS');
         },

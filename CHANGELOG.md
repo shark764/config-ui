@@ -3,11 +3,12 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+* CXV1-870 - Query builder for queues rewrite. *NOT PRODUCTION READY* - Contact Josh Stevens before making a release
+* CXV1-767 - Update help links throughout UI
 
 ## [3.1.4]
 * Updating agent-phone-panel to 1.14.6
-* CXV1-870 - Query builder for queues rewrite. *NOT PRODUCTION READY* - Contact Josh Stevens before making a release
-* Bumping config-shared 
+* Bumping config-shared
 
 ## [3.1.3]
 * CXV1-1446 - Fix bug with duplicate results for recordings search
