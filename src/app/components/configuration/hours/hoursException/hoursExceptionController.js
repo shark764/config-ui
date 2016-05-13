@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('hoursExceptionController', ['$scope', '$moment', '$translate', '$q', 'Session', 'BusinessHourException', 'Alert',
-    function ($scope, $moment, $translate, $q, Session, BusinessHourException, Alert) {
+  .controller('hoursExceptionController', ['$scope', '$moment', '$translate', '$q', 'Session', 'BusinessHourException', 'Alert', '_',
+    function ($scope, $moment, $translate, $q, Session, BusinessHourException, Alert, _) {
       var vm = this;
 
       vm.addBtnDisabled = false;
@@ -64,5 +64,17 @@ angular.module('liveopsConfigPanel')
           }
         });
       };
+
+      $scope.$watch(function() {
+        return _.last($scope.hours.$exceptions).startTimeMinutes;
+      }, function() {
+        vm.reValidateExceptionHours();
+      });
+
+      $scope.$watch(function() {
+        return _.last($scope.hours.$exceptions).endTimeMinutes;
+      }, function() {
+        vm.reValidateExceptionHours();
+      });
     }
   ]);

@@ -7,6 +7,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 * CXV1-767 - Update help links throughout UI
 * CXV1-803 - Admin initiated password reset
 * CXV1-807 - Admin initiated password reset - bulk action
+* TITAN2-8279 - Fix bug related to duplicate business hour exceptions
 
 ## [3.1.4]
 * Updating agent-phone-panel to 1.14.6
