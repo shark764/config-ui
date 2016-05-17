@@ -4,10 +4,13 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 * CXV1-870 - Query builder for queues rewrite. *NOT PRODUCTION READY* - Contact Josh Stevens before making a release
+
+## [3.1.5]
 * CXV1-767 - Update help links throughout UI
 * CXV1-803 - Admin initiated password reset
 * CXV1-807 - Admin initiated password reset - bulk action
 * TITAN2-8279 - Fix bug related to duplicate business hour exceptions
+* Hotfix - remove SNAPSHOT dependency on flow designer
 
 ## [3.1.4]
 * Updating agent-phone-panel to 1.14.6
