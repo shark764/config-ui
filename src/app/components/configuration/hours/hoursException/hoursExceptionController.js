@@ -5,10 +5,15 @@ angular.module('liveopsConfigPanel')
     function ($scope, $moment, $translate, $q, Session, BusinessHourException, Alert, _) {
       var vm = this;
 
+      var startWatcher;
+      var endWatcher;
+
       vm.addBtnDisabled = false;
 
       $scope.$on('enableAddExceptionHour', function () {
         vm.addBtnDisabled = false;
+        startWatcher();
+        endWatcher();
       });
 
       vm.addHoursException = function () {
@@ -39,6 +44,18 @@ angular.module('liveopsConfigPanel')
         }
 
         $scope.form.$setDirty();
+
+        startWatcher = $scope.$watch(function() {
+          return _.last($scope.hours.$exceptions).startTimeMinutes;
+        }, function() {
+          vm.reValidateExceptionHours();
+        });
+
+        endWatcher = $scope.$watch(function() {
+          return _.last($scope.hours.$exceptions).endTimeMinutes;
+        }, function() {
+          vm.reValidateExceptionHours();
+        });
       };
 
       vm.removeException = function (exceptionIndex) {
@@ -65,16 +82,5 @@ angular.module('liveopsConfigPanel')
         });
       };
 
-      $scope.$watch(function() {
-        return _.last($scope.hours.$exceptions).startTimeMinutes;
-      }, function() {
-        vm.reValidateExceptionHours();
-      });
-
-      $scope.$watch(function() {
-        return _.last($scope.hours.$exceptions).endTimeMinutes;
-      }, function() {
-        vm.reValidateExceptionHours();
-      });
     }
   ]);
