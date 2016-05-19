@@ -42,7 +42,7 @@ angular.module('liveopsConfigPanel')
 
             Alert.error($translate.instant('details.extensions.error'));
           }
-          
+
           $scope.tenantUser.reset();
 
           return $q.reject(response);
@@ -82,7 +82,9 @@ angular.module('liveopsConfigPanel')
           !_.isEqual(extension.value, $scope.tenantUser.activeExtension.value)) {
 
           $scope.tenantUser.activeExtension = extension;
+
         }
+        
       };
 
       $scope.createExtension = function(){

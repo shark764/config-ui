@@ -5,6 +5,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 * CXV1-870 - Query builder for queues rewrite. *NOT PRODUCTION READY* - Contact Josh Stevens before making a release
 * CXV1-1305 Added export image to assets/images folder
+* CXV1-1819 Hide Plivo and made Twilio the default primary
 
 ## [3.1.7]
 * Updating agent-phone-panel to 1.14.7
@@ -27,7 +28,6 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 * CXV1-1446 - Fix bug with duplicate results for recordings search
 * Update realtime-dashboards to 3.0.1 (Hyperion hotfix)
 * Update recordings search endpoints (Hyperion hotfix)
-
 
 ## [3.1.2]
 * Updating agent-phone-panel to 1.14.1
