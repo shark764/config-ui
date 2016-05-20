@@ -4,6 +4,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 * CXV1-870 - Query builder for queues rewrite. *NOT PRODUCTION READY* - Contact Josh Stevens before making a release
+* Update realtime dashboards to 3.0.2-SNAPSHOT
 
 ## [3.1.8]
 * CXV1-1305 Added export image to assets/images folder
