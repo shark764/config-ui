@@ -4,8 +4,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 * CXV1-870 - Query builder for queues rewrite. *NOT PRODUCTION READY* - Contact Josh Stevens before making a release
+
+## [3.1.8]
 * CXV1-1305 Added export image to assets/images folder
 * CXV1-1819 Hide Plivo and made Twilio the default primary
+* Update flow designer to 1.9.3
 
 ## [3.1.7]
 * Updating agent-phone-panel to 1.14.7
