@@ -7,7 +7,7 @@ Visual front-end for the LiveOps Configuration API.
 [![Build Status](https://vpn.liveopslabs.com/buildStatus/icon?job=config-ui)](http://jenkins.liveopslabs.com/job/config-ui/)
 
 ## Version ##
-2.1.0
+3.1.8
 
 ### How do I get set up? ###
 
