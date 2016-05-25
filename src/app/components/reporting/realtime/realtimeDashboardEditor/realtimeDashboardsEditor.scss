@@ -72,31 +72,31 @@ lo-resource-table {
   }
 }
 
-.subhead {
+.rt-subhead {
   width: 50%;
   display:inline-block;
   padding: 8px 18px;
   position: relative;
-  z-index: 1;
+  z-index: 6;
 }
 
-.subhead dropdown {
+.rt-subhead dropdown {
   font-size: 1.5rem;
 }
 
-.subhead-right {
+.rt-subhead-right {
   position: relative;
-  z-index: 1;
+  z-index: 6;
   margin-top: 10px;
   margin-right: 50px;
   float:right;
 }
 
-.subhead-right::after {
+.rt-subhead-right::after {
   clear:both;
 }
 
-.subhead-right dropdown {
+.rt-subhead-right dropdown {
   font-size: 1.2rem;
 }
 
