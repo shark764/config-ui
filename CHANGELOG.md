@@ -7,6 +7,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 * Update realtime dashboards to 3.0.2-SNAPSHOT
 * CXV1-1643 - 24/7 business hours bugfix
 * CXV1-1819, CXV1-1909, CXV1-1911 - Extensions bugfix
+* CXV1-1916 Realtime dashboards dropdown bug fix for Firefox
 
 ## [3.1.8]
 * CXV1-1305 Added export image to assets/images folder
