@@ -101,10 +101,10 @@ angular.module('liveopsConfigPanel')
           var dayPrefix = vm.dayPrefixes[index].short;
 
           hasHours = vm.selectedHour[dayPrefix + 'StartTimeMinutes'] &&
-            vm.selectedHour[dayPrefix + 'StartTimeMinutes'] !== -1;
+            vm.selectedHour[dayPrefix + 'StartTimeMinutes'] !== 0;
 
           hasHours = hasHours || (vm.selectedHour[dayPrefix + 'EndTimeMinutes'] &&
-            vm.selectedHour[dayPrefix + 'EndTimeMinutes'] !== -1);
+            vm.selectedHour[dayPrefix + 'EndTimeMinutes'] !== 0);
 
           if (hasHours) {
             return true;
@@ -117,8 +117,8 @@ angular.module('liveopsConfigPanel')
         //TODO: figure out why switching between 24/7 and scheduled hours on an exsting resource will wipe the configured hours
         if (! vm.isHoursCustom) {
           angular.forEach(vm.dayPrefixes, function(dayPrefix) {
-            vm.selectedHour[dayPrefix.short + 'StartTimeMinutes'] = -1;
-            vm.selectedHour[dayPrefix.short + 'EndTimeMinutes'] = -1;
+            vm.selectedHour[dayPrefix.short + 'StartTimeMinutes'] = 0;
+            vm.selectedHour[dayPrefix.short + 'EndTimeMinutes'] = 0;
           });
         }
       };
@@ -155,6 +155,7 @@ angular.module('liveopsConfigPanel')
         });
 
         vm.exceptionHour = null;
+        vm.onIsHoursCustomChanged();
       });
 
       vm.tableConfig = hoursTableConfig;
