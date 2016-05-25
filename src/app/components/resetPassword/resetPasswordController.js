@@ -25,6 +25,7 @@ angular.module('liveopsConfigPanel')
           if (err.data.error.message === "bad request parameters") {
             $scope.error = err.data.error.attribute.password.capitalize();
           }
+          $scope.loading = false;
         });
     };
 

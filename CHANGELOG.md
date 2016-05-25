@@ -4,7 +4,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 * CXV1-870 - Query builder for queues rewrite. *NOT PRODUCTION READY* - Contact Josh Stevens before making a release
-* Update realtime dashboards to 3.0.2-SNAPSHOT
+
+## [3.1.9]
+* Hotfix for password reset error messages
+* Update realtime dashboards to 3.0.2
+* Update flow designer to 1.9.4
 * CXV1-1643 - 24/7 business hours bugfix
 * CXV1-1819, CXV1-1909, CXV1-1911 - Extensions bugfix
 * CXV1-1916 Realtime dashboards dropdown bug fix for Firefox
