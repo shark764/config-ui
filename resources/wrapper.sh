@@ -14,7 +14,11 @@ if [ -n "$2" ]
   sed -ri "s|('BIRST_URL', )(.*)(\).*)|\1\'$2\'\3|g" $CONFIG
   sed -ri "s|('SSO_PASSWORD', )(.*)(\).*)|\1\'$3\'\3|g" $CONFIG
   sed -ri "s|('SPACE_ID', )(.*)(\).*)|\1\'$4\'\3|g" $CONFIG
+fi
 
+if [ -n "$5" ]
+  then
+  sed -ri "s|('rtdRefreshRate', )(.*)(\).*)|\1\'$5\'\3|g" $CONFIG
 fi
 
 printf "Contents of $CONFIG:\n"
