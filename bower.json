@@ -25,7 +25,7 @@
     "liveops-config-panel-shared": "git@github.com:liveops/config-shared#1.0.58",
     "agent-phone-panel": "git@github.com:liveops/soundwave.git#1.14.7",
     "ng-file-upload": "~7.0.17",
-    "angular-drag-and-drop-lists": "~1.3.0",
+    "angular-drag-and-drop-lists": "^1.4.0",
     "lodash": "~3.10.1",
     "angular-momentjs": "~0.2.2",
     "moment-range": "~2.0.3"
