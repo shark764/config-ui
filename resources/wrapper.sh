@@ -9,12 +9,16 @@ if [ -n "$1" ]
   sed -ri "s|(https://dev-api.liveopslabs.com)|$1|g" $VENDOR
 fi
 
-if [ -n "$2" ]
+if [ -n "$3" ]
   then
   sed -ri "s|('BIRST_URL', )(.*)(\).*)|\1\'$2\'\3|g" $CONFIG
   sed -ri "s|('SSO_PASSWORD', )(.*)(\).*)|\1\'$3\'\3|g" $CONFIG
   sed -ri "s|('SPACE_ID', )(.*)(\).*)|\1\'$4\'\3|g" $CONFIG
+fi
 
+if [ -n "$5" ]
+  then
+  sed -ri "s|('rtdRefreshRate', )(.*)(\).*)|\1\'$5\'\3|g" $CONFIG
 fi
 
 printf "Contents of $CONFIG:\n"
