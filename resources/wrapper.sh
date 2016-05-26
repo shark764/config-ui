@@ -9,7 +9,7 @@ if [ -n "$1" ]
   sed -ri "s|(https://dev-api.liveopslabs.com)|$1|g" $VENDOR
 fi
 
-if [ -n "$3" ]
+if [ -n "$2" ]
   then
   sed -ri "s|('BIRST_URL', )(.*)(\).*)|\1\'$2\'\3|g" $CONFIG
   sed -ri "s|('SSO_PASSWORD', )(.*)(\).*)|\1\'$3\'\3|g" $CONFIG
