@@ -12,7 +12,7 @@ describe('hoursController', function() {
     BusinessHour,
     BusinessHourException;
 
-  beforeEach(module('gulpAngular', 'liveopsConfigPanel', 'liveopsConfigPanel.timezone.mock', 
+  beforeEach(module('gulpAngular', 'liveopsConfigPanel', 'liveopsConfigPanel.timezone.mock',
       'liveopsConfigPanel.tenant.businessHour.mock', 'liveopsConfigPanel.mockutils'));
 
   beforeEach(inject(['$rootScope', '$httpBackend', 'apiHostname', 'Session', 'mockBusinessHours', 'loEvents', 'BusinessHour', 'BusinessHourException', '$controller',
@@ -50,7 +50,7 @@ describe('hoursController', function() {
 
     $rootScope.$broadcast(loEvents.tableControls.itemCreate);
     $scope.$digest();
-    
+
     expect(controller.selectedHour.id).toBeFalsy();
     expect(controller.selectedHour.active).toBeTruthy();
     expect(controller.selectedHour.timezone).toEqual('US/Eastern');
@@ -70,11 +70,11 @@ describe('hoursController', function() {
       expect(controller.hours.length).toEqual(2);
     });
   });
-  
+
   describe('ON reset', function() {
     it('should reset', function() {
       spyOn(controller, 'hasHours').and.returnValue(true);
-      
+
       controller.reset();
       expect(controller.isHoursCustom).toBeTruthy();
       expect(controller.exceptionHour).toBeNull();
@@ -124,7 +124,7 @@ describe('hoursController', function() {
 
       $httpBackend.flush();
     });
-    
+
     it('should set the form error if saving an exception fails', inject(function(mockForm, mockModel) {
       controller.forms = {};
       controller.forms.detailsForm = mockForm();
@@ -166,7 +166,7 @@ describe('hoursController', function() {
       controller.saveError('error').catch(function(){
         done();
       });
-      
+
       $scope.$digest();
     });
 
@@ -195,7 +195,7 @@ describe('hoursController', function() {
     it('should be defined on controller', function() {
       expect(controller.hasHours).toBeDefined();
     });
-    
+
     it('should return false if there is no selected hour', function() {
       controller.selectedHour = null;
       var result = controller.hasHours();
@@ -214,19 +214,19 @@ describe('hoursController', function() {
       expect(result).toBeTruthy();
     });
 
-    it('should return false if some times are null and some are -1', function() {
+    it('should return false if some times are null and some are 0', function() {
       controller.selectedHour = mockBusinessHours[0];
-      mockBusinessHours[0].sunStartTimeMinutes = -1;
-      mockBusinessHours[0].sunEndTimeMinutes = -1;
+      mockBusinessHours[0].sunStartTimeMinutes = 0;
+      mockBusinessHours[0].sunEndTimeMinutes = 0;
 
       var result = controller.hasHours();
       expect(result).toBeFalsy();
     });
 
-    it('should return true if some times are -1 but others are defined', function() {
+    it('should return true if some times are 0 but others are defined', function() {
       controller.selectedHour = mockBusinessHours[0];
-      mockBusinessHours[0].sunStartTimeMinutes = -1;
-      mockBusinessHours[0].sunEndTimeMinutes = -1;
+      mockBusinessHours[0].sunStartTimeMinutes = 0;
+      mockBusinessHours[0].sunEndTimeMinutes = 0;
 
       mockBusinessHours[0].monStartTimeMinutes = 0;
       mockBusinessHours[0].monEndTimeMinutes = 60;
@@ -260,9 +260,9 @@ describe('hoursController', function() {
       });
     });
 
-    it('should set all times to -1 on isCustom false', function() {
+    it('should set all times to 0 on isCustom false', function() {
       controller.onIsHoursCustomChanged(false);
-      var expected = -1;
+      var expected = 0;
 
       angular.forEach(['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'], function(day) {
         expect(controller.selectedHour[day + 'StartTimeMinutes']).toEqual(expected);
@@ -270,9 +270,9 @@ describe('hoursController', function() {
       });
     });
 
-    it('should set all times to -1 on isCustom false', function() {
+    it('should set all times to 0 on isCustom false', function() {
       controller.onIsHoursCustomChanged(true);
-      var expected = -1;
+      var expected = 0;
 
       for (var day in ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat']) {
         expect(controller.selectedHour[day + 'StartTimeMinutes']).not.toEqual(expected);
@@ -293,7 +293,7 @@ describe('hoursController', function() {
       });
     });
   });
-  
+
   describe('ON updateActive', function() {
     it('should save the business hour', function() {
       controller.selectedHour = new BusinessHour({
@@ -308,7 +308,7 @@ describe('hoursController', function() {
 
       $httpBackend.flush();
     });
-    
+
     it('should toggle the active property to true when it is false', function() {
       controller.selectedHour = new BusinessHour({
         tenantId: 'myTenant',
@@ -324,7 +324,7 @@ describe('hoursController', function() {
 
       $httpBackend.flush();
     });
-    
+
     it('should toggle the active property to false when it is true', function() {
       controller.selectedHour = new BusinessHour({
         tenantId: 'myTenant',
@@ -375,11 +375,11 @@ describe('hoursController', function() {
           id: '1234'
         }
       });
-      
+
       controller.updateActive();
 
       $httpBackend.flush();
-      
+
       expect(controller.selectedHour.$original.active).toBeTruthy();
     });
   });
