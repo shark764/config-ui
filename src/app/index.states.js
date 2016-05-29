@@ -296,13 +296,13 @@ angular.module('liveopsConfigPanel')
               });
 
               return deferred.promise;
+            }],
+            platformFlow: ['Session','apiHostname', '$http', function(Session, apiHostname, $http){
+              return $http.get(apiHostname + '/v1/tenants/' + Session.tenant.tenantId + '/settings')
+                .then(function(data){
+                  return _.findWhere(data.data.result, {name: 'platform-defaults-flow'}).value;
+                });
             }]
-            // platformFlow: ['Session','apiHostname', '$http', function(Session, apiHostname, $http){
-            //   return $http.get(apiHostname + '/v1/tenants/' + Session.tenant.tenantId + '/settings')
-            //     .then(function(data){
-            //       return _.findWhere(data.data.result, {name: 'platform-defaults-flow'}).value;
-            //     });
-            // }]
           }
         })
         .state('content.flows.view', {
