@@ -1,0 +1,63 @@
+---
+# box specific config
+instance_type: "{{config_ui_size}}"
+service: config-ui
+groupname: config-ui
+service_port: 80
+service_endpoint: "/index.html"
+visibility: private
+ideal: 1
+min: 1
+max: 1
+
+subnets:
+  - "{{a}}"
+assign_public_ip: False
+iam_role_policy: '{"Version": "2008-10-17", "Statement": [{"Sid": "", "Effect": "Allow", "Principal": {"Service": "ec2.amazonaws.com"}, "Action": "sts:AssumeRole"}]}'
+
+####### NOTE: ANSIBLE VARIABLE SUBSTITUTION DOES NOT WORK DUE TO JSON TRANSLATION
+iam_policy_doc: '{"Statement":[{"Sid":"Stmt1358974336152","Action":["ec2:Describe*"],"Effect":"Allow","Resource":"*"},{"Sid": "Stmt1446518050617","Action": ["cloudwatch:PutMetricData"],"Effect": "Allow","Resource": "*"}]}'                
+
+#You need this line or the policy doesn't get linked to the instance
+instance_profile_name: "{{deploy_env}}-{{service}}"
+
+sg_rules: "{{config_ui_sg_rules}}"
+
+# docker container specific config
+container: "docker.liveopslabs.com/{{service}}"
+container_ports: "80:80"
+container_command: "{{config_ui_command}}"
+
+# ELB Creation Vars
+elb: True
+elb_name: "{{region}}-{{deploy_env}}-{{service}}"
+elb_subnets: "{{config_ui_subnets}}"
+elb_scheme: "{{config_ui_elb_scheme}}"
+elb_sg_id: "{{sg.group_id}}"
+elb_listen_port: "{{service_port}}"
+elb_listen_protocol: http
+elb_instance_protocol: http
+elb_health_protocol: http
+elb_health_ping_port: "80"
+elb_health_ping_path: "/index.html"
+elb_r53_alias: yes
+elb_r53_type: A
+elb_r53_value: "{{newelb.elb.dns_name}}"
+elb_listeners:
+  - protocol: "{{elb_listen_protocol}}"
+    load_balancer_port: "{{elb_listen_port}}"
+    instance_protocol: "{{elb_instance_protocol}}"
+    instance_port: "{{service_port}}"
+  - protocol: https
+    load_balancer_port: 443
+    instance_protocol: http
+    instance_port: 80
+    ssl_certificate_id: "{{ssl_cert_arn}}"
+elb_health_check:
+    ping_protocol: "{{elb_health_protocol}}"
+    ping_port: "{{elb_health_ping_port}}"
+    ping_path: "{{elb_health_ping_path}}"
+    response_timeout: 15
+    interval: 60
+    unhealthy_threshold: 2
+    healthy_threshold: 2
