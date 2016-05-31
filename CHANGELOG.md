@@ -4,7 +4,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 * CXV1-870 - Query builder for queues rewrite. *NOT PRODUCTION READY* - Contact Josh Stevens before making a release
-* Update realtime dashboards to 3.0.3-SNAPSHOT
+* Update realtime dashboards to 3.0.3
 
 ## [3.1.9]
 * Hotfix for password reset error messages
