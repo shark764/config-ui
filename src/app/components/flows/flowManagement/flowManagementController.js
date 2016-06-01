@@ -52,7 +52,8 @@ angular.module('liveopsConfigPanel')
             flowId: version.flowId,
             flow: version.flow,
             tenantId: Session.tenant.tenantId,
-            name: draft.name
+            name: draft.name,
+            metadata: version.metadata
           });
 
           return newFlow.save().then(function(draft){

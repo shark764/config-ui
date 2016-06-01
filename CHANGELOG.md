@@ -4,9 +4,13 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 * CXV1-870 - Query builder for queues rewrite. *NOT PRODUCTION READY* - Contact Josh Stevens before making a release
+* Update Flow designer to 1.10.0 (And put back in removed changes)
 
 ## [3.1.10]
 * Update realtime dashboards to 3.0.3
+* Update realtime dashboards to 3.0.3-SNAPSHOT
+
+
 
 ## [3.1.9]
 * Hotfix for password reset error messages
@@ -24,7 +28,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [3.1.7]
 * Updating agent-phone-panel to 1.14.7
 
-## [3.1.6]
+## [3.1.6]		
 * Hotfix - rolling back some designer related changes for QE
 
 ## [3.1.5]
