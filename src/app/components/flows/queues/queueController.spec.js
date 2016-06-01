@@ -10,13 +10,14 @@ describe('QueueController', function() {
     mockQueueVersions,
     QueueVersion,
     controller,
-    loEvents;
+    loEvents,
+    ZermeloService;
 
-  beforeEach(module('gulpAngular', 'liveopsConfigPanel', 'liveopsConfigPanel.tenant.queue.mock', 
+  beforeEach(module('gulpAngular', 'liveopsConfigPanel', 'liveopsConfigPanel.tenant.queue.mock',
       'liveopsConfigPanel.tenant.queue.version.mock', 'liveopsConfigPanel.mockutils'));
 
-  beforeEach(inject(['$rootScope', '$controller', '$httpBackend', 'Queue', 'apiHostname', 'Session', 'mockQueues', 'mockQueueVersions', 'QueueVersion', 'loEvents',
-    function($rootScope, $controller, _$httpBackend, _Queue, _apiHostname, _Session, _mockQueues, _mockQueueVersions, _QueueVersion, _loEvents) {
+  beforeEach(inject(['$rootScope', '$controller', '$httpBackend', 'Queue', 'apiHostname', 'Session', 'mockQueues', 'mockQueueVersions', 'QueueVersion', 'loEvents', 'ZermeloService',
+    function($rootScope, $controller, _$httpBackend, _Queue, _apiHostname, _Session, _mockQueues, _mockQueueVersions, _QueueVersion, _loEvents, _ZermeloService) {
       $scope = $rootScope.$new();
       Queue = _Queue;
       apiHostname = _apiHostname;
@@ -25,6 +26,7 @@ describe('QueueController', function() {
       mockQueueVersions = _mockQueueVersions;
       QueueVersion = _QueueVersion;
       loEvents = _loEvents;
+      ZermeloService = _ZermeloService;
       $httpBackend = _$httpBackend;
 
       var routeParams = {
@@ -105,7 +107,7 @@ describe('QueueController', function() {
     spyOn(controller, 'fetchVersions').and.returnValue([{}]);
 
     var myQueueVersion = new QueueVersion({
-      query: 'query stuff',
+      query: ZermeloService.getQueryString(),
       name: 'v1',
       tenantId: 'tenant1',
       queueId: 'queueId1',
@@ -118,7 +120,7 @@ describe('QueueController', function() {
 
     controller.copySelectedVersion(myQueueVersion);
     expect(controller.selectedQueueVersion).toBeDefined();
-    expect(controller.selectedQueueVersion.query).toEqual('query stuff');
+    expect(controller.selectedQueueVersion.query).toEqual('[{:after-seconds-in-queue 0 :query {}}]');
     expect(controller.selectedQueueVersion.tenantId).toEqual('tenant1');
     expect(controller.selectedQueueVersion.name).toEqual('v2');
     expect(controller.selectedQueueVersion.queueId).toEqual('queueId1');
@@ -226,7 +228,7 @@ describe('QueueController', function() {
       controller.initialVersion = new QueueVersion({
         tenantId: 'tenant-id',
         queueId: 'queueId1',
-        query: '12345'
+        query: ZermeloService.getQueryString()
       });
 
       $httpBackend.expectPOST(apiHostname + '/v1/tenants/tenant-id/queues/queueId1/versions').respond(400, {
@@ -240,21 +242,21 @@ describe('QueueController', function() {
       controller.saveInitialVersion(mockQueues[0]);
       $httpBackend.flush();
 
-      expect(controller.selectedQueueVersion.query).toEqual('12345');
+      expect(controller.selectedQueueVersion.query).toEqual('[{:after-seconds-in-queue 0 :query {}}]');
     }));
   });
-  
+
   describe('toggleDetails function', function() {
     it('should be defined', function() {
       expect(controller.toggleDetails).toBeDefined();
     });
-    
+
     it('should be toggle viewing when viewing is true', function() {
       controller.versions = [{viewing: true}];
       controller.toggleDetails(controller.versions[0]);
       expect(controller.versions[0].viewing).toBeFalsy();
     });
-    
+
     it('should be toggle viewing when viewing is false', function() {
       controller.versions = [{viewing: false}];
       controller.toggleDetails(controller.versions[0]);

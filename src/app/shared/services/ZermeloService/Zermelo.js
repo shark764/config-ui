@@ -20,19 +20,21 @@ angular.module('liveopsConfigPanel')
     };
 
     // Initializing the query in its starting state
-    var escalation = new jsedn.Map();
-    escalation.set(keywordEnum.ASIQ, 0);
-    escalation.set(keywordEnum.QUERY, new jsedn.Map());
-    var query = new jsedn.Vector([escalation]);
+    var escalation;
+    var query;
+    var ednString;
+    resetQuery();
 
     return {
       getQuery: getQuery,
+      getQueryString: getQueryString,
       addFilter: addFilter,
       removeFilter: removeFilter,
       removeType: removeType,
       addQueryLevel: addQueryLevel,
       removeQueryLevel: removeQueryLevel,
       updateQueryLevel: updateQueryLevel,
+      resetQuery: resetQuery,
       toEdnString: toEdnString,
       parseString: parseString,
       keywordEnum: keywordEnum
@@ -44,6 +46,10 @@ angular.module('liveopsConfigPanel')
 
     function getQuery() {
       return query;
+    }
+
+    function getQueryString() {
+      return ednString;
     }
 
     function addFilter(level, type, filter, itemId, condition) {
@@ -61,10 +67,12 @@ angular.module('liveopsConfigPanel')
         if (!success) {
           query.at(0).at(keywordEnum.QUERY).at(type).val.push(filterExpression);
         }
+        ednString = toEdnString(query);
         return query;
       }
       var newVector = new jsedn.Vector([filterExpression]);
       query.at(level).at(keywordEnum.QUERY).set(type, newVector);
+      ednString = toEdnString(query);
       return query;
     }
 
@@ -86,6 +94,7 @@ angular.module('liveopsConfigPanel')
           }
         }
       });
+      ednString = toEdnString(query);
       return query;
     }
 
@@ -95,6 +104,7 @@ angular.module('liveopsConfigPanel')
         query.at(level).at(keywordEnum.QUERY).keys.splice(idx, 1);
         query.at(level).at(keywordEnum.QUERY).vals.splice(idx, 1);
       });
+      ednString = toEdnString(query);
       return query;
     }
 
@@ -104,27 +114,40 @@ angular.module('liveopsConfigPanel')
       newLevel.set(keywordEnum.ASIQ, newASIQ);
       newLevel.set(keywordEnum.QUERY, new jsedn.Map());
       query.val.push(newLevel);
+      ednString = toEdnString(query);
       return query;
     }
 
     function removeQueryLevel(level) {
       query.val.splice(level, 1);
+      ednString = toEdnString(query);
       return query;
     }
 
     function updateQueryLevel(level, time) {
       query.at(level).set(keywordEnum.ASIQ, time);
+      ednString = toEdnString(query);
       return query;
     }
 
-    function toEdnString() {
-      return jsedn.encode(query);
+    function resetQuery() {
+      escalation = new jsedn.Map();
+      escalation.set(keywordEnum.ASIQ, 0);
+      escalation.set(keywordEnum.QUERY, new jsedn.Map());
+      query = new jsedn.Vector([escalation]);
+      ednString = toEdnString(query);
+      return query;
     }
 
-    function parseString(ednString) {
+    function toEdnString(queryObj) {
+      return jsedn.encode(queryObj);
+    }
+
+    function parseString(stringToParse) {
       try {
-        var newQuery = jsedn.parse(ednString);
+        var newQuery = jsedn.parse(stringToParse);
         query = newQuery;
+        ednString = toEdnString(query);
         return query;
       } catch (e) {
         return null;

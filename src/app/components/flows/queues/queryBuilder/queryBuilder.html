@@ -1,5 +1,5 @@
 <!-- Details -->
-<div class="divider-header first-header">
+<div class="divider-header first-header" ng-hide="readOnly">
   <h4>{{'value.details.query' | translate}}</h4>
   <a class="pull-right">
     <span id="show-advanced-query" ng-show="!qbc.isAdvancedMode" ng-click="qbc.advancedMode()">
@@ -24,8 +24,8 @@
    </form-error>
 </div>
 
-<!-- Basic Query -->
-<div ng-if="!qbc.isAdvancedMode" class="query-component" ng-repeat="level in qbc.query.val">
+<!-- Basic Query Editor -->
+<div ng-if="!qbc.isAdvancedMode && !readOnly" class="query-component" ng-repeat="level in qbc.query.val">
 
   <!-- Search query level X -->
   <div class="divider-header" ng-if="!$first">
@@ -56,4 +56,83 @@
 
   </div>
 
+</div>
+
+<!-- Basic Query Read Only -->
+<div ng-if="readOnly" class="basic-readonly-query" ng-repeat="level in qbc.query.val">
+  <h3 ng-show="$index !== 0 && level.vals[0] % 60 !== 0">
+    {{'queue.query.readonly.after.seconds' | translate:{seconds:level.vals[0]} }}
+  </h3>
+  <h3 ng-show="$index !== 0 && level.vals[0] % 60 === 0">
+    {{'queue.query.readonly.after.minutes' | translate:{minutes:level.vals[0] / 60} }}
+  </h3>
+  <div ng-repeat="group in level.vals[1].keys">
+
+    <!-- Skills Edge Case -->
+    <div ng-show="group.val === ':skills' && (level.vals[1].vals[$index].val[0].val[0].val === 'every' || level.vals[1].vals[$index].val[1].val[0].val === 'every')">
+      <label>
+        {{'queue.query.builder.' + group.val + '.all' | translate}}
+      </label>
+      <div class="tag-wrapper clear" ng-show="level.vals[1].vals[$index].val[0].val[0].val === 'every'">
+        <div class="tag" ng-repeat="item in level.vals[1].vals[$index].val[0].val[1].keys">
+          {{qbc.getDisplay(group.val, item)}}
+        </div>
+      </div>
+      <div class="tag-wrapper clear" ng-show="level.vals[1].vals[$index].val[1].val[0].val === 'every'">
+        <div class="tag" ng-repeat="item in level.vals[1].vals[$index].val[1].val[1].keys">
+          {{qbc.getDisplay(group.val, item)}}
+        </div>
+      </div>
+    </div>
+
+    <div ng-show="group.val === ':skills' && (level.vals[1].vals[$index].val[0].val[0].val === 'some' || level.vals[1].vals[$index].val[1].val[0].val === 'some')">
+      <label>
+        {{'queue.query.builder.' + group.val + '.some' | translate}}
+      </label>
+      <div class="tag-wrapper clear" ng-show="level.vals[1].vals[$index].val[0].val[0].val === 'some'">
+        <div class="tag" ng-repeat="item in level.vals[1].vals[$index].val[0].val[1].keys">
+          {{qbc.getDisplay(group.val, item)}}
+        </div>
+      </div>
+      <div class="tag-wrapper clear" ng-show="level.vals[1].vals[$index].val[1].val[0].val === 'some'">
+        <div class="tag" ng-repeat="item in level.vals[1].vals[$index].val[1].val[1].keys">
+          {{qbc.getDisplay(group.val, item)}}
+        </div>
+      </div>
+    </div>
+
+    <!-- Users/Groups -->
+    <div ng-show="group.val !== ':skills' && (level.vals[1].vals[$index].val[0].val[0].val === 'every' || level.vals[1].vals[$index].val[1].val[0].val === 'every')">
+      <label>
+        {{'queue.query.builder.' + group.val + '.all' | translate}}
+      </label>
+      <div class="tag-wrapper clear" ng-show="level.vals[1].vals[$index].val[0].val[0].val === 'every'">
+        <div class="tag" ng-repeat="item in level.vals[1].vals[$index].val[0].val[1].val">
+          {{qbc.getDisplay(group.val, item)}}
+        </div>
+      </div>
+      <div class="tag-wrapper clear" ng-show="level.vals[1].vals[$index].val[1].val[0].val === 'every'">
+        <div class="tag" ng-repeat="item in level.vals[1].vals[$index].val[1].val[1].val">
+          {{qbc.getDisplay(group.val, item)}}
+        </div>
+      </div>
+    </div>
+
+    <div ng-show="group.val !== ':skills' && (level.vals[1].vals[$index].val[0].val[0].val === 'some' || level.vals[1].vals[$index].val[1].val[0].val === 'some')">
+      <label>
+        {{'queue.query.builder.' + group.val + '.some' | translate}}
+      </label>
+      <div class="tag-wrapper clear" ng-show="level.vals[1].vals[$index].val[0].val[0].val === 'some'">
+        <div class="tag" ng-repeat="item in level.vals[1].vals[$index].val[0].val[1].val">
+          {{qbc.getDisplay(group.val, item)}}
+        </div>
+      </div>
+      <div class="tag-wrapper clear" ng-show="level.vals[1].vals[$index].val[1].val[0].val === 'some'">
+        <div class="tag" ng-repeat="item in level.vals[1].vals[$index].val[1].val[1].val">
+          {{qbc.getDisplay(group.val, item)}}
+        </div>
+      </div>
+    </div>
+
+  </div>
 </div>

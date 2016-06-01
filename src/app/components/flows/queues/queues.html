@@ -4,7 +4,7 @@
     items="qc.fetchQueues()"
     search-query="searchQuery">
   </table-controls>
-  
+
   <lo-resource-table
     config="qc.tableConfig"
     items="qc.fetchQueues()"
@@ -15,7 +15,7 @@
       <span ng-if="item.$original.active">{{'value.enabled' | translate}}</span>
       <span ng-if="!item.$original.active" class="disabled">{{'value.disabled' | translate}}</span>
     </span>
-  
+
     <span name="$original.activeQueue">
       {{item.$original.activeQueue.name}}
     </span>
@@ -37,7 +37,7 @@
     class="details-pane"
     ng-model="qc.selectedQueue"
     ng-resource="qc.selectedQueue"
-    lo-form-submit lo-form-cancel lo-form-alert>
+    lo-form-submit lo-form-alert>
 
     <ng-form name="qc.forms.headerForm" separate-validation>
       <div class="detail-header"
@@ -52,7 +52,7 @@
     <div class="detail-controls">
       <input id="cancel-details-btn" type="button" class="btn"
         value="{{'value.cancel' | translate}}"
-        lo-cancel>
+        ng-click="qc.confirmCancel()">
       </input>
       <input id="submit-details-btn" class="btn btn-primary"
         type="submit" value="{{'value.submit' | translate}}"
