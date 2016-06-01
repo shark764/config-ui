@@ -49,12 +49,12 @@
 
   <div class="input-group" ng-show="! selectedTenant.isNew()">
     <label class="textarea-label">{{'tenant.details.region' | translate}}</label>
-    <p id="tenant-details-region">{{selectedTenant.$region.name}}</p>
+    <p id="tenant-details-region" class="added-padding">{{selectedTenant.$region.name}}</p>
   </div>
 
   <div class="input-group" ng-if="! selectedTenant.isNew()">
     <label class="textarea-label">{{'tenant.details.id' | translate}}</label>
-    <p id="tenant-details-id">{{selectedTenant.id}}</p>
+    <p id="tenant-details-id" class="added-padding">{{selectedTenant.id}}</p>
   </div>
 </div>
 
@@ -65,12 +65,13 @@
 
   <div class="input-group">
     <label class="textarea-label">{{'tenant.details.id' | translate}}</label>
-    <p id="tenant-details-parent-id">{{selectedTenant.parent.id}}</p>
+    <p id="tenant-details-parent-id" class="added-padding">{{selectedTenant.parent.id}}</p>
   </div>
 
   <div class="input-group">
     <label class="textarea-label">{{'tenant.details.name' | translate}}</label>
     <p id="tenant-details-parent-name"
+      class="added-padding"
       ng-show="selectedTenant.parent.name">
       {{selectedTenant.parent.name}}
     </p>
