@@ -6,6 +6,11 @@ angular.module('liveopsConfigPanel')
       restrict: 'E',
       templateUrl: 'app/components/flows/queues/queryBuilder/queryBuilder.html',
       controller: 'queryBuilderController as qbc',
-      scope: {}
+      scope: {
+        queryString: '='
+      },
+      link: function(scope, element, attrs) {
+        scope.readOnly = scope.$eval(attrs.readOnly);
+      }
     };
   });

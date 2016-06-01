@@ -46,8 +46,7 @@
 </div>
 
 <div id="create-new-queue-query-details" ng-if="qc.selectedQueue.isNew()">
-  <query-list-creator form="qc.forms.detailsForm" query-string="qc.initialVersion.query"></query-list-creator>
-  <!-- <query-builder></query-builder> -->
+  <query-builder query-string="qc.initialVersion.query"></query-builder>
 
   <div class="divider-header">
     <h4>{{'queue.details.priority' | translate}}</h4>
@@ -56,6 +55,7 @@
   <version-priority queue-version="qc.initialVersion"></version-priority>
 </div>
 
+<!-- OLD VERSIONS -->
 <div ng-show="!qc.selectedQueue.isNew()" class="queue-versions">
   <div class="divider-header">
     <h4>Versions</h4>
@@ -95,6 +95,8 @@
           <div disable-contents="! ('MANAGE_ALL_QUEUES' | hasPermission)">
 
             <readonly-query query="version.query">
+
+              <!-- Basic Query -->
               <div id="version-basic-query-details" ng-show="showBasicQuery" class="input-group">
                 <label class="textarea-label disabled">{{'queue.details.version.query.basic.title' | translate}}</label>
                 <a class="show-advanced-link"
@@ -102,27 +104,10 @@
                   ng-click="showBasicQuery = false;">
                       {{'queue.details.version.query.advanced.link' | translate}}
                 </a>
-
-                <p class="null" ng-show="!ednQuery">{{'queue.details.version.query.basic.invalid' | translate}}</p>
-
-                <div ng-repeat="escalation in ednQuery.escalations">
-                  <div class="basic-readonly-query">
-                    <h3 ng-show="escalation.afterSecondsInQueue > 0 && escalation.afterSecondsInQueue % 60 !== 0">
-                      {{'queue.query.readonly.after.seconds' | translate:{seconds:escalation.afterSecondsInQueue} }}
-                    </h3>
-                    <h3 ng-show="escalation.afterSecondsInQueue > 0 && escalation.afterSecondsInQueue % 60 === 0">
-                      {{'queue.query.readonly.after.minutes' | translate:{minutes:escalation.afterSecondsInQueue / 60} }}
-                    </h3>
-                    <object-group-editor
-                      ng-repeat="item in escalation.query.groups"
-                      object-group="item.objectGroup"
-                      readonly="true"
-                      key="item.key">
-                    </object-group-editor>
-                  </div>
-                </div>
+                <query-builder query-string="query" read-only="true"></query-builder>
               </div>
 
+              <!-- Advanced Query -->
               <div class="input-group advanced-query-readonly" ng-show="!showBasicQuery">
                 <label class="textarea-label disabled">{{'queue.details.version.query.advanced.title' | translate}}</label>
                 <a class="show-basic-link"
@@ -132,6 +117,8 @@
                 </a>
                 <textarea id="advanced-query-field" ng-disabled="true" type="text" ng-model="query" name="query"></textarea>
               </div>
+
+
             </readonly-query>
 
 

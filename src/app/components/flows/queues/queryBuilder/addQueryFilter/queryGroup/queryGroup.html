@@ -14,7 +14,7 @@
   </div>
 
   <div class="tag-wrapper clear">
-    <div class="tag" ng-repeat="filter in qgc.filters">
+    <div class="tag" ng-repeat="filter in qgc.filters track by $index">
       {{filter.getDisplay()}}
       <a ng-click="qgc.removeFilter(filter)"><i class="fa fa-times"></i></a>
     </div>
