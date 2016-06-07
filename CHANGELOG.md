@@ -7,6 +7,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 * Update Flow designer to 1.10.0 (And put back in removed changes)
 * CXV1-1909 - bug fix changed index to be 0
 * CXV1-1993 - Clean up edit panel/text alignment
+* Bumping Flow designer
 
 ## [3.1.10]
 * Update realtime dashboards to 3.0.3
