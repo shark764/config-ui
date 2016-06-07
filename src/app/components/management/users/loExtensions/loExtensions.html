@@ -30,8 +30,7 @@
     dnd-effect-allowed="move"
     dnd-moved="moved($index)"
     dnd-selected="tenantUser.extensions.selected = extension"
-    id="{{extension.type | translate}}-{{extension.provider | translate}}"
-    ng-hide="(extension.provider === 'plivo')">
+    id="{{extension.type | translate}}-{{extension.provider | translate}}">
 
     <div class="lo-extension-table-row" ng-class="{'default-extension': $index === 0}" ng-hide="lec.editingExtension === extension">
       <div class="lo-extension-table-col control-col">

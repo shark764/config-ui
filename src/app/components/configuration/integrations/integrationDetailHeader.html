@@ -2,7 +2,7 @@
   <toggle class="status-toggle" ng-model="selectedIntegration.active"
   confirm-disable-message="{{'integration.details.disable.confirm' | translate}}"
   confirm-enable-message="{{'integration.details.enable.confirm' | translate}}"
-  ng-disabled="!('MANAGE_ALL_PROVIDERS' | hasPermission) || selectedIntegration.type === 'plivo'"
+  ng-disabled="!('MANAGE_ALL_PROVIDERS' | hasPermission)"
   on-confirm="updateActive()"></toggle>
 
   <div class="info">
