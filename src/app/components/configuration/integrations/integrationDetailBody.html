@@ -38,7 +38,6 @@
         <toggle ng-required="true" ng-model="selectedIntegration.properties.webRtc" ng-disabled="!('MANAGE_ALL_PROVIDERS' | hasPermission)"/>
       </div>
     </div>
-     <h3 class='not-ready' ng-if="selectedIntegration.type == 'plivo'">Plivo integration is not yet available.</h3>
   </div>
 
   <div ng-if="selectedIntegration.type == 'client'">
