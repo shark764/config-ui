@@ -289,6 +289,7 @@
   "queues.query.builder.escalation.time.required": "Time in queue is required",
   "queues.query.builder.escalation.time.min": "Time in queue must be greater then the previous value",
   "queues.query.builder.filters.label": "Add a filter",
+  "queues.query.builder.filters.none": "No filters present.",
   "queues.query.builder.filters.placeholder": "Select filter...",
   "queues.query.builder.filters.remove": "(remove filter)",
   "queues.query.builder.after.seconds": "If call is not answered within",

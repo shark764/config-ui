@@ -97,13 +97,19 @@
 
             <readonly-query query="version.query">
 
+<<<<<<< c05ba2cf6c93a1ceec325622919507e9f3443904
               <div id="version-basic-query-details" ng-show="showBasicQuery" class="input-group">
+=======
+              <!-- Basic Query -->
+              <div id="version-basic-query-details" ng-show="!qc.showBasicQuery" class="input-group">
+>>>>>>> Working on query builder bugs
                 <label class="textarea-label disabled">{{'queue.details.version.query.basic.title' | translate}}</label>
                 <a class="show-advanced-link"
-                  ng-show="showBasicQuery"
-                  ng-click="showBasicQuery = false;">
+                  ng-show="!qc.showBasicQuery"
+                  ng-click="qc.showBasicQuery = !qc.showBasicQuery;">
                       {{'queue.details.version.query.advanced.link' | translate}}
                 </a>
+<<<<<<< c05ba2cf6c93a1ceec325622919507e9f3443904
 
                 <p class="null" ng-show="!ednQuery">{{'queue.details.version.query.basic.invalid' | translate}}</p>
 
@@ -126,10 +132,17 @@
               </div>
 
               <div class="input-group advanced-query-readonly" ng-show="!showBasicQuery">
+=======
+                <query-builder query-string="query" entities="qc.entities" read-only="true"></query-builder>
+              </div>
+
+              <!-- Advanced Query -->
+              <div class="input-group advanced-query-readonly" ng-show="qc.showBasicQuery">
+>>>>>>> Working on query builder bugs
                 <label class="textarea-label disabled">{{'queue.details.version.query.advanced.title' | translate}}</label>
                 <a class="show-basic-link"
-                  ng-show="! showBasicQuery"
-                  ng-click="showBasicQuery = true;">
+                  ng-show="qc.showBasicQuery"
+                  ng-click="qc.showBasicQuery = !qc.showBasicQuery;">
                     {{'queue.details.version.query.basic.link' | translate}}
                 </a>
                 <textarea id="advanced-query-field" ng-disabled="true" type="text" ng-model="query" name="query"></textarea>

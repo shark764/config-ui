@@ -1,15 +1,24 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-    .controller('queryBuilderController', ['$rootScope', '$translate', '$scope', 'Modal', 'ZermeloService', 'Skill', 'Group', 'TenantUser', 'Session', function($rootScope, $translate, $scope, Modal, ZermeloService, Skill, Group, TenantUser, Session) {
+    .controller('queryBuilderController', ['$rootScope', '$timeout', '$translate', '$q', '$scope', 'Modal', 'ZermeloService', 'Session', function($rootScope, $timeout, $translate, $q, $scope, Modal, ZermeloService, Skill, Group, TenantUser, Session) {
     var vm = this;
     vm.isAdvancedMode = false;
     vm.advancedQuery = $scope.queryString;
     vm.query = ZermeloService.parseString(vm.advancedQuery);
+    vm.loading = true;
 
-    vm.skills = Skill.cachedQuery({tenantId: Session.tenant.tenantId});
-    vm.groups = Group.cachedQuery({tenantId: Session.tenant.tenantId});
-    vm.users = TenantUser.cachedQuery({tenantId: Session.tenant.tenantId});
+    console.log("SCOPE: ", $scope)
+
+    vm.skills = $scope.entities[0];
+    vm.groups = $scope.entities[1];
+    vm.users = $scope.entities[2];
+
+    var promises = [vm.skills, vm.groups, vm.users];
+
+    $q.all(promises).then(function() {
+      vm.loading = false;
+    });
 
     $rootScope.$on('queue.query.reset', function() {
       vm.query = ZermeloService.resetQuery();
