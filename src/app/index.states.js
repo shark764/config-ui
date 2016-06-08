@@ -128,13 +128,10 @@ angular.module('liveopsConfigPanel')
           template: '<ui-view />'
         })
         .state('content.configuration.dispositions', {
-          url: '/dispositions?index',
-          templateUrl: 'app/components/configuration/genericItems/genericItems.html',
-          controller: 'genericItemsController',
+          url: '/dispositions?id',
+          templateUrl: 'app/components/configuration/dispositions/dispositions.html',
+          controller: 'dispositionsController as dc',
           reloadOnSearch: false,
-          params: {
-            listId: 'c9d31830-9499-11e5-b3ac-c1ae7ae4ed37',
-          },
           resolve: {
             hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
               return UserPermissions.resolvePermissions(PermissionGroups.accessAllLists);
@@ -142,16 +139,13 @@ angular.module('liveopsConfigPanel')
           }
         })
         .state('content.configuration.reasons', {
-          url: '/reasons?index',
-          templateUrl: 'app/components/configuration/genericItems/genericItems.html',
-          controller: 'genericItemsController',
+          url: '/reasons?id',
+          templateUrl: 'app/components/configuration/reasons/reasons.html',
+          controller: 'reasonsController as rc',
           reloadOnSearch: false,
-          params: {
-            listId: 'c9d31830-9499-11e5-b3ac-c1ae7ae4ed37',
-          },
           resolve: {
             hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
-              return UserPermissions.resolvePermissions(PermissionGroups.accessAllLists);
+              return UserPermissions.resolvePermissions(PermissionGroups.accessReasons);
             }]
           }
         })
