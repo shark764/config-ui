@@ -653,5 +653,7 @@
   "realtimeDashboards.form.createWidget": "Create Widget",
   "realtimeDashboards.form.saveDashboard": "Save Dashboard",
   "realtimeDashboards.form.saveDashboard.success": "Dashboard saved successfully!",
-  "realtimeDashboards.form.saveDashboard.failure": "Dashboard failed to save."
+  "realtimeDashboards.form.saveDashboard.failure": "Dashboard failed to save.",
+
+  "customStats.table.title": "Custom Stats"
 }

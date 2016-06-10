@@ -621,7 +621,62 @@ angular.module('liveopsConfigPanel')
                 tenantId: Session.tenant.tenantId
               }, function(flows) {
                 deferred.resolve(flows);
+                });
               });
+              return deferred.promise;
+            }]
+          }
+        })
+        .state('content.custom-stats-management', {
+          url: '/custom-stats',
+          templateUrl: 'app/components/reporting/customStats/customStatsManagement.html',
+          controller: 'CustomStatsManagementController',
+          resolve: {
+            stats: ['CustomStat', 'Session', '$q', function(CustomStat, Session, $q) {
+              var deferred = $q.defer();
+              CustomStat.query({
+                tenantId: Session.tenant.tenantId
+              }, function(stats) {
+                deferred.resolve(stats);
+              });
+              return deferred.promise;
+            }]
+          }
+        })
+        .state('content.custom-stats.editor', {
+          url: '/editor/:customStatId/:draftId',
+          templateUrl: 'app/components/reporting/customStats/customStatsEditor/customStatsEditor.html',
+          controller: 'customStatsEditorController',
+          resolve: {
+            customStat: ['$stateParams', 'Session', 'CustomStat', '$q', function($stateParams, Session, CustomStat, $q) {
+              var deferred = $q.defer();
+              var customStat;
+
+              delete $stateParams.id;
+              
+              CustomStat.get({
+                tenantId: Session.tenant.tenantId,
+                id: $stateParams.customStatId
+              }, function(data) {
+                customStat = data;
+                deferred.resolve(customStat);
+              });
+
+              return deferred.promise;
+            }],
+            draft: ['$stateParams', 'CustomStatDraft', 'Session', '$q', function($stateParams, CustomStatDraft, Session, $q) {
+              var deferred = $q.defer();
+              var draft;
+
+              CustomStatDraft.get({
+                customStatId: $stateParams.customStatId,
+                id: $stateParams.draftId,
+                tenantId: Session.tenant.tenantId
+              }, function(data) {
+                draft = data;
+                deferred.resolve(draft);
+              });
+
               return deferred.promise;
             }]
           }

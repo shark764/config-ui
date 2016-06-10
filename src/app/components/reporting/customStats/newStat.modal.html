@@ -1,0 +1,18 @@
+<div class="publish">
+  <h3 class="header">{{title}}</h3>
+  <ng-form name="forms.newStat" lo-form-submit>
+    <div class="publish-body">
+      <div class="input-group">
+        <label>Name</label>
+        <form-error field="forms.newStat.name"
+          error-type-required="Please enter a stat name"></form-error>
+        <input type="text" ng-model="stat.name" name="name" ng-required="true"/>
+      </div>
+    </div>
+    
+    <div class="footer">
+      <input type="button" id="modal-cancel" class="btn" ng-click="cancelCallback()" value="{{'value.cancel' | translate}}"/>
+      <input type="submit" id="modal-ok" class="btn btn-primary" lo-submit="okCallback(stat)" ng-disabled="forms.newStat.$invalid">
+    </div>
+  </ng-form>
+</div>

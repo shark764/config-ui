@@ -253,6 +253,12 @@ angular.module('liveopsConfigPanel')
             stateLink: 'content.recordings',
             id: 'recording-management-link',
             order: 4
+          },
+          {
+            label: 'Custom Stats',
+            stateLink: 'content.custom-stats-management',
+            id: 'custom-stats-management-link',
+            order: 5
           }
         ];
 
