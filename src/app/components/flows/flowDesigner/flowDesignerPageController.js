@@ -13,7 +13,6 @@ angular.module('liveopsConfigPanel')
       }
 
       var parsedNotations = FlowNotationService.parseNotations(notations);
-
       FlowLibrary.loadData(parsedNotations, platformFlow);
 
       lodash.each(FlowResource.getFlows(), function(flow){
