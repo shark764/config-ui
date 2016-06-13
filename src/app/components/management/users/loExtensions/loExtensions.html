@@ -52,13 +52,13 @@
 
       <div class="lo-extension-table-col small-col" dnd-nodrag>
         <a ng-click="lec.editingExtension = extension"
-          ng-hide="extension.type === 'webrtc' && extension.provider === 'twilio'">
+          ng-show="extension.type === 'pstn' || extension.type === 'sip'">
             ({{'value.edit' | translate}})
         </a>
       </div>
       <div class="lo-extension-table-col control-col" dnd-nodrag>
         <i class="fa fa-close remove"
-          ng-hide="extension.type === 'webrtc' && extension.provider === 'twilio'"
+          ng-show="extension.type === 'pstn' || extension.type === 'sip'"
           ng-disabled="ngDisabled"
           ng-click="remove(extension)"
           title="{{'value.remove' | translate}}">
