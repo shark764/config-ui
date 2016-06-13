@@ -57,46 +57,4 @@
       </div>
     </div>
   </div>
-
-  <div ng-if="selectedIntegration.type == 'birst'">
-    <div class="input-group">
-      <label>{{'integration.details.properties.birstSpaceId' | translate}} *</label>
-      <form-error field="forms.detailsForm.birstSpaceId" error-type-required="{{'integration.birstSpaceId.error' | translate}}" error-type-uuid="{{'integration.birstSpaceId.uuid.error' | translate}}"></form-error>
-      <div>
-        <input uuid ng-required="true" type="text" ng-model="selectedIntegration.properties.birstSpaceId" name="birstSpaceId"/>
-      </div>
-    </div>
-
-    <div class="input-group">
-      <label>{{'integration.details.properties.birstSsoPassword' | translate}} *</label>
-      <form-error field="forms.detailsForm.birstSsoPassword" error-type-required="{{'integration.birstSsoPassword.error' | translate}}" ></form-error>
-      <div>
-        <input ng-required="true" type="password" ng-model="selectedIntegration.properties.birstSsoPassword" name="birstSsoPassword"/>
-      </div>
-    </div>
-
-    <div class="input-group">
-      <label>{{'integration.details.properties.birstBaseUrl' | translate}} *</label>
-      <form-error field="forms.detailsForm.birstBaseUrl" error-type-required="{{'integration.birstBaseUrl.error' | translate}}" ></form-error>
-      <div>
-        <input ng-required="true" type="text" ng-model="selectedIntegration.properties.birstBaseUrl" name="birstBaseUrl"/>
-      </div>
-    </div>
-
-    <div class="input-group">
-      <label>{{'integration.details.properties.birstAdminPassword' | translate}} *</label>
-      <form-error field="forms.detailsForm.birstAdminPassword" error-type-required="{{'integration.birstAdminPassword.error' | translate}}" ></form-error>
-      <div>
-        <input ng-required="true" type="password" ng-model="selectedIntegration.properties.birstAdminPassword" name="birstAdminPassword"/>
-      </div>
-    </div>
-
-    <div class="input-group">
-      <label>{{'integration.details.properties.birstAdminUsername' | translate}} *</label>
-      <form-error field="forms.detailsForm.birstAdminUsername" error-type-required="{{'integration.birstAdminUsername.error' | translate}}" ></form-error>
-      <div>
-        <input ng-required="true" type="text" ng-model="selectedIntegration.properties.birstAdminUsername" name="birstAdminUsername"/>
-      </div>
-    </div>
-  </div>
 </div>

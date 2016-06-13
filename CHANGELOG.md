@@ -10,6 +10,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 * CXV1-1993 - Clean up edit panel/text alignment
 * Bumping Flow designer
 * CXV1-2543 - re-enable Plivo
+* CXV1-2396 - Hide birst integration details from UI
 
 ## [3.1.10]
 * Update realtime dashboards to 3.0.3
