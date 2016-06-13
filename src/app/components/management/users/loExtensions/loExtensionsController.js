@@ -68,6 +68,7 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.moved = function(index) {
+
         $scope.tenantUser.extensions.splice(index, 1);
 
         var defaultExtension = $scope.tenantUser.extensions[0];
@@ -84,7 +85,7 @@ angular.module('liveopsConfigPanel')
           $scope.tenantUser.activeExtension = extension;
 
         }
-        
+
       };
 
       $scope.createExtension = function(){
