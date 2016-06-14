@@ -256,8 +256,8 @@ angular.module('liveopsConfigPanel')
           },
           {
             label: 'Custom Stats',
-            stateLink: 'content.custom-stats-management',
-            id: 'custom-stats-management-link',
+            stateLink: 'content.custom-stats',
+            id: 'custom-stats-link',
             order: 5
           }
         ];

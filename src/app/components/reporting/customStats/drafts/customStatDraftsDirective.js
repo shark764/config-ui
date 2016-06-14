@@ -7,7 +7,7 @@ angular.module('liveopsConfigPanel')
         customStat: '=',
         drafts: '='
       },
-      templateUrl: 'app/components/customStats/customStatManagement/drafts/customStatDrafts.html',
-      controller: 'FlowDraftsController'
+      templateUrl: 'app/components/reporting/customStats/drafts/customStatDrafts.html',
+      controller: 'CustomStatDraftsController'
     };
   }]);

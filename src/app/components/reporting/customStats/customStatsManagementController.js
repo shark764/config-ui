@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('CustomStatsManagementController', ['$scope', '$state', '$document', '$compile', 'Session', 'CustomStat', 'customStatsManagementTableConfig', 'CustomStatDraft', 'CustomStatVersion', 'loEvents', '$q','Alert',
+  .controller('customStatsManagementController', ['$scope', '$state', '$document', '$compile', 'Session', 'CustomStat', 'customStatsManagementTableConfig', 'CustomStatDraft', 'CustomStatVersion', 'loEvents', '$q','Alert',
     function ($scope, $state, $document, $compile, Session, CustomStat, customStatsManagementTableConfig, CustomStatDraft, CustomStatVersion, loEvents, $q, Alert) {
 
       $scope.getVersions = function(){
@@ -30,7 +30,7 @@ angular.module('liveopsConfigPanel')
         _.remove(stats, function (stat) {
           return stat.tenantId !== Session.tenant.tenantId;
         });
-
+        
         return stats;
       };
 
@@ -58,7 +58,7 @@ angular.module('liveopsConfigPanel')
 
           return newFlow.save().then(function(draft){
             $document.find('modal').remove();
-            $state.go('content.custom-stat-management.editor', {
+            $state.go('content.custom-stats.editor', {
               customStatId: draft.customStatId,
               draftId: draft.id
             });
@@ -103,7 +103,7 @@ angular.module('liveopsConfigPanel')
 
             var promise = initialDraft.save();
             return promise.then(function(draft){
-              $state.go('content.custom-stat-management.editor', {
+              $state.go('content.custom-stats.editor', {
                 customStatId: customStat.id,
                 draftId: draft.id
               });

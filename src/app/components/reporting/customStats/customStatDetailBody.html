@@ -13,17 +13,6 @@
     </div>
   </div>
 
-  <div class="input-group">
-    <label>{{'value.type' | translate}} <span ng-if="selectedStat.isNew()">*</span></label>
-    <form-error field="forms.detailsForm.type" error-type-required="{{'stat.details.type.error' | translate}}"></form-error>
-    <div>
-      <select ng-required="selectedStat.isNew()" name="type" ng-model="selectedStat.type"
-        ng-options="type.value as type.display for type in statTypes">
-        <option disabled value="">{{'stat.type.choose' | translate}}</option>
-      </select>
-    </div>
-  </div>
-
   <div ng-if="(! selectedStat.isNew())" class="input-group">
     <label>{{'value.version' | translate}} <span ng-show="getVersions().length > 0">*</span></label>
     <form-error field="forms.detailsForm.activeVersion"
@@ -49,6 +38,6 @@
 </div>
 
 <div ng-if="! selectedStat.isNew()" class="details-group">
-  <stat-versions stat="selectedStat" on-edit-click="newDraftModal(version)"></stat-versions>
-  <stat-drafts stat="selectedStat" drafts="drafts"></stat-drafts>
+  <custom-stat-versions customStat="selectedStat" on-edit-click="newDraftModal(version)"></custom-stat-versions>
+  <custom-stat-drafts customStat="selectedStat" drafts="drafts"></custom-stat-drafts>
 </div>

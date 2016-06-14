@@ -8,13 +8,13 @@ angular.module('liveopsConfigPanel')
           'header': {
             'display': $translate.instant('value.name')
           },
-          'name': 'name'
+          'name': '$original.name'
         }],
-        'searchOn': ['name'],
-        'orderBy': 'name',
+        'searchOn': ['$original.name'],
+        'orderBy': '$original.name',
         'helpLink': helpDocsHostname + '/Help/Content/Reporting/Realtime/Realtime_Report_Types.htm',
         'title': $translate.instant('customStats.table.title'),
-        'sref': 'content.custom-stats-management',
+        'sref': 'content.custom-stats',
         'showBulkActions': false,
         'showCreate': true
       };

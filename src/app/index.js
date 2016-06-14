@@ -19,7 +19,8 @@ angular.module('liveopsConfigPanel', [
     'ngFileUpload',
     'dndLists',
     'angular-momentjs',
-    'agent-toolbar'
+    'agent-toolbar',
+    'ui.codemirror'
   ])
   .config(['$translateProvider', 'toastrConfig',
     function($translateProvider, toastrConfig) {

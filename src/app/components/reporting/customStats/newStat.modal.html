@@ -6,13 +6,13 @@
         <label>Name</label>
         <form-error field="forms.newStat.name"
           error-type-required="Please enter a stat name"></form-error>
-        <input type="text" ng-model="stat.name" name="name" ng-required="true"/>
+        <input type="text" ng-model="customStat.name" name="name" ng-required="true"/>
       </div>
     </div>
     
     <div class="footer">
       <input type="button" id="modal-cancel" class="btn" ng-click="cancelCallback()" value="{{'value.cancel' | translate}}"/>
-      <input type="submit" id="modal-ok" class="btn btn-primary" lo-submit="okCallback(stat)" ng-disabled="forms.newStat.$invalid">
+      <input type="submit" id="modal-ok" class="btn btn-primary" lo-submit="okCallback(customStat)" ng-disabled="forms.newStat.$invalid">
     </div>
   </ng-form>
 </div>
