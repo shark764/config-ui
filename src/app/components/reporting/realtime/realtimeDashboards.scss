@@ -105,7 +105,7 @@ lo-resource-table {
   position: relative;
   z-index: 1;
   margin-top: 10px;
-  margin-right: 280px;
+  margin-right: 10px;
   float:right;
 }
 
@@ -115,6 +115,7 @@ lo-resource-table {
 
 .subhead-right dropdown {
   font-size: 1.2rem;
+  margin-right: 10px;
 }
 
 .dashboard-save {
@@ -131,6 +132,10 @@ lo-resource-table {
   width: 45%;
   float: left;
   margin-top: 20px;
+}
+
+.widget-form {
+  padding: 10px;
 }
 
 .selector-title {
@@ -211,8 +216,6 @@ div[gridster-item] {
         display: inline-block;
         margin: 0;
         position: relative;
-        top: 5px;
-        padding: 0 0 10px 0;
 
         #{$queryDashboardSelector} {
           padding-right: 20px;

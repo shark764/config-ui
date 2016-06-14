@@ -210,8 +210,6 @@ div[gridster-item] {
         display: inline-block;
         margin: 0;
         position: relative;
-        top: 5px;
-        padding: 0 0 10px 0;
 
         #{$queryDashboardSelector} {
           padding-right: 20px;
