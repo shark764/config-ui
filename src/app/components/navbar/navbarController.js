@@ -232,10 +232,10 @@ angular.module('liveopsConfigPanel')
       };
 
       vm.getReportingConfig = function() {
-        return [
+        var items = [
           {
             label: $translate.instant('navbar.reports.rtd.title'),
-            stateLink: 'content.realtime-dashboards-management.editor({id: "overview-dashboard"})',
+            stateLink: 'content.realtime-dashboards-management.viewer({dashboardId: "overview-dashboard"})',
             id: 'realtime-dashboard-link',
             order: 1
           },
@@ -246,15 +246,26 @@ angular.module('liveopsConfigPanel')
               id: 'historical-dashboards'
             },
             id: 'reports-management-link',
-            order: 2
+            order: 3
           },
           {
             label: 'Recordings',
             stateLink: 'content.recordings',
             id: 'recording-management-link',
-            order: 3
+            order: 4
           }
         ];
+
+        if (UserPermissions.hasPermissionInList(PermissionGroups.accessAllRealtimeDashboards)) {
+          items.push({
+            label: $translate.instant('navbar.reports.rtdCustom.title'),
+            stateLink: 'content.realtime-dashboards-management',
+            id: 'custom-realtime-dashboard-link',
+            order: 2
+          });
+        }
+
+        return items;
       };
 
       vm.updateTopbarConfig = function() {

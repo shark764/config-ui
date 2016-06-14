@@ -1,3 +1,4 @@
+@import "../../node_modules/c3/c3.min.css";
 $queryDashboardSelector: 'body #queues-dashboard .gridster &';
 
 *, div {
@@ -93,26 +94,26 @@ lo-resource-table {
   display:inline-block;
   padding: 8px 18px;
   position: relative;
-  z-index: 6;
+  z-index: 1;
 }
 
-.rt-subhead dropdown {
+.subhead dropdown {
   font-size: 1.5rem;
 }
 
-.rt-subhead-right {
+.subhead-right {
   position: relative;
-  z-index: 6;
+  z-index: 1;
   margin-top: 10px;
   margin-right: 280px;
   float:right;
 }
 
-.rt-subhead-right::after {
+.subhead-right::after {
   clear:both;
 }
 
-.rt-subhead-right dropdown {
+.subhead-right dropdown {
   font-size: 1.2rem;
 }
 

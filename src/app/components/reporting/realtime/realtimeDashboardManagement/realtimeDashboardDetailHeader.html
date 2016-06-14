@@ -1,0 +1,37 @@
+<div ng-if="! selectedDashboard.isNew()">
+  <toggle class="status-toggle" ng-model="selectedDashboard.active" 
+  confirm-disable-message="{{'realtimeDashboards.details.disable.confirm' | translate}}"
+  confirm-enable-message="{{'realtimeDashboards.details.enable.confirm' | translate}}"
+  ng-disabled="! ('MANAGE_ALL_REALTIME_DASHBOARDS' | hasPermission)"
+  on-confirm="updateActive()"></toggle>
+
+  <div class="info">
+    <h1>{{selectedDashboard.$original.name}}</h1>
+    <div class="details" ng-if="['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_USERS', 'MANAGE_ALL_USER_EXTENSIONS', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_ALL_USER_LOCATIONS', 'MANAGE_TENANT_ENROLLMENT'] | hasPermission">
+      <b audit-text
+        translation="value.createdby.time"
+        user-id="selectedDashboard.$original.createdBy"
+        date="selectedDashboard.$original.created">
+      </b>
+      <br/>
+      <b audit-text ng-if="!!selectedDashboard.$original.updatedBy"
+        translation="value.updatedby"
+        user-id="selectedDashboard.$original.updatedBy"
+        date="selectedDashboard.$original.updated">
+      </b>
+    </div>
+    <div class="details" ng-if="!(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_USERS', 'MANAGE_ALL_USER_EXTENSIONS', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_ALL_USER_LOCATIONS', 'MANAGE_TENANT_ENROLLMENT'] | hasPermission)">
+      <b audit-text
+        translation="value.createdon.time"
+        date="selectedDashboard.$original.created">
+      </b>
+      <br/>
+      <b audit-text ng-if="!!selectedDashboard.$original.updated"
+        translation="value.updatedon"
+        date="selectedDashboard.$original.updated">
+      </b>
+    </div>
+  </div>
+</div>
+
+<h1 ng-if="selectedDashboard.isNew()">{{'realtimeDashboards.details.creating' | translate}}</h1>

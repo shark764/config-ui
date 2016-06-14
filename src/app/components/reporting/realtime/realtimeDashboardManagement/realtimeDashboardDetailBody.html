@@ -1,0 +1,18 @@
+<div class="divider-header first-header">
+  <h4>{{'details' | translate}}</h4>
+</div>
+
+<div disable-contents="! ('MANAGE_ALL_REALTIME_DASHBOARDS' | hasPermission)">
+  <div class="input-group">
+    <label>{{'value.name' | translate}} *</label>
+    <form-error field="forms.detailsForm.name"
+      error-type-required="{{'realtimeDashboards.details.name.error' | translate}}">
+    </form-error>
+    <div>
+      <input type="text" ng-required="true" ng-model="selectedDashboard.name" name="name"></input>
+    </div>
+  </div>
+  <div class="input-group">
+    <input class="btn btn-primary pull-right edit-dashboard" type="submit" ng-click="openDashboard(selectedDashboard.id)" value="{{'value.openDashboard' | translate}}" />
+  </div>
+</div>

@@ -468,10 +468,16 @@ angular.module('liveopsConfigPanel')
           }
         })
         .state('content.realtime-dashboards-management', {
-          url: '/realtime-dashboards',
-          templateUrl: 'app/components/reporting/realtime/realtimeDashboardsManagement.html',
+          url: '/realtime-dashboards?id',
+          templateUrl: 'app/components/reporting/realtime/realtimeDashboardManagement/realtimeDashboardsManagement.html',
           controller: 'RealtimeDashboardsManagementController',
+          reloadOnSearch: false,
           resolve: {
+            hasPermission: ['UserPermissions', function(UserPermissions) {
+              return UserPermissions.resolvePermissions([
+                'VIEW_ALL_REALTIME_DASHBOARDS'
+              ]);
+            }],
             dashboards: ['RealtimeDashboardsSettings', function(RealtimeDashboardsSettings) {
               return _.filter(RealtimeDashboardsSettings.mockDashboards, function(dash) {
                 return dash.enabled === true;
@@ -480,14 +486,84 @@ angular.module('liveopsConfigPanel')
           }
         })
         .state('content.realtime-dashboards-management.editor', {
-          url: '/editor?id',
+          url: '/editor/:dashboardId',
           templateUrl: 'app/components/reporting/realtime/realtimeDashboardEditor/realtimeDashboardsEditor.html',
           controller: 'realtimeDashboardsEditorController',
           resolve: {
+            hasPermission: ['UserPermissions', function(UserPermissions) {
+              return UserPermissions.resolvePermissions([
+                'VIEW_ALL_REALTIME_DASHBOARDS',
+                'MANAGE_ALL_REALTIME_DASHBOARDS'
+              ]);
+            }],
+            dashboard: ['$stateParams', 'Session', 'RealtimeDashboard', 'RealtimeDashboardsSettings', '$q', function($stateParams, Session, RealtimeDashboard, RealtimeDashboardsSettings, $q) {
+              var deferred = $q.defer();
+              var dashboard;
+
+              delete $stateParams.id;
+
+              RealtimeDashboard.get({
+                tenantId: Session.tenant.tenantId,
+                id: $stateParams.dashboardId
+              }, function(data) {
+                dashboard = data;
+                deferred.resolve(dashboard);
+              });
+
+              return deferred.promise;
+            }],
+            dashboards: ['RealtimeDashboardsSettings', function(RealtimeDashboardsSettings) {
+              return _.filter(RealtimeDashboardsSettings.mockDashboards, function(dash) {
+                return dash.enabled === true;
+              });
+            }],
+            queues: ['Queue', 'Session', '$q', function(Queue, Session, $q) {
+              var deferred = $q.defer();
+              Queue.query({
+                tenantId: Session.tenant.tenantId
+              }, function(queues) {
+                deferred.resolve(queues);
+              });
+              return deferred.promise;
+            }],
+            users: ['TenantUser', 'Session', '$q', function(TenantUser, Session, $q) {
+              var deferred = $q.defer();
+              TenantUser.query({
+                tenantId: Session.tenant.tenantId
+              }, function(users) {
+                deferred.resolve(users);
+              });
+              return deferred.promise;
+            }],
+
+            flows: ['Flow', 'Session', '$q', function(Flow, Session, $q) {
+              var deferred = $q.defer();
+              Flow.query({
+                tenantId: Session.tenant.tenantId
+              }, function(flows) {
+                deferred.resolve(flows);
+              });
+              return deferred.promise;
+            }]
+          }
+        })
+        .state('content.realtime-dashboards-management.viewer', {
+          url: '/viewer/:dashboardId',
+          templateUrl: 'app/components/reporting/realtime/realtimeDashboards.html',
+          controller: 'RealtimeDashboardsController',
+          reloadOnSearch: false,
+          resolve: {
+            hasPermission: ['UserPermissions', function(UserPermissions) {
+              return UserPermissions.resolvePermissions([
+                'VIEW_ALL_REALTIME_DASHBOARDS'
+              ]);
+            }],
             dashboard: ['$stateParams', 'RealtimeDashboardsSettings', function($stateParams, RealtimeDashboardsSettings) {
               var dashboard = _.filter(RealtimeDashboardsSettings.mockDashboards, function(dash) {
-                return dash.id === $stateParams.id;
+                return dash.id === $stateParams.dashboardId;
               });
+              delete $stateParams.id;
+
               return dashboard[0];
             }],
             dashboards: ['RealtimeDashboardsSettings', function(RealtimeDashboardsSettings) {

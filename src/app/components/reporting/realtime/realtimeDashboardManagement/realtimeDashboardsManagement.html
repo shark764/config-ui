@@ -1,0 +1,64 @@
+<div id="main-content" ui-view>
+  <div id="table-pane">
+    <table-controls
+      config="tableConfig"
+      items="fetchDashboards()"
+      search-query="searchQuery">
+    </table-controls>
+    
+    <lo-resource-table
+      config="tableConfig"
+      items="fetchDashboards()"
+      selected="selectedDashboard"
+      search-query="searchQuery">
+    </lo-resource-table>
+  </div>
+
+  <resize-handle
+    ng-show="!! selectedDashboard"
+    id="resize-pane"
+    right-element-id="right-panel"
+    left-element-id="table-pane"></resize-handle>
+
+  <lo-details-panel
+    id="right-panel"
+    class="right-panel"
+    ng-show="selectedDashboard"
+    ng-resource="selectedDashboard">
+      <ng-form
+        class="details-pane"
+        unsaved-changes-warning
+        name="forms.detailsForm"
+        ng-show="!showBulkActions"
+        ng-resource="selectedDashboard"
+        lo-form-submit lo-form-cancel lo-form-alert>
+
+        <ng-form name="forms.headerForm" separate-validation>
+          <div class="detail-header" ng-include="'app/components/reporting/realtime/realtimeDashboardManagement/realtimeDashboardDetailHeader.html'">
+          </div>
+        </ng-form>
+
+        <div class="detail-body" ng-include="'app/components/reporting/realtime/realtimeDashboardManagement/realtimeDashboardDetailBody.html'">
+        </div>
+
+        <div class="detail-controls">
+          <input id="cancel-details-btn" type="button" class="btn"
+            ng-disabled="selectedDashboard.$busy"
+            value="{{'value.cancel' | translate}}"
+            lo-cancel>
+          </input>
+
+          <input
+            id="submit-details-btn"
+            lo-submit="saveDashboard()"
+            lo-submit-spinner
+            lo-submit-spinner-status="selectedDashboard.$busy"
+            ng-disabled="forms.detailsForm.$pending || forms.detailsForm.$invalid || ! forms.detailsForm.$dirty"
+            class="btn btn-primary"
+            type="submit"
+            value="{{'value.submit' | translate}}" />
+        </div>
+      </ng-form>
+    </div>
+  </lo-details-panel>
+</div>

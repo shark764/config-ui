@@ -7,10 +7,14 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 * CXV1-870 - Query builder for queues rewrite. *NOT PRODUCTION READY* - Contact Josh Stevens before making a release
 * Update Flow designer to 1.10.0 (And put back in removed changes)
 * CXV1-1909 - bug fix changed index to be 0
-* CXV1-1993 - Clean up edit panel/text alignment
 * Bumping Flow designer
 * CXV1-2543 - re-enable Plivo
 * CXV1-2396 - Hide birst integration details from UI
+* CXV1-1993 - Clean up edit panel/text alignment
+* Bumping Flow designer
+* CXV1-2543 - re-enable Plivo
+* Update Realtime Dashboards to 3.1.0 (Includes Custom Realtime Dashboards)
+* Update Config-Shared to 1.1.0
 
 ## [3.1.10]
 * Update realtime dashboards to 3.0.3

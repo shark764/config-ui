@@ -103,6 +103,10 @@ navbar {
           color: white;
         }
       }
+
+      .dropdown {
+        min-width: 220px;
+      }
     }
 
     li:not(#welcome):not(#helpMenu) {
