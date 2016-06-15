@@ -68,10 +68,9 @@ angular.module('liveopsConfigPanel')
 
         var dashboardCopy = new RealtimeDashboard({
           id: $scope.selectedDashboard.id,
-          tenantId: $scope.selectedDashboard.tenantId
+          tenantId: $scope.selectedDashboard.tenantId,
+          active: active
         });
-        
-        dashboardCopy.active = true;
 
         return dashboardCopy.save().then(function(result){
           $scope.selectedDashboard.$original.active = result.active;
