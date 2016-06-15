@@ -87,6 +87,7 @@ lo-resource-table {
 
 .subhead-wrapper {
   box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12);
+  height: 50px;
 }
 
 .subhead {
@@ -104,9 +105,13 @@ lo-resource-table {
 .subhead-right {
   position: relative;
   z-index: 1;
-  margin-top: 10px;
+  margin-top: 5px;
   margin-right: 10px;
   float:right;
+
+  button {
+    height: 40px;
+  }
 }
 
 .subhead-right::after {

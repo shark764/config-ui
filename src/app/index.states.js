@@ -558,18 +558,43 @@ angular.module('liveopsConfigPanel')
                 'VIEW_ALL_REALTIME_DASHBOARDS'
               ]);
             }],
-            dashboard: ['$stateParams', 'RealtimeDashboardsSettings', function($stateParams, RealtimeDashboardsSettings) {
-              var dashboard = _.filter(RealtimeDashboardsSettings.mockDashboards, function(dash) {
-                return dash.id === $stateParams.dashboardId;
-              });
+            dashboard: ['$stateParams', '$state', 'RealtimeDashboardsSettings', 'RealtimeDashboard', 'Session', '$q', function($stateParams, $state, RealtimeDashboardsSettings, RealtimeDashboard, Session, $q) {
+
               delete $stateParams.id;
 
-              return dashboard[0];
-            }],
-            dashboards: ['RealtimeDashboardsSettings', function(RealtimeDashboardsSettings) {
-              return _.filter(RealtimeDashboardsSettings.mockDashboards, function(dash) {
-                return dash.enabled === true;
+              var deferred = $q.defer();
+
+              RealtimeDashboard.query({
+                tenantId: Session.tenant.tenantId,
+              }, function(data) {
+                var dashboards = _.filter(_.union(data, RealtimeDashboardsSettings.mockDashboards), function(dash) {
+                  return dash.id === $stateParams.dashboardId;
+                });
+
+                if (_.isEmpty(dashboards)) {
+                  dashboards = _.filter(RealtimeDashboardsSettings.mockDashboards, function(dash) {
+                    return dash.id === 'overview-dashboard';
+                  });
+                }
+
+                deferred.resolve(_.first(dashboards));
               });
+
+              return deferred.promise;
+            }],
+            dashboards: ['RealtimeDashboardsSettings', 'RealtimeDashboard', 'Session', '$q', function(RealtimeDashboardsSettings, RealtimeDashboard, Session, $q) {
+              var deferred = $q.defer();
+
+              RealtimeDashboard.query({
+                tenantId: Session.tenant.tenantId,
+              }, function(data) {
+                var dashboards = _.filter(_.union(data, RealtimeDashboardsSettings.mockDashboards), function(dash) {
+                  return dash.enabled === true || dash.active === true;
+                });
+                deferred.resolve(_.sortBy(dashboards, 'name'));
+              });
+
+              return deferred.promise;
             }],
             queues: ['Queue', 'Session', '$q', function(Queue, Session, $q) {
               var deferred = $q.defer();
