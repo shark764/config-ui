@@ -14,5 +14,12 @@ div .CodeMirror {
 	padding: 8px 18px;
 	position: relative;
 	z-index: 6;
-	box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16);
+}
+
+.saved-wrapper, .publish-wrapper {
+	display: inline-block;
+}
+
+.publish-wrapper {
+	padding: 0px 20px;
 }

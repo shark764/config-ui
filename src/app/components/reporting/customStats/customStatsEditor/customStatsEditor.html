@@ -10,9 +10,9 @@
         <p>{{saveStatus}}</p>
       </div>
       <div class="publish-wrapper" ng-hide="readOnly">
-        <button ng-disabled="!enablePublish" ng-click="publishNewFlowVersion()" class="btn btn-primary">Publish</button>
+        <button ng-disabled="!enablePublish" ng-click="publishNewStatVersion()" class="btn btn-primary">Publish</button>
       </div>
     </div>
   </div>
-  <div ui-codemirror="editorHTML" id="editorHTML" ng-model="code"></div>
+  <div ui-codemirror="editorHTML" id="editorHTML" ng-model="draft.customStat"></div>
 </div>

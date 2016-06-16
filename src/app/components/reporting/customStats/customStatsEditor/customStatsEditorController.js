@@ -1,10 +1,18 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-.controller('customStatsEditorController', ['$scope', '$timeout', '$state', 'FullscreenService', 'TableMiddlewareService',
-  function($scope, $timeout, $state, FullscreenService, TableMiddlewareService) {
+.controller('customStatsEditorController', ['$scope', '$interval', '$document', '$state', '$moment', '$compile', 'Session', 'FullscreenService', 'TableMiddlewareService', 'CustomStat', 'CustomStatDraft', 'CustomStatVersion', 'customStat', 'draft', 'Alert',
+  function($scope, $interval, $document, $state, $moment, $compile, Session, FullscreenService, TableMiddlewareService, CustomStat, CustomStatDraft, CustomStatVersion, customStat, draft, Alert) {
     
-    $scope.toggleFullscreen = FullscreenService.toggleFullscreen;
+    $scope.draft = draft;
+    $scope.customStat = customStat;
+
+    $scope.saveStatus = 'Last saved ' + $moment.utc($scope.draft.updated).fromNow();
+    $scope.enablePublish = true;
+
+    $scope.$on('$destroy', function(){
+      $interval.cancel(update);
+    });
 
     $scope.editorHTML = {
       lineNumbers: true,
@@ -22,6 +30,76 @@ angular.module('liveopsConfigPanel')
       indentWithTabs: false
     };
 
-    $scope.code = "";
+    var update = $interval(function(){
+      $scope.saveStatus = 'Saving...';
+      $scope.editorHTML.readOnly = true;
+      $scope.enablePublish = false;
+
+      var request = $scope.draft.save();
+
+      request.then(function(draft) {
+        $scope.editorHTML.readOnly = false;
+        $scope.enablePublish = true;
+        $scope.draft = draft;
+        $scope.saveStatus = 'Last saved ' + moment.utc($scope.draft.updated).fromNow();
+      });
+    }, 30000);
+  
+    $scope.publishNewStatVersion = function() {
+      if ($scope.draft.customStat.length === 0) { return; }
+
+      var newScope = $scope.$new();
+
+      newScope.modalBody = 'app/components/reporting/customStats/customStatsEditor/publish.modal.html';
+      newScope.title = 'Publish';
+      newScope.stat = {
+        name: $scope.draft.name,
+        active: true
+      };
+      newScope.version = {
+        name: '',
+        description: ''
+      };
+
+      newScope.okCallback = function(stat, version){
+
+        var _version = new CustomStatVersion({
+          customStat: $scope.draft.customStat,
+          description: '',
+          name: version.name,
+          tenantId: Session.tenant.tenantId,
+          customStatId: $scope.draft.customStatId
+        });
+
+        _version.save(function(v){
+          $document.find('modal').remove();
+          Alert.success('New flow version successfully created.');
+          $scope.draft.$delete().then(function(){
+            $scope.customStat.$update({
+              name: customStat.name,
+              activeVersion: (customStat.active) ? v.version : customStat.activeVersion
+            }).then(function(){
+              $state.go('content.custom-stats', {}, {reload: true});
+            });
+          });
+
+        }, function(error) {
+          if (error.data.error.attribute === null) {
+            Alert.error('API rejected this flow -- likely invalid Alienese.', JSON.stringify(error, null, 2));
+          } else if (error.data.error.attribute.flow.message === 'Error parsing') {
+            $document.find('modal').remove();
+            Alert.error('API rejected this flow -- please verify your conditional statements are correct.');
+          } else {
+            Alert.error('API rejected this flow -- some other reason...', JSON.stringify(error, null, 2));
+          }
+        });
+      };
+      newScope.cancelCallback = function(){
+        $document.find('modal').remove();
+      };
+
+      var element = $compile('<modal></modal>')(newScope);
+      $document.find('html > body').append(element);
+    };
   }
 ]);
