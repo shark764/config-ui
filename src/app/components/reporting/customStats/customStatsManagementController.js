@@ -30,7 +30,7 @@ angular.module('liveopsConfigPanel')
         _.remove(stats, function (stat) {
           return stat.tenantId !== Session.tenant.tenantId;
         });
-        
+
         return stats;
       };
 
@@ -48,7 +48,7 @@ angular.module('liveopsConfigPanel')
         };
 
         newScope.okCallback = function(draft) {
-          var newCustomStat = new CustomStatDraft({
+          var newStat = new CustomStatDraft({
             customStatId: version.customStatId,
             customStat: version.customStat,
             tenantId: Session.tenant.tenantId,
@@ -56,7 +56,7 @@ angular.module('liveopsConfigPanel')
             metadata: version.metadata
           });
 
-          return newFlow.save().then(function(draft){
+          return newStat.save().then(function(draft){
             $document.find('modal').remove();
             $state.go('content.custom-stats.editor', {
               customStatId: draft.customStatId,
@@ -75,7 +75,7 @@ angular.module('liveopsConfigPanel')
         var newScope = $scope.$new();
 
         newScope.modalBody = 'app/components/reporting/customStats/newStat.modal.html';
-        newScope.title = 'New Stat';
+        newScope.title = 'New Custom Stat';
         newScope.customStat = {
           name: 'Untitled Stat'
         };
@@ -92,10 +92,10 @@ angular.module('liveopsConfigPanel')
             type: newStat.type
           });
 
-          return newStatCopy.save(function(customStat){
+          return newStatCopy.save(function(stat){
             $document.find('modal').remove();
             var initialDraft = new CustomStatDraft({
-              customStatId: customStat.id,
+              customStatId: stat.id,
               customStat: '[]',
               tenantId: Session.tenant.tenantId,
               name: 'Initial Draft'
@@ -104,7 +104,7 @@ angular.module('liveopsConfigPanel')
             var promise = initialDraft.save();
             return promise.then(function(draft){
               $state.go('content.custom-stats.editor', {
-                customStatId: customStat.id,
+                customStatId: stat.id,
                 draftId: draft.id
               });
             });
@@ -117,19 +117,19 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.saveStat = function(){
-        return $scope.selectedStat.save().then(function(customStat){
-          return customStat;
+        return $scope.selectedStat.save().then(function(stat){
+          return stat;
         });
       };
 
       $scope.updateActive = function(){
-        var newStatCopy = new CustomStat({
+        var statCopy = new CustomStat({
           id: $scope.selectedStat.id,
           tenantId: $scope.selectedStat.tenantId,
           active: ! $scope.selectedStat.active
         });
 
-        return newStatCopy.save().then(function(result){
+        return statCopy.save().then(function(result){
           $scope.selectedStat.$original.active = result.active;
         }, function(errorResponse){
           return $q.reject(errorResponse.data.error.attribute.active);

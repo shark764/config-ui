@@ -655,5 +655,9 @@
   "realtimeDashboards.form.saveDashboard.success": "Dashboard saved successfully!",
   "realtimeDashboards.form.saveDashboard.failure": "Dashboard failed to save.",
 
-  "customStats.table.title": "Custom Stats"
+  "customStat.table.title": "Custom Stats",
+  "customStat.version.title": "Versions",
+  "customStat.draft.title": "Drafts",
+  "customStat.draft.delete.alt": "Delete this draft",
+  "customStat.draft.none": "There are no drafts saved for this stat. Drafts are created automatically from the Custom Stat Editor."
 }

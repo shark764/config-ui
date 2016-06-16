@@ -4,14 +4,14 @@ angular.module('liveopsConfigPanel')
   .controller('CustomStatVersionsController', ['$scope', 'Session', 'CustomStatVersion',
     function($scope, Session, CustomStatVersion) {
       $scope.getVersions = function() {
-        if (!$scope.customStat || $scope.customStat.isNew()) {
+        if (!$scope.stat || $scope.stat.isNew()) {
           return [];
         }
 
         return CustomStatVersion.cachedQuery({
           tenantId: Session.tenant.tenantId,
-          customStatId: $scope.customStat.id
-        }, 'CustomStatVersion' + $scope.customStat.id);
+          customStatId: $scope.stat.id
+        }, 'CustomStatVersion' + $scope.stat.id);
       };
 
       $scope.saveVersion = function() {
@@ -25,7 +25,7 @@ angular.module('liveopsConfigPanel')
 
       $scope.createVersion = function() {
         $scope.version = new CustomStatVersion({
-          customStatId: $scope.customStat.id,
+          customStatId: $scope.stat.id,
           customStat: '[]',
           tenantId: Session.tenant.tenantId
         });
@@ -36,8 +36,8 @@ angular.module('liveopsConfigPanel')
         $scope.selectedVersion = item;
       };
 
-      $scope.$watch('customStat', function() {
-        if (!$scope.customStat) {
+      $scope.$watch('stat', function() {
+        if (!$scope.stat) {
           return;
         }
 
@@ -48,7 +48,7 @@ angular.module('liveopsConfigPanel')
         }
 
         $scope.cleanHandler = $scope.$on(
-          'created:resource:tenants:' + Session.tenant.tenantId + ':customStats:' + $scope.customStat.id + ':versions',
+          'created:resource:tenants:' + Session.tenant.tenantId + ':customStats:' + $scope.stat.id + ':versions',
           $scope.pushNewItem);
       });
     }

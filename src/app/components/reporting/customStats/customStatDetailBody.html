@@ -2,11 +2,11 @@
   <h4>{{'details' | translate}}</h4>
 </div>
 
-<div disable-contents="! ('MANAGE_ALL_CUSTOM_STATS' | hasPermission)">
+<div disable-contents="! ('MANAGE_ALL_FLOWS' | hasPermission)">
   <div class="input-group">
     <label>{{'value.name' | translate}} *</label>
     <form-error field="forms.detailsForm.name"
-      error-type-required="{{'stat.details.name.error' | translate}}">
+      error-type-required="{{'flow.details.name.error' | translate}}">
     </form-error>
     <div>
       <input type="text" ng-required="true" ng-model="selectedStat.name" name="name"></input>
@@ -16,7 +16,7 @@
   <div ng-if="(! selectedStat.isNew())" class="input-group">
     <label>{{'value.version' | translate}} <span ng-show="getVersions().length > 0">*</span></label>
     <form-error field="forms.detailsForm.activeVersion"
-      error-type-required="{{'stat.details.activeVersion.error' | translate}}">
+      error-type-required="{{'flow.details.activeVersion.error' | translate}}">
     </form-error>
     <div>
       <select name="activeVersion"
@@ -24,7 +24,7 @@
         ng-disabled="! getVersions().length > 0"
         ng-model="selectedStat.activeVersion"
         ng-options="version.version as (version.fakeVersion + ' - ' + version.name) for version in getVersions() | orderBy:'created':'reverse'">
-        <option disabled value="">{{'stat.details.version.choose' | translate}}</option>
+        <option disabled value="">{{'flow.details.version.choose' | translate}}</option>
       </select>
     </div>
   </div>
@@ -38,6 +38,6 @@
 </div>
 
 <div ng-if="! selectedStat.isNew()" class="details-group">
-  <custom-stat-versions customStat="selectedStat" on-edit-click="newDraftModal(version)"></custom-stat-versions>
-  <custom-stat-drafts customStat="selectedStat" drafts="drafts"></custom-stat-drafts>
+  <custom-stat-versions stat="selectedStat" on-edit-click="newDraftModal(version)"></custom-stat-versions>
+  <custom-stat-drafts stat="selectedStat" drafts="drafts"></custom-stat-drafts>
 </div>

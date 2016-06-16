@@ -3,17 +3,13 @@
 angular.module('liveopsConfigPanel')
   .controller('CustomStatDraftsController', ['$scope', 'Session', 'CustomStatDraft', 'Alert', function($scope, Session, CustomStatDraft, Alert) {
     $scope.fetch = function() {
-      console.log("test", $scope.customStat);
-      if (!$scope.customStat || $scope.customStat.isNew()) {
-        console.log("test2");
+      if (!$scope.stat || $scope.stat.isNew()) {
         return [];
       }
-      console.log("test3");
+
       $scope.drafts = CustomStatDraft.query({
         tenantId: Session.tenant.tenantId,
-        customStatId: $scope.customStat.id
-      }).then(function (results){
-        console.log(results);
+        customStatId: $scope.stat.id
       });
     };
 
@@ -28,8 +24,8 @@ angular.module('liveopsConfigPanel')
 
     $scope.createDraft = function() {
       $scope.draft = new CustomStatDraft({
-        customStatId: $scope.customStat.id,
-        customStat: "",
+        customStatId: $scope.stat.id,
+        customStat: '[]',
         tenantId: Session.tenant.tenantId
       });
     };
@@ -46,11 +42,8 @@ angular.module('liveopsConfigPanel')
       $scope.selectedDraft = item;
     };
 
-    console.log($scope.customStat);
-    console.log($scope.drafts);
-    
-    $scope.$watch('customStat', function() {
-      if (!$scope.customStat) {
+    $scope.$watch('stat', function() {
+      if (!$scope.stat) {
         return;
       }
 
@@ -62,7 +55,7 @@ angular.module('liveopsConfigPanel')
       }
 
       $scope.cleanHandler = $scope.$on(
-        'created:resource:tenants:' + Session.tenant.tenantId + ':customStats:' + $scope.customStat.id + ':drafts',
+        'created:resource:tenants:' + Session.tenant.tenantId + ':customStat:' + $scope.stat.id + ':drafts',
         $scope.pushNewItem);
     });
 
