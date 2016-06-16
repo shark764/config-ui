@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('dispositionsTableConfig', ['$translate', 'UserPermissions', 'helpDocsHostname', function($translate, UserPermissions, helpDocsHostname) {
+  .service('dispositionsTableConfig', ['$translate', 'UserPermissions', 'helpDocsHostname', 'statuses', function($translate, UserPermissions, helpDocsHostname, statuses) {
     return {
       'fields': [{
         'header': {
@@ -15,26 +15,53 @@ angular.module('liveopsConfigPanel')
         'name': '$original.description'
       }, {
         'header': {
-          'display': $translate.instant('value.active')
+          'display': $translate.instant('details.externalId')
         },
-        'name': '$original.active'
+        'name': '$original.externalId'
       }, {
         'header': {
-          'display': $translate.instant('value.shared')
+          'display': $translate.instant('value.shared'),
+          'displayPath': 'display',
+          'valuePath': 'value',
+          'options': [
+            {
+              'display': $translate.instant('value.yes'),
+              'displayKey': 'value.yes',
+              'value': true
+            },
+            {
+              'display': $translate.instant('value.no'),
+              'displayKey': 'value.no',
+              'value': false
+            }
+          ]
         },
-        'name': '$original.shared'
+        'name': '$original.shared',
+        'id': 'shared-column-dropdown',
+        'transclude': true
+      }, {
+        'header': {
+          'display': $translate.instant('value.status'),
+          'valuePath': 'value',
+          'displayPath': 'display',
+          'options': statuses()
+        },
+        'name': '$original.active',
+        'id': 'status-column-dropdown',
+        'lookup': '$original:active',
+        'sortable': true,
+        'transclude': true,
+        'filter': 'selectedOptions'
       }],
       'searchOn': ['$original.name'],
       'orderBy': '$original.name',
       'title' : $translate.instant('dispositions.table.title'),
       'sref' : 'content.configuration.dispositions',
       'showCreate': function () {
-        return true;
-        // return UserPermissions.hasPermission('CREATE_PRESENCE_REASONS');
+        return UserPermissions.hasPermission('CREATE_DISPOSITIONS');
       },
       'showBulkActions': function () {
-        return true;
-        // return UserPermissions.hasPermission('UPDATE_PRESENCE_REASONS') || UserPermissions.hasPermission('DELETE_PRESENCE_REASONS') || UserPermissions.hasPermission('SHARE_PRESENCE_REASONS');
+        return UserPermissions.hasPermission('UPDATE_DISPOSITIONS');
       }
     };
   }]);

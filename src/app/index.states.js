@@ -134,7 +134,7 @@ angular.module('liveopsConfigPanel')
           reloadOnSearch: false,
           resolve: {
             hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
-              return UserPermissions.resolvePermissions(PermissionGroups.accessAllLists);
+              return UserPermissions.resolvePermissions(PermissionGroups.accessDispositions);
             }]
           }
         })

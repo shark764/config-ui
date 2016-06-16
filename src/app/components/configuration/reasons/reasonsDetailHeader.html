@@ -2,7 +2,7 @@
   <toggle class="status-toggle" ng-model="rc.selectedReason.active"
   confirm-disable-message="{{'reasons.details.disable.confirm' | translate}}"
   confirm-enable-message="{{'reasons.details.enable.confirm' | translate}}"
-  ng-disabled="! ([] | hasPermission)"
+  ng-disabled="! (['UPDATE_PRESENCE_REASONS'] | hasPermission)"
   on-confirm="rc.updateActive()"></toggle>
 
   <div class="info">

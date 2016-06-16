@@ -188,9 +188,8 @@ angular.module('liveopsConfigPanel')
             order: 5
           });
         }
-        // REVERSE CONDITIONALS BELOW WHEN THE PERMISSIONS ARE ADDED
 
-        if (!UserPermissions.hasPermissionInList(['READ_DISPOSITIONS'])) {
+        if (UserPermissions.hasPermissionInList(['READ_DISPOSITIONS'])) {
           items.push({
             label: $translate.instant('navbar.configuration.dispositions.title'),
             stateLink: 'content.configuration.dispositions',
