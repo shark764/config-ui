@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('reasonsController', ['reasonsTableConfig', 'Reason', 'Session', '$scope', '$translate', 'loEvents', 'Modal', function(reasonsTableConfig, Reason, Session, $scope, $translate, loEvents, Modal) {
+  .controller('reasonsController', ['reasonsTableConfig', 'Reason', 'Session', '$scope', '$translate', 'loEvents', 'Modal', 'Alert', function(reasonsTableConfig, Reason, Session, $scope, $translate, loEvents, Modal, Alert) {
     var vm = this;
     $scope.forms = {};
     vm.tableConfig = reasonsTableConfig;
@@ -47,8 +47,7 @@ angular.module('liveopsConfigPanel')
       return vm.selectedReason.save({
         tenantId: Session.tenant.tenantId
       }, null, function(err) {
-        console.log('err:', err);
-        console.log('reason', vm.selectedReason)
+        Alert.error($translate.instant('value.saveFail'));
       });
     };
 

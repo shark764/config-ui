@@ -42,6 +42,7 @@
   "value.properties": "Properties",
   "value.remove": "Remove",
   "value.save": "Save",
+  "value.saveFail": "Record failed to save.",
   "value.shared": "Shared",
   "value.sms": "SMS",
   "value.source": "Source",
