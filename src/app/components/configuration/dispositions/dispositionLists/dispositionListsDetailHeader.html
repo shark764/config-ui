@@ -1,0 +1,40 @@
+<div ng-if="! dlc.selectedDispositionList.isNew()">
+  <toggle class="status-toggle" ng-model="dlc.selectedDispositionList.active"
+  confirm-disable-message="{{'dispositionLists.details.disable.confirm' | translate}}"
+  confirm-enable-message="{{'dispositionLists.details.enable.confirm' | translate}}"
+  ng-disabled="! (['UPDATE_DISPOSITIONS'] | hasPermission)"
+  on-confirm="dlc.updateActive()"></toggle>
+
+  <div class="info">
+    <h1 id="role-details-name-header">{{dlc.selectedDispositionList.$original.getDisplay()}}</h1>
+
+    <div class="details" ng-if="!(['UPDATE_DISPOSITIONS'] | hasPermission)">
+      <b audit-text
+        translation="value.createdby.time"
+        user-id="dlc.selectedDispositionList.$original.createdBy"
+        date="dlc.selectedDispositionList.$original.created">
+      </b>
+      <br/>
+      <b audit-text ng-if="!!dlc.selectedDispositionList.$original.updatedBy"
+        translation="value.updatedby"
+        user-id="dlc.selectedDispositionList.$original.updatedBy"
+        date="dlc.selectedDispositionList.$original.updated">
+      </b>
+    </div>
+
+    <div class="details" ng-if="(['UPDATE_DISPOSITIONS'] | hasPermission)">
+      <b audit-text
+        translation="value.createdon.time"
+        date="dlc.selectedDispositionList.$original.created">
+      </b>
+      <br/>
+      <b audit-text ng-if="!!dlc.selectedDispositionList.$original.updated"
+        translation="value.updatedon"
+        date="dlc.selectedDispositionList.$original.updated">
+      </b>
+    </div>
+
+  </div>
+</div>
+
+<h1 id="disposition-lists-details-create-header" ng-hide="! dlc.selectedDispositionList.isNew()">{{'dispositionLists.details.creating' | translate}}</h1>

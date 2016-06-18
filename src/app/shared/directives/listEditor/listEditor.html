@@ -1,0 +1,39 @@
+<div class="list-editor">
+
+  <div class="list-controls">
+    <i class="fa fa-plus-square-o fa-lg" ng-click="addCategory()" aria-hidden="true"></i>
+    <i class="fa fa-plus fa-lg" ng-click="addDispo()" aria-hidden="true"></i>
+    <i class="fa fa-times fa-lg" ng-click="remove()" aria-hidden="true"></i>
+    <i class="fa fa-arrow-left fa-lg" ng-click="promote()" aria-hidden="true"></i>
+    <i class="fa fa-arrow-right fa-lg" ng-click="demote()" aria-hidden="true"></i>
+    <i class="fa fa-arrow-down fa-lg" ng-click="moveDown()" aria-hidden="true"></i>
+    <i class="fa fa-arrow-up fa-lg" ng-click="moveUp()" aria-hidden="true"></i>
+  </div>
+
+  <div class="list-body">
+    <ul ng-hide="$parent.loading">
+      <li ng-repeat="disposition in dispositionList track by $index" ng-class="{nested: disposition.hierarchy.length}">
+
+        <div class="wrapper" ng-show="disposition.type !== 'category'">
+          <span ng-click="selectDisposition($index)" ng-class="{selectedDispo: disposition === selectedDispo}" ng-show="!disposition.hierarchy.length">{{disposition.name}}</span>
+          <span class="nested-disposition" ng-click="selectDisposition($index)" ng-class="{selectedDispo: disposition === selectedDispo}" ng-show="disposition.hierarchy.length === 1">{{disposition.name}}</span>
+          <div class="dropdown-arrow" ng-show="disposition === selectedDispo"><i ng-click="toggleDropdown($index)" class="fa fa-sort-desc fa-lg"></i></div>
+          <div ng-show="dropdown === $index" class="dispoDropdown">
+            <ul>
+              <li ng-repeat="dispo in possibleDispos" ng-click="selectNewDispo($index)" ng-if="!dispositionList.find(dispoCheck, dispo)">{{dispo.name}}</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="wrapper" ng-show="disposition.type === 'category'">
+          <input ng-click="selectDisposition($index)" ng-class="{selectedDispo: disposition === selectedDispo}" ng-model="disposition.name"></input>
+        </div>
+
+      </li>
+    </ul>
+
+    <loading ng-show="$parent.loading"></loading>
+  </div>
+
+
+</div>

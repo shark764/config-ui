@@ -7,7 +7,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 * CXV1-1203 - Added annotations icon and removed an extraneous line break, should not affect any other code
 * CXV1-2396 - Hide birst integration details from UI
 * CXV1-2490 - Create view for presence reasons
+* CXV1-2491 - Create view for presence reason lists
 * CXV1-2492 - Create view for dispositions
+* CXV1-2493 - Create view for disposition lists
 * CXV1-1909 - Bugfix for making PSTN extension primary
 * CXV1-1993 - Clean up edit panel/text alignment on tenant configuration view
 * CXV1-2543 - re-enable Plivo

@@ -180,7 +180,7 @@ angular.module('liveopsConfigPanel')
         }
 
 
-        if (UserPermissions.hasPermissionInList(['READ_PRESENCE_REASONS'])) {
+        if (UserPermissions.hasPermissionInList(['UPDATE_PRESENCE_REASONS'])) {
           items.push({
             label: $translate.instant('navbar.configuration.reasons.title'),
             stateLink: 'content.configuration.reasons',
@@ -189,12 +189,30 @@ angular.module('liveopsConfigPanel')
           });
         }
 
-        if (UserPermissions.hasPermissionInList(['READ_DISPOSITIONS'])) {
+        if (UserPermissions.hasPermissionInList(['UPDATE_REASON_LIST'])) {
+          items.push({
+            label: $translate.instant('navbar.configuration.reasons.lists.title'),
+            stateLink: 'content.configuration.reasonLists',
+            id: 'reason-lists-configuration-link',
+            order: 6
+          });
+        }
+
+        if (UserPermissions.hasPermissionInList(['UPDATE_DISPOSITIONS'])) {
           items.push({
             label: $translate.instant('navbar.configuration.dispositions.title'),
             stateLink: 'content.configuration.dispositions',
             id: 'dispositions-configuration-link',
-            order: 6
+            order: 7
+          });
+        }
+
+        if (UserPermissions.hasPermissionInList(['UPDATE_DISPOSITION_LIST'])) {
+          items.push({
+            label: $translate.instant('navbar.configuration.dispositions.lists.title'),
+            stateLink: 'content.configuration.dispositionLists',
+            id: 'disposition-lists-configuration-link',
+            order: 8
           });
         }
 
