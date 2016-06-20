@@ -1,0 +1,37 @@
+<div ng-if="! selectedStat.isNew()">
+  <toggle class="status-toggle" ng-model="selectedStat.active"
+  confirm-disable-message="{{'customStats.details.disable.confirm' | translate}}"
+  confirm-enable-message="{{'customStats.details.enable.confirm' | translate}}"
+  ng-disabled="! ('CUSTOM_STATS_MANAGE' | hasPermission)"
+  on-confirm="updateActive()"></toggle>
+
+  <div class="info">
+    <h1>{{selectedStat.$original.name}}</h1>
+    <div class="details" ng-if="['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_USERS', 'MANAGE_ALL_USER_EXTENSIONS', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_ALL_USER_LOCATIONS', 'MANAGE_TENANT_ENROLLMENT'] | hasPermission">
+      <b audit-text
+        translation="value.createdby.time"
+        user-id="selectedStat.$original.createdBy"
+        date="selectedStat.$original.created">
+      </b>
+      <br/>
+      <b audit-text ng-if="!!selectedStat.$original.updatedBy"
+        translation="value.updatedby"
+        user-id="selectedStat.$original.updatedBy"
+        date="selectedStat.$original.updated">
+      </b>
+    </div>
+    <div class="details" ng-if="!(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_USERS', 'MANAGE_ALL_USER_EXTENSIONS', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_ALL_USER_LOCATIONS', 'MANAGE_TENANT_ENROLLMENT'] | hasPermission)">
+      <b audit-text
+        translation="value.createdon.time"
+        date="selectedStat.$original.created">
+      </b>
+      <br/>
+      <b audit-text ng-if="!!selectedStat.$original.updated"
+        translation="value.updatedon"
+        date="selectedStat.$original.updated">
+      </b>
+    </div>
+  </div>
+</div>
+
+<h1 ng-if="selectedStat.isNew()">{{'customStats.details.creating' | translate}}</h1>

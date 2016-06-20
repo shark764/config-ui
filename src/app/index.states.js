@@ -625,6 +625,61 @@ angular.module('liveopsConfigPanel')
               return deferred.promise;
             }]
           }
+        })
+        .state('content.reporting', {
+          abstract: true,
+          url: '/reporting',
+          templateUrl: 'app/components/reporting/reporting.html',
+          controller: 'ReportingController'
+        })
+        .state('content.reporting.custom-stats', {
+          url: '/custom-stats?id',
+          templateUrl: 'app/components/reporting/customStats/customStatsManagement.html',
+          controller: 'customStatsManagementController',
+          reloadOnSearch: false,
+          resolve: {
+            hasPermission: ['UserPermissions', function(UserPermissions) {
+              return true;
+            }]
+          }
+        })
+        .state('content.reporting.custom-stats-editor', {
+          url: '/custom-stats/editor/:customStatId/:draftId',
+          templateUrl: 'app/components/reporting/customStatsEditor/customStatsEditor.html',
+          controller: 'customStatsEditorController',
+          resolve: {
+            customStat: ['$stateParams', 'Session', 'CustomStat', '$q', function($stateParams, Session, CustomStat, $q) {
+              var deferred = $q.defer();
+              var customStat;
+
+              delete $stateParams.id;
+
+              CustomStat.get({
+                tenantId: Session.tenant.tenantId,
+                id: $stateParams.customStatId
+              }, function(data) {
+                customStat = data;
+                deferred.resolve(customStat);
+              });
+
+              return deferred.promise;
+            }],
+            draft: ['$stateParams', 'CustomStatDraft', 'Session', '$q', function($stateParams, CustomStatDraft, Session, $q) {
+              var deferred = $q.defer();
+              var draft;
+
+              CustomStatDraft.get({
+                customStatId: $stateParams.customStatId,
+                id: $stateParams.draftId,
+                tenantId: Session.tenant.tenantId
+              }, function(data) {
+                draft = data;
+                deferred.resolve(draft);
+              });
+
+              return deferred.promise;
+            }]
+          }
         });
     }
   ]);

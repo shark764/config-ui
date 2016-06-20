@@ -265,6 +265,15 @@ angular.module('liveopsConfigPanel')
           });
         }
 
+        if (UserPermissions.hasPermissionInList(PermissionGroups.accessAllCustomStats)) {
+          items.push({
+            label: 'Custom Statistics',
+            stateLink: 'content.reporting.custom-stats',
+            id: 'custom-stats-link',
+            order: 5
+          });
+        }
+
         return items;
       };
 

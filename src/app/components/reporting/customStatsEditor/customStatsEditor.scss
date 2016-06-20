@@ -1,0 +1,25 @@
+div .CodeMirror {
+	height: 100vh;
+}
+
+.title {
+  display: inline-block;
+  vertical-align: middle;
+  color: #919191;
+}
+
+.subhead {
+	width: 100%;
+	display:inline-block;
+	padding: 8px 18px;
+	position: relative;
+	z-index: 6;
+}
+
+.saved-wrapper, .publish-wrapper {
+	display: inline-block;
+}
+
+.publish-wrapper {
+	padding: 0px 20px;
+}
