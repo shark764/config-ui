@@ -5,6 +5,7 @@ angular.module('liveopsConfigPanel')
     function ($scope, $state, $document, $compile, Session, CustomStat, customStatsManagementTableConfig, CustomStatDraft, CustomStatVersion, loEvents, $q, Alert) {
 
       $scope.getVersions = function(){
+
         if (! $scope.selectedStat || $scope.selectedStat.isNew()){
           return [];
         }
@@ -58,7 +59,7 @@ angular.module('liveopsConfigPanel')
 
           return newStat.save().then(function(draft){
             $document.find('modal').remove();
-            $state.go('content.custom-stats.editor', {
+            $state.go('content.reporting.custom-stats-editor', {
               customStatId: draft.customStatId,
               draftId: draft.id
             });
@@ -103,7 +104,7 @@ angular.module('liveopsConfigPanel')
 
             var promise = initialDraft.save();
             return promise.then(function(draft){
-              $state.go('content.custom-stats.editor', {
+              $state.go('content.reporting.custom-stats-editor', {
                 customStatId: stat.id,
                 draftId: draft.id
               });

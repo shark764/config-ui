@@ -1,11 +1,10 @@
-<div id="main-content" ui-view>
 <div id="table-pane">
   <table-controls
     config="tableConfig"
     items="fetchStats()"
     search-query="searchQuery">
   </table-controls>
-  
+
   <lo-resource-table
     config="tableConfig"
     items="fetchStats()"
@@ -13,9 +12,9 @@
     search-query="searchQuery">
 
     <span name="activeVersion">
-      {{item.activeFlow.name}}
+      {{item.activeCustomStat.name}}
     </span>
-  
+
     <span name="active">
       <span ng-if="item.$original.active">{{'value.enabled' | translate}}</span>
       <span ng-if="!item.$original.active" class="disabled">{{'value.disabled' | translate}}</span>
@@ -70,4 +69,3 @@
     </ng-form>
   </div>
 </lo-details-panel>
-</div>

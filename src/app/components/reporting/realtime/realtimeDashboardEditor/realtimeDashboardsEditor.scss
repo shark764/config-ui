@@ -339,6 +339,24 @@ div[gridster-item] {
   }
 }
 
+.selected-widget {
+  border: 2px solid #07487a !important;
+}
+
+.remove-widget {
+  position: absolute;
+  right: 7px;
+  top: 5px;
+  z-index: 5;
+  font-size: 24px;
+  color: #07487a;
+}
+
+.widget-panel {
+  height: 100%;
+  padding: 20px;
+}
+
 #dashboard-container {
   left: 0;
   right: 0;
@@ -363,6 +381,7 @@ div[gridster-item] {
   right: 0;
   width: 350px;
   height: 100vh;
+  z-index: 8;
   bottom: 0;
   box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12);
   -webkit-transition: right 300ms ease;

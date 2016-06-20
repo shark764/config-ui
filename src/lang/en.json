@@ -627,7 +627,7 @@
   "reports.error": "Error. Please try again later.",
   "reports.serverError": "The server encountered an internal error and was not able to complete your request. Please try again later. If this issue persists please contact your account administrator.",
 
-  "realtimeDashboards.table.title": "Realtime Dashboards",
+  "realtimeDashboards.table.title": "Custom Realtime Dashboards",
   "realtimeDashboards.details.disable.confirm": "This will disable this dashboard. Do you want to continue?",
   "realtimeDashboards.details.enable.confirm": "This will enable this dashboard. Do you want to continue?",
   "realtimeDashboards.details.name.error": "Please enter a name",
@@ -649,15 +649,24 @@
   "realtimeDashboards.form.dimension": "Dimension",
   "realtimeDashboards.form.statistic": "Statistic",
   "realtimeDashboards.form.responseKey": "Response Key",
+  "realtimeDashboards.form.aggregateFunction": "Aggregate Function",
   "realtimeDashboards.form.sourceSwitcher": "Source Switcher",
   "realtimeDashboards.form.createWidget": "Create Widget",
   "realtimeDashboards.form.saveDashboard": "Save Dashboard",
   "realtimeDashboards.form.saveDashboard.success": "Dashboard saved successfully!",
   "realtimeDashboards.form.saveDashboard.failure": "Dashboard failed to save.",
 
-  "customStat.table.title": "Custom Stats",
+  "customStat.table.title": "Custom Statistics",
   "customStat.version.title": "Versions",
   "customStat.draft.title": "Drafts",
   "customStat.draft.delete.alt": "Delete this draft",
-  "customStat.draft.none": "There are no drafts saved for this stat. Drafts are created automatically from the Custom Stat Editor."
+  "customStat.draft.none": "There are no drafts saved for this stat. Drafts are created automatically from the Custom Stat Editor.",
+  "customStats.details.name.error": "Please enter a name",
+  "customStats.details.activeVersion.error": "Active version is required",
+  "customStats.details.version.choose": "Select a version...",
+  "customStats.details.disable.confirm": "This will disable this custom stat. Do you want to continue?",
+  "customStats.details.enable.confirm": "This will enable this custom stat. Do you want to continue?",
+  "customStats.details.creating": "Creating New Custom Stat",
+  "customStats.details.versions.create.title": "Create new version",
+  "customStats.details.version.add.alt": "Create new version for this custom stat"
 }

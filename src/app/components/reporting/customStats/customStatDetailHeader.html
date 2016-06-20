@@ -1,8 +1,8 @@
 <div ng-if="! selectedStat.isNew()">
-  <toggle class="status-toggle" ng-model="selectedStat.active" 
-  confirm-disable-message="{{'flow.details.disable.confirm' | translate}}"
-  confirm-enable-message="{{'flow.details.enable.confirm' | translate}}"
-  ng-disabled="! ('MANAGE_ALL_FLOWS' | hasPermission)"
+  <toggle class="status-toggle" ng-model="selectedStat.active"
+  confirm-disable-message="{{'customStats.details.disable.confirm' | translate}}"
+  confirm-enable-message="{{'customStats.details.enable.confirm' | translate}}"
+  ng-disabled="! ('CUSTOM_STATS_MANAGE' | hasPermission)"
   on-confirm="updateActive()"></toggle>
 
   <div class="info">
@@ -34,4 +34,4 @@
   </div>
 </div>
 
-<h1 ng-if="selectedStat.isNew()">{{'flow.details.creating' | translate}}</h1>
+<h1 ng-if="selectedStat.isNew()">{{'customStats.details.creating' | translate}}</h1>

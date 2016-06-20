@@ -13,8 +13,8 @@ angular.module('liveopsConfigPanel')
         'searchOn': ['$original.name'],
         'orderBy': '$original.name',
         'helpLink': helpDocsHostname + '/Help/Content/Reporting/Realtime/Realtime_Report_Types.htm',
-        'title': $translate.instant('customStats.table.title'),
-        'sref': 'content.custom-stats',
+        'title': $translate.instant('customStat.table.title'),
+        'sref': 'content.reporting.custom-stats',
         'showBulkActions': false,
         'showCreate': true
       };

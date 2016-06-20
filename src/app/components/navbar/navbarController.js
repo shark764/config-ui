@@ -253,12 +253,6 @@ angular.module('liveopsConfigPanel')
             stateLink: 'content.recordings',
             id: 'recording-management-link',
             order: 4
-          },
-          {
-            label: 'Custom Stats',
-            stateLink: 'content.custom-stats',
-            id: 'custom-stats-link',
-            order: 5
           }
         ];
 
@@ -268,6 +262,15 @@ angular.module('liveopsConfigPanel')
             stateLink: 'content.realtime-dashboards-management',
             id: 'custom-realtime-dashboard-link',
             order: 2
+          });
+        }
+
+        if (UserPermissions.hasPermissionInList(PermissionGroups.accessAllCustomStats)) {
+          items.push({
+            label: 'Custom Statistics',
+            stateLink: 'content.reporting.custom-stats',
+            id: 'custom-stats-link',
+            order: 5
           });
         }
 

@@ -13,7 +13,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 * CXV1-1993 - Clean up edit panel/text alignment
 * Bumping Flow designer
 * CXV1-2543 - re-enable Plivo
-* Update Realtime Dashboards to 4.0.0 (Includes Custom Realtime Dashboards)
+* CXV1-307 - Custom Stats Management
+* Update Realtime Dashboards to 4.0.0 (Includes Custom Realtime Dashboards and Custom Stats)
 * Update Config-Shared to 1.1.1
 
 ## [3.1.10]

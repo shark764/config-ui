@@ -626,7 +626,13 @@ angular.module('liveopsConfigPanel')
             }]
           }
         })
-        .state('content.custom-stats', {
+        .state('content.reporting', {
+          abstract: true,
+          url: '/reporting',
+          templateUrl: 'app/components/reporting/reporting.html',
+          controller: 'ReportingController'
+        })
+        .state('content.reporting.custom-stats', {
           url: '/custom-stats?id',
           templateUrl: 'app/components/reporting/customStats/customStatsManagement.html',
           controller: 'customStatsManagementController',
@@ -637,9 +643,9 @@ angular.module('liveopsConfigPanel')
             }]
           }
         })
-        .state('content.custom-stats.editor', {
-          url: '/editor/:customStatId/:draftId',
-          templateUrl: 'app/components/reporting/customStats/customStatsEditor/customStatsEditor.html',
+        .state('content.reporting.custom-stats-editor', {
+          url: '/custom-stats/editor/:customStatId/:draftId',
+          templateUrl: 'app/components/reporting/customStatsEditor/customStatsEditor.html',
           controller: 'customStatsEditorController',
           resolve: {
             customStat: ['$stateParams', 'Session', 'CustomStat', '$q', function($stateParams, Session, CustomStat, $q) {
@@ -647,7 +653,7 @@ angular.module('liveopsConfigPanel')
               var customStat;
 
               delete $stateParams.id;
-              
+
               CustomStat.get({
                 tenantId: Session.tenant.tenantId,
                 id: $stateParams.customStatId

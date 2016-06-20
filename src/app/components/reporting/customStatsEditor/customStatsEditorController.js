@@ -3,7 +3,7 @@
 angular.module('liveopsConfigPanel')
 .controller('customStatsEditorController', ['$scope', '$interval', '$document', '$state', '$moment', '$compile', 'Session', 'FullscreenService', 'TableMiddlewareService', 'CustomStat', 'CustomStatDraft', 'CustomStatVersion', 'customStat', 'draft', 'Alert',
   function($scope, $interval, $document, $state, $moment, $compile, Session, FullscreenService, TableMiddlewareService, CustomStat, CustomStatDraft, CustomStatVersion, customStat, draft, Alert) {
-    
+
     $scope.draft = draft;
     $scope.customStat = customStat;
 
@@ -44,13 +44,13 @@ angular.module('liveopsConfigPanel')
         $scope.saveStatus = 'Last saved ' + moment.utc($scope.draft.updated).fromNow();
       });
     }, 30000);
-  
+
     $scope.publishNewStatVersion = function() {
       if ($scope.draft.customStat.length === 0) { return; }
 
       var newScope = $scope.$new();
 
-      newScope.modalBody = 'app/components/reporting/customStats/customStatsEditor/publish.modal.html';
+      newScope.modalBody = 'app/components/reporting/customStatsEditor/publish.modal.html';
       newScope.title = 'Publish';
       newScope.stat = {
         name: $scope.draft.name,
@@ -65,7 +65,6 @@ angular.module('liveopsConfigPanel')
 
         var _version = new CustomStatVersion({
           customStat: $scope.draft.customStat,
-          description: '',
           name: version.name,
           tenantId: Session.tenant.tenantId,
           customStatId: $scope.draft.customStatId
@@ -73,24 +72,19 @@ angular.module('liveopsConfigPanel')
 
         _version.save(function(v){
           $document.find('modal').remove();
-          Alert.success('New flow version successfully created.');
+          Alert.success('New stat version successfully created.');
           $scope.draft.$delete().then(function(){
             $scope.customStat.$update({
               name: customStat.name,
               activeVersion: (customStat.active) ? v.version : customStat.activeVersion
             }).then(function(){
-              $state.go('content.custom-stats', {}, {reload: true});
+              $state.go('content.reporting.custom-stats', {}, {reload: true});
             });
           });
 
         }, function(error) {
           if (error.data.error.attribute === null) {
-            Alert.error('API rejected this flow -- likely invalid Alienese.', JSON.stringify(error, null, 2));
-          } else if (error.data.error.attribute.flow.message === 'Error parsing') {
-            $document.find('modal').remove();
-            Alert.error('API rejected this flow -- please verify your conditional statements are correct.');
-          } else {
-            Alert.error('API rejected this flow -- some other reason...', JSON.stringify(error, null, 2));
+            Alert.error('API rejected this stat.', JSON.stringify(error, null, 2));
           }
         });
       };

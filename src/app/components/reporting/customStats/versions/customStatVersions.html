@@ -1,11 +1,11 @@
 <div class="divider-header">
   <h4>{{'customStat.version.title' | translate}}</h4>
-  <a id="show-create-new-version" ng-hide="createNewVersion || ! ('MANAGE_ALL_FLOWS' | hasPermission)" class="btn pull-right" ng-click="createNewVersion = true" title="{{'flow.details.version.add.alt' | translate}}"><i class="fa fa-plus"></i></a>
+  <a id="show-create-new-version" ng-hide="createNewVersion || ! ('CUSTOM_STATS_MANAGE' | hasPermission)" class="btn pull-right" ng-click="createNewVersion = true" title="{{'customStats.details.version.add.alt' | translate}}"><i class="fa fa-plus"></i></a>
 </div>
 
 <div ng-show="createNewVersion">
   <div class="divider-header">
-    <h4>{{'flow.details.versions.create.title' | translate }}</h4>
+    <h4>{{'customStats.details.versions.create.title' | translate }}</h4>
   </div>
 
   <ng-form name="createVersionForm" separate-validation lo-form-submit>
@@ -19,10 +19,10 @@
       <label>{{'value.description' | translate}}</label>
       <input type="text" ng-model="version.description" name="description"></input>
     </div>
-    <div class="flow-controls input-group">
+    <div class=" input-group">
       <label></label>
-      <input id="cancel-flow-version-btn" type="button" ng-click="createNewVersion = false" class="btn" value="{{'value.cancel' | translate}}" />
-      <input id="create-flow-version-btn" ng-disabled="createVersionForm.$invalid || !createVersionForm.$dirty"
+      <input id="cancel-customStats-version-btn" type="button" ng-click="createNewVersion = false" class="btn" value="{{'value.cancel' | translate}}" />
+      <input id="create-customStats-version-btn" ng-disabled="createVersionForm.$invalid || !createVersionForm.$dirty"
         lo-submit="saveVersion()" type="submit" class="btn btn-primary" value="{{ 'value.create' | translate }}"/>
     </div>
   </ng-form>
@@ -30,7 +30,7 @@
 
 <loading ng-show="! getVersions().$resolved"></loading>
 
-<table class="table" id="flow-details-versions-table" ng-show="getVersions().length > 0">
+<table class="table" id="customStats-details-versions-table" ng-show="getVersions().length > 0">
   <thead>
     <tr>
       <th>{{'value.version' | translate}}</th>
@@ -50,7 +50,7 @@
     <td ng-if="['PLATFORM_VIEW_ALL_USERS', 'PLATFORM_CREATE_USERS', 'PLATFORM_MANAGE_ALL_USERS', 'PLATFORM_MANAGE_ALL_TENANTS', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT'] | hasPermission">
       <audit-text translation="value.displayName" user-id="version.createdBy"></audit-text>
     </td>
-    <td><a ng-href="#/custom-stats/viewer/{{version.customStatId}}/{{version.version}}">view</a></td>
+    <td><a ng-href="#/reporting/custom-stats/editor/{{version.customStatId}}/{{version.version}}">view</a></td>
     <td><a ng-click="onEditClick({version: version})">edit</a></td>
   </tr>
 </table>

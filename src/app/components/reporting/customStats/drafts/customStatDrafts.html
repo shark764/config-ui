@@ -1,11 +1,11 @@
 <div class="divider-header">
   <h4>{{'customStat.draft.title' | translate}}</h4>
-  <a id="show-create-new-draft" ng-hide="createNewDraft || ! ('MANAGE_ALL_FLOWS' | hasPermission)" class="btn pull-right" ng-click="createNewDraft = true" title="{{'flow.details.version.add.alt' | translate}}"><i class="fa fa-plus"></i></a>
+  <a id="show-create-new-draft" ng-hide="createNewDraft || ! ('CUSTOM_STATS_MANAGE' | hasPermission)" class="btn pull-right" ng-click="createNewDraft = true" title="{{'customStats.details.version.add.alt' | translate}}"><i class="fa fa-plus"></i></a>
 </div>
 
 <div ng-show="createNewDraft">
   <div class="divider-header">
-    <h4>{{'flow.details.versions.create.title' | translate }}</h4>
+    <h4>{{'customStats.details.versions.create.title' | translate }}</h4>
   </div>
 
   <ng-form name="createDraftForm" separate-validation lo-form-submit>
@@ -19,10 +19,10 @@
       <label>{{'value.description' | translate}}</label>
       <input type="text" ng-model="draft.description" name="description"></input>
     </div>
-    <div class="flow-controls input-group">
+    <div class="input-group">
       <label></label>
-      <input id="cancel-flow-draft-btn" type="button" ng-click="createNewDraft = false" class="btn" value="{{'value.cancel' | translate}}" />
-      <input id="create-flow-draft-btn" ng-disabled="createDraftForm.$invalid || !createDraftForm.$dirty"
+      <input id="cancel-customStats-draft-btn" type="button" ng-click="createNewDraft = false" class="btn" value="{{'value.cancel' | translate}}" />
+      <input id="create-customStats-draft-btn" ng-disabled="createDraftForm.$invalid || !createDraftForm.$dirty"
         lo-submit="saveDraft()" lo-submit-spinner lo-submit-spinner-status="draft.$busy" type="submit" class="btn btn-primary" value="{{ 'value.create' | translate }}"/>
     </div>
   </ng-form>
@@ -31,7 +31,7 @@
 <loading ng-show="!drafts.$resolved"></loading>
 <p class="null" ng-show="drafts.$resolved && drafts.length == 0">{{'customStat.draft.none' | translate}}</p>
 
-<table class="table" id="flow-details-draft-table" ng-show="drafts.length > 0">
+<table class="table" id="customStats-details-draft-table" ng-show="drafts.length > 0">
   <thead>
     <tr>
       <th>{{'value.name' | translate}}</th>
@@ -43,13 +43,13 @@
     </tr>
   </thead>
   <tr ng-repeat="draft in drafts | orderBy:'created':'reverse'">
-    <td><a ng-href="#/custom-stats/editor/{{draft.customStatId}}/{{draft.id}}">{{draft.name}}</a></td>
+    <td><a ng-href="#/reporting/custom-stats/editor/{{draft.customStatId}}/{{draft.id}}">{{draft.name}}</a></td>
     <td>{{draft.created | date:'medium'}}</td>
     <td ng-if="['PLATFORM_VIEW_ALL_USERS', 'PLATFORM_CREATE_USERS', 'PLATFORM_MANAGE_ALL_USERS', 'PLATFORM_MANAGE_ALL_TENANTS', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT'] | hasPermission">
       <audit-text translation="value.displayName" user-id="draft.createdBy"></audit-text>
     </td>
     <td>
-      <a ng-show="'MANAGE_ALL_FLOWS' | hasPermission" class="remove" ng-click="deleteDraft(draft)" title="{{'customStat.draft.delete.alt' | translate}}"><i class="fa fa-times"></i></a>
+      <a ng-show="'CUSTOM_STATS_MANAGE' | hasPermission" class="remove" ng-click="deleteDraft(draft)" title="{{'customStat.draft.delete.alt' | translate}}"><i class="fa fa-times"></i></a>
     </td>
   </tr>
 </table>
