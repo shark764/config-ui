@@ -1,0 +1,40 @@
+<div ng-if="! rc.selectedReason.isNew()">
+  <toggle class="status-toggle" ng-model="rc.selectedReason.active"
+  confirm-disable-message="{{'reasons.details.disable.confirm' | translate}}"
+  confirm-enable-message="{{'reasons.details.enable.confirm' | translate}}"
+  ng-disabled="! (['UPDATE_PRESENCE_REASONS'] | hasPermission)"
+  on-confirm="rc.updateActive()"></toggle>
+
+  <div class="info">
+    <h1 id="role-details-name-header">{{rc.selectedReason.$original.getDisplay()}}</h1>
+
+    <div class="details" ng-if="!(['UPDATE_PRESENCE_REASONS'] | hasPermission)">
+      <b audit-text
+        translation="value.createdby.time"
+        user-id="rc.selectedReason.$original.createdBy"
+        date="rc.selectedReason.$original.created">
+      </b>
+      <br/>
+      <b audit-text ng-if="!!rc.selectedReason.$original.updatedBy"
+        translation="value.updatedby"
+        user-id="rc.selectedReason.$original.updatedBy"
+        date="rc.selectedReason.$original.updated">
+      </b>
+    </div>
+
+    <div class="details" ng-if="(['UPDATE_PRESENCE_REASONS'] | hasPermission)">
+      <b audit-text
+        translation="value.createdon.time"
+        date="rc.selectedReason.$original.created">
+      </b>
+      <br/>
+      <b audit-text ng-if="!!rc.selectedReason.$original.updated"
+        translation="value.updatedon"
+        date="rc.selectedReason.$original.updated">
+      </b>
+    </div>
+
+  </div>
+</div>
+
+<h1 id="reasons-details-create-header" ng-hide="! rc.selectedReason.isNew()">{{'reasons.details.creating' | translate}}</h1>

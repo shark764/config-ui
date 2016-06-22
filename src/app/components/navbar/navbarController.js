@@ -179,6 +179,25 @@ angular.module('liveopsConfigPanel')
           });
         }
 
+
+        if (UserPermissions.hasPermissionInList(['READ_PRESENCE_REASONS'])) {
+          items.push({
+            label: $translate.instant('navbar.configuration.reasons.title'),
+            stateLink: 'content.configuration.reasons',
+            id: 'reasons-configuration-link',
+            order: 5
+          });
+        }
+
+        if (UserPermissions.hasPermissionInList(['READ_DISPOSITIONS'])) {
+          items.push({
+            label: $translate.instant('navbar.configuration.dispositions.title'),
+            stateLink: 'content.configuration.dispositions',
+            id: 'dispositions-configuration-link',
+            order: 6
+          });
+        }
+
         return items;
       };
 

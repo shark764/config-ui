@@ -3,19 +3,18 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
-* CXV1-1203 - Added annotations icon and removed an extraneous line break, should not affect any other code
 * CXV1-870 - Query builder for queues rewrite. *NOT PRODUCTION READY* - Contact Josh Stevens before making a release
-* Update Flow designer to 1.10.0 (And put back in removed changes)
-* CXV1-1909 - bug fix changed index to be 0
-* Bumping Flow designer
-* CXV1-2543 - re-enable Plivo
+* CXV1-1203 - Added annotations icon and removed an extraneous line break, should not affect any other code
 * CXV1-2396 - Hide birst integration details from UI
-* CXV1-1993 - Clean up edit panel/text alignment
-* Bumping Flow designer
+* CXV1-2490 - Create view for presence reasons
+* CXV1-2492 - Create view for dispositions
+* CXV1-1909 - Bugfix for making PSTN extension primary
+* CXV1-1993 - Clean up edit panel/text alignment on tenant configuration view
 * CXV1-2543 - re-enable Plivo
 * CXV1-307 - Custom Stats Management
 * Update Realtime Dashboards to 4.0.0 (Includes Custom Realtime Dashboards and Custom Stats)
 * Update Config-Shared to 1.1.1
+* Update Flow designer to 1.10.0 (And put back in removed changes)
 
 ## [3.1.10]
 * Update realtime dashboards to 3.0.3
