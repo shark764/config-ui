@@ -1,6 +1,6 @@
 <div class="divider-header">
   <h4>{{'customStat.version.title' | translate}}</h4>
-  <a id="show-create-new-version" ng-hide="createNewVersion || ! ('CUSTOM_STATS_MANAGE' | hasPermission)" class="btn pull-right" ng-click="createNewVersion = true" title="{{'customStats.details.version.add.alt' | translate}}"><i class="fa fa-plus"></i></a>
+  <a id="show-create-new-version" ng-hide="createNewVersion || ! ('CUSTOM_STATS_CREATE' | hasPermission)" class="btn pull-right" ng-click="createNewVersion = true" title="{{'customStats.details.version.add.alt' | translate}}"><i class="fa fa-plus"></i></a>
 </div>
 
 <div ng-show="createNewVersion">

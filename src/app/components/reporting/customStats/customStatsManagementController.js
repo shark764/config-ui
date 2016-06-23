@@ -97,7 +97,7 @@ angular.module('liveopsConfigPanel')
             $document.find('modal').remove();
             var initialDraft = new CustomStatDraft({
               customStatId: stat.id,
-              customStat: '[]',
+              customStat: '{}',
               tenantId: Session.tenant.tenantId,
               name: 'Initial Draft'
             });

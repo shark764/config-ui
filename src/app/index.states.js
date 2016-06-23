@@ -632,8 +632,8 @@ angular.module('liveopsConfigPanel')
           controller: 'customStatsManagementController',
           reloadOnSearch: false,
           resolve: {
-            hasPermission: ['UserPermissions', function(UserPermissions) {
-              return true;
+            hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
+              return UserPermissions.resolvePermissions(PermissionGroups.accessAllCustomStats);
             }]
           }
         })
@@ -642,6 +642,9 @@ angular.module('liveopsConfigPanel')
           templateUrl: 'app/components/reporting/customStatsEditor/customStatsEditor.html',
           controller: 'customStatsEditorController',
           resolve: {
+            hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
+              return UserPermissions.resolvePermissions(PermissionGroups.accessAllCustomStats);
+            }],
             customStat: ['$stateParams', 'Session', 'CustomStat', '$q', function($stateParams, Session, CustomStat, $q) {
               var deferred = $q.defer();
               var customStat;
