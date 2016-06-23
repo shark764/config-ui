@@ -1,6 +1,6 @@
 <div class="divider-header">
   <h4>{{'customStat.draft.title' | translate}}</h4>
-  <a id="show-create-new-draft" ng-hide="createNewDraft || ! ('CUSTOM_STATS_MANAGE' | hasPermission)" class="btn pull-right" ng-click="createNewDraft = true" title="{{'customStats.details.version.add.alt' | translate}}"><i class="fa fa-plus"></i></a>
+  <a id="show-create-new-draft" ng-hide="createNewDraft || ! ('CUSTOM_STATS_CREATE' | hasPermission)" class="btn pull-right" ng-click="createNewDraft = true" title="{{'customStats.details.version.add.alt' | translate}}"><i class="fa fa-plus"></i></a>
 </div>
 
 <div ng-show="createNewDraft">
@@ -49,7 +49,7 @@
       <audit-text translation="value.displayName" user-id="draft.createdBy"></audit-text>
     </td>
     <td>
-      <a ng-show="'CUSTOM_STATS_MANAGE' | hasPermission" class="remove" ng-click="deleteDraft(draft)" title="{{'customStat.draft.delete.alt' | translate}}"><i class="fa fa-times"></i></a>
+      <a ng-show="'CUSTOM_STATS_CREATE' | hasPermission" class="remove" ng-click="deleteDraft(draft)" title="{{'customStat.draft.delete.alt' | translate}}"><i class="fa fa-times"></i></a>
     </td>
   </tr>
 </table>

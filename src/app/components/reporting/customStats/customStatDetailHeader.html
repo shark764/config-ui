@@ -2,7 +2,7 @@
   <toggle class="status-toggle" ng-model="selectedStat.active"
   confirm-disable-message="{{'customStats.details.disable.confirm' | translate}}"
   confirm-enable-message="{{'customStats.details.enable.confirm' | translate}}"
-  ng-disabled="! ('CUSTOM_STATS_MANAGE' | hasPermission)"
+  ng-disabled="! ('CUSTOM_STATS_CREATE' | hasPermission)"
   on-confirm="updateActive()"></toggle>
 
   <div class="info">

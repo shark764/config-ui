@@ -2,7 +2,7 @@
   <h4>{{'details' | translate}}</h4>
 </div>
 
-<div disable-contents="! ('CUSTOM_STATS_MANAGE' | hasPermission)">
+<div disable-contents="! ('CUSTOM_STATS_CREATE' | hasPermission)">
   <div class="input-group">
     <label>{{'value.name' | translate}} *</label>
     <form-error field="forms.detailsForm.name"
