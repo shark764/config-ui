@@ -32,23 +32,23 @@ module.exports = function (options) {
       addRootSlash: false
     };
 
-    var indexFilter = $.filter(['index.scss'], {restore: true});
-    var vendorFilter = $.filter(['vendor.scss'], {restore: true});
+    // var indexFilter = $.filter(['index.scss'], {restore: true});
+    // var vendorFilter = $.filter(['vendor.scss'], {restore: true});
 
     return gulp.src([
         options.src + '/app/index.scss',
         options.src + '/app/vendor.scss'
       ])
-      .pipe(indexFilter)
+      // .pipe(indexFilter)
       .pipe($.inject(injectFiles, injectOptions))
-      .pipe(indexFilter.restore)
-      .pipe(vendorFilter)
+      // .pipe(indexFilter.restore)
+      // .pipe(vendorFilter)
       .pipe(wiredep(options.wiredep))
-      .pipe(vendorFilter.restore)
-      .pipe($.sourcemaps.init())
+      // .pipe(vendorFilter.restore)
+      // .pipe($.sourcemaps.init())
       .pipe($.sass(sassOptions)).on('error', options.errorHandler('Sass'))
       .pipe($.autoprefixer()).on('error', options.errorHandler('Autoprefixer'))
-      .pipe($.sourcemaps.write())
+      // .pipe($.sourcemaps.write())
       .pipe(gulp.dest(options.tmp + '/serve/app/'))
       .pipe(browserSync.reload({
         stream: true 
