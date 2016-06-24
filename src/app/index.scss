@@ -4,6 +4,9 @@
 //injector
 //endinjector
 
+$min-body-width: 1130px;
+$navbar-height: 50px;
+
 html, body {
   height: 100%;
   min-width: $min-body-width;
