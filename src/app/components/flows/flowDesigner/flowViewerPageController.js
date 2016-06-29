@@ -1,10 +1,12 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('ViewerPageController', ['$scope', 'flow', 'notations', 'data', 'FlowResource', 'FlowNotationService', 'FlowLibrary', 'lodash',
-    function($scope, flow, notations, data, FlowResource, FlowNotationService, FlowLibrary, lodash) {
+  .controller('ViewerPageController', ['$scope', 'flow', 'platformFlow', 'notations', 'data', 'FlowResource', 'FlowNotationService', 'FlowLibrary', 'lodash',
+    function($scope, flow, platformFlow, notations, data, FlowResource, FlowNotationService, FlowLibrary, lodash) {
       $scope.flow = flow;
       $scope.flowData = data;
+
+      FlowResource.setPlatformFlow(platformFlow);
 
       var parsedNotations = FlowNotationService.parseNotations(notations);
 
