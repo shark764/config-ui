@@ -16,6 +16,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 * Update Config-Shared to 1.1.1
 * Update Flow designer to 2.0.1
 * Update Flow Viewer controller
+* Increased timeout allowance for historical provisioning
 
 ## [3.1.10]
 * Update realtime dashboards to 3.0.3

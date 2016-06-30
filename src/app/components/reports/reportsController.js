@@ -7,8 +7,8 @@ angular.module('liveopsConfigPanel')
       $scope.dashboardReady = false;
       $scope.birst.message = $translate.instant('reports.default');
       var time = 0;
-      var sleepTime = 5;
-      var maxTimeout = 30;
+      var sleepTime = 15;
+      var maxTimeout = 120;
 
       $('#birstFrame').on('load', function() {
         $scope.dashboardReady = true;
