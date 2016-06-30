@@ -58,10 +58,10 @@ angular.module('liveopsConfigPanel')
       'title' : $translate.instant('dispositionLists.table.title'),
       'sref' : 'content.configuration.dispositionLists',
       'showCreate': function () {
-        return UserPermissions.hasPermission('CREATE_DISPOSITION_LISTS');
+        return UserPermissions.hasPermission('CREATE_DISPOSITION_LIST');
       },
       'showBulkActions': function () {
-        return UserPermissions.hasPermission('UPDATE_DISPOSITION_LISTS');
+        return UserPermissions.hasPermission('UPDATE_DISPOSITION_LIST');
       }
     };
   }]);
