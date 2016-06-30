@@ -58,10 +58,10 @@ angular.module('liveopsConfigPanel')
       'title' : $translate.instant('reasonLists.table.title'),
       'sref' : 'content.configuration.reasonLists',
       'showCreate': function () {
-        return UserPermissions.hasPermission('CREATE_REASON_LISTS');
+        return UserPermissions.hasPermission('CREATE_REASON_LIST');
       },
       'showBulkActions': function () {
-        return UserPermissions.hasPermission('UPDATE_REASON_LISTS');
+        return UserPermissions.hasPermission('UPDATE_REASON_LIST');
       }
     };
   }]);
