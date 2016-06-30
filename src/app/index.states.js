@@ -138,6 +138,17 @@ angular.module('liveopsConfigPanel')
             }]
           }
         })
+        .state('content.configuration.dispositionLists', {
+          url: '/dispositionLists?id',
+          templateUrl: 'app/components/configuration/dispositions/dispositionLists/dispositionLists.html',
+          controller: 'dispositionListsController as dlc',
+          reloadOnSearch: false,
+          resolve: {
+            hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
+              return UserPermissions.resolvePermissions(PermissionGroups.accessDispositionLists);
+            }]
+          }
+        })
         .state('content.configuration.reasons', {
           url: '/reasons?id',
           templateUrl: 'app/components/configuration/reasons/reasons.html',
@@ -146,6 +157,17 @@ angular.module('liveopsConfigPanel')
           resolve: {
             hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
               return UserPermissions.resolvePermissions(PermissionGroups.accessReasons);
+            }]
+          }
+        })
+        .state('content.configuration.reasonLists', {
+          url: '/reasonLists?id',
+          templateUrl: 'app/components/configuration/reasons/reasonLists/reasonLists.html',
+          controller: 'reasonListsController as rlc',
+          reloadOnSearch: false,
+          resolve: {
+            hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
+              return UserPermissions.resolvePermissions(PermissionGroups.accessReasonLists);
             }]
           }
         })

@@ -1,0 +1,83 @@
+<div id="table-pane">
+  <table-controls
+    config="dlc.tableConfig"
+    items="dlc.dispositionLists"
+    search-query="searchQuery">
+  </table-controls>
+
+  <lo-resource-table
+    config="dlc.tableConfig"
+    items="dlc.dispositionLists"
+    selected="dlc.selectedDispositionList"
+    search-query="searchQuery">
+
+    <span name="$original.shared">
+      <span ng-if="item.$original.shared">{{'value.yes' | translate}}</span>
+      <span ng-if="!item.$original.shared" class="disabled">{{'value.no' | translate}}</span>
+    </span>
+
+    <span name="$original.active">
+      <span ng-if="item.$original.active">{{'value.enabled' | translate}}</span>
+      <span ng-if="!item.$original.active" class="disabled">{{'value.disabled' | translate}}</span>
+    </span>
+  </lo-resource-table>
+</div>
+
+<resize-handle
+  ng-show="dlc.selectedDispositionList || showBulkActions"
+  id="resize-pane"
+  right-element-id="disposition-lists-details-pane"
+  left-element-id="table-pane"></resize-handle>
+
+<lo-details-panel
+  id="disposition-lists-details-pane"
+  class="right-panel"
+  ng-show="dlc.selectedDispositionList || showBulkActions"
+  ng-resource="dlc.selectedDispositionList">
+
+  <ng-form
+    class="details-pane"
+    unsaved-changes-warning
+    name="forms.detailsForm"
+    ng-show="!showBulkActions"
+    ng-resource="dlc.selectedDispositionList"
+    lo-form-submit lo-form-cancel lo-form-alert>
+
+    <ng-form name="forms.headerForm" separate-validation>
+      <div class="detail-header" ng-include="'app/components/configuration/dispositions/dispositionLists/dispositionListsDetailHeader.html'">
+      </div>
+    </ng-form>
+
+    <div class="detail-body" ng-include="'app/components/configuration/dispositions/dispositionLists/dispositionListsDetailBody.html'">
+    </div>
+
+    <div class="detail-controls">
+      <input
+        id="cancel-details-btn" class="btn" type="button"
+        ng-disabled="dlc.selectedDispositionList.$busy"
+        value="{{'value.cancel' | translate}}"
+        lo-cancel></input>
+
+      <input
+        id="submit-details-btn"
+        lo-submit="dlc.confirmSubmit()"
+        lo-submit-spinner
+        lo-submit-spinner-status="dlc.selectedDispositionList.$busy"
+        ng-disabled="forms.detailsForm.$pending || forms.detailsForm.$invalid || ! forms.detailsForm.$dirty"
+        class="btn btn-primary"
+        type="submit"
+        value="{{'value.submit' | translate}}" />
+    </div>
+
+    </ng-form>
+
+    <bulk-action-executor class="details-pane"
+      ng-show="showBulkActions"
+      items="dlc.dispositionLists"
+      show-bulk-actions="showBulkActions">
+
+      <ba-set-disposition-list-status></ba-set-disposition-list-status>
+      <ba-set-disposition-list-shared></ba-set-disposition-list-shared>
+    </bulk-action-executor>
+
+</lo-details-panel>

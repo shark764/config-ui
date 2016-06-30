@@ -1,0 +1,112 @@
+.list-editor {
+  border: 1px solid black;
+  height: 100%;
+  margin: 10px auto;
+  width: 75%;
+
+  .list-controls {
+    border-bottom: 1px solid black;
+    height: 2.2em;
+    padding: 7px 5px 5px 5px;
+
+    .fa-plus-square-o {
+      margin-left: 60px;
+    }
+
+    .fa-plus {
+      margin-left: 10px;
+    }
+
+    .fa-arrow-down {
+      margin-left: 20px;
+    }
+
+    .fa-arrow-up {
+      margin-left: 10px;
+    }
+
+    .fa-plus,
+    .fa-arrow-up,
+    .fa-arrow-down {
+      color: green;
+    }
+
+    .fa-times {
+      color: maroon;
+      margin-left: 10px;
+    }
+
+    .fa-arrow-left {
+      margin-left: 20px;
+    }
+
+    .fa-arrow-right {
+      margin-left: 10px;
+    }
+
+    .fa-arrow-left,
+    .fa-arrow-right {
+      color: darkblue;
+    }
+  }
+
+  .list-body {
+    height: 20em;
+    overflow: auto;
+    padding: 15px;
+
+    ul {
+      list-style-position: inside;
+
+      .nested {
+        list-style-type: circle;
+      }
+
+      li {
+        padding: 3px;
+
+        .selectedDispo {
+          border: 1px solid orange;
+          margin-right: 0;
+          padding: 1px 10px 1px 1px;
+        }
+
+        .nested-disposition {
+          margin-left: 15px;
+        }
+
+        .dispoDropdown {
+          background-color: white;
+          border: 1px solid black;
+          right: 50%;
+          position: absolute;
+          z-index: 10;
+
+          ul {
+            padding: 5px;
+
+            li {
+
+            }
+          }
+        }
+
+        div:not(.dispoDropdown):not(.wrapper) {
+          border: 1px solid orange;
+          color: orange;
+          display: inline-block;
+          margin-left: 0;
+          padding: 1px;
+          position: relative;
+          right: 4px;
+
+          i {
+            position: relative;
+            bottom: 4px;
+            padding: 1px;
+          }
+        }
+      }
+    }
+  }
+}

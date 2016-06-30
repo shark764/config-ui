@@ -1,0 +1,52 @@
+<div class="divider-header first-header">
+  <h4>{{'details' | translate}}</h4>
+</div>
+
+<div>
+  <div class="input-group">
+    <label>{{'value.name' | translate}} *</label>
+    <form-error field="forms.detailsForm.name" error-type-required="{{'details.name.error' | translate}}" ></form-error>
+    <div>
+      <input ng-required="true" type="text" ng-model="rlc.selectedReasonList.name" name="name"/>
+    </div>
+  </div>
+</div>
+
+<div>
+  <div class="input-group">
+    <label>{{'details.externalId' | translate}}</label>
+    <div>
+      <input type="text" ng-model="rlc.selectedReasonList.externalId" name="externalId"/>
+    </div>
+  </div>
+</div>
+
+<div>
+  <div class="input-group">
+    <label class="textarea-label">{{'value.description' | translate}}</label>
+    <textarea ng-model="rlc.selectedReasonList.description"></textarea>
+  </div>
+</div>
+
+<div>
+  <div class="input-group">
+    <label>{{'value.shared' | translate}}</label>
+    <div>
+      <toggle class="status-toggle" name="shared"
+        ng-disabled="(! rlc.selectedReasonList.isNew() && rlc.selectedReasonList.$original.shared) || !('SHARE_DISPOSITIONS' | hasPermission)"
+        ng-model="rlc.selectedReasonList.shared">
+      </toggle>
+    </div>
+  </div>
+</div>
+
+<div class="divider-header first-header">
+  <h4>{{'reasons' | translate}}</h4>
+</div>
+
+<div>
+  <div class="input-group">
+    <div class="lo-error" ng-show="err">{{'reasons.invalid' | translate}}</div>
+    <list-editor ng-model="rlc.selectedReasonList.reasons" form="forms.detailsForm" type="reasons"></list-editor>
+  </div>
+</div>
