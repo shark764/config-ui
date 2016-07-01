@@ -63,7 +63,7 @@
         lo-submit="rlc.confirmSubmit()"
         lo-submit-spinner
         lo-submit-spinner-status="rlc.selectedReasonList.$busy"
-        ng-disabled="forms.detailsForm.$pending || forms.detailsForm.$invalid || ! forms.detailsForm.$dirty"
+        ng-disabled="forms.detailsForm.$pending || forms.detailsForm.$invalid || ! forms.detailsForm.$dirty || rlc.selectedReasonList.tenantId !== Session.tenant.tenantId"
         class="btn btn-primary"
         type="submit"
         value="{{'value.submit' | translate}}" />

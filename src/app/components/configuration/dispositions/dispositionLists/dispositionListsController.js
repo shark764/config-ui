@@ -117,14 +117,26 @@ angular.module('liveopsConfigPanel')
       }, function(list) {
         $scope.err = false;
         $scope.loading = false;
+        Alert.success($translate.instant('value.saveSuccess'));
+        vm.duplicateError = false;
         vm.init();
       }, function(err) {
         Alert.error($translate.instant('value.saveFail'));
         $scope.forms.detailsForm.$setDirty();
         $scope.loading = false;
+        if(err.data.error.attribute.name) {
+          vm.duplicateError = true;
+          vm.duplicateErrorMessage = err.data.error.attribute.name.capitalize();
+        }
       });
     };
 
     vm.init();
+
+    $scope.$watch(function() {
+      return vm.selectedDispositionList;
+    }, function() {
+      vm.duplicateError = false;
+    });
 
   }]);

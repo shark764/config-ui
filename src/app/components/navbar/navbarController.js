@@ -106,12 +106,30 @@ angular.module('liveopsConfigPanel')
           });
         }
 
+        if (UserPermissions.hasPermissionInList(['UPDATE_PRESENCE_REASONS'])) {
+          items.push({
+            label: $translate.instant('navbar.configuration.reasons.title'),
+            stateLink: 'content.configuration.reasons',
+            id: 'reasons-configuration-link',
+            order: 2
+          });
+        }
+
+        if (UserPermissions.hasPermissionInList(['UPDATE_REASON_LIST'])) {
+          items.push({
+            label: $translate.instant('navbar.configuration.reasons.lists.title'),
+            stateLink: 'content.configuration.reasonLists',
+            id: 'reason-lists-configuration-link',
+            order: 3
+          });
+        }
+
         if (UserPermissions.hasPermissionInList(PermissionGroups.manageRoles)) {
           items.push({
             label: $translate.instant('navbar.management.roles.title'),
             stateLink: 'content.management.roles',
             id: 'role-management-link',
-            order: 2
+            order: 4
           });
         }
 
@@ -122,7 +140,7 @@ angular.module('liveopsConfigPanel')
             label: $translate.instant('navbar.management.skills.title'),
             stateLink: 'content.management.skills',
             id: 'skill-management-link',
-            order: 3
+            order: 5
           });
         }
 
@@ -133,7 +151,7 @@ angular.module('liveopsConfigPanel')
             label: $translate.instant('navbar.management.groups.title'),
             stateLink: 'content.management.groups',
             id: 'group-management-link',
-            order: 4
+            order: 6
           });
         }
 
@@ -179,43 +197,6 @@ angular.module('liveopsConfigPanel')
           });
         }
 
-
-        if (UserPermissions.hasPermissionInList(['UPDATE_PRESENCE_REASONS'])) {
-          items.push({
-            label: $translate.instant('navbar.configuration.reasons.title'),
-            stateLink: 'content.configuration.reasons',
-            id: 'reasons-configuration-link',
-            order: 5
-          });
-        }
-
-        if (UserPermissions.hasPermissionInList(['UPDATE_REASON_LIST'])) {
-          items.push({
-            label: $translate.instant('navbar.configuration.reasons.lists.title'),
-            stateLink: 'content.configuration.reasonLists',
-            id: 'reason-lists-configuration-link',
-            order: 6
-          });
-        }
-
-        if (UserPermissions.hasPermissionInList(['UPDATE_DISPOSITIONS'])) {
-          items.push({
-            label: $translate.instant('navbar.configuration.dispositions.title'),
-            stateLink: 'content.configuration.dispositions',
-            id: 'dispositions-configuration-link',
-            order: 7
-          });
-        }
-
-        if (UserPermissions.hasPermissionInList(['UPDATE_DISPOSITION_LIST'])) {
-          items.push({
-            label: $translate.instant('navbar.configuration.dispositions.lists.title'),
-            stateLink: 'content.configuration.dispositionLists',
-            id: 'disposition-lists-configuration-link',
-            order: 8
-          });
-        }
-
         return items;
       };
 
@@ -231,12 +212,30 @@ angular.module('liveopsConfigPanel')
           });
         }
 
+        if (UserPermissions.hasPermissionInList(['UPDATE_DISPOSITIONS'])) {
+          items.push({
+            label: $translate.instant('navbar.configuration.dispositions.title'),
+            stateLink: 'content.configuration.dispositions',
+            id: 'dispositions-configuration-link',
+            order: 2
+          });
+        }
+
+        if (UserPermissions.hasPermissionInList(['UPDATE_DISPOSITION_LIST'])) {
+          items.push({
+            label: $translate.instant('navbar.configuration.dispositions.lists.title'),
+            stateLink: 'content.configuration.dispositionLists',
+            id: 'disposition-lists-configuration-link',
+            order: 3
+          });
+        }
+
         if (UserPermissions.hasPermissionInList(PermissionGroups.accessAllQueues)) {
           items.push({
             label: $translate.instant('navbar.flows.queues.title'),
             stateLink: 'content.flows.queues',
             id: 'queue-management-link',
-            order: 2
+            order: 4
           });
         }
 
@@ -245,14 +244,14 @@ angular.module('liveopsConfigPanel')
             label: $translate.instant('navbar.flows.mediacollections.title'),
             stateLink: 'content.flows.media-collections',
             id: 'media-collection-management-link',
-            order: 3
+            order: 5
           });
 
           items.push({
             label: $translate.instant('navbar.flows.media.title'),
             stateLink: 'content.flows.media',
             id: 'media-management-link',
-            order: 4
+            order: 6
           });
         }
 
@@ -261,7 +260,7 @@ angular.module('liveopsConfigPanel')
             label: $translate.instant('navbar.flows.dispatchmappings.title'),
             stateLink: 'content.flows.dispatchMappings',
             id: 'dispatch-mappings-configuration-link',
-            order: 5
+            order: 7
           });
         }
 

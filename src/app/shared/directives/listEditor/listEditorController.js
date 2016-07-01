@@ -134,6 +134,10 @@ angular.module('liveopsConfigPanel')
               if ($scope.selectedDispo.hierarchy.length > 0) {
                 return;
               }
+              //edge case :(
+              if (nextIndex + 1 === $scope.dispositionList.length) {
+                nextIndex++;
+              }
               for (var i = nextIndex + 1; i < $scope.dispositionList.length; i++) {
                 if (angular.isDefined($scope.dispositionList[i].type) || $scope.selectedDispo.hierarchy[0] === $scope.dispositionList[i].hierarchy[0]) {
                   nextIndex = i;

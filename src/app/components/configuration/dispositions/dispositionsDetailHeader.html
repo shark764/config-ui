@@ -2,7 +2,7 @@
   <toggle class="status-toggle" ng-model="dc.selectedDisposition.active"
   confirm-disable-message="{{'dispositions.details.disable.confirm' | translate}}"
   confirm-enable-message="{{'dispositions.details.enable.confirm' | translate}}"
-  ng-disabled="! (['UPDATE_DISPOSITIONS'] | hasPermission)"
+  ng-disabled="! (['UPDATE_DISPOSITIONS'] | hasPermission) || dc.selectedDisposition.tenantId !== Session.tenant.tenantId"
   on-confirm="dc.updateActive()"></toggle>
 
   <div class="info">
