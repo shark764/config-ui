@@ -16,9 +16,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 * CXV1-307 - Custom Stats Management
 * Update Realtime Dashboards to 4.0.0 (Includes Custom Realtime Dashboards and Custom Stats)
 * Update Config-Shared to 1.1.1
-* Update Flow designer to 2.0.1
 * Update Flow Viewer controller
 * Increased timeout allowance for historical provisioning
+* Bumping flow-designer version to 2.0.2
 
 ## [3.1.10]
 * Update realtime dashboards to 3.0.3
