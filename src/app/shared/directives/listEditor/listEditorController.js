@@ -27,11 +27,21 @@ angular.module('liveopsConfigPanel')
         $scope.dropdown = -1;
       };
 
+      $scope.highlightText = function(event) {
+        event.target.select();
+      };
+
       $scope.addCategory = function() {
+        var idx;
         var newCategory = {name: 'Enter a category name', type:'category'};
         $scope.dispositionList.push(newCategory);
+        $scope.selectedDispo = _.last($scope.dispositionList);
         $scope.dropdown = -1;
         $scope.detailsForm.$setDirty();
+        idx = $scope.dispositionList.indexOf(newCategory);
+        $timeout(function() {
+          document.getElementById('category-' + idx).focus();
+        }, 0);
         $scope.$watch(function() {
           return newCategory.name;
         }, function(newVal, oldVal) {
@@ -106,6 +116,7 @@ angular.module('liveopsConfigPanel')
         delete $scope.dispositionList[listIndex].updatedBy;
         delete $scope.dispositionList[listIndex].id;
 
+        $scope.selectedDispo = $scope.dispositionList[listIndex];
         $scope.dropdown = -1;
         $scope.detailsForm.$setDirty();
       };
@@ -133,6 +144,10 @@ angular.module('liveopsConfigPanel')
               // UNLESS THIS IS PART OF ANOTHER SUBLIST
               if ($scope.selectedDispo.hierarchy.length > 0) {
                 return;
+              }
+              //edge case :(
+              if (nextIndex + 1 === $scope.dispositionList.length) {
+                nextIndex++;
               }
               for (var i = nextIndex + 1; i < $scope.dispositionList.length; i++) {
                 if (angular.isDefined($scope.dispositionList[i].type) || $scope.selectedDispo.hierarchy[0] === $scope.dispositionList[i].hierarchy[0]) {
@@ -239,13 +254,15 @@ angular.module('liveopsConfigPanel')
       $scope.remove = function() {
         if (angular.isDefined($scope.selectedDispo)) {
           if(angular.isDefined($scope.selectedDispo.type)) {
-            $scope.dispositionList.forEach(function(dispo) {
-              if(!angular.isDefined(dispo.type)) {
-                dispo.hierarchy = dispo.hierarchy.filter(function(category) {
-                  return category.name === $scope.selectedDispo.name;
-                });
+            var idx = $scope.dispositionList.indexOf($scope.selectedDispo);
+            for (var i = idx + 1; i < $scope.dispositionList.length; i++) {
+              if (angular.isDefined($scope.dispositionList[i].type)) {
+                break;
               }
-            });
+              if (angular.isDefined($scope.dispositionList[i].hierarchy) && $scope.dispositionList[i].hierarchy.length === 1) {
+                $scope.dispositionList[i].hierarchy.pop();
+              }
+            }
           }
           _.pull($scope.dispositionList, $scope.selectedDispo);
         }

@@ -63,7 +63,7 @@
         lo-submit="dc.confirmSubmit()"
         lo-submit-spinner
         lo-submit-spinner-status="dc.selectedDisposition.$busy"
-        ng-disabled="forms.detailsForm.$pending || forms.detailsForm.$invalid || ! forms.detailsForm.$dirty"
+        ng-disabled="forms.detailsForm.$pending || forms.detailsForm.$invalid || ! forms.detailsForm.$dirty || dc.selectedDisposition.tenantId !== Session.tenant.tenantId"
         class="btn btn-primary"
         type="submit"
         value="{{'value.submit' | translate}}" />

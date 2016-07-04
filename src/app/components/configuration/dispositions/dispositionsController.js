@@ -46,9 +46,22 @@ angular.module('liveopsConfigPanel')
     vm.submit = function() {
       return vm.selectedDisposition.save({
         tenantId: Session.tenant.tenantId
-      }, null, function(err) {
+      }, function() {
+        Alert.success($translate.instant('value.saveSuccess'));
+        vm.duplicateError = false;
+      }, function(err) {
         Alert.error($translate.instant('value.saveFail'));
+        if(err.data.error.attribute.name) {
+         vm.duplicateError = true;
+         vm.duplicateErrorMessage = err.data.error.attribute.name.capitalize();
+        }
       });
     };
+
+    $scope.$watch(function() {
+     return vm.selectedDisposition;
+   }, function() {
+     vm.duplicateError = false;
+   });
 
   }]);

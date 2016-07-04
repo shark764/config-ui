@@ -9,6 +9,8 @@ angular.module('liveopsConfigPanel')
       scope: {
         dispositionList: '=ngModel',
         detailsForm: '=form',
+        readOnly: '=',
+        shared: '=',
         type: '@'
       },
       link: function(scope, element, attrs) {

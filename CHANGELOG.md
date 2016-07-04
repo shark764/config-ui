@@ -3,7 +3,6 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
-* CXV1-870 - Query builder for queues rewrite. *NOT PRODUCTION READY* - Contact Josh Stevens before making a release
 * CXV1-1203 - Added annotations icon and removed an extraneous line break, should not affect any other code
 * CXV1-2396 - Hide birst integration details from UI
 * CXV1-2490 - Create view for presence reasons

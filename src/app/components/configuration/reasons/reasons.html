@@ -40,6 +40,7 @@
     unsaved-changes-warning
     name="forms.detailsForm"
     ng-show="!showBulkActions"
+    ng-model="rc.selectedReason"
     ng-resource="rc.selectedReason"
     lo-form-submit lo-form-cancel lo-form-alert>
 
@@ -63,7 +64,7 @@
         lo-submit="rc.confirmSubmit()"
         lo-submit-spinner
         lo-submit-spinner-status="rc.selectedReason.$busy"
-        ng-disabled="forms.detailsForm.$pending || forms.detailsForm.$invalid || ! forms.detailsForm.$dirty"
+        ng-disabled="forms.detailsForm.$pending || forms.detailsForm.$invalid || ! forms.detailsForm.$dirty || rc.selectedReason.tenantId !== Session.tenant.tenantId"
         class="btn btn-primary"
         type="submit"
         value="{{'value.submit' | translate}}" />

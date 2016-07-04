@@ -20,12 +20,14 @@ angular.module('liveopsConfigPanel')
           var categoriesAdded = [];
           var reasonListCopy = list.reasons.slice(0);
           reasonListCopy.forEach(function(reason, index) {
-            reason.hierarchy.forEach(function(category) {
-              if (categoriesAdded.indexOf(category) === -1) {
-                list.reasons.splice(index + categoriesAdded.length, 0, {name: category, type: 'category'});
-                categoriesAdded.push(category);
-              }
-            });
+            if(angular.isDefined(reason.hierarchy)) {
+              reason.hierarchy.forEach(function(category) {
+                if (categoriesAdded.indexOf(category) === -1) {
+                  list.reasons.splice(index + categoriesAdded.length, 0, {name: category, type: 'category'});
+                  categoriesAdded.push(category);
+                }
+              });
+            }
           });
 
           list.reasons.forEach(function(item) {
@@ -117,14 +119,26 @@ angular.module('liveopsConfigPanel')
       }, function(list) {
         $scope.err = false;
         $scope.loading = false;
+        Alert.success($translate.instant('value.saveSuccess'));
+        vm.duplicateError = false;
         vm.init();
       }, function(err) {
         Alert.error($translate.instant('value.saveFail'));
         $scope.forms.detailsForm.$setDirty();
         $scope.loading = false;
+        if(err.data.error.attribute.name) {
+          vm.duplicateError = true;
+          vm.duplicateErrorMessage = err.data.error.attribute.name.capitalize();
+        }
       });
     };
 
     vm.init();
+
+    $scope.$watch(function() {
+      return vm.selectedReasonList;
+    }, function() {
+      vm.duplicateError = false;
+    });
 
   }]);
