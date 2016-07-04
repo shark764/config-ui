@@ -17,7 +17,7 @@
         <div class="wrapper" ng-show="disposition.type !== 'category'">
           <span ng-click="selectDisposition($index)" ng-class="{selectedDispo: disposition === selectedDispo, disabledDispo: !disposition.active && disposition.id}" ng-show="!disposition.hierarchy.length">{{disposition.name}}</span>
           <span class="nested-disposition" ng-click="selectDisposition($index)" ng-class="{selectedDispo: disposition === selectedDispo, disabledDispo: !disposition.active && disposition.id}" ng-show="disposition.hierarchy.length === 1">{{disposition.name}}</span>
-          <div class="dropdown-arrow" ng-show="disposition === selectedDispo && !readOnly"><i ng-click="toggleDropdown($index)" class="fa fa-sort-desc fa-lg"></i></div>
+          <div class="dropdown-arrow" ng-click="toggleDropdown($index)" ng-show="disposition === selectedDispo && !readOnly"><i class="fa fa-sort-desc fa-lg"></i></div>
           <div ng-show="dropdown === $index" class="dispoDropdown">
             <ul>
               <li ng-repeat="dispo in possibleDispos" ng-click="selectNewDispo($index)" ng-if="!dispositionList.find(dispoCheck, dispo)" ng-hide="!dispo.active || (shared && !dispo.shared)">{{dispo.name}}</li>
@@ -26,7 +26,7 @@
         </div>
 
         <div class="wrapper" ng-show="disposition.type === 'category'">
-          <input ng-click="selectDisposition($index)" ng-class="{selectedDispo: disposition === selectedDispo}" ng-model="disposition.name" ng-disabled="readOnly"></input>
+          <input id="category-{{$index}}" ng-click="selectDisposition($index)" ng-focus="highlightText($event)" ng-class="{selectedDispo: disposition === selectedDispo}" ng-model="disposition.name" ng-disabled="readOnly"></input>
         </div>
 
       </li>

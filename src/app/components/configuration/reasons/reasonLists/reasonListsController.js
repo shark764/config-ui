@@ -20,12 +20,14 @@ angular.module('liveopsConfigPanel')
           var categoriesAdded = [];
           var reasonListCopy = list.reasons.slice(0);
           reasonListCopy.forEach(function(reason, index) {
-            reason.hierarchy.forEach(function(category) {
-              if (categoriesAdded.indexOf(category) === -1) {
-                list.reasons.splice(index + categoriesAdded.length, 0, {name: category, type: 'category'});
-                categoriesAdded.push(category);
-              }
-            });
+            if(angular.isDefined(reason.hierarchy)) {
+              reason.hierarchy.forEach(function(category) {
+                if (categoriesAdded.indexOf(category) === -1) {
+                  list.reasons.splice(index + categoriesAdded.length, 0, {name: category, type: 'category'});
+                  categoriesAdded.push(category);
+                }
+              });
+            }
           });
 
           list.reasons.forEach(function(item) {

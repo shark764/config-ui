@@ -20,12 +20,14 @@ angular.module('liveopsConfigPanel')
           var categoriesAdded = [];
           var dispositionListCopy = list.dispositions.slice(0);
           dispositionListCopy.forEach(function(disposition, index) {
-            disposition.hierarchy.forEach(function(category) {
-              if (categoriesAdded.indexOf(category) === -1) {
-                list.dispositions.splice(index + categoriesAdded.length, 0, {name: category, type: 'category'});
-                categoriesAdded.push(category);
-              }
-            });
+            if(angular.isDefined(disposition.hierarchy)) {
+              disposition.hierarchy.forEach(function(category) {
+                if (categoriesAdded.indexOf(category) === -1) {
+                  list.dispositions.splice(index + categoriesAdded.length, 0, {name: category, type: 'category'});
+                  categoriesAdded.push(category);
+                }
+              });
+            }
           });
 
           list.dispositions.forEach(function(item) {
