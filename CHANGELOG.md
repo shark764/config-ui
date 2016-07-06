@@ -3,10 +3,12 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+* CXV1-3026 Add presence reasons to user management
 
 ## [4.0.1]
 * Update Liveops Text on login screens
 * Update Realtime Dashboards to 4.0.0 (Includes Custom Realtime Dashboards and Custom Stats)
+
 
 ## [4.0.0]
 * CXV1-1203 - Added annotations icon and removed an extraneous line break, should not affect any other code
