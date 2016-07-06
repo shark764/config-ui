@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+* Update Liveops Text on login screens
+
+## [4.0.0]
 * CXV1-1203 - Added annotations icon and removed an extraneous line break, should not affect any other code
 * CXV1-2396 - Hide birst integration details from UI
 * CXV1-2490 - Create view for presence reasons
