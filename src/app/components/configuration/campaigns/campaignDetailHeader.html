@@ -1,0 +1,38 @@
+<div ng-if="! cc.selectedCampaign.isNew()">
+  <toggle class="status-toggle" ng-model="cc.selectedCampaign.active"
+  confirm-disable-message="{{'campaigns.details.disable.confirm' | translate}}"
+  confirm-enable-message="{{'campaigns.details.enable.confirm' | translate}}"
+  ng-disabled="! (['PLATFORM_MANAGE_ALL_TENANTS', 'MANAGE_TENANT'] | hasPermission)"
+  on-confirm="updateActive()"></toggle>
+
+  <div class="info">
+    <h1>{{cc.selectedCampaign.$original.name}}</h1>
+    <div class="details" ng-if="['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_USERS', 'MANAGE_ALL_USER_EXTENSIONS', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_ALL_USER_LOCATIONS', 'MANAGE_TENANT_ENROLLMENT'] | hasPermission">
+      <b audit-text
+        translation="value.createdby.time"
+        user-id="cc.selectedCampaign.$original.createdBy"
+        date="cc.selectedCampaign.$original.created">
+      </b>
+      <br/>
+      <b audit-text ng-if="!!cc.selectedCampaign.$original.updatedBy"
+        translation="value.updatedby"
+        user-id="cc.selectedCampaign.$original.updatedBy"
+        date="cc.selectedCampaign.$original.updated">
+      </b>
+    </div>
+    <div class="details">
+    <!-- <div class="details" ng-if="!(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_USERS', 'MANAGE_ALL_USER_EXTENSIONS', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_ALL_USER_LOCATIONS', 'MANAGE_TENANT_ENROLLMENT'] | hasPermission)"> -->
+      <b audit-text
+        translation="value.createdon.time"
+        date="cc.selectedCampaign.$original.created">
+      </b>
+      <br/>
+      <b audit-text ng-if="!!cc.selectedCampaign.$original.updated"
+        translation="value.updatedon"
+        date="cc.selectedCampaign.$original.updated">
+      </b>
+    </div>
+  </div>
+</div>
+
+<h1 ng-if="cc.selectedCampaign.isNew()">{{'campaigns.details.creating' | translate}}</h1>

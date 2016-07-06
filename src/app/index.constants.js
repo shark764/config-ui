@@ -99,4 +99,8 @@ angular.module('liveopsConfigPanel.config', [])
   }, {
     'value': 'other',
     'display': 'Other'
-  }]);
+  }])
+
+  .constant('campaignChannelTypes', [
+    'voice'
+  ]);

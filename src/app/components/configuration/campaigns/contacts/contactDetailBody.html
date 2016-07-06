@@ -1,0 +1,69 @@
+<!--RE-ENABLE BELOW DIV WHEN WE HAVE THE PROPER PERSMISSION ROLES TO IMPLEMENT  -->
+<!-- <div disable-contents="! (['PLATFORM_MANAGE_ALL_TENANTS', 'MANAGE_TENANT'] | hasPermission)"> -->
+<form name="contactForm" >
+    <div class="input-group">
+      <label>{{'value.name' | translate}}</label>
+      <div>
+        <input required ng-model="con.selectedContact.name" name="name" type="text"></input>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label>{{'details.phoneNumber' | translate}}</label>
+      <div>
+        <input required ng-model="con.selectedContact.phoneNumber" name="phoneNumber" type="text"></input>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label>{{'contacts.details.state' | translate}}</label>
+      <div>
+        <input required ng-model="con.selectedContact.state" name="state" type="text"></input>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label>{{'contacts.details.country' | translate}}</label>
+      <div>
+        <input required ng-model="con.selectedContact.country" name="country" type="text"></input>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label>{{'contacts.details.callTime' | translate}}</label>
+      <div>
+        <input required ng-model="con.selectedContact.reqCallTime" name="reqCallTime" type="text"></input>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label>{{'contacts.details.callDate' | translate}}</label>
+      <div>
+        <input type="text" name="callDate"
+          ng-model="con.selectedContact.startDate"
+          moment-picker="con.selectedContact.startDate"
+          format="MM-DD-YYYY"
+          start-view="month"
+          max-view="month"
+          ng-model-options="{timezone: 'UTC'}">
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label>{{'contacts.details.timezone' | translate}}</label>
+      <div>
+        <input required ng-model="con.selectedContact.timezone" name="timezone" type="text"></input>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label>{{'contacts.details.expiration' | translate}}</label>
+      <div>
+        <input required ng-model="con.selectedContact.expiration" name="expiration" type="text"></input>
+      </div>
+    </div>
+</form>
+
+<div class="input-group delete">
+  <button class="btn delete-contact" ng-click="con.deleteContact(con.selectedContact)">{{'contacts.details.delete' | translate}}</button>
+</div>
