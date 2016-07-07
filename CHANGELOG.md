@@ -3,7 +3,10 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## [4.0.1]
 * Update Liveops Text on login screens
+* Update Realtime Dashboards to 4.0.0 (Includes Custom Realtime Dashboards and Custom Stats)
 
 ## [4.0.0]
 * CXV1-1203 - Added annotations icon and removed an extraneous line break, should not affect any other code
@@ -17,7 +20,6 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 * CXV1-2543 - re-enable Plivo
 * CXV1-307 - Custom Stats Management
 * CXV1-3182 - Unique Source Switchers
-* Update Realtime Dashboards to 4.0.0 (Includes Custom Realtime Dashboards and Custom Stats)
 * Update Config-Shared to 1.1.1
 * Update Flow Viewer controller
 * Increased timeout allowance for historical provisioning
