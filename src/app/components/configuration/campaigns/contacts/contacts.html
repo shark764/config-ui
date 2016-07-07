@@ -1,0 +1,74 @@
+<div id="table-pane">
+  <table-controls
+    config="con.tableConfig"
+    items="con.contacts"
+    search-query="searchQuery">
+  </table-controls>
+
+  <lo-resource-table
+    config="con.tableConfig"
+    items="con.contacts"
+    selected="con.selectedContact"
+    search-query="searchQuery">
+
+    <span name="$original.active">
+      <span ng-if="item.active">{{'value.enabled' | translate}}</span>
+      <span ng-if="!item.active" class="disabled">{{'value.disabled' | translate}}</span>
+    </span>
+  </lo-resource-table>
+</div>
+
+<resize-handle
+  ng-show="con.selectedContact || showBulkActions"
+  id="resize-pane"
+  right-element-id="conctact-details-pane"
+  left-element-id="table-pane"></resize-handle>
+
+  <lo-details-panel
+    id="contact-details-pane"
+    class="right-panel"
+    ng-show="con.selectedContact || showBulkActions"
+    ng-resource="con.selectedContact">
+
+      <ng-form
+        class="details-pane"
+        unsaved-changes-warning
+        name="con.forms.detailsForm"
+        ng-show="!showBulkActions"
+        ng-resource="con.selectedContact"
+        lo-form-submit lo-form-cancel lo-form-alert>
+
+        <ng-form name="forms.headerForm" separate-validation>
+          <div class="detail-header" ng-include="'app/components/configuration/campaigns/contacts/contactDetailHeader.html'">
+          </div>
+        </ng-form>
+
+        <div class="detail-body" ng-include="'app/components/configuration/campaigns/contacts/contactDetailBody.html'">
+        </div>
+
+        <div class="detail-controls">
+          <input
+            id="cancel-details-btn" class="btn" type="button"
+            ng-disabled="con.selectedContact.$busy"
+            value="{{'value.cancel' | translate}}"
+            lo-cancel></input>
+
+          <input
+            id="submit-details-btn"
+            lo-submit="con.submit()"
+            lo-submit-spinner
+            lo-submit-spinner-status="con.selectedContact.$busy"
+            ng-disabled="con.forms.detailsForm.$invalid || ! con.forms.detailsForm.$dirty"
+            class="btn btn-primary"
+            type="submit"
+            value="{{'value.submit' | translate}}" />
+        </div>
+      </ng-form>
+      <bulk-action-executor class="details-pane"
+        ng-show="showBulkActions"
+        items="con.contactss"
+        show-bulk-actions="showBulkActions">
+
+        <ba-set-contacts-status></ba-set-contacts-status>
+      </bulk-action-executor>
+  </lo-details-panel>

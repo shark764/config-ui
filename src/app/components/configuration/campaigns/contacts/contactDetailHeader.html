@@ -1,0 +1,31 @@
+<div ng-if="! con.selectedContact.isNew()">
+
+  <div class="info">
+    <h1>{{con.selectedContact.$original.name}}</h1>
+    <div class="details" ng-if="['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_USERS', 'MANAGE_ALL_USER_EXTENSIONS', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_ALL_USER_LOCATIONS', 'MANAGE_TENANT_ENROLLMENT'] | hasPermission">
+      <b audit-text
+        translation="value.createdby.time"
+        user-id="con.selectedContact.$original.createdBy"
+        date="con.selectedContact.$original.created">
+      </b>
+      <br/>
+      <b audit-text ng-if="!!con.selectedContact.$original.updatedBy"
+        translation="value.updatedby"
+        user-id="con.selectedContact.$original.updatedBy"
+        date="con.selectedContact.$original.updated">
+      </b>
+    </div>
+    <div class="details">
+    <!-- <div class="details" ng-if="!(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_USERS', 'MANAGE_ALL_USER_EXTENSIONS', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_ALL_USER_LOCATIONS', 'MANAGE_TENANT_ENROLLMENT'] | hasPermission)"> -->
+      <b audit-text
+        translation="value.createdon.time"
+        date="con.selectedContact.$original.created">
+      </b>
+      <br/>
+      <b audit-text ng-if="!!con.selectedContact.$original.updated"
+        translation="value.updatedon"
+        date="con.selectedContact.$original.updated">
+      </b>
+    </div>
+  </div>
+</div>

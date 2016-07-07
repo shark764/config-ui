@@ -1,0 +1,58 @@
+<div class="divider-header">
+  <h4>{{'campaigns.details.version.header' | translate}}</h4>
+  <a id="show-create-new-version" ng-hide="createNewVersion || ! ('MANAGE_ALL_FLOWS' | hasPermission)" class="btn pull-right" ng-click="createNewVersion = true" title="{{'flow.details.version.add.alt' | translate}}"><i class="fa fa-plus"></i></a>
+</div>
+
+<div ng-show="createNewVersion">
+  <div class="divider-header">
+    <h4>{{'campaigns.details.versions.create.title' | translate }}</h4>
+  </div>
+
+  <ng-form name="createVersionForm" separate-validation lo-form-submit>
+    <div class="input-group">
+      <label>{{'value.name' | translate}} *</label>
+      <form-error field="createVersionForm.name" error-type-required="{{'value.error.name.required' | translate}}"></form-error>
+      <input ng-required="true" type="text" ng-model="cvc.version.name" name="name"></input>
+    </div>
+
+    <div class="input-group">
+      <label>{{'value.description' | translate}}</label>
+      <input type="text" ng-model="cvc.version.description" name="description"></input>
+    </div>
+    <div class="campaign-controls input-group">
+      <label></label>
+      <input id="cancel-campaign-version-btn" type="button" ng-click="createNewVersion = false" class="btn" value="{{'value.cancel' | translate}}" />
+      <input id="create-campaign-version-btn" ng-disabled="createVersionForm.$invalid || !createVersionForm.$dirty"
+        lo-submit="saveVersion()" type="submit" class="btn btn-primary" value="{{ 'value.create' | translate }}"/>
+    </div>
+  </ng-form>
+</div>
+Version:{{cvc.versions}}
+<!-- <loading ng-show="! getVersions().$resolved"></loading> -->
+
+<table class="table" id="campaign-details-versions-table">
+<!-- <table class="table" id="flow-details-versions-table" ng-show="getVersions().length > 0"> -->
+  <thead>
+    <tr>
+      <th>{{'value.version' | translate}}</th>
+      <th>{{'value.name' | translate}}</th>
+      <th>{{'value.createdOn' | translate}}</th>
+      <!-- <th ng-if="['PLATFORM_VIEW_ALL_USERS', 'PLATFORM_CREATE_USERS', 'PLATFORM_MANAGE_ALL_USERS', 'PLATFORM_MANAGE_ALL_TENANTS', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT'] | hasPermission"> -->
+      <th>
+        {{'value.createdBy' | translate}}
+      </th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tr ng-repeat="version in versions | orderBy:'created':'reverse'">
+    <td>{{cvc.version}}</td>
+    <td>{{cvc.description}}</td>
+    <td>{{cvc.createdBy | date:'medium'}}</td>
+    <td ng-if="['PLATFORM_VIEW_ALL_USERS', 'PLATFORM_CREATE_USERS', 'PLATFORM_MANAGE_ALL_USERS', 'PLATFORM_MANAGE_ALL_TENANTS', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT'] | hasPermission">
+      <audit-text translation="value.displayName" user-id="cvc.version.createdBy"></audit-text>
+    </td>
+    <td><a ng-href="#/campaigns/viewer/{{version.flowId}}/{{version.version}}">view</a></td>
+    <td><a ng-click="onEditClick({version: version})">edit</a></td>
+  </tr>
+</table>
