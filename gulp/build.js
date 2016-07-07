@@ -1,9 +1,8 @@
 'use strict';
 
 var gulp = require('gulp');
-
 var $ = require('gulp-load-plugins')({
-  pattern: ['gulp-*', 'main-bower-files', 'uglify-save-license', 'del']
+  pattern: ['gulp-*', 'uglify-save-license', 'del']
 });
 
 module.exports = function(options) {
@@ -51,31 +50,14 @@ module.exports = function(options) {
     var htmlFilter = $.filter(['*.html'], {restore: true});
     var jsFilter = $.filter(['**/*.js'], {restore: true});
     var cssFilter = $.filter(['**/*.css'], {restore: true});
-    var assets;
 
     return gulp.src(options.tmp + '/serve/*.html')
       .pipe($.inject(partialsInjectFile, partialsInjectOptions))
       .pipe($.inject(translationsInjectFile, translationsInjectOptions))
-      .pipe(assets = $.useref.assets())
-      .pipe($.rev())
-      .pipe(jsFilter)
-      .pipe($.ngAnnotate())
-      .pipe($.uglify({ preserveComments: $.uglifySaveLicense })).on('error', options.errorHandler('Uglify'))
-      .pipe(jsFilter.restore)
-      .pipe(cssFilter)
-      // .pipe($.csso())
-      .pipe(cssFilter.restore)
-      .pipe(assets.restore())
       .pipe($.useref())
+      .pipe($.if('*.js', $.rev()))
+      .pipe($.if('*.css', $.rev()))
       .pipe($.revReplace())
-      .pipe(htmlFilter)
-      .pipe($.minifyHtml({
-        empty: true,
-        spare: true,
-        quotes: true,
-        conditionals: true
-      }))
-      .pipe(htmlFilter.restore)
       .pipe(gulp.dest(options.dist + '/'))
       .pipe($.size({ title: options.dist + '/', showFiles: true }))
       .pipe($.filelog('build'));
@@ -114,7 +96,34 @@ module.exports = function(options) {
     $.del([options.dist + '/', options.tmp + '/', 'coverage/'], done);
   });
 
-  gulp.task('build', ['config', 'html', 'fonts', 'other'], function() {
+  gulp.task('vendor-scripts', ['html'], function(){
+    return gulp.src(options.dist + '/scripts/vendor-*.js')
+      .pipe($.ngAnnotate())
+      .pipe($.uglify())
+      .pipe(gulp.dest(options.dist + '/scripts/'))
+  });
+
+  gulp.task('vendor-styles', ['html'], function(){
+    return gulp.src(options.dist + '/styles/vendor-*.css')
+      .pipe($.rev())
+      .pipe(gulp.dest(options.dist + '/styles/'))
+  });
+
+  gulp.task('app-scripts', ['html', 'vendor-scripts'], function(){
+    return gulp.src(options.dist + '/scripts/app-*.js')
+      .pipe($.ngAnnotate())
+      .pipe($.uglify())
+      .pipe(gulp.dest(options.dist + '/scripts/'))
+      .pipe($.size({ title: options.dist + '/', showFiles: true }))
+  });
+
+  gulp.task('app-styles', ['html'], function(){
+    return gulp.src(options.dist + '/styles/app-*.js')
+      .pipe($.rev())
+      .pipe(gulp.dest(options.dist + '/styles/'))
+  });
+
+  gulp.task('build', ['config', 'html', 'fonts', 'other', 'vendor-scripts', 'app-scripts'], function() {
     return gulp.src([
         options.soundwaveImages + '/**',
         '!' + options.soundwaveImages + '/liveops-logo.png'
