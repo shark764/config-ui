@@ -16,6 +16,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 * CXV1-1993 - Clean up edit panel/text alignment on tenant configuration view
 * CXV1-2543 - re-enable Plivo
 * CXV1-307 - Custom Stats Management
+* CXV1-3182 - Unique Source Switchers
 * Update Realtime Dashboards to 4.0.0 (Includes Custom Realtime Dashboards and Custom Stats)
 * Update Config-Shared to 1.1.1
 * Update Flow Viewer controller
