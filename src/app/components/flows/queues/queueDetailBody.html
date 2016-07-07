@@ -46,8 +46,8 @@
 </div>
 
 <div id="create-new-queue-query-details" ng-if="qc.selectedQueue.isNew()">
-  <query-list-creator form="qc.forms.detailsForm" query-string="qc.initialVersion.query"></query-list-creator>
-  <!-- <query-builder query-string="qc.initialVersion.query"></query-builder> -->
+  <!-- <query-list-creator form="qc.forms.detailsForm" query-string="qc.initialVersion.query"></query-list-creator> -->
+  <query-builder query-string="qc.initialVersion.query"></query-builder>
 
   <div class="divider-header">
     <h4>{{'queue.details.priority' | translate}}</h4>
