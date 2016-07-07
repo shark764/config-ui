@@ -1,0 +1,20 @@
+<div class="divider-header">
+  <h4>{{'details.capacityRules.title' | translate}}</h4>
+</div>
+
+<ng-form
+  separate-validation id="setCapacityRule" 
+  name="setCapacityRule">
+  <div class="input-group" ng-if="ready && fetchCapacityRules().$resolved">
+    <label>{{'details.currentCapacityRule' | translate}}</label>
+    <div>
+      <select ng-model="currentCapacityRule.id" name="currentCapacityRuleId"
+        ng-options="rule.id as rule.name for rule in fetchCapacityRules()"
+        ng-disabled="disabled">
+        <option value="" ng-disabled="true">
+          {{'users.details.capacityRule.select' | translate}}
+        </option>
+      </select>
+    </div>
+  </div>
+</ng-form>

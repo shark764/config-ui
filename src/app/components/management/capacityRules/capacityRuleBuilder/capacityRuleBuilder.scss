@@ -1,0 +1,87 @@
+capacity-rule-builder{
+  margin: 15px 0px;
+  display: block;
+
+  p.ruleString{
+    text-align: center;
+  }
+
+  .channels{
+    display: flex;
+    flex-wrap: wrap;
+    padding: 5px;
+  }
+
+  .channel{
+    margin: 5px;
+    padding: 3px 8px;
+    background-color: #ebebeb;
+    color: #474747;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    cursor: move;
+
+    &.voice{
+      background-color: #07487a;
+      color: white;
+    }
+
+    &.dndPlaceholder{
+      opacity: 0.5;
+    }
+  }
+
+  .dropzones{
+    display: flex;
+    flex-direction: row;
+
+    .voiceRule{
+      flex-basis: 25%;
+      border: 1px solid #07487a;
+      margin: 10px 10px;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .others{
+      flex-basis: 75%;
+      display: flex;
+      flex-direction: column;
+
+      .rule{
+        padding: 10px 0px;
+
+        .container{
+          padding: 10px;
+          min-height: 80px;
+          border: 1px solid #cccccc;
+
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+
+          .channels{
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            flex-grow: 1;
+          }
+
+          input{
+            width: 40px;
+          }
+        }
+
+        &.dndPlaceholder{
+          .container{
+            min-height: 40px;
+          }
+          opacity: 0.5;
+        }
+      }
+    }
+  }
+}

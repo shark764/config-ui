@@ -94,6 +94,13 @@ angular.module('liveopsConfigPanel')
             }]
           }
         })
+        .state('content.management.capacityRules', {
+          url: '/capacityRules?id',
+          templateUrl: 'app/components/management/capacityRules/capacityRules.html',
+          controller: 'CapacityRulesController',
+          reloadOnSearch: false,
+          resolve: {}
+        })
         .state('content.configuration', {
           abstract: true,
           url: '/configuration',

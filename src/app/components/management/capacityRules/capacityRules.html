@@ -1,0 +1,75 @@
+<div id="table-pane">
+  <table-controls
+    config="tableConfig"
+    items="fetchCapacityRules()"
+    search-query="searchQuery">
+  </table-controls>
+
+  <lo-resource-table
+    config="tableConfig"
+    items="fetchCapacityRules()"
+    selected="selectedCapacityRule"
+    search-query="searchQuery">
+
+    <span name="$original.active">
+      <span ng-if="item.$original.active">{{'value.enabled' | translate}}</span>
+      <span ng-if="!item.$original.active" class="disabled">{{'value.disabled' | translate}}</span>
+    </span>
+
+  </lo-resource-table>
+</div>
+
+<resize-handle
+  ng-show="selectedCapacityRule || showBulkActions"
+  id="resize-pane"
+  right-element-id="right-panel"
+  left-element-id="table-pane"></resize-handle>
+
+<lo-details-panel id="right-panel"
+  class="right-panel"
+  ng-show="selectedCapacityRule || showBulkActions"
+  ng-resource="selectedCapacityRule">
+
+
+  <ng-form unsaved-changes-warning
+    class="details-pane"
+    ng-show="selectedCapacityRule && !showBulkActions"
+    name="forms.detailsForm"
+    ng-model="selectedCapacityRule"
+    ng-resource="selectedCapacityRule"
+    lo-form-submit
+    lo-form-cancel
+    lo-form-alert>
+
+    <ng-form name="forms.headerForm" separate-validation>
+      <div class="detail-header"
+        ng-include src="'app/components/management/capacityRules/capacityRuleDetailHeader.html'">
+      </div>
+    </ng-form>
+
+    <div class="detail-body"
+      ng-include src="'app/components/management/capacityRules/capacityRuleDetailBody.html'">
+    </div>
+
+    <div class="detail-controls">
+      <input id="cancel-details-btn" type="button" class="btn"
+        value="{{'value.cancel' | translate}}"
+        lo-cancel>
+      </input>
+      <input id="submit-details-btn" class="btn btn-primary"
+        type="submit" value="{{'value.submit' | translate}}"
+        ng-disabled="forms.detailsForm.$invalid || ! forms.detailsForm.$dirty"
+        lo-submit="submit()"
+        lo-submit-spinner
+        lo-submit-spinner-status="selectedCapacityRule.$busy">
+      </input>
+    </div>
+  </ng-form>
+
+  <bulk-action-executor class="details-pane group-ba"
+    ng-show="showBulkActions"
+    items="fetchGroups()"
+    show-bulk-actions="showBulkActions">
+    <ba-set-group-status></ba-set-group-status>
+  </bulk-action-executor>
+</lo-details-panel>

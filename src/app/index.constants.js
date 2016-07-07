@@ -103,4 +103,23 @@ angular.module('liveopsConfigPanel.config', [])
 
   .constant('campaignChannelTypes', [
     'voice'
+  ])
+
+  .constant('capacityRuleChannels', [
+    {
+      name:'Voice',
+      value: ':voice'
+    },
+    {
+      name:'SMS',
+      value: ':sms'
+    },
+    {
+      name:'Email',
+      value: ':email'
+    },
+    {
+      name:'Messaging',
+      value: ':messaging'
+    }
   ]);
