@@ -809,6 +809,7 @@
   "realtimeDashboards.form.saveDashboard": "Save Dashboard",
   "realtimeDashboards.form.saveDashboard.success": "Dashboard saved successfully!",
   "realtimeDashboards.form.saveDashboard.failure": "Dashboard failed to save.",
+  "realtimeDashboards.form.sourceSwitcher.unique": "The title of a souce switcher must be unique.",
 
   "customStat.table.title": "Custom Statistics",
   "customStat.version.title": "Versions",
