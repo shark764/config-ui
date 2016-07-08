@@ -16,14 +16,31 @@ angular.module('liveopsConfigPanel')
         'optional': true
       }, {
         'header': {
+          'display': $translate.instant('campaigns.table.dialer')
+        },
+        'name': '$original.currentState'
+      }, {
+        'header': {
           'display': $translate.instant('details.channelType')
         },
         'name': '$original.channel'
       }, {
         'header': {
-          'display': $translate.instant('campaigns.table.dialer')
+          'display': $translate.instant('campaigns.table.flow')
         },
-        'name': '$original.dialer'
+        'name': '$original.flowId'
+      }, {
+        'header': {
+          'display': $translate.instant('value.status'),
+          'valuePath': 'value',
+          'displayPath': 'display',
+          'options': statuses()
+        },
+        'name': '$original.active',
+        'id': 'status-column-dropdown',
+        'sortable': true,
+        'transclude': true,
+        'filter': 'selectedOptions'
       }],
       'searchOn': ['$original.name'],
       'orderBy': '$original.name',
