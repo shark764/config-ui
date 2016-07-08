@@ -16,7 +16,6 @@ angular.module('liveopsConfigPanel')
         }
       });
 
-
       // TODO: Centralize this
       cc.fetchFlows = function () {
         var flows = Flow.cachedQuery({
@@ -34,8 +33,6 @@ angular.module('liveopsConfigPanel')
         tenantId: Session.tenant.tenantId
       });
 
-      console.log('cc.campaigns', cc.campaigns);
-
       cc.tableConfig = campaignsTableConfig;
 
       // campaignChannelTypes is an array we get from index.constants.js, as the list of campaign channels
@@ -43,19 +40,20 @@ angular.module('liveopsConfigPanel')
       cc.campaignChannels = campaignChannelTypes;
 
       cc.submit = function () {
-        console.log('cc.selectedCampaign', cc.selectedCampaign);
-
         return cc.selectedCampaign.save({
           tenantId: Session.tenant.tenantId
-        }).
-        then(function(response) {
-          console.log('here is the response from the saving of the campaign', response);
         })
-        // $state.go('content.configuration.campaignSettings', {
-        //   id: currentlySelectedCampaign.id,
-        //   allData: JSON.stringify(currentlySelectedCampaign)
-        // });
       };
+
+      cc.editCampaignSettings = function (currentlySelectedCampaign) {
+        console.log('clicked!', currentlySelectedCampaign);
+        $state.go('content.configuration.campaignSettings', {
+          id: currentlySelectedCampaign.id,
+          // TODO: confirm whether or not we ultimately need ALL of the campaign data, maybe we only need
+          // the ID for the settings page.
+          allData: JSON.stringify(currentlySelectedCampaign)
+        });
+      }
 
       $scope.$on(loEvents.tableControls.itemCreate, function () {
         cc.create();
