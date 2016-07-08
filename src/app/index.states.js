@@ -202,45 +202,45 @@ angular.module('liveopsConfigPanel')
         })
         // FEATURE FLAG: UNCOMMENT THIS AS WELL AS THE CAMPAIGNS ITEM IN NavbarController.js TO
         // ACTIVATE THE CAMPAIGNS FEATURE
-        // .state('content.configuration.campaigns', {
-        //   url: '/campaigns?id',
-        //   templateUrl: 'app/components/configuration/campaigns/campaigns.html',
-        //   controller: 'campaignsController as cc',
-        //   reloadOnSearch: false,
-        //   resolve: {
-        //     hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
-        //       return UserPermissions.resolvePermissions(PermissionGroups.accessAllBusinessHours);
-        //     }]
-        //   }
-        // })
-        // .state('content.configuration.campaignSettings', {
-        //   url: '/campaign/settings?id&allData',
-        //   templateUrl: 'app/components/configuration/campaigns/settings/campaignSettings.html',
-        //   controller: 'campaignSettingsController as csc',
-        //   reloadOnSearch: false,
-        //   resolve: {
-        //     hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
-        //       return UserPermissions.resolvePermissions(PermissionGroups.accessAllBusinessHours);
-        //     }],
-        //     getCampaignId: ['$stateParams', 'Campaign', function ($stateParams, Campaign) {
-        //       return $stateParams.id;
-        //     }],
-        //     getCampaignData: ['$stateParams', 'Campaign', function ($stateParams, Campaign) {
-        //       return JSON.parse($stateParams.allData);
-        //     }]
-        //   }
-        // })
-        // .state('content.configuration.contacts', {
-        //   url: '/contacts?id',
-        //   templateUrl: 'app/components/configuration/campaigns/contacts/contacts.html',
-        //   controller: 'contactsController as con',
-        //   reloadOnSearch: false,
-        //   resolve: {
-        //     hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
-        //       return UserPermissions.resolvePermissions(PermissionGroups.accessAllBusinessHours);
-        //     }]
-        //   }
-        // })
+        .state('content.configuration.campaigns', {
+          url: '/campaigns?id',
+          templateUrl: 'app/components/configuration/campaigns/campaigns.html',
+          controller: 'campaignsController as cc',
+          reloadOnSearch: false,
+          resolve: {
+            hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
+              return UserPermissions.resolvePermissions(PermissionGroups.accessAllBusinessHours);
+            }]
+          }
+        })
+        .state('content.configuration.campaignSettings', {
+          url: '/campaign/settings?id&allData',
+          templateUrl: 'app/components/configuration/campaigns/settings/campaignSettings.html',
+          controller: 'campaignSettingsController as csc',
+          reloadOnSearch: false,
+          resolve: {
+            hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
+              return UserPermissions.resolvePermissions(PermissionGroups.accessAllBusinessHours);
+            }],
+            getCampaignId: ['$stateParams', 'Campaign', function ($stateParams, Campaign) {
+              return $stateParams.id;
+            }],
+            getCampaignData: ['$stateParams', 'Campaign', function ($stateParams, Campaign) {
+              return JSON.parse($stateParams.allData);
+            }]
+          }
+        })
+        .state('content.configuration.contacts', {
+          url: '/contacts?id',
+          templateUrl: 'app/components/configuration/campaigns/contacts/contacts.html',
+          controller: 'contactsController as con',
+          reloadOnSearch: false,
+          resolve: {
+            hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
+              return UserPermissions.resolvePermissions(PermissionGroups.accessAllBusinessHours);
+            }]
+          }
+        })
         .state('content.flows', {
           abstract: true,
           url: '/flows',

@@ -2,59 +2,20 @@
 
 angular.module('liveopsConfigPanel')
   .controller('campaignsController', [
-    '$scope', '$rootScope', '$translate', '$moment', '$q', '$state', 'Alert', 'Session', 'Campaign', 'CampaignVersionLatest', 'CampaignVersion', 'campaignsTableConfig', 'loEvents', 'campaignChannelTypes', 'Flow',
-    function ($scope, $rootScope, $translate, $moment, $q, $state, Alert, Session, Campaign, CampaignVersionLatest, CampaignVersion, campaignsTableConfig, loEvents, campaignChannelTypes, Flow) {
+    '$scope', '$rootScope', '$translate', '$moment', '$q', '$state', 'Alert', 'Session', 'Campaign', 'campaignsTableConfig', 'loEvents', 'campaignChannelTypes', 'Flow',
+    function ($scope, $rootScope, $translate, $moment, $q, $state, Alert, Session, Campaign, campaignsTableConfig, loEvents, campaignChannelTypes, Flow) {
       var cc = this,
         campaignSvc = new Campaign(),
-        latestCampaignVersionSvc = new CampaignVersionLatest(),
         currentlySelectedCampaign;
 
-      // get all of the campaigns
-      function getCampaignList () {
-
-        var campaigns = Campaign.cachedQuery({
-          tenantId: Session.tenant.tenantId
-        });
-
-        return $q.when(campaigns.$promise).then(function (response) {
-          // cycle through the campaign to get the numbers
-          var campaignIds = _.map(response, function (val) {
-            // get the latest versions using those campaign numbers
-            var latestVersions = CampaignVersionLatest.cachedGet({
-              tenantId: Session.tenant.tenantId,
-              campaignId: val.id
-            });
-
-            $q.when(latestVersions.$promise).then(function (response) {
-              // get the latest versions using the version numbers
-              var version = CampaignVersion.cachedGet({
-                tenantId: Session.tenant.tenantId,
-                campaignId: val.id,
-                versionId: response.versionId.result.latestVersionId
-              });
-
-              $q.when(version.$promise).then(function (response) {
-                console.log('response', response);
-                cc.campaigns = response;
-              });
-            });
-          });
-        });
-      }
-
       $scope.$watch('cc.selectedCampaign', function (currentlySelectedCampaign) {
+        console.log('cc.selectedCampaign', cc.selectedCampaign);
         if (currentlySelectedCampaign) {
           currentlySelectedCampaign = cc.selectedCampaign;
           cc.selectedCampaign.channel = cc.campaignChannels[0];
         }
       });
 
-      cc.loadCampaigns = function () {
-        cc.campaigns = Campaign.cachedQuery({
-          tenantId: Session.tenant.tenantId
-        });
-        //getCampaignList();
-      };
 
       // TODO: Centralize this
       cc.fetchFlows = function () {
@@ -69,18 +30,31 @@ angular.module('liveopsConfigPanel')
         return flows;
       };
 
-      cc.loadCampaigns();
+      cc.campaigns = Campaign.cachedQuery({
+        tenantId: Session.tenant.tenantId
+      });
+
+      console.log('cc.campaigns', cc.campaigns);
+
       cc.tableConfig = campaignsTableConfig;
 
       // campaignChannelTypes is an array we get from index.constants.js, as the list of campaign channels
       // is not editable by the user, nor do they exist in the campaigns API
       cc.campaignChannels = campaignChannelTypes;
 
-      cc.submit = function (currentlySelectedCampaign) {
-        $state.go('content.configuration.campaignSettings', {
-          id: currentlySelectedCampaign.id,
-          allData: JSON.stringify(currentlySelectedCampaign)
-        });
+      cc.submit = function () {
+        console.log('cc.selectedCampaign', cc.selectedCampaign);
+
+        return cc.selectedCampaign.save({
+          tenantId: Session.tenant.tenantId
+        }).
+        then(function(response) {
+          console.log('here is the response from the saving of the campaign', response);
+        })
+        // $state.go('content.configuration.campaignSettings', {
+        //   id: currentlySelectedCampaign.id,
+        //   allData: JSON.stringify(currentlySelectedCampaign)
+        // });
       };
 
       $scope.$on(loEvents.tableControls.itemCreate, function () {
