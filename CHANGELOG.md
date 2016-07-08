@@ -4,6 +4,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 * CXV1-3026 Add presence reasons to user management
+* Bumping flow-designer version to 2.0.4
 
 ## [4.0.1]
 * Update Liveops Text on login screens
