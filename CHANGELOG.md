@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## [4.0.2-SNAPSHOT]
 * CXV1-3026 Add presence reasons to user management
 * Bumping flow-designer version to 2.0.4
 
