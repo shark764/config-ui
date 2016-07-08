@@ -25,7 +25,7 @@
     <label>{{'details.flow' | translate}}</label>
     <div>
       <form-error field="forms.detailsForm.channel" error-type-required="{{'campaigns.details.flow.error' | translate}}"></form-error>
-      <select name="flowId" required ng-model="cc.selectedCampaign.flowId" ng-options="flow.id as flow.id for flow in cc.fetchFlows()">
+      <select name="flowId" required ng-model="cc.selectedCampaign.flowId" ng-options="flow.id as flow.name for flow in cc.fetchFlows()">
         <option disabled value="">{{'campaigns.details.flow' | translate}}</option>
       </select>
     </div>
@@ -36,10 +36,6 @@
     <div>
       <textarea ng-model="cc.selectedCampaign.description"></textarea>
     </div>
-  </div>
-
-  <div class="divider-header">
-    <h4>{{'campaigns.details.version.header' | translate}}</h4>
   </div>
 
   <div class="input-group multi-col">
@@ -54,7 +50,7 @@
 
   <div class="input-group multi-col">
     <div class="form-col left">
-      <button id="actions-btn" class="btn" ng-click="">
+      <button id="actions-btn" class="btn" ng-click="cc.editCampaignSettings(cc.selectedCampaign)" type="button">
         {{'campaigns.details.settingsBtn' | translate}}
       </button>
     </div>

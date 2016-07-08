@@ -58,7 +58,7 @@
         lo-submit="cc.submit()"
         lo-submit-spinner
         lo-submit-spinner-status="cc.selectedCampaign.$busy"
-        ng-disabled="forms.detailsForm.$pending || forms.detailsForm.$invalid || ! forms.detailsForm.$dirty || cc.selectedCampaign !== Session.tenant.tenantId"
+        ng-disabled="forms.detailsForm.$pending || forms.detailsForm.$invalid || ! forms.detailsForm.$dirty"
         class="btn btn-primary"
         type="submit"
         value="{{'value.submit' | translate}}" />
@@ -71,8 +71,7 @@
       items="cc.campaigns"
       show-bulk-actions="showBulkActions">
 
-      <!-- <ba-set-disposition-status></ba-set-disposition-status>
-      <ba-set-disposition-shared ng-show="('SHARE_campaigns' | hasPermission)"></ba-set-disposition-shared> -->
+      <ba-set-campaigns-status></ba-set-campaigns-status>
     </bulk-action-executor>
 
 </lo-details-panel>
