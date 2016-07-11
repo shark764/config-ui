@@ -1,0 +1,45 @@
+<div ng-if="createNewVersion">
+  <div class="divider-header">
+    <h4>{{'flow.details.versions.create.title' | translate }}</h4>
+  </div>
+
+  <ng-form name="createVersionForm" separate-validation lo-form-submit>
+    <div class="input-group">
+      <label>{{'value.name' | translate}} *</label>
+      <form-error field="createVersionForm.name" error-type-required="{{'value.error.name.required' | translate}}"></form-error>
+      <input ng-required="true" type="text" ng-model="selectedVersion.name" name="name"></input>
+    </div>
+
+    <capacity-rule-builder ng-model="selectedVersion.ruleSet"></capacity-rule-builder>
+
+    <div class="flow-controls input-group">
+      <input id="cancel-flow-version-btn" type="button" ng-click="createNewVersion = false" class="btn" value="{{'value.cancel' | translate}}" />
+      <input id="create-flow-version-btn" ng-disabled="createVersionForm.$invalid || !createVersionForm.$dirty"
+        lo-submit="saveVersion()" type="submit" class="btn btn-primary" value="{{ 'value.create' | translate }}"/>
+    </div>
+  </ng-form>
+</div>
+
+<div class="divider-header">
+  <h4>{{'flowVersions.title' | translate}}</h4>
+  <a id="show-create-new-version" ng-hide="createNewVersion" class="btn pull-right" ng-click="addVersion()" title="{{'flow.details.version.add.alt' | translate}}"><i class="fa fa-plus"></i></a>
+</div>
+
+<loading ng-show="! getVersions().$resolved"></loading>
+
+<table class="table" id="capacity-rules-versions-table" ng-show="getVersions().length > 0">
+  <thead>
+    <tr>
+      <th>{{'value.version' | translate}}</th>
+      <th>{{'value.name' | translate}}</th>
+      <th>{{'value.createdOn' | translate}}</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tr ng-repeat="version in getVersions() | orderBy:'created':'reverse'">
+    <td>{{version.fakeVersion}}</td>
+    <td>{{version.name}}</td>
+    <td>{{version.created | date:'medium'}}</td>
+    <td><a>view</a></td>
+  </tr>
+</table>

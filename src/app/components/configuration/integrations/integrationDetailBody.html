@@ -1,5 +1,5 @@
 <div disable-contents="!('MANAGE_ALL_PROVIDERS' | hasPermission)">
-  <div class="divider-header first-header">
+  <div class="divider-header first-header" ng-hide="selectedIntegration.type === 'facebook'">
     <h4>{{'details' | translate}}</h4>
   </div>
 
@@ -56,5 +56,48 @@
         <input ng-required="true" type="password" ng-model="selectedIntegration.properties.secretKey" name="secretKey"/>
       </div>
     </div>
+  </div>
+
+  <div ng-if="selectedIntegration.type == 'salesforce'">
+    <div class="input-group">
+      <label>{{'integration.details.properties.username' | translate}} *</label>
+      <form-error field="forms.detailsForm.username" error-type-required="{{'integration.username.error' | translate}}" ></form-error>
+      <div>
+        <input ng-required="true" type="text" ng-model="selectedIntegration.properties.username" name="username"/>
+      </div>
+    </div>
+    <div class="input-group">
+      <label>{{'integration.details.properties.password' | translate}} *</label>
+      <form-error field="forms.detailsForm.password" error-type-required="{{'integration.password.error' | translate}}" ></form-error>
+      <div>
+        <input ng-required="true" type="password" ng-model="selectedIntegration.properties.password" name="password"/>
+      </div>
+    </div>
+    <div class="input-group">
+      <label>{{'integration.details.properties.consumerKey' | translate}} *</label>
+      <form-error field="forms.detailsForm.consumerKey" error-type-required="{{'integration.consumerKey.error' | translate}}" ></form-error>
+      <div>
+        <input ng-required="true" type="text" ng-model="selectedIntegration.properties.consumerKey" name="consumerKey"/>
+      </div>
+    </div>
+    <div class="input-group">
+      <label>{{'integration.details.properties.consumerSecret' | translate}} *</label>
+      <form-error field="forms.detailsForm.consumerSecret" error-type-required="{{'integration.consumerSecret.error' | translate}}" ></form-error>
+      <div>
+        <input ng-required="true" type="password" ng-model="selectedIntegration.properties.consumerSecret" name="consumerSecret"/>
+      </div>
+    </div>
+    <div class="input-group">
+      <label>{{'integration.details.properties.securityToken' | translate}} *</label>
+      <form-error field="forms.detailsForm.securityToken" error-type-required="{{'integration.securityToken.error' | translate}}" ></form-error>
+      <div>
+        <input ng-required="true" type="password" ng-model="selectedIntegration.properties.securityToken" name="securityToken"/>
+      </div>
+    </div>
+  </div>
+
+  <!-- Listeners -->
+  <div ng-if="selectedIntegration.type == 'salesforce' || selectedIntegration.type == 'facebook'">
+    <integration-listeners integration="selectedIntegration"></integration-listeners>
   </div>
 </div>

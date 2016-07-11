@@ -1,0 +1,55 @@
+<div class="channels"
+     dnd-list="channels"
+     dnd-disable-if="true">
+  <p ng-repeat="channel in channels"
+     class="channel"
+     ng-class="{voice: channel.value === ':voice'}"
+     dnd-type="channel.value"
+     dnd-draggable="channel"
+     >{{channel.name}}</p>
+</div>
+
+<div class="dropzones">
+
+  <div class="voiceRule"
+       dnd-list="voiceRule.channels"
+       dnd-allowed-types="[':voice']"
+       dnd-disable-if="voiceRule.channels.length >= 1">
+
+    <p class="channel voice"
+       ng-repeat="channel in voiceRule.channels"
+       dnd-type="channel.value"
+       dnd-draggable="channel">{{channel.name}} <i class="fa fa-remove" ng-click="removeChannel(voiceRule, channel)"></i></p>
+    <p class="channel voice dndPlaceholder">...</p>
+  </div>
+
+  <div class="others"
+       dnd-list="rules"
+       dnd-drop="addRule(item, index)"
+       dnd-allowed-types="[':sms', ':messaging', ':work-offer', ':email', ':chat']">
+    <div class="rule"
+         ng-repeat="rule in rules">
+      <div class="container">
+        <div class="channels"
+             dnd-list="rule.channels"
+             dnd-horizontal-list="true"
+             dnd-drop="addChannel(rule, item, index, event)"
+             dnd-allowed-types="[':sms', ':messaging', ':work-offer', ':email', ':chat']">
+          <p class="channel"
+             ng-repeat="channel in rule.channels"
+             dnd-type="channel.value"
+             dnd-draggable="channel"
+             dnd-moved="rule.channels.splice($index, 1)">{{channel.name}} <i class="fa fa-remove" ng-click="removeChannel(rule, channel)"></i></p>
+          <p class="channel dndPlaceholder">...</p>
+        </div>
+        <input type="number" ng-model="rule.count">
+      </div>
+    </div>
+
+    <div class="rule dndPlaceholder">
+      <div class="container"></div>
+    </div>
+  </div>
+</div>
+
+<p class="ruleString">Rule: {{getRuleSetString()}}</p>
