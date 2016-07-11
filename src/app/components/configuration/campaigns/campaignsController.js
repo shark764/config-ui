@@ -10,6 +10,7 @@ angular.module('liveopsConfigPanel')
 
       $scope.$watch('cc.selectedCampaign', function (currentlySelectedCampaign) {
         if (currentlySelectedCampaign) {
+          currentlySelectedCampaign = cc.selectedCampaign;
           cc.selectedCampaign.channel = cc.campaignChannels[0];
         }
       });
@@ -49,6 +50,8 @@ angular.module('liveopsConfigPanel')
           cc.campaigns = campaigns;
         });
 
+        return flows;
+      };
 
       // apply the table configuration
       cc.tableConfig = campaignsTableConfig;
