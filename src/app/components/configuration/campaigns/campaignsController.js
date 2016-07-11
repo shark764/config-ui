@@ -6,12 +6,10 @@ angular.module('liveopsConfigPanel')
     function ($scope, $rootScope, $translate, $moment, $q, $state, Alert, Session, Campaign, campaignsTableConfig, loEvents, campaignChannelTypes, Flow) {
       var cc = this,
         campaignSvc = new Campaign(),
-        currentlySelectedCampaign;
+        currentlySelectedCampaign = cc.selectedCampaign;
 
       $scope.$watch('cc.selectedCampaign', function (currentlySelectedCampaign) {
-        console.log('cc.selectedCampaign', cc.selectedCampaign);
         if (currentlySelectedCampaign) {
-          currentlySelectedCampaign = cc.selectedCampaign;
           cc.selectedCampaign.channel = cc.campaignChannels[0];
         }
       });
@@ -43,20 +41,29 @@ angular.module('liveopsConfigPanel')
         return cc.selectedCampaign.save({
           tenantId: Session.tenant.tenantId
         })
+        .then(function (response) {
+          console.log('saved?', response);
+          // if(!response.latestVersion) {
+          //   console.log('we should have redirected', response.latestVersion);
+          //   cc.editCampaignSettings(response);
+          // }
+        });
       };
 
       cc.editCampaignSettings = function (currentlySelectedCampaign) {
-        console.log('clicked!', currentlySelectedCampaign);
         $state.go('content.configuration.campaignSettings', {
           id: currentlySelectedCampaign.id,
-          // TODO: confirm whether or not we ultimately need ALL of the campaign data, maybe we only need
-          // the ID for the settings page.
+          // TODO: confirm whether or not we ultimately need ALL of the campaign data, maybe we only need the ID for the settings page.
           allData: JSON.stringify(currentlySelectedCampaign)
         });
       }
 
       $scope.$on(loEvents.tableControls.itemCreate, function () {
         cc.create();
+      });
+
+      $scope.$on('created:resource:Campaign', function () {
+        console.log('created!');
       });
 
       cc.create = function () {

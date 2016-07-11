@@ -60,14 +60,11 @@ angular.module('liveopsConfigPanel')
       //csc.campaignSettings = getCampaignData;
       getCampaignData.tenantId = Session.tenant.tenantId;
 
-      var newCampaign = new Campaign({
-        name: getCampaignData.name,
-        description: getCampaignData.description
-      });
-
-      csc.versionSettings = new CampaignVersion(getCampaignData);
+      csc.versionSettings = new CampaignVersion();
 
       // START MOCK DATA ......
+      csc.versionSettings.channel = "voice", 
+      csc.versionSettings.flowId = "32fc9640-dbeb-11e5-a479-5347eb4882ad",
       csc.versionSettings.defaultTimeZone = "America/Moncton";
       csc.versionSettings.doNotContactLists = ["d0fabe1f-f134-4e0e-aa0e-e5cd5531d6ed", "09fbaefb-b2eb-489e-8daa-21d83a48f88e"];
       csc.versionSettings.dispositionCodeListId = "5a36616f-a080-439e-84e0-633379f9e5f8";
@@ -151,7 +148,6 @@ angular.module('liveopsConfigPanel')
         $scope.dncLists.push({
           item: newDncList
         });
-        console.log("dncLists: ", $scope.dncLists);
 
       };
 
@@ -166,7 +162,6 @@ angular.module('liveopsConfigPanel')
       $scope.days = {};
 
       csc.daySelected = function (value) {
-        console.log(value);
       }
 
       csc.updateCampaign = function () {
@@ -175,12 +170,18 @@ angular.module('liveopsConfigPanel')
 
 
       csc.submit = function () {
+        console.log('csc.versionSettings', csc.versionSettings);
+        // Deleting id and created so that we can force the API to create a new version,
+        // since versions are not to be editable
+        delete csc.versionSettings.id;
+        delete csc.versionSettings.created;
         csc.versionSettings.save({
           tenantId: Session.tenant.tenantId,
           campaignId:  getCampaignData.id
-        }).then(function (response) {
-          console.log('it worked:', response);
+        }).then(function () {
+          $state.go('content.configuration.campaigns');
         });
+
 
       }
 
