@@ -1,0 +1,36 @@
+<div ng-hide="selectedCapacityRule.isNew()">
+  <toggle class="status-toggle" ng-model="selectedCapacityRule.active" name="active"
+  confirm-disable-message="{{'group.details.disable.confirm' | translate}}"
+  confirm-enable-message="{{'group.details.enable.confirm' | translate}}"
+  on-confirm="updateActive()"></toggle>
+
+  <div class="info">
+     <h1 id="group-details-name-header">{{selectedCapacityRule.$original.name}}</h1>
+     <div class="details" ng-if="['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_USERS', 'MANAGE_ALL_USER_EXTENSIONS', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_ALL_USER_LOCATIONS', 'MANAGE_TENANT_ENROLLMENT'] | hasPermission">
+       <b audit-text
+         translation="value.createdby.time"
+         user-id="selectedCapacityRule.$original.createdBy"
+         date="selectedCapacityRule.$original.created">
+       </b>
+       <br/>
+       <b audit-text ng-if="!!selectedCapacityRule.$original.updatedBy"
+         translation="value.updatedby"
+         user-id="selectedCapacityRule.$original.updatedBy"
+         date="selectedCapacityRule.$original.updated">
+       </b>
+     </div>
+     <div class="details" ng-if="!(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_USERS', 'MANAGE_ALL_USER_EXTENSIONS', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_ALL_USER_LOCATIONS', 'MANAGE_TENANT_ENROLLMENT'] | hasPermission)">
+       <b audit-text
+         translation="value.createdon.time"
+         date="selectedCapacityRule.$original.created">
+       </b>
+       <br/>
+       <b audit-text ng-if="!!selectedCapacityRule.$original.updated"
+         translation="value.updatedon"
+         date="selectedCapacityRule.$original.updated">
+       </b>
+     </div>
+  </div>
+</div>
+
+<h1 ng-hide="! selectedCapacityRule.isNew()">{{'group.details.creating' | translate}}</h1>

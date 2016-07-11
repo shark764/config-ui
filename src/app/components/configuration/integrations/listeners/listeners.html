@@ -1,0 +1,91 @@
+<div class="divider-header">
+  <h4>{{'listeners' | translate}}</h4>
+  <a id="show-create-new-listener" ng-hide="createNewListener" class="btn pull-right" ng-click="addNewListener()" title="{{'flow.details.version.add.alt' | translate}}"><i class="fa fa-plus"></i></a>
+</div>
+
+<div ng-show="createNewListener">
+  <div class="divider-header">
+    <h4>{{'integration.listener.create.title' | translate }}</h4>
+  </div>
+
+  <ng-form name="createListenerForm" separate-validation lo-form-submit>
+    <div class="input-group">
+      <label>{{'value.name' | translate}} *</label>
+      <form-error field="createListenerForm.name" error-type-required="{{'value.error.name.required' | translate}}"></form-error>
+      <input ng-required="true" type="text" ng-model="selectedListener.name" name="name"></input>
+    </div>
+
+    <div class="input-group">
+      <label>{{'value.active' | translate}} *</label>
+      <form-error field="createListenerForm.active" error-type-required="{{'value.error.active.required' | translate}}"></form-error>
+      <toggle ng-required="true" ng-model="selectedListener.active" name="active"></toggle>
+    </div>
+
+    <div class="input-group" ng-repeat="(key, value) in propertiesSchema[integration.type]">
+      <label>{{('value.' + key) | translate}} *</label>
+      <form-error field="createListenerForm.properties[key]" error-type-required="{{('value.error.properties.' + key + '.required') | translate}}"></form-error>
+      <input ng-required="true" type="text" ng-model="selectedListener.properties[key]" name="key"></input>
+    </div>
+
+    <div class="flow-controls input-group">
+      <label></label>
+      <input id="cancel-flow-version-btn" type="button" ng-click="createNewListener = false" class="btn" value="{{'value.cancel' | translate}}" />
+      <input id="create-flow-version-btn" ng-disabled="createListenerForm.$invalid || !createListenerForm.$dirty"
+        lo-submit="saveListener()" type="submit" class="btn btn-primary" value="{{ 'value.create' | translate }}"/>
+    </div>
+  </ng-form>
+</div>
+
+
+<!-- <loading ng-show="!getListeners().$resolved"></loading> -->
+
+<table class="table" id="flow-details-draft-table" ng-show="fetchListeners().length > 0">
+  <thead>
+    <tr>
+      <th>{{'value.name' | translate}}</th>
+      <th>{{'value.status' | translate}}</th>
+      <th>{{'value.createdOn' | translate}}</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tr ng-repeat="listener in fetchListeners() | orderBy:'created':'reverse'">
+    <td>{{listener.$original.name}}</td>
+    <td>{{listener.$original.active}}</td>
+    <td>{{listener.$original.created | date:'medium'}}</td>
+    <td>
+      <a class="edit" ng-click="editListener(listener)" title="{{'flow.listener.edit.alt' | translate}}">edit</a>
+    </td>
+  </tr>
+</table>
+
+<div ng-show="editSelectedListener">
+  <div class="divider-header">
+    <h4>{{'integration.listener.edit.title' | translate }}</h4>
+  </div>
+  <ng-form name="editListenerForm" separate-validation lo-form-submit>
+    <div class="input-group">
+      <label>{{'value.name' | translate}} *</label>
+      <form-error field="editListenerForm.name" error-type-required="{{'value.error.name.required' | translate}}"></form-error>
+      <input ng-required="true" type="text" ng-model="selectedListener.name" name="name"></input>
+    </div>
+
+    <div class="input-group">
+      <label>{{'value.active' | translate}} *</label>
+      <form-error field="editListenerForm.active" error-type-required="{{'value.error.active.required' | translate}}"></form-error>
+      <toggle ng-required="true" ng-model="selectedListener.active" name="active"></toggle>
+    </div>
+
+    <div class="input-group" ng-repeat="(key, value) in propertiesSchema[integration.type]">
+      <label>{{('value.' + key) | translate}} *</label>
+      <form-error field="editListenerForm.properties[key]" error-type-required="{{('value.error.properties.' + key + '.required') | translate}}"></form-error>
+      <input type="text" ng-model="selectedListener.properties[key]" name="key"></input>
+    </div>
+
+    <div class="flow-controls input-group">
+      <label></label>
+      <input id="cancel-flow-version-btn" type="button" ng-click="editSelectedListener = false" class="btn" value="{{'value.cancel' | translate}}" />
+      <input id="create-flow-version-btn" ng-disabled="editListenerForm.$invalid"
+        lo-submit="saveListener()" type="submit" class="btn btn-primary" value="{{ 'value.update' | translate }}"/>
+    </div>
+  </ng-form>
+</div>

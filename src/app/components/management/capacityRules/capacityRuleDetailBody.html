@@ -1,0 +1,31 @@
+<div class="divider-header first-header">
+  <h4>{{'details' | translate}}</h4>
+</div>
+
+<div>
+  <div class="input-group">
+    <label>{{'value.name' | translate}} *</label>
+    <form-error field="forms.detailsForm.name"
+      error-type-required="{{'details.name.error' | translate}}">
+    </form-error>
+    <div>
+      <input required ng-model="selectedCapacityRule.name" name="name" type="text"></input>
+    </div>
+  </div>
+  <div class="input-group">
+    <label>{{'value.version' | translate}} *</label>
+    <div>
+      <select name="activeVersion"
+        ng-required="getVersions().length > 0"
+        ng-disabled="!getVersions().length > 0"
+        ng-model="selectedCapacityRule.activeVersion"
+        ng-options="version.version as (version.fakeVersion + ' - ' + version.name) for version in getVersions() | orderBy:'created':'reverse'">
+        <option disabled value="">{{'flow.details.version.choose' | translate}}</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<div ng-if="!selectedCapacityRule.isNew()" class="details-group">
+  <capacity-rules-versions capacity-rule="selectedCapacityRule" get-versions="getVersions()"></capacity-rules-versions>
+</div>

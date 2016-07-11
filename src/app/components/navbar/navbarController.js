@@ -155,6 +155,16 @@ angular.module('liveopsConfigPanel')
           });
         }
 
+        if (UserPermissions.hasPermissionInList(PermissionGroups.manageAllMedia) &&
+          UserPermissions.hasPermissionInList(PermissionGroups.manageGroups)) {
+          items.push({
+            label: $translate.instant('navbar.management.capacityRules.title'),
+            stateLink: 'content.management.capacityRules',
+            id: 'capacity-rules-management-link',
+            order: 7
+          });
+        }
+
         return items;
       };
 

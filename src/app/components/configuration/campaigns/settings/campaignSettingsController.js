@@ -63,7 +63,7 @@ angular.module('liveopsConfigPanel')
       csc.versionSettings = new CampaignVersion();
 
       // START MOCK DATA ......
-      csc.versionSettings.channel = "voice", 
+      csc.versionSettings.channel = "voice",
       csc.versionSettings.flowId = "32fc9640-dbeb-11e5-a479-5347eb4882ad",
       csc.versionSettings.defaultTimeZone = "America/Moncton";
       csc.versionSettings.doNotContactLists = ["d0fabe1f-f134-4e0e-aa0e-e5cd5531d6ed", "09fbaefb-b2eb-489e-8daa-21d83a48f88e"];
@@ -148,6 +148,7 @@ angular.module('liveopsConfigPanel')
         $scope.dncLists.push({
           item: newDncList
         });
+        console.log("dncLists: ", $scope.dncLists);
 
       };
 
@@ -162,6 +163,7 @@ angular.module('liveopsConfigPanel')
       $scope.days = {};
 
       csc.daySelected = function (value) {
+        console.log(value);
       }
 
       csc.updateCampaign = function () {
