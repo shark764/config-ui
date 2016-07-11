@@ -28,7 +28,7 @@ angular.module('liveopsConfigPanel')
         'header': {
           'display': $translate.instant('campaigns.table.flow')
         },
-        'name': '$original.flowId'
+        'name': 'flowName'
       }, {
         'header': {
           'display': $translate.instant('value.status'),

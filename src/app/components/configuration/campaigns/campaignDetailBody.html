@@ -25,7 +25,7 @@
     <label>{{'details.flow' | translate}}</label>
     <div>
       <form-error field="forms.detailsForm.channel" error-type-required="{{'campaigns.details.flow.error' | translate}}"></form-error>
-      <select name="flowId" required ng-model="cc.selectedCampaign.flowId" ng-options="flow.id as flow.name for flow in cc.fetchFlows()">
+      <select name="flowId" required ng-model="cc.selectedCampaign.flowId" ng-options="flow.id as flow.name for flow in cc.flows">
         <option disabled value="">{{'campaigns.details.flow' | translate}}</option>
       </select>
     </div>
