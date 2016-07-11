@@ -3,15 +3,7 @@
 
     <div class="col">
 
-      <div class="input-group">
-        <label>{{'campaigns.details.setting.flow' | translate}}</label>
-        <select name="flowId"
-            ng-model="csc.versionSettings.flowId"
-            ng-options="flow.id as flow.name for flow in csc.fetchFlows()">
 
-            <option value="" disabled>{{'campaigns.details.settings.select.flow' | translate}}</option>
-          </select>
-      </div>
 
       <div class="input-group">
         <label>{{'campaigns.details.setting.ani' | translate}}</label>
