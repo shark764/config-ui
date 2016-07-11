@@ -175,18 +175,12 @@ angular.module('liveopsConfigPanel')
 
 
       csc.submit = function () {
-        return newCampaign.save({
-          tenantId: Session.tenant.tenantId
-        })
-        .then(function (response) {
-            console.log('response from save', response);
-            csc.versionSettings.save({
-              tenantId: Session.tenant.tenantId,
-              campaignId:  response.id
-            }).then(function (response) {
-              console.log('it worked:', response);
-            });
-          });
+        csc.versionSettings.save({
+          tenantId: Session.tenant.tenantId,
+          campaignId:  getCampaignData.id
+        }).then(function (response) {
+          console.log('it worked:', response);
+        });
 
       }
 
