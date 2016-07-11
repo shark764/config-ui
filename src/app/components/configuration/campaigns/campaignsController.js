@@ -49,9 +49,7 @@ angular.module('liveopsConfigPanel')
           cc.flows = flows;
           cc.campaigns = campaigns;
         });
-
-        return flows;
-      };
+      
 
       // apply the table configuration
       cc.tableConfig = campaignsTableConfig;
