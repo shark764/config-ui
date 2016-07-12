@@ -10,12 +10,13 @@
       <input ng-required="true" type="text" ng-model="selectedVersion.name" name="name"></input>
     </div>
 
-    <capacity-rule-builder ng-model="selectedVersion.ruleSet"></capacity-rule-builder>
+    <capacity-rule-builder ng-model="selectedVersion.ruleSet" name="ruleSet"></capacity-rule-builder>
 
     <div class="flow-controls input-group">
       <input id="cancel-flow-version-btn" type="button" ng-click="hideCreateNew()" class="btn" value="{{'value.cancel' | translate}}" />
-      <input id="create-flow-version-btn" ng-disabled="createVersionForm.$invalid || !createVersionForm.$dirty"
-        lo-submit="saveVersion()" type="submit" class="btn btn-primary" value="{{ 'value.create' | translate }}"/>
+      <input id="create-flow-version-btn" type="submit" class="btn btn-primary"
+        ng-disabled="(createVersionForm.$invalid || !createVersionForm.$dirty || createVersionForm.ruleSet.$invalid)"
+        lo-submit="saveVersion()" value="{{ 'value.create' | translate }}"/>
     </div>
   </ng-form>
 </div>
