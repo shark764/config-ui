@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.1.1]
+* Bumping flow-designer version to 2.0.5
+
 ## [4.1.0]
 * Added management for Capacity Rules and Listeners
 
