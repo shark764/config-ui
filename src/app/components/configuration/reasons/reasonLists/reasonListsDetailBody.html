@@ -31,7 +31,7 @@
   <label>{{'value.shared' | translate}}</label>
   <div>
     <toggle class="status-toggle" name="shared"
-      ng-disabled="(! rlc.selectedReasonList.isNew() && rlc.selectedReasonList.$original.shared) || !('SHARE_DISPOSITIONS' | hasPermission) || rlc.selectedReasonList.tenantId !== Session.tenant.tenantId"
+      ng-disabled="(! rlc.selectedReasonList.isNew() && rlc.selectedReasonList.$original.shared) || !('UPDATE_REASON_LIST' | hasPermission) || rlc.selectedReasonList.tenantId !== Session.tenant.tenantId"
       ng-model="rlc.selectedReasonList.shared">
     </toggle>
   </div>

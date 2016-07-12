@@ -55,8 +55,7 @@ angular.module('liveopsConfigPanel')
         active: !vm.selectedDispositionList.active,
         name: vm.selectedDispositionList.name,
         description: vm.selectedDispositionList.description,
-        shared: vm.selectedDispositionList.shared,
-        dispositions: vm.selectedDispositionList.dispositions
+        shared: vm.selectedDispositionList.shared
       });
       vm.selectedDispositionList.active = !vm.selectedDispositionList.active;
 
@@ -85,7 +84,7 @@ angular.module('liveopsConfigPanel')
     };
 
     vm.submit = function() {
-      console.log("HAIL STEVENS")
+      console.log("HAIL ELI")
       vm.selectedDispositionList.dispositions.forEach(function(disposition) {
         if (disposition.name === $translate.instant('dispositions.details.select')) {
           $scope.err = true;

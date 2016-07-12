@@ -32,7 +32,7 @@
   <label>{{'value.shared' | translate}}</label>
   <div>
     <toggle class="status-toggle" name="shared"
-      ng-disabled="(! dlc.selectedDispositionList.isNew() && dlc.selectedDispositionList.$original.shared) || !('SHARE_DISPOSITIONS' | hasPermission) || dlc.selectedDispositionList.tenantId !== Session.tenant.tenantId"
+      ng-disabled="(! dlc.selectedDispositionList.isNew() && dlc.selectedDispositionList.$original.shared) || !('UPDATE_DISPOSITION_LIST' | hasPermission) || dlc.selectedDispositionList.tenantId !== Session.tenant.tenantId"
       ng-model="dlc.selectedDispositionList.shared">
     </toggle>
   </div>

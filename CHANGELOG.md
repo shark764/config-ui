@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## Unreleased
+* CXV1-3847 - Can't enable/disable reason list (also disposition lists)
+
 ## [4.1.2]
 * CXV1-3854 - Added permission requirement to manage Capacity Rules
 * CXV1-3825 - Config UI - Capacity Rules 'View' Button Not Working
