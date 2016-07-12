@@ -20,13 +20,15 @@ angular.module('liveopsConfigPanel')
 
       console.log(csc.versionSettings)
 
-      csc.versionSettings.$promise.then(function(settings) {
-        settings.defaultLeadExpiration = settings.defaultLeadExpiration.split(':').shift();
-        if (settings.defaultLeadExpiration % 24 === 0) {
-          settings.defaultLeadExpiration = settings.defaultLeadExpiration / 24;
-          csc.expiryUnit = 'day';
-        }
-      });
+      if (angular.isDefined(csc.versionSettings.$promise)) {
+        csc.versionSettings.$promise.then(function(settings) {
+          settings.defaultLeadExpiration = settings.defaultLeadExpiration.split(':').shift();
+          if (settings.defaultLeadExpiration % 24 === 0) {
+            settings.defaultLeadExpiration = settings.defaultLeadExpiration / 24;
+            csc.expiryUnit = 'day';
+          }
+        });
+      }
 
       // TODO: Centralize this
       csc.fetchFlows = function () {
