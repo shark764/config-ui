@@ -4,6 +4,13 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [4.1.2]
 * CXV1-3854 - Added permission requirement to manage Capacity Rules
+* CXV1-3825 - Config UI - Capacity Rules 'View' Button Not Working
+* CXV1-3829 - Config UI - Capacity 'Cancel' Button Not Working
+* CXV1-3835 - Capacity UI - No Alert on Rule Change
+* CXV1-3837 - Capacity UI - High Capacity Digits Cut Off
+* CXV1-3838 - Capacity Ui - Negative Numbers, Decimals, and the letter 'e'
+* CXV1-3839 - Capacity UI - 'Group' Instead of 'Rule' Popup
+* CXV1-3840 - Capacity UI - Group Actions for Enabled
 
 ## [4.1.1]
 * Bumping flow-designer version to 2.0.5
