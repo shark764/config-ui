@@ -3,7 +3,11 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
+
+## [4.1.3]
 * CXV1-3847 - Can't enable/disable reason list (also disposition lists)
+* CXV1-3848 - Don't allow System Presence Reasons to be assigned to specific users
+* Feature flag to disable new queue query builder
 
 ## [4.1.2]
 * CXV1-3854 - Added permission requirement to manage Capacity Rules
