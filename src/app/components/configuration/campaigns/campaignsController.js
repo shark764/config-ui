@@ -23,6 +23,20 @@ angular.module('liveopsConfigPanel')
         tenantId: Session.tenant.tenantId
       });
 
+      function getFlowName(cam, flo) {
+        // add a flowName property to the campaign object with the name of the
+        // corresponding flow
+        angular.forEach(cam, function (camp) {
+          // using a try/catch because some campaigns don't
+          // have a flow, and this prevents the page from breaking
+          try {
+            camp.flowName = flo.filter(function (flow) {
+              return flow.id === camp.flowId;
+            })[0].name;
+          } catch (err) {}
+        });
+      }
+
       $q.all([
           campaigns.$promise,
           flows.$promise
@@ -33,23 +47,12 @@ angular.module('liveopsConfigPanel')
             return flow.tenantId !== Session.tenant.tenantId;
           });
 
-          // add a flowName property to the campaign object with the name of the
-          // corresponding flow
-          angular.forEach(campaigns, function (camp) {
-            // using a try/catch because some campaigns don't
-            // have a flow, and this prevents the page from breaking
-            try {
-              camp.flowName = flows.filter(function (flow) {
-                return flow.id === camp.flowId;
-              })[0].name;
-            } catch (err) {}
-          });
+          getFlowName(campaigns, flows);
 
           // now, finally grant the page access to the list of flows and campaigns
           cc.flows = flows;
           cc.campaigns = campaigns;
         });
-      
 
       // apply the table configuration
       cc.tableConfig = campaignsTableConfig;
@@ -60,17 +63,9 @@ angular.module('liveopsConfigPanel')
       cc.campaignChannels = campaignChannelTypes;
 
       cc.submit = function () {
-        console.log('cc.selectedCampaign', cc.selectedCampaign);
         return cc.selectedCampaign.save({
-            tenantId: Session.tenant.tenantId
-          })
-          .then(function (response) {
-            console.log('saved?', response);
-            // if(!response.latestVersion) {
-            //   console.log('we should have redirected', response.latestVersion);
-            //   cc.editCampaignSettings(response);
-            // }
-          });
+          tenantId: Session.tenant.tenantId
+        })
       };
 
       cc.editCampaignSettings = function (currentlySelectedCampaign) {
@@ -84,10 +79,6 @@ angular.module('liveopsConfigPanel')
 
       $scope.$on(loEvents.tableControls.itemCreate, function () {
         cc.create();
-      });
-
-      $scope.$on('created:resource:Campaign', function () {
-        console.log('created!');
       });
 
       cc.create = function () {

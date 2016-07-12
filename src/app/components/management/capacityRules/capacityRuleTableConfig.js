@@ -8,12 +8,12 @@ angular.module('liveopsConfigPanel')
         'orderBy': '$original.name',
         'sref': 'content.management.capacityRules',
         'title': $translate.instant('capacityRules.table.title'),
-        'helpLink': helpDocsHostname + '/Help/Content/Managing%20Users/Creating_Groups.htm',
+        'helpLink': helpDocsHostname + '/Help/Content/Managing%20Users/Creating_Capacity_Rules.htm',
         'showBulkActions': function() {
-          return UserPermissions.hasPermission('MANAGE_ALL_GROUPS');
+          return false;
         },
         'showCreate': function() {
-          return UserPermissions.hasPermission('MANAGE_ALL_GROUPS');
+          return UserPermissions.hasPermission('MANAGE_ALL_CAPACITY_RULES');
         }
       };
 

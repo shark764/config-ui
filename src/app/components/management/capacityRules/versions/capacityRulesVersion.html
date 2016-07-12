@@ -10,12 +10,13 @@
       <input ng-required="true" type="text" ng-model="selectedVersion.name" name="name"></input>
     </div>
 
-    <capacity-rule-builder ng-model="selectedVersion.ruleSet"></capacity-rule-builder>
+    <capacity-rule-builder ng-model="selectedVersion.ruleSet" name="ruleSet"></capacity-rule-builder>
 
     <div class="flow-controls input-group">
-      <input id="cancel-flow-version-btn" type="button" ng-click="createNewVersion = false" class="btn" value="{{'value.cancel' | translate}}" />
-      <input id="create-flow-version-btn" ng-disabled="createVersionForm.$invalid || !createVersionForm.$dirty"
-        lo-submit="saveVersion()" type="submit" class="btn btn-primary" value="{{ 'value.create' | translate }}"/>
+      <input id="cancel-flow-version-btn" type="button" ng-click="hideCreateNew()" class="btn" value="{{'value.cancel' | translate}}" />
+      <input id="create-flow-version-btn" type="submit" class="btn btn-primary"
+        ng-disabled="(createVersionForm.$invalid || !createVersionForm.$dirty || createVersionForm.ruleSet.$invalid)"
+        lo-submit="saveVersion()" value="{{ 'value.create' | translate }}"/>
     </div>
   </ng-form>
 </div>
@@ -36,10 +37,13 @@
       <th></th>
     </tr>
   </thead>
-  <tr ng-repeat="version in getVersions() | orderBy:'created':'reverse'">
+  <tr ng-repeat-start="version in getVersions() | orderBy:'created':'reverse'">
     <td>{{version.fakeVersion}}</td>
     <td>{{version.name}}</td>
     <td>{{version.created | date:'medium'}}</td>
-    <td><a>view</a></td>
+    <td><a ng-click="toggleViewing(version)">view</a></td>
+  </tr>
+  <tr ng-repeat-end ng-show="version.viewing">
+    <td colspan="4">Rule set: <i>{{version.ruleSet}}</i></td>
   </tr>
 </table>

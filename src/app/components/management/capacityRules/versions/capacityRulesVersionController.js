@@ -13,6 +13,10 @@ angular.module('liveopsConfigPanel')
         });
       }
 
+      $scope.toggleViewing = function(version){
+        version.viewing = !version.viewing;
+      };
+
       $scope.addVersion = function(){
         $scope.selectedVersion = getDefaultVersion();
         $scope.createNewVersion = true;
@@ -23,6 +27,10 @@ angular.module('liveopsConfigPanel')
           $scope.selectedVersion = getDefaultVersion();
           $scope.createNewVersion = false;
         });
+      };
+
+      $scope.hideCreateNew = function(){
+        $scope.createNewVersion = false;
       };
 
       $scope.$watch('capacityRule', function(newValue){

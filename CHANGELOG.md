@@ -2,6 +2,28 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.1.4]
+* Finished CXV1-3838. Invalidate building capacity rules with invalid options
+* CXV1-3876 Fixed display issue
+
+## [4.1.3]
+* CXV1-3847 - Can't enable/disable reason list (also disposition lists)
+* CXV1-3848 - Don't allow System Presence Reasons to be assigned to specific users
+* Feature flag to disable new queue query builder
+
+## [4.1.2]
+* CXV1-3854 - Added permission requirement to manage Capacity Rules
+* CXV1-3825 - Config UI - Capacity Rules 'View' Button Not Working
+* CXV1-3829 - Config UI - Capacity 'Cancel' Button Not Working
+* CXV1-3835 - Capacity UI - No Alert on Rule Change
+* CXV1-3837 - Capacity UI - High Capacity Digits Cut Off
+* CXV1-3838 - Capacity Ui - Negative Numbers, Decimals, and the letter 'e'
+* CXV1-3839 - Capacity UI - 'Group' Instead of 'Rule' Popup
+* CXV1-3840 - Capacity UI - Group Actions for Enabled
+
+## [4.1.1]
+* Bumping flow-designer version to 2.0.5
+
 ## [4.1.0]
 * Added management for Capacity Rules and Listeners
 
@@ -12,7 +34,6 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [4.0.1]
 * Update Liveops Text on login screens
 * Update Realtime Dashboards to 4.0.0 (Includes Custom Realtime Dashboards and Custom Stats)
-
 
 ## [4.0.0]
 * CXV1-1203 - Added annotations icon and removed an extraneous line break, should not affect any other code

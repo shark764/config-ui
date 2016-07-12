@@ -42,7 +42,7 @@
              dnd-moved="rule.channels.splice($index, 1)">{{channel.name}} <i class="fa fa-remove" ng-click="removeChannel(rule, channel)"></i></p>
           <p class="channel dndPlaceholder">...</p>
         </div>
-        <input type="number" ng-model="rule.count">
+        <input type="number" ng-model="rule.count" min="1" ng-minlength="1" step="1" pattern="[0-9]*">
       </div>
     </div>
 

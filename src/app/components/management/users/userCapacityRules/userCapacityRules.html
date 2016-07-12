@@ -4,7 +4,8 @@
 
 <ng-form
   separate-validation id="setCapacityRule" 
-  name="setCapacityRule">
+  name="setCapacityRule"
+  ng-show="['MANAGE_ALL_CAPACITY_RULES'] | hasPermission">
   <div class="input-group" ng-if="ready && fetchCapacityRules().$resolved">
     <label>{{'details.currentCapacityRule' | translate}}</label>
     <div>
