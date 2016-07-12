@@ -2,13 +2,13 @@
   <toggle class="status-toggle" ng-model="rlc.selectedReasonList.active"
   confirm-disable-message="{{'reasonLists.details.disable.confirm' | translate}}"
   confirm-enable-message="{{'reasonLists.details.enable.confirm' | translate}}"
-  ng-disabled="! (['UPDATE_DISPOSITIONS'] | hasPermission) || rlc.selectedReasonList.tenant.tenantId !== Session.tenant.tenantId"
+  ng-disabled="! (['UPDATE_REASON_LIST'] | hasPermission) || rlc.selectedReasonList.tenantId !== Session.tenant.tenantId"
   on-confirm="rlc.updateActive()"></toggle>
 
   <div class="info">
     <h1 id="role-details-name-header">{{rlc.selectedReasonList.$original.getDisplay()}}</h1>
 
-    <div class="details" ng-if="!(['UPDATE_DISPOSITIONS'] | hasPermission)">
+    <div class="details" ng-if="!(['UPDATE_REASON_LIST'] | hasPermission)">
       <b audit-text
         translation="value.createdby.time"
         user-id="rlc.selectedReasonList.$original.createdBy"
@@ -22,7 +22,7 @@
       </b>
     </div>
 
-    <div class="details" ng-if="(['UPDATE_DISPOSITIONS'] | hasPermission)">
+    <div class="details" ng-if="(['UPDATE_REASON_LIST'] | hasPermission)">
       <b audit-text
         translation="value.createdon.time"
         date="rlc.selectedReasonList.$original.created">

@@ -55,8 +55,7 @@ angular.module('liveopsConfigPanel')
         active: !vm.selectedReasonList.active,
         name: vm.selectedReasonList.name,
         description: vm.selectedReasonList.description,
-        shared: vm.selectedReasonList.shared,
-        reasons: vm.selectedReasonList.reasons
+        shared: vm.selectedReasonList.shared 
       });
       vm.selectedReasonList.active = !vm.selectedReasonList.active;
 
@@ -85,7 +84,7 @@ angular.module('liveopsConfigPanel')
     };
 
     vm.submit = function() {
-      console.log("HAIL STEVENS")
+      console.log("HAIL ELI")
       vm.selectedReasonList.reasons.forEach(function(reason) {
         if (reason.name === $translate.instant('reasons.details.select')) {
           $scope.err = true;
