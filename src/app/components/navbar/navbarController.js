@@ -155,8 +155,7 @@ angular.module('liveopsConfigPanel')
           });
         }
 
-        if (UserPermissions.hasPermissionInList(PermissionGroups.manageAllMedia) &&
-          UserPermissions.hasPermissionInList(PermissionGroups.manageGroups)) {
+        if (UserPermissions.hasPermissionInList(PermissionGroups.manageCapacityRules)) {
           items.push({
             label: $translate.instant('navbar.management.capacityRules.title'),
             stateLink: 'content.management.capacityRules',
