@@ -231,7 +231,12 @@ angular.module('liveopsConfigPanel')
             getCampaignId: ['$stateParams', 'Campaign', function ($stateParams, Campaign) {
               return $stateParams.id;
             }],
-            getCampaignData: ['$stateParams', 'Campaign', function ($stateParams, Campaign) {
+            getCampaignData: ['$stateParams', 'CampaignVersion', 'Session', function ($stateParams, CampaignVersion, Session) {
+              // return CampaignVersion.cachedQuery({
+              //   campaignId: $stateParams.id,
+              //   tenantId: Session.tenant.tenantId,
+              //   versionId: $stateParams.latestVersionId
+              // });
               return JSON.parse($stateParams.allData);
             }]
           }
