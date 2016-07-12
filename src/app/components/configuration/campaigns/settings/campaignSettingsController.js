@@ -97,6 +97,7 @@ angular.module('liveopsConfigPanel')
         $scope.dncLists.push({
           item: newDncList
         });
+        console.log("dncLists: ", $scope.dncLists);
 
       };
 
@@ -111,6 +112,7 @@ angular.module('liveopsConfigPanel')
       $scope.days = {};
 
       csc.daySelected = function (value) {
+        console.log(value);
       }
 
       csc.updateCampaign = function () {
