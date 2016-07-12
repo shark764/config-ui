@@ -2,7 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## Unreleased
+## [4.1.4]
+* Finished CXV1-3838. Invalidate building capacity rules with invalid options
+* CXV1-3876 Fixed display issue
 
 ## [4.1.3]
 * CXV1-3847 - Can't enable/disable reason list (also disposition lists)

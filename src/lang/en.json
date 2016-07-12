@@ -166,7 +166,7 @@
   "details.groups.title": "Groups",
   "details.capacityRules.title": "Capacity Rules",
   "details.channelType": "Channel Type",
-  "details.current": "Current capacity rule",
+  "details.currentCapacityRule": "Current capacity rule",
   "details.flow": "Flow",
   "details.value": "Value",
   "details.or": "-OR-",
