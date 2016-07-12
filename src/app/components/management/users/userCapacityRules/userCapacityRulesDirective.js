@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-.directive('userCapacityRules', ['TenantUserCapacityRules', 'CapacityRule', 'TenantUser', 'Session', '$timeout',
-  function (TenantUserCapacityRules, CapacityRule, TenantUser, Session, $timeout) {
+.directive('userCapacityRules', ['TenantUserCapacityRules', 'CapacityRule', 'TenantUser', 'Session', '$timeout', '$translate', 'Alert',
+  function (TenantUserCapacityRules, CapacityRule, TenantUser, Session, $timeout, $translate, Alert) {
     return {
       restrict: 'E',
       scope: {
@@ -44,7 +44,7 @@ angular.module('liveopsConfigPanel')
 
         $scope.$watch('user', reset);
         $scope.$watch('currentCapacityRule.id', function(newVal, oldVal){
-          
+
           if(newVal === oldVal || newVal === undefined || (oldVal === undefined && newVal === initialId)){
             return;
           }
@@ -59,6 +59,7 @@ angular.module('liveopsConfigPanel')
             }).save().then(function(){
               $timeout(function(){
                 $scope.disabled = false;
+                Alert.success($translate.instant('capacityRule.set.success'));
               });
             });
           }
@@ -75,6 +76,7 @@ angular.module('liveopsConfigPanel')
               }).save().then(function(){
                 $timeout(function(){
                   $scope.disabled = false;
+                  Alert.success($translate.instant('capacityRule.set.success'));
                 });
               });
             });

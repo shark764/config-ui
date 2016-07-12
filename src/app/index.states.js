@@ -99,7 +99,13 @@ angular.module('liveopsConfigPanel')
           templateUrl: 'app/components/management/capacityRules/capacityRules.html',
           controller: 'CapacityRulesController',
           reloadOnSearch: false,
-          resolve: {}
+          resolve: {
+            hasPermission: ['UserPermissions', 'PermissionGroups', '$q', function(UserPermissions, PermissionGroups, $q) {
+              return $q.all(
+                UserPermissions.resolvePermissions(PermissionGroups.manageCapacityRules)
+              );
+            }]
+          }
         })
         .state('content.configuration', {
           abstract: true,
