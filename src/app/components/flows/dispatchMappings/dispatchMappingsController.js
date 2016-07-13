@@ -5,7 +5,7 @@ angular.module('liveopsConfigPanel')
     '$scope', 'Session', 'DispatchMapping', 'Flow', 'Integration', 'dispatchMappingTableConfig', 'dispatchMappingInteractionFields', 'dispatchMappingChannelTypes', 'dispatchMappingDirections', 'loEvents',
     function($scope, Session, DispatchMapping, Flow, Integration, dispatchMappingTableConfig, dispatchMappingInteractionFields, dispatchMappingChannelTypes, dispatchMappingDirections, loEvents) {
       var vm = this;
-      
+
       $scope.create = function() {
         $scope.selectedDispatchMapping = new DispatchMapping({
           tenantId: Session.tenant.tenantId,
@@ -31,16 +31,16 @@ angular.module('liveopsConfigPanel')
           tenantId: Session.tenant.tenantId
         });
       };
-      
+
       $scope.isTelInput = function() {
         if(!$scope.selectedDispatchMapping) {
           return;
         }
-        
-        return $scope.selectedDispatchMapping.interactionField === 'customer' ||
-          $scope.selectedDispatchMapping.interactionField === 'contact-point';
+
+        return ($scope.selectedDispatchMapping.interactionField === 'customer' ||
+          $scope.selectedDispatchMapping.interactionField === 'contact-point');
       };
-      
+
       $scope.submit = function() {
         return $scope.selectedDispatchMapping.save();
       };
@@ -48,23 +48,23 @@ angular.module('liveopsConfigPanel')
       $scope.$on(loEvents.tableControls.itemCreate, function() {
         $scope.create();
       });
-      
+
       $scope.updateActive = function(){
         var dmCopy = new DispatchMapping({
           id: $scope.selectedDispatchMapping.id,
           tenantId: $scope.selectedDispatchMapping.tenantId,
           active: ! $scope.selectedDispatchMapping.active
         });
-        
+
         return dmCopy.save(function(result){
           $scope.selectedDispatchMapping.$original.active = result.active;
         });
       };
-      
+
       vm.loadIntegrations();
       vm.loadFlows();
       vm.loadDispatchMappings();
-      
+
       $scope.tableConfig = dispatchMappingTableConfig;
 
       $scope.dispatchMappingInteractionFields = dispatchMappingInteractionFields;
