@@ -7,6 +7,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 * CXV1-3922 - Fix reason/disposition list anomalies with headers
 * CXV1-3889 - Fix query builder for queues
 * CXV1-3892 - Reloading listeners on integration active update
+* CXV1-3849 - Don't show disabled reason lists on user management page
+* CXV1-3886 - Only show "disposition list is inherited" message on disposition lists that are actually inherited
 
 ## [4.1.5]
 * Bumping flow-designer version to 2.0.6 (Hide inactive reasons / dispositions )
