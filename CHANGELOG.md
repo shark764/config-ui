@@ -6,6 +6,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 * CXV1-3426 - Contact point accepts any string for dispatch mappings
 * CXV1-3922 - Fix reason/disposition list anomalies with headers
 * CXV1-3889 - Fix query builder for queues
+* CXV1-3892 - Reloading listeners on integration active update
 
 ## [4.1.5]
 * Bumping flow-designer version to 2.0.6 (Hide inactive reasons / dispositions )

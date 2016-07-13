@@ -98,6 +98,6 @@
 
   <!-- Listeners -->
   <div ng-if="selectedIntegration.type == 'salesforce' || selectedIntegration.type == 'facebook'">
-    <integration-listeners integration="selectedIntegration"></integration-listeners>
+    <integration-listeners integration="selectedIntegration" fetch-listeners="fetchListeners()"></integration-listeners>
   </div>
 </div>
