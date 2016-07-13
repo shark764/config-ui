@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.1.5]
+* Bumping flow-designer version to 2.0.6 (Hide inactive reasons / dispositions )
+
 ## [4.1.4]
 * Finished CXV1-3838. Invalidate building capacity rules with invalid options
 * CXV1-3876 Fixed display issue
