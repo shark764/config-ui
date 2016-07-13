@@ -14,6 +14,9 @@ angular.module('liveopsConfigPanel')
       }).$promise.then(function(items) {
         vm.dispositionLists = items;
         vm.dispositionLists.forEach(function(list) {
+          list.dispositions = list.dispositions.filter(function(dispo) {
+            return !angular.isDefined(dispo.type);
+          });
           list.dispositions.sort(function(a, b) {
             return a.sortOrder - b.sortOrder;
           });
@@ -73,6 +76,8 @@ angular.module('liveopsConfigPanel')
       });
     });
 
+    $scope.$on(loEvents.tableControls.itemSelected, vm.init);
+
     vm.confirmSubmit = function() {
       if(vm.selectedDispositionList.shared && angular.isDefined(vm.selectedDispositionList.$original) && !vm.selectedDispositionList.$original.shared) {
         return Modal.showConfirm({
@@ -131,8 +136,6 @@ angular.module('liveopsConfigPanel')
         }
       });
     };
-
-    vm.init();
 
     $scope.$watch(function() {
       return vm.selectedDispositionList;

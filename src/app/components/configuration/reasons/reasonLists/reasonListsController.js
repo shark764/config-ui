@@ -14,6 +14,9 @@ angular.module('liveopsConfigPanel')
       }).$promise.then(function(items) {
         vm.reasonLists = items;
         vm.reasonLists.forEach(function(list) {
+          list.reasons = list.reasons.filter(function(reason) {
+            return !angular.isDefined(reason.type);
+          });
           list.reasons.sort(function(a, b) {
             return a.sortOrder - b.sortOrder;
           });
@@ -55,7 +58,7 @@ angular.module('liveopsConfigPanel')
         active: !vm.selectedReasonList.active,
         name: vm.selectedReasonList.name,
         description: vm.selectedReasonList.description,
-        shared: vm.selectedReasonList.shared 
+        shared: vm.selectedReasonList.shared
       });
       vm.selectedReasonList.active = !vm.selectedReasonList.active;
 
@@ -72,6 +75,8 @@ angular.module('liveopsConfigPanel')
         reasons: []
       });
     });
+
+    $scope.$on(loEvents.tableControls.itemSelected, vm.init);
 
     vm.confirmSubmit = function() {
       if(vm.selectedReasonList.shared && angular.isDefined(vm.selectedReasonList.$original) && !vm.selectedReasonList.$original.shared) {
@@ -131,8 +136,6 @@ angular.module('liveopsConfigPanel')
         }
       });
     };
-
-    vm.init();
 
     $scope.$watch(function() {
       return vm.selectedReasonList;

@@ -2,8 +2,8 @@
 
 angular.module('liveopsConfigPanel')
   .controller('campaignsController', [
-    '$scope', '$rootScope', '$translate', '$moment', '$q', '$state', 'Alert', 'Session', 'Campaign', 'campaignsTableConfig', 'loEvents', 'campaignChannelTypes', 'Flow',
-    function ($scope, $rootScope, $translate, $moment, $q, $state, Alert, Session, Campaign, campaignsTableConfig, loEvents, campaignChannelTypes, Flow) {
+    '$scope', '$rootScope', '$timeout', '$translate', '$moment', '$q', '$state', 'Alert', 'Session', 'Campaign', 'CampaignStart', 'campaignsTableConfig', 'loEvents', 'campaignChannelTypes', 'Flow', 'Upload', 'DirtyForms', 'apiHostname',
+    function ($scope, $rootScope, $timeout, $translate, $moment, $q, $state, Alert, Session, Campaign, CampaignStart, campaignsTableConfig, loEvents, campaignChannelTypes, Flow, Upload, DirtyForms, apiHostname) {
       var cc = this,
         campaignSvc = new Campaign(),
         currentlySelectedCampaign = cc.selectedCampaign;
@@ -62,6 +62,28 @@ angular.module('liveopsConfigPanel')
       // is not editable by the user, nor do they exist in the campaigns API
       cc.campaignChannels = campaignChannelTypes;
 
+      cc.importContactList = function (fileData) {
+        var upload = Upload.upload({
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          },
+          url: apiHostname + '/v1/tenants/' + Session.tenant.tenantId + '/campaigns/' + cc.selectedCampaign.id + '/call-list',
+          method: 'POST',
+          file: cc.selectedCampaign.callListData
+        });
+
+        upload.then(function (response) {
+          $timeout(function () {
+            console.log('uploaded!', response);
+            //cc.selectedCampaign.callListData.save();
+            //dncEdit.contacts = [sampleContact1, sampleContact2, sampleContact3, sampleContact4];
+          });
+        });
+
+        return upload;
+      };
+
+
       cc.submit = function () {
         return cc.selectedCampaign.save({
           tenantId: Session.tenant.tenantId
@@ -69,7 +91,6 @@ angular.module('liveopsConfigPanel')
       };
 
       cc.editCampaignSettings = function (currentlySelectedCampaign) {
-        console.log("Here:", currentlySelectedCampaign)
         $state.go('content.configuration.campaignSettings', {
           id: currentlySelectedCampaign.id,
           // TODO: confirm whether or not we ultimately need ALL of the campaign data, maybe we only need the ID for the settings page.
@@ -88,7 +109,7 @@ angular.module('liveopsConfigPanel')
       };
 
       cc.startCampaign = function () {
-
+        
       };
 
     }
