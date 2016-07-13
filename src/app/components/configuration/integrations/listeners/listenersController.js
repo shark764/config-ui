@@ -4,13 +4,6 @@ angular.module('liveopsConfigPanel')
   .controller('ListenersController', ['$scope', 'Session', 'Listener',
     function($scope, Session, Listener) {
 
-      $scope.fetchListeners = function() {
-        return Listener.cachedQuery({
-          tenantId: Session.tenant.tenantId,
-          integrationId: $scope.integration.id
-        }, 'Listener' + $scope.integration.id);
-      };
-
       $scope.createNewListener = false;
 
       $scope.propertiesSchema = {
@@ -35,7 +28,8 @@ angular.module('liveopsConfigPanel')
       $scope.addNewListener = function(){
         $scope.selectedListener = new Listener({
           tenantId: Session.tenant.tenantId,
-          integrationId: $scope.integration.id
+          integrationId: $scope.integration.id,
+          active: false
         });
         $scope.editSelectedListener = false;
         $scope.createNewListener = true;
