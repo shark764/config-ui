@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
+
+## [4.1.6]
 * CXV1-3426 - Contact point accepts any string for dispatch mappings
 * CXV1-3922 - Fix reason/disposition list anomalies with headers
 * CXV1-3889 - Fix query builder for queues
