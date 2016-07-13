@@ -160,6 +160,10 @@ angular.module('liveopsConfigPanel')
             return item.name !== "System Presence Reasons";
           };
 
+          $scope.removeDisabledItems = function(item) {
+            return item.active;
+          };
+
           $scope.onEnter = function(){
             //Trigger the lo-submit handler that is attached to the type-ahead
             //Normally they are only triggered by click, but it does support custom events
