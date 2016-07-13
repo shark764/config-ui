@@ -467,6 +467,8 @@
   "dispatchMappings.details.flow": "Dispatch to flow",
   "dispatchMappings.details.flow.error": "Please select a flow",
   "dispatchMappings.details.flow.select": "Select Flow...",
+  "dispatchMappings.details.mapping": "Mapping Value",
+  "dispatchMappings.details.mapping.error": "Mapping value is required.",
   "dispatchMappings.details.phone.error": "Phone number is required",
   "dispatchMappings.details.direction": "Direction",
   "dispatchMappings.details.direction.select": "Select direction...",
