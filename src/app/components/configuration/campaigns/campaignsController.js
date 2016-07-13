@@ -2,45 +2,11 @@
 
 angular.module('liveopsConfigPanel')
   .controller('campaignsController', [
-    '$scope', '$rootScope', '$translate', '$moment', '$q', '$state', 'Alert', 'Session', 'Campaign', 'CampaignVersionLatest', 'CampaignVersion', 'campaignsTableConfig', 'loEvents', 'campaignChannelTypes', 'Flow',
-    function ($scope, $rootScope, $translate, $moment, $q, $state, Alert, Session, Campaign, CampaignVersionLatest, CampaignVersion, campaignsTableConfig, loEvents, campaignChannelTypes, Flow) {
+    '$scope', '$rootScope', '$timeout', '$translate', '$moment', '$q', '$state', 'Alert', 'Session', 'Campaign', 'CampaignStart', 'campaignsTableConfig', 'loEvents', 'campaignChannelTypes', 'Flow', 'Upload', 'DirtyForms', 'apiHostname',
+    function ($scope, $rootScope, $timeout, $translate, $moment, $q, $state, Alert, Session, Campaign, CampaignStart, campaignsTableConfig, loEvents, campaignChannelTypes, Flow, Upload, DirtyForms, apiHostname) {
       var cc = this,
         campaignSvc = new Campaign(),
-        latestCampaignVersionSvc = new CampaignVersionLatest(),
-        currentlySelectedCampaign;
-
-      // get all of the campaigns
-      function getCampaignList () {
-
-        var campaigns = Campaign.cachedQuery({
-          tenantId: Session.tenant.tenantId
-        });
-
-        return $q.when(campaigns.$promise).then(function (response) {
-          // cycle through the campaign to get the numbers
-          var campaignIds = _.map(response, function (val) {
-            // get the latest versions using those campaign numbers
-            var latestVersions = CampaignVersionLatest.cachedGet({
-              tenantId: Session.tenant.tenantId,
-              campaignId: val.id
-            });
-
-            $q.when(latestVersions.$promise).then(function (response) {
-              // get the latest versions using the version numbers
-              var version = CampaignVersion.cachedGet({
-                tenantId: Session.tenant.tenantId,
-                campaignId: val.id,
-                versionId: response.versionId.result.latestVersionId
-              });
-
-              $q.when(version.$promise).then(function (response) {
-                console.log('response', response);
-                cc.campaigns = response;
-              });
-            });
-          });
-        });
-      }
+        currentlySelectedCampaign = cc.selectedCampaign;
 
       $scope.$watch('cc.selectedCampaign', function (currentlySelectedCampaign) {
         if (currentlySelectedCampaign) {
@@ -49,39 +15,88 @@ angular.module('liveopsConfigPanel')
         }
       });
 
-      cc.loadCampaigns = function () {
-        cc.campaigns = Campaign.cachedQuery({
-          tenantId: Session.tenant.tenantId
+      var campaigns = Campaign.cachedQuery({
+        tenantId: Session.tenant.tenantId
+      });
+
+      var flows = Flow.cachedQuery({
+        tenantId: Session.tenant.tenantId
+      });
+
+      function getFlowName(cam, flo) {
+        // add a flowName property to the campaign object with the name of the
+        // corresponding flow
+        angular.forEach(cam, function (camp) {
+          // using a try/catch because some campaigns don't
+          // have a flow, and this prevents the page from breaking
+          try {
+            camp.flowName = flo.filter(function (flow) {
+              return flow.id === camp.flowId;
+            })[0].name;
+          } catch (err) {}
         });
-        //getCampaignList();
-      };
+      }
 
-      // TODO: Centralize this
-      cc.fetchFlows = function () {
-        var flows = Flow.cachedQuery({
-          tenantId: Session.tenant.tenantId
+      $q.all([
+          campaigns.$promise,
+          flows.$promise
+        ])
+        .then(function () {
+          // get rid of all of the flows that don't belong to this tenant
+          _.remove(flows, function (flow) {
+            return flow.tenantId !== Session.tenant.tenantId;
+          });
+
+          getFlowName(campaigns, flows);
+
+          // now, finally grant the page access to the list of flows and campaigns
+          cc.flows = flows;
+          cc.campaigns = campaigns;
         });
 
-        _.remove(flows, function (flow) {
-          return flow.tenantId !== Session.tenant.tenantId;
-        });
-
-        return flows;
-      };
-
-      cc.loadCampaigns();
+      // apply the table configuration
       cc.tableConfig = campaignsTableConfig;
 
-      // campaignChannelTypes is an array we get from index.constants.js, as the list of campaign channels
+      // campaignChannelTypes is an array we get from
+      // index.constants.js, as the list of campaign channels
       // is not editable by the user, nor do they exist in the campaigns API
       cc.campaignChannels = campaignChannelTypes;
 
-      cc.submit = function (currentlySelectedCampaign) {
+      cc.importContactList = function (fileData) {
+        var upload = Upload.upload({
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          },
+          url: apiHostname + '/v1/tenants/' + Session.tenant.tenantId + '/campaigns/' + cc.selectedCampaign.id + '/call-list',
+          method: 'POST',
+          file: cc.selectedCampaign.callListData
+        });
+
+        upload.then(function (response) {
+          $timeout(function () {
+            console.log('uploaded!', response);
+            //cc.selectedCampaign.callListData.save();
+            //dncEdit.contacts = [sampleContact1, sampleContact2, sampleContact3, sampleContact4];
+          });
+        });
+
+        return upload;
+      };
+
+
+      cc.submit = function () {
+        return cc.selectedCampaign.save({
+          tenantId: Session.tenant.tenantId
+        })
+      };
+
+      cc.editCampaignSettings = function (currentlySelectedCampaign) {
         $state.go('content.configuration.campaignSettings', {
           id: currentlySelectedCampaign.id,
+          // TODO: confirm whether or not we ultimately need ALL of the campaign data, maybe we only need the ID for the settings page.
           allData: JSON.stringify(currentlySelectedCampaign)
         });
-      };
+      }
 
       $scope.$on(loEvents.tableControls.itemCreate, function () {
         cc.create();
@@ -94,7 +109,7 @@ angular.module('liveopsConfigPanel')
       };
 
       cc.startCampaign = function () {
-
+        
       };
 
     }
