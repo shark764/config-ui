@@ -29,7 +29,7 @@ angular.module('liveopsConfigPanel')
       autoCloseTags: true,
       autoCloseBrackets: true,
       indentWithTabs: false,
-      readOnly: $scope.readOnly ? "nocursor" : "false"
+      readOnly: $scope.readOnly ? "nocursor" : false
     };
 
     var update = $interval(function(){
