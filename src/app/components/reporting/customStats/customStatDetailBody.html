@@ -38,6 +38,6 @@
 </div>
 
 <div ng-if="! selectedStat.isNew()" class="details-group">
-  <custom-stat-versions stat="selectedStat" on-edit-click="newDraftModal(version)"></custom-stat-versions>
+  <custom-stat-versions stat="selectedStat" on-view-click="viewVersion(version)" on-edit-click="newDraftModal(version)"></custom-stat-versions>
   <custom-stat-drafts stat="selectedStat" drafts="drafts"></custom-stat-drafts>
 </div>
