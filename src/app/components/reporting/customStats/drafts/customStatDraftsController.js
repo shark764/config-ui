@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('CustomStatDraftsController', ['$scope', 'Session', 'CustomStatDraft', 'Alert', function($scope, Session, CustomStatDraft, Alert) {
+  .controller('CustomStatDraftsController', ['$scope', '$state', 'Session', 'CustomStatDraft', 'Alert', function($scope, $state, Session, CustomStatDraft, Alert) {
     $scope.fetch = function() {
       if (!$scope.stat || $scope.stat.isNew()) {
         return [];
@@ -40,6 +40,13 @@ angular.module('liveopsConfigPanel')
     $scope.pushNewItem = function(event, item) {
       $scope.drafts.unshift(item);
       $scope.selectedDraft = item;
+    };
+
+    $scope.viewDraft = function(draft) {
+      $state.go('content.reporting.custom-stats-editor', {
+        customStatId: draft.customStatId,
+        draftId: draft.id
+      });
     };
 
     $scope.$watch('stat', function() {

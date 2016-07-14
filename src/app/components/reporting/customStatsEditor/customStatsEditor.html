@@ -5,11 +5,11 @@
         <h1>Custom Stat Editor</h1>
       </div>
     </div>
-    <div class="subhead-right">
+    <div class="subhead-right" ng-if="!readOnly">
       <div class="saved-wrapper">
         <p>{{saveStatus}}</p>
       </div>
-      <div class="publish-wrapper" ng-hide="readOnly">
+      <div class="publish-wrapper">
         <button ng-disabled="!enablePublish" ng-click="publishNewStatVersion()" class="btn btn-primary">Publish</button>
       </div>
     </div>

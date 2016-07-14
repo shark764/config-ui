@@ -2,18 +2,12 @@
 
 angular.module('liveopsConfigPanel')
   .controller('campaignsController', [
-    '$scope', '$rootScope', '$timeout', '$translate', '$moment', '$q', '$state', 'Alert', 'Session', 'Campaign', 'CampaignStart', 'campaignsTableConfig', 'loEvents', 'campaignChannelTypes', 'Flow', 'Upload', 'DirtyForms', 'apiHostname',
-    function ($scope, $rootScope, $timeout, $translate, $moment, $q, $state, Alert, Session, Campaign, CampaignStart, campaignsTableConfig, loEvents, campaignChannelTypes, Flow, Upload, DirtyForms, apiHostname) {
+    '$scope', '$rootScope', '$timeout', '$translate', '$moment', '$q', '$state', 'Alert', 'Session', 'Campaign', 'CampaignStart', 'CampaignCallListJobs', 'campaignsTableConfig', 'loEvents', 'campaignChannelTypes', 'Flow', 'Upload', 'DirtyForms', 'apiHostname',
+    function ($scope, $rootScope, $timeout, $translate, $moment, $q, $state, Alert, Session, Campaign, CampaignStart, CampaignCallListJobs, campaignsTableConfig, loEvents, campaignChannelTypes, Flow, Upload, DirtyForms, apiHostname) {
       var cc = this,
         campaignSvc = new Campaign(),
-        currentlySelectedCampaign = cc.selectedCampaign;
-
-      $scope.$watch('cc.selectedCampaign', function (currentlySelectedCampaign) {
-        if (currentlySelectedCampaign) {
-          currentlySelectedCampaign = cc.selectedCampaign;
-          cc.selectedCampaign.channel = cc.campaignChannels[0];
-        }
-      });
+        currentlySelectedCampaign = cc.selectedCampaign,
+        jobsList;
 
       var campaigns = Campaign.cachedQuery({
         tenantId: Session.tenant.tenantId
@@ -22,6 +16,12 @@ angular.module('liveopsConfigPanel')
       var flows = Flow.cachedQuery({
         tenantId: Session.tenant.tenantId
       });
+
+      // check to make sure that the campaign has at least one version,
+      // which means that it is also a valid campaign that can actually be started
+      function hasVersion () {
+        cc.selectedCampaign.hasVersion = angular.isDefined(cc.selectedCampaign.latestVersion);
+      };
 
       function getFlowName(cam, flo) {
         // add a flowName property to the campaign object with the name of the
@@ -36,6 +36,23 @@ angular.module('liveopsConfigPanel')
           } catch (err) {}
         });
       }
+
+      $scope.$watch('cc.selectedCampaign', function (currentlySelectedCampaign) {
+        if (currentlySelectedCampaign) {
+          var jobs = CampaignCallListJobs.cachedGet({
+            tenantId: Session.tenant.tenantId,
+            campaignId: currentlySelectedCampaign.id
+          });
+
+          hasVersion();
+          $q.when(jobs.$promise).then(function () {
+            cc.selectedCampaign.lastJob = jobs[0];
+            console.log('cc.selectedCampaign.lastJob', cc.selectedCampaign.lastJob);
+          });
+          currentlySelectedCampaign = cc.selectedCampaign;
+          cc.selectedCampaign.channel = cc.campaignChannels[0];
+        }
+      });
 
       $q.all([
           campaigns.$promise,
@@ -74,7 +91,17 @@ angular.module('liveopsConfigPanel')
 
         upload.then(function (response) {
           $timeout(function () {
-            console.log('uploaded!', response);
+            var jobData = CampaignCallListJobs.cachedGet({
+              tenantId: Session.tenant.tenantId,
+              campaignId: cc.selectedCampaign.id
+            });
+
+            $q.when(jobData.$promise).
+            then(function () {
+              getJobsList();
+              console.log('jobsList[0]', jobsList[0]);
+            });
+
             //cc.selectedCampaign.callListData.save();
             //dncEdit.contacts = [sampleContact1, sampleContact2, sampleContact3, sampleContact4];
           });
@@ -87,6 +114,10 @@ angular.module('liveopsConfigPanel')
       cc.submit = function () {
         return cc.selectedCampaign.save({
           tenantId: Session.tenant.tenantId
+        }).then(function () {
+          // once the campaign has been saved, re-evaluate for the presence of a version
+          // so that we can properly enable or disable the start/stop toggle
+          hasVersion();
         })
       };
 
@@ -108,8 +139,23 @@ angular.module('liveopsConfigPanel')
         })
       };
 
-      cc.startCampaign = function () {
-        
+      cc.startStopCampaign = function () {
+        switch(cc.selectedCampaign.currentState) {
+          case 'stopped':
+            console.log('starting!');
+            return CampaignStart.save({
+              tenantId: Session.tenant.tenantId,
+              campaignId: cc.selectedCampaign.id,
+              versionId: cc.selectedCampaign.latestVersion,
+            });
+          case 'started':
+            console.log('stopping!');
+            return CampaignStop.save({
+              tenantId: Session.tenant.tenantId,
+              campaignId: cc.selectedCampaign.id,
+              versionId: cc.selectedCampaign.latestVersion,
+            });
+        }
       };
 
     }

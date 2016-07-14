@@ -1,11 +1,22 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
+## [Unreleased]
 
-## Unreleased
+## [4.1.7]
 * CXV1-3426 - Contact point accepts any string for dispatch mappings
+* CXV1-3965 - Capacity UI - Creating Group/Creating Capacity Rule Text
+* CXV1-3964 - Config-ui - Remove Capacity Rule
+* CXV1-3876 - Capacity UI - Creating New Rule Issue (part 2)
+* CXV1-3175 - Custom Stat Editor view only mode
+* Updated Realtime Dashboards to 4.0.1
+
+## [4.1.6]
 * CXV1-3922 - Fix reason/disposition list anomalies with headers
 * CXV1-3889 - Fix query builder for queues
+* CXV1-3892 - Reloading listeners on integration active update
+* CXV1-3849 - Don't show disabled reason lists on user management page
+* CXV1-3886 - Only show "disposition list is inherited" message on disposition lists that are actually inherited
 
 ## [4.1.5]
 * Bumping flow-designer version to 2.0.6 (Hide inactive reasons / dispositions )

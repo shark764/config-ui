@@ -725,7 +725,7 @@ angular.module('liveopsConfigPanel')
           }
         })
         .state('content.reporting.custom-stats-editor', {
-          url: '/custom-stats/editor/:customStatId/:draftId',
+          url: '/custom-stats/editor/:customStatId/:draftId/?readOnly',
           templateUrl: 'app/components/reporting/customStatsEditor/customStatsEditor.html',
           controller: 'customStatsEditorController',
           resolve: {
@@ -758,7 +758,50 @@ angular.module('liveopsConfigPanel')
                 tenantId: Session.tenant.tenantId
               }, function(data) {
                 draft = data;
+                draft.readOnly = false;
                 deferred.resolve(draft);
+              });
+
+              return deferred.promise;
+            }]
+          }
+        })
+        .state('content.reporting.custom-stats-viewer', {
+          url: '/custom-stats/viewer/:customStatId/:draftId/',
+          templateUrl: 'app/components/reporting/customStatsEditor/customStatsEditor.html',
+          controller: 'customStatsEditorController',
+          resolve: {
+            hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
+              return UserPermissions.resolvePermissions(PermissionGroups.accessAllCustomStats);
+            }],
+            customStat: ['$stateParams', 'Session', 'CustomStat', '$q', function($stateParams, Session, CustomStat, $q) {
+              var deferred = $q.defer();
+              var customStat;
+
+              delete $stateParams.id;
+
+              CustomStat.get({
+                tenantId: Session.tenant.tenantId,
+                id: $stateParams.customStatId
+              }, function(data) {
+                customStat = data;
+                deferred.resolve(customStat);
+              });
+
+              return deferred.promise;
+            }],
+            draft: ['$stateParams', 'CustomStatVersion', 'Session', '$q', function($stateParams, CustomStatVersion, Session, $q) {
+              var deferred = $q.defer();
+              var version;
+
+              CustomStatVersion.get({
+                customStatId: $stateParams.customStatId,
+                version: $stateParams.draftId,
+                tenantId: Session.tenant.tenantId
+              }, function(data) {
+                version = data;
+                version.readOnly = true;
+                deferred.resolve(version);
               });
 
               return deferred.promise;

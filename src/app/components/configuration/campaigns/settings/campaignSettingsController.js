@@ -18,8 +18,6 @@ angular.module('liveopsConfigPanel')
         tenantId: Session.tenant.tenantId,
         versionId: csc.campaignSettings.latestVersion }) : new CampaignVersion();
 
-      console.log(csc.versionSettings)
-
       if (angular.isDefined(csc.versionSettings.$promise)) {
         csc.versionSettings.$promise.then(function(settings) {
           settings.defaultLeadExpiration = settings.defaultLeadExpiration.split(':').shift();

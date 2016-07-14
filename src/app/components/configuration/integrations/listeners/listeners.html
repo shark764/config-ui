@@ -18,7 +18,7 @@
     <div class="input-group">
       <label>{{'value.active' | translate}} *</label>
       <form-error field="createListenerForm.active" error-type-required="{{'value.error.active.required' | translate}}"></form-error>
-      <toggle ng-required="true" ng-model="selectedListener.active" name="active"></toggle>
+      <toggle ng-required="true" ng-model="selectedListener.active" name="active" ng-disabled="!integration.active"></toggle>
     </div>
 
     <div class="input-group" ng-repeat="(key, value) in propertiesSchema[integration.type]">
@@ -37,7 +37,7 @@
 </div>
 
 
-<!-- <loading ng-show="!getListeners().$resolved"></loading> -->
+<loading ng-show="!fetchListeners().$resolved"></loading>
 
 <table class="table" id="flow-details-draft-table" ng-show="fetchListeners().length > 0">
   <thead>
@@ -50,7 +50,8 @@
   </thead>
   <tr ng-repeat="listener in fetchListeners() | orderBy:'created':'reverse'">
     <td>{{listener.$original.name}}</td>
-    <td>{{listener.$original.active}}</td>
+    <td ng-if="listener.$original.active">Enabled</td>
+    <td ng-if="!listener.$original.active">Disabled</td>
     <td>{{listener.$original.created | date:'medium'}}</td>
     <td>
       <a class="edit" ng-click="editListener(listener)" title="{{'flow.listener.edit.alt' | translate}}">edit</a>
@@ -72,7 +73,7 @@
     <div class="input-group">
       <label>{{'value.active' | translate}} *</label>
       <form-error field="editListenerForm.active" error-type-required="{{'value.error.active.required' | translate}}"></form-error>
-      <toggle ng-required="true" ng-model="selectedListener.active" name="active"></toggle>
+      <toggle ng-required="true" ng-model="selectedListener.active" name="active" ng-disabled="!integration.active"></toggle>
     </div>
 
     <div class="input-group" ng-repeat="(key, value) in propertiesSchema[integration.type]">

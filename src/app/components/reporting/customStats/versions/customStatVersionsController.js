@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('CustomStatVersionsController', ['$scope', 'Session', 'CustomStatVersion',
-    function($scope, Session, CustomStatVersion) {
+  .controller('CustomStatVersionsController', ['$scope', '$state', 'Session', 'CustomStatVersion',
+    function($scope, $state, Session, CustomStatVersion) {
       $scope.getVersions = function() {
         if (!$scope.stat || $scope.stat.isNew()) {
           return [];
@@ -35,6 +35,13 @@ angular.module('liveopsConfigPanel')
         $scope.getVersions().unshift(item);
         $scope.selectedVersion = item;
       };
+
+      $scope.viewVersion = function(version){
+        $state.go('content.reporting.custom-stats-viewer', {
+          customStatId: version.customStatId,
+          draftId: version.version
+        });
+      }
 
       $scope.$watch('stat', function() {
         if (!$scope.stat) {

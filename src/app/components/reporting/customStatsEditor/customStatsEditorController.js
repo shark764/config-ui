@@ -6,6 +6,7 @@ angular.module('liveopsConfigPanel')
 
     $scope.draft = draft;
     $scope.customStat = customStat;
+    $scope.readOnly = $scope.draft.readOnly;
 
     $scope.saveStatus = 'Last saved ' + $moment.utc($scope.draft.updated).fromNow();
     $scope.enablePublish = true;
@@ -27,7 +28,8 @@ angular.module('liveopsConfigPanel')
       matchBrackets: true,
       autoCloseTags: true,
       autoCloseBrackets: true,
-      indentWithTabs: false
+      indentWithTabs: false,
+      readOnly: $scope.readOnly ? "nocursor" : false
     };
 
     var update = $interval(function(){
