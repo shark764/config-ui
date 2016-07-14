@@ -1,8 +1,9 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
+## [Unreleased]
 
-## Unreleased
+## [4.1.7]
 * CXV1-3426 - Contact point accepts any string for dispatch mappings
 * CXV1-3965 - Capacity UI - Creating Group/Creating Capacity Rule Text
 * CXV1-3964 - Config-ui - Remove Capacity Rule
