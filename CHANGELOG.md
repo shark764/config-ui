@@ -8,6 +8,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 * CXV1-3964 - Config-ui - Remove Capacity Rule
 * CXV1-3876 - Capacity UI - Creating New Rule Issue (part 2)
 * CXV1-3175 - Custom Stat Editor view only mode
+* Updated Realtime Dashboards to 4.0.1
 
 ## [4.1.6]
 * CXV1-3922 - Fix reason/disposition list anomalies with headers
