@@ -66,11 +66,12 @@ describe('IntegrationsController', function() {
       $scope.selectedIntegration.$original = $scope.selectedIntegration;
 
       $httpBackend.expectPUT(apiHostname + '/v1/tenants/myTenant/integrations/1234').respond(200);
+      $httpBackend.expectGET(apiHostname + '/v1/tenants/tenant-id/integrations/1234/listeners').respond(200);
       $scope.updateActive();
 
       $httpBackend.flush();
     }));
-    
+
     it('should toggle the active property to true when it is false', inject(function(Integration, apiHostname) {
       $scope.selectedIntegration = new Integration({
         tenantId: 'myTenant',
@@ -82,11 +83,13 @@ describe('IntegrationsController', function() {
       $httpBackend.expectPUT(apiHostname + '/v1/tenants/myTenant/integrations/1234', {
         active: true
       }).respond(200);
+
+      $httpBackend.expectGET(apiHostname + '/v1/tenants/tenant-id/integrations/1234/listeners').respond(200);
       $scope.updateActive();
 
       $httpBackend.flush();
     }));
-    
+
     it('should toggle the active property to false when it is true', inject(function(Integration, apiHostname) {
       $scope.selectedIntegration = new Integration({
         tenantId: 'myTenant',
@@ -98,6 +101,8 @@ describe('IntegrationsController', function() {
       $httpBackend.expectPUT(apiHostname + '/v1/tenants/myTenant/integrations/1234', {
         active: false
       }).respond(200);
+
+      $httpBackend.expectGET(apiHostname + '/v1/tenants/tenant-id/integrations/1234/listeners').respond(200);
       $scope.updateActive();
 
       $httpBackend.flush();
@@ -115,6 +120,7 @@ describe('IntegrationsController', function() {
       $httpBackend.expectPUT(apiHostname + '/v1/tenants/myTenant/integrations/1234', {
         active: true
       }).respond(200);
+      $httpBackend.expectGET(apiHostname + '/v1/tenants/tenant-id/integrations/1234/listeners').respond(200);
       $scope.updateActive();
 
       $httpBackend.flush();
@@ -137,11 +143,12 @@ describe('IntegrationsController', function() {
           id: '1234'
         }
       });
-      
+      $httpBackend.expectGET(apiHostname + '/v1/tenants/tenant-id/integrations/1234/listeners').respond(200);
+
       $scope.updateActive();
 
       $httpBackend.flush();
-      
+
       expect($scope.selectedIntegration.$original.active).toBeTruthy();
     }));
 
@@ -152,7 +159,7 @@ describe('IntegrationsController', function() {
           active: false,
           id: '1234'
         });
-  
+
         $httpBackend.expectPUT(apiHostname + '/v1/tenants/myTenant/integrations/1234').respond(400, {
           error: {
             attribute : {
@@ -160,12 +167,12 @@ describe('IntegrationsController', function() {
             }
           }
         });
-        
+
         $scope.updateActive().catch(function(error){
           expect(error).toEqual('This integration cannot be enabled');
           done();
         });
-  
+
         $httpBackend.flush();
       });
     });

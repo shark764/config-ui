@@ -3,7 +3,7 @@
 </div>
 
 <ng-form
-  separate-validation id="setCapacityRule" 
+  separate-validation id="setCapacityRule"
   name="setCapacityRule"
   ng-show="['MANAGE_ALL_CAPACITY_RULES'] | hasPermission">
   <div class="input-group" ng-if="ready && fetchCapacityRules().$resolved">
@@ -16,6 +16,13 @@
           {{'users.details.capacityRule.select' | translate}}
         </option>
       </select>
+
+      <a class="btn"
+        ng-disabled="!currentCapacityRule.id"
+        lo-submit="removeRule()"
+        title="{{'value.remove' | translate}}">
+          <i class="fa fa-minus"></i>
+      </a>
     </div>
   </div>
 </ng-form>

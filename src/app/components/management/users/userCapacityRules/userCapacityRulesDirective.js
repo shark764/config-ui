@@ -42,6 +42,19 @@ angular.module('liveopsConfigPanel')
           };
         }
 
+        $scope.removeRule = function(){
+          new TenantUserCapacityRules({
+            tenantId: Session.tenant.tenantId,
+            userId: $scope.user.id,
+            id: $scope.currentCapacityRule.id
+          }).$delete().then(function(){
+            $timeout(function(){
+              $scope.currentCapacityRule.id = undefined;
+              Alert.success($translate.instant('capacityRule.removal.success'));
+            });
+          });
+        };
+
         $scope.$watch('user', reset);
         $scope.$watch('currentCapacityRule.id', function(newVal, oldVal){
 
