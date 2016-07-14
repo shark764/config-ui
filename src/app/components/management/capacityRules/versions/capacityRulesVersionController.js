@@ -26,6 +26,11 @@ angular.module('liveopsConfigPanel')
         return $scope.selectedVersion.save(function() {
           $scope.selectedVersion = getDefaultVersion();
           $scope.createNewVersion = false;
+        }).then(function(version){
+          if(!$scope.capacityRule.activeVersion){
+            $scope.capacityRule.activeVersion = version.version;
+            $scope.capacityRule.save();
+          }
         });
       };
 
