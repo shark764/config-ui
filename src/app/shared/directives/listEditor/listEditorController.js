@@ -8,12 +8,46 @@ angular.module('liveopsConfigPanel')
         $scope.dropdown = -1;
 
         if ($scope.type === 'dispositions') {
-          $scope.possibleDispos = Disposition.cachedQuery({
+          $scope.possibleDispos = Disposition.query({
             tenantId: Session.tenant.tenantId
           });
+          $scope.possibleDispos.$promise.then(function(dispos) {
+            $scope.possibleDispos = dispos.filter(function(possibleDispo) {
+              var found = false;
+              $scope.dispositionList.forEach(function(dispo) {
+                if (dispo.dispositionId === possibleDispo.id) {
+                  found = true;
+                }
+              });
+              return !found;
+            }).sort(function(a, b) {
+              var A = a.name.toLowerCase();
+              var B = b.name.toLowerCase();
+              if (A < B) return -1;
+              if (A > B) return 1;
+              return 0;
+            });
+          });
         } else {
-          $scope.possibleDispos = Reason.cachedQuery({
+          $scope.possibleDispos = Reason.query({
             tenantId: Session.tenant.tenantId
+          });
+          $scope.possibleDispos.$promise.then(function(reasons) {
+            $scope.possibleDispos = reasons.filter(function(possibleReason) {
+              var found = false;
+              $scope.dispositionList.forEach(function(reason) {
+                if (reason.reasonId === possibleReason.id) {
+                  found = true;
+                }
+              });
+              return !found;
+            }).sort(function(a, b) {
+              var A = a.name.toLowerCase();
+              var B = b.name.toLowerCase();
+              if (A < B) return -1;
+              if (A > B) return 1;
+              return 0;
+            });;
           });
         }
 
@@ -105,6 +139,10 @@ angular.module('liveopsConfigPanel')
       $scope.selectNewDispo = function(dropdownIndex) {
         var listIndex = $scope.dispositionList.indexOf($scope.selectedDispo);
 
+        if ($scope.selectedDispo.name.slice(0, 8) !== 'Select a') {
+          $scope.possibleDispos.push($scope.selectedDispo);
+        }
+
         $scope.dispositionList[listIndex] = $scope.possibleDispos[dropdownIndex];
         $scope.dispositionList[listIndex][$scope.type.slice(0, -1) + 'Id'] = $scope.dispositionList[listIndex].id;
         $scope.dispositionList[listIndex].sortOrder = listIndex;
@@ -115,6 +153,16 @@ angular.module('liveopsConfigPanel')
         delete $scope.dispositionList[listIndex].updated;
         delete $scope.dispositionList[listIndex].updatedBy;
         delete $scope.dispositionList[listIndex].id;
+
+        $scope.possibleDispos.splice(dropdownIndex, 1);
+
+        $scope.possibleDispos.sort(function(a, b) {
+          var A = a.name.toLowerCase();
+          var B = b.name.toLowerCase();
+          if (A < B) return -1;
+          if (A > B) return 1;
+          return 0;
+        });
 
         $scope.selectedDispo = $scope.dispositionList[listIndex];
         $scope.dropdown = -1;
@@ -276,5 +324,9 @@ angular.module('liveopsConfigPanel')
 
       // Have to do this in a timeout or dispositionList will be undefined
       $timeout($scope.init);
+
+      $scope.$on('table:resource:selected', function() {
+        $timeout($scope.init);
+      });
 
     }]);

@@ -1,7 +1,11 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
+
 ## [Unreleased]
+
+## [4.1.8]
+* CXV1-3922 - Fix problem where dropdown was not populating on reason/dispo list when switching lists
 
 ## [4.1.7]
 * CXV1-3426 - Contact point accepts any string for dispatch mappings
