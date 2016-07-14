@@ -1,36 +1,39 @@
-<ng-form>
+<ng-form name="forms.settingsForm">
   <div class="campaign-setting">
 
     <div class="col">
-
       <div class="input-group">
-        <label>{{'campaigns.details.setting.flow' | translate}}</label>
-        <select name="flowId"
-            ng-model="csc.versionSettings.flowId"
-            ng-options="flow.id as flow.name for flow in csc.fetchFlows()">
-
-            <option value="" disabled>{{'campaigns.details.settings.select.flow' | translate}}</option>
-          </select>
-      </div>
+    <label>{{'details.flow' | translate}}</label>
+    <div>
+      <form-error field="forms.settingsForm.flowId" error-type-required="{{'campaigns.details.flow.error' | translate}}"></form-error>
+      <select name="flowId" required ng-model="csc.versionSettings.flowId" ng-options="flow.id as flow.name for flow in csc.flows">
+        <option disabled value="">{{'campaigns.details.flow' | translate}}</option>
+      </select>
+    </div>
+  </div>
 
       <div class="input-group">
         <label>{{'campaigns.details.setting.ani' | translate}}</label>
         <div>
-          <input required ng-model="csc.versionSettings.callerId" name="callerId" class="ani" type="text"></input>
+          <form-error field="forms.settingsForm.callerId"
+            error-type-required="{{'dispatchMappings.details.phone.error' | translate}}"
+            error-type-phone-number="{{'details.phoneNumber.error' | translate}}">
+          </form-error>
+          <input required ng-model="csc.versionSettings.callerId" name="callerId" class="ani" type="tel"></input>
         </div>
       </div>
 
       <div class="input-group">
         <label>{{'campaigns.details.setting.timezoneHeader' | translate}}</label>
         <select name="timezone"
-          ng-model="csc.versionSettings.timezone"
+          ng-model="csc.versionSettings.defaultTimeZone"
           ng-options="timezone.timezone as timezone.getDisplay() for timezone in csc.timezones | orderBy:'offsetInMilliseconds'">
 
           <option value="" disabled>{{'campaigns.details.settings.select.timezone' | translate}}</option>
         </select>
       </div>
 
-      <div class="input-group">
+      <!-- <div class="input-group">
         <label>{{'campaigns.details.settings.regionHeader' | translate}}</label>
         <select name="region"
           ng-model="csc.campaignSetting.region"
@@ -38,13 +41,13 @@
 
           <option value="" disabled>{{'campaigns.details.settings.select.region' | translate}}</option>
         </select>
-      </div>
+      </div> -->
 
       <div class="input-group">
         <label>{{'campaigns.details.setting.expiry' | translate}}</label>
         <div>
           <input type="text" ng-model="csc.versionSettings.defaultLeadExpiration" name="expiryDate" class="ani">
-          <select>
+          <select ng-model="csc.expiryUnit">
             <option value="hr">{{'campaigns.details.settings.hours' | translate}}</option>
             <option value="day">{{'campaigns.details.settings.days' | translate}}</option>
           </select>
@@ -144,7 +147,7 @@
 
         <div class="input-group">
           <label>{{'campaigns.details.setting.retryMax' | translate}}</label>
-          <input ng-model="csc.versionSettings.defaultLeadMaxRetries" name="name" class="redial" type="text"></input>
+          <input ng-model="csc.versionSettings.defaultMaxRetries" name="name" class="redial" type="text"></input>
         </div>
       </div>
 
@@ -155,7 +158,7 @@
   <div class="campaign-controls">
     <input
       id="cancel-details-btn" class="btn campaign-cancel" type="button"
-      ng-disabled="cc.selectedCampaign.$busy"
+      ng-disabled="csc.versionSettings.$busy"
       value="{{'value.cancel' | translate}}"
       ng-click="csc.cancel()"></input>
 

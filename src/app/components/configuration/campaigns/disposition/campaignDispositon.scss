@@ -1,0 +1,13 @@
+.primary {
+  z-index: 1;
+
+}
+.dnc-modal {
+  height: 100%;
+  width:100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  top:0px;
+  text-align: center;
+  display: block;
+  z-index:2;
+}
