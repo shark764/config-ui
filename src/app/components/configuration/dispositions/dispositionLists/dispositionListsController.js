@@ -76,6 +76,8 @@ angular.module('liveopsConfigPanel')
       });
     });
 
+    $scope.$on(loEvents.tableControls.itemSelected, vm.init);
+
     vm.confirmSubmit = function() {
       if(vm.selectedDispositionList.shared && angular.isDefined(vm.selectedDispositionList.$original) && !vm.selectedDispositionList.$original.shared) {
         return Modal.showConfirm({

@@ -324,7 +324,7 @@ angular.module('liveopsConfigPanel')
             if (A > B) return 1;
             return 0;
           });
-          
+
           _.pull($scope.dispositionList, $scope.selectedDispo);
         }
         $scope.detailsForm.$setDirty();
