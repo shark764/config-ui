@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+* CXV1-3922 - Fix problem where dropdown was not populating on reason/dispo list after deleting a reason/dispo
 
 ## [4.1.11]
 * Second attempt at CXV1-3997

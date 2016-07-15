@@ -312,6 +312,19 @@ angular.module('liveopsConfigPanel')
               }
             }
           }
+
+          if ($scope.selectedDispo.name.slice(0, 8) !== 'Select a') {
+            $scope.possibleDispos.push($scope.selectedDispo);
+          }
+
+          $scope.possibleDispos.sort(function(a, b) {
+            var A = a.name.toLowerCase();
+            var B = b.name.toLowerCase();
+            if (A < B) return -1;
+            if (A > B) return 1;
+            return 0;
+          });
+          
           _.pull($scope.dispositionList, $scope.selectedDispo);
         }
         $scope.detailsForm.$setDirty();
