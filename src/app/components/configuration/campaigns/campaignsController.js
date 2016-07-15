@@ -58,12 +58,15 @@ angular.module('liveopsConfigPanel')
             //   campaignId: currentlySelectedCampaign.id
             // });
 
-            jobList.$promise.then(function (response) {
-              if (response.jobs.length > 0) {
-                cc.selectedCampaign.hasCallList = true;
-              } else {
-                cc.selectedCampaign.hasCallList = false;
-              }
+            $q.all([
+              jobList.$promise//,
+              //callListDownload.$promise
+            ]).then(function () {
+                if (jobList.jobs.length > 0) {
+                  cc.selectedCampaign.hasCallList = true;
+                } else {
+                  cc.selectedCampaign.hasCallList = false;
+                }
             });
           }
         }
@@ -86,7 +89,7 @@ angular.module('liveopsConfigPanel')
           cc.campaigns = campaigns;
         });
         //getCampaignList();
-  
+
 
       // apply the table configuration
       cc.tableConfig = campaignsTableConfig;
