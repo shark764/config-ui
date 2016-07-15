@@ -68,12 +68,10 @@ angular.module('liveopsConfigPanel')
         csc.timezones = Timezone.query();
       };
 
-      csc.updateCampaign = function () {};
 
       csc.cancel = function () {
         $state.go('content.configuration.campaigns');
       };
-
 
       csc.fetchDisposMappings = function(){
 
