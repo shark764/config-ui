@@ -25,7 +25,6 @@ angular.module('liveopsConfigPanel')
             id: $scope.user.id,
           }, 'User' +  $scope.user.id)
           .$promise.then(function(user){
-
             $timeout(function(){
               if(user.$capacityRules[0]){
                 $scope.currentCapacityRule.id = user.$capacityRules[0].id;
