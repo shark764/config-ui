@@ -1,0 +1,52 @@
+<div class="publish">
+  <h3 class="header">{{title}}</h3>
+  <ng-form name="forms.dispositionMapping">
+    <div class="input-group">
+      <!-- <label>Name</label>
+      <form-error field="forms.dispositoi.name"
+        error-type-required="Please enter a draft name"></form-error>
+      <input type="text" ng-model="csc.versionSettings.dispositionCodeListId" name="name" ng-required="true"/> -->
+      <table>
+        <tr>
+          <th>Code</th>
+          <th>Action</th>
+        </tr>
+        <!-- flow.id as flow.name for flow in csc.flows -->
+<!-- (key, value) in csc.versionSettings.dispositionMappings track by $index -->
+        <tr ng-repeat="disposition in csc.currentDispositionList track by $index">
+            <td>{{disposition.name}}</td>
+            <td>
+              <select ng-model="disposition.action" ng-change="csc.changeDispoMap(disposition.action)">
+                <option name="dispoMapSuccess" selected="selected" value="success">Success</option>
+                <option name="dispoMapRedial" value="redial">Redial</option>
+                <option name="dispoMapDnc" value="dnc">Add to DNC</option>
+              </select>
+            </td>
+        </tr>
+      </table>
+
+      <div class="input-group" ng-show="showDispoDNC">
+        <div class="divider-header first-header">
+          <h4>{{'campaigns.details.setting.dnc' | translate}}</h4>
+        </div>
+
+        <div id="dnc-list">
+
+          <input type="checkbox" value="widget">widget</input>
+
+       </div>
+
+
+        <input type="button" id="modal-cancel" class="btn" ng-click="csc.cancelDispoDnc()" value="{{'value.cancel' | translate}}"/>
+        <input type="submit" id="modal-ok" class="btn btn-primary" ng-click="okCallback(draft)" ng-disabled="forms.newDraft.$invalid">
+      </div>
+
+
+    </div>
+
+  </ng-form>
+  <div class="footer">
+    <input type="button" id="modal-cancel" class="btn" ng-click="cancelCallback()" value="{{'value.cancel' | translate}}"/>
+    <input type="submit" id="modal-ok" class="btn btn-primary" ng-click="okCallback(draft)" ng-disabled="forms.newDraft.$invalid">
+  </div>
+</div>

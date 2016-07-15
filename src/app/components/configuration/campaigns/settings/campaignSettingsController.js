@@ -2,120 +2,43 @@
 
 angular.module('liveopsConfigPanel')
   .controller('campaignSettingsController', [
-    '$scope', '$rootScope', '$state', '$translate', '$moment', '$q', 'Session', 'Flow', 'Timezone', 'Campaign', 'CampaignVersion', 'Disposition', 'DirtyForms', 'loEvents', 'getCampaignData',
-    function ($scope, $rootScope, $state, $translate, $moment, $q, Session, Flow, Timezone, Campaign, CampaignVersion, Disposition, DirtyForms, loEvents, getCampaignData) {
+    '$scope', '$rootScope', '$state', '$translate', '$moment', '$q', '$document', '$compile','Session', 'Flow', 'Timezone', 'Campaign', 'CampaignVersion', 'Disposition', 'DispositionList','DirtyForms', 'loEvents', 'getCampaignData',
+    function ($scope, $rootScope, $state, $translate, $moment, $q, $document, $compile, Session, Flow, Timezone, Campaign, CampaignVersion, Disposition, DispositionList,DirtyForms, loEvents, getCampaignData) {
 
-      var testVersion = new CampaignVersion({
-        channel: "voice",
-        flowId: "642b4e7f-6f7a-401f-bcc5-9528ee8d93bb",
-        defaultTimeZone: "America/Moncton",
-        doNotCallLists: [
-          "d0fabe1f - f134 - 4e0 e - aa0e - e5cd5531d6ed ",
-          "09 fbaefb - b2eb - 489e-8 daa - 21 d83a48f88e "
-        ],
-        callerId: "+442071838750",
-        defaultLeadExpiration: "72:00:00",
-        defaultLeadRetryInterval: "00:03:00",
-        defaultLeadMaxRetries: 4,
-        dispositionCodeListId: "5a36616f-a080-439e-84e0-633379f9e5f8",
-        dispositionMappings: {
-          "9f67ecc7-145e-4bea-b5f8-98d1c286522f": {
-            action: "retry",
-            interval: "03:00:00"
-          },
-          "d17a44da-7667-4d44-9199-cf148017cc79": {
-            action: "dnc",
-            listIds: [
-              "25a9941a-1914-4d13-99a2-7a72e98b3ae6",
-              "c8858199-05d3-452f-9a87-4f7a23a24324"
-            ]
-          }
-        },
-        schedule: [{
-          startTime: "00:00:00",
-          endTime: "12:00:00",
-          date: "2016-02-02",
-          filter: {
-            province: [
-              "NS",
-              "NB",
-              "BC",
-              "AB"
-            ]
-          },
-          blackout: true
-        }, {
-          startTime: "12:00:00",
-          endTime: "18:00:00",
-          day: "M",
-          blackout: false
-        }]
-      });
-
-
-
-
+      $scope.forms = {};
+      $scope.showDispoDNC = false;
       // adding to the scope all of the data from the campaigns page
       var csc = this;
-      //csc.campaignSettings = getCampaignData;
-      getCampaignData.tenantId = Session.tenant.tenantId;
+      csc.campaignSettings = getCampaignData;
+      csc.campaignSettings.tenantId = Session.tenant.tenantId;
+      csc.expiryUnit = 'hr';
 
-      var newCampaign = new Campaign({
-        name: getCampaignData.name,
-        description: getCampaignData.description
-      });
+      csc.versionSettings = csc.campaignSettings.latestVersion ? CampaignVersion.cachedGet({
+        campaignId: csc.campaignSettings.id,
+        tenantId: Session.tenant.tenantId,
+        versionId: csc.campaignSettings.latestVersion }) : new CampaignVersion();
 
-      csc.versionSettings = new CampaignVersion(getCampaignData);
-
-      // START MOCK DATA ......
-      csc.versionSettings.defaultTimeZone = "America/Moncton";
-      csc.versionSettings.doNotContactLists = ["d0fabe1f-f134-4e0e-aa0e-e5cd5531d6ed", "09fbaefb-b2eb-489e-8daa-21d83a48f88e"];
-      csc.versionSettings.dispositionCodeListId = "5a36616f-a080-439e-84e0-633379f9e5f8";
-      csc.versionSettings.dispositionMappings = {
-        "9f67ecc7-145e-4bea-b5f8-98d1c286522f": {
-          action: "retry",
-          interval: "03:00:00"
-        },
-        "d17a44da-7667-4d44-9199-cf148017cc79": {
-          action: "dnc",
-          listIds: [
-            "25a9941a-1914-4d13-99a2-7a72e98b3ae6",
-            "c8858199-05d3-452f-9a87-4f7a23a24324"
-          ]
-        }
-      };
-      csc.versionSettings.schedule = [{
-        startTime: "00:00:00",
-        endTime: "12:00:00",
-        date: "2016-02-02",
-        filter: {
-          province: [
-            "NS",
-            "NB",
-            "BC",
-            "AB"
-          ]
-        },
-        blackout: true
-      }, {
-        startTime: "12:00:00",
-        endTime: "18:00:00",
-        day: "M",
-        blackout: false
-      }];
-      // END MOCK DATA ......
+      if (angular.isDefined(csc.versionSettings.$promise)) {
+        csc.versionSettings.$promise.then(function(settings) {
+          settings.defaultLeadExpiration = settings.defaultLeadExpiration.split(':').shift();
+          if (settings.defaultLeadExpiration % 24 === 0) {
+            settings.defaultLeadExpiration = settings.defaultLeadExpiration / 24;
+            csc.expiryUnit = 'day';
+          }
+        });
+      }
 
       // TODO: Centralize this
       csc.fetchFlows = function () {
-        var flows = Flow.cachedQuery({
+        csc.flows = Flow.cachedQuery({
           tenantId: Session.tenant.tenantId
         });
 
-        _.remove(flows, function (flow) {
+        _.remove(csc.flows, function (flow) {
           return flow.tenantId !== Session.tenant.tenantId;
         });
 
-        return flows;
+        return csc.flows;
       };
 
       csc.fetchDispositions = function () {
@@ -123,11 +46,22 @@ angular.module('liveopsConfigPanel')
           tenantId: Session.tenant.tenantId
         });
 
-        _.remove(dispositions, function (disposition) {
-          return disposition.tenantId !== Session.tenant.tenantId;
+        //console.log("dispositions: ", dispositions);
+        return dispositions;
+      };
+
+      csc.currentDispositionName = [];
+
+      csc.fetchDispositionList = function(){
+
+        var dispositionLists = DispositionList.cachedQuery({
+          tenantId: Session.tenant.tenantId
         });
 
-        return dispositions;
+        $q.when(dispositionLists).then(function(){
+          csc.dispositionLists = dispositionLists;
+        });
+
       };
 
       csc.loadTimezones = function () {
@@ -140,9 +74,64 @@ angular.module('liveopsConfigPanel')
         $state.go('content.configuration.campaigns');
       };
 
-      csc.defaultExpiry = function () {
+
+      csc.fetchDisposMappings = function(){
+
+        var dispositionMappings = DispositionMappings.cachedQuery({
+          tenantId: Session.tenant.tenantId
+        });
+
+        //console.log("fetchDisposMappings():", dispositionMappings);
+        return dispositionMappings;
+      };
+
+      csc.changeDispoMap = function(value){
+
+        if(value === 'dnc'){
+          $scope.showDispoDNC = true;
+        } else {
+          $scope.showDispoDNC = false;
+        }
+      };
+
+      csc.gotoDispoMap = function(dispoId){
+        var dispositionMap = csc.versionSettings.dispositionMappings;
+        var newScope = $scope.$new();
+
+        var currentDispositionList = DispositionList.cachedGet({
+          tenantId: Session.tenant.tenantId,
+          id: dispoId
+        });
+
+        $q.when(currentDispositionList).then(function(){
+          csc.currentDispositionList = currentDispositionList.dispositions;
+        });
+
+        newScope.modalBody = 'app/components/configuration/campaigns/settings/dispoMapping.modal.html';
+        newScope.title = 'Disposition Mapping';
+
+        newScope.cancelCallback = function() {
+          $document.find('modal').remove();
+        };
+
+        newScope.okCallback = function(draft) {
+          // var newFlow = new FlowDraft({
+          //   flowId: version.flowId,
+          //   flow: version.flow,
+          //   tenantId: Session.tenant.tenantId,
+          //   name: draft.name,
+          //   metadata: version.metadata
+          // });
+        };
+
+        var element = $compile('<modal></modal>')(newScope);
+        $document.find('html > body').append(element);
 
       };
+
+      csc.cancelDispoDnc = function(){
+        $scope.showDispoDNC = false;
+      }
 
       $scope.dncLists = [];
 
@@ -175,22 +164,30 @@ angular.module('liveopsConfigPanel')
 
 
       csc.submit = function () {
-        return newCampaign.save({
-          tenantId: Session.tenant.tenantId
-        })
-        .then(function (response) {
-            console.log('response from save', response);
-            csc.versionSettings.save({
-              tenantId: Session.tenant.tenantId,
-              campaignId:  response.id
-            }).then(function (response) {
-              console.log('it worked:', response);
-            });
-          });
-
+        console.log('csc.versionSettings', csc.versionSettings);
+        convertExpiryToTimestamp();
+        // Deleting id and created so that we can force the API to create a new version,
+        // since versions are not to be editable
+        delete csc.versionSettings.id;
+        delete csc.versionSettings.created;
+        csc.versionSettings.doNotContactLists = ["1869a2c0-db74-4230-9f42-0265205fae73"];
+        csc.versionSettings.dispositionCodeListId = "1869a2c0-db74-4230-9f42-0265205fae73";
+        csc.versionSettings.save({
+          tenantId: Session.tenant.tenantId,
+          campaignId:  getCampaignData.id
+        }).then(function () {
+          $state.go('content.configuration.campaigns');
+        });
       }
 
-      csc.fetchDispositions();
+      var convertExpiryToTimestamp = function() {
+        if (csc.expiryUnit === 'day') {
+          csc.versionSettings.defaultLeadExpiration = csc.versionSettings.defaultLeadExpiration * 24;
+        }
+        csc.versionSettings.defaultLeadExpiration = csc.versionSettings.defaultLeadExpiration + ":00:00";
+      };
+      csc.fetchDispositionList();
       csc.loadTimezones();
-    }
-  ]);
+      csc.fetchFlows();
+
+    }]);
