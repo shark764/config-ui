@@ -91,7 +91,7 @@ angular.module('liveopsConfigPanel')
             var tgu = new TenantUserReasonList({
               userId: $scope.user.id,
               reasonListId: userReasonList.id,
-              tenantId: userReasonList.tenantId
+              tenantId: Session.tenant.tenantId
             });
 
             tgu.$delete(function (tenantReasonListUser) {
