@@ -4,6 +4,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [4.1.10]
+* CXV1-3922 - Fix problem where dropdown was not populating on reason/dispo list when creating lists
+
 ## [4.1.9]
 * CXV1-3997 - Config UI - Hide inactive capacity rules in user management page
 

@@ -329,4 +329,8 @@ angular.module('liveopsConfigPanel')
         $timeout($scope.init);
       });
 
+      $scope.$on('table:resource:create', function() {
+        $timeout($scope.init);
+      });
+
     }]);
