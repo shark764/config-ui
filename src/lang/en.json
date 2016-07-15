@@ -207,6 +207,7 @@
   "user.details.invite.revoke.success": "Invitation revoked",
   "user.details.invite.revoke.fail": "An error occured. Invite remains active.",
   "users.details.capacityRule.select": "Select a capacity rule",
+  "users.details.capacityRule.inactive": "Inactive",
   "users.details.role.select": "Select a role",
   "user.table.displayName": "Display Name",
   "user.table.externalId": "ID",
