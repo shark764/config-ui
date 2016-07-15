@@ -10,10 +10,12 @@
     <label>{{'details.currentCapacityRule' | translate}}</label>
     <div>
       <select ng-model="currentCapacityRule.id" name="currentCapacityRuleId"
-        ng-options="rule.id as rule.name for rule in fetchCapacityRules()"
         ng-disabled="disabled">
-        <option value="" ng-disabled="true">
-          {{'users.details.capacityRule.select' | translate}}
+        <option
+          ng-repeat="rule in fetchCapacityRules()"
+          value="{{rule.id}}"
+          ng-selected="currentCapacityRule.id === rule.id"
+          ng-disabled="!rule.active">{{(rule.active ? rule.name : rule.name + ' - (' + ('users.details.capacityRule.inactive' | translate) + ')')}}
         </option>
       </select>
 

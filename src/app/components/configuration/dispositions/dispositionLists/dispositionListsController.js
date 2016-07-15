@@ -143,4 +143,6 @@ angular.module('liveopsConfigPanel')
       vm.duplicateError = false;
     });
 
+    vm.init();
+
   }]);

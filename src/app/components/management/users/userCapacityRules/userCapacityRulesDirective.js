@@ -14,7 +14,7 @@ angular.module('liveopsConfigPanel')
         $scope.fetchCapacityRules = function(){
           return CapacityRule.cachedQuery({
             tenantId: Session.tenant.tenantId
-          });
+          }, 'CapacityRule' + Session.tenant.tenantId);
         };
 
         var initialId;
@@ -25,7 +25,6 @@ angular.module('liveopsConfigPanel')
             id: $scope.user.id,
           }, 'User' +  $scope.user.id)
           .$promise.then(function(user){
-
             $timeout(function(){
               if(user.$capacityRules[0]){
                 $scope.currentCapacityRule.id = user.$capacityRules[0].id;

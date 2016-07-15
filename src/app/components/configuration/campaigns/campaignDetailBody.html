@@ -57,7 +57,11 @@
 
 <div class="input-group multi-col">
   <div class="form-col left">
-    <button id="actions-btn" class="btn" ng-click="cc.editCampaignSettings(cc.selectedCampaign)" type="button">
+    <button id="actions-btn"
+      class="btn"
+      ng-click="cc.editCampaignSettings(cc.selectedCampaign)"
+      type="button"
+      ng-disabled="!cc.selectedCampaign.id">
       {{'campaigns.details.settingsBtn' | translate}}
     </button>
   </div>
@@ -80,19 +84,29 @@
         ng-model-options="{allowInvalid : true}"
         ngf-max-size="20MB"
         ng-model="cc.selectedCampaign.callListData"
-        type="button">
+        type="button"
+        ng-disabled="!cc.selectedCampaign.id">
         {{'campaigns.details.importBtn' | translate}}
       </button>
     </div>
 
     <div>
-      <button id="actions-btn" class="btn" ng-click="">
+      <button
+        id="actions-btn"
+        class="btn"
+        ng-click=""
+        ng-disabled="!cc.selectedCampaign.id">
         {{'campaigns.details.statsBtn' | translate}}
       </button>
     </div>
 
     <div>
-      <button id="actions-btn" class="btn" ng-click="">
+      <button
+        id="download-btn"
+        class="btn"
+        ng-click="cc.downloadCallList()"
+        type="button"
+        ng-disabled="!cc.selectedCampaign.id || !cc.selectedCampaign.hasCallList">
         {{'campaigns.details.downloadBtn' | translate}}
       </button>
     </div>
@@ -100,7 +114,7 @@
   </div>
   <div class="form-col right align-top">
     <p>
-      {{'campaigns.details.lastUpdate' | translate}}
+      {{'campaigns.details.lastUpdate' | translate}} -
       <br> {{'campaigns.details.updateStatus' | translate}} -
       <br> {{'campaigns.details.leadCount' | translate}}
     </p>

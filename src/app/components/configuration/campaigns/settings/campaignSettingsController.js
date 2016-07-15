@@ -2,11 +2,11 @@
 
 angular.module('liveopsConfigPanel')
   .controller('campaignSettingsController', [
-    '$scope', '$rootScope', '$state', '$translate', '$moment', '$q', 'Session', 'Flow', 'Timezone', 'Campaign', 'CampaignVersion', 'Disposition', 'DirtyForms', 'loEvents', 'getCampaignData',
-    function ($scope, $rootScope, $state, $translate, $moment, $q, Session, Flow, Timezone, Campaign, CampaignVersion, Disposition, DirtyForms, loEvents, getCampaignData) {
+    '$scope', '$rootScope', '$state', '$translate', '$moment', '$q', '$document', '$compile','Session', 'Flow', 'Timezone', 'Campaign', 'CampaignVersion', 'Disposition', 'DispositionList','DirtyForms', 'loEvents', 'getCampaignData',
+    function ($scope, $rootScope, $state, $translate, $moment, $q, $document, $compile, Session, Flow, Timezone, Campaign, CampaignVersion, Disposition, DispositionList,DirtyForms, loEvents, getCampaignData) {
 
       $scope.forms = {};
-
+      $scope.showDispoDNC = false;
       // adding to the scope all of the data from the campaigns page
       var csc = this;
       csc.campaignSettings = getCampaignData;
@@ -46,26 +46,90 @@ angular.module('liveopsConfigPanel')
           tenantId: Session.tenant.tenantId
         });
 
-        _.remove(dispositions, function (disposition) {
-          return disposition.tenantId !== Session.tenant.tenantId;
+        //console.log("dispositions: ", dispositions);
+        return dispositions;
+      };
+
+      csc.currentDispositionName = [];
+
+      csc.fetchDispositionList = function(){
+
+        var dispositionLists = DispositionList.cachedQuery({
+          tenantId: Session.tenant.tenantId
         });
 
-        return dispositions;
+        $q.when(dispositionLists).then(function(){
+          csc.dispositionLists = dispositionLists;
+        });
+
       };
 
       csc.loadTimezones = function () {
         csc.timezones = Timezone.query();
       };
 
-      csc.updateCampaign = function () {};
 
       csc.cancel = function () {
         $state.go('content.configuration.campaigns');
       };
 
-      csc.defaultExpiry = function () {
+      csc.fetchDisposMappings = function(){
+
+        var dispositionMappings = DispositionMappings.cachedQuery({
+          tenantId: Session.tenant.tenantId
+        });
+
+        //console.log("fetchDisposMappings():", dispositionMappings);
+        return dispositionMappings;
+      };
+
+      csc.changeDispoMap = function(value){
+
+        if(value === 'dnc'){
+          $scope.showDispoDNC = true;
+        } else {
+          $scope.showDispoDNC = false;
+        }
+      };
+
+      csc.gotoDispoMap = function(dispoId){
+        var dispositionMap = csc.versionSettings.dispositionMappings;
+        var newScope = $scope.$new();
+
+        var currentDispositionList = DispositionList.cachedGet({
+          tenantId: Session.tenant.tenantId,
+          id: dispoId
+        });
+
+        $q.when(currentDispositionList).then(function(){
+          csc.currentDispositionList = currentDispositionList.dispositions;
+        });
+
+        newScope.modalBody = 'app/components/configuration/campaigns/settings/dispoMapping.modal.html';
+        newScope.title = 'Disposition Mapping';
+
+        newScope.cancelCallback = function() {
+          $document.find('modal').remove();
+        };
+
+        newScope.okCallback = function(draft) {
+          // var newFlow = new FlowDraft({
+          //   flowId: version.flowId,
+          //   flow: version.flow,
+          //   tenantId: Session.tenant.tenantId,
+          //   name: draft.name,
+          //   metadata: version.metadata
+          // });
+        };
+
+        var element = $compile('<modal></modal>')(newScope);
+        $document.find('html > body').append(element);
 
       };
+
+      csc.cancelDispoDnc = function(){
+        $scope.showDispoDNC = false;
+      }
 
       $scope.dncLists = [];
 
@@ -120,8 +184,7 @@ angular.module('liveopsConfigPanel')
         }
         csc.versionSettings.defaultLeadExpiration = csc.versionSettings.defaultLeadExpiration + ":00:00";
       };
-
-      csc.fetchDispositions();
+      csc.fetchDispositionList();
       csc.loadTimezones();
       csc.fetchFlows();
 

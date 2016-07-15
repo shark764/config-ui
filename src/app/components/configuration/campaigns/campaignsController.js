@@ -2,12 +2,11 @@
 
 angular.module('liveopsConfigPanel')
   .controller('campaignsController', [
-    '$scope', '$rootScope', '$timeout', '$translate', '$moment', '$q', '$state', 'Alert', 'Session', 'Campaign', 'CampaignStart', 'CampaignCallListJobs', 'campaignsTableConfig', 'loEvents', 'campaignChannelTypes', 'Flow', 'Upload', 'DirtyForms', 'apiHostname',
-    function ($scope, $rootScope, $timeout, $translate, $moment, $q, $state, Alert, Session, Campaign, CampaignStart, CampaignCallListJobs, campaignsTableConfig, loEvents, campaignChannelTypes, Flow, Upload, DirtyForms, apiHostname) {
+    '$scope', '$rootScope', '$timeout', '$translate', '$moment', '$q', '$state', 'Alert', 'Session', 'Campaign', 'CampaignStart', 'CampaignCallListJobs', 'CampaignCallListDownload', 'campaignsTableConfig', 'loEvents', 'campaignChannelTypes', 'Flow', 'Upload', 'DirtyForms', 'apiHostname',
+    function ($scope, $rootScope, $timeout, $translate, $moment, $q, $state, Alert, Session, Campaign, CampaignStart, CampaignCallListJobs, CampaignCallListDownload, campaignsTableConfig, loEvents, campaignChannelTypes, Flow, Upload, DirtyForms, apiHostname) {
       var cc = this,
         campaignSvc = new Campaign(),
-        currentlySelectedCampaign = cc.selectedCampaign,
-        jobsList;
+        currentlySelectedCampaign = cc.selectedCampaign
 
       var campaigns = Campaign.cachedQuery({
         tenantId: Session.tenant.tenantId
@@ -19,7 +18,7 @@ angular.module('liveopsConfigPanel')
 
       // check to make sure that the campaign has at least one version,
       // which means that it is also a valid campaign that can actually be started
-      function hasVersion () {
+      function hasVersion() {
         cc.selectedCampaign.hasVersion = angular.isDefined(cc.selectedCampaign.latestVersion);
       };
 
@@ -39,18 +38,34 @@ angular.module('liveopsConfigPanel')
 
       $scope.$watch('cc.selectedCampaign', function (currentlySelectedCampaign) {
         if (currentlySelectedCampaign) {
-          var jobs = CampaignCallListJobs.cachedGet({
-            tenantId: Session.tenant.tenantId,
-            campaignId: currentlySelectedCampaign.id
-          });
-
           hasVersion();
-          $q.when(jobs.$promise).then(function () {
-            cc.selectedCampaign.lastJob = jobs[0];
-            console.log('cc.selectedCampaign.lastJob', cc.selectedCampaign.lastJob);
-          });
           currentlySelectedCampaign = cc.selectedCampaign;
+
+          // fixes wierd Angular issue where it adds an empty select option in
+          // the drop down menus
           cc.selectedCampaign.channel = cc.campaignChannels[0];
+
+          // get the jobs and download lists...
+          // unless, of course, it's a new campaign and neither exist
+          if (!cc.selectedCampaign.isNew()) {
+            var jobList = CampaignCallListJobs.cachedGet({
+              tenantId: Session.tenant.tenantId,
+              campaignId: currentlySelectedCampaign.id
+            });
+
+            // var callListDownload = CampaignCallListDownload.cachedGet({
+            //   tenantId: Session.tenant.tenantId,
+            //   campaignId: currentlySelectedCampaign.id
+            // });
+
+            jobList.$promise.then(function (response) {
+              if (response.jobs.length > 0) {
+                cc.selectedCampaign.hasCallList = true;
+              } else {
+                cc.selectedCampaign.hasCallList = false;
+              }
+            });
+          }
         }
       });
 
@@ -70,6 +85,8 @@ angular.module('liveopsConfigPanel')
           cc.flows = flows;
           cc.campaigns = campaigns;
         });
+        //getCampaignList();
+  
 
       // apply the table configuration
       cc.tableConfig = campaignsTableConfig;
@@ -91,15 +108,21 @@ angular.module('liveopsConfigPanel')
 
         upload.then(function (response) {
           $timeout(function () {
+            console.log('response', response);
             var jobData = CampaignCallListJobs.cachedGet({
               tenantId: Session.tenant.tenantId,
               campaignId: cc.selectedCampaign.id
             });
 
-            $q.when(jobData.$promise).
+            $q.when(jobData).
             then(function () {
-              getJobsList();
-              console.log('jobsList[0]', jobsList[0]);
+              cc.selectedCampaign.hasCallList = true;
+              // var lastJobData = CampaignCallListJobs.cachedGet({
+              //   tenantId: Session.tenant.tenantId,
+              //   campaignId: cc.selectedCampaign.id,
+              //   jobId: jobData.id
+              // });
+              // console.log('lastJobData', lastJobData);
             });
 
             //cc.selectedCampaign.callListData.save();
@@ -110,6 +133,17 @@ angular.module('liveopsConfigPanel')
         return upload;
       };
 
+      cc.downloadCallList = function () {
+        var downloadCallList = CampaignCallListDownload.query({
+          tenantId: Session.tenant.tenantId,
+          campaignId: cc.selectedCampaign.id
+        });
+
+        $q.when(downloadCallList).then(function () {
+          console.log('downloadCallList', downloadCallList);
+          return downloadCallList;
+        });
+      };
 
       cc.submit = function () {
         return cc.selectedCampaign.save({
@@ -140,21 +174,21 @@ angular.module('liveopsConfigPanel')
       };
 
       cc.startStopCampaign = function () {
-        switch(cc.selectedCampaign.currentState) {
-          case 'stopped':
-            console.log('starting!');
-            return CampaignStart.save({
-              tenantId: Session.tenant.tenantId,
-              campaignId: cc.selectedCampaign.id,
-              versionId: cc.selectedCampaign.latestVersion,
-            });
-          case 'started':
-            console.log('stopping!');
-            return CampaignStop.save({
-              tenantId: Session.tenant.tenantId,
-              campaignId: cc.selectedCampaign.id,
-              versionId: cc.selectedCampaign.latestVersion,
-            });
+        switch (cc.selectedCampaign.currentState) {
+        case 'stopped':
+          console.log('starting!');
+          return CampaignStart.save({
+            tenantId: Session.tenant.tenantId,
+            campaignId: cc.selectedCampaign.id,
+            versionId: cc.selectedCampaign.latestVersion,
+          });
+        case 'started':
+          console.log('stopping!');
+          return CampaignStop.save({
+            tenantId: Session.tenant.tenantId,
+            campaignId: cc.selectedCampaign.id,
+            versionId: cc.selectedCampaign.latestVersion,
+          });
         }
       };
 

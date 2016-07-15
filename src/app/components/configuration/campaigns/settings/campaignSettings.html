@@ -57,16 +57,16 @@
       <div class="input-group">
         <label>{{'campaigns.details.setting.dispositionList' | translate}}</label>
         <select name="dispositionId"
-            ng-model="csc.campaignSetting.dispositionId"
-            ng-options="disposition.id as disposition.name for disposition in csc.fetchDispositions()">
+            ng-model="csc.versionSettings.dispositionCodeListId"
+            ng-options="disposition.id as disposition.name for disposition in csc.dispositionLists">
 
             <option value="" disabled>{{'campaigns.details.settings.select.disposition' | translate}}</option>
           </select>
       </div>
 
-     <div class="input-group">
-       <button class="btn dispo-btn" ng-click="">{{'campaigns.details.setting.dispositionBtn' | translate}}</button>
-     </div>
+      <div class="input-group">
+        <button class="btn dispo-btn" ng-hide="!csc.versionSettings.dispositionCodeListId || csc.versionSettings.dispositionCodeListId.length === 0" ng-click="csc.gotoDispoMap(csc.versionSettings.dispositionCodeListId)">{{'campaigns.details.setting.dispositionBtn' | translate}}</button>
+      </div>
 
      <div class="input-group">
        <div class="divider-header first-header">

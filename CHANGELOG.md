@@ -1,7 +1,27 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
+
 ## [Unreleased]
+
+## [4.1.13]
+* CXV1-3922 - Other bugfixes reintroduced original bug. Fixed reason/disposition list anomalies with headers.
+
+## [4.1.12]
+* CXV1-3922 - Fix problem where dropdown was not populating on reason/dispo list after deleting a reason/dispo
+* CXV1-3949 - Fix problem where inherited reason list cannot be disassociated from a user
+
+## [4.1.11]
+* Second attempt at CXV1-3997
+
+## [4.1.10]
+* CXV1-3922 - Fix problem where dropdown was not populating on reason/dispo list when creating lists
+
+## [4.1.9]
+* CXV1-3997 - Config UI - Hide inactive capacity rules in user management page
+
+## [4.1.8]
+* CXV1-3922 - Fix problem where dropdown was not populating on reason/dispo list when switching lists
 
 ## [4.1.7]
 * CXV1-3426 - Contact point accepts any string for dispatch mappings
