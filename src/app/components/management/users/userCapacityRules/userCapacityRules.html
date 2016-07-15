@@ -11,11 +11,11 @@
     <div>
       <select ng-model="currentCapacityRule.id" name="currentCapacityRuleId"
         ng-disabled="disabled">
-        <option value="" ng-disabled="true">
-          {{'users.details.capacityRule.select' | translate}}
-        </option>
-        <option ng-repeat="rule in fetchCapacityRules()" value={{rule.id}} ng-show="rule.active">
-          {{(rule.active ? rule.name : rule.name + ' - (' + ('users.details.capacityRule.inactive' | translate) + ')')}}
+        <option
+          ng-repeat="rule in fetchCapacityRules()"
+          value="{{rule.id}}"
+          ng-selected="currentCapacityRule.id === rule.id"
+          ng-disabled="!rule.active">{{(rule.active ? rule.name : rule.name + ' - (' + ('users.details.capacityRule.inactive' | translate) + ')')}}
         </option>
       </select>
 
