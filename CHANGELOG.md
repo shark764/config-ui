@@ -4,6 +4,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 * CXV1-3922 - Fix problem where dropdown was not populating on reason/dispo list after deleting a reason/dispo
+* CXV1-3949 - Fix problem where inherited reason list cannot be disassociated from a user
 
 ## [4.1.11]
 * Second attempt at CXV1-3997
