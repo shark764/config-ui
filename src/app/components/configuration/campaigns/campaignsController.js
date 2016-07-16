@@ -160,9 +160,7 @@ angular.module('liveopsConfigPanel')
 
       cc.editCampaignSettings = function (currentlySelectedCampaign) {
         $state.go('content.configuration.campaignSettings', {
-          id: currentlySelectedCampaign.id,
-          // TODO: confirm whether or not we ultimately need ALL of the campaign data, maybe we only need the ID for the settings page.
-          allData: JSON.stringify(currentlySelectedCampaign)
+          id: currentlySelectedCampaign.id
         });
       }
 
