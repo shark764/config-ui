@@ -19,7 +19,7 @@
             error-type-required="{{'dispatchMappings.details.phone.error' | translate}}"
             error-type-phone-number="{{'details.phoneNumber.error' | translate}}">
           </form-error>
-          <input required ng-model="csc.versionSettings.callerId" name="callerId" class="ani" type="tel"></input>
+          <input required ng-model="csc.versionSettings.callerId" name="callerId" class="ani" type="tel"/>
         </div>
       </div>
 
@@ -46,7 +46,7 @@
       <div class="input-group">
         <label>{{'campaigns.details.setting.expiry' | translate}}</label>
         <div>
-          <input type="text" ng-model="csc.versionSettings.defaultLeadExpiration" name="expiryDate" class="ani">
+          <input type="text" ng-model="csc.versionSettings.defaultLeadExpiration" name="expiryDate">
           <select ng-model="csc.expiryUnit">
             <option value="hr">{{'campaigns.details.settings.hours' | translate}}</option>
             <option value="day">{{'campaigns.details.settings.days' | translate}}</option>
@@ -110,12 +110,12 @@
 
         <div class="input-group">
           <label>{{'campaigns.details.setting.earliestTime' | translate}}</label>
-          <input required ng-model="csc.versionSettings.schedule[0].startTime" name="name" class="call" type="text"></input>
+          <input required ng-model="csc.versionSettings.schedule[0].startTime" name="name" class="call" type="text"/>
         </div>
 
         <div class="input-group">
           <label>{{'campaigns.details.setting.latestTime' | translate}}</label>
-          <input required ng-model="csc.versionSettings.schedule[0].endTime" name="name" class="call" type="text"></input>
+          <input required ng-model="csc.versionSettings.schedule[0].endTime" name="name" class="call" type="text"/>
         </div>
 
         <div class="input-group">
@@ -142,12 +142,12 @@
 
         <div class="input-group">
           <label>{{'campaigns.details.setting.retry' | translate}}</label>
-          <input ng-model="csc.versionSettings.defaultLeadRetryInterval" name="defaultLeadRetryInterval" class="redial" type="text"></input>
+          <input ng-model="csc.versionSettings.defaultLeadRetryInterval" name="defaultLeadRetryInterval" class="redial" string-to-number type="number"/>
         </div>
 
         <div class="input-group">
           <label>{{'campaigns.details.setting.retryMax' | translate}}</label>
-          <input ng-model="csc.versionSettings.defaultMaxRetries" name="name" class="redial" type="text"></input>
+          <input ng-model="csc.versionSettings.defaultMaxRetries" name="name" class="redial" type="text"/>
         </div>
       </div>
 
@@ -160,7 +160,7 @@
       id="cancel-details-btn" class="btn campaign-cancel" type="button"
       ng-disabled="csc.versionSettings.$busy"
       value="{{'value.cancel' | translate}}"
-      ng-click="csc.cancel()"></input>
+      ng-click="csc.cancel()"/>
 
     <input
       id="submit-details-btn"

@@ -58,12 +58,15 @@ angular.module('liveopsConfigPanel')
             //   campaignId: currentlySelectedCampaign.id
             // });
 
-            jobList.$promise.then(function (response) {
-              if (response.jobs.length > 0) {
-                cc.selectedCampaign.hasCallList = true;
-              } else {
-                cc.selectedCampaign.hasCallList = false;
-              }
+            $q.all([
+              jobList.$promise//,
+              //callListDownload.$promise
+            ]).then(function () {
+                if (jobList.jobs.length > 0) {
+                  cc.selectedCampaign.hasCallList = true;
+                } else {
+                  cc.selectedCampaign.hasCallList = false;
+                }
             });
           }
         }
@@ -86,7 +89,7 @@ angular.module('liveopsConfigPanel')
           cc.campaigns = campaigns;
         });
         //getCampaignList();
-  
+
 
       // apply the table configuration
       cc.tableConfig = campaignsTableConfig;
@@ -157,9 +160,7 @@ angular.module('liveopsConfigPanel')
 
       cc.editCampaignSettings = function (currentlySelectedCampaign) {
         $state.go('content.configuration.campaignSettings', {
-          id: currentlySelectedCampaign.id,
-          // TODO: confirm whether or not we ultimately need ALL of the campaign data, maybe we only need the ID for the settings page.
-          allData: JSON.stringify(currentlySelectedCampaign)
+          id: currentlySelectedCampaign.id
         });
       }
 

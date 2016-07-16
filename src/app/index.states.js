@@ -220,7 +220,7 @@ angular.module('liveopsConfigPanel')
           }
         })
         .state('content.configuration.campaignSettings', {
-          url: '/campaign/settings?id&allData',
+          url: '/campaign/settings?id',
           templateUrl: 'app/components/configuration/campaigns/settings/campaignSettings.html',
           controller: 'campaignSettingsController as csc',
           reloadOnSearch: false,
@@ -230,14 +230,6 @@ angular.module('liveopsConfigPanel')
             }],
             getCampaignId: ['$stateParams', 'Campaign', function ($stateParams, Campaign) {
               return $stateParams.id;
-            }],
-            getCampaignData: ['$stateParams', 'CampaignVersion', 'Session', function ($stateParams, CampaignVersion, Session) {
-              // return CampaignVersion.cachedQuery({
-              //   campaignId: $stateParams.id,
-              //   tenantId: Session.tenant.tenantId,
-              //   versionId: $stateParams.latestVersionId
-              // });
-              return JSON.parse($stateParams.allData);
             }]
           }
         })
