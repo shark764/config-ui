@@ -162,20 +162,20 @@
           <input required ng-model="csc.versionSettings.schedule[0].endTime" name="name" class="call" type="text"/>
         </div> -->
 
-        <div class="input-group">
-          <label>{{'campaigns.details.setting.daysToCall' | translate}}</label>
-            {{'campaigns.details.setting.s' | translate}}<input class="week" type="checkbox" name="sunday" ng-checked="csc.schedule.day === 'sunday'" ng-model="csc.versionSettings.schedule.day.sunday" >
-            {{'campaigns.details.setting.m' | translate}}<input class="week" type="checkbox" name="monday" ng-model="csc.versionSettings.schedule.day.monday" >
-            {{'campaigns.details.setting.t' | translate}}<input class="week" type="checkbox" name="tuesday" ng-checked="true" ng-model="csc.versionSettings.schedule.day.tuesday">
-            {{'campaigns.details.setting.w' | translate}}<input class="week" type="checkbox" name="wednesday" ng-model="csc.versionSettings.schedule.day.wednesday">
-            {{'campaigns.details.setting.th' | translate}}<input class="week" type="checkbox" name="thursday" ng-model="csc.versionSettings.schedule.day.thursday">
-            {{'campaigns.details.setting.f' | translate}}<input class="week" type="checkbox" name="friday" ng-model="csc.versionSettings.schedule.day.friday">
-            {{'campaigns.details.setting.s' | translate}}<input class="week" type="checkbox" name="saturday" ng-model="csc.versionSettings.schedule.day.saturday">
-        </div>
-        {{csc.schedule[0].day}}
+      <div class="input-group">
+        <label>{{'campaigns.details.setting.daysToCall' | translate}}</label>
+          {{'campaigns.details.setting.s' | translate}}<input class="week" type="checkbox" name="sunday" ng-checked="csc.schedule.day === 'sunday'" ng-model="csc.versionSettings.schedule.day.sunday" >
+          {{'campaigns.details.setting.m' | translate}}<input class="week" type="checkbox" name="monday" ng-model="csc.versionSettings.schedule.day.monday" >
+          {{'campaigns.details.setting.t' | translate}}<input class="week" type="checkbox" name="tuesday" ng-checked="true" ng-model="csc.versionSettings.schedule.day.tuesday">
+          {{'campaigns.details.setting.w' | translate}}<input class="week" type="checkbox" name="wednesday" ng-model="csc.versionSettings.schedule.day.wednesday">
+          {{'campaigns.details.setting.th' | translate}}<input class="week" type="checkbox" name="thursday" ng-model="csc.versionSettings.schedule.day.thursday">
+          {{'campaigns.details.setting.f' | translate}}<input class="week" type="checkbox" name="friday" ng-model="csc.versionSettings.schedule.day.friday">
+          {{'campaigns.details.setting.s' | translate}}<input class="week" type="checkbox" name="saturday" ng-model="csc.versionSettings.schedule.day.saturday">
       </div>
-
+      {{csc.schedule[0].day}}
     </div>
+
+
 
     <div class="col">
 
@@ -186,7 +186,7 @@
 
         <div class="input-group">
           <label>{{'campaigns.details.setting.retry' | translate}}</label>
-          <input ng-model="csc.versionSettings.defaultLeadRetryInterval" name="defaultLeadRetryInterval" class="redial" string-to-number type="number" ng-init="csc.versionSettings.defaultLeadRetryInterval='0'"/>
+          <input ng-model="csc.versionSettings.defaultLeadRetryInterval" name="defaultLeadRetryInterval" class="redial" string-to-number type="number" ng-init="csc.versionSettings.defaultLeadRetryInterval=0"/>
         </div>
 
         <div class="input-group">

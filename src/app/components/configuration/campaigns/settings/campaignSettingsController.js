@@ -31,15 +31,19 @@ angular.module('liveopsConfigPanel')
         }
       }
 
+      function addLeadingZeros (num) {
+        if (num < 10) {
+          return '0' + num;
+        } else {
+          return num;
+        }
+      }
+
       function convertToTimestamp(time) {
         var hours;
 
         if (time) {
-          if (time < 10) {
-            hours = '0' + time;
-          } else {
-            hours = time;
-          }
+          hours = addLeadingZeros(time)
         } else {
           hours = '00';
         }
@@ -63,8 +67,7 @@ angular.module('liveopsConfigPanel')
             versionId: response.latestVersion
           });
 
-          csc.versionSettings.$promise.then(function (response) {
-            console.log('csc.versionSettings', csc.versionSettings);
+          csc.versionSettings.$promise.then(function () {
             convertDefaultExpiryToFormValue(csc.versionSettings);
             csc.versionSettings.defaultLeadRetryInterval = convertTimestampToFormVal(csc.versionSettings.defaultLeadRetryInterval);
           });
@@ -72,6 +75,9 @@ angular.module('liveopsConfigPanel')
           csc.versionSettings = new CampaignVersion({
             tenantId: Session.tenant.tenantId
           });
+
+          csc.versionSettings.defaultLeadRetryInterval = 0;
+          csc.versionSettings.defaultLeadExpiration = 0;
         };
       });
 
@@ -221,6 +227,8 @@ angular.module('liveopsConfigPanel')
         // since versions are not to be editable
         delete csc.versionSettings.id;
         delete csc.versionSettings.created;
+        csc.versionSettings.schedule[0].startTime = '12:00:00';
+        csc.versionSettings.schedule[0].startTime = '01:00:00';
         csc.versionSettings.doNotContactLists = ["1869a2c0-db74-4230-9f42-0265205fae73"];
         csc.versionSettings.dispositionCodeListId = "1869a2c0-db74-4230-9f42-0265205fae73";
         console.log('csc.versionSettings', csc.versionSettings);
