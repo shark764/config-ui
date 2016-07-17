@@ -23,6 +23,7 @@ angular.module('liveopsConfigPanel')
       }
 
       function convertDefaultExpiryToFormValue(settings) {
+        console.log('settings', settings);
         settings.defaultLeadExpiration = convertTimestampToFormVal(settings.defaultLeadExpiration);
         if (settings.defaultLeadExpiration % 24 === 0) {
           settings.defaultLeadExpiration = settings.defaultLeadExpiration / 24;
@@ -55,19 +56,23 @@ angular.module('liveopsConfigPanel')
       };
 
       campaignSettings.$promise.then(function (response) {
-        csc.versionSettings = response.latestVersion ? CampaignVersion.cachedGet({
-          campaignId: response.id,
-          tenantId: Session.tenant.tenantId,
-          versionId: response.latestVersion
-        }) : new CampaignVersion();
+        if (response.latestVersion) {
+          csc.versionSettings = CampaignVersion.cachedGet({
+            campaignId: response.id,
+            tenantId: Session.tenant.tenantId,
+            versionId: response.latestVersion
+          });
 
-        csc.versionSettings.$promise.then(function (response) {
-          if (angular.isDefined(csc.versionSettings)) {
-            convertDefaultExpiryToFormValue(response);
+          csc.versionSettings.$promise.then(function (response) {
+            console.log('csc.versionSettings', csc.versionSettings);
+            convertDefaultExpiryToFormValue(csc.versionSettings);
             csc.versionSettings.defaultLeadRetryInterval = convertTimestampToFormVal(csc.versionSettings.defaultLeadRetryInterval);
-          }
-        });
-
+          });
+        } else {
+          csc.versionSettings = new CampaignVersion({
+            tenantId: Session.tenant.tenantId
+          });
+        };
       });
 
       // csc.versionSettings = csc.campaignSettings.latestVersion ? CampaignVersion.cachedGet({

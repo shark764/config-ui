@@ -1,5 +1,5 @@
 'use strict';
-console.log('this is working');
+
 angular.module('liveopsConfigPanel')
   .directive('stringToNumber', function () {
     return {

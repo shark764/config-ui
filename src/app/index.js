@@ -20,7 +20,8 @@ angular.module('liveopsConfigPanel', [
     'dndLists',
     'angular-momentjs',
     'agent-toolbar',
-    'ui.codemirror'
+    'ui.codemirror',
+    'wingify.timePicker'
   ])
   .config(['$translateProvider', 'toastrConfig',
     function($translateProvider, toastrConfig) {
