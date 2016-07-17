@@ -46,7 +46,12 @@
       <div class="input-group">
         <label>{{'campaigns.details.setting.expiry' | translate}}</label>
         <div>
-          <input type="text" ng-model="csc.versionSettings.defaultLeadExpiration" name="expiryDate">
+          <input
+            ng-model="csc.versionSettings.defaultLeadExpiration"
+            name="defaultLeadExpiration"
+            string-to-number
+            type="number"
+            ng-init="csc.versionSettings.defaultLeadExpiration='0'">
           <select ng-model="csc.expiryUnit">
             <option value="hr">{{'campaigns.details.settings.hours' | translate}}</option>
             <option value="day">{{'campaigns.details.settings.days' | translate}}</option>
@@ -103,8 +108,47 @@
 
     <div class="col">
 
-      <div class="input-group">
-        <div class="divider-header first-header">
+      <div class="input-group time-select">
+        <label>{{'campaigns.details.setting.earliestTime' | translate}}</label>
+
+        <div>
+          <select name="scheduleStartHour" required ng-model="csc.versionSettings.scheduleStartHour" ng-options="n for n in [] | range:1:13">
+            <option disabled value="">{{'campaigns.details.setting.hour' | translate}}</option>
+          </select>
+          :
+          <select name="scheduleStartMinute" required ng-model="csc.versionSettings.scheduleStartMinute" ng-options="n for n in [] | range:1:60">
+            <option disabled value="">{{'campaigns.details.setting.minute' | translate}}</option>
+          </select>
+          |
+          <select name="scheduleStartAmPm" required ng-model="csc.versionSettings.scheduleStartAmPm">
+            <option value="am">AM</option>
+            <option value="pm">PM</option>
+          </select>
+        </div>
+      </div>
+      <div class="input-group time-select">
+        <label>{{'campaigns.details.setting.latestTime' | translate}}</label>
+        <div>
+          <select name="scheduleEndHour" required ng-model="csc.versionSettings.scheduleEndHour" ng-options="n for n in [] | range:1:13">
+            <option disabled value="">{{'campaigns.details.setting.hour' | translate}}</option>
+          </select>
+          :
+          <select name="scheduleEndMinute" required ng-model="csc.versionSettings.scheduleEndMinute" ng-options="n for n in [] | range:1:60">
+            <option disabled value="">{{'campaigns.details.setting.minute' | translate}}</option>
+          </select>
+          |
+          <select name="scheduleEndAmPm" required ng-model="csc.versionSettings.scheduleEndAmPm">
+            <option value="am">AM</option>
+            <option value="pm">PM</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="divider-header first-header">
+        <h4>{{'campaigns.details.setting.scheduling' | translate}}</h4>
+      </div>
+
+        <!-- <div class="divider-header first-header">
           <h4>{{'campaigns.details.setting.scheduling' | translate}}</h4>
         </div>
 
@@ -116,22 +160,22 @@
         <div class="input-group">
           <label>{{'campaigns.details.setting.latestTime' | translate}}</label>
           <input required ng-model="csc.versionSettings.schedule[0].endTime" name="name" class="call" type="text"/>
-        </div>
+        </div> -->
 
-        <div class="input-group">
-          <label>{{'campaigns.details.setting.daysToCall' | translate}}</label>
-            {{'campaigns.details.setting.s' | translate}}<input class="week" type="checkbox" name="sunday" ng-checked="csc.schedule.day === 'sunday'" ng-model="csc.versionSettings.schedule.day.sunday" >
-            {{'campaigns.details.setting.m' | translate}}<input class="week" type="checkbox" name="monday" ng-model="csc.versionSettings.schedule.day.monday" >
-            {{'campaigns.details.setting.t' | translate}}<input class="week" type="checkbox" name="tuesday" ng-checked="true" ng-model="csc.versionSettings.schedule.day.tuesday">
-            {{'campaigns.details.setting.w' | translate}}<input class="week" type="checkbox" name="wednesday" ng-model="csc.versionSettings.schedule.day.wednesday">
-            {{'campaigns.details.setting.th' | translate}}<input class="week" type="checkbox" name="thursday" ng-model="csc.versionSettings.schedule.day.thursday">
-            {{'campaigns.details.setting.f' | translate}}<input class="week" type="checkbox" name="friday" ng-model="csc.versionSettings.schedule.day.friday">
-            {{'campaigns.details.setting.s' | translate}}<input class="week" type="checkbox" name="saturday" ng-model="csc.versionSettings.schedule.day.saturday">
-        </div>
-        {{csc.schedule[0].day}}
+      <div class="input-group">
+        <label>{{'campaigns.details.setting.daysToCall' | translate}}</label>
+          {{'campaigns.details.setting.s' | translate}}<input class="week" type="checkbox" name="sunday" ng-checked="csc.schedule.day === 'sunday'" ng-model="csc.versionSettings.schedule.day.sunday" >
+          {{'campaigns.details.setting.m' | translate}}<input class="week" type="checkbox" name="monday" ng-model="csc.versionSettings.schedule.day.monday" >
+          {{'campaigns.details.setting.t' | translate}}<input class="week" type="checkbox" name="tuesday" ng-checked="true" ng-model="csc.versionSettings.schedule.day.tuesday">
+          {{'campaigns.details.setting.w' | translate}}<input class="week" type="checkbox" name="wednesday" ng-model="csc.versionSettings.schedule.day.wednesday">
+          {{'campaigns.details.setting.th' | translate}}<input class="week" type="checkbox" name="thursday" ng-model="csc.versionSettings.schedule.day.thursday">
+          {{'campaigns.details.setting.f' | translate}}<input class="week" type="checkbox" name="friday" ng-model="csc.versionSettings.schedule.day.friday">
+          {{'campaigns.details.setting.s' | translate}}<input class="week" type="checkbox" name="saturday" ng-model="csc.versionSettings.schedule.day.saturday">
       </div>
-
+      {{csc.schedule[0].day}}
     </div>
+
+
 
     <div class="col">
 
@@ -142,7 +186,7 @@
 
         <div class="input-group">
           <label>{{'campaigns.details.setting.retry' | translate}}</label>
-          <input ng-model="csc.versionSettings.defaultLeadRetryInterval" name="defaultLeadRetryInterval" class="redial" string-to-number type="number"/>
+          <input ng-model="csc.versionSettings.defaultLeadRetryInterval" name="defaultLeadRetryInterval" class="redial" string-to-number type="number" ng-init="csc.versionSettings.defaultLeadRetryInterval=0"/>
         </div>
 
         <div class="input-group">

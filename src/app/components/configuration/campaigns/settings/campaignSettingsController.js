@@ -14,7 +14,7 @@ angular.module('liveopsConfigPanel')
       });
       csc.expiryUnit = 'hr';
 
-      function convertTimestampToFormVal (timestamp) {
+      function convertTimestampToFormVal(timestamp) {
         if (angular.isDefined(timestamp)) {
           return parseInt(timestamp.split(':').shift());
         } else {
@@ -22,7 +22,8 @@ angular.module('liveopsConfigPanel')
         }
       }
 
-      function convertDefaultExpiryToFormValue (settings) {
+      function convertDefaultExpiryToFormValue(settings) {
+        console.log('settings', settings);
         settings.defaultLeadExpiration = convertTimestampToFormVal(settings.defaultLeadExpiration);
         if (settings.defaultLeadExpiration % 24 === 0) {
           settings.defaultLeadExpiration = settings.defaultLeadExpiration / 24;
@@ -30,23 +31,27 @@ angular.module('liveopsConfigPanel')
         }
       }
 
-      function convertToTimestamp (time) {
+      function addLeadingZeros (num) {
+        if (num < 10) {
+          return '0' + num;
+        } else {
+          return num;
+        }
+      }
+
+      function convertToTimestamp(time) {
         var hours;
 
         if (time) {
-          if (time < 10) {
-            hours = '0' + time;
-          } else {
-            hours = time;
-          }
+          hours = addLeadingZeros(time)
         } else {
           hours = '00';
         }
         return hours + ':00:00';
       };
 
-      function convertExpiryToTimestamp () {
-        if(angular.isDefined(csc.versionSettings.defaultLeadExpiration)) {
+      function convertExpiryToTimestamp() {
+        if (angular.isDefined(csc.versionSettings.defaultLeadExpiration)) {
           if (csc.expiryUnit === 'day') {
             csc.versionSettings.defaultLeadExpiration = csc.versionSettings.defaultLeadExpiration * 24;
           }
@@ -55,17 +60,25 @@ angular.module('liveopsConfigPanel')
       };
 
       campaignSettings.$promise.then(function (response) {
-        csc.versionSettings = response.latestVersion ? CampaignVersion.cachedGet({
-          campaignId: response.id,
-          tenantId: Session.tenant.tenantId,
-          versionId: response.latestVersion }) : new CampaignVersion();
+        if (response.latestVersion) {
+          csc.versionSettings = CampaignVersion.cachedGet({
+            campaignId: response.id,
+            tenantId: Session.tenant.tenantId,
+            versionId: response.latestVersion
+          });
 
-          if (angular.isDefined(csc.versionSettings.$promise)) {
-            csc.versionSettings.$promise.then(function (response) {
-              convertDefaultExpiryToFormValue(response);
-              csc.versionSettings.defaultLeadRetryInterval = convertTimestampToFormVal(csc.versionSettings.defaultLeadRetryInterval);
-            });
-          }
+          csc.versionSettings.$promise.then(function () {
+            convertDefaultExpiryToFormValue(csc.versionSettings);
+            csc.versionSettings.defaultLeadRetryInterval = convertTimestampToFormVal(csc.versionSettings.defaultLeadRetryInterval);
+          });
+        } else {
+          csc.versionSettings = new CampaignVersion({
+            tenantId: Session.tenant.tenantId
+          });
+
+          csc.versionSettings.defaultLeadRetryInterval = 0;
+          csc.versionSettings.defaultLeadExpiration = 0;
+        };
       });
 
       // csc.versionSettings = csc.campaignSettings.latestVersion ? CampaignVersion.cachedGet({
@@ -214,6 +227,8 @@ angular.module('liveopsConfigPanel')
         // since versions are not to be editable
         delete csc.versionSettings.id;
         delete csc.versionSettings.created;
+        csc.versionSettings.schedule[0].startTime = '12:00:00';
+        csc.versionSettings.schedule[0].startTime = '01:00:00';
         csc.versionSettings.doNotContactLists = ["1869a2c0-db74-4230-9f42-0265205fae73"];
         csc.versionSettings.dispositionCodeListId = "1869a2c0-db74-4230-9f42-0265205fae73";
         console.log('csc.versionSettings', csc.versionSettings);
