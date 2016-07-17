@@ -116,7 +116,7 @@
             <option disabled value="">{{'campaigns.details.setting.hour' | translate}}</option>
           </select>
           :
-          <select name="scheduleStartMinute" required ng-model="csc.versionSettings.scheduleStartMinute" ng-options="n for n in [] | range:1:59">
+          <select name="scheduleStartMinute" required ng-model="csc.versionSettings.scheduleStartMinute" ng-options="n for n in [] | range:1:60">
             <option disabled value="">{{'campaigns.details.setting.minute' | translate}}</option>
           </select>
           |
@@ -133,7 +133,7 @@
             <option disabled value="">{{'campaigns.details.setting.hour' | translate}}</option>
           </select>
           :
-          <select name="scheduleEndMinute" required ng-model="csc.versionSettings.scheduleEndMinute" ng-options="n for n in [] | range:1:59">
+          <select name="scheduleEndMinute" required ng-model="csc.versionSettings.scheduleEndMinute" ng-options="n for n in [] | range:1:60">
             <option disabled value="">{{'campaigns.details.setting.minute' | translate}}</option>
           </select>
           |
