@@ -14,7 +14,7 @@ angular.module('liveopsConfigPanel')
       });
       csc.expiryUnit = 'hr';
 
-      function convertTimestampToFormVal (timestamp) {
+      function convertTimestampToFormVal(timestamp) {
         if (angular.isDefined(timestamp)) {
           return parseInt(timestamp.split(':').shift());
         } else {
@@ -22,7 +22,7 @@ angular.module('liveopsConfigPanel')
         }
       }
 
-      function convertDefaultExpiryToFormValue (settings) {
+      function convertDefaultExpiryToFormValue(settings) {
         settings.defaultLeadExpiration = convertTimestampToFormVal(settings.defaultLeadExpiration);
         if (settings.defaultLeadExpiration % 24 === 0) {
           settings.defaultLeadExpiration = settings.defaultLeadExpiration / 24;
@@ -30,7 +30,7 @@ angular.module('liveopsConfigPanel')
         }
       }
 
-      function convertToTimestamp (time) {
+      function convertToTimestamp(time) {
         var hours;
 
         if (time) {
@@ -45,8 +45,8 @@ angular.module('liveopsConfigPanel')
         return hours + ':00:00';
       };
 
-      function convertExpiryToTimestamp () {
-        if(angular.isDefined(csc.versionSettings.defaultLeadExpiration)) {
+      function convertExpiryToTimestamp() {
+        if (angular.isDefined(csc.versionSettings.defaultLeadExpiration)) {
           if (csc.expiryUnit === 'day') {
             csc.versionSettings.defaultLeadExpiration = csc.versionSettings.defaultLeadExpiration * 24;
           }
@@ -58,14 +58,16 @@ angular.module('liveopsConfigPanel')
         csc.versionSettings = response.latestVersion ? CampaignVersion.cachedGet({
           campaignId: response.id,
           tenantId: Session.tenant.tenantId,
-          versionId: response.latestVersion }) : new CampaignVersion();
+          versionId: response.latestVersion
+        }) : new CampaignVersion();
 
-          if (angular.isDefined(csc.versionSettings.$promise)) {
-            csc.versionSettings.$promise.then(function (response) {
-              convertDefaultExpiryToFormValue(response);
-              csc.versionSettings.defaultLeadRetryInterval = convertTimestampToFormVal(csc.versionSettings.defaultLeadRetryInterval);
-            });
+        csc.versionSettings.$promise.then(function (response) {
+          if (angular.isDefined(csc.versionSettings)) {
+            convertDefaultExpiryToFormValue(response);
+            csc.versionSettings.defaultLeadRetryInterval = convertTimestampToFormVal(csc.versionSettings.defaultLeadRetryInterval);
           }
+        });
+
       });
 
       // csc.versionSettings = csc.campaignSettings.latestVersion ? CampaignVersion.cachedGet({

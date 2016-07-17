@@ -22,6 +22,16 @@ angular.module('liveopsConfigPanel')
         cc.selectedCampaign.hasVersion = angular.isDefined(cc.selectedCampaign.latestVersion);
       };
 
+      function hasOne (arr) {
+        if(angular.isDefined(arr)) {
+          if (arr.length > 0) {
+            return true;
+          } else {
+            return false;
+          }
+        }
+      }
+
       function getFlowName(cam, flo) {
         // add a flowName property to the campaign object with the name of the
         // corresponding flow
@@ -62,11 +72,7 @@ angular.module('liveopsConfigPanel')
               jobList.$promise//,
               //callListDownload.$promise
             ]).then(function () {
-                if (jobList.jobs.length > 0) {
-                  cc.selectedCampaign.hasCallList = true;
-                } else {
-                  cc.selectedCampaign.hasCallList = false;
-                }
+              cc.selectedCampaign.hasCallList = hasOne(jobList.jobs);
             });
           }
         }
@@ -88,8 +94,6 @@ angular.module('liveopsConfigPanel')
           cc.flows = flows;
           cc.campaigns = campaigns;
         });
-        //getCampaignList();
-
 
       // apply the table configuration
       cc.tableConfig = campaignsTableConfig;
@@ -111,7 +115,7 @@ angular.module('liveopsConfigPanel')
 
         upload.then(function (response) {
           $timeout(function () {
-            console.log('response', response);
+
             var jobData = CampaignCallListJobs.cachedGet({
               tenantId: Session.tenant.tenantId,
               campaignId: cc.selectedCampaign.id
@@ -151,10 +155,11 @@ angular.module('liveopsConfigPanel')
       cc.submit = function () {
         return cc.selectedCampaign.save({
           tenantId: Session.tenant.tenantId
-        }).then(function () {
+        }).then(function (response) {
           // once the campaign has been saved, re-evaluate for the presence of a version
           // so that we can properly enable or disable the start/stop toggle
           hasVersion();
+          cc.selectedCampaign.hasCallList = hasOne(response.jobs);
         })
       };
 
