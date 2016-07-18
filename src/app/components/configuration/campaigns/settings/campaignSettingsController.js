@@ -8,11 +8,34 @@ angular.module('liveopsConfigPanel')
       $scope.showDispoDNC = false;
       // adding to the scope all of the data from the campaigns page
       var csc = this;
-      var campaignSettings = Campaign.cachedGet({
+      csc.loading = true;
+      csc.expiryUnit = 'hr';
+      csc.campaignSettings = Campaign.cachedGet({
         tenantId: Session.tenant.tenantId,
         id: getCampaignId
       });
-      csc.expiryUnit = 'hr';
+      var dayMap = {
+        "sunday": "SU",
+        "monday": "M",
+        "tuesday": "T",
+        "wednesday": "W",
+        "thursday": "TH",
+        "friday": "F"
+      };
+
+      function initHours() {
+        // we don't add the leading zeroes to hours yet, since we have to do math with those numbers for AM/PM conversions
+        csc.hours = [];
+        csc.minutes = [];
+
+        for (var i = 1; i < 13; i++) {
+          csc.hours.push(i);
+        }
+
+        for (i = 0; i < 60; i++) {
+          csc.minutes.push(addLeadingZeros(i));
+        }
+      }
 
       function convertTimestampToFormVal(timestamp) {
         if (angular.isDefined(timestamp)) {
@@ -59,7 +82,77 @@ angular.module('liveopsConfigPanel')
         }
       };
 
-      campaignSettings.$promise.then(function (response) {
+      function generateSchedule() {
+        csc.versionSettings.schedule = [];
+
+        for (var day in dayMap) {
+          if (csc[day + 'Selected']) {
+            csc.versionSettings.schedule.push({
+              startTime: convertToMilitaryHours(csc.scheduleStartHour, 'Start') + ':' + csc.scheduleStartMinutes + ':00',
+              endTime: convertToMilitaryHours(csc.scheduleEndHour, 'End') + ':' + csc.scheduleEndMinutes + ':00',
+              day: dayMap[day],
+              blackOut: false
+            });
+          }
+        }
+      };
+
+      function parseSchedule() {
+        if (angular.isDefined(csc.versionSettings.schedule[0])) {
+          csc.scheduleStartHour = parseInt(csc.versionSettings.schedule[0].startTime.slice(0,2));
+          csc.scheduleEndHour = parseInt(csc.versionSettings.schedule[0].endTime.slice(0,2));
+          csc.scheduleStartMinutes = addLeadingZeros(parseInt(csc.versionSettings.schedule[0].startTime.slice(3,5)));
+          csc.scheduleEndMinutes = addLeadingZeros(parseInt(csc.versionSettings.schedule[0].endTime.slice(3,5)));
+
+          console.log("scheduleStartMinutes", csc.scheduleStartMinutes)
+
+          if (csc.scheduleStartHour === 12) {
+            csc.scheduleStartAmPm = 'pm';
+          }
+          if (csc.scheduleEndHour === 12) {
+            csc.scheduleEndAmPm = 'pm';
+          }
+          if (csc.scheduleStartHour > 12) {
+            csc.scheduleStartHour = csc.scheduleStartHour - 12;
+            csc.scheduleStartAmPm = 'pm';
+          } else {
+            csc.scheduleStartAmPm = 'am';
+          }
+          if (csc.scheduleEndHour > 12) {
+            csc.scheduleEndHour = csc.scheduleEndHour - 12;
+            csc.scheduleEndAmPm = 'pm';
+          } else {
+            csc.scheduleEndAmPm = 'am';
+          }
+        }
+
+        var invertedDayMap = _.invert(dayMap);
+        csc.versionSettings.schedule.forEach(function(scheduleItem) {
+          if (angular.isDefined(scheduleItem.day)) {
+            csc[invertedDayMap[scheduleItem.day] + 'Selected'] = true;
+          }
+        })
+
+      }
+
+      function convertToMilitaryHours(hours, startOrEnd) {
+        // handle edge cases for noon and midnight first
+        if (hours === 12) {
+          if (csc['schedule' + startOrEnd + 'AmPm'] === 'am') {
+            return '00';
+          } else {
+            return '12';
+          }
+        }
+
+
+        if (csc['schedule' + startOrEnd + 'AmPm'] === 'pm') {
+          return addLeadingZeros(hours + 12);
+        }
+        return addLeadingZeros(hours);
+      };
+
+      csc.campaignSettings.$promise.then(function (response) {
         if (response.latestVersion) {
           csc.versionSettings = CampaignVersion.cachedGet({
             campaignId: response.id,
@@ -70,6 +163,8 @@ angular.module('liveopsConfigPanel')
           csc.versionSettings.$promise.then(function () {
             convertDefaultExpiryToFormValue(csc.versionSettings);
             csc.versionSettings.defaultLeadRetryInterval = convertTimestampToFormVal(csc.versionSettings.defaultLeadRetryInterval);
+            parseSchedule();
+            csc.loading = false;
           });
         } else {
           csc.versionSettings = new CampaignVersion({
@@ -78,7 +173,11 @@ angular.module('liveopsConfigPanel')
 
           csc.versionSettings.defaultLeadRetryInterval = 0;
           csc.versionSettings.defaultLeadExpiration = 0;
+          csc.scheduleStartAmPm = 'am';
+          csc.scheduleEndAmPm = 'pm';
+          csc.loading = false;
         };
+
       });
 
       // csc.versionSettings = csc.campaignSettings.latestVersion ? CampaignVersion.cachedGet({
@@ -208,14 +307,6 @@ angular.module('liveopsConfigPanel')
 
       }
 
-
-
-      $scope.days = {};
-
-      csc.daySelected = function (value) {
-        console.log(value);
-      }
-
       csc.updateCampaign = function () {
 
       };
@@ -223,14 +314,15 @@ angular.module('liveopsConfigPanel')
       csc.submit = function () {
         convertExpiryToTimestamp();
         csc.versionSettings.defaultLeadRetryInterval = convertToTimestamp(csc.versionSettings.defaultLeadRetryInterval);
+        generateSchedule();
         // Deleting id and created so that we can force the API to create a new version,
         // since versions are not to be editable
         delete csc.versionSettings.id;
         delete csc.versionSettings.created;
-        csc.versionSettings.schedule[0].startTime = '12:00:00';
-        csc.versionSettings.schedule[0].startTime = '01:00:00';
         csc.versionSettings.doNotContactLists = ["1869a2c0-db74-4230-9f42-0265205fae73"];
         csc.versionSettings.dispositionCodeListId = "1869a2c0-db74-4230-9f42-0265205fae73";
+        csc.versionSettings.dispositionMappings = {};
+        csc.versionSettings.channel = 'voice';
         console.log('csc.versionSettings', csc.versionSettings);
 
         csc.versionSettings.save({
@@ -246,6 +338,7 @@ angular.module('liveopsConfigPanel')
       csc.fetchDispositionList();
       csc.loadTimezones();
       csc.fetchFlows();
+      initHours();
 
     }
   ]);
