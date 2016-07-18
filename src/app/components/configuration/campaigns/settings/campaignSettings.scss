@@ -1,47 +1,65 @@
 .campaign-setting {
   margin-top:50px;
-  padding: 15px;}
+  padding: 15px;
+}
+
+.campaign-setting-title {
+  left: 8px;
+  position: relative;
+  top: -25px;
+}
 
 .col {
   width:33%;
   display: inline-block;
-  vertical-align: top;}
+  vertical-align: top;
+}
 
 .ani {
-  width: 180px !important;}
+  width: 180px !important;
+}
 
 .dispo-btn {
   float: right;
-  padding: 10px 15px;}
+  padding: 10px 15px;
+}
 
 #dnc-list {
   display: inline-block;
-  width:90%;}
+  width:90%;
+}
 
 #add-dnc {
   display: inline-block;
   width: 10%;
-  vertical-align: middle;}
+  vertical-align: middle;
+}
 
 #donotcall-btn {
   height: 30px;
-  width: 40px;}
+  width: 40px;
+}
 
 .redial {
-  width: 100px !important;}
+  width: 100px !important;
+}
 
 .three {
-  margin-bottom: 250px;}
+  margin-bottom: 250px;
+}
 
 .call {
-  width: 125px !important;}
+  width: 125px !important;
+}
 
 .week {
-  margin: 10px;}
+  margin: 10px;
+}
 
 .campaign-controls {
   width: calc(100% - 70%);
-  margin: 15px auto 15px;}
+  margin: 15px auto 15px;
+}
 
 .input-group {
   &.time-select {

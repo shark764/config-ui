@@ -762,6 +762,7 @@
   "campaigns.details.setting.enable.agent":"Are you sure you want to view Agent Message?",
   "campaigns.details.setting.enable.crm":"Are you sure you want to enable CRM?",
   "campaigns.details.setting.disable.crm":"Are you sure you want to disable CRM?",
+  "campaigns.details.settings": "Campaign Settings",
   "campaigns.details.settings.select.flow":"Select a flow",
   "campaigns.details.settings.select.timezone":"Select a timezone",
   "campaigns.details.settings.hours":"Hour(s)",
