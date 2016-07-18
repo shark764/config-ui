@@ -42,3 +42,21 @@
 .campaign-controls {
   width: calc(100% - 70%);
   margin: 15px auto 15px;}
+
+.input-group {
+  &.time-select {
+    label {
+      display: table-row;
+    }
+
+    div {
+      display: table-row;
+
+      select {
+        width: auto;
+        min-width: 70px;
+        display: inline-block;
+      }
+    }
+  }
+}
