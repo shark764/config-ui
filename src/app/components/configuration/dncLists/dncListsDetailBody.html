@@ -11,15 +11,16 @@
     </form-error>
     <input type="text" name="name"
       ng-model="dnc.selectedDncList.name"
-      ng-required="true" value={{dnc.selectedDncList.name}} />
+      ng-required="true" value={{dnc.selectedDncList.name}}
+      ng-disabled="!dnc.selectedDncList.isNew()" />
   </div>
 
   <div class="input-group">
     <label class="textarea-label">{{'value.description' | translate}}</label>
-    <textarea ng-model="dnc.selectedDncList.description">{{dnc.selectedDncList.description}}</textarea>
+    <textarea ng-model="dnc.selectedDncList.description" ng-disabled="!dnc.selectedDncList.isNew()">{{dnc.selectedDncList.description}}</textarea>
   </div>
 
-  <div class="input-group">
+  <!-- <div class="input-group">
     <label>{{'dnc.details.expiration' | translate}}</label>
 
     <input type="text" name="expiration"
@@ -30,9 +31,10 @@
       max-view="month"
       ng-model-options="{timezone: 'UTC'}"
       min-date="dnc.provideDateToday"
-      id="dncDatepicker">
+      id="dncDatepicker"
+      change="dnc.selectedDncList.onChange(newValue, oldValue)">
 
-  </div>
+  </div> -->
 
   <div class="input-group">
     <button id="manage-list-btn" class="btn pull-right" title="Manage List"
@@ -41,5 +43,4 @@
       ng-disabled="dnc.addBtnDisabled">
       Manage List
     </button>
-
   </div>
