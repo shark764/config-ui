@@ -92,9 +92,9 @@
 
     <div>
       <button
-        id="actions-btn"
+        id="stats-btn"
         class="btn"
-        ng-click=""
+        ng-click="cc.openStatsModal()"
         ng-disabled="!cc.selectedCampaign.id">
         {{'campaigns.details.statsBtn' | translate}}
       </button>
@@ -113,10 +113,10 @@
 
   </div>
   <div class="form-col right align-top">
-    <p>
-      {{'campaigns.details.lastUpdate' | translate}} -
-      <br> {{'campaigns.details.updateStatus' | translate}} -
-      <br> {{'campaigns.details.leadCount' | translate}}
+    <p ng-show="cc.selectedCampaign.latestJobData">
+      {{'campaigns.details.lastUpdate' | translate}} - {{cc.selectedCampaign.latestJobData.created | date:'MM/dd/yyyy HH:mm:ss' }}
+      <br> {{'campaigns.details.updateStatus' | translate}} - {{cc.selectedCampaign.latestJobData.status}}
+      <br> {{'campaigns.details.leadCount' | translate}} - {{cc.selectedCampaign.latestJobData.leadCount}}
     </p>
   </div>
 </div>

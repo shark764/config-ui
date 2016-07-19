@@ -58,8 +58,47 @@
 
 .campaign-controls {
   width: calc(100% - 70%);
-  margin: 15px auto 15px;
-}
+  margin: 15px auto 15px;}
+
+.no-dipositions {
+  height:200px;}
+
+  #modal > div.publish.disposition-modal {
+    max-width:750px;
+    width:50%;}
+
+  .disposition-mapping-form{
+    min-height: 300px;}
+
+  .disposition-map {
+    width:49%;
+    display:inline-block;}
+
+  .disposition-dnc {
+    position:absolute;
+    width: 49%;
+    display:inline-block;}
+
+  .disposition-table {
+    width:100%;}
+
+  .disposition-header {
+    text-align: left;}
+
+  .disposition-contact-list {
+    padding:5px;}
+
+  .disposition-contact-list > input {
+    padding-right: 5px;}
+
+  .donot-contact-buttons {
+    padding-top:10px;}
+
+  .donot-contact-cancel, .donot-contact-submit {
+    width: 100px !important;}
+
+   .dispo-mapping-buttons {
+     text-align: center;}
 
 .input-group {
   &.time-select {

@@ -227,6 +227,7 @@ angular.module('liveopsConfigPanel')
         csc.timezones = Timezone.query();
       };
 
+      csc.updateCampaign = function () {};
 
       csc.cancel = function () {
         $state.go('content.configuration.campaigns');
@@ -260,8 +261,15 @@ angular.module('liveopsConfigPanel')
           id: dispoId
         });
 
-        $q.when(currentDispositionList).then(function () {
-          csc.currentDispositionList = currentDispositionList.dispositions;
+        $q.when(currentDispositionList).then(function() {
+
+            csc.currentDispositionList = currentDispositionList.dispositions;
+
+            if(csc.currentDispositionList === undefined){
+              $scope.showDispositions = false;
+            } else {
+              $scope.showDispositions = true;
+            }
         });
 
         newScope.modalBody = 'app/components/configuration/campaigns/settings/dispoMapping.modal.html';
@@ -271,14 +279,14 @@ angular.module('liveopsConfigPanel')
           $document.find('modal').remove();
         };
 
-        newScope.okCallback = function (draft) {
-          // var newFlow = new FlowDraft({
-          //   flowId: version.flowId,
-          //   flow: version.flow,
-          //   tenantId: Session.tenant.tenantId,
-          //   name: draft.name,
-          //   metadata: version.metadata
-          // });
+        newScope.okCallback = function () {
+          var newDispositionMappings = new dispositionMappings({
+            tenantId: Session.tenant.tenantId,
+            id: getCampaignId,
+            dispositionMap: dispoId
+          });
+
+          //console.log("dispositionMapping: ", newDispositionMappings);
         };
 
         var element = $compile('<modal></modal>')(newScope);
@@ -307,9 +315,18 @@ angular.module('liveopsConfigPanel')
 
       }
 
+
+
+      $scope.days = {};
+
+      csc.daySelected = function (value) {
+        console.log(value);
+      }
+
       csc.updateCampaign = function () {
 
       };
+
 
       csc.submit = function () {
         convertExpiryToTimestamp();

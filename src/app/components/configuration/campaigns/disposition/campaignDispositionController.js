@@ -3,16 +3,31 @@
 angular.module('liveopsConfigPanel')
   .controller('campaignDispositionController', [
     '$scope', '$rootScope', '$translate', '$moment', '$q', '$state', 'Session', 'Flow', 'Timezone', 'Campaign', 'CampaignDispositon','Disposition', 'DispositionList', 'DirtyForms', 'loEvents',
-    function ($scope, $rootScope, $translate, $moment, $q, $state, Session, Flow, Timezone, Campaign, CampaignDispositon, DispositionList, Disposition, DirtyForms, loEvents) {
+    function ($scope, $rootScope, $translate, $moment, $q, $state, Session, Flow, Timezone, Campaign,  CampaignDispositon, Disposition, DispositionList, DirtyForms, loEvents) {
 
       var cdc = this,
       currentDisposition;
 
       cdc.init = function(){
-        currentDisposition = $state.params.id;
+        var dispositionLists = DispositionList.cachedQuery({
+          tenantId: Session.tenant.tenantId
+        });
 
-        console.log("currentDisposition: ", currentDisposition);
+        console.log("init(): ", dispositionLists);
+      }
+
+      cdc.fetchDispositionList = function(){
+        var dispositionLists = DispositionList.cachedQuery({
+          tenantId: Session.tenant.tenantId
+        });
+
+        _.remove(dispositionLists, function(dispositionList){
+          return dispositionList.tenantId !== Session.tenant.tenantId;
+        });
+
+        console.log("dispositionLists: ", dispositionLists);
       };
+
 
       cdc.fetchDispositions = function(){
         var dispositions = Disposition.cachedQuery({
@@ -27,21 +42,8 @@ angular.module('liveopsConfigPanel')
         return dispositions;
       };
 
-      // cdc.fetchDispositionList = function(){
-      //    var dispositionLists = DispositionList.cachedQuery({
-      //      tenantId: Session.tenant.tenatId
-      //    });
-      //
-      //   //  _.remove(dispositionLists, function(dispositionLists){
-      //   //    return dispositionLists.tenantId !== Session.tenant.tenantId;
-      //   //  });
-      //    console.log("DL: ", dispositionLists);
-      //    return dispositionLists;
-      // };
-
       cdc.init();
       cdc.fetchDispositions();
-      //cdc.fetchDispositionList();
 
     }
 ]);
