@@ -12,13 +12,15 @@ angular.module('liveopsConfigPanel')
         'header': {
           'display': $translate.instant('value.description')
         },
-        'name': '$original.description'
+        'name': '$original.description',
+        'optional': true
       }, {
         'header': {
           'display': $translate.instant('dnc.table.expiration')
         },
         'name': '$original.expiration',
-        'transclude': true
+        'transclude': true,
+        'optional': true
       }, {
         'header': {
           'display': $translate.instant('value.status'),

@@ -5,15 +5,22 @@ angular.module('liveopsConfigPanel')
   function ($scope, $state, Session, Tenant, TenantUser, DncLists, UserPermissions, AuthService, Region, $q, $moment, loEvents, Timezone, PermissionGroups, Alert, dncListsTableConfig) {
       var dnc = this,
         dncListsService = new DncLists(),
-        currentlySelectedList;
+        currentlySelectedList = dnc.selectedDncList;
+
+      function convertDateToMySqlFormat (date) {
+        return date + ' 00:00:00'
+      };
+
+      dnc.dncLists = DncLists.cachedQuery({
+        tenantId: Session.tenant.tenantId
+      });
 
       $scope.$on(loEvents.tableControls.itemCreate, function () {
         dnc.selectedDncList = new DncLists({
           tenantId: Session.tenant.tenantId,
-          expiration: ''
+          active: true
         });
       });
-
 
       $scope.$on(loEvents.bulkActions.close, function () {
         dnc.forceClose = true;
@@ -31,62 +38,29 @@ angular.module('liveopsConfigPanel')
         }
       });
 
-      var dncList1 = new DncLists({
-        tenantId: "04a20ca0-dbe9-11e5-a479-5347eb4882ad",
-        id: "000000000000002",
-        name: "Doron",
-        expiration: "2020-12-25T21:10:32Z",
-        action: "",
-        number: 34,
-        description: "Doron's DncList",
-        active: true,
-        createdBy: "f51b96e0-c3ae-11e5-9596-c1ae7ae4ed37",
-        externalId: "doron-dnc-list",
-        updatedBy: "f51b96e0-c3ae-11e5-9596-c1ae7ae4ed37",
-        created: "2016-02-25T17:55:55Z",
-        updated: "2016-02-25T17:55:55Z",
-        $original: new DncLists({
-          "tenantId": "04a20ca0-dbe9-11e5-a479-5347eb4882ad",
-          expiration: "2020-12-25T21:10:32Z",
-          id: "000000000000002",
-          name: "Doron",
-          description: "Doron's DncList",
-          active: true,
-          updatedBy: "f51b96e0-c3ae-11e5-9596-c1ae7ae4ed37",
-          createdBy: "f51b96e0-c3ae-11e5-9596-c1ae7ae4ed37",
-          created: "2016-02-25T17:55:55Z",
-          updated: "2016-02-25T17:55:55Z"
-        })
-      });
+      if(angular.isDefined(dnc.selectedDncList)) {
+        console.log('it is defined!');
+        dnc.selectedDncList.onChange = function (newVal, oldVal) {
+          console.log('newVal, oldVal', newVal, oldVal);
+          if (newVal === oldVal) {
+            dnc.forms.detailsForm.expiration.$setdirty();
+          }
+        }
+      };
 
-      var dncList2 = new DncLists({
-        tenantId: "04a20ca0-dbe9-11e5-a479-5347eb4882ad",
-        id: "000000000000012",
-        name: "Gristophet",
-        expiration: "2018-02-15T21:10:32Z",
-        action: "",
-        number: 102,
-        description: "Gristophet's DncList",
-        active: true,
-        createdBy: "f51b96e0-c3ae-11e5-9596-c1ae7ae4ed37",
-        externalId: "doron-dnc-list",
-        updatedBy: "f51b96e0-c3ae-11e5-9596-c1ae7ae4ed37",
-        created: "2016-02-25T17:55:55Z",
-        updated: "2016-02-25T17:55:55Z",
-        $original: new DncLists({
-          "tenantId": "04a20ca0-dbe9-11e5-a479-5347eb4882ad",
-          id: "000000000000012",
-          expiration: "2018-02-15T21:10:32Z",
-          number: 102,
-          name: "Gristophet",
-          description: "Gristophet's DncList",
-          active: true,
-          updatedBy: "f51b96e0-c3ae-11e5-9596-c1ae7ae4ed37",
-          createdBy: "f51b96e0-c3ae-11e5-9596-c1ae7ae4ed37",
-          created: "2016-02-25T17:55:55Z",
-          updated: "2016-02-25T17:55:55Z"
+
+      dnc.submit = function () {
+        //dnc.selectedDncList.expiration = convertDateToMySqlFormat(dnc.selectedDncList.expiration);
+        //dnc.selectedDncList.expiration = '2020:01:01 00:00:00';
+        console.log('dnc.selectedDncList', dnc.selectedDncList);
+        return dnc.selectedDncList.save({
+          tenantId: Session.tenant.tenantId
         })
-      });
+        .then(function (response) {
+          //dnc.dncLists.push(response);
+          //console.log('response', response)
+        });
+      }
 
       dnc.manageList = function (currentlySelectedList) {
         $state.go('content.configuration.dncEdit', {
@@ -108,7 +82,6 @@ angular.module('liveopsConfigPanel')
 
       dnc.provideDateToday = provideDateToday();
       dnc.tableConfig = dncListsTableConfig;
-      dnc.dncLists = [dncList1, dncList2];
 
       // dnc.loadDncLists = function () {
       //   dnc.dncLists = DncLists.cachedQuery({
