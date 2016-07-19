@@ -135,6 +135,17 @@ angular.module('liveopsConfigPanel')
             }]
           }
         })
+        .state('content.configuration.dnc', {
+          url: '/dnc?id',
+          templateUrl: 'app/components/configuration/dncLists/dncLists.html',
+          controller: 'dncListsController as dnc',
+          reloadOnSearch: false,
+          resolve: {
+            hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
+              return UserPermissions.resolvePermissions(PermissionGroups.accessAllLists);
+            }]
+          }
+        })
         .state('content.configuration.code', {
           url: '/code',
           abstract: true,
