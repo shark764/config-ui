@@ -188,6 +188,7 @@ angular.module('liveopsConfigPanel')
           });
         }
 
+
         if (UserPermissions.hasPermissionInList(PermissionGroups.accessAllLists)) {
           items.push({
             label: $translate.instant('navbar.configuration.lists.title'),
@@ -215,6 +216,15 @@ angular.module('liveopsConfigPanel')
           order: 5
         });
 
+
+        if (UserPermissions.hasPermissionInList(PermissionGroups.accessAllIntegrations)) {
+          items.push({
+            label: $translate.instant('navbar.configuration.dnc.title'),
+            stateLink: 'content.configuration.dnc',
+            id: 'dnc-configuration-link',
+            order: 6
+          });
+        }
         return items;
       };
 

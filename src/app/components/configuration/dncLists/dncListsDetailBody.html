@@ -1,0 +1,45 @@
+<div class="divider-header first-header">
+  <h4>{{'details' | translate}}</h4>
+</div>
+
+<div disable-contents="! (['MANAGE_ALL_BUSINESS_HOURS'] | hasPermission)">
+  <div class="input-group">
+    <label>{{'value.name' | translate}} *</label>
+
+    <form-error field="dnc.forms.detailsForm.name"
+      error-type-required="{{'value.error.name.required' | translate}}">
+    </form-error>
+    <input type="text" name="name"
+      ng-model="dnc.selectedDncList.name"
+      ng-required="true" value={{dnc.selectedDncList.name}} />
+  </div>
+
+  <div class="input-group">
+    <label class="textarea-label">{{'value.description' | translate}}</label>
+    <textarea ng-model="dnc.selectedDncList.description">{{dnc.selectedDncList.description}}</textarea>
+  </div>
+
+  <div class="input-group">
+    <label>{{'dnc.details.expiration' | translate}}</label>
+
+    <input type="text" name="expiration"
+      ng-model="dnc.selectedDncList.expiration"
+      moment-picker="dnc.selectedDncList.expiration"
+      format="YYYY-MM-DD"
+      start-view="month"
+      max-view="month"
+      ng-model-options="{timezone: 'UTC'}"
+      min-date="dnc.provideDateToday"
+      id="dncDatepicker">
+
+  </div>
+
+  <div class="input-group">
+    <button id="manage-list-btn" class="btn pull-right" title="Manage List"
+      ng-click="dnc.manageList(dnc.selectedDncList)"
+      ng-show="(['MANAGE_ALL_BUSINESS_HOURS'] | hasPermission)"
+      ng-disabled="dnc.addBtnDisabled">
+      Manage List
+    </button>
+
+  </div>

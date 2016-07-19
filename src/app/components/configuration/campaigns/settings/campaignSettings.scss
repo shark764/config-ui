@@ -58,10 +58,17 @@
 
 .campaign-controls {
   width: calc(100% - 70%);
-  margin: 15px auto 15px;}
+  margin: 15px auto 15px;
+}
 
-.no-dipositions {
-  height:200px;}
+.no-dispositions {
+  height:100px;}
+
+.disposition-mapping-error {
+    text-align: center;
+    padding-top: 45px;
+    font-size: 15px;
+    color: red;}
 
   #modal > div.publish.disposition-modal {
     max-width:750px;

@@ -1,7 +1,7 @@
 <div class="publish disposition-modal" >
   <h3 class="header">{{title}}</h3>
   <div class="no-dispositions" ng-hide="showDispositions">
-    <h4 class="error">No Dispositions are assigned to this list!</h4>
+    <h4 class="disposition-mapping-error">{{'campaigns.details.settings.mappingError' | translate}}</h4>
   </div>
   <ng-form name="forms.dispositionMapping" class="disposition-mapping-form" ng-show="showDispositions">
     <div class="input-group disposition-map">
@@ -11,8 +11,8 @@
       <input type="text" ng-model="csc.versionSettings.dispositionCodeListId" name="name" ng-required="true"/> -->
       <table class="disposition-table">
         <tr>
-          <th class="disposition-header">Code</th>
-          <th class="disposition-header">Action</th>
+          <th class="disposition-header">{{'campaigns.details.settings.code' | translate}}</th>
+          <th class="disposition-header">{{'campaigns.details.settings.action' | translate}}</th>
         </tr>
         <!-- flow.id as flow.name for flow in csc.flows -->
 <!-- (key, value) in csc.versionSettings.dispositionMappings track by $index -->
@@ -20,12 +20,12 @@
             <td>{{disposition.name}}</td>
             <td>
               <select ng-model="csc.versionSettings.dispositionMappingList[$index].action"
-                      ng-change="csc.changeDispoMap(csc.versionSettings.dispositionMappingList[$index].action)"
+                      ng-change="csc.changeDispoMap(csc.versionSettings.dispositionMappingList[$index].action, disposition.name)"
                       ng-init="csc.versionSettings.dispositionMappingList[$index].action='success'">
 
-                <option name="dispoMapSuccess" value="success">Success</option>
-                <option name="dispoMapRedial" value="redial">Redial</option>
-                <option name="dispoMapDnc" value="dnc">Add to DNC</option>
+                <option name="dispoMapSuccess" value="success">{{'campaigns.details.settings.success' | translate}}</option>
+                <option name="dispoMapRedial" value="redial">{{'campaigns.details.settings.redial' | translate}}</option>
+                <option name="dispoMapDnc" value="dnc">{{'campaigns.details.settings.addDnc' | translate}}</option>
               </select>
             </td>
         </tr>
@@ -34,10 +34,10 @@
 
     <div class="input-group disposition-dnc" ng-show="showDispoDNC">
       <div class="first-header">
-        <h4>{{'campaigns.details.setting.dnc' | translate}} - {{csc.versionSettings.dispositionMappingList[$index].name}}</h4>
+        <h4>{{'campaigns.details.setting.dnc' | translate}} - {{csc.versionSettings.selectedDncName}}</h4>
       </div>
 
-      <div id="dnc-list" class="disposition-contact-list">
+      <div id="dnc-list" class="disposition-contact-list" ng-repeat="">
         <input type="checkbox" value="Global DNC">
         <label>GlobalDNC<label>
       </div>
@@ -51,18 +51,18 @@
       </div>
       <div id="dnc-list" class="disposition-contact-list">
         <input type="checkbox" value="Global DNC">
-        <label>ACME DO NOT CALL<label>
+        <label>CANE Don't call me<label>
       </div>
 
       <div class="donot-contact-buttons">
         <input type="button" id="modal-cancel" class="btn donot-contact-cancel" ng-click="csc.cancelDispoDnc()" value="{{'value.cancel' | translate}}"/>
-        <input type="submit" id="modal-ok" class="btn btn-primary donot-contact-submit" ng-click="okCallback(draft)" ng-disabled="forms.newDraft.$invalid">
+        <input type="submit" id="modal-ok" class="btn btn-primary donot-contact-submit" ng-click="csc.submitDispoDnc()" value="{{'campaigns.details.settings.addtoList' | translate}}">
       </div>
     </div>
 
   </ng-form>
   <div class="footer dispo-mapping-buttons">
     <input type="button" id="modal-cancel" class="btn donot-contact-cancel" ng-click="cancelCallback()" value="{{'value.cancel' | translate}}"/>
-    <input type="submit" id="modal-ok" class="btn btn-primary donot-contact-submit" ng-click="okCallback(draft)" ng-disabled="forms.newDraft.$invalid">
+    <input type="submit" id="modal-ok" class="btn btn-primary donot-contact-submit" ng-click="okCallback()" ng-disabled="!showDispositions">
   </div>
 </div>

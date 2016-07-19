@@ -164,6 +164,11 @@ angular.module('liveopsConfigPanel')
         newScope.modalBody = 'app/components/configuration/campaigns/stats.modal.html';
         newScope.title = 'Stats';
 
+        newScope.cancelCallback = function () {
+          $scope.showDispoDNC = false;
+          $document.find('modal').remove();
+        };
+
         var element = $compile('<modal></modal>')(newScope);
         $document.find('html > body').append(element);
       }
