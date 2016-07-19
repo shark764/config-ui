@@ -23,6 +23,30 @@ angular.module('liveopsConfigPanel')
         "friday": "F"
       };
 
+      var mockDispoList = [{
+          id: "fa551c79-6460-455c-8545-2b40e81b8f1c",
+          name: "First Place Winners",
+          description: "People who didn't get the steak knives",
+          expiration: "2020-12-25T21:10:32Z",
+          active: true,
+          contactCount: 8425
+      },
+        {
+          id: "fa551c79-6460-455c-8545-2b40e81b8f1d",
+          name: "Second Place Winners",
+          description: "People who didn't get the steak knives",
+          expiration: "2020-12-25T21:10:32Z",
+          active: true,
+          contactCount: 8425
+      },{
+        id: "fa551c79-6460-455c-8545-2b40e81b8f1e",
+        name: "Third Place Winners",
+        description: "People who didn't get the steak knives",
+        expiration: "2020-12-25T21:10:32Z",
+        active: true,
+        contactCount: 8425
+      }]
+
       function initHours() {
         // we don't add the leading zeroes to hours yet, since we have to do math with those numbers for AM/PM conversions
         csc.hours = [];
@@ -104,26 +128,63 @@ angular.module('liveopsConfigPanel')
           csc.scheduleStartMinutes = addLeadingZeros(parseInt(csc.versionSettings.schedule[0].startTime.slice(3,5)));
           csc.scheduleEndMinutes = addLeadingZeros(parseInt(csc.versionSettings.schedule[0].endTime.slice(3,5)));
 
-          console.log("scheduleStartMinutes", csc.scheduleStartMinutes)
+          function setHours () {
+            // TODO: Optimize or simplify
+            var startHour = csc.scheduleStartHour,
+                startAmPm = csc.scheduleStartAmPm,
+                endHour = csc.scheduleEndHour,
+                endAmPm = csc.scheduleEndAmPm;
 
-          if (csc.scheduleStartHour === 12) {
-            csc.scheduleStartAmPm = 'pm';
+            function loadStartTimePickerData (startHour, startAmPm) {
+              if (startHour > 12) {
+                this.startHour = startHour - 12;
+                this.startAmPm = 'pm';
+              } else if (startHour < 12) {
+                this.startHour = startHour;
+                this.startAmPm = 'am';
+                if (startHour === 0){
+                  this.startHour = 12;
+                  this.startAmPm = 'am';
+                }
+              } else if (startHour === 12) {
+                this.startHour = startHour;
+                this.startAmPm = 'pm';
+              } else {
+                this.startHour = 12;
+                this.startAmPm = 'am'
+              }
+            }
+
+            function loadEndTimePickerData (endHour, endAmPm) {
+              if (endHour > 12) {
+                this.endHour = endHour - 12;
+                this.endAmPm = 'pm';
+              } else if (endHour < 12) {
+                this.endHour = endHour;
+                this.endAmPm = 'am';
+                if (endHour === 0){
+                  this.endHour = 12;
+                  this.endAmPm = 'am';
+                }
+              } else if (endHour === 12) {
+                this.endHour = endHour;
+                this.endAmPm = 'pm';
+              } else {
+                this.endHour = 12;
+                this.endAmPm = 'am'
+              }
+            }
+
+            loadStartTimePickerData.call(csc, startHour, startAmPm);
+            loadEndTimePickerData.call(csc, endHour, endAmPm);
+
+            csc.scheduleStartHour = csc.startHour;
+            csc.scheduleStartAmPm = csc.startAmPm;
+            csc.scheduleEndHour = csc.endHour;
+            csc.scheduleEndAmPm = csc.endAmPm;
           }
-          if (csc.scheduleEndHour === 12) {
-            csc.scheduleEndAmPm = 'pm';
-          }
-          if (csc.scheduleStartHour > 12) {
-            csc.scheduleStartHour = csc.scheduleStartHour - 12;
-            csc.scheduleStartAmPm = 'pm';
-          } else {
-            csc.scheduleStartAmPm = 'am';
-          }
-          if (csc.scheduleEndHour > 12) {
-            csc.scheduleEndHour = csc.scheduleEndHour - 12;
-            csc.scheduleEndAmPm = 'pm';
-          } else {
-            csc.scheduleEndAmPm = 'am';
-          }
+
+          setHours();
         }
 
         var invertedDayMap = _.invert(dayMap);
@@ -132,7 +193,6 @@ angular.module('liveopsConfigPanel')
             csc[invertedDayMap[scheduleItem.day] + 'Selected'] = true;
           }
         })
-
       }
 
       function convertToMilitaryHours(hours, startOrEnd) {
@@ -147,6 +207,9 @@ angular.module('liveopsConfigPanel')
 
 
         if (csc['schedule' + startOrEnd + 'AmPm'] === 'pm') {
+          console.log('hours', hours);
+          console.log('hours + 12', hours + 12);
+          console.log('startOrEnd', startOrEnd);
           return addLeadingZeros(hours + 12);
         }
         return addLeadingZeros(hours);
@@ -243,13 +306,21 @@ angular.module('liveopsConfigPanel')
         return dispositionMappings;
       };
 
-      csc.changeDispoMap = function (value) {
+      csc.fetchDNCList = function(){
+        var dncLists = mockDispoList;
+
+        console.log("dncLists: ", dncLists);
+      };
+
+      csc.changeDispoMap = function (value, name) {
 
         if (value === 'dnc') {
           $scope.showDispoDNC = true;
         } else {
           $scope.showDispoDNC = false;
         }
+
+        csc.versionSettings.selectedDncName = name;
       };
 
       csc.gotoDispoMap = function (dispoId) {
@@ -276,17 +347,18 @@ angular.module('liveopsConfigPanel')
         newScope.title = 'Disposition Mapping';
 
         newScope.cancelCallback = function () {
+          $scope.showDispoDNC = false;
           $document.find('modal').remove();
         };
 
-        newScope.okCallback = function () {
+        newScope.submitDispositionMapping = function () {
           var newDispositionMappings = new dispositionMappings({
             tenantId: Session.tenant.tenantId,
             id: getCampaignId,
             dispositionMap: dispoId
           });
 
-          //console.log("dispositionMapping: ", newDispositionMappings);
+          console.log("dispositionMapping: ", newDispositionMappings);
         };
 
         var element = $compile('<modal></modal>')(newScope);
@@ -294,8 +366,12 @@ angular.module('liveopsConfigPanel')
 
       };
 
-      csc.cancelDispoDnc = function () {
+      csc.cancelDispoDnc = function(){
         $scope.showDispoDNC = false;
+      }
+
+      csc.submitDispoDnc = function(){
+
       }
 
       $scope.dncLists = [];
