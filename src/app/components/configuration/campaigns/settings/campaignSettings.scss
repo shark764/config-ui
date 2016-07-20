@@ -24,6 +24,7 @@
   padding: 10px 15px;
 }
 
+
 #dnc-list {
   display: inline-block;
   width:90%;
@@ -74,23 +75,54 @@
     max-width:750px;
     width:50%;}
 
-  .disposition-mapping-form{
-    min-height: 300px;}
+.disposition-modal {
+  .loading {
+    padding-bottom: 30px;
+  }
+}
 
-  .disposition-map {
-    width:49%;
-    display:inline-block;}
+  .hierarchy-title {
+    font-weight: 800;
+    border-bottom: 1px solid #c0c0c0;
+  }
+
+  .hierarchy-child {
+    padding-left: 25px;
+  }
+
+  .edit-btn {
+    width: 50px !important;
+  }
+
+  .edit-td {
+    text-align: center;
+  }
 
   .disposition-dnc {
-    position:absolute;
-    width: 49%;
-    display:inline-block;}
+    margin: 0 auto;
+    padding-bottom: 15px;
+  }
+
+  .disposition-mapping-form{
+    min-height: 300px;
+    max-height: 530px;
+    overflow: auto;
+  }
 
   .disposition-table {
-    width:100%;}
+    width:100%;
+    border-collapse: collapse;
+  }
+
+
+    .disposition-map {
+      margin: 0 auto;
+    }
 
   .disposition-header {
-    text-align: left;}
+    text-align: left;
+    padding-top: 10px;
+    padding-bottom: 10px;}
 
   .disposition-contact-list {
     padding:5px;}
@@ -109,7 +141,6 @@
 
 .input-group {
   &.time-select {
-
 
     label {
       display: table-row;

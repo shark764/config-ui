@@ -2,8 +2,8 @@
 
 angular.module('liveopsConfigPanel')
   .controller('campaignSettingsController', [
-    '$scope', '$rootScope', '$state', '$stateParams', '$translate', '$moment', '$q', '$document', '$compile', 'Session', 'Flow', 'Timezone', 'Campaign', 'CampaignVersion', 'Disposition', 'DispositionList', 'DirtyForms', 'loEvents', 'getCampaignId',
-    function ($scope, $rootScope, $state, $stateParams, $translate, $moment, $q, $document, $compile, Session, Flow, Timezone, Campaign, CampaignVersion, Disposition, DispositionList, DirtyForms, loEvents, getCampaignId) {
+    '$scope', '$rootScope', '$state', '$stateParams', '$translate', '$moment', '$q', '$document', '$compile', 'Session', 'Flow', 'Timezone', 'Campaign', 'CampaignVersion', 'Disposition', 'DispositionList', 'DirtyForms', 'loEvents', 'getCampaignId', 'DncLists',
+    function ($scope, $rootScope, $state, $stateParams, $translate, $moment, $q, $document, $compile, Session, Flow, Timezone, Campaign, CampaignVersion, Disposition, DispositionList, DirtyForms, loEvents, getCampaignId, DncLists) {
       $scope.forms = {};
       $scope.showDispoDNC = false;
       // adding to the scope all of the data from the campaigns page
@@ -70,7 +70,6 @@ angular.module('liveopsConfigPanel')
       }
 
       function convertDefaultExpiryToFormValue(settings) {
-        console.log('settings', settings);
         settings.defaultLeadExpiration = convertTimestampToFormVal(settings.defaultLeadExpiration);
         if (settings.defaultLeadExpiration % 24 === 0) {
           settings.defaultLeadExpiration = settings.defaultLeadExpiration / 24;
@@ -207,9 +206,6 @@ angular.module('liveopsConfigPanel')
 
 
         if (csc['schedule' + startOrEnd + 'AmPm'] === 'pm') {
-          console.log('hours', hours);
-          console.log('hours + 12', hours + 12);
-          console.log('startOrEnd', startOrEnd);
           return addLeadingZeros(hours + 12);
         }
         return addLeadingZeros(hours);
@@ -217,13 +213,19 @@ angular.module('liveopsConfigPanel')
 
       csc.campaignSettings.$promise.then(function (response) {
         if (response.latestVersion) {
-          csc.versionSettings = CampaignVersion.cachedGet({
+          CampaignVersion.get({
             campaignId: response.id,
             tenantId: Session.tenant.tenantId,
             versionId: response.latestVersion
-          });
+          }).$promise.then(function(campVersion) {
+            // temporary fix for API typo
+            campVersion.dispositionCodeListId = campVersion.dispostionCodeListId;
+            delete campVersion.dispostionCodeListId;
+            csc.versionSettings = campVersion;
 
-          csc.versionSettings.$promise.then(function () {
+            console.log("Version settings: ", csc.versionSettings)
+
+
             convertDefaultExpiryToFormValue(csc.versionSettings);
             csc.versionSettings.defaultLeadRetryInterval = convertTimestampToFormVal(csc.versionSettings.defaultLeadRetryInterval);
             parseSchedule();
@@ -243,13 +245,6 @@ angular.module('liveopsConfigPanel')
 
       });
 
-      // csc.versionSettings = csc.campaignSettings.latestVersion ? CampaignVersion.cachedGet({
-      //   campaignId: csc.campaignSettings.id,
-      //   tenantId: Session.tenant.tenantId,
-      //   versionId: csc.campaignSettings.latestVersion }) : new CampaignVersion();
-
-
-
       // TODO: Centralize this
       csc.fetchFlows = function () {
         csc.flows = Flow.cachedQuery({
@@ -268,7 +263,6 @@ angular.module('liveopsConfigPanel')
           tenantId: Session.tenant.tenantId
         });
 
-        //console.log("dispositions: ", dispositions);
         return dispositions;
       };
 
@@ -276,12 +270,12 @@ angular.module('liveopsConfigPanel')
 
       csc.fetchDispositionList = function () {
 
-        var dispositionLists = DispositionList.cachedQuery({
+        DispositionList.cachedQuery({
           tenantId: Session.tenant.tenantId
-        });
-
-        $q.when(dispositionLists).then(function () {
-          csc.dispositionLists = dispositionLists;
+        }).$promise.then(function(lists) {
+          csc.dispositionLists = lists.filter(function(list) {
+            return list.active;
+          });
         });
 
       };
@@ -289,8 +283,6 @@ angular.module('liveopsConfigPanel')
       csc.loadTimezones = function () {
         csc.timezones = Timezone.query();
       };
-
-      csc.updateCampaign = function () {};
 
       csc.cancel = function () {
         $state.go('content.configuration.campaigns');
@@ -302,17 +294,16 @@ angular.module('liveopsConfigPanel')
           tenantId: Session.tenant.tenantId
         });
 
-        //console.log("fetchDisposMappings():", dispositionMappings);
         return dispositionMappings;
       };
 
       csc.fetchDNCList = function(){
-        var dncLists = mockDispoList;
-
-        console.log("dncLists: ", dncLists);
+        csc.dncLists = DncLists.cachedQuery({
+          tenantId: Session.tenant.tenantId
+        });
       };
 
-      csc.changeDispoMap = function (value, name) {
+      csc.changeDispoMap = function (value, name, index) {
 
         if (value === 'dnc') {
           $scope.showDispoDNC = true;
@@ -320,27 +311,40 @@ angular.module('liveopsConfigPanel')
           $scope.showDispoDNC = false;
         }
 
-        csc.versionSettings.selectedDncName = name;
+        csc.selectedDncName = name;
+        csc.dncIndex = index;
+
       };
 
       csc.gotoDispoMap = function (dispoId) {
-        var dispositionMap = csc.versionSettings.dispositionMappings;
         var newScope = $scope.$new();
+        newScope.dispoLoading = true;
 
-        var currentDispositionList = DispositionList.cachedGet({
+        DispositionList.get({
           tenantId: Session.tenant.tenantId,
           id: dispoId
-        });
+        }).$promise.then(function(currentList) {
+          csc.currentDispositionList = currentList.dispositions.sort(function(a,b) {
+            return a.sortOrder - b.sortOrder;
+          });
+          var categoriesAdded = [];
+          var dispositionListCopy = csc.currentDispositionList.slice(0);
 
-        $q.when(currentDispositionList).then(function() {
-
-            csc.currentDispositionList = currentDispositionList.dispositions;
-
-            if(csc.currentDispositionList === undefined){
-              $scope.showDispositions = false;
-            } else {
-              $scope.showDispositions = true;
+          // add hierarchy headers
+          dispositionListCopy.forEach(function(disposition, index) {
+            if(angular.isDefined(disposition.hierarchy)) {
+              disposition.hierarchy.forEach(function(category) {
+                if (categoriesAdded.indexOf(category) === -1) {
+                  csc.currentDispositionList.splice(index + categoriesAdded.length, 0, {name: category, type: 'category'});
+                  categoriesAdded.push(category);
+                }
+              });
             }
+          });
+
+          parseDispositionMap();
+
+          newScope.dispoLoading = false;
         });
 
         newScope.modalBody = 'app/components/configuration/campaigns/settings/dispoMapping.modal.html';
@@ -352,13 +356,29 @@ angular.module('liveopsConfigPanel')
         };
 
         newScope.submitDispositionMapping = function () {
-          var newDispositionMappings = new dispositionMappings({
-            tenantId: Session.tenant.tenantId,
-            id: getCampaignId,
-            dispositionMap: dispoId
-          });
+          csc.versionSettings.dispositionMappings = {};
+          var mapsModel = csc.dispositionMappingList;
+          var mapsAPI = csc.versionSettings.dispositionMappings;
+          var list = csc.currentDispositionList;
 
-          console.log("dispositionMapping: ", newDispositionMappings);
+          for (var i = 0; i < list.length; i++) {
+            if (angular.isDefined(list[i].type) || mapsModel[i].action === 'success') {
+              continue;
+            }
+            if (mapsModel[i].action === 'retry') {
+              mapsAPI[list[i].dispositionId] = {
+                action: 'retry',
+                interval: convertToTimestamp(csc.versionSettings.defaultLeadRetryInterval)
+              }
+            } else {
+              mapsAPI[list[i].dispositionId] = {
+                action: 'dnc',
+                listIds: csc.dispositionMappingList[i].listIds
+              }
+            }
+          }
+
+          $document.find('modal').remove();
         };
 
         var element = $compile('<modal></modal>')(newScope);
@@ -366,43 +386,68 @@ angular.module('liveopsConfigPanel')
 
       };
 
+      function parseDispositionMap() {
+        csc.dispositionMappingList = [];
+        var dispoList = csc.currentDispositionList;
+        var dispoMap = csc.versionSettings.dispositionMappings;
+        dispoList.forEach(function(disposition) {
+          if (angular.isDefined(disposition.type)) {
+            csc.dispositionMappingList.push({});
+          } else if (angular.isDefined(dispoMap[disposition.dispositionId])) {
+            if (dispoMap[disposition.dispositionId].action === 'retry') {
+              csc.dispositionMappingList.push({
+                action: 'retry'
+              });
+            } else {
+              csc.dispositionMappingList.push({
+                action: 'dnc',
+                listIds: dispoMap[disposition.dispositionId].listIds
+              });
+            }
+          } else {
+            csc.dispositionMappingList.push({action: 'success'});
+          }
+        });
+      }
+
       csc.cancelDispoDnc = function(){
+        if (angular.isUndefined(csc.dispositionMappingList[csc.dncIndex].listIds)) {
+          csc.dispositionMappingList[csc.dncIndex].action = "success";
+        }
         $scope.showDispoDNC = false;
       }
 
-      csc.submitDispoDnc = function(){
+      csc.submitDispoDnc = function() {
+        csc.dispositionMappingList[csc.dncIndex].listIds = [];
+        csc.dncLists.forEach(function(dncList) {
+          if (angular.isDefined(dncList.checked) && dncList.checked === true) {
+            csc.dispositionMappingList[csc.dncIndex].listIds.push(dncList.id);
+          }
+        });
 
+        $scope.showDispoDNC = false;
+      }
+
+      csc.isChecked = function(dncListId) {
+        if (angular.isDefined(csc.dispositionMappingList[csc.dncIndex].listIds)) {
+          if (csc.dispositionMappingList[csc.dncIndex].listIds.indexOf(dncListId) !== -1) {
+            return true;
+          }
+        }
+        return false;
       }
 
       $scope.dncLists = [];
 
       csc.addDNC = function (newDncList) {
-
         $scope.dncLists.push({
           item: newDncList
         });
-        console.log("dncLists: ", $scope.dncLists);
-
       };
 
       csc.removeDNC = function ($index) {
-
         $scope.dncLists.splice($index, 1);
-
       }
-
-
-
-      $scope.days = {};
-
-      csc.daySelected = function (value) {
-        console.log(value);
-      }
-
-      csc.updateCampaign = function () {
-
-      };
-
 
       csc.submit = function () {
         convertExpiryToTimestamp();
@@ -413,10 +458,11 @@ angular.module('liveopsConfigPanel')
         delete csc.versionSettings.id;
         delete csc.versionSettings.created;
         csc.versionSettings.doNotContactLists = ["1869a2c0-db74-4230-9f42-0265205fae73"];
-        csc.versionSettings.dispositionCodeListId = "1869a2c0-db74-4230-9f42-0265205fae73";
-        csc.versionSettings.dispositionMappings = {};
         csc.versionSettings.channel = 'voice';
-        console.log('csc.versionSettings', csc.versionSettings);
+
+        if (angular.isUndefined(csc.versionSettings.dispositionMappings)) {
+          csc.versionSettings.dispositionMappings = {};
+        }
 
         csc.versionSettings.save({
           tenantId: Session.tenant.tenantId,
@@ -431,6 +477,7 @@ angular.module('liveopsConfigPanel')
       csc.fetchDispositionList();
       csc.loadTimezones();
       csc.fetchFlows();
+      csc.fetchDNCList();
       initHours();
 
     }

@@ -780,6 +780,7 @@
   "campaigns.details.setting.disable.crm":"Are you sure you want to disable CRM?",
   "campaigns.details.settings": "Campaign Settings",
   "campaigns.details.settings.select.flow":"Select a flow",
+  "campaigns.details.settings.select.dnc":"Select a DNC list",
   "campaigns.details.settings.select.timezone":"Select a timezone",
   "campaigns.details.settings.hours":"Hour(s)",
   "campaigns.details.settings.days":"Day(s)",

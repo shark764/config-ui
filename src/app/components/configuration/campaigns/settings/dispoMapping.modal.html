@@ -1,68 +1,56 @@
 <div class="publish disposition-modal" >
   <h3 class="header">{{title}}</h3>
-  <div class="no-dispositions" ng-hide="showDispositions">
-    <h4 class="disposition-mapping-error">{{'campaigns.details.settings.mappingError' | translate}}</h4>
-  </div>
-  <ng-form name="forms.dispositionMapping" class="disposition-mapping-form" ng-show="showDispositions">
+  <loading class="dispo-loading" ng-show="dispoLoading"/>
+  <ng-form name="forms.dispositionMapping" class="disposition-mapping-form" ng-hide="dispoLoading">
     <div class="input-group disposition-map">
-      <!-- <label>Name</label>
-      <form-error field="forms.dispositoi.name"
-        error-type-required="Please enter a draft name"></form-error>
-      <input type="text" ng-model="csc.versionSettings.dispositionCodeListId" name="name" ng-required="true"/> -->
       <table class="disposition-table">
         <tr>
           <th class="disposition-header">{{'campaigns.details.settings.code' | translate}}</th>
           <th class="disposition-header">{{'campaigns.details.settings.action' | translate}}</th>
+          <th></th>
         </tr>
         <!-- flow.id as flow.name for flow in csc.flows -->
 <!-- (key, value) in csc.versionSettings.dispositionMappings track by $index -->
         <tr ng-repeat="disposition in csc.currentDispositionList track by $index">
-            <td>{{disposition.name}}</td>
+            <td ng-class="{'hierarchy-title': disposition.type, 'hierarchy-child': disposition.hierarchy.length}">
+              <span ng-hide="disposition.type || disposition.hierarchy.length">&bull;</span> <span ng-hide="disposition.type || !disposition.hierarchy.length">&#9702;</span> {{disposition.name.slice(0,40)}}
+            </td>
             <td>
-              <select ng-model="csc.versionSettings.dispositionMappingList[$index].action"
-                      ng-change="csc.changeDispoMap(csc.versionSettings.dispositionMappingList[$index].action, disposition.name)"
-                      ng-init="csc.versionSettings.dispositionMappingList[$index].action='success'">
-
+              <select ng-model="csc.dispositionMappingList[$index].action"
+                      ng-change="csc.changeDispoMap(csc.dispositionMappingList[$index].action, disposition.name, $index)"
+                      ng-hide="disposition.type"
+                      ng-disabled="showDispoDNC">
                 <option name="dispoMapSuccess" value="success">{{'campaigns.details.settings.success' | translate}}</option>
-                <option name="dispoMapRedial" value="redial">{{'campaigns.details.settings.redial' | translate}}</option>
+                <option name="dispoMapRedial" value="retry">{{'campaigns.details.settings.redial' | translate}}</option>
                 <option name="dispoMapDnc" value="dnc">{{'campaigns.details.settings.addDnc' | translate}}</option>
               </select>
+            </td>
+            <td class="edit-td" ng-show="csc.dispositionMappingList[$index].action === 'dnc'">
+              <input type="button" class="btn edit-btn" value="Edit" ng-disabled="showDispoDNC" ng-click="csc.changeDispoMap(csc.dispositionMappingList[$index].action, disposition.name, $index)"/>
             </td>
         </tr>
       </table>
     </div>
 
-    <div class="input-group disposition-dnc" ng-show="showDispoDNC">
-      <div class="first-header">
-        <h4>{{'campaigns.details.setting.dnc' | translate}} - {{csc.versionSettings.selectedDncName}}</h4>
+    <div class="input-group disposition-dnc" ng-if="showDispoDNC">
+      <div class="first-header divider-header">
+        <h4>{{'campaigns.details.setting.dnc' | translate}} - {{csc.selectedDncName}}</h4>
       </div>
 
-      <div id="dnc-list" class="disposition-contact-list" ng-repeat="">
-        <input type="checkbox" value="Global DNC">
-        <label>GlobalDNC<label>
-      </div>
-      <div id="dnc-list" class="disposition-contact-list">
-        <input type="checkbox" value="Global DNC">
-        <label>Customer Opt-out<label>
-      </div>
-      <div id="dnc-list" class="disposition-contact-list">
-        <input type="checkbox" value="Global DNC">
-        <label>ACME DO NOT CALL<label>
-      </div>
-      <div id="dnc-list" class="disposition-contact-list">
-        <input type="checkbox" value="Global DNC">
-        <label>CANE Don't call me<label>
+      <div id="dnc-list" class="disposition-contact-list" ng-repeat="dncList in csc.dncLists track by $index">
+        <input type="checkbox" value="dncList.id" ng-checked="csc.isChecked(dncList.id)" ng-model="dncList.checked">
+        <label>{{dncList.name}}<label>
       </div>
 
       <div class="donot-contact-buttons">
         <input type="button" id="modal-cancel" class="btn donot-contact-cancel" ng-click="csc.cancelDispoDnc()" value="{{'value.cancel' | translate}}"/>
-        <input type="submit" id="modal-ok" class="btn btn-primary donot-contact-submit" ng-click="csc.submitDispoDnc()" value="{{'campaigns.details.settings.addtoList' | translate}}">
+        <input type="submit" id="modal-ok" class="btn btn-primary donot-contact-submit" ng-click="csc.submitDispoDnc()"  value="{{'campaigns.details.settings.addtoList' | translate}}">
       </div>
     </div>
 
   </ng-form>
   <div class="footer dispo-mapping-buttons">
     <input type="button" id="modal-cancel" class="btn donot-contact-cancel" ng-click="cancelCallback()" value="{{'value.cancel' | translate}}"/>
-    <input type="submit" id="modal-ok" class="btn btn-primary donot-contact-submit" ng-click="okCallback()" ng-disabled="!showDispositions">
+    <input type="submit" id="modal-ok" class="btn btn-primary donot-contact-submit" ng-click="submitDispositionMapping()" ng-disabled="showDispoDNC">
   </div>
 </div>
