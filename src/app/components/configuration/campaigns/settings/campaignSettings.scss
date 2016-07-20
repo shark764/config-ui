@@ -62,54 +62,93 @@
 }
 
 .no-dispositions {
-  height:100px;}
+  height:100px;
+}
 
 .disposition-mapping-error {
-    text-align: center;
-    padding-top: 45px;
-    font-size: 15px;
-    color: red;}
+  text-align: center;
+  padding-top: 45px;
+  font-size: 15px;
+  color: red;
+}
 
-  #modal > div.publish.disposition-modal {
-    max-width:750px;
-    width:50%;}
+#modal > div.publish.disposition-modal {
+  max-width:750px;
+  width:50%;
+}
 
-  .disposition-mapping-form{
-    min-height: 300px;}
+.disposition-modal {
+  .loading {
+    padding-bottom: 30px;
+  }
+}
 
-  .disposition-map {
-    width:49%;
-    display:inline-block;}
+.hierarchy-title {
+  font-weight: 800;
+  border-bottom: 1px solid #c0c0c0;
+}
 
-  .disposition-dnc {
-    position:absolute;
-    width: 49%;
-    display:inline-block;}
+.hierarchy-child {
+  padding-left: 25px;
+}
 
-  .disposition-table {
-    width:100%;}
+.edit-btn {
+  width: 50px !important;
+}
 
-  .disposition-header {
-    text-align: left;}
+.edit-td {
+  text-align: center;
+}
 
-  .disposition-contact-list {
-    padding:5px;}
+.disposition-dnc {
+  margin: 0 auto;
+  padding-bottom: 15px;
+}
 
-  .disposition-contact-list > input {
-    padding-right: 5px;}
+.disposition-mapping-form{
+  min-height: 300px;
+  max-height: 530px;
+  overflow: auto;
+}
 
-  .donot-contact-buttons {
-    padding-top:10px;}
+.disposition-table {
+  width:100%;
+  border-collapse: collapse;
+}
 
-  .donot-contact-cancel, .donot-contact-submit {
-    width: 100px !important;}
+.disposition-map {
+  margin: 0 auto;
+}
 
-   .dispo-mapping-buttons {
-     text-align: center;}
+.disposition-header {
+  text-align: left;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.disposition-contact-list {
+  padding:5px;
+}
+
+.disposition-contact-list > input {
+  padding-right: 5px;
+}
+
+.donot-contact-buttons {
+  padding-top:10px;
+}
+
+.donot-contact-cancel, .donot-contact-submit {
+  width: 100px !important;
+}
+
+.dispo-mapping-buttons {
+  text-align: center;
+}
 
 .input-group {
-  &.time-select {
 
+  &.time-select {
 
     label {
       display: table-row;
