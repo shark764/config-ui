@@ -24,7 +24,6 @@
   padding: 10px 15px;
 }
 
-
 #dnc-list {
   display: inline-block;
   width:90%;
@@ -63,17 +62,20 @@
 }
 
 .no-dispositions {
-  height:100px;}
+  height:100px;
+}
 
 .disposition-mapping-error {
-    text-align: center;
-    padding-top: 45px;
-    font-size: 15px;
-    color: red;}
+  text-align: center;
+  padding-top: 45px;
+  font-size: 15px;
+  color: red;
+}
 
-  #modal > div.publish.disposition-modal {
-    max-width:750px;
-    width:50%;}
+#modal > div.publish.disposition-modal {
+  max-width:750px;
+  width:50%;
+}
 
 .disposition-modal {
   .loading {
@@ -81,65 +83,71 @@
   }
 }
 
-  .hierarchy-title {
-    font-weight: 800;
-    border-bottom: 1px solid #c0c0c0;
-  }
+.hierarchy-title {
+  font-weight: 800;
+  border-bottom: 1px solid #c0c0c0;
+}
 
-  .hierarchy-child {
-    padding-left: 25px;
-  }
+.hierarchy-child {
+  padding-left: 25px;
+}
 
-  .edit-btn {
-    width: 50px !important;
-  }
+.edit-btn {
+  width: 50px !important;
+}
 
-  .edit-td {
-    text-align: center;
-  }
+.edit-td {
+  text-align: center;
+}
 
-  .disposition-dnc {
-    margin: 0 auto;
-    padding-bottom: 15px;
-  }
+.disposition-dnc {
+  margin: 0 auto;
+  padding-bottom: 15px;
+}
 
-  .disposition-mapping-form{
-    min-height: 300px;
-    max-height: 530px;
-    overflow: auto;
-  }
+.disposition-mapping-form{
+  min-height: 300px;
+  max-height: 530px;
+  overflow: auto;
+}
 
-  .disposition-table {
-    width:100%;
-    border-collapse: collapse;
-  }
+.disposition-table {
+  width:100%;
+  border-collapse: collapse;
+}
 
+.disposition-map {
+  margin: 0 auto;
+}
 
-    .disposition-map {
-      margin: 0 auto;
-    }
+.disposition-header {
+  text-align: left;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
 
-  .disposition-header {
-    text-align: left;
-    padding-top: 10px;
-    padding-bottom: 10px;}
+.disposition-contact-list {
+  padding:5px;
+}
 
-  .disposition-contact-list {
-    padding:5px;}
+.disposition-contact-list > input {
+  padding-right: 5px;
+}
 
-  .disposition-contact-list > input {
-    padding-right: 5px;}
+.donot-contact-buttons {
+  padding-top:10px;
+}
 
-  .donot-contact-buttons {
-    padding-top:10px;}
+.donot-contact-cancel, .donot-contact-submit {
+  width: 100px !important;
+}
 
-  .donot-contact-cancel, .donot-contact-submit {
-    width: 100px !important;}
-
-   .dispo-mapping-buttons {
-     text-align: center;}
+.dispo-mapping-buttons {
+  text-align: center;
+}
 
 .input-group {
+
   &.time-select {
 
     label {

@@ -127,62 +127,6 @@ angular.module('liveopsConfigPanel')
           csc.scheduleStartMinutes = addLeadingZeros(parseInt(csc.versionSettings.schedule[0].startTime.slice(3,5)));
           csc.scheduleEndMinutes = addLeadingZeros(parseInt(csc.versionSettings.schedule[0].endTime.slice(3,5)));
 
-          function setHours () {
-            // TODO: Optimize or simplify
-            var startHour = csc.scheduleStartHour,
-                startAmPm = csc.scheduleStartAmPm,
-                endHour = csc.scheduleEndHour,
-                endAmPm = csc.scheduleEndAmPm;
-
-            function loadStartTimePickerData (startHour, startAmPm) {
-              if (startHour > 12) {
-                this.startHour = startHour - 12;
-                this.startAmPm = 'pm';
-              } else if (startHour < 12) {
-                this.startHour = startHour;
-                this.startAmPm = 'am';
-                if (startHour === 0){
-                  this.startHour = 12;
-                  this.startAmPm = 'am';
-                }
-              } else if (startHour === 12) {
-                this.startHour = startHour;
-                this.startAmPm = 'pm';
-              } else {
-                this.startHour = 12;
-                this.startAmPm = 'am'
-              }
-            }
-
-            function loadEndTimePickerData (endHour, endAmPm) {
-              if (endHour > 12) {
-                this.endHour = endHour - 12;
-                this.endAmPm = 'pm';
-              } else if (endHour < 12) {
-                this.endHour = endHour;
-                this.endAmPm = 'am';
-                if (endHour === 0){
-                  this.endHour = 12;
-                  this.endAmPm = 'am';
-                }
-              } else if (endHour === 12) {
-                this.endHour = endHour;
-                this.endAmPm = 'pm';
-              } else {
-                this.endHour = 12;
-                this.endAmPm = 'am'
-              }
-            }
-
-            loadStartTimePickerData.call(csc, startHour, startAmPm);
-            loadEndTimePickerData.call(csc, endHour, endAmPm);
-
-            csc.scheduleStartHour = csc.startHour;
-            csc.scheduleStartAmPm = csc.startAmPm;
-            csc.scheduleEndHour = csc.endHour;
-            csc.scheduleEndAmPm = csc.endAmPm;
-          }
-
           setHours();
         }
 
@@ -192,6 +136,62 @@ angular.module('liveopsConfigPanel')
             csc[invertedDayMap[scheduleItem.day] + 'Selected'] = true;
           }
         })
+      };
+
+      function setHours () {
+        // TODO: Optimize or simplify
+        var startHour = csc.scheduleStartHour,
+            startAmPm = csc.scheduleStartAmPm,
+            endHour = csc.scheduleEndHour,
+            endAmPm = csc.scheduleEndAmPm;
+
+        loadStartTimePickerData.call(csc, startHour, startAmPm);
+        loadEndTimePickerData.call(csc, endHour, endAmPm);
+
+        csc.scheduleStartHour = csc.startHour;
+        csc.scheduleStartAmPm = csc.startAmPm;
+        csc.scheduleEndHour = csc.endHour;
+        csc.scheduleEndAmPm = csc.endAmPm;
+      }
+
+      function loadStartTimePickerData (startHour, startAmPm) {
+        if (startHour > 12) {
+          this.startHour = startHour - 12;
+          this.startAmPm = 'pm';
+        } else if (startHour < 12) {
+          this.startHour = startHour;
+          this.startAmPm = 'am';
+          if (startHour === 0){
+            this.startHour = 12;
+            this.startAmPm = 'am';
+          }
+        } else if (startHour === 12) {
+          this.startHour = startHour;
+          this.startAmPm = 'pm';
+        } else {
+          this.startHour = 12;
+          this.startAmPm = 'am'
+        }
+      }
+
+      function loadEndTimePickerData (endHour, endAmPm) {
+        if (endHour > 12) {
+          this.endHour = endHour - 12;
+          this.endAmPm = 'pm';
+        } else if (endHour < 12) {
+          this.endHour = endHour;
+          this.endAmPm = 'am';
+          if (endHour === 0){
+            this.endHour = 12;
+            this.endAmPm = 'am';
+          }
+        } else if (endHour === 12) {
+          this.endHour = endHour;
+          this.endAmPm = 'pm';
+        } else {
+          this.endHour = 12;
+          this.endAmPm = 'am'
+        }
       }
 
       function convertToMilitaryHours(hours, startOrEnd) {
