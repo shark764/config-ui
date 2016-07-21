@@ -273,6 +273,7 @@
   "dnc.table.expiration": "Expiration",
   "dnc.table.status": "Status",
   "dnc.details.expiration": "Expiration",
+  "dnc.details.upload": "Upload CSV",
   "dnc.details.disable.confirm": "This will disable this Do Not Contact list. Do you want to continue?",
   "dnc.details.creating": "Creating new Do Not Contact List",
   "dnc.details.enable.confirm": "This will enable this Do Not Contact list. Do you want to continue?",

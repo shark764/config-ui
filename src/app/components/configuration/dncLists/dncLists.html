@@ -12,7 +12,7 @@
     search-query="searchQuery">
 
     <span name="$original.expiration">
-      {{item.$original.expiration | date:'yyyy-MM-dd'}}
+      {{item.$original.expiration | limitTo:10}}
     </span>
 
     <span name="$original.active">
@@ -30,21 +30,18 @@
 
 <lo-details-panel id="right-panel"
   class="right-panel"
-  ng-show="(dnc.selectedDncList || showBulkActions) && !dnc.forceClose"
+  ng-show="dnc.selectedDncList || showBulkActions"
   ng-resource="dnc.selectedDncList">
 
   <ng-form unsaved-changes-warning
-    class="details-pane"
-    ng-show="dnc.selectedDncList && !showBulkActions"
-    name="dnc.forms.detailsForm"
-    ng-model="dnc.selectedDncList"
-    ng-resource="dnc.selectedDncList"
-    lo-form-submit
-    lo-form-cancel
-    lo-form-alert
-    lo-form-reset>
+  class="details-pane"
+  unsaved-changes-warning
+  name="forms.detailsForm"
+  ng-show="!showBulkActions"
+  ng-resource="dnc.selectedDncList"
+  lo-form-submit lo-form-cancel lo-form-alert>
 
-    <ng-form name="dnc.forms.headerForm" separate-validation>
+    <ng-form name="forms.headerForm" separate-validation>
       <div class="detail-header"
         ng-include src="'app/components/configuration/dncLists/dncListDetailHeader.html'">
       </div>
@@ -55,17 +52,21 @@
     </div>
 
     <div class="detail-controls">
-      <input id="cancel-details-btn" type="button" class="btn"
+      <input
+        id="cancel-details-btn" class="btn" type="button"
+        ng-disabled="dnc.selectedDncList.$busy"
         value="{{'value.cancel' | translate}}"
-        lo-cancel>
-      </input>
-      <input id="submit-details-btn" class="btn btn-primary"
-        type="submit" value="{{'value.submit' | translate}}"
-        ng-disabled="dnc.forms.detailsForm.$invalid || ! dnc.forms.detailsForm.$dirty"
+        lo-cancel></input>
+
+      <input
+        id="submit-details-btn"
         lo-submit="dnc.submit()"
         lo-submit-spinner
-        lo-submit-spinner-status="dnc.selectedDncList.$busy">
-      </input>
+        lo-submit-spinner-status="dnc.selectedDncList.$busy"
+        ng-disabled="forms.detailsForm.$pending || forms.detailsForm.$invalid || ! forms.detailsForm.$dirty"
+        class="btn btn-primary"
+        type="submit"
+        value="{{'value.submit' | translate}}" />
     </div>
   </ng-form>
 
