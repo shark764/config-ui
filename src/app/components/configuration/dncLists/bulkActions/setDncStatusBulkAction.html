@@ -1,0 +1,16 @@
+<div class="bulk-action">
+  <div><input id="select-enable-bulk-action" type="checkbox" ng-model="bulkAction.checked"></div>
+  <label><b>{{'bulkActions.enable.campaigns' | translate}}</b></label>
+  <div></div>
+</div>
+
+<div class="action-wrapper">
+  <div>
+    <select id="bulk-action-enable-select"
+      ng-model="active"
+      ng-disabled="! bulkAction.checked"
+      ng-required="bulkAction.checked"
+      ng-options="item.value as (item.displayKey | translate) for item in statuses">
+    </select>
+  </div>
+</div>

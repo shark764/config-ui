@@ -1,0 +1,22 @@
+<div class="publish" id="stats-modal">
+  <h3 class="header">{{title}}</h3>
+  <div id="stats-modal">
+    <ul>
+      <li>Last Update Start: {{cc.selectedCampaign.latestJobData.created | date:'MM/dd/yyyy HH:mm:ss' }}</li>
+      <li>Last Update Finish: {{cc.selectedCampaign.latestJobData.completed | date:'MM/dd/yyyy HH:mm:ss' }}</li>
+      <li>Records Changed: {{cc.selectedCampaign.latestJobData.alteredRows}}</li>
+      <li>Records Deleted: {{cc.selectedCampaign.latestJobData.removedRows}}</li>
+    </ul>
+
+    <ul>
+      <li>Record Count: {{cc.selectedCampaign.latestJobData.leadCount}}</li>
+      <li>Successful Contacts: {{cc.selectedCampaign.latestJobData.completedLeads}}</li>
+      <li>Remaining Contacts: {{cc.selectedCampaign.latestJobData.pendingLeads}}</li>
+    </ul>
+  </div>
+
+  <div class="footer">
+    <input type="button" id="modal-cancel" class="btn" ng-click="cancelCallback()" value="{{'value.cancel' | translate}}" />
+    <input type="submit" id="modal-ok" class="btn btn-primary" ng-click="okCallback(draft)" ng-disabled="forms.newDraft.$invalid">
+  </div>
+</div>
