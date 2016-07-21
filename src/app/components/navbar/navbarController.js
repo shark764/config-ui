@@ -208,13 +208,22 @@ angular.module('liveopsConfigPanel')
 
         // FEATURE FLAG: UNCOMMENT THIS AS WELL AS THE CAMPAIGNS-RELATED STATES IN index.states.js
         // IN ORDER TO ENABLE THE CAMPAIGNS FEATURE.
-        // items.push({
-        //   label: $translate.instant('navbar.configuration.campaigns.title'),
-        //   stateLink: 'content.configuration.campaigns',
-        //   id: 'campaigns-configuration-link',
-        //   order: 5
-        // });
+        items.push({
+          label: $translate.instant('navbar.configuration.campaigns.title'),
+          stateLink: 'content.configuration.campaigns',
+          id: 'campaigns-configuration-link',
+          order: 5
+        });
 
+
+        if (UserPermissions.hasPermissionInList(PermissionGroups.accessAllIntegrations)) {
+          items.push({
+            label: $translate.instant('navbar.configuration.dnc.title'),
+            stateLink: 'content.configuration.dnc',
+            id: 'dnc-configuration-link',
+            order: 6
+          });
+        }
         return items;
       };
 

@@ -1,0 +1,60 @@
+<div class="divider-header first-header">
+  <h4>{{'details' | translate}}</h4>
+</div>
+
+<div disable-contents="! (['MANAGE_ALL_BUSINESS_HOURS'] | hasPermission)">
+  <div class="input-group">
+    <label>{{'value.name' | translate}} *</label>
+
+    <form-error field="dnc.forms.detailsForm.name"
+      error-type-required="{{'value.error.name.required' | translate}}">
+    </form-error>
+    <input type="text" name="name"
+      ng-model="dnc.selectedDncList.name"
+      ng-required="true" value={{dnc.selectedDncList.name}}
+      ng-disabled="!dnc.selectedDncList.isNew()" />
+  </div>
+
+  <div class="input-group">
+    <label class="textarea-label">{{'value.description' | translate}}</label>
+    <textarea ng-model="dnc.selectedDncList.description" ng-disabled="!dnc.selectedDncList.isNew()">{{dnc.selectedDncList.description}}</textarea>
+  </div>
+
+  <div class="input-group">
+    <label>{{'dnc.details.expiration' | translate}}</label>
+
+    <input type="text" name="expiration"
+      moment-picker="dnc.selectedDncList.expiration"
+      ng-model="dnc.selectedDncList.expiration"
+      format="YYYY-MM-DD"
+      change="dnc.onChange(newVal, oldVal)"
+      start-view="month"
+      max-view="month"
+      ng-model-options="{timezone: 'UTC'}"
+      min-date="dnc.provideDateToday"
+      id="dncDatepicker"
+      ng-if="dnc.selectedDncList.isNew()"
+      value="dnc.selectedDncList.expiration">
+
+      <input type="text"
+      name="expiration"
+      ng-model="dnc.selectedDncList.expiration"
+      ng-disabled="!dnc.selectedDncList.isNew()"
+      ng-if="!dnc.selectedDncList.isNew()">
+
+  </div>
+
+  <div class="input-group listFile-source">
+    <label>{{'dnc.details.upload' | translate}} *</label>
+
+      <input id="listFile-source-upload-file" type="text"
+        name="listFilesourcefile"
+        ng-model="dnc.selectedDncList.listFileUpload.name"
+        ng-disabled="true"
+        ng-required="true">
+      <div id="listFile-source-upload-btn" type="button" class="btn"
+        ngf-select="dnc.onListFileSelect($file)"
+        ngf-max-size="20MB"
+        accept=".csv">
+        <i class="fa fa-upload" />
+      </div>

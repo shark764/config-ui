@@ -135,6 +135,17 @@ angular.module('liveopsConfigPanel')
             }]
           }
         })
+        .state('content.configuration.dnc', {
+          url: '/dnc?id',
+          templateUrl: 'app/components/configuration/dncLists/dncLists.html',
+          controller: 'dncListsController as dnc',
+          reloadOnSearch: false,
+          resolve: {
+            hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
+              return UserPermissions.resolvePermissions(PermissionGroups.accessAllLists);
+            }]
+          }
+        })
         .state('content.configuration.code', {
           url: '/code',
           abstract: true,
@@ -208,17 +219,17 @@ angular.module('liveopsConfigPanel')
         })
         // FEATURE FLAG: UNCOMMENT THIS AS WELL AS THE CAMPAIGNS ITEM IN NavbarController.js TO
         // ACTIVATE THE CAMPAIGNS FEATURE
-        // .state('content.configuration.campaigns', {
-        //   url: '/campaigns?id',
-        //   templateUrl: 'app/components/configuration/campaigns/campaigns.html',
-        //   controller: 'campaignsController as cc',
-        //   reloadOnSearch: false,
-        //   resolve: {
-        //     hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
-        //       return UserPermissions.resolvePermissions(PermissionGroups.accessAllBusinessHours);
-        //     }]
-        //   }
-        // })
+        .state('content.configuration.campaigns', {
+          url: '/campaigns?id',
+          templateUrl: 'app/components/configuration/campaigns/campaigns.html',
+          controller: 'campaignsController as cc',
+          reloadOnSearch: false,
+          resolve: {
+            hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
+              return UserPermissions.resolvePermissions(PermissionGroups.accessAllBusinessHours);
+            }]
+          }
+        })
         .state('content.configuration.campaignSettings', {
           url: '/campaign/settings?id',
           templateUrl: 'app/components/configuration/campaigns/settings/campaignSettings.html',
