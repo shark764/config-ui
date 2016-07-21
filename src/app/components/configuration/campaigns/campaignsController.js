@@ -131,11 +131,10 @@ angular.module('liveopsConfigPanel')
             return flow.tenantId !== Session.tenant.tenantId;
           });
 
-          getFlowName(campaigns, flows);
+          getFlowName(cc.campaigns, flows);
 
           // now, finally grant the page access to the list of flows and campaigns
           cc.flows = flows;
-          cc.campaigns = campaigns;
         });
 
       // apply the table configuration

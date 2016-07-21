@@ -188,6 +188,7 @@ angular.module('liveopsConfigPanel')
           });
         }
 
+
         if (UserPermissions.hasPermissionInList(PermissionGroups.accessAllLists)) {
           items.push({
             label: $translate.instant('navbar.configuration.lists.title'),
@@ -214,8 +215,13 @@ angular.module('liveopsConfigPanel')
           id: 'campaigns-configuration-link',
           order: 5
         });
+<<<<<<< HEAD
 
 
+=======
+
+
+>>>>>>> e8d559fc148cde8f235e21da872d4936299d165e
         if (UserPermissions.hasPermissionInList(PermissionGroups.accessAllIntegrations)) {
           items.push({
             label: $translate.instant('navbar.configuration.dnc.title'),
