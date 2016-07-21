@@ -4,6 +4,7 @@
     <h2 class="campaign-setting-title">{{'campaigns.details.settings' | translate}} - {{csc.campaignSettings.name}}</h2>
 
     <div class="col">
+
       <div class="input-group">
     <label>{{'details.flow' | translate}}</label>
     <div>
@@ -72,7 +73,7 @@
       </div>
 
       <div class="input-group">
-        <button class="btn dispo-btn" ng-hide="!csc.versionSettings.dispositionCodeListId || csc.versionSettings.dispositionCodeListId.length === 0" ng-click="csc.gotoDispoMap(csc.versionSettings.dispositionCodeListId)">{{'campaigns.details.setting.dispositionBtn' | translate}}</button>
+        <button class="btn dispo-btn" ng-disabled="!csc.versionSettings.dispositionCodeListId || csc.versionSettings.dispositionCodeListId.length === 0" ng-click="csc.gotoDispoMap(csc.versionSettings.dispositionCodeListId)">{{'campaigns.details.setting.dispositionBtn' | translate}}</button>
       </div>
 
      <div class="input-group">
@@ -81,17 +82,16 @@
        </div>
 
        <div id="dnc-list">
-         <select name="flowId" class="do-not-call"
-             ng-model="csc.campaignSetting.flowId"
-             ng-options="flow.id as flow.name for flow in csc.fetchFlows()">
-
-             <option value="" disabled>{{'campaigns.details.settings.select.flow' | translate}}</option>
+         <select name="dncListId" class="do-not-call"
+             ng-model="csc.selectedDncList"
+             ng-options="dncList.id as dncList.name for dncList in csc.dncLists">
+            <option value="" disabled>{{'campaigns.details.settings.select.dnc' | translate}}</option>
          </select>
       </div>
 
       <div id="add-dnc">
          <button id="donotcall-btn" class="btn pull-right" type="button"
-           ng-click="csc.addDNC(csc.campaignSetting.flowId)">
+           ng-click="csc.addDNC(csc.campaignSetting.dncListId)">
            <i class="fa fa-plus"></i>
          </button>
       </div>
@@ -159,6 +159,7 @@
           {{'campaigns.details.setting.f' | translate}}<input class="week" type="checkbox" name="friday" ng-model="csc.fridaySelected">
           {{'campaigns.details.setting.s' | translate}}<input class="week" type="checkbox" name="saturday" ng-model="csc.saturdaySelected">
       </div>
+
     </div>
 
 
