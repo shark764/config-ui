@@ -3,9 +3,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
-
-## [4.1.14-SNAPSHOT]
-* CXV1-3589 - Initial addition of campaigns/outbound feature. Work is not complete, but putting it into dev for preliminary QE 
+* CXV1-3589 - Initial addition of campaigns/outbound feature. Work is not complete, but putting it into dev for preliminary QE
 
 ## [4.1.13]
 * CXV1-3922 - Other bugfixes reintroduced original bug. Fixed reason/disposition list anomalies with headers.
