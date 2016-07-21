@@ -122,7 +122,7 @@ angular.module('liveopsConfigPanel')
       });
 
       $q.all([
-          campaigns.$promise,
+          cc.campaigns.$promise,
           flows.$promise
         ])
         .then(function () {
