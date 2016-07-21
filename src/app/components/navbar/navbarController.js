@@ -188,6 +188,7 @@ angular.module('liveopsConfigPanel')
           });
         }
 
+
         if (UserPermissions.hasPermissionInList(PermissionGroups.accessAllLists)) {
           items.push({
             label: $translate.instant('navbar.configuration.lists.title'),

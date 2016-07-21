@@ -121,6 +121,31 @@ angular.module('liveopsConfigPanel')
         }
       });
 
+      $q.all([
+          campaigns.$promise,
+          flows.$promise
+        ])
+        .then(function () {
+          // get rid of all of the flows that don't belong to this tenant
+          _.remove(flows, function (flow) {
+            return flow.tenantId !== Session.tenant.tenantId;
+          });
+
+          getFlowName(campaigns, flows);
+
+          // now, finally grant the page access to the list of flows and campaigns
+          cc.flows = flows;
+          cc.campaigns = campaigns;
+        });
+
+      // apply the table configuration
+      cc.tableConfig = campaignsTableConfig;
+
+      // campaignChannelTypes is an array we get from
+      // index.constants.js, as the list of campaign channels
+      // is not editable by the user, nor do they exist in the campaigns API
+      cc.campaignChannels = campaignChannelTypes;
+
       cc.importContactList = function (fileData) {
         var upload = Upload.upload({
           headers: {
