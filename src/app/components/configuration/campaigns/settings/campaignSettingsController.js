@@ -20,7 +20,8 @@ angular.module('liveopsConfigPanel')
         'tuesday': 'T',
         'wednesday': 'W',
         'thursday': 'TH',
-        'friday': 'F'
+        'friday': 'F',
+        'saturday': 'S'
       };
 
       function initHours() {
