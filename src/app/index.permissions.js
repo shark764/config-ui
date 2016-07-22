@@ -20,6 +20,7 @@
       accessAllIntegrations: ['VIEW_ALL_PROVIDERS', 'MANAGE_ALL_PROVIDERS'],
       accessAllLists: ['MANAGE_ALL_LISTS'],
       accessAllBusinessHours: ['VIEW_ALL_BUSINESS_HOURS', 'MANAGE_ALL_BUSINESS_HOURS'],
+      accessAllCampaigns: ['VIEW_CAMPAIGNS', 'MANAGE_CAMPAIGNS'],
       accessAllFlows: ['VIEW_ALL_FLOWS', 'MANAGE_ALL_FLOWS', 'MAP_ALL_CONTACT_POINTS'],
       accessAllQueues: ['VIEW_ALL_FLOWS', 'MANAGE_ALL_FLOWS', 'MANAGE_ALL_QUEUES'],
       accessAllMedia: ['VIEW_ALL_MEDIA', 'VIEW_ALL_FLOWS', 'MANAGE_ALL_FLOWS'],

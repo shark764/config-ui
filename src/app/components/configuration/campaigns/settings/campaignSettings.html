@@ -4,37 +4,37 @@
     <h2 class="campaign-setting-title">{{'campaigns.details.settings' | translate}} - {{csc.campaignSettings.name}}</h2>
 
     <div class="col">
-
-      <div class="input-group">
-    <label>{{'details.flow' | translate}}</label>
-    <div>
-      <form-error field="forms.settingsForm.flowId" error-type-required="{{'campaigns.details.flow.error' | translate}}"></form-error>
-      <select name="flowId" required ng-model="csc.versionSettings.flowId" ng-options="flow.id as flow.name for flow in csc.flows">
-        <option disabled value="">{{'campaigns.details.flow' | translate}}</option>
-      </select>
-    </div>
-  </div>
-
-      <div class="input-group">
-        <label>{{'campaigns.details.setting.ani' | translate}}</label>
-        <div>
-          <form-error field="forms.settingsForm.callerId"
-            error-type-required="{{'dispatchMappings.details.phone.error' | translate}}"
-            error-type-phone-number="{{'details.phoneNumber.error' | translate}}">
-          </form-error>
-          <input required ng-model="csc.versionSettings.callerId" name="callerId" class="ani" type="tel"/>
+      <div disable-contents="! (['MANAGE_CAMPAIGNS'] | hasPermission)">
+        <div class="input-group">
+          <label>{{'details.flow' | translate}}</label>
+          <div>
+            <form-error field="forms.settingsForm.flowId" error-type-required="{{'campaigns.details.flow.error' | translate}}"></form-error>
+            <select name="flowId" required ng-model="csc.versionSettings.flowId" ng-options="flow.id as flow.name for flow in csc.flows">
+              <option disabled value="">{{'campaigns.details.flow' | translate}}</option>
+            </select>
+          </div>
         </div>
-      </div>
 
-      <div class="input-group">
-        <label>{{'campaigns.details.setting.timezoneHeader' | translate}}</label>
-        <select name="timezone"
-          ng-model="csc.versionSettings.defaultTimeZone"
-          ng-options="timezone.timezone as timezone.getDisplay() for timezone in csc.timezones | orderBy:'offsetInMilliseconds'">
+        <div class="input-group">
+          <label>{{'campaigns.details.setting.ani' | translate}}</label>
+          <div>
+            <form-error field="forms.settingsForm.callerId"
+              error-type-required="{{'dispatchMappings.details.phone.error' | translate}}"
+              error-type-phone-number="{{'details.phoneNumber.error' | translate}}">
+            </form-error>
+            <input required ng-model="csc.versionSettings.callerId" name="callerId" class="ani" type="tel"/>
+          </div>
+        </div>
 
-          <option value="" disabled>{{'campaigns.details.settings.select.timezone' | translate}}</option>
-        </select>
-      </div>
+        <div class="input-group">
+          <label>{{'campaigns.details.setting.timezoneHeader' | translate}}</label>
+          <select name="timezone"
+            ng-model="csc.versionSettings.defaultTimeZone"
+            ng-options="timezone.timezone as timezone.getDisplay() for timezone in csc.timezones | orderBy:'offsetInMilliseconds'">
+
+            <option value="" disabled>{{'campaigns.details.settings.select.timezone' | translate}}</option>
+          </select>
+        </div>
 
       <!-- <div class="input-group">
         <label>{{'campaigns.details.settings.regionHeader' | translate}}</label>
@@ -46,22 +46,22 @@
         </select>
       </div> -->
 
-      <div class="input-group">
-        <label>{{'campaigns.details.setting.expiry' | translate}}</label>
-        <div>
-          <input
-            ng-model="csc.versionSettings.defaultLeadExpiration"
-            name="defaultLeadExpiration"
-            string-to-number
-            type="number"
-            ng-init="csc.versionSettings.defaultLeadExpiration='0'">
-          <select ng-model="csc.expiryUnit">
-            <option value="hr">{{'campaigns.details.settings.hours' | translate}}</option>
-            <option value="day">{{'campaigns.details.settings.days' | translate}}</option>
-          </select>
+        <div class="input-group">
+          <label>{{'campaigns.details.setting.expiry' | translate}}</label>
+          <div>
+            <input
+              ng-model="csc.versionSettings.defaultLeadExpiration"
+              name="defaultLeadExpiration"
+              string-to-number
+              type="number"
+              ng-init="csc.versionSettings.defaultLeadExpiration='0'">
+            <select ng-model="csc.expiryUnit">
+              <option value="hr">{{'campaigns.details.settings.hours' | translate}}</option>
+              <option value="day">{{'campaigns.details.settings.days' | translate}}</option>
+            </select>
+          </div>
         </div>
-      </div>
-
+     </div>
       <div class="input-group">
         <label>{{'campaigns.details.setting.dispositionList' | translate}}</label>
         <select name="dispositionId"
@@ -75,113 +75,112 @@
       <div class="input-group">
         <button class="btn dispo-btn" ng-disabled="!csc.versionSettings.dispositionCodeListId || csc.versionSettings.dispositionCodeListId.length === 0" ng-click="csc.gotoDispoMap(csc.versionSettings.dispositionCodeListId)">{{'campaigns.details.setting.dispositionBtn' | translate}}</button>
       </div>
+    <div disable-contents="! (['MANAGE_CAMPAIGNS'] | hasPermission)">
+       <div class="input-group">
+         <div class="divider-header first-header">
+           <h4>{{'campaigns.details.setting.dnc' | translate}}</h4>
+         </div>
 
-     <div class="input-group">
-       <div class="divider-header first-header">
-         <h4>{{'campaigns.details.setting.dnc' | translate}}</h4>
+         <div id="dnc-list">
+           <select name="dncListId" class="do-not-call"
+               ng-model="csc.selectedDncList"
+               ng-options="dncList.id as dncList.name for dncList in csc.dncLists">
+              <option value="" disabled>{{'campaigns.details.settings.select.dnc' | translate}}</option>
+           </select>
+        </div>
+
+        <div id="add-dnc">
+           <button id="donotcall-btn" class="btn pull-right" type="button"
+             ng-click="csc.addDNC(csc.campaignSetting.dncListId)">
+             <i class="fa fa-plus"></i>
+           </button>
+        </div>
        </div>
 
-       <div id="dnc-list">
-         <select name="dncListId" class="do-not-call"
-             ng-model="csc.selectedDncList"
-             ng-options="dncList.id as dncList.name for dncList in csc.dncLists">
-            <option value="" disabled>{{'campaigns.details.settings.select.dnc' | translate}}</option>
-         </select>
-      </div>
-
-      <div id="add-dnc">
-         <button id="donotcall-btn" class="btn pull-right" type="button"
-           ng-click="csc.addDNC(csc.campaignSetting.dncListId)">
-           <i class="fa fa-plus"></i>
-         </button>
-      </div>
-     </div>
-
-     <div class="input-group">
-       <ul>
-         <li ng-repeat="dncList in dncLists">
-           {{dncList}}
-           <i class="fa fa-close remove list" ng-click="csc.removeDNC($index)"></i>
-         </li>
-       </ul>
-     </div>
-
+       <div class="input-group">
+         <ul>
+           <li ng-repeat="dncList in dncLists">
+             {{dncList}}
+             <i class="fa fa-close remove list" ng-click="csc.removeDNC($index)"></i>
+           </li>
+         </ul>
+       </div>
     </div>
+  </div>
 
     <div class="col">
-      <div class="divider-header first-header">
-        <h4>{{'campaigns.details.setting.scheduling' | translate}}</h4>
-      </div>
-
-      <div class="input-group time-select">
-        <label>{{'campaigns.details.setting.earliestTime' | translate}}</label>
-
-        <div>
-          <select name="scheduleStartHour" required ng-model="csc.scheduleStartHour" ng-options="n for n in csc.hours">
-            <option disabled value="">{{'campaigns.details.setting.hour' | translate}}</option>
-          </select>
-          :
-          <select name="scheduleStartMinute" required ng-model="csc.scheduleStartMinutes" ng-options="n for n in csc.minutes">
-            <option disabled value="">{{'campaigns.details.setting.minute' | translate}}</option>
-          </select>
-          |
-          <select name="scheduleStartAmPm" required ng-model="csc.scheduleStartAmPm">
-            <option value="am">AM</option>
-            <option value="pm">PM</option>
-          </select>
-        </div>
-      </div>
-      <div class="input-group time-select">
-        <label>{{'campaigns.details.setting.latestTime' | translate}}</label>
-        <div>
-          <select name="scheduleEndHour" required ng-model="csc.scheduleEndHour" ng-options="n for n in csc.hours">
-            <option disabled value="">{{'campaigns.details.setting.hour' | translate}}</option>
-          </select>
-          :
-          <select name="scheduleEndMinute" required ng-model="csc.scheduleEndMinutes" ng-options="n for n in csc.minutes">
-            <option disabled value="">{{'campaigns.details.setting.minute' | translate}}</option>
-          </select>
-          |
-          <select name="scheduleEndAmPm" required ng-model="csc.scheduleEndAmPm">
-            <option value="am">AM</option>
-            <option value="pm">PM</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="input-group">
-        <label>{{'campaigns.details.setting.daysToCall' | translate}}</label>
-          {{'campaigns.details.setting.s' | translate}}<input class="week" type="checkbox" name="sunday" ng-model="csc.sundaySelected">
-          {{'campaigns.details.setting.m' | translate}}<input class="week" type="checkbox" name="monday" ng-model="csc.mondaySelected">
-          {{'campaigns.details.setting.t' | translate}}<input class="week" type="checkbox" name="tuesday" ng-model="csc.tuesdaySelected">
-          {{'campaigns.details.setting.w' | translate}}<input class="week" type="checkbox" name="wednesday" ng-model="csc.wednesdaySelected">
-          {{'campaigns.details.setting.th' | translate}}<input class="week" type="checkbox" name="thursday" ng-model="csc.thursdaySelected">
-          {{'campaigns.details.setting.f' | translate}}<input class="week" type="checkbox" name="friday" ng-model="csc.fridaySelected">
-          {{'campaigns.details.setting.s' | translate}}<input class="week" type="checkbox" name="saturday" ng-model="csc.saturdaySelected">
-      </div>
-
-    </div>
-
-
-
-    <div class="col">
-
-      <div class="input-group">
+      <div disable-contents="! (['MANAGE_CAMPAIGNS'] | hasPermission)">
         <div class="divider-header first-header">
-          <h4>{{'campaigns.details.setting.redial' | translate}}</h4>
+          <h4>{{'campaigns.details.setting.scheduling' | translate}}</h4>
+        </div>
+
+        <div class="input-group time-select">
+          <label>{{'campaigns.details.setting.earliestTime' | translate}}</label>
+
+          <div>
+            <select name="scheduleStartHour" required ng-model="csc.scheduleStartHour" ng-options="n for n in csc.hours">
+              <option disabled value="">{{'campaigns.details.setting.hour' | translate}}</option>
+            </select>
+            :
+            <select name="scheduleStartMinute" required ng-model="csc.scheduleStartMinutes" ng-options="n for n in csc.minutes">
+              <option disabled value="">{{'campaigns.details.setting.minute' | translate}}</option>
+            </select>
+            |
+            <select name="scheduleStartAmPm" required ng-model="csc.scheduleStartAmPm">
+              <option value="am">AM</option>
+              <option value="pm">PM</option>
+            </select>
+          </div>
+        </div>
+        <div class="input-group time-select">
+          <label>{{'campaigns.details.setting.latestTime' | translate}}</label>
+          <div>
+            <select name="scheduleEndHour" required ng-model="csc.scheduleEndHour" ng-options="n for n in csc.hours">
+              <option disabled value="">{{'campaigns.details.setting.hour' | translate}}</option>
+            </select>
+            :
+            <select name="scheduleEndMinute" required ng-model="csc.scheduleEndMinutes" ng-options="n for n in csc.minutes">
+              <option disabled value="">{{'campaigns.details.setting.minute' | translate}}</option>
+            </select>
+            |
+            <select name="scheduleEndAmPm" required ng-model="csc.scheduleEndAmPm">
+              <option value="am">AM</option>
+              <option value="pm">PM</option>
+            </select>
+          </div>
         </div>
 
         <div class="input-group">
-          <label>{{'campaigns.details.setting.retry' | translate}}</label>
-          <input ng-model="csc.versionSettings.defaultLeadRetryInterval" name="defaultLeadRetryInterval" class="redial" string-to-number type="number" ng-init="csc.versionSettings.defaultLeadRetryInterval=0"/>
-        </div>
-
-        <div class="input-group">
-          <label>{{'campaigns.details.setting.retryMax' | translate}}</label>
-          <input ng-model="csc.versionSettings.defaultMaxRetries" name="name" class="redial" type="number"/>
+          <label>{{'campaigns.details.setting.daysToCall' | translate}}</label>
+            {{'campaigns.details.setting.s' | translate}}<input class="week" type="checkbox" name="sunday" ng-model="csc.sundaySelected">
+            {{'campaigns.details.setting.m' | translate}}<input class="week" type="checkbox" name="monday" ng-model="csc.mondaySelected">
+            {{'campaigns.details.setting.t' | translate}}<input class="week" type="checkbox" name="tuesday" ng-model="csc.tuesdaySelected">
+            {{'campaigns.details.setting.w' | translate}}<input class="week" type="checkbox" name="wednesday" ng-model="csc.wednesdaySelected">
+            {{'campaigns.details.setting.th' | translate}}<input class="week" type="checkbox" name="thursday" ng-model="csc.thursdaySelected">
+            {{'campaigns.details.setting.f' | translate}}<input class="week" type="checkbox" name="friday" ng-model="csc.fridaySelected">
+            {{'campaigns.details.setting.s' | translate}}<input class="week" type="checkbox" name="saturday" ng-model="csc.saturdaySelected">
         </div>
       </div>
+    </div>
 
+    <div class="col">
+      <div disable-contents="! (['MANAGE_CAMPAIGNS'] | hasPermission)">
+        <div class="input-group">
+          <div class="divider-header first-header">
+            <h4>{{'campaigns.details.setting.redial' | translate}}</h4>
+          </div>
+
+          <div class="input-group">
+            <label>{{'campaigns.details.setting.retry' | translate}}</label>
+            <input ng-model="csc.versionSettings.defaultLeadRetryInterval" name="defaultLeadRetryInterval" class="redial" string-to-number type="number" ng-init="csc.versionSettings.defaultLeadRetryInterval=0"/>
+          </div>
+
+          <div class="input-group">
+            <label>{{'campaigns.details.setting.retryMax' | translate}}</label>
+            <input ng-model="csc.versionSettings.defaultMaxRetries" name="name" class="redial" type="number"/>
+          </div>
+        </div>
+      </div>
     </div>
 
 
@@ -198,6 +197,7 @@
       class="btn btn-primary campaign-submit"
       ng-click="csc.submit()"
       type="submit"
+      ng-disabled="!('MANAGE_CAMPAIGNS' | hasPermission)"
       value="{{'value.submit' | translate}}" />
   </div>
 </ng-form>

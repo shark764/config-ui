@@ -226,7 +226,7 @@ angular.module('liveopsConfigPanel')
           reloadOnSearch: false,
           resolve: {
             hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
-              return UserPermissions.resolvePermissions(PermissionGroups.accessAllBusinessHours);
+              return UserPermissions.resolvePermissions(PermissionGroups.accessAllCampaigns);
             }]
           }
         })
@@ -237,7 +237,7 @@ angular.module('liveopsConfigPanel')
           reloadOnSearch: false,
           resolve: {
             hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
-              return UserPermissions.resolvePermissions(PermissionGroups.accessAllBusinessHours);
+              return UserPermissions.resolvePermissions(PermissionGroups.accessAllCampaigns);
             }],
             getCampaignId: ['$stateParams', function ($stateParams) {
               return $stateParams.id;
@@ -251,7 +251,7 @@ angular.module('liveopsConfigPanel')
           reloadOnSearch: false,
           resolve: {
             hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
-              return UserPermissions.resolvePermissions(PermissionGroups.accessAllBusinessHours);
+              return UserPermissions.resolvePermissions(PermissionGroups.accessAllCampaigns);
             }]
           }
         })
