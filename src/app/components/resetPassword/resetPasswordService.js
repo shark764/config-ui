@@ -9,7 +9,7 @@ angular.module('liveopsConfigPanel')
         method: 'PUT',
         url: apiHostname + '/v1/users/' + userId,
         data: {
-          "resetPassword": true
+          'resetPassword': true
         }
       });
     };
@@ -19,7 +19,7 @@ angular.module('liveopsConfigPanel')
         method: 'PUT',
         url: apiHostname + '/v1/users/' + userId,
         data: {
-          "password": newPass
+          'password': newPass
         }
       });
     };
@@ -29,7 +29,7 @@ angular.module('liveopsConfigPanel')
         method: 'PUT',
         url: apiHostname + '/v1/request-password-reset',
         data: {
-          "email": email
+          'email': email
         }
       });
     };

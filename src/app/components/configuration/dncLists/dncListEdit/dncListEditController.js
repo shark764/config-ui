@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('dncListEditController', ['$scope', '$state', 'Session', 'Tenant', 'TenantUser', 'DncListEdit', 'UserPermissions', 'AuthService', '$q', '$moment', 'loEvents', 'PermissionGroups', 'Alert', 'dncListEditTableConfig', 'getCurrentDncList', 'Upload', 'apiHostname',
-    function ($scope, $state, Session, Tenant, TenantUser, DncListEdit, UserPermissions, AuthService, $q, $moment, loEvents, PermissionGroups, Alert, dncListEditTableConfig, getCurrentDncList, Upload, apiHostname) {
+  .controller('dncListEditController', ['$scope', '$state', '$timeout', 'Session', 'Tenant', 'TenantUser', 'DncListEdit', 'UserPermissions', 'AuthService', '$q', '$moment', 'loEvents', 'PermissionGroups', 'Alert', 'dncListEditTableConfig', 'getCurrentDncList', 'Upload',
+    function ($scope, $state, $timeout, Session, Tenant, TenantUser, DncListEdit, UserPermissions, AuthService, $q, $moment, loEvents, PermissionGroups, Alert, dncListEditTableConfig, getCurrentDncList, Upload) {
       var dncEdit = this;
 
       dncListEditTableConfig.getName(getCurrentDncList.name);
@@ -63,7 +63,7 @@ angular.module('liveopsConfigPanel')
       });
 
       $scope.$on(loEvents.tableControls.showListMgmt, function () {
-        $state.go('content.configuration.dnc')
+        $state.go('content.configuration.dnc');
       });
 
       $scope.$on(loEvents.fileImported, function (event, csvFileName) {
@@ -77,7 +77,7 @@ angular.module('liveopsConfigPanel')
           file: csvFileName.name
         });
 
-        upload.then(function (response) {
+        upload.then(function () {
           $timeout(function () {
             dncEdit.contacts = [sampleContact1, sampleContact2, sampleContact3, sampleContact4];
           });

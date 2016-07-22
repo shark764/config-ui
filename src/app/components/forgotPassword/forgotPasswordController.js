@@ -15,6 +15,6 @@ angular.module('liveopsConfigPanel')
           $scope.loading = false;
           $scope.error = $translate.instant('login.unexpected.error');
         });
-    }
+    };
 
   }]);

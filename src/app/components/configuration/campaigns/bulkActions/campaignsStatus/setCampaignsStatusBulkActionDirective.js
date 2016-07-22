@@ -16,7 +16,7 @@ angular.module('liveopsConfigPanel')
             bulkActionExecutor.register($scope.bulkAction);
           }
 
-          $scope.bulkAction.apply = function(hours) {
+          $scope.bulkAction.apply = function(campaigns) {
             var campaignsCopy = new Campaign();
             campaignsCopy.id = campaigns.id;
             campaignsCopy.tenantId = Session.tenant.tenantId;

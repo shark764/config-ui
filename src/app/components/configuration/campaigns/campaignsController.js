@@ -2,10 +2,9 @@
 
 angular.module('liveopsConfigPanel')
   .controller('campaignsController', [
-    '$scope', '$rootScope', '$timeout', '$translate', '$moment', '$q', '$state', '$document', '$compile', 'Alert', 'Session', 'Campaign', 'CampaignStart', 'CampaignCallListJobs', 'CampaignCallListDownload', 'campaignsTableConfig', 'loEvents', 'campaignChannelTypes', 'Flow', 'Upload', 'DirtyForms', 'apiHostname',
-    function ($scope, $rootScope, $timeout, $translate, $moment, $q, $state, $document, $compile, Alert, Session, Campaign, CampaignStart, CampaignCallListJobs, CampaignCallListDownload, campaignsTableConfig, loEvents, campaignChannelTypes, Flow, Upload, DirtyForms, apiHostname) {
-      var cc = this,
-          currentlySelectedCampaign = cc.selectedCampaign;
+    '$scope', '$rootScope', '$timeout', '$translate', '$moment', '$q', '$state', '$document', '$compile', 'Alert', 'Session', 'Campaign', 'CampaignStart', 'CampaignStop', 'CampaignCallListJobs', 'CampaignCallListDownload', 'campaignsTableConfig', 'loEvents', 'campaignChannelTypes', 'Flow', 'Upload', 'DirtyForms', 'apiHostname',
+    function ($scope, $rootScope, $timeout, $translate, $moment, $q, $state, $document, $compile, Alert, Session, Campaign, CampaignStart, CampaignStop, CampaignCallListJobs, CampaignCallListDownload, campaignsTableConfig, loEvents, campaignChannelTypes, Flow, Upload, DirtyForms, apiHostname) {
+      var cc = this;
 
 
       // load up all of the page data...
@@ -49,7 +48,7 @@ angular.module('liveopsConfigPanel')
       // which means that it is also a valid campaign that can actually be started
       function hasVersion() {
         cc.selectedCampaign.hasVersion = angular.isDefined(cc.selectedCampaign.latestVersion);
-      };
+      }
 
       function hasOne (arr) {
         if(angular.isDefined(arr)) {
@@ -100,7 +99,7 @@ angular.module('liveopsConfigPanel')
             $q.all([
               jobList.$promise//,
               //callListDownload.$promise
-            ]).then(function (response) {
+            ]).then(function () {
               cc.loading = true;
               cc.selectedCampaign.hasCallList = hasOne(jobList.jobs);
               if (cc.selectedCampaign.hasCallList) {
@@ -145,7 +144,7 @@ angular.module('liveopsConfigPanel')
       // is not editable by the user, nor do they exist in the campaigns API
       cc.campaignChannels = campaignChannelTypes;
 
-      cc.importContactList = function (fileData) {
+      cc.importContactList = function () {
         var upload = Upload.upload({
           headers: {
             'Content-Type': 'multipart/form-data'
@@ -155,7 +154,7 @@ angular.module('liveopsConfigPanel')
           file: cc.selectedCampaign.callListData
         });
 
-        upload.then(function (response) {
+        upload.then(function () {
           $timeout(function () {
 
             var jobData = CampaignCallListJobs.cachedGet({
@@ -194,7 +193,7 @@ angular.module('liveopsConfigPanel')
 
         var element = $compile('<modal></modal>')(newScope);
         $document.find('html > body').append(element);
-      }
+      };
 
       cc.downloadCallList = function () {
           var downloadCallList = CampaignCallListDownload.getCsv({
@@ -209,7 +208,7 @@ angular.module('liveopsConfigPanel')
           // var obj = {0: "d", 1: "o", 2: "g"};
           console.log('JSON.stringify(response.toString())', JSON.stringify(response.toString()));
           for(var char in JSON.stringify(response.toString())) {
-            console.log('char.toJSON', char.toJSON)
+            console.log('char.toJSON', char.toJSON);
           }
           // var data = [];
           // data.push(objArr);
@@ -248,14 +247,14 @@ angular.module('liveopsConfigPanel')
           // so that we can properly enable or disable the start/stop toggle
           hasVersion();
           cc.selectedCampaign.hasCallList = hasOne(response.jobs);
-        })
+        });
       };
 
       cc.editCampaignSettings = function (currentlySelectedCampaign) {
         $state.go('content.configuration.campaignSettings', {
           id: currentlySelectedCampaign.id
         });
-      }
+      };
 
       $scope.$on(loEvents.tableControls.itemCreate, function () {
         cc.create();
@@ -264,7 +263,7 @@ angular.module('liveopsConfigPanel')
       cc.create = function () {
         cc.selectedCampaign = new Campaign({
           tenantId: Session.tenant.tenantId
-        })
+        });
       };
 
       cc.startStopCampaign = function () {

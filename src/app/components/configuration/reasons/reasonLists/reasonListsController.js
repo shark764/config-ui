@@ -47,7 +47,7 @@ angular.module('liveopsConfigPanel')
               });
             }
           });
-        })
+        });
       });
     };
 
@@ -89,13 +89,15 @@ angular.module('liveopsConfigPanel')
     };
 
     vm.submit = function() {
-      console.log("HAIL ELI")
+      console.log('HAIL STEVENS');
       vm.selectedReasonList.reasons.forEach(function(reason) {
         if (reason.name === $translate.instant('reasons.details.select')) {
           $scope.err = true;
         }
       });
-      if ($scope.err) return;
+      if ($scope.err) {
+        return;
+      }
       // our list of reasons comes back with a lot of extra info on it that we don't need and actually can't send to the API to save.
       // we can get rid of it here, and then when the promise returns, we just set the selectedReasonList equal to the returned list.
       // since we have to remove the names from the reasons, we show a loading spinner so the user doesn't notice the name disappear
@@ -120,7 +122,7 @@ angular.module('liveopsConfigPanel')
       vm.selectedReasonList.reasons = copy;
       vm.selectedReasonList.save({
         tenantId: Session.tenant.tenantId
-      }, function(list) {
+      }, function() {
         $scope.err = false;
         $scope.loading = false;
         Alert.success($translate.instant('value.saveSuccess'));

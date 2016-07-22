@@ -8,6 +8,6 @@ angular.module('liveopsConfigPanel')
     $scope.users = users;
     $scope.dashboard = dashboard;
     $scope.dashboards = dashboards;
-    $scope.dashboard.activeDashboard ? $scope.dashboard.widgets = $scope.dashboard.activeDashboard.widgets : $scope.dashboard.widgets = [];
+    $scope.dashboard.widgets = $scope.dashboard.activeDashboard ? $scope.dashboard.activeDashboard.widgets : [];
   }
 ]);

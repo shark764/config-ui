@@ -2,7 +2,7 @@
 
 angular.module('liveopsConfigPanel')
   .controller('ResetPasswordController', ['$scope', '$state', '$translate', 'ResetPassword', 'Session', 'userToReset', function($scope, $state, $translate, ResetPassword, Session, userToReset) {
-    $scope.resetMessage = $translate.instant('value.passwordResetMessage', {user: userToReset.getDisplay()})
+    $scope.resetMessage = $translate.instant('value.passwordResetMessage', {user: userToReset.getDisplay()});
 
     $scope.checkValidity = function() {
       if ($scope.newPass !== $scope.confirmPass) {
@@ -22,7 +22,7 @@ angular.module('liveopsConfigPanel')
           });
         })
         .catch(function(err) {
-          if (err.data.error.message === "bad request parameters") {
+          if (err.data.error.message === 'bad request parameters') {
             $scope.error = err.data.error.attribute.password.capitalize();
           }
           $scope.loading = false;

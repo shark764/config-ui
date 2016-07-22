@@ -2,7 +2,7 @@
 
 angular.module('liveopsConfigPanel')
   .directive('baSetDncListsStatus', ['DncLists', 'Session', 'BulkAction', 'statuses',
-    function(Campaign, Session, BulkAction, statuses) {
+    function(DncLists, Session, BulkAction, statuses) {
       return {
         restrict: 'E',
         scope: {},
@@ -16,7 +16,7 @@ angular.module('liveopsConfigPanel')
             bulkActionExecutor.register($scope.bulkAction);
           }
 
-          $scope.bulkAction.apply = function(hours) {
+          $scope.bulkAction.apply = function(dncLists) {
             var dncListsCopy = new DncLists();
             dncListsCopy.id = dncLists.id;
             dncListsCopy.tenantId = Session.tenant.tenantId;

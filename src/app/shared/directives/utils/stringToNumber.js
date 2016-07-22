@@ -12,5 +12,5 @@ angular.module('liveopsConfigPanel')
           return parseFloat(value, 10);
         });
       }
-    }
+    };
   });

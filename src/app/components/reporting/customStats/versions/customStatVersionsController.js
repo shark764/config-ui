@@ -41,7 +41,7 @@ angular.module('liveopsConfigPanel')
           customStatId: version.customStatId,
           draftId: version.version
         });
-      }
+      };
 
       $scope.$watch('stat', function() {
         if (!$scope.stat) {

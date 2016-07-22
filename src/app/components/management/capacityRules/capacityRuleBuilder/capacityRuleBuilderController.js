@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('CapacityRuleBuilderController', ['$scope', 'capacityRuleChannels',
-    function($scope, capacityRuleChannels) {
+  .controller('CapacityRuleBuilderController', ['$scope', 'capacityRuleChannels', 'jsedn',
+    function($scope, capacityRuleChannels, jsedn) {
 
       $scope.channels = capacityRuleChannels;
 

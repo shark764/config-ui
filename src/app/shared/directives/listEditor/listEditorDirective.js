@@ -13,7 +13,7 @@ angular.module('liveopsConfigPanel')
         shared: '=',
         type: '@'
       },
-      link: function(scope, element, attrs) {
+      link: function() {
       }
     };
   });

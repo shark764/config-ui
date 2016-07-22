@@ -1,14 +1,14 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-    .controller('queryBuilderController', ['$rootScope', '$timeout', '$translate', '$q', '$scope', 'Modal', 'ZermeloService', 'Session', function($rootScope, $timeout, $translate, $q, $scope, Modal, ZermeloService, Skill, Group, TenantUser, Session) {
+    .controller('queryBuilderController', ['$rootScope', '$timeout', '$translate', '$q', '$scope', 'Modal', 'ZermeloService', function($rootScope, $timeout, $translate, $q, $scope, Modal, ZermeloService) {
     var vm = this;
     vm.isAdvancedMode = false;
     vm.advancedQuery = $scope.queryString;
     vm.query = ZermeloService.parseString(vm.advancedQuery);
     vm.loading = true;
 
-    console.log("SCOPE: ", $scope)
+    console.log('SCOPE: ', $scope)
 
     vm.skills = $scope.entities[0];
     vm.groups = $scope.entities[1];

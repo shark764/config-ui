@@ -3,16 +3,15 @@
 angular.module('liveopsConfigPanel')
   .controller('dncListsController', ['$scope', '$state', '$timeout', '$translate',  'Session', 'apiHostname', 'DncLists', 'Upload', '$q', '$moment', 'loEvents', 'Alert', 'dncListsTableConfig',
     function ($scope, $state, $timeout, $translate, Session, apiHostname, DncLists, Upload, $q, $moment, loEvents, Alert, dncListsTableConfig) {
-      var dnc = this,
-          currentlySelectedList = dnc.selectedDncList;
+      var dnc = this;
 
       $scope.forms = {};
 
       function convertDateToMySqlFormat(date) {
         var newDate = new Date(date);
         var tomorrow = $moment(newDate).add(1, 'days')._d;
-        return $moment(tomorrow).format('YYYY-MM-DD') + ' 00:00:00'
-      };
+        return $moment(tomorrow).format('YYYY-MM-DD') + ' 00:00:00';
+      }
 
       function convertDateFromMySqlFormat(date) {
         if (date.expiration) {
@@ -46,7 +45,7 @@ angular.module('liveopsConfigPanel')
         delete dnc.selectedDncList.listFileUpload;
         dnc.selectedDncList.listFileUpload = fileData;
         $scope.forms.detailsForm.$setDirty();
-      }
+      };
 
       $scope.$on(loEvents.tableControls.itemCreate, function () {
         dnc.selectedDncList = null;
@@ -64,7 +63,7 @@ angular.module('liveopsConfigPanel')
       $scope.$watch('dnc.selectedDncList', function (currentlySelectedList) {
         if (currentlySelectedList) {
           dnc.selectedDncList.listFileUpload = null;
-          convertDateFromMySqlFormat(currentlySelectedList)
+          convertDateFromMySqlFormat(currentlySelectedList);
         }
       });
 
@@ -92,7 +91,7 @@ angular.module('liveopsConfigPanel')
           });
         } else {
           uploadListFile(listFileData);
-        };
+        }
       };
 
       dnc.manageList = function (currentlySelectedList) {

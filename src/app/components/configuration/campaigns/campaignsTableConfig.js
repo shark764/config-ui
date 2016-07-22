@@ -47,11 +47,11 @@ angular.module('liveopsConfigPanel')
       'title': $translate.instant('campaigns.table.title'),
       'sref': 'content.configuration.campaigns',
       'showCreate': function () {
-        return true
+        return true;
         //return UserPermissions.hasPermission('MANAGE_ALL_CAMPAIGNS');
       },
       'showBulkActions': function () {
-        return true
+        return true;
         //return UserPermissions.hasPermission('MANAGE_ALL_CAMPAIGNS');
       },
       //NEED TO CHANGE FOR CAMPAIGNS
