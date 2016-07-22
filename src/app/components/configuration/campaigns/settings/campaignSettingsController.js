@@ -10,7 +10,7 @@ angular.module('liveopsConfigPanel')
       var csc = this;
       csc.loading = true;
       csc.expiryUnit = 'hr';
-      csc.campaignSettings = Campaign.cachedGet({
+      csc.campaignSettings = Campaign.get({
         tenantId: Session.tenant.tenantId,
         id: getCampaignId
       });
