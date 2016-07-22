@@ -165,9 +165,139 @@
             {{'campaigns.details.setting.s' | translate}}<input class="week" type="checkbox" name="saturday" ng-model="csc.saturdaySelected">
         </div>
       </div>
+
+      <!-- WIP EXCEPTIONS!!!!! -->
+
+      <div class="divider-header">
+        <h4>{{'campaigns.details.setting.exceptions' | translate}}</h4>
+      </div>
+
+      <form-error field="forms.exceptionsForm.date"
+        error-type-date="{{'campaigns.details.settings.date.invalid' | translate}}">
+      </form-error>
+      <form-error field="forms.exceptionsForm.startHour"
+        error-type-required="Start hour required.">
+      </form-error>
+      <form-error field="forms.exceptionsForm.startMinutes"
+        error-type-required="Start minutes required.">
+      </form-error>
+      <form-error field="forms.exceptionsForm.startAmPm"
+        error-type-required="Start AM/PM required.">
+      </form-error>
+      <form-error field="forms.exceptionsForm.endHour"
+        error-type-required="End hour required.">
+      </form-error>
+      <form-error field="forms.exceptionsForm.endMinutes"
+        error-type-required="End minutes required.">
+      </form-error>
+      <form-error field="forms.exceptionsForm.endAmPm"
+        error-type-required="End AM/PM required.">
+      </form-error>
+      <div class="lo-error" ng-if="csc.exceptionTimeIsInvalid">{{'campaigns.details.settings.time.invalid' | translate}}</div>
+
+      <div class="exceptions-form">
+        <ng-form name="forms.exceptionsForm" separate-validation>
+          <div class="schedule-exception-date-group">
+            <input type="text" name="date"
+            ng-model="csc.newExceptionHour.date"
+            moment-picker="csc.newExceptionHour.date"
+            format="YYYY-MM-DD"
+            start-view="month"
+            max-view="month"
+            required
+            ng-model-options="{timezone: 'UTC'}"
+            min-date=hec.provideDateToday
+            items="hours.$exceptions"
+            class="schedule-exception-date">
+
+            <i class="fa fa-calendar fa-lg schedule-exception-calendar" aria-hidden="true"></i>
+          </div>
+
+          <div class="schedule-exception-time" disable-contents="csc.newExceptionHour.allDay">
+            <label>{{'value.start' | translate}}</label>
+
+            <div>
+              <select ng-required="!csc.newExceptionHour.allDay" name="startHour" ng-model="csc.newExceptionHour.startHour" ng-options="n for n in csc.hours">
+                <option disabled value="">HH</option>
+              </select>
+              :
+              <select ng-required="!csc.newExceptionHour.allDay" name="startMinutes" ng-model="csc.newExceptionHour.startMinutes" ng-options="n for n in csc.minutes">
+                <option disabled value="">MM</option>
+              </select>
+              |
+              <select ng-required="!csc.newExceptionHour.allDay" name="startAmPm" ng-model="csc.exceptionStartAmPm">
+                <option value="am">AM</option>
+                <option value="pm">PM</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="schedule-exception-time" disable-contents="csc.newExceptionHour.allDay">
+            <label>{{'value.end' | translate}}</label>
+
+            <div>
+              <select ng-required="!csc.newExceptionHour.allDay" name="endHour" ng-model="csc.newExceptionHour.endHour" ng-options="n for n in csc.hours">
+                <option disabled value="">HH</option>
+              </select>
+              :
+              <select ng-required="!csc.newExceptionHour.allDay" name="endMinutes" ng-model="csc.newExceptionHour.endMinutes" ng-options="n for n in csc.minutes">
+                <option disabled value="">MM</option>
+              </select>
+              |
+              <select ng-required="!csc.newExceptionHour.allDay" name="endAmPm" ng-model="csc.exceptionEndAmPm">
+                <option value="am">AM</option>
+                <option value="pm">PM</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="schedule-exception-time">
+            <input type="checkbox" ng-model="csc.newExceptionHour.allDay" />
+            <label>{{'campaigns.details.setting.allDay' | translate}}</label>
+          </div>
+
+          <button id="donotcall-btn" class="btn" type="button" ng-click="csc.addHoursException()">
+            <i class="fa fa-plus"></i>
+          </button>
+        </ng-form>
+      </div>
+
+        <div class="exceptions-table-container">
+          <table class="table" id="exceptions-table" ng-if="csc.exceptions.length">
+            <thead>
+              <tr>
+                <th>{{'value.date' | translate}}</th>
+                <th>{{'value.start' | translate}}</th>
+                <th>{{'value.end' | translate}}</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="exception in csc.exceptions track by $index | orderBy:'date'">
+                <td>{{exception.date}}</td>
+                <td>{{exception.startTime}}</td>
+                <td>{{exception.endTime}}</td>
+                <td>
+                  <a class="remove"
+                    title="{{'hours.exception.remove' | translate}}"
+                    ng-click="hec.removeException(exception.$originalIndex)">
+                    <i class="fa fa-times" ng-click="csc.removeException($index)"></i>
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div ng-if="!csc.exceptions.length" class="null">
+            {{'hours.exception.noneDefined' | translate}} {{'hours.exception.noneDefined.hasPermission' | translate}}
+          </div>
+        </div>
+
+        <!-- END WIP -->
+
     </div>
 
-    <div class="col">
+    <div class="col-right">
       <div disable-contents="! (['MANAGE_CAMPAIGNS'] | hasPermission)">
         <div class="input-group">
           <div class="divider-header first-header">

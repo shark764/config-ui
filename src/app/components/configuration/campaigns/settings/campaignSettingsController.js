@@ -24,6 +24,11 @@ angular.module('liveopsConfigPanel')
         'saturday': 'S'
       };
 
+      csc.exceptions = [
+        {startTime:"06:00:00", endTime:"12:00:00", date:"2016-06-06"},
+        {startTime:"07:00:00", endTime:"12:00:00", date:"2017-07-07"}
+      ]
+
       function initHours() {
         // we don't add the leading zeroes to hours yet, since we have to do math with those numbers for AM/PM conversions
         csc.hours = [];
@@ -88,16 +93,22 @@ angular.module('liveopsConfigPanel')
         for (var day in dayMap) {
           if (csc[day + 'Selected']) {
             csc.versionSettings.schedule.push({
-              startTime: convertToMilitaryHours(csc.scheduleStartHour, 'Start') + ':' + csc.scheduleStartMinutes + ':00',
-              endTime: convertToMilitaryHours(csc.scheduleEndHour, 'End') + ':' + csc.scheduleEndMinutes + ':00',
+              startTime: convertToMilitaryHours(csc.scheduleStartHour, 'schedule', 'Start') + ':' + csc.scheduleStartMinutes + ':00',
+              endTime: convertToMilitaryHours(csc.scheduleEndHour, 'schedule', 'End') + ':' + csc.scheduleEndMinutes + ':00',
               day: dayMap[day],
               blackOut: false
             });
           }
         }
+
+        // TODO: push exception hours as well
       }
 
       function parseSchedule() {
+        // TODO: This assumes that the schedule item at index 0 is the "actual schedule" and everything else is an exception.
+        // This needs to be reconsidered....for now we should find the first item that has a "day" property and use that as the schedule.
+        // In the future, since the "actual schedule" is made up of multiple schedule items, with potentially different start/end times,
+        // this will need to be completely reworked.
         if (angular.isDefined(csc.versionSettings.schedule[0])) {
           csc.scheduleStartHour = parseInt(csc.versionSettings.schedule[0].startTime.slice(0,2));
           csc.scheduleEndHour = parseInt(csc.versionSettings.schedule[0].endTime.slice(0,2));
@@ -111,8 +122,12 @@ angular.module('liveopsConfigPanel')
         csc.versionSettings.schedule.forEach(function(scheduleItem) {
           if (angular.isDefined(scheduleItem.day)) {
             csc[invertedDayMap[scheduleItem.day] + 'Selected'] = true;
+          } else {
+
           }
         });
+
+        // TODO: parse exception hours as well
       }
 
       function setHours () {
@@ -171,18 +186,17 @@ angular.module('liveopsConfigPanel')
         }
       }
 
-      function convertToMilitaryHours(hours, startOrEnd) {
+      function convertToMilitaryHours(hours, scheduleOrException, startOrEnd) {
         // handle edge cases for noon and midnight first
         if (hours === 12) {
-          if (csc['schedule' + startOrEnd + 'AmPm'] === 'am') {
+          if (csc[scheduleOrException + startOrEnd + 'AmPm'] === 'am') {
             return '00';
           } else {
             return '12';
           }
         }
 
-
-        if (csc['schedule' + startOrEnd + 'AmPm'] === 'pm') {
+        if (csc[scheduleOrException + startOrEnd + 'AmPm'] === 'pm') {
           return addLeadingZeros(hours + 12);
         }
         return addLeadingZeros(hours);
@@ -449,9 +463,96 @@ angular.module('liveopsConfigPanel')
         return _.map(list, 'id')
       };
 
+      csc.addHoursException = function () {
+        console.log("csc.newExceptionHour", csc.newExceptionHour)
+        console.log("forms.exceptionsForm", $scope.forms.exceptionsForm)
+        var DATE_STRING_LENGTH = 10;
+
+        $scope.forms.exceptionsForm.date.$setTouched();
+        $scope.forms.exceptionsForm.startHour.$setTouched();
+        $scope.forms.exceptionsForm.startMinutes.$setTouched();
+        $scope.forms.exceptionsForm.startAmPm.$setTouched();
+        $scope.forms.exceptionsForm.endHour.$setTouched();
+        $scope.forms.exceptionsForm.endMinutes.$setTouched();
+        $scope.forms.exceptionsForm.endAmPm.$setTouched();
+
+        if (angular.isUndefined(csc.newExceptionHour) || angular.isUndefined(csc.newExceptionHour.date) || csc.newExceptionHour.date.length !== DATE_STRING_LENGTH) {
+          $scope.exceptionsDateError = $translate.instant('campaigns.details.settings.date.invalid');
+          $scope.forms.exceptionsForm.date.$setValidity("date", false);
+          return;
+        } else {
+          $scope.exceptionsDateError = undefined;
+          $scope.forms.exceptionsForm.date.$setValidity("date", true);
+        }
+
+        if (!csc.newExceptionHour.allDay) {
+          validateExceptionTime();
+        }
+
+
+        // check for ALL validities, mark the errors, then return at this point
+
+        var exception = {
+          blackout: true,
+          date: csc.newExceptionHour.date
+        };
+
+        if (csc.newExceptionHour.allDay) {
+          exception.startTime = "00:00:00";
+          exception.endTime = "23:59:59";
+        } else {
+          if (angular.isUndefined(csc.newExceptionHour.startHour) || angular.isUndefined(csc.newExceptionHour.startMinutes) || angular.isUndefined(csc.newExceptionHour.endHour) || angular.isUndefined(csc.newExceptionHour.endMinutes)) {
+            return;
+          }
+          exception.startTime = convertToMilitaryHours(csc.newExceptionHour.startHour, 'exception', 'Start') + ':' + csc.newExceptionHour.startMinutes + ':00';
+          exception.endTime = convertToMilitaryHours(csc.newExceptionHour.endHour, 'exception', 'End') + ':' + csc.newExceptionHour.endMinutes + ':00';
+        }
+
+        csc.exceptions.push(exception);
+      };
+
+      function validateExceptionTime() {
+        var form = $scope.forms.exceptionsForm;
+        csc.exceptionTimeIsInvalid = false;
+
+        // If any fields haven't been filled out, don't validate, they will get "required" error messages.
+        if (form.startHour.$error.required || form.startMinutes.$error.required || form.startAmPm.$error.required ||
+          form.endHour.$error.required || form.endMinutes.$error.required || form.endAmPm.$error.required) {
+            return;
+          }
+
+        // Ensure that start time is earlier than end time
+        var startHour = parseInt(convertToMilitaryHours(csc.newExceptionHour.startHour, 'exception', 'Start'));
+        var endHour = parseInt(convertToMilitaryHours(csc.newExceptionHour.endHour, 'exception', 'End'));
+
+        if (startHour > endHour) {
+          csc.exceptionTimeIsInvalid = true;
+          return;
+        }
+        if (startHour < endHour) {
+          return;
+        }
+
+        // startHour === endHour, so check minutes
+        var startMinutes = parseInt(csc.newExceptionHour.startMinutes);
+        var endMinutes = parseInt(csc.newExceptionHour.endMinutes);
+
+        if (startMinutes <= endMinutes) {
+          csc.exceptionTimeIsInvalid = true;
+        }
+      }
+
+      csc.removeException = function(index) {
+        csc.exceptions.splice(index, 1);
+      };
+
       csc.submit = function () {
         convertExpiryToTimestamp();
-        csc.versionSettings.defaultLeadRetryInterval = convertToTimestamp(csc.versionSettings.defaultLeadRetryInterval);
+
+        // If the typeof this variable is a STRING, then it has already been transformed and shouldn't be converted to timestamp
+        if (typeof csc.versionSettings.defaultLeadRetryInterval === 'number') {
+          csc.versionSettings.defaultLeadRetryInterval = convertToTimestamp(csc.versionSettings.defaultLeadRetryInterval);
+        }
         generateSchedule();
 
         // Deleting id and created so that we can force the API to create a new version,
