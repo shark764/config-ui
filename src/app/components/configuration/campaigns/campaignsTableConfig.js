@@ -47,12 +47,10 @@ angular.module('liveopsConfigPanel')
       'title': $translate.instant('campaigns.table.title'),
       'sref': 'content.configuration.campaigns',
       'showCreate': function () {
-        return true;
-        //return UserPermissions.hasPermission('MANAGE_ALL_CAMPAIGNS');
+        return UserPermissions.hasPermission('MANAGE_CAMPAIGNS');
       },
       'showBulkActions': function () {
-        return true;
-        //return UserPermissions.hasPermission('MANAGE_ALL_CAMPAIGNS');
+        return UserPermissions.hasPermission('MANAGE_CAMPAIGNS');
       },
       //NEED TO CHANGE FOR CAMPAIGNS
       'helpLink': helpDocsHostname + '/Help/Content/Configuring%20CxEngage/Business%20Hours/Business_Hours.htm'

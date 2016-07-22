@@ -44,13 +44,13 @@
 
       <div class="donot-contact-buttons">
         <input type="button" id="modal-cancel" class="btn donot-contact-cancel" ng-click="csc.cancelDispoDnc()" value="{{'value.cancel' | translate}}"/>
-        <input type="submit" id="modal-ok" class="btn btn-primary donot-contact-submit" ng-click="csc.submitDispoDnc()"  value="{{'campaigns.details.settings.addtoList' | translate}}">
+        <input type="submit" id="modal-ok" class="btn btn-primary donot-contact-submit" ng-disabled="!('MANAGE_CAMPAIGNS' | hasPermission)" ng-click="csc.submitDispoDnc()"  value="{{'campaigns.details.settings.addtoList' | translate}}">
       </div>
     </div>
 
   </ng-form>
   <div class="footer dispo-mapping-buttons">
     <input type="button" id="modal-cancel" class="btn donot-contact-cancel" ng-click="cancelCallback()" value="{{'value.cancel' | translate}}"/>
-    <input type="submit" id="modal-ok" class="btn btn-primary donot-contact-submit" ng-click="submitDispositionMapping()" ng-disabled="showDispoDNC">
+    <input type="submit" id="modal-ok" class="btn btn-primary donot-contact-submit" ng-disabled="!('MANAGE_CAMPAIGNS' | hasPermission)" ng-click="submitDispositionMapping()" ng-disabled="showDispoDNC">
   </div>
 </div>
