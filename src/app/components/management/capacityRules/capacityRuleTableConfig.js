@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('capacityRulesTableConfig', ['statuses', '$translate', 'UserPermissions', 'helpDocsHostname', 'PermissionGroups',
-    function(statuses, $translate, UserPermissions, helpDocsHostname, PermissionGroups) {
+  .service('capacityRulesTableConfig', ['statuses', '$translate', 'UserPermissions', 'helpDocsHostname',
+    function(statuses, $translate, UserPermissions, helpDocsHostname) {
       var config = {
         'searchOn': ['$original.name'],
         'orderBy': '$original.name',

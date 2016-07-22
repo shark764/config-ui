@@ -15,37 +15,13 @@ angular.module('liveopsConfigPanel')
         id: getCampaignId
       });
       var dayMap = {
-        "sunday": "SU",
-        "monday": "M",
-        "tuesday": "T",
-        "wednesday": "W",
-        "thursday": "TH",
-        "friday": "F"
+        'sunday': 'SU',
+        'monday': 'M',
+        'tuesday': 'T',
+        'wednesday': 'W',
+        'thursday': 'TH',
+        'friday': 'F'
       };
-
-      var mockDispoList = [{
-          id: "fa551c79-6460-455c-8545-2b40e81b8f1c",
-          name: "First Place Winners",
-          description: "People who didn't get the steak knives",
-          expiration: "2020-12-25T21:10:32Z",
-          active: true,
-          contactCount: 8425
-      },
-        {
-          id: "fa551c79-6460-455c-8545-2b40e81b8f1d",
-          name: "Second Place Winners",
-          description: "People who didn't get the steak knives",
-          expiration: "2020-12-25T21:10:32Z",
-          active: true,
-          contactCount: 8425
-      },{
-        id: "fa551c79-6460-455c-8545-2b40e81b8f1e",
-        name: "Third Place Winners",
-        description: "People who didn't get the steak knives",
-        expiration: "2020-12-25T21:10:32Z",
-        active: true,
-        contactCount: 8425
-      }]
 
       function initHours() {
         // we don't add the leading zeroes to hours yet, since we have to do math with those numbers for AM/PM conversions
@@ -89,12 +65,12 @@ angular.module('liveopsConfigPanel')
         var hours;
 
         if (time) {
-          hours = addLeadingZeros(time)
+          hours = addLeadingZeros(time);
         } else {
           hours = '00';
         }
         return hours + ':00:00';
-      };
+      }
 
       function convertExpiryToTimestamp() {
         if (angular.isDefined(csc.versionSettings.defaultLeadExpiration)) {
@@ -103,7 +79,7 @@ angular.module('liveopsConfigPanel')
           }
           csc.versionSettings.defaultLeadExpiration = convertToTimestamp(csc.versionSettings.defaultLeadExpiration);
         }
-      };
+      }
 
       function generateSchedule() {
         csc.versionSettings.schedule = [];
@@ -118,7 +94,7 @@ angular.module('liveopsConfigPanel')
             });
           }
         }
-      };
+      }
 
       function parseSchedule() {
         if (angular.isDefined(csc.versionSettings.schedule[0])) {
@@ -135,8 +111,8 @@ angular.module('liveopsConfigPanel')
           if (angular.isDefined(scheduleItem.day)) {
             csc[invertedDayMap[scheduleItem.day] + 'Selected'] = true;
           }
-        })
-      };
+        });
+      }
 
       function setHours () {
         // TODO: Optimize or simplify
@@ -154,7 +130,7 @@ angular.module('liveopsConfigPanel')
         csc.scheduleEndAmPm = csc.endAmPm;
       }
 
-      function loadStartTimePickerData (startHour, startAmPm) {
+      function loadStartTimePickerData (startHour) {
         if (startHour > 12) {
           this.startHour = startHour - 12;
           this.startAmPm = 'pm';
@@ -170,11 +146,11 @@ angular.module('liveopsConfigPanel')
           this.startAmPm = 'pm';
         } else {
           this.startHour = 12;
-          this.startAmPm = 'am'
+          this.startAmPm = 'am';
         }
       }
 
-      function loadEndTimePickerData (endHour, endAmPm) {
+      function loadEndTimePickerData (endHour) {
         if (endHour > 12) {
           this.endHour = endHour - 12;
           this.endAmPm = 'pm';
@@ -190,7 +166,7 @@ angular.module('liveopsConfigPanel')
           this.endAmPm = 'pm';
         } else {
           this.endHour = 12;
-          this.endAmPm = 'am'
+          this.endAmPm = 'am';
         }
       }
 
@@ -209,7 +185,7 @@ angular.module('liveopsConfigPanel')
           return addLeadingZeros(hours + 12);
         }
         return addLeadingZeros(hours);
-      };
+      }
 
       csc.campaignSettings.$promise.then(function (response) {
         if (response.latestVersion) {
@@ -223,7 +199,7 @@ angular.module('liveopsConfigPanel')
             delete campVersion.dispostionCodeListId;
             csc.versionSettings = campVersion;
 
-            console.log("Version settings: ", csc.versionSettings)
+            console.log('Version settings: ', csc.versionSettings);
 
 
             convertDefaultExpiryToFormValue(csc.versionSettings);
@@ -241,7 +217,7 @@ angular.module('liveopsConfigPanel')
           csc.scheduleStartAmPm = 'am';
           csc.scheduleEndAmPm = 'pm';
           csc.loading = false;
-        };
+        }
 
       });
 
@@ -286,15 +262,6 @@ angular.module('liveopsConfigPanel')
 
       csc.cancel = function () {
         $state.go('content.configuration.campaigns');
-      };
-
-      csc.fetchDisposMappings = function () {
-
-        var dispositionMappings = DispositionMappings.cachedQuery({
-          tenantId: Session.tenant.tenantId
-        });
-
-        return dispositionMappings;
       };
 
       csc.fetchDNCList = function(){
@@ -369,12 +336,12 @@ angular.module('liveopsConfigPanel')
               mapsAPI[list[i].dispositionId] = {
                 action: 'retry',
                 interval: convertToTimestamp(csc.versionSettings.defaultLeadRetryInterval)
-              }
+              };
             } else {
               mapsAPI[list[i].dispositionId] = {
                 action: 'dnc',
                 listIds: csc.dispositionMappingList[i].listIds
-              }
+              };
             }
           }
 
@@ -412,10 +379,10 @@ angular.module('liveopsConfigPanel')
 
       csc.cancelDispoDnc = function(){
         if (angular.isUndefined(csc.dispositionMappingList[csc.dncIndex].listIds)) {
-          csc.dispositionMappingList[csc.dncIndex].action = "success";
+          csc.dispositionMappingList[csc.dncIndex].action = 'success';
         }
         $scope.showDispoDNC = false;
-      }
+      };
 
       csc.submitDispoDnc = function() {
         csc.dispositionMappingList[csc.dncIndex].listIds = [];
@@ -426,7 +393,7 @@ angular.module('liveopsConfigPanel')
         });
 
         $scope.showDispoDNC = false;
-      }
+      };
 
       csc.isChecked = function(dncListId) {
         if (angular.isDefined(csc.dispositionMappingList[csc.dncIndex].listIds)) {
@@ -435,7 +402,7 @@ angular.module('liveopsConfigPanel')
           }
         }
         return false;
-      }
+      };
 
       $scope.dncLists = [];
 
@@ -447,7 +414,7 @@ angular.module('liveopsConfigPanel')
 
       csc.removeDNC = function ($index) {
         $scope.dncLists.splice($index, 1);
-      }
+      };
 
       csc.submit = function () {
         convertExpiryToTimestamp();
@@ -457,7 +424,7 @@ angular.module('liveopsConfigPanel')
         // since versions are not to be editable
         delete csc.versionSettings.id;
         delete csc.versionSettings.created;
-        csc.versionSettings.doNotContactLists = ["1869a2c0-db74-4230-9f42-0265205fae73"];
+        csc.versionSettings.doNotContactLists = ['1869a2c0-db74-4230-9f42-0265205fae73'];
         csc.versionSettings.channel = 'voice';
 
         if (angular.isUndefined(csc.versionSettings.dispositionMappings)) {
@@ -470,7 +437,7 @@ angular.module('liveopsConfigPanel')
         }).then(function () {
           $state.go('content.configuration.campaigns');
         });
-      }
+      };
 
 
 

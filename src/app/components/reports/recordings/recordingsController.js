@@ -18,9 +18,9 @@ angular.module('liveopsConfigPanel')
       };
 
       vm.massageFilters = function() {
-        if (!moment.isMoment($scope.filters.startDate) || !moment.isMoment($scope.filters.endDate)) {
-          $scope.filters.startDate = moment($scope.filters.startDate);
-          $scope.filters.endDate = moment($scope.filters.endDate);
+        if (!$moment.isMoment($scope.filters.startDate) || !$moment.isMoment($scope.filters.endDate)) {
+          $scope.filters.startDate = $moment($scope.filters.startDate);
+          $scope.filters.endDate = $moment($scope.filters.endDate);
         }
 
         var start = $scope.filters.startDate.startOf('day');

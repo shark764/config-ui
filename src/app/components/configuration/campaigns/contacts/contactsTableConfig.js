@@ -39,11 +39,11 @@ angular.module('liveopsConfigPanel')
     'title' : $translate.instant('contacts.table.title'),
     'sref' : 'content.configuration.contacts',
     'showCreate': function () {
-      return true
+      return true;
       //return UserPermissions.hasPermission('MANAGE_ALL_CAMPAIGNS');
     },
     'showBulkActions': function () {
-      return true
+      return true;
       //return UserPermissions.hasPermission('MANAGE_ALL_CAMPAIGNS');
     },
     //NEED TO CHANGE FOR CAMPAIGNS

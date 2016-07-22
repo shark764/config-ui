@@ -23,8 +23,12 @@ angular.module('liveopsConfigPanel')
             }).sort(function(a, b) {
               var A = a.name.toLowerCase();
               var B = b.name.toLowerCase();
-              if (A < B) return -1;
-              if (A > B) return 1;
+              if (A < B) {
+                return -1;
+              }
+              if (A > B) {
+                return 1;
+              }
               return 0;
             });
           });
@@ -44,10 +48,14 @@ angular.module('liveopsConfigPanel')
             }).sort(function(a, b) {
               var A = a.name.toLowerCase();
               var B = b.name.toLowerCase();
-              if (A < B) return -1;
-              if (A > B) return 1;
+              if (A < B) {
+                return -1;
+              }
+              if (A > B) {
+                return 1;
+              }
               return 0;
-            });;
+            });
           });
         }
 
@@ -159,8 +167,12 @@ angular.module('liveopsConfigPanel')
         $scope.possibleDispos.sort(function(a, b) {
           var A = a.name.toLowerCase();
           var B = b.name.toLowerCase();
-          if (A < B) return -1;
-          if (A > B) return 1;
+          if (A < B) {
+            return -1;
+          }
+          if (A > B) {
+            return 1;
+          }
           return 0;
         });
 
@@ -177,7 +189,9 @@ angular.module('liveopsConfigPanel')
           var nextIndex = originalIndex + 1;
 
           // If already at the bottom of the list, do nothing.
-          if (nextIndex === $scope.dispositionList.length) return;
+          if (nextIndex === $scope.dispositionList.length) {
+            return;
+          }
 
           if (angular.isDefined($scope.selectedDispo.hierarchy)) {
             // SELECTED ITEM IS AN ITEM
@@ -320,8 +334,12 @@ angular.module('liveopsConfigPanel')
           $scope.possibleDispos.sort(function(a, b) {
             var A = a.name.toLowerCase();
             var B = b.name.toLowerCase();
-            if (A < B) return -1;
-            if (A > B) return 1;
+            if (A < B) {
+              return -1;
+            }
+            if (A > B) {
+              return 1;
+            }
             return 0;
           });
 

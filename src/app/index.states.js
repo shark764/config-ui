@@ -239,7 +239,7 @@ angular.module('liveopsConfigPanel')
             hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
               return UserPermissions.resolvePermissions(PermissionGroups.accessAllBusinessHours);
             }],
-            getCampaignId: ['$stateParams', 'Campaign', function ($stateParams, Campaign) {
+            getCampaignId: ['$stateParams', function ($stateParams) {
               return $stateParams.id;
             }]
           }
@@ -488,7 +488,7 @@ angular.module('liveopsConfigPanel')
 
               var userResult = User.get({
                 id: $stateParams.userId
-              }, angular.noop, function(error) {
+              }, angular.noop, function() {
                 $state.go('login', {
                   messageKey: 'user.details.password.reset.expired'
                 });

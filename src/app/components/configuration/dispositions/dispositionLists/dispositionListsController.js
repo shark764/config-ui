@@ -47,7 +47,7 @@ angular.module('liveopsConfigPanel')
               });
             }
           });
-        })
+        });
       });
     };
 
@@ -89,13 +89,15 @@ angular.module('liveopsConfigPanel')
     };
 
     vm.submit = function() {
-      console.log("HAIL ELI")
+      console.log('HAIL STEVENS');
       vm.selectedDispositionList.dispositions.forEach(function(disposition) {
         if (disposition.name === $translate.instant('dispositions.details.select')) {
           $scope.err = true;
         }
       });
-      if ($scope.err) return;
+      if ($scope.err) {
+        return;
+      }
       // our list of dispositions comes back with a lot of extra info on it that we don't need and actually can't send to the API to save.
       // we can get rid of it here, and then when the promise returns, we just set the selectedDispositionList equal to the returned list.
       // since we have to remove the names from the dispositions, we show a loading spinner so the user doesn't notice the name disappear
@@ -120,7 +122,7 @@ angular.module('liveopsConfigPanel')
       vm.selectedDispositionList.dispositions = copy;
       vm.selectedDispositionList.save({
         tenantId: Session.tenant.tenantId
-      }, function(list) {
+      }, function() {
         $scope.err = false;
         $scope.loading = false;
         Alert.success($translate.instant('value.saveSuccess'));

@@ -20,16 +20,16 @@ angular.module('liveopsConfigPanel')
       indentUnit: 2,
       smartIndent: true,
       tabSize: 2,
-      mode: "clojure",
-      theme: "mdn-like",
-      keyMap: "sublime",
+      mode: 'clojure',
+      theme: 'mdn-like',
+      keyMap: 'sublime',
       lint: true,
-      scrollbarStyle: "null",
+      scrollbarStyle: 'null',
       matchBrackets: true,
       autoCloseTags: true,
       autoCloseBrackets: true,
       indentWithTabs: false,
-      readOnly: $scope.readOnly ? "nocursor" : false
+      readOnly: $scope.readOnly ? 'nocursor' : false
     };
 
     var update = $interval(function(){
@@ -43,7 +43,7 @@ angular.module('liveopsConfigPanel')
         $scope.editorHTML.readOnly = false;
         $scope.enablePublish = true;
         $scope.draft = draft;
-        $scope.saveStatus = 'Last saved ' + moment.utc($scope.draft.updated).fromNow();
+        $scope.saveStatus = 'Last saved ' + $moment.utc($scope.draft.updated).fromNow();
       });
     }, 30000);
 

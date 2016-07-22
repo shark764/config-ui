@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('customStatsManagementTableConfig', ['$translate', 'helpDocsHostname', 'statuses',
-    function($translate, helpDocsHostname, statuses) {
+  .service('customStatsManagementTableConfig', ['$translate', 'helpDocsHostname',
+    function($translate, helpDocsHostname) {
       return {
         'fields': [{
           'header': {
