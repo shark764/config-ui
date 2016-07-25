@@ -8,7 +8,7 @@ function isOnlyChange(event) {
 }
 
 module.exports = function(options) {
-  gulp.task('watch', ['markups', 'inject', 'local-soundwave-files'], function () {
+  gulp.task('watch', ['markups', 'flags', 'inject', 'local-soundwave-files'], function () {
 
     gulp.watch([options.src + '/*.html', 'bower.json'], ['inject']);
 

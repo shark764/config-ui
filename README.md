@@ -23,6 +23,25 @@ Visual front-end for the LiveOps Configuration API.
 
 [Click Here](https://liveops.atlassian.net/wiki/display/TITAN/Releasing+a+new+Config-UI)
 
+### How do I feature flag? ###
+Feature flags in config-ui are set up via an angular module that exports a constant.
+
+To add a feature flag, go to gulp/flags.js and add your flag. It is probably best to include a default value as well. then when you do gulp build or gulp serve, add your command line arguements. For example:
+
+```shell
+$ gulp serve --outboundPages=true
+```
+```
+.pipe($.ngConstant({
+  name: 'liveopsConfigPanel.flags',
+  constants: {
+    appFlags: {
+      OUTBOUND_PAGES: argv.outboundPages || 'Test'
+    }
+  }
+}))
+```
+
 ### Unit tests ###
 Run all unit tests
 ```shell

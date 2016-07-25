@@ -4,6 +4,7 @@ angular.module('liveopsConfigPanel', [
     'liveopsConfigPanel.config',
     'liveopsConfigPanel.shared',
     'liveopsConfigPanel.permissions',
+    'liveopsConfigPanel.flags',
     'liveOps.flowDesigner',
     'ui.router',
     'ngResource',
