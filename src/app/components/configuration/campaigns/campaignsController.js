@@ -232,15 +232,13 @@ angular.module('liveopsConfigPanel')
           console.log('starting!');
           return CampaignStart.save({
             tenantId: Session.tenant.tenantId,
-            campaignId: cc.selectedCampaign.id,
-            versionId: cc.selectedCampaign.latestVersion,
+            campaignId: cc.selectedCampaign.id
           });
         case 'started':
           console.log('stopping!');
           return CampaignStop.save({
             tenantId: Session.tenant.tenantId,
-            campaignId: cc.selectedCampaign.id,
-            versionId: cc.selectedCampaign.latestVersion,
+            campaignId: cc.selectedCampaign.id
           });
         }
       };

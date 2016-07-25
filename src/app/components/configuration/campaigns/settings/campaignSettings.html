@@ -84,20 +84,24 @@
          <div id="dnc-list">
            <select name="dncListId" class="do-not-call"
                ng-model="csc.selectedDncList"
-               ng-options="dncList.id as dncList.name for dncList in csc.dncLists">
+               ng-options="dncList.id as dncList.name for dncList in csc.dncLists | orderBy:'name'"
+               >
               <option value="" disabled>{{'campaigns.details.settings.select.dnc' | translate}}</option>
            </select>
         </div>
 
         <div id="add-dnc">
-           <button id="donotcall-btn" class="btn pull-right" type="button"
-             ng-click="csc.addDNC(csc.selectedDncList)">
+           <button id="donotcall-btn"
+              class="btn pull-right"
+              type="button"
+              ng-click="csc.addDNC(csc.selectedDncList)"
+              ng-disabled="csc.enableDisableDncAddBtn(csc.selectedDncList)">
              <i class="fa fa-plus"></i>
            </button>
         </div>
        </div>
 
-       <div class="input-group">
+       <div class="input-group" id="dnc-list-display">
          <ul>
            <li ng-repeat="dncList in csc.selectedLists">
              {{dncList.name}}
