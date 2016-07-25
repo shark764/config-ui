@@ -5,9 +5,8 @@ angular.module('liveopsConfigPanel')
     '$scope', '$rootScope', '$timeout', '$translate', '$moment', '$q', '$state', '$document', '$compile', 'Alert', 'Session', 'Campaign', 'CampaignStart', 'CampaignStop', 'CampaignCallListJobs', 'CampaignCallListDownload', 'campaignsTableConfig', 'loEvents', 'campaignChannelTypes', 'Flow', 'Upload', 'DirtyForms', 'apiHostname',
     function ($scope, $rootScope, $timeout, $translate, $moment, $q, $state, $document, $compile, Alert, Session, Campaign, CampaignStart, CampaignStop, CampaignCallListJobs, CampaignCallListDownload, campaignsTableConfig, loEvents, campaignChannelTypes, Flow, Upload, DirtyForms, apiHostname) {
       var cc = this;
-
-
-      // load up all of the page data...
+      var CampaignCallListDownload = new CampaignCallListDownload();
+        // load up all of the page data...
 
       // first call the campaigns...
       cc.campaigns = Campaign.cachedQuery({
@@ -196,48 +195,9 @@ angular.module('liveopsConfigPanel')
       };
 
       cc.downloadCallList = function () {
-          var downloadCallList = CampaignCallListDownload.getCsv({
-            tenantId: Session.tenant.tenantId,
-            campaignId: cc.selectedCampaign.id
-          });
-
-        $q.when(downloadCallList).then(function (response) {
-          // var csvDataString = _.values(downloadCallList);
-          // console.log('csvDataString', csvDataString);
-          //
-          // var obj = {0: "d", 1: "o", 2: "g"};
-          console.log('JSON.stringify(response.toString())', JSON.stringify(response.toString()));
-          for(var char in JSON.stringify(response.toString())) {
-            console.log('char.toJSON', char.toJSON);
-          }
-          // var data = [];
-          // data.push(objArr);
-          // console.log('data', data, 'typeof data', typeof data);
-          // var csvContent = "data:text/csv;charset=utf-8,";
-          // data.forEach(function(infoArray, index){
-          //
-          //    var dataString = infoArray.join(",");
-          //    csvContent += index < data.length ? dataString+ "\n" : dataString;
-          //
-          // });
-          //
-          // var encodedUri = encodeURI(csvContent);
-          // window.open(encodedUri);
-          //window.open(encodedUri);
-          //var data = [];
-//           data.push(response);
-//           var csvContent = "data:text/csv;charset=utf-8,";
-// data.forEach(function(infoArray, index){
-//
-//    dataString = infoArray.join(",");
-//    csvContent += index < data.length ? dataString+ "\n" : dataString;
-//    var encodedUri = encodeURI(csvContent);
-//    window.open(encodedUri);
-
-          // var uriContent = "data:application/octet-stream," + encodeURIComponent(data);
-          // var newWindow = window.open(data);
-        });
+        CampaignCallListDownload.download(cc.selectedCampaign.id);
       };
+
 
       cc.submit = function () {
         return cc.selectedCampaign.save({

@@ -104,7 +104,7 @@
         <button
           id="download-btn"
           class="btn"
-          ng-click="cc.downloadCallList()"
+          ng-click="cc.downloadCallList(cc.selectedCampaign.id)"
           type="button"
           ng-disabled="!cc.selectedCampaign.id || !cc.selectedCampaign.hasCallList">
           {{'campaigns.details.downloadBtn' | translate}}
