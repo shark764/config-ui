@@ -11,3 +11,4 @@ jenkins/
 **/.DS_Store
 .idea/
 $Recycle.Bin/
+src/app/flags.js
