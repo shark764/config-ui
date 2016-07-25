@@ -37,7 +37,7 @@
         <h4>{{'campaigns.details.setting.dnc' | translate}} - {{csc.selectedDncName}}</h4>
       </div>
 
-      <div id="dnc-list" class="disposition-contact-list" ng-repeat="dncList in csc.dncLists track by $index">
+      <div id="dnc-list" class="disposition-contact-list" ng-repeat="dncList in csc.selectedLists track by $index">
         <input type="checkbox" value="dncList.id" ng-checked="csc.isChecked(dncList.id)" ng-model="dncList.checked">
         <label>{{dncList.name}}<label>
       </div>

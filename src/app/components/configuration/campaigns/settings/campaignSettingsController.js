@@ -2,8 +2,8 @@
 
 angular.module('liveopsConfigPanel')
   .controller('campaignSettingsController', [
-    '$scope', '$rootScope', '$state', '$stateParams', '$translate', '$moment', '$q', '$document', '$compile', 'Session', 'Flow', 'Timezone', 'Campaign', 'CampaignVersion', 'Disposition', 'DispositionList', 'DirtyForms', 'loEvents', 'getCampaignId', 'DncLists',
-    function ($scope, $rootScope, $state, $stateParams, $translate, $moment, $q, $document, $compile, Session, Flow, Timezone, Campaign, CampaignVersion, Disposition, DispositionList, DirtyForms, loEvents, getCampaignId, DncLists) {
+    '$scope', '$rootScope', '$state', '$stateParams', '$translate', '$moment', '$q', '$document', '$compile', '$timeout', 'Session', 'Flow', 'Timezone', 'Campaign', 'CampaignVersion', 'Disposition', 'DispositionList', 'DirtyForms', 'loEvents', 'getCampaignId', 'DncLists',
+    function ($scope, $rootScope, $state, $stateParams, $translate, $moment, $q, $document, $compile, $timeout, Session, Flow, Timezone, Campaign, CampaignVersion, Disposition, DispositionList, DirtyForms, loEvents, getCampaignId, DncLists) {
       $scope.forms = {};
       $scope.showDispoDNC = false;
       // adding to the scope all of the data from the campaigns page
@@ -190,7 +190,7 @@ angular.module('liveopsConfigPanel')
 
       csc.campaignSettings.$promise.then(function (response) {
         if (response.latestVersion) {
-          CampaignVersion.get({
+          CampaignVersion.cachedGet({
             campaignId: response.id,
             tenantId: Session.tenant.tenantId,
             versionId: response.latestVersion
@@ -199,10 +199,6 @@ angular.module('liveopsConfigPanel')
             campVersion.dispositionCodeListId = campVersion.dispostionCodeListId;
             delete campVersion.dispostionCodeListId;
             csc.versionSettings = campVersion;
-
-            console.log('Version settings: ', csc.versionSettings);
-
-
             convertDefaultExpiryToFormValue(csc.versionSettings);
             csc.versionSettings.defaultLeadRetryInterval = convertTimestampToFormVal(csc.versionSettings.defaultLeadRetryInterval);
             parseSchedule();
@@ -218,8 +214,13 @@ angular.module('liveopsConfigPanel')
           csc.scheduleStartAmPm = 'am';
           csc.scheduleEndAmPm = 'pm';
           csc.loading = false;
-        }
 
+        }
+        csc.fetchDispositionList();
+        csc.loadTimezones();
+        csc.fetchFlows();
+        csc.fetchDNCList();
+        initHours();
       });
 
       // TODO: Centralize this
@@ -268,6 +269,24 @@ angular.module('liveopsConfigPanel')
       csc.fetchDNCList = function(){
         csc.dncLists = DncLists.cachedQuery({
           tenantId: Session.tenant.tenantId
+        });
+
+        csc.dncLists.$promise.then(function () {
+
+          // if there is anything in the dnc array, then generate a list of selected
+          // dnc lists to use for the dnc selection dropdown
+          if (angular.isDefined(csc.versionSettings.doNotCallLists)) {
+            console.log('dnc defined!', csc.versionSettings.doNotCallLists);
+            csc.selectedLists = _.filter(csc.dncLists, function (val, key) {
+              return csc.versionSettings.doNotCallLists.indexOf(val.id) !== -1;
+            });
+          } else {
+            // otherwise, set the selected and saved dnc lists to be empty
+            csc.selectedLists = [];
+            csc.versionSettings.doNotCallLists = [];
+          };
+
+          console.log('csc.selectedLists', csc.selectedLists);
         });
       };
 
@@ -405,48 +424,48 @@ angular.module('liveopsConfigPanel')
         return false;
       };
 
-      $scope.dncLists = [];
+      csc.addDNC = function (newDncListId) {
+        // first find the index of this new DNC list id
+        var indexOfListToRemove = _.findIndex(csc.dncLists, {id: newDncListId})
+        // now that we've got the index, add it to the selected DNC lists
+        var addedDncObj = csc.dncLists[indexOfListToRemove];
+        csc.selectedLists.push(addedDncObj);
 
-      csc.addDNC = function (newDncList) {
-        $scope.dncLists.push({
-          item: newDncList
-        });
+        // using that same index, remove it from the list of ALL DNC lists
+        csc.dncLists.splice(indexOfListToRemove, 1);
       };
 
       csc.removeDNC = function ($index) {
-        $scope.dncLists.splice($index, 1);
+        // first add this back to the list of all DNC lists
+        csc.dncLists.push(csc.selectedLists[$index]);
+        // now slice it out of the list of selected DNC lists
+        csc.selectedLists.splice($index, 1);
       };
 
       csc.submit = function () {
         convertExpiryToTimestamp();
         csc.versionSettings.defaultLeadRetryInterval = convertToTimestamp(csc.versionSettings.defaultLeadRetryInterval);
         generateSchedule();
+
         // Deleting id and created so that we can force the API to create a new version,
         // since versions are not to be editable
         delete csc.versionSettings.id;
         delete csc.versionSettings.created;
-        csc.versionSettings.doNotContactLists = ['1869a2c0-db74-4230-9f42-0265205fae73'];
-        csc.versionSettings.channel = 'voice';
 
         if (angular.isUndefined(csc.versionSettings.dispositionMappings)) {
           csc.versionSettings.dispositionMappings = {};
         }
 
+        // using generateDncIdArray() to grab just the list of DNC Id's
+        csc.versionSettings.doNotCallLists = _.map(csc.selectedLists, 'id');
+        console.log('csc.versionSettings', csc.versionSettings);
         csc.versionSettings.save({
           tenantId: Session.tenant.tenantId,
           campaignId: getCampaignId
-        }).then(function () {
+        }).then(function (response) {
+          console.log('save response', response);
           $state.go('content.configuration.campaigns');
         });
       };
-
-
-
-      csc.fetchDispositionList();
-      csc.loadTimezones();
-      csc.fetchFlows();
-      csc.fetchDNCList();
-      initHours();
-
     }
   ]);
