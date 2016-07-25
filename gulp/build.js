@@ -123,7 +123,7 @@ module.exports = function(options) {
       .pipe(gulp.dest(options.dist + '/styles/'))
   });
 
-  gulp.task('build', ['config', 'html', 'fonts', 'other', 'vendor-scripts', 'app-scripts'], function() {
+  gulp.task('build', ['config', 'html', 'fonts', 'other', 'flags', 'vendor-scripts', 'app-scripts'], function() {
     return gulp.src([
         options.soundwaveImages + '/**',
         '!' + options.soundwaveImages + '/liveops-logo.png'
