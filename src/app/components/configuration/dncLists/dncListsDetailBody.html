@@ -41,20 +41,30 @@
       ng-model="dnc.selectedDncList.expiration"
       ng-disabled="!dnc.selectedDncList.isNew()"
       ng-if="!dnc.selectedDncList.isNew()">
-
   </div>
 
   <div class="input-group listFile-source">
     <label>{{'dnc.details.upload' | translate}} *</label>
 
-      <input id="listFile-source-upload-file" type="text"
-        name="listFilesourcefile"
-        ng-model="dnc.selectedDncList.listFileUpload.name"
-        ng-disabled="true"
-        ng-required="true">
-      <div id="listFile-source-upload-btn" type="button" class="btn"
-        ngf-select="dnc.onListFileSelect($file)"
-        ngf-max-size="20MB"
-        accept=".csv">
-        <i class="fa fa-upload" />
-      </div>
+    <input id="listFile-source-upload-file" type="text"
+      name="listFilesourcefile"
+      ng-model="dnc.selectedDncList.listFileUpload.name"
+      ng-disabled="true"
+      ng-required="true">
+    <div id="listFile-source-upload-btn" type="button" class="btn"
+      ngf-select="dnc.onListFileSelect($file)"
+      ngf-max-size="20MB"
+      accept=".csv">
+      <i class="fa fa-upload" />
+    </div>
+  </div>
+
+  <div class="input-group download-dnc-list">
+    <button
+      id="download-btn"
+      class="btn"
+      ng-click="dnc.downloadDncList(cc.selectedDncList.id)"
+      type="button">
+      {{'dncEdit.table.dncListDownload' | translate}}
+    </button>
+  </div>

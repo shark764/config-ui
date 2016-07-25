@@ -90,15 +90,7 @@ angular.module('liveopsConfigPanel')
               campaignId: currentlySelectedCampaign.id
             });
 
-            // var callListDownload = CampaignCallListDownload.cachedGet({
-            //   tenantId: Session.tenant.tenantId,
-            //   campaignId: currentlySelectedCampaign.id
-            // });
-
-            $q.all([
-              jobList.$promise//,
-              //callListDownload.$promise
-            ]).then(function () {
+            jobList.$promise.then(function () {
               cc.loading = true;
               cc.selectedCampaign.hasCallList = hasOne(jobList.jobs);
               if (cc.selectedCampaign.hasCallList) {
@@ -194,10 +186,9 @@ angular.module('liveopsConfigPanel')
         $document.find('html > body').append(element);
       };
 
-      cc.downloadCallList = function () {
-        CampaignCallListDownload.download(cc.selectedCampaign.id);
+      cc.downloadCallList = function (campaignId) {
+        CampaignCallListDownload.download(campaignId, Session);
       };
-
 
       cc.submit = function () {
         return cc.selectedCampaign.save({
