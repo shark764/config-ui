@@ -21,6 +21,10 @@
   vertical-align: top;
 }
 
+.nowrap {
+  white-space: nowrap;
+}
+
 .ani {
   width: 180px !important;
 }
@@ -65,6 +69,7 @@
 .campaign-controls {
   width: calc(100% - 70%);
   margin: 15px auto 15px;
+  text-align: center;
 }
 
 .no-dispositions {
