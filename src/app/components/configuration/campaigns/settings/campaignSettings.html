@@ -150,7 +150,7 @@
           </div>
         </div>
 
-        <div class="input-group">
+        <div class="input-group nowrap">
           <label>{{'campaigns.details.setting.daysToCall' | translate}}</label>
             {{'campaigns.details.setting.s' | translate}}<input class="week" type="checkbox" name="sunday" ng-model="csc.sundaySelected">
             {{'campaigns.details.setting.m' | translate}}<input class="week" type="checkbox" name="monday" ng-model="csc.mondaySelected">
@@ -191,7 +191,7 @@
       </form-error>
       <div class="lo-error" ng-if="csc.exceptionTimeIsInvalid">{{'campaigns.details.settings.time.invalid' | translate}}</div>
 
-      <div class="exceptions-form">
+      <div class="exceptions-form nowrap">
         <ng-form name="forms.exceptionsForm" separate-validation>
           <div class="schedule-exception-date-group">
             <input type="text" name="date"
