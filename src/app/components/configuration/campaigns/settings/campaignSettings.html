@@ -15,11 +15,25 @@
             </select>
           </div>
         </div>
-
+        <!-- <div class="input-group">
+          <form-error field="forms.settingsForm.callerId"
+            error-type-required="{{'dispatchMappings.details.phone.error' | translate}}"
+            error-type-phone-number="{{'details.phoneNumber.error' | translate}}">
+          </form-error>
+        </div> -->
         <div class="input-group">
           <label>{{'campaigns.details.setting.ani' | translate}} *</label>
           <div>
             <input ng-model="csc.versionSettings.callerId" name="callerId" class="ani" type="tel"/>
+          </div>
+        </div>
+      <!-- ERROR POSITIONED BELOW INPUT IN A SEPARATE DIV BELOW IT -->
+        <div class="input-group">
+          <div class="input-group">
+            <form-error field="forms.settingsForm.callerId"
+              error-type-required="{{'dispatchMappings.details.phone.error' | translate}}"
+              error-type-phone-number="{{'details.phoneNumber.error' | translate}}">
+            </form-error>
           </div>
         </div>
 
