@@ -24,11 +24,6 @@ angular.module('liveopsConfigPanel')
         'saturday': 'S'
       };
 
-      csc.exceptions = [
-        {startTime:"06:00:00", endTime:"12:00:00", date:"2016-06-06"},
-        {startTime:"07:00:00", endTime:"12:00:00", date:"2017-07-07"}
-      ]
-
       function initHours() {
         // we don't add the leading zeroes to hours yet, since we have to do math with those numbers for AM/PM conversions
         csc.hours = [];
@@ -102,6 +97,9 @@ angular.module('liveopsConfigPanel')
         }
 
         // TODO: push exception hours as well
+        csc.exceptions.forEach(function(exception) {
+          csc.versionSettings.schedule.push(exception);
+        });
       }
 
       function parseSchedule() {
@@ -118,16 +116,17 @@ angular.module('liveopsConfigPanel')
           setHours();
         }
 
+        csc.exceptions = []
+
         var invertedDayMap = _.invert(dayMap);
         csc.versionSettings.schedule.forEach(function(scheduleItem) {
           if (angular.isDefined(scheduleItem.day)) {
             csc[invertedDayMap[scheduleItem.day] + 'Selected'] = true;
           } else {
-
+            csc.exceptions.push(scheduleItem);
           }
         });
 
-        // TODO: parse exception hours as well
       }
 
       function setHours () {
@@ -479,7 +478,6 @@ angular.module('liveopsConfigPanel')
         if (angular.isUndefined(csc.newExceptionHour) || angular.isUndefined(csc.newExceptionHour.date) || csc.newExceptionHour.date.length !== DATE_STRING_LENGTH) {
           $scope.exceptionsDateError = $translate.instant('campaigns.details.settings.date.invalid');
           $scope.forms.exceptionsForm.date.$setValidity("date", false);
-          return;
         } else {
           $scope.exceptionsDateError = undefined;
           $scope.forms.exceptionsForm.date.$setValidity("date", true);
@@ -489,8 +487,10 @@ angular.module('liveopsConfigPanel')
           validateExceptionTime();
         }
 
-
-        // check for ALL validities, mark the errors, then return at this point
+        if (csc.exceptionTimeIsInvalid || !$scope.forms.exceptionsForm.date.$valid) {
+          console.log("hi, breaking")
+          return;
+        }
 
         var exception = {
           blackout: true,
@@ -509,6 +509,7 @@ angular.module('liveopsConfigPanel')
         }
 
         csc.exceptions.push(exception);
+        $scope.forms.settingsForm.$setDirty();
       };
 
       function validateExceptionTime() {
@@ -519,7 +520,7 @@ angular.module('liveopsConfigPanel')
         if (form.startHour.$error.required || form.startMinutes.$error.required || form.startAmPm.$error.required ||
           form.endHour.$error.required || form.endMinutes.$error.required || form.endAmPm.$error.required) {
             return;
-          }
+        }
 
         // Ensure that start time is earlier than end time
         var startHour = parseInt(convertToMilitaryHours(csc.newExceptionHour.startHour, 'exception', 'Start'));
@@ -537,18 +538,21 @@ angular.module('liveopsConfigPanel')
         var startMinutes = parseInt(csc.newExceptionHour.startMinutes);
         var endMinutes = parseInt(csc.newExceptionHour.endMinutes);
 
-        if (startMinutes <= endMinutes) {
+        if (startMinutes >= endMinutes) {
           csc.exceptionTimeIsInvalid = true;
         }
       }
 
       csc.removeException = function(index) {
         csc.exceptions.splice(index, 1);
+        $scope.forms.settingsForm.$setDirty();
       };
 
       csc.submit = function () {
         convertExpiryToTimestamp();
+
         csc.versionSettings.defaultLeadRetryInterval = convertToTimestamp(csc.versionSettings.defaultLeadRetryInterval);
+
         generateSchedule();
 
         // Deleting id and created so that we can force the API to create a new version,
