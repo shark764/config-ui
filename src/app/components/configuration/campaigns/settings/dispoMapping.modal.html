@@ -22,7 +22,7 @@
                       ng-disabled="showDispoDNC">
                 <option name="dispoMapSuccess" value="success">{{'campaigns.details.settings.success' | translate}}</option>
                 <option name="dispoMapRedial" value="retry">{{'campaigns.details.settings.redial' | translate}}</option>
-                <option name="dispoMapDnc" value="dnc">{{'campaigns.details.settings.addDnc' | translate}}</option>
+                <option name="dispoMapDnc" value="dnc" ng-if="csc.selectedLists.length > 0">{{'campaigns.details.settings.addDnc' | translate}}</option>
               </select>
             </td>
             <td class="edit-td" ng-show="csc.dispositionMappingList[$index].action === 'dnc'">
