@@ -796,6 +796,8 @@
   "campaigns.details.settings.redial":"Redial",
   "campaigns.details.settings.addDnc":"Add to DNC",
   "campaigns.details.settings.addtoList":"Add to List(s)",
+  "campaigns.details.settings.date.invalid": "Please enter a valid date.",
+  "campaigns.details.settings.time.invalid": "Start time must be earlier than end time.",
   "contacts.table.title":"Contact List Management",
   "contacts.details.contacts.expiration":"Expiraton",
   "contacts.details.state":"State",
