@@ -118,11 +118,5 @@ angular.module('liveopsConfigPanel')
 
       dnc.provideDateToday = provideDateToday();
       dnc.tableConfig = dncListsTableConfig;
-
-      // $scope.$watch('dnc.selectedDncList', function() {
-      //   return dnc.selectedDncList;
-      // }, function() {
-      //   dnc.duplicateError = false;
-      // });
     }
   ]);

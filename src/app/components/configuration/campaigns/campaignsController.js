@@ -141,22 +141,25 @@ angular.module('liveopsConfigPanel')
       cc.campaignChannels = campaignChannelTypes;
 
       cc.importContactList = function (fileData) {
-        var upload = Upload.upload({
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          },
-          url: apiHostname + '/v1/tenants/' + Session.tenant.tenantId + '/campaigns/' + cc.selectedCampaign.id + '/call-list',
-          method: 'POST',
-          file: cc.selectedCampaign.callListData
-        });
-
-        upload.then(function () {
-          $timeout(function () {
-            getJobData ();
+        if (fileData) {
+          var upload = Upload.upload({
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            },
+            url: apiHostname + '/v1/tenants/' + Session.tenant.tenantId + '/campaigns/' + cc.selectedCampaign.id + '/call-list',
+            method: 'POST',
+            file: fileData
           });
-        });
 
-        return upload;
+          upload.then(function () {
+            $timeout(function () {
+              getJobData ();
+            });
+          });
+
+          return upload;
+        }
+
       };
 
       cc.openStatsModal = function () {
