@@ -79,7 +79,7 @@
           id="import-btn"
           class="btn"
           accept=".csv"
-          ngf-change="cc.importContactList()"
+          ngf-change="cc.importContactList($file)"
           ngf-select
           ng-model-options="{allowInvalid : true}"
           ngf-max-size="20MB"
