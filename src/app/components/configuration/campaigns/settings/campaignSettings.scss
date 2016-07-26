@@ -1,13 +1,21 @@
 .campaign-setting {
-  margin-top:50px;
   padding: 15px;
+
+  h2 {
+    padding: 10px 0;
+  }
+
+  small {
+    padding: 0 0 20px;
+    display: block;
+  }
+
+  .campaign-setting-title {
+    left: 8px;
+    position: relative;
+  }
 }
 
-.campaign-setting-title {
-  left: 8px;
-  position: relative;
-  top: -25px;
-}
 
 .col {
   width:40%;
