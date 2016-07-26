@@ -17,19 +17,16 @@
         </div>
 
         <div class="input-group">
-          <form-error field="forms.settingsForm.callerId"
-            error-type-required="{{'dispatchMappings.details.phone.error' | translate}}"
-            error-type-phone-number="{{'details.phoneNumber.error' | translate}}">
-          </form-error>
           <label>{{'campaigns.details.setting.ani' | translate}} *</label>
           <div>
-
-            <input required ng-model="csc.versionSettings.callerId" name="callerId" class="ani" type="tel"/>
+            <input ng-model="csc.versionSettings.callerId" name="callerId" class="ani" type="tel"/>
           </div>
         </div>
 
         <div class="input-group">
           <form-error field="forms.settingsForm.flowId" error-type-required="{{'campaigns.details.flow.error' | translate}}"></form-error>
+        </div>
+        <div class="input-group">
           <label>{{'campaigns.details.setting.timezoneHeader' | translate}} *</label>
 
           <select name="timezone"
@@ -57,9 +54,11 @@
         </div>
      </div>
 
-      <div class="input-group">
+     <div class="input-group">
         <form-error field="forms.settingsForm.flowId" error-type-required="{{'campaigns.details.setting.dispositionList.error' | translate}}"></form-error>
-        <label>{{'campaigns.details.setting.dispositionList' | translate}}</label>
+     </div>
+     <div class="input-group">
+        <label>{{'campaigns.details.setting.dispositionList' | translate}} *</label>
         <select name="dispositionId"
             ng-model="csc.versionSettings.dispositionCodeListId"
             ng-options="disposition.id as disposition.name for disposition in csc.dispositionLists"
@@ -302,7 +301,7 @@
 
           <div class="input-group">
             <label>{{'campaigns.details.setting.retry' | translate}}</label>
-            <input ng-model="csc.versionSettings.defaultLeadRetryInterval" name="defaultLeadRetryInterval" class="redial" string-to-number type="number" ng-init="csc.versionSettings.defaultLeadRetryInterval=0"/>
+            <input ng-model="csc.versionSettings.defaultLeadRetryInterval" name="defaultLeadRetryInterval" class="redial" string-to-number type="number" ng-init="csc.versionSettings.defaultLeadRetryInterval='0'"/>
           </div>
 
           <div class="input-group">

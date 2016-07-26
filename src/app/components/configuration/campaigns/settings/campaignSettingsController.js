@@ -390,7 +390,7 @@ angular.module('liveopsConfigPanel')
       function parseDispositionMap() {
         csc.dispositionMappingList = [];
         var dispoList = csc.currentDispositionList;
-        var dispoMap = csc.versionSettings.dispositionMappings;
+        var dispoMap = csc.versionSettings.dispositionMappings || [];
         dispoList.forEach(function(disposition) {
           if (angular.isDefined(disposition.type)) {
             csc.dispositionMappingList.push({});
@@ -548,11 +548,7 @@ angular.module('liveopsConfigPanel')
 
       csc.submit = function () {
         convertExpiryToTimestamp();
-
-        // If the typeof this variable is a STRING, then it has already been transformed and shouldn't be converted to timestamp
-        if (typeof csc.versionSettings.defaultLeadRetryInterval === 'number') {
-          csc.versionSettings.defaultLeadRetryInterval = convertToTimestamp(csc.versionSettings.defaultLeadRetryInterval);
-        }
+        csc.versionSettings.defaultLeadRetryInterval = convertToTimestamp(csc.versionSettings.defaultLeadRetryInterval);
         generateSchedule();
 
         // Deleting id and created so that we can force the API to create a new version,
