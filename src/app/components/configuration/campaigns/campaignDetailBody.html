@@ -79,7 +79,7 @@
           id="import-btn"
           class="btn"
           accept=".csv"
-          ngf-change="cc.importContactList($file)"
+          ngf-change="cc.importContactList()"
           ngf-select
           ng-model-options="{allowInvalid : true}"
           ngf-max-size="20MB"
@@ -95,7 +95,7 @@
           id="stats-btn"
           class="btn"
           ng-click="cc.openStatsModal()"
-          ng-disabled="!cc.selectedCampaign.id">
+          ng-disabled="!cc.selectedCampaign.id || !cc.selectedCampaign.hasCallList">
           {{'campaigns.details.statsBtn' | translate}}
         </button>
       </div>
@@ -116,7 +116,7 @@
       <p ng-show="cc.selectedCampaign.latestJobData">
         {{'campaigns.details.lastUpdate' | translate}} - {{cc.selectedCampaign.latestJobData.created | date:'MM/dd/yyyy HH:mm:ss' }}
         <br> {{'campaigns.details.updateStatus' | translate}} - {{cc.selectedCampaign.latestJobData.status}}
-        <br> {{'campaigns.details.leadCount' | translate}} - {{cc.selectedCampaign.latestJobData.leadCount}}
+        <br> {{'campaigns.details.leadCount' | translate}} - {{cc.selectedCampaign.latestJobData.rowsProcessed}}
       </p>
     </div>
   </div>

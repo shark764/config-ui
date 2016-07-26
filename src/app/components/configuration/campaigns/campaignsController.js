@@ -59,6 +59,32 @@ angular.module('liveopsConfigPanel')
         }
       }
 
+      function getJobData () {
+        var jobList = CampaignCallListJobs.cachedGet({
+          tenantId: Session.tenant.tenantId,
+          campaignId: cc.selectedCampaign.id
+        });
+
+        jobList.$promise.then(function () {
+          cc.loading = true;
+          cc.selectedCampaign.hasCallList = hasOne(jobList.jobs);
+          if (cc.selectedCampaign.hasCallList) {
+            var latestJobId = jobList.jobs[0];
+
+            var lastJobData = CampaignCallListJobs.cachedGet({
+              tenantId: Session.tenant.tenantId,
+              campaignId: cc.selectedCampaign.id,
+              jobId: latestJobId
+            });
+
+            lastJobData.$promise.then(function (response) {
+              cc.selectedCampaign.latestJobData = response;
+              console.log('cc.selectedCampaign.latestJobData', cc.selectedCampaign.latestJobData);
+            });
+          }
+        });
+      }
+
       function getFlowName(cam, flo) {
         // add a flowName property to the campaign object with the name of the
         // corresponding flow
@@ -85,36 +111,7 @@ angular.module('liveopsConfigPanel')
           // get the jobs and download lists...
           // unless, of course, it's a new campaign and neither exist
           if (!cc.selectedCampaign.isNew()) {
-            var jobList = CampaignCallListJobs.cachedGet({
-              tenantId: Session.tenant.tenantId,
-              campaignId: currentlySelectedCampaign.id
-            });
-
-            // var callListDownload = CampaignCallListDownload.cachedGet({
-            //   tenantId: Session.tenant.tenantId,
-            //   campaignId: currentlySelectedCampaign.id
-            // });
-
-            $q.all([
-              jobList.$promise//,
-              //callListDownload.$promise
-            ]).then(function () {
-              cc.loading = true;
-              cc.selectedCampaign.hasCallList = hasOne(jobList.jobs);
-              if (cc.selectedCampaign.hasCallList) {
-                var latestJobId = jobList.jobs[0];
-
-                var lastJobData = CampaignCallListJobs.cachedGet({
-                  tenantId: Session.tenant.tenantId,
-                  campaignId: cc.selectedCampaign.id,
-                  jobId: latestJobId
-                });
-
-                lastJobData.$promise.then(function (response) {
-                  cc.selectedCampaign.latestJobData = response;
-                });
-              }
-            });
+            getJobData();
           }
         }
       });
@@ -143,7 +140,7 @@ angular.module('liveopsConfigPanel')
       // is not editable by the user, nor do they exist in the campaigns API
       cc.campaignChannels = campaignChannelTypes;
 
-      cc.importContactList = function () {
+      cc.importContactList = function (fileData) {
         var upload = Upload.upload({
           headers: {
             'Content-Type': 'multipart/form-data'
@@ -155,25 +152,7 @@ angular.module('liveopsConfigPanel')
 
         upload.then(function () {
           $timeout(function () {
-
-            var jobData = CampaignCallListJobs.cachedGet({
-              tenantId: Session.tenant.tenantId,
-              campaignId: cc.selectedCampaign.id
-            });
-
-            $q.when(jobData).
-            then(function () {
-              cc.selectedCampaign.hasCallList = true;
-              // var lastJobData = CampaignCallListJobs.cachedGet({
-              //   tenantId: Session.tenant.tenantId,
-              //   campaignId: cc.selectedCampaign.id,
-              //   jobId: jobData.id
-              // });
-              // console.log('lastJobData', lastJobData);
-            });
-
-            //cc.selectedCampaign.callListData.save();
-            //dncEdit.contacts = [sampleContact1, sampleContact2, sampleContact3, sampleContact4];
+            getJobData ();
           });
         });
 
@@ -194,10 +173,9 @@ angular.module('liveopsConfigPanel')
         $document.find('html > body').append(element);
       };
 
-      cc.downloadCallList = function () {
-        CampaignCallListDownload.download(cc.selectedCampaign.id);
+      cc.downloadCallList = function (campaignId) {
+        CampaignCallListDownload.download(campaignId, Session);
       };
-
 
       cc.submit = function () {
         return cc.selectedCampaign.save({
@@ -229,18 +207,14 @@ angular.module('liveopsConfigPanel')
       cc.startStopCampaign = function () {
         switch (cc.selectedCampaign.currentState) {
         case 'stopped':
-          console.log('starting!');
           return CampaignStart.save({
             tenantId: Session.tenant.tenantId,
-            campaignId: cc.selectedCampaign.id,
-            versionId: cc.selectedCampaign.latestVersion,
+            campaignId: cc.selectedCampaign.id
           });
         case 'started':
-          console.log('stopping!');
           return CampaignStop.save({
             tenantId: Session.tenant.tenantId,
-            campaignId: cc.selectedCampaign.id,
-            versionId: cc.selectedCampaign.latestVersion,
+            campaignId: cc.selectedCampaign.id
           });
         }
       };

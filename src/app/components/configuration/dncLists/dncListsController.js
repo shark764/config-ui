@@ -3,7 +3,8 @@
 angular.module('liveopsConfigPanel')
   .controller('dncListsController', ['$scope', '$state', '$timeout', '$translate',  'Session', 'apiHostname', 'DncLists', 'Upload', '$q', '$moment', 'loEvents', 'Alert', 'dncListsTableConfig',
     function ($scope, $state, $timeout, $translate, Session, apiHostname, DncLists, Upload, $q, $moment, loEvents, Alert, dncListsTableConfig) {
-      var dnc = this;
+      var dnc = this,
+          DncListService = new DncLists();
 
       $scope.forms = {};
 
@@ -47,6 +48,11 @@ angular.module('liveopsConfigPanel')
         $scope.forms.detailsForm.$setDirty();
       };
 
+
+      dnc.downloadDncList = function (dncListId) {
+        DncListService.download(dncListId, Session);
+      };
+
       $scope.$on(loEvents.tableControls.itemCreate, function () {
         dnc.selectedDncList = null;
         dnc.selectedDncList = new DncLists({
@@ -68,7 +74,6 @@ angular.module('liveopsConfigPanel')
       });
 
       dnc.submit = function () {
-
         var listFileData = dnc.selectedDncList.listFileUpload;
         dnc.selectedDncList.expiration = convertDateToMySqlFormat(dnc.selectedDncList.expiration);
         console.log('submitted dnc.selectedDncList', dnc.selectedDncList);

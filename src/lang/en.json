@@ -280,6 +280,7 @@
   "dnc.details.contact.error": "Contact number is required.",
   "dncEdit.table.contact": "Contact",
   "dncEdit.table.expiration": "Expiration",
+  "dncEdit.table.dncListDownload": "Download CSV",
   "dncEdit.details.creating": "Creating new contact",
   "flow.type": "Type",
   "flow.type.choose": "Select a Type...",

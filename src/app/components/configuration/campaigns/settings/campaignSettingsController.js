@@ -209,8 +209,6 @@ angular.module('liveopsConfigPanel')
             tenantId: Session.tenant.tenantId
           });
 
-          csc.versionSettings.defaultLeadRetryInterval = 0;
-          csc.versionSettings.defaultLeadExpiration = 0;
           csc.scheduleStartAmPm = 'am';
           csc.scheduleEndAmPm = 'pm';
           csc.loading = false;
@@ -240,7 +238,6 @@ angular.module('liveopsConfigPanel')
         var dispositions = Disposition.cachedQuery({
           tenantId: Session.tenant.tenantId
         });
-
         return dispositions;
       };
 
@@ -275,23 +272,20 @@ angular.module('liveopsConfigPanel')
 
           // if there is anything in the dnc array, then generate a list of selected
           // dnc lists to use for the dnc selection dropdown
-          if (angular.isDefined(csc.versionSettings.doNotCallLists)) {
-            console.log('dnc defined!', csc.versionSettings.doNotCallLists);
+          if (angular.isDefined(csc.versionSettings.doNotContactLists)) {
+            console.log('dnc defined!', csc.versionSettings.doNotContactLists);
             csc.selectedLists = _.filter(csc.dncLists, function (val, key) {
-              return csc.versionSettings.doNotCallLists.indexOf(val.id) !== -1;
+              return csc.versionSettings.doNotContactLists.indexOf(val.id) !== -1;
             });
           } else {
             // otherwise, set the selected and saved dnc lists to be empty
             csc.selectedLists = [];
-            csc.versionSettings.doNotCallLists = [];
+            csc.versionSettings.doNotContactLists = [];
           };
-
-          console.log('csc.selectedLists', csc.selectedLists);
         });
       };
 
       csc.changeDispoMap = function (value, name, index) {
-
         if (value === 'dnc') {
           $scope.showDispoDNC = true;
         } else {
@@ -300,7 +294,6 @@ angular.module('liveopsConfigPanel')
 
         csc.selectedDncName = name;
         csc.dncIndex = index;
-
       };
 
       csc.gotoDispoMap = function (dispoId) {
@@ -370,8 +363,15 @@ angular.module('liveopsConfigPanel')
 
         var element = $compile('<modal></modal>')(newScope);
         $document.find('html > body').append(element);
-
       };
+
+      csc.enableDisableDncAddBtn = function (selectedList) {
+        if (!selectedList) {
+          return true;
+        } else {
+          return false;
+        }
+      }
 
       function parseDispositionMap() {
         csc.dispositionMappingList = [];
@@ -430,9 +430,10 @@ angular.module('liveopsConfigPanel')
         // now that we've got the index, add it to the selected DNC lists
         var addedDncObj = csc.dncLists[indexOfListToRemove];
         csc.selectedLists.push(addedDncObj);
-
         // using that same index, remove it from the list of ALL DNC lists
         csc.dncLists.splice(indexOfListToRemove, 1);
+        csc.selectedLists = _.sortBy(csc.selectedLists, 'name');
+        csc.selectedDncList = '';
       };
 
       csc.removeDNC = function ($index) {
@@ -440,6 +441,12 @@ angular.module('liveopsConfigPanel')
         csc.dncLists.push(csc.selectedLists[$index]);
         // now slice it out of the list of selected DNC lists
         csc.selectedLists.splice($index, 1);
+        csc.selectedLists = _.sortBy(csc.selectedLists, 'name');
+        csc.selectedDncList = '';
+      };
+
+      csc.getIds = function (list) {
+        return _.map(list, 'id')
       };
 
       csc.submit = function () {
@@ -457,8 +464,7 @@ angular.module('liveopsConfigPanel')
         }
 
         // using generateDncIdArray() to grab just the list of DNC Id's
-        csc.versionSettings.doNotCallLists = _.map(csc.selectedLists, 'id');
-        console.log('csc.versionSettings', csc.versionSettings);
+        csc.versionSettings.doNotContactLists = _.map(csc.selectedLists, 'id');
         csc.versionSettings.save({
           tenantId: Session.tenant.tenantId,
           campaignId: getCampaignId
