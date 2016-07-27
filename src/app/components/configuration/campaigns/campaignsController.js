@@ -5,7 +5,8 @@ angular.module('liveopsConfigPanel')
     '$scope', '$rootScope', '$timeout', '$translate', '$moment', '$q', '$state', '$document', '$compile', 'Alert', 'Session', 'Campaign', 'CampaignStart', 'CampaignStop', 'CampaignCallListJobs', 'CampaignCallListDownload', 'campaignsTableConfig', 'loEvents', 'campaignChannelTypes', 'Flow', 'Upload', 'DirtyForms', 'apiHostname',
     function ($scope, $rootScope, $timeout, $translate, $moment, $q, $state, $document, $compile, Alert, Session, Campaign, CampaignStart, CampaignStop, CampaignCallListJobs, CampaignCallListDownload, campaignsTableConfig, loEvents, campaignChannelTypes, Flow, Upload, DirtyForms, apiHostname) {
       var cc = this;
-      var CampaignCallListDownload = new CampaignCallListDownload();
+      var CampaignCallListDownload = new CampaignCallListDownload(),
+          currentlySelectedCampaign = cc.selectedCampaign;
         // load up all of the page data...
 
       // first call the campaigns...
@@ -79,7 +80,6 @@ angular.module('liveopsConfigPanel')
 
             lastJobData.$promise.then(function (response) {
               cc.selectedCampaign.latestJobData = response;
-              console.log('cc.selectedCampaign.latestJobData', cc.selectedCampaign.latestJobData);
             });
           }
         });
@@ -100,12 +100,14 @@ angular.module('liveopsConfigPanel')
       }
 
       $scope.$watch('cc.selectedCampaign', function (currentlySelectedCampaign) {
+        currentlySelectedCampaign = cc.selectedCampaign;
+
         if (currentlySelectedCampaign) {
           hasVersion();
-          currentlySelectedCampaign = cc.selectedCampaign;
 
           // fixes wierd Angular issue where it adds an empty select option in
           // the drop down menus
+          console.log('cc.campaignChannels', cc.campaignChannels[0]);
           cc.selectedCampaign.channel = cc.campaignChannels[0];
 
           // get the jobs and download lists...
@@ -114,6 +116,8 @@ angular.module('liveopsConfigPanel')
             getJobData();
           }
         }
+
+        console.log('currentlySelectedCampaign', currentlySelectedCampaign);
       });
 
       $q.all([

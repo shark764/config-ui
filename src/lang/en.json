@@ -748,7 +748,7 @@
   "campaigns.details.editor.export":"Export",
   "campaigns.details.setting.flow":"Flow",
   "campaigns.details.setting.ani":"Default ANI",
-  "campaigns.details.setting.anierror":"Please enter a number",
+  "campaigns.details.setting.anierror":"Please enter a numer in e.164 format",
   "campaigns.details.setting.timezoneHeader":"Default Timezone",
   "campaigns.details.setting.timezoneHeader.error":"Please select a time zone",
   "campaigns.details.setting.expiry":"Default Expiry",

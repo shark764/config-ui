@@ -225,8 +225,9 @@ angular.module('liveopsConfigPanel')
           csc.scheduleStartAmPm = 'am';
           csc.scheduleEndAmPm = 'pm';
           csc.loading = false;
-
+          csc.versionSettings.defaultMaxRetries = 0;
         }
+
         csc.fetchDispositionList();
         csc.loadTimezones();
         csc.fetchFlows();
@@ -286,7 +287,6 @@ angular.module('liveopsConfigPanel')
           // if there is anything in the dnc array, then generate a list of selected
           // dnc lists to use for the dnc selection dropdown
           if (angular.isDefined(csc.versionSettings.doNotContactLists)) {
-            console.log('dnc defined!', csc.versionSettings.doNotContactLists);
             csc.selectedLists = _.filter(csc.dncLists, function (val, key) {
               return csc.versionSettings.doNotContactLists.indexOf(val.id) !== -1;
             });
@@ -452,7 +452,7 @@ angular.module('liveopsConfigPanel')
       csc.removeDNC = function ($index) {
         // first add this back to the list of all DNC lists
         csc.dncLists.push(csc.selectedLists[$index]);
-        // now slice it out of the list of selected DNC lists
+        // now remove it the list of selected DNC lists
         csc.selectedLists.splice($index, 1);
         csc.selectedLists = _.sortBy(csc.selectedLists, 'name');
         csc.selectedDncList = '';
@@ -555,6 +555,7 @@ angular.module('liveopsConfigPanel')
 
         generateSchedule();
 
+        csc.versionSettings.channel = csc.campaignSettings.channel;
         // Deleting id and created so that we can force the API to create a new version,
         // since versions are not to be editable
         delete csc.versionSettings.id;
@@ -564,13 +565,14 @@ angular.module('liveopsConfigPanel')
           csc.versionSettings.dispositionMappings = {};
         }
 
+        console.log('typeof csc.versionSettings.defaultMaxRetries', typeof csc.versionSettings.defaultMaxRetries);
         // using generateDncIdArray() to grab just the list of DNC Id's
         csc.versionSettings.doNotContactLists = _.map(csc.selectedLists, 'id');
         csc.versionSettings.save({
           tenantId: Session.tenant.tenantId,
           campaignId: getCampaignId
         }).then(function (response) {
-          console.log('save response', response);
+          console.log('response', response);
           $state.go('content.configuration.campaigns');
         });
       };
