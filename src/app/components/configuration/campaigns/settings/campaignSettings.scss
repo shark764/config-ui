@@ -17,14 +17,20 @@
 }
 
 
-.col {
-  width:40%;
+.col-1 {
+  width: 35%;
   display: inline-block;
   vertical-align: top;
 }
 
-.col-right {
-  width:15%;
+.col-2 {
+  width: 35%;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.col-3 {
+  width: 20%;
   display: inline-block;
   vertical-align: top;
 }
