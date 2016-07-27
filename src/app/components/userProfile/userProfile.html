@@ -63,7 +63,17 @@
         <input type="submit" lo-submit="submit()" id="save-user-details-btn" class="btn btn-primary"
         ng-disabled="userForm.$invalid || ! userForm.$dirty" value="{{'value.update' | translate}}"/>
       </div>
+
+      <div>
+        <label>{{'value.supervisor' | translate}}</label>
+        <div>
+          <span ng-if="!noSupervisor">{{supervisorName}}</span>
+          <span ng-if="noSupervisor" class="null">{{'value.noSupervisor' | translate}}</span>
+        </div>
+      </div>
+
     </form>
+
 
     <ng-form id="user-extensions-section" name="extensionsForm"
       ng-resource="tenantUser"

@@ -1,12 +1,25 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('UserProfileController', ['$scope', 'AuthService', 'Session', 'User', 'TenantUser',
-    function($scope, AuthService, Session, User, TenantUser) {
+  .controller('UserProfileController', ['$scope', '$translate', 'AuthService', 'Session', 'User', 'TenantUser',
+    function($scope, $translate, AuthService, Session, User, TenantUser) {
 
       $scope.tenantUser = TenantUser.get({
         id: Session.user.id,
         tenantId: Session.tenant.tenantId
+      });
+
+      $scope.tenantUser.$promise.then(function(user) {
+        if (user.supervisorId === null) {
+          $scope.noSupervisor = true;
+        } else {
+          TenantUser.get({
+            id: user.supervisorId,
+            tenantId: Session.tenant.tenantId
+          }).$promise.then(function(supervisor) {
+            $scope.supervisorName = supervisor.getDisplay();
+          });
+        }
       });
 
       $scope.submit = function() {
