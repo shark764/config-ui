@@ -97,9 +97,11 @@ angular.module('liveopsConfigPanel')
         }
 
         // TODO: push exception hours as well
-        csc.exceptions.forEach(function(exception) {
-          csc.versionSettings.schedule.push(exception);
-        });
+        if(angular.isDefined(csc.exceptions)) {
+          csc.exceptions.forEach(function(exception) {
+            csc.versionSettings.schedule.push(exception);
+          });
+        }
       }
 
       function parseSchedule() {
@@ -565,7 +567,8 @@ angular.module('liveopsConfigPanel')
           csc.versionSettings.dispositionMappings = {};
         }
 
-        console.log('typeof csc.versionSettings.defaultMaxRetries', typeof csc.versionSettings.defaultMaxRetries);
+        console.log('$scope.forms', $scope.forms);
+        return;
         // using generateDncIdArray() to grab just the list of DNC Id's
         csc.versionSettings.doNotContactLists = _.map(csc.selectedLists, 'id');
         csc.versionSettings.save({

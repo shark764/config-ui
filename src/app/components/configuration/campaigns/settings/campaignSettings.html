@@ -17,9 +17,6 @@
         </div>
 
         <div class="input-group">
-          <form-error field="forms.settingsForm.callerId" error-type-valid="{{'campaigns.details.setting.ani' | translate}}"></form-error>
-        </div>
-        <div class="input-group">
           <label>{{'campaigns.details.setting.ani' | translate}} *</label>
           <div>
             <input ng-model="csc.versionSettings.callerId" name="callerId" class="ani" type="tel"/>
@@ -309,10 +306,7 @@
 
           <div class="input-group">
             <label>{{'campaigns.details.setting.retryMax' | translate}}</label>
-            <input ng-model="csc.versionSettings.defaultMaxRetries"
-            name="name"
-            class="redial"
-            type="number"/>
+            <input ng-model="csc.versionSettings.defaultMaxRetries" name="defaultMaxRetries" class="redial" type="number" min="1" required/>
           </div>
         </div>
       </div>
