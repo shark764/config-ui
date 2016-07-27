@@ -567,9 +567,6 @@ angular.module('liveopsConfigPanel')
           csc.versionSettings.dispositionMappings = {};
         }
 
-        console.log('$scope.forms', $scope.forms);
-        return;
-        // using generateDncIdArray() to grab just the list of DNC Id's
         csc.versionSettings.doNotContactLists = _.map(csc.selectedLists, 'id');
         csc.versionSettings.save({
           tenantId: Session.tenant.tenantId,
