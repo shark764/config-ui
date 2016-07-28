@@ -40,7 +40,6 @@ angular.module('liveopsConfigPanel')
 
 
       dnc.updateActive = function () {
-        console.log('dnc.selectedDncList', dnc.selectedDncList);
         var dncListcopy = new DncLists({
           id: dnc.selectedDncList.id,
           tenantId: dnc.selectedDncList.tenantId,
@@ -51,7 +50,6 @@ angular.module('liveopsConfigPanel')
         });
 
         return dncListcopy.save().then(function(result){
-          console.log('result', result);
           $scope.selectedDncList.$original.active = result.active;
         }, function(errorResponse){
           return $q.reject(errorResponse.data.error.attribute.active);
@@ -96,7 +94,7 @@ angular.module('liveopsConfigPanel')
       dnc.submit = function () {
         var listFileData = dnc.selectedDncList.listFileUpload;
         dnc.selectedDncList.expiration = convertDateToMySqlFormat(dnc.selectedDncList.expiration);
-        console.log('submitted dnc.selectedDncList', dnc.selectedDncList);
+
         if (!angular.isDefined(dnc.selectedDncList.id)) {
           return dnc.selectedDncList.save({
             tenantId: Session.tenant.tenantId

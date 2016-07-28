@@ -12,8 +12,8 @@
         <div class="input-group">
           <label>{{'details.channelType' | translate}} *</label>
           <div>
-            <select required ng-model="csc.selectedCampaign.channel" ng-options="channel for channel in csc.campaignChannels" ng-disabled="cc.campaignChannels.length < 2">
-              <option ng-if="csc.campaignChannels.length > 1" disabled value="">{{'campaigns.details.channelDropdownDefault' | translate}}</option>
+            <select required ng-model="csc.versionSettings.channel" ng-options="channel for channel in csc.campaignChannels" ng-disabled="csc.campaignChannels.length < 2">
+              <option disabled value="">{{'campaigns.details.channelDropdownDefault' | translate}}</option>
             </select>
           </div>
         </div>
