@@ -219,9 +219,9 @@ angular.module('liveopsConfigPanel')
             convertDefaultExpiryToFormValue(csc.versionSettings);
             csc.versionSettings.defaultLeadRetryInterval = convertTimestampToFormVal(csc.versionSettings.defaultLeadRetryInterval);
             parseSchedule();
-            // if (csc.versionSettings.defaultMaxRetries === 0) {
-            //   csc.versionSettings.defaultMaxRetries = 1;
-            // }
+            if (!csc.versionSettings.defaultMaxRetries || csc.versionSettings.defaultMaxRetries === 0) {
+              csc.versionSettings.defaultMaxRetries = 1;
+            }
             csc.loading = false;
           });
         } else {
@@ -232,7 +232,7 @@ angular.module('liveopsConfigPanel')
           csc.scheduleStartAmPm = 'am';
           csc.scheduleEndAmPm = 'pm';
           csc.loading = false;
-          //csc.versionSettings.defaultMaxRetries = 1;
+          csc.versionSettings.defaultMaxRetries = 1;
         }
 
         csc.fetchDispositionList();
@@ -497,7 +497,6 @@ angular.module('liveopsConfigPanel')
         }
 
         if (csc.exceptionTimeIsInvalid || !$scope.forms.exceptionsForm.date.$valid) {
-          console.log("hi, breaking")
           return;
         }
 
