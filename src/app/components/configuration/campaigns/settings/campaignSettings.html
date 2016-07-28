@@ -3,8 +3,21 @@
   <div class="campaign-setting">
     <h2 class="campaign-setting-title">{{'campaigns.details.settings' | translate}} - {{csc.campaignSettings.name}}</h2>
     <small>{{'value.indicatesRequiredField' | translate}}</small>
+
     <div class="col-1">
       <div disable-contents="! (['MANAGE_CAMPAIGNS'] | hasPermission)">
+        <div class="input-group">
+          <form-error field="forms.settingsForm.channel" error-type-required="{{'campaigns.details.channelDropdownDefault.error' | translate}}"></form-error>
+        </div>
+        <div class="input-group">
+          <label>{{'details.channelType' | translate}} *</label>
+          <div>
+            <select required ng-model="csc.selectedCampaign.channel" ng-options="channel for channel in csc.campaignChannels" ng-disabled="cc.campaignChannels.length < 2">
+              <option ng-if="csc.campaignChannels.length > 1" disabled value="">{{'campaigns.details.channelDropdownDefault' | translate}}</option>
+            </select>
+          </div>
+        </div>
+
         <div class="input-group">
           <label>{{'details.flow' | translate}} *</label>
           <div>
@@ -14,12 +27,7 @@
             </select>
           </div>
         </div>
-        <div class="input-group">
-          <form-error field="forms.settingsForm.callerId"
-            error-type-required="{{'dispatchMappings.details.phone.error' | translate}}"
-            error-type-phone-number="{{'details.phoneNumber.error' | translate}}">
-          </form-error>
-        </div>
+
         <div class="input-group">
           <label>{{'campaigns.details.setting.ani' | translate}} *</label>
           <div>
@@ -310,14 +318,13 @@
 
           <div class="input-group">
             <label>{{'campaigns.details.setting.retryMax' | translate}}</label>
-          <input ng-model="csc.versionSettings.defaultMaxRetries" name="defaultMaxRetries" class="redial" type="number" min="1" required/>
+            <input ng-model="csc.versionSettings.defaultMaxRetries" name="defaultMaxRetries" class="redial" type="number" min="1" required/>
           </div>
         </div>
       </div>
     </div>
-
-
   </div>
+
   <div class="campaign-controls">
     <input
       id="cancel-details-btn" class="btn campaign-cancel" type="button"

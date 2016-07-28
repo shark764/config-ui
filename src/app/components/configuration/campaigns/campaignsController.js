@@ -2,8 +2,8 @@
 
 angular.module('liveopsConfigPanel')
   .controller('campaignsController', [
-    '$scope', '$rootScope', '$timeout', '$translate', '$moment', '$q', '$state', '$document', '$compile', 'Alert', 'Session', 'Campaign', 'CampaignStart', 'CampaignStop', 'CampaignCallListJobs', 'CampaignCallListDownload', 'campaignsTableConfig', 'loEvents', 'campaignChannelTypes', 'Flow', 'Upload', 'DirtyForms', 'apiHostname',
-    function ($scope, $rootScope, $timeout, $translate, $moment, $q, $state, $document, $compile, Alert, Session, Campaign, CampaignStart, CampaignStop, CampaignCallListJobs, CampaignCallListDownload, campaignsTableConfig, loEvents, campaignChannelTypes, Flow, Upload, DirtyForms, apiHostname) {
+    '$scope', '$rootScope', '$timeout', '$translate', '$moment', '$q', '$state', '$document', '$compile', 'Alert', 'Session', 'Campaign', 'CampaignStart', 'CampaignStop', 'CampaignCallListJobs', 'CampaignCallListDownload', 'campaignsTableConfig', 'loEvents', 'Flow', 'Upload', 'DirtyForms', 'apiHostname',
+    function ($scope, $rootScope, $timeout, $translate, $moment, $q, $state, $document, $compile, Alert, Session, Campaign, CampaignStart, CampaignStop, CampaignCallListJobs, CampaignCallListDownload, campaignsTableConfig, loEvents, Flow, Upload, DirtyForms, apiHostname) {
       var cc = this;
       var CampaignCallListDownload = new CampaignCallListDownload(),
           currentlySelectedCampaign = cc.selectedCampaign;
@@ -38,11 +38,6 @@ angular.module('liveopsConfigPanel')
 
       // apply the table configuration
       cc.tableConfig = campaignsTableConfig;
-
-      // campaignChannelTypes is an array we get from
-      // index.constants.js, as the list of campaign channels
-      // is not editable by the user, nor do they exist in the campaigns API
-      cc.campaignChannels = campaignChannelTypes;
 
       // check to make sure that the campaign has at least one version,
       // which means that it is also a valid campaign that can actually be started
@@ -105,44 +100,28 @@ angular.module('liveopsConfigPanel')
         if (currentlySelectedCampaign) {
           hasVersion();
 
-          // fixes wierd Angular issue where it adds an empty select option in
-          // the drop down menus
-          console.log('cc.campaignChannels', cc.campaignChannels[0]);
-          cc.selectedCampaign.channel = cc.campaignChannels[0];
-
           // get the jobs and download lists...
           // unless, of course, it's a new campaign and neither exist
           if (!cc.selectedCampaign.isNew()) {
             getJobData();
           }
         }
-
-        console.log('currentlySelectedCampaign', currentlySelectedCampaign);
       });
 
-      $q.all([
-          cc.campaigns.$promise,
-          flows.$promise
-        ])
-        .then(function () {
-          // get rid of all of the flows that don't belong to this tenant
-          _.remove(flows, function (flow) {
-            return flow.tenantId !== Session.tenant.tenantId;
-          });
-
-          getFlowName(cc.campaigns, flows);
-
-          // now, finally grant the page access to the list of flows and campaigns
-          cc.flows = flows;
+      cc.updateActive = function() {
+        var campaignCopy = new Campaign({
+          id: cc.selectedCampaign.id,
+          tenantId: cc.selectedCampaign.tenantId,
+          active: !cc.selectedCampaign.active,
+          name: cc.selectedCampaign.name,
+          description: cc.selectedCampaign.description
         });
+        cc.selectedCampaign.active = !cc.selectedCampaign.active;
 
-      // apply the table configuration
-      cc.tableConfig = campaignsTableConfig;
-
-      // campaignChannelTypes is an array we get from
-      // index.constants.js, as the list of campaign channels
-      // is not editable by the user, nor do they exist in the campaigns API
-      cc.campaignChannels = campaignChannelTypes;
+        return campaignCopy.save(function(result){
+          cc.selectedCampaign.$original.active = result.active;
+        });
+      };
 
       cc.importContactList = function (fileData) {
         if (fileData) {
@@ -163,7 +142,6 @@ angular.module('liveopsConfigPanel')
 
           return upload;
         }
-
       };
 
       cc.openStatsModal = function () {
