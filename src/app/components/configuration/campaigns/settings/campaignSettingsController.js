@@ -2,8 +2,8 @@
 
 angular.module('liveopsConfigPanel')
   .controller('campaignSettingsController', [
-    '$scope', '$rootScope', '$state', '$stateParams', '$translate', '$moment', '$q', '$document', '$compile', '$timeout', 'Session', 'Flow', 'Timezone', 'Campaign', 'CampaignVersion', 'Disposition', 'DispositionList', 'DirtyForms', 'loEvents', 'getCampaignId', 'DncLists',
-    function ($scope, $rootScope, $state, $stateParams, $translate, $moment, $q, $document, $compile, $timeout, Session, Flow, Timezone, Campaign, CampaignVersion, Disposition, DispositionList, DirtyForms, loEvents, getCampaignId, DncLists) {
+    '$scope', '$rootScope', '$state', '$stateParams', '$translate', '$moment', '$q', '$document', '$compile', '$timeout', 'Session', 'Flow', 'Timezone', 'Campaign', 'CampaignVersion', 'Disposition', 'DispositionList', 'DirtyForms', 'loEvents', 'getCampaignId', 'DncLists', 'campaignChannelTypes',
+    function ($scope, $rootScope, $state, $stateParams, $translate, $moment, $q, $document, $compile, $timeout, Session, Flow, Timezone, Campaign, CampaignVersion, Disposition, DispositionList, DirtyForms, loEvents, getCampaignId, DncLists, campaignChannelTypes) {
       $scope.forms = {};
       $scope.showDispoDNC = false;
       // adding to the scope all of the data from the campaigns page
@@ -465,9 +465,11 @@ angular.module('liveopsConfigPanel')
       };
 
       csc.addHoursException = function () {
-        console.log("csc.newExceptionHour", csc.newExceptionHour)
-        console.log("forms.exceptionsForm", $scope.forms.exceptionsForm)
         var DATE_STRING_LENGTH = 10;
+
+        if (!csc.exceptions) {
+          csc.exceptions = [];
+        }
 
         $scope.forms.exceptionsForm.date.$setTouched();
         $scope.forms.exceptionsForm.startHour.$setTouched();
@@ -485,7 +487,7 @@ angular.module('liveopsConfigPanel')
           $scope.forms.exceptionsForm.date.$setValidity("date", true);
         }
 
-        if (!csc.newExceptionHour.allDay) {
+        if (csc.newExceptionHour && !csc.newExceptionHour.allDay) {
           validateExceptionTime();
         }
 
@@ -557,7 +559,7 @@ angular.module('liveopsConfigPanel')
 
         generateSchedule();
 
-        csc.versionSettings.channel = csc.campaignSettings.channel;
+        csc.versionSettings.channel = csc.campaignSettings.channel || campaignChannelTypes[0];
         // Deleting id and created so that we can force the API to create a new version,
         // since versions are not to be editable
         delete csc.versionSettings.id;
@@ -572,7 +574,6 @@ angular.module('liveopsConfigPanel')
           tenantId: Session.tenant.tenantId,
           campaignId: getCampaignId
         }).then(function (response) {
-          console.log('response', response);
           $state.go('content.configuration.campaigns');
         });
       };
