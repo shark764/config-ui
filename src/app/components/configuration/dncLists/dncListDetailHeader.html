@@ -3,7 +3,7 @@
   confirm-disable-message="{{'dnc.details.disable.confirm' | translate}}"
   confirm-enable-message="{{'dnc.details.enable.confirm' | translate}}"
   ng-disabled="! (['PLATFORM_MANAGE_ALL_TENANTS', 'MANAGE_TENANT'] | hasPermission)"
-  on-confirm="updateActive()"></toggle>
+  on-confirm="dnc.updateActive()"></toggle>
 
   <div class="info">
     <h1>{{dnc.selectedDncList.$original.name}}</h1>

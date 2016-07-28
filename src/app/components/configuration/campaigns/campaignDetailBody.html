@@ -11,20 +11,17 @@
     </div>
   </div>
 
-  <div class="input-group">
-    <label>{{'details.channelType' | translate}}</label>
-    <div>
-      <form-error field="forms.detailsForm.channel" error-type-required="{{'campaigns.details.channelDropdownDefault.error' | translate}}"></form-error>
-      <select required ng-model="cc.selectedCampaign.channel" ng-options="channel for channel in cc.campaignChannels" ng-disabled="cc.campaignChannels.length < 2">
-        <option ng-if="cc.campaignChannels.length > 1" disabled value="">{{'campaigns.details.channelDropdownDefault' | translate}}</option>
-      </select>
-    </div>
-  </div>
-
-  <div class="input-group">
+  <div class="input-group" ng-if="cc.selectedCampaign.flowName">
     <label>{{'details.flow' | translate}}</label>
     <div>
       {{cc.selectedCampaign.flowName}}
+    </div>
+  </div>
+
+  <div class="input-group" ng-if="cc.selectedCampaign.channel">
+    <label>{{'details.channelType' | translate}}</label>
+    <div>
+      {{cc.selectedCampaign.channel}}
     </div>
   </div>
 

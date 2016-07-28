@@ -14,6 +14,9 @@ angular.module('liveopsConfigPanel')
         tenantId: Session.tenant.tenantId,
         id: getCampaignId
       });
+
+      csc.campaignChannels = campaignChannelTypes;
+
       var dayMap = {
         'sunday': 'SU',
         'monday': 'M',
@@ -128,7 +131,6 @@ angular.module('liveopsConfigPanel')
             csc.exceptions.push(scheduleItem);
           }
         });
-
       }
 
       function setHours () {
@@ -217,6 +219,9 @@ angular.module('liveopsConfigPanel')
             convertDefaultExpiryToFormValue(csc.versionSettings);
             csc.versionSettings.defaultLeadRetryInterval = convertTimestampToFormVal(csc.versionSettings.defaultLeadRetryInterval);
             parseSchedule();
+            if (!csc.versionSettings.defaultMaxRetries || csc.versionSettings.defaultMaxRetries === 0) {
+              csc.versionSettings.defaultMaxRetries = 1;
+            }
             csc.loading = false;
           });
         } else {
@@ -227,7 +232,7 @@ angular.module('liveopsConfigPanel')
           csc.scheduleStartAmPm = 'am';
           csc.scheduleEndAmPm = 'pm';
           csc.loading = false;
-          csc.versionSettings.defaultMaxRetries = 0;
+          csc.versionSettings.defaultMaxRetries = 1;
         }
 
         csc.fetchDispositionList();
@@ -492,7 +497,6 @@ angular.module('liveopsConfigPanel')
         }
 
         if (csc.exceptionTimeIsInvalid || !$scope.forms.exceptionsForm.date.$valid) {
-          console.log("hi, breaking")
           return;
         }
 
@@ -554,12 +558,9 @@ angular.module('liveopsConfigPanel')
 
       csc.submit = function () {
         convertExpiryToTimestamp();
-
         csc.versionSettings.defaultLeadRetryInterval = convertToTimestamp(csc.versionSettings.defaultLeadRetryInterval);
-
         generateSchedule();
 
-        csc.versionSettings.channel = csc.campaignSettings.channel || campaignChannelTypes[0];
         // Deleting id and created so that we can force the API to create a new version,
         // since versions are not to be editable
         delete csc.versionSettings.id;
