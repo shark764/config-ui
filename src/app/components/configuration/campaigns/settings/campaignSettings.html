@@ -56,8 +56,7 @@
               ng-model="csc.versionSettings.defaultLeadExpiration"
               name="defaultLeadExpiration"
               string-to-number
-              type="number"
-              ng-init="csc.versionSettings.defaultLeadExpiration='0'">
+              type="number">
             <select ng-model="csc.expiryUnit">
               <option value="hr">{{'campaigns.details.settings.hours' | translate}}</option>
               <option value="day">{{'campaigns.details.settings.days' | translate}}</option>
@@ -313,12 +312,22 @@
 
           <div class="input-group">
             <label>{{'campaigns.details.setting.retry' | translate}}</label>
-            <input ng-model="csc.versionSettings.defaultLeadRetryInterval" name="defaultLeadRetryInterval" class="redial" string-to-number type="number" ng-init="csc.versionSettings.defaultLeadRetryInterval='0'"/>
+            <input ng-model="csc.versionSettings.defaultLeadRetryInterval"
+                   name="defaultLeadRetryInterval"
+                   class="redial"
+                   string-to-number
+                   type="number"
+                   min="1"/>
           </div>
 
           <div class="input-group">
             <label>{{'campaigns.details.setting.retryMax' | translate}}</label>
-            <input ng-model="csc.versionSettings.defaultMaxRetries" name="defaultMaxRetries" class="redial" type="number" min="1" required/>
+            <input ng-model="csc.versionSettings.defaultMaxRetries"
+                   name="defaultMaxRetries"
+                   class="redial"
+                   type="number"
+                   min="1"
+                   required/>
           </div>
         </div>
       </div>
