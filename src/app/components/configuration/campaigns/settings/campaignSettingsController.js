@@ -273,7 +273,6 @@ angular.module('liveopsConfigPanel')
             return list.active;
           });
         });
-
       };
 
       csc.loadTimezones = function () {
@@ -380,6 +379,7 @@ angular.module('liveopsConfigPanel')
 
           $document.find('modal').remove();
         };
+        $scope.$emit('childFormChange');
 
         var element = $compile('<modal></modal>')(newScope);
         $document.find('html > body').append(element);
@@ -426,7 +426,7 @@ angular.module('liveopsConfigPanel')
 
       csc.submitDispoDnc = function() {
         csc.dispositionMappingList[csc.dncIndex].listIds = [];
-        csc.dncLists.forEach(function(dncList) {
+        csc.selectedLists.forEach(function(dncList) {
           if (angular.isDefined(dncList.checked) && dncList.checked === true) {
             csc.dispositionMappingList[csc.dncIndex].listIds.push(dncList.id);
           }
@@ -434,6 +434,10 @@ angular.module('liveopsConfigPanel')
 
         $scope.showDispoDNC = false;
       };
+
+      $scope.$on('childFormChange', function () {
+        $scope.forms.settingsForm.$setDirty();
+      });
 
       csc.isChecked = function(dncListId) {
         if (angular.isDefined(csc.dispositionMappingList[csc.dncIndex].listIds)) {
