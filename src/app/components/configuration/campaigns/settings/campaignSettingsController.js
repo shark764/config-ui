@@ -133,6 +133,12 @@ angular.module('liveopsConfigPanel')
         });
       }
 
+      function checkConditionals (value, min){
+        if(!value || value === 0){
+          value = min || 0;
+        }
+      }
+
       function setHours () {
         // TODO: Optimize or simplify
         var startHour = csc.scheduleStartHour,
@@ -219,9 +225,10 @@ angular.module('liveopsConfigPanel')
             convertDefaultExpiryToFormValue(csc.versionSettings);
             csc.versionSettings.defaultLeadRetryInterval = convertTimestampToFormVal(csc.versionSettings.defaultLeadRetryInterval);
             parseSchedule();
-            if (!csc.versionSettings.defaultMaxRetries || csc.versionSettings.defaultMaxRetries === 0) {
-              csc.versionSettings.defaultMaxRetries = 1;
-            }
+            checkConditionals(csc.versionSettings.defaultLeadExpiration);
+            checkConditionals(csc.versionSettings.defaultLeadRetryInterval);
+            checkConditionals(csc.versionSettings.defaultMaxRetries, 1);
+
             csc.loading = false;
           });
         } else {
@@ -232,6 +239,8 @@ angular.module('liveopsConfigPanel')
           csc.scheduleStartAmPm = 'am';
           csc.scheduleEndAmPm = 'pm';
           csc.loading = false;
+          csc.versionSettings.defaultLeadExpiration = 0;
+          csc.versionSettings.defaultLeadRetryInterval = 0;
           csc.versionSettings.defaultMaxRetries = 1;
         }
 
