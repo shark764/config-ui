@@ -242,6 +242,7 @@ angular.module('liveopsConfigPanel')
           csc.versionSettings.defaultLeadExpiration = 0;
           csc.versionSettings.defaultLeadRetryInterval = 0;
           csc.versionSettings.defaultMaxRetries = 1;
+
         }
 
         csc.fetchDispositionList();
@@ -568,6 +569,7 @@ angular.module('liveopsConfigPanel')
         csc.exceptions.splice(index, 1);
         $scope.forms.settingsForm.$setDirty();
       };
+      console.log('$scope.forms.settingsForm', $scope.forms.settingsForm);
 
       csc.submit = function () {
         convertExpiryToTimestamp();
