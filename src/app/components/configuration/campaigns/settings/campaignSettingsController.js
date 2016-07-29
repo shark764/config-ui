@@ -133,9 +133,9 @@ angular.module('liveopsConfigPanel')
         });
       }
 
-      function checkConditionals (value){
+      function checkConditionals (value, min){
         if(!value || value === 0){
-          value = 0;
+          value = min || 0;
         }
       }
 
@@ -227,7 +227,7 @@ angular.module('liveopsConfigPanel')
             parseSchedule();
             checkConditionals(csc.versionSettings.defaultLeadExpiration);
             checkConditionals(csc.versionSettings.defaultLeadRetryInterval);
-            checkConditionals(csc.versionSettings.defaultMaxRetries);
+            checkConditionals(csc.versionSettings.defaultMaxRetries, 1);
 
             csc.loading = false;
           });
