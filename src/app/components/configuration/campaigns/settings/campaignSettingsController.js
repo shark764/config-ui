@@ -50,14 +50,18 @@ angular.module('liveopsConfigPanel')
       }
 
       function convertDefaultExpiryToFormValue(settings) {
-        settings.defaultLeadExpiration = convertTimestampToFormVal(settings.defaultLeadExpiration);
+        var verifiedDefaultExpiry = checkConditionals(settings.defaultLeadExpiration);
+        settings.defaultLeadExpiration = convertTimestampToFormVal(verifiedDefaultExpiry);
         if (settings.defaultLeadExpiration % 24 === 0) {
-          settings.defaultLeadExpiration = settings.defaultLeadExpiration / 24;
+          csc.leadExpiry = settings.defaultLeadExpiration / 24;
           csc.expiryUnit = 'day';
+        } else {
+          csc.leadExpiry = settings.defaultLeadExpiration;
+          csc.expiryUnit = 'hr';
         }
       }
 
-      function addLeadingZeros (num) {
+      function addLeadingZeros(num) {
         if (num < 10) {
           return '0' + num;
         } else {
@@ -68,20 +72,34 @@ angular.module('liveopsConfigPanel')
       function convertToTimestamp(time) {
         var hours;
 
-        if (time) {
-          hours = addLeadingZeros(time);
+        //make sure that the value we're getting is a number using Lodash's _.isFinite()
+        if (_.isFinite(time)) {
+          if (time > 0) {
+            hours = addLeadingZeros(time);
+          } else {
+            hours = '00'
+          }
         } else {
-          hours = '00';
+          // if it's not a number, make it one
+          var toNum = parseInt(time);
+          // if it's still not a number, force the value to be '00'
+          if (!_.isFinite(toNum)) {
+            hours = '00';
+          } else {
+            // since the parseInt() worked, add the leading zeros if necessary
+            hours = addLeadingZeros(toNum);
+          }
         }
+
         return hours + ':00:00';
       }
 
       function convertExpiryToTimestamp() {
-        if (angular.isDefined(csc.versionSettings.defaultLeadExpiration)) {
+        if (angular.isDefined(csc.leadExpiry)) {
           if (csc.expiryUnit === 'day') {
-            csc.versionSettings.defaultLeadExpiration = csc.versionSettings.defaultLeadExpiration * 24;
+            csc.versionSettings.defaultLeadExpiration = csc.leadExpiry * 24;
           }
-          csc.versionSettings.defaultLeadExpiration = convertToTimestamp(csc.versionSettings.defaultLeadExpiration);
+          csc.versionSettings.defaultLeadExpiration = convertToTimestamp(csc.leadExpiry);
         }
       }
 
@@ -100,8 +118,8 @@ angular.module('liveopsConfigPanel')
         }
 
         // TODO: push exception hours as well
-        if(angular.isDefined(csc.exceptions)) {
-          csc.exceptions.forEach(function(exception) {
+        if (angular.isDefined(csc.exceptions)) {
+          csc.exceptions.forEach(function (exception) {
             csc.versionSettings.schedule.push(exception);
           });
         }
@@ -113,10 +131,10 @@ angular.module('liveopsConfigPanel')
         // In the future, since the "actual schedule" is made up of multiple schedule items, with potentially different start/end times,
         // this will need to be completely reworked.
         if (angular.isDefined(csc.versionSettings.schedule[0])) {
-          csc.scheduleStartHour = parseInt(csc.versionSettings.schedule[0].startTime.slice(0,2));
-          csc.scheduleEndHour = parseInt(csc.versionSettings.schedule[0].endTime.slice(0,2));
-          csc.scheduleStartMinutes = addLeadingZeros(parseInt(csc.versionSettings.schedule[0].startTime.slice(3,5)));
-          csc.scheduleEndMinutes = addLeadingZeros(parseInt(csc.versionSettings.schedule[0].endTime.slice(3,5)));
+          csc.scheduleStartHour = parseInt(csc.versionSettings.schedule[0].startTime.slice(0, 2));
+          csc.scheduleEndHour = parseInt(csc.versionSettings.schedule[0].endTime.slice(0, 2));
+          csc.scheduleStartMinutes = addLeadingZeros(parseInt(csc.versionSettings.schedule[0].startTime.slice(3, 5)));
+          csc.scheduleEndMinutes = addLeadingZeros(parseInt(csc.versionSettings.schedule[0].endTime.slice(3, 5)));
 
           setHours();
         }
@@ -124,7 +142,7 @@ angular.module('liveopsConfigPanel')
         csc.exceptions = []
 
         var invertedDayMap = _.invert(dayMap);
-        csc.versionSettings.schedule.forEach(function(scheduleItem) {
+        csc.versionSettings.schedule.forEach(function (scheduleItem) {
           if (angular.isDefined(scheduleItem.day)) {
             csc[invertedDayMap[scheduleItem.day] + 'Selected'] = true;
           } else {
@@ -133,18 +151,20 @@ angular.module('liveopsConfigPanel')
         });
       }
 
-      function checkConditionals (value, min){
-        if(!value || value === 0){
-          value = min || 0;
+      function checkConditionals(value, min) {
+        if (!value || value === 0) {
+          return min || 0;
+        } else {
+          return value;
         }
       }
 
-      function setHours () {
+      function setHours() {
         // TODO: Optimize or simplify
         var startHour = csc.scheduleStartHour,
-            startAmPm = csc.scheduleStartAmPm,
-            endHour = csc.scheduleEndHour,
-            endAmPm = csc.scheduleEndAmPm;
+          startAmPm = csc.scheduleStartAmPm,
+          endHour = csc.scheduleEndHour,
+          endAmPm = csc.scheduleEndAmPm;
 
         loadStartTimePickerData.call(csc, startHour, startAmPm);
         loadEndTimePickerData.call(csc, endHour, endAmPm);
@@ -155,14 +175,14 @@ angular.module('liveopsConfigPanel')
         csc.scheduleEndAmPm = csc.endAmPm;
       }
 
-      function loadStartTimePickerData (startHour) {
+      function loadStartTimePickerData(startHour) {
         if (startHour > 12) {
           this.startHour = startHour - 12;
           this.startAmPm = 'pm';
         } else if (startHour < 12) {
           this.startHour = startHour;
           this.startAmPm = 'am';
-          if (startHour === 0){
+          if (startHour === 0) {
             this.startHour = 12;
             this.startAmPm = 'am';
           }
@@ -175,14 +195,14 @@ angular.module('liveopsConfigPanel')
         }
       }
 
-      function loadEndTimePickerData (endHour) {
+      function loadEndTimePickerData(endHour) {
         if (endHour > 12) {
           this.endHour = endHour - 12;
           this.endAmPm = 'pm';
         } else if (endHour < 12) {
           this.endHour = endHour;
           this.endAmPm = 'am';
-          if (endHour === 0){
+          if (endHour === 0) {
             this.endHour = 12;
             this.endAmPm = 'am';
           }
@@ -217,7 +237,7 @@ angular.module('liveopsConfigPanel')
             campaignId: response.id,
             tenantId: Session.tenant.tenantId,
             versionId: response.latestVersion
-          }).$promise.then(function(campVersion) {
+          }).$promise.then(function (campVersion) {
             // temporary fix for API typo
             campVersion.dispositionCodeListId = campVersion.dispostionCodeListId;
             delete campVersion.dispostionCodeListId;
@@ -225,10 +245,9 @@ angular.module('liveopsConfigPanel')
             convertDefaultExpiryToFormValue(csc.versionSettings);
             csc.versionSettings.defaultLeadRetryInterval = convertTimestampToFormVal(csc.versionSettings.defaultLeadRetryInterval);
             parseSchedule();
-            checkConditionals(csc.versionSettings.defaultLeadExpiration);
-            checkConditionals(csc.versionSettings.defaultLeadRetryInterval);
-            checkConditionals(csc.versionSettings.defaultMaxRetries, 1);
 
+            csc.versionSettings.defaultLeadRetryInterval = checkConditionals(csc.versionSettings.defaultLeadRetryInterval);
+            csc.versionSettings.defaultMaxRetries = checkConditionals(csc.versionSettings.defaultMaxRetries, 1);
             csc.loading = false;
           });
         } else {
@@ -277,8 +296,8 @@ angular.module('liveopsConfigPanel')
 
         DispositionList.cachedQuery({
           tenantId: Session.tenant.tenantId
-        }).$promise.then(function(lists) {
-          csc.dispositionLists = lists.filter(function(list) {
+        }).$promise.then(function (lists) {
+          csc.dispositionLists = lists.filter(function (list) {
             return list.active;
           });
         });
@@ -292,7 +311,7 @@ angular.module('liveopsConfigPanel')
         $state.go('content.configuration.campaigns');
       };
 
-      csc.fetchDNCList = function(){
+      csc.fetchDNCList = function () {
         csc.dncLists = DncLists.cachedQuery({
           tenantId: Session.tenant.tenantId
         });
@@ -331,19 +350,22 @@ angular.module('liveopsConfigPanel')
         DispositionList.get({
           tenantId: Session.tenant.tenantId,
           id: dispoId
-        }).$promise.then(function(currentList) {
-          csc.currentDispositionList = currentList.dispositions.sort(function(a,b) {
+        }).$promise.then(function (currentList) {
+          csc.currentDispositionList = currentList.dispositions.sort(function (a, b) {
             return a.sortOrder - b.sortOrder;
           });
           var categoriesAdded = [];
           var dispositionListCopy = csc.currentDispositionList.slice(0);
 
           // add hierarchy headers
-          dispositionListCopy.forEach(function(disposition, index) {
-            if(angular.isDefined(disposition.hierarchy)) {
-              disposition.hierarchy.forEach(function(category) {
+          dispositionListCopy.forEach(function (disposition, index) {
+            if (angular.isDefined(disposition.hierarchy)) {
+              disposition.hierarchy.forEach(function (category) {
                 if (categoriesAdded.indexOf(category) === -1) {
-                  csc.currentDispositionList.splice(index + categoriesAdded.length, 0, {name: category, type: 'category'});
+                  csc.currentDispositionList.splice(index + categoriesAdded.length, 0, {
+                    name: category,
+                    type: 'category'
+                  });
                   categoriesAdded.push(category);
                 }
               });
@@ -406,7 +428,7 @@ angular.module('liveopsConfigPanel')
         csc.dispositionMappingList = [];
         var dispoList = csc.currentDispositionList;
         var dispoMap = csc.versionSettings.dispositionMappings || [];
-        dispoList.forEach(function(disposition) {
+        dispoList.forEach(function (disposition) {
           if (angular.isDefined(disposition.type)) {
             csc.dispositionMappingList.push({});
           } else if (angular.isDefined(dispoMap[disposition.dispositionId])) {
@@ -421,21 +443,23 @@ angular.module('liveopsConfigPanel')
               });
             }
           } else {
-            csc.dispositionMappingList.push({action: 'success'});
+            csc.dispositionMappingList.push({
+              action: 'success'
+            });
           }
         });
       }
 
-      csc.cancelDispoDnc = function(){
+      csc.cancelDispoDnc = function () {
         if (angular.isUndefined(csc.dispositionMappingList[csc.dncIndex].listIds)) {
           csc.dispositionMappingList[csc.dncIndex].action = 'success';
         }
         $scope.showDispoDNC = false;
       };
 
-      csc.submitDispoDnc = function() {
+      csc.submitDispoDnc = function () {
         csc.dispositionMappingList[csc.dncIndex].listIds = [];
-        csc.selectedLists.forEach(function(dncList) {
+        csc.selectedLists.forEach(function (dncList) {
           if (angular.isDefined(dncList.checked) && dncList.checked === true) {
             csc.dispositionMappingList[csc.dncIndex].listIds.push(dncList.id);
           }
@@ -448,7 +472,7 @@ angular.module('liveopsConfigPanel')
         $scope.forms.settingsForm.$setDirty();
       });
 
-      csc.isChecked = function(dncListId) {
+      csc.isChecked = function (dncListId) {
         if (angular.isDefined(csc.dispositionMappingList[csc.dncIndex].listIds)) {
           if (csc.dispositionMappingList[csc.dncIndex].listIds.indexOf(dncListId) !== -1) {
             return true;
@@ -459,8 +483,10 @@ angular.module('liveopsConfigPanel')
 
       csc.addDNC = function (newDncListId) {
         // first find the index of this new DNC list id
-        var indexOfListToRemove = _.findIndex(csc.dncLists, {id: newDncListId})
-        // now that we've got the index, add it to the selected DNC lists
+        var indexOfListToRemove = _.findIndex(csc.dncLists, {
+            id: newDncListId
+          })
+          // now that we've got the index, add it to the selected DNC lists
         var addedDncObj = csc.dncLists[indexOfListToRemove];
         csc.selectedLists.push(addedDncObj);
         // using that same index, remove it from the list of ALL DNC lists
@@ -540,7 +566,7 @@ angular.module('liveopsConfigPanel')
         // If any fields haven't been filled out, don't validate, they will get "required" error messages.
         if (form.startHour.$error.required || form.startMinutes.$error.required || form.startAmPm.$error.required ||
           form.endHour.$error.required || form.endMinutes.$error.required || form.endAmPm.$error.required) {
-            return;
+          return;
         }
 
         // Ensure that start time is earlier than end time
@@ -564,13 +590,14 @@ angular.module('liveopsConfigPanel')
         }
       }
 
-      csc.removeException = function(index) {
+      csc.removeException = function (index) {
         csc.exceptions.splice(index, 1);
         $scope.forms.settingsForm.$setDirty();
       };
 
       csc.submit = function () {
         convertExpiryToTimestamp();
+
         csc.versionSettings.defaultLeadRetryInterval = convertToTimestamp(csc.versionSettings.defaultLeadRetryInterval);
         generateSchedule();
 

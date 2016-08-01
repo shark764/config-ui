@@ -87,7 +87,8 @@
         </button>
       </div>
 
-      <div>
+      <!-- Taking this out until API data that gives us these stats is fixed -->
+      <!-- <div>
         <button
           id="stats-btn"
           class="btn"
@@ -95,7 +96,7 @@
           ng-disabled="!cc.selectedCampaign.id || !cc.selectedCampaign.hasCallList">
           {{'campaigns.details.statsBtn' | translate}}
         </button>
-      </div>
+      </div> -->
 
       <div>
         <button
@@ -110,11 +111,12 @@
 
     </div>
     <div class="form-col right align-top">
-      <p ng-show="cc.selectedCampaign.latestJobData">
+      <!-- Taking this out until API data that gives us these stats is fixed -->
+      <!-- <p ng-show="cc.selectedCampaign.latestJobData">
         {{'campaigns.details.lastUpdate' | translate}} - {{cc.selectedCampaign.latestJobData.created | date:'MM/dd/yyyy HH:mm:ss' }}
         <br> {{'campaigns.details.updateStatus' | translate}} - {{cc.selectedCampaign.latestJobData.status}}
         <br> {{'campaigns.details.leadCount' | translate}} - {{cc.selectedCampaign.latestJobData.rowsProcessed}}
-      </p>
+      </p> -->
     </div>
   </div>
 </div>

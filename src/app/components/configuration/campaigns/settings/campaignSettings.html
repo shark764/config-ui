@@ -29,7 +29,10 @@
         </div>
 
         <div class="input-group">
-          <label>{{'campaigns.details.setting.ani' | translate}} *</label>
+          <form-error field="forms.settingsForm.callerId" error-type-phone-number="{{'campaigns.details.setting.anierror' | translate}}"></form-error>
+        </div>
+        <div class="input-group">
+          <label>{{'campaigns.details.editor.ani' | translate}}</label>
           <div>
             <input ng-model="csc.versionSettings.callerId" name="callerId" class="ani" type="tel"/>
           </div>
@@ -53,10 +56,11 @@
           <label>{{'campaigns.details.setting.expiry' | translate}}</label>
           <div>
             <input
-              ng-model="csc.versionSettings.defaultLeadExpiration"
+              ng-model="csc.leadExpiry"
+              numbers-only
+              type="number"
               name="defaultLeadExpiration"
-              string-to-number
-              type="number">
+              string-to-number>
             <select ng-model="csc.expiryUnit">
               <option value="hr">{{'campaigns.details.settings.hours' | translate}}</option>
               <option value="day">{{'campaigns.details.settings.days' | translate}}</option>
@@ -316,8 +320,7 @@
                    name="defaultLeadRetryInterval"
                    class="redial"
                    string-to-number
-                   type="number"
-                   min="1"/>
+                   type="number"/>
           </div>
 
           <div class="input-group">
