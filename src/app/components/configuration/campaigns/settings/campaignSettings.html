@@ -56,10 +56,11 @@
           <label>{{'campaigns.details.setting.expiry' | translate}}</label>
           <div>
             <input
-              ng-model="csc.versionSettings.defaultLeadExpiration"
+              ng-model="csc.leadExpiry"
+              numbers-only
+              type="number"
               name="defaultLeadExpiration"
-              string-to-number
-              type="number">
+              string-to-number>
             <select ng-model="csc.expiryUnit">
               <option value="hr">{{'campaigns.details.settings.hours' | translate}}</option>
               <option value="day">{{'campaigns.details.settings.days' | translate}}</option>

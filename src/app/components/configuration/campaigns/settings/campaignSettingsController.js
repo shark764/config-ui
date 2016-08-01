@@ -50,10 +50,14 @@ angular.module('liveopsConfigPanel')
       }
 
       function convertDefaultExpiryToFormValue(settings) {
-        settings.defaultLeadExpiration = convertTimestampToFormVal(settings.defaultLeadExpiration);
+        var verifiedDefaultExpiry = checkConditionals(settings.defaultLeadExpiration);
+        settings.defaultLeadExpiration = convertTimestampToFormVal(verifiedDefaultExpiry);
         if (settings.defaultLeadExpiration % 24 === 0) {
-          settings.defaultLeadExpiration = settings.defaultLeadExpiration / 24;
+          csc.leadExpiry = settings.defaultLeadExpiration / 24;
           csc.expiryUnit = 'day';
+        } else {
+          csc.leadExpiry = settings.defaultLeadExpiration;
+          csc.expiryUnit = 'hr';
         }
       }
 
@@ -66,28 +70,36 @@ angular.module('liveopsConfigPanel')
       }
 
       function convertToTimestamp(time) {
-        console.log('time inside of convertToTimestamp', time);
         var hours;
 
-        if (angular.isNumber(time)) {
+        //make sure that the value we're getting is a number using Lodash's _.isFinite()
+        if (_.isFinite(time)) {
           if (time > 0) {
             hours = addLeadingZeros(time);
           } else {
             hours = '00'
           }
         } else {
-          hours = '00'
+          // if it's not a number, make it one
+          var toNum = parseInt(time);
+          // if it's still not a number, force the value to be '00'
+          if (!_.isFinite(toNum)) {
+            hours = '00';
+          } else {
+            // since the parseInt() worked, add the leading zeros if necessary
+            hours = addLeadingZeros(toNum);
+          }
         }
 
         return hours + ':00:00';
       }
 
       function convertExpiryToTimestamp() {
-        if (angular.isDefined(csc.versionSettings.defaultLeadExpiration)) {
+        if (angular.isDefined(csc.leadExpiry)) {
           if (csc.expiryUnit === 'day') {
-            csc.versionSettings.defaultLeadExpiration = csc.versionSettings.defaultLeadExpiration * 24;
+            csc.versionSettings.defaultLeadExpiration = csc.leadExpiry * 24;
           }
-          csc.versionSettings.defaultLeadExpiration = convertToTimestamp(csc.versionSettings.defaultLeadExpiration);
+          csc.versionSettings.defaultLeadExpiration = convertToTimestamp(csc.leadExpiry);
         }
       }
 
@@ -233,13 +245,9 @@ angular.module('liveopsConfigPanel')
             convertDefaultExpiryToFormValue(csc.versionSettings);
             csc.versionSettings.defaultLeadRetryInterval = convertTimestampToFormVal(csc.versionSettings.defaultLeadRetryInterval);
             parseSchedule();
-            console.log('csc.versionSettings.defaultMaxRetries', csc.versionSettings.defaultMaxRetries);
 
-            csc.versionSettings.defaultLeadExpiration = checkConditionals(csc.versionSettings.defaultLeadExpiration);
             csc.versionSettings.defaultLeadRetryInterval = checkConditionals(csc.versionSettings.defaultLeadRetryInterval);
             csc.versionSettings.defaultMaxRetries = checkConditionals(csc.versionSettings.defaultMaxRetries, 1);
-
-
             csc.loading = false;
           });
         } else {
@@ -253,7 +261,6 @@ angular.module('liveopsConfigPanel')
           csc.versionSettings.defaultLeadExpiration = 0;
           csc.versionSettings.defaultLeadRetryInterval = 0;
           csc.versionSettings.defaultMaxRetries = 1;
-
         }
 
         csc.fetchDispositionList();
@@ -590,6 +597,7 @@ angular.module('liveopsConfigPanel')
 
       csc.submit = function () {
         convertExpiryToTimestamp();
+
         csc.versionSettings.defaultLeadRetryInterval = convertToTimestamp(csc.versionSettings.defaultLeadRetryInterval);
         generateSchedule();
 
