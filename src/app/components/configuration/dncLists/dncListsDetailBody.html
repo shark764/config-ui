@@ -64,6 +64,7 @@
       id="download-btn"
       class="btn"
       ng-click="dnc.downloadDncList(dnc.selectedDncList.id)"
+      ng-disabled="dnc.selectedDncList.isNew()"
       type="button">
       {{'dncEdit.table.dncListDownload' | translate}}
     </button>
