@@ -4,6 +4,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 * CXV1-3589 - Initial addition of *feature-flagged* campaigns/outbound feature, still in development.
+* CXV1-3027 - Update group management view for reason lists
+* Bump config-shared to 1.2.4
 * Bumping flow-designer version to 2.1.0-SNAPSHOT
 
 ## [4.1.13]
