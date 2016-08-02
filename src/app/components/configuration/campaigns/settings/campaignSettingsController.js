@@ -216,6 +216,8 @@ angular.module('liveopsConfigPanel')
       }
 
       function convertToMilitaryHours(hours, scheduleOrException, startOrEnd) {
+        console.log('convertToMilitaryHours scheduleOrException', scheduleOrException);
+
         // handle edge cases for noon and midnight first
         if (hours === 12) {
           if (csc[scheduleOrException + startOrEnd + 'AmPm'] === 'am') {
@@ -508,34 +510,34 @@ angular.module('liveopsConfigPanel')
         return _.map(list, 'id')
       };
 
-      csc.addHoursException = function () {
+      csc.addHoursException = function (currentForm) {
         var DATE_STRING_LENGTH = 10;
 
         if (!csc.exceptions) {
           csc.exceptions = [];
         }
 
-        $scope.forms.exceptionsForm.date.$setTouched();
-        $scope.forms.exceptionsForm.startHour.$setTouched();
-        $scope.forms.exceptionsForm.startMinutes.$setTouched();
-        $scope.forms.exceptionsForm.startAmPm.$setTouched();
-        $scope.forms.exceptionsForm.endHour.$setTouched();
-        $scope.forms.exceptionsForm.endMinutes.$setTouched();
-        $scope.forms.exceptionsForm.endAmPm.$setTouched();
+        currentForm.date.$setTouched();
+        currentForm.startHour.$setTouched();
+        currentForm.startMinutes.$setTouched();
+        currentForm.startAmPm.$setTouched();
+        currentForm.endHour.$setTouched();
+        currentForm.endMinutes.$setTouched();
+        currentForm.endAmPm.$setTouched();
 
         if (angular.isUndefined(csc.newExceptionHour) || angular.isUndefined(csc.newExceptionHour.date) || csc.newExceptionHour.date.length !== DATE_STRING_LENGTH) {
           $scope.exceptionsDateError = $translate.instant('campaigns.details.settings.date.invalid');
-          $scope.forms.exceptionsForm.date.$setValidity("date", false);
+          currentForm.date.$setValidity("date", false);
         } else {
           $scope.exceptionsDateError = undefined;
-          $scope.forms.exceptionsForm.date.$setValidity("date", true);
+          currentForm.date.$setValidity("date", true);
         }
 
         if (csc.newExceptionHour && !csc.newExceptionHour.allDay) {
-          validateExceptionTime();
+          validateExceptionTime(currentForm);
         }
 
-        if (csc.exceptionTimeIsInvalid || !$scope.forms.exceptionsForm.date.$valid) {
+        if (csc.exceptionTimeIsInvalid || !currentForm.date.$valid) {
           return;
         }
 
@@ -559,35 +561,57 @@ angular.module('liveopsConfigPanel')
         $scope.forms.settingsForm.$setDirty();
       };
 
-      function validateExceptionTime() {
-        var form = $scope.forms.exceptionsForm;
-        csc.exceptionTimeIsInvalid = false;
 
-        // If any fields haven't been filled out, don't validate, they will get "required" error messages.
-        if (form.startHour.$error.required || form.startMinutes.$error.required || form.startAmPm.$error.required ||
-          form.endHour.$error.required || form.endMinutes.$error.required || form.endAmPm.$error.required) {
-            return;
-        }
+      function validateStartEndTime (form, isValid, schedExep) {
+        var scheduleOrException = schedExep ? 'exception' : 'schedule';
+
+        console.log('form', form);
 
         // Ensure that start time is earlier than end time
-        var startHour = parseInt(convertToMilitaryHours(csc.newExceptionHour.startHour, 'exception', 'Start'));
-        var endHour = parseInt(convertToMilitaryHours(csc.newExceptionHour.endHour, 'exception', 'End'));
+        var startHour = parseInt(convertToMilitaryHours(form.startHour.$modelValue, scheduleOrException, 'Start'));
+        var endHour = parseInt(convertToMilitaryHours(form.endHour.$modelValue, scheduleOrException, 'End'));
+
+        console.log('startHour', startHour);
+        console.log('endHour', endHour);
 
         if (startHour > endHour) {
-          csc.exceptionTimeIsInvalid = true;
-          return;
+          //csc.exceptionTimeIsInvalid = true;
+          return true;
         }
         if (startHour < endHour) {
           return;
         }
 
         // startHour === endHour, so check minutes
-        var startMinutes = parseInt(csc.newExceptionHour.startMinutes);
-        var endMinutes = parseInt(csc.newExceptionHour.endMinutes);
+        var startMinutes = parseInt(form.startMin.$modelValue);
+        var endMinutes = parseInt(form.endMin.$modelValue);
+
+        console.log('startMinutes', startMinutes);
+        console.log('endMinutes', endMinutes);
 
         if (startMinutes >= endMinutes) {
-          csc.exceptionTimeIsInvalid = true;
+          return true;
         }
+      }
+
+      function validateExceptionTime(currentForm) {
+        var scheduleOrException,
+            formInvalid;
+
+        if (currentForm.name === 'exceptionsForm') {
+
+        }
+
+        csc.exceptionTimeIsInvalid = false;
+
+        // If any fields haven't been filled out, don't validate, they will get "required" error messages.
+        if (currentForm.startHour.$error.required || currentForm.startMinutes.$error.required || currentForm.startAmPm.$error.required ||
+          currentForm.endHour.$error.required || currentForm.endMinutes.$error.required || currentForm.endAmPm.$error.required) {
+            return;
+        }
+
+        csc.exceptionTimeIsInvalid = validateStartEndTime(currentForm, formInvalid);
+
       }
 
       csc.removeException = function (index) {

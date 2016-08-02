@@ -186,7 +186,7 @@
         error-type-date="{{'campaigns.details.settings.date.invalid' | translate}}">
       </form-error>
       <form-error field="forms.exceptionsForm.startHour"
-        error-type-required="{{'campaigns.details.settings.startHr.invailid' | translate}}">
+        error-type-required="{{'campaigns.details.settings.startHr.invalid' | translate}}">
       </form-error>
       <form-error field="forms.exceptionsForm.startMinutes"
         error-type-required="{{'campaigns.details.settings.startMin.invalid' | translate}}">
@@ -266,7 +266,7 @@
             <label>{{'campaigns.details.setting.allDay' | translate}}</label>
           </div>
 
-          <button id="donotcall-btn" class="btn" type="button" ng-click="csc.addHoursException()">
+          <button id="add-hours-exception" class="btn" type="button" ng-click="csc.addHoursException(forms.exceptionsForm)">
             <i class="fa fa-plus"></i>
           </button>
         </ng-form>
