@@ -163,6 +163,7 @@
   "details.userreasons.none": "This user has not been assigned any presence reasons.",
   "details.userreasons.remove": "Remove reason list from this user",
   "details.usergroups.remove": "Remove user from this group",
+  "details.groupreasons.none": "This group has not been assigned any presence reasons.",
   "details.groups.showall": "Show all",
   "details.groups.hideextra": "Minimize",
   "details.groups.placeholder": "Add Group...",
