@@ -3,7 +3,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
-* CXV1-3589 - Initial addition of campaigns/outbound feature. Work is not complete, but putting it into dev for preliminary QE
+* CXV1-3589 - Initial addition of *feature-flagged* campaigns/outbound feature, still in development.
 * Bumping flow-designer version to 2.1.0-SNAPSHOT
 
 ## [4.1.13]

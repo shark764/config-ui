@@ -165,7 +165,17 @@ angular.module('liveopsConfigPanel')
       cc.submit = function () {
         return cc.selectedCampaign.save({
           tenantId: Session.tenant.tenantId
-        }).then(function (response) {
+        }, function (response) {
+          Alert.success($translate.instant('value.saveSuccess'));
+          cc.duplicateError = false;
+        }, function (err) {
+          Alert.error($translate.instant('value.saveFail'));
+          if (err.data.error.attribute.name) {
+            cc.duplicateError = true;
+            cc.duplicateErrorMessage = err.data.error.attribute.name.capitalize();
+          }
+        })
+        .then(function (response) {
           // once the campaign has been saved, re-evaluate for the presence of a version
           // so that we can properly enable or disable the start/stop toggle
           hasVersion();
