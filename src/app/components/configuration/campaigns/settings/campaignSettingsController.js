@@ -216,8 +216,6 @@ angular.module('liveopsConfigPanel')
       }
 
       function convertToMilitaryHours(hours, scheduleOrException, startOrEnd) {
-        console.log('convertToMilitaryHours scheduleOrException', scheduleOrException);
-
         // handle edge cases for noon and midnight first
         if (hours === 12) {
           if (csc[scheduleOrException + startOrEnd + 'AmPm'] === 'am') {
@@ -562,32 +560,24 @@ angular.module('liveopsConfigPanel')
       };
 
 
-      function validateStartEndTime (form, isValid, schedExep) {
+      function validateStartEndTime (form, schedExep) {
         var scheduleOrException = schedExep ? 'exception' : 'schedule';
-
-        console.log('form', form);
 
         // Ensure that start time is earlier than end time
         var startHour = parseInt(convertToMilitaryHours(form.startHour.$modelValue, scheduleOrException, 'Start'));
         var endHour = parseInt(convertToMilitaryHours(form.endHour.$modelValue, scheduleOrException, 'End'));
 
-        console.log('startHour', startHour);
-        console.log('endHour', endHour);
 
         if (startHour > endHour) {
-          //csc.exceptionTimeIsInvalid = true;
           return true;
         }
         if (startHour < endHour) {
-          return;
+          return false;
         }
 
         // startHour === endHour, so check minutes
-        var startMinutes = parseInt(form.startMin.$modelValue);
-        var endMinutes = parseInt(form.endMin.$modelValue);
-
-        console.log('startMinutes', startMinutes);
-        console.log('endMinutes', endMinutes);
+        var startMinutes = parseInt(form.startMinutes.$modelValue);
+        var endMinutes = parseInt(form.endMinutes.$modelValue);
 
         if (startMinutes >= endMinutes) {
           return true;
@@ -595,22 +585,14 @@ angular.module('liveopsConfigPanel')
       }
 
       function validateExceptionTime(currentForm) {
-        var scheduleOrException,
-            formInvalid;
-
-        if (currentForm.name === 'exceptionsForm') {
-
-        }
-
         csc.exceptionTimeIsInvalid = false;
 
         // If any fields haven't been filled out, don't validate, they will get "required" error messages.
-        if (currentForm.startHour.$error.required || currentForm.startMinutes.$error.required || currentForm.startAmPm.$error.required ||
-          currentForm.endHour.$error.required || currentForm.endMinutes.$error.required || currentForm.endAmPm.$error.required) {
+        if (currentForm.startHour.$error.required || currentForm.startMinutes.$error.required || currentForm.startAmPm.$error.required || currentForm.endHour.$error.required || currentForm.endMinutes.$error.required || currentForm.endAmPm.$error.required) {
             return;
         }
 
-        csc.exceptionTimeIsInvalid = validateStartEndTime(currentForm, formInvalid);
+        csc.exceptionTimeIsInvalid = validateStartEndTime(currentForm, 'true');
 
       }
 
