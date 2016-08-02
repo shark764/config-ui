@@ -45,7 +45,8 @@ angular.module('liveopsConfigPanel')
       'showBulkActions': function () {
         return true;
         //return UserPermissions.hasPermission('MANAGE_ALL_CAMPAIGNS');
-      },
-      'helpLink' : helpDocsHostname + '/Help/Content/Configuring%20CxEngage/Business%20Hours/Business_Hours.htm'
+      }
+      // Still awaiting DNC List docs, so commenting out
+      //'helpLink' : helpDocsHostname + '/Help/Content/Configuring%20CxEngage/Business%20Hours/Business_Hours.htm'
     };
   }]);

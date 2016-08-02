@@ -51,8 +51,8 @@ angular.module('liveopsConfigPanel')
       },
       'showBulkActions': function () {
         return UserPermissions.hasPermission('MANAGE_CAMPAIGNS');
-      },
+      }
       //NEED TO CHANGE FOR CAMPAIGNS
-      'helpLink': helpDocsHostname + '/Help/Content/Configuring%20CxEngage/Business%20Hours/Business_Hours.htm'
+      //'helpLink': helpDocsHostname + '/Help/Content/Configuring%20CxEngage/Business%20Hours/Business_Hours.htm'
     };
   }]);

@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('NavbarController', ['$rootScope', '$scope', '$state', 'AuthService', 'Session', 'DirtyForms', '$translate', 'UserPermissions', 'PermissionGroups', '$window', 'helpDocsHostname',
-    function($rootScope, $scope, $state, AuthService, Session, DirtyForms, $translate, UserPermissions, PermissionGroups, $window, helpDocsHostname) {
+  .controller('NavbarController', ['$rootScope', '$scope', '$state', 'AuthService', 'Session', 'DirtyForms', '$translate', 'UserPermissions', 'PermissionGroups', '$window', 'helpDocsHostname', 'appFlags',
+    function($rootScope, $scope, $state, AuthService, Session, DirtyForms, $translate, UserPermissions, PermissionGroups, $window, helpDocsHostname, appFlags) {
       var vm = this;
       $scope.hovering = false;
       $scope.Session = Session;
@@ -206,24 +206,28 @@ angular.module('liveopsConfigPanel')
           });
         }
 
-        // FEATURE FLAG: UNCOMMENT THIS AS WELL AS THE CAMPAIGNS-RELATED STATES IN index.states.js
-        // IN ORDER TO ENABLE THE CAMPAIGNS FEATURE.
-        items.push({
-          label: $translate.instant('navbar.configuration.campaigns.title'),
-          stateLink: 'content.configuration.campaigns',
-          id: 'campaigns-configuration-link',
-          order: 5
-        });
+        // BEGIN OUTBOUND FEATURE FLAG...
+        if (appFlags.OUTBOUND_PAGES) {
+          if (UserPermissions.hasPermissionInList(PermissionGroups.accessAllCampaigns)) {
+            items.push({
+              label: $translate.instant('navbar.configuration.campaigns.title'),
+              stateLink: 'content.configuration.campaigns',
+              id: 'campaigns-configuration-link',
+              order: 5
+            });
+          }
 
-
-        if (UserPermissions.hasPermissionInList(PermissionGroups.accessAllIntegrations)) {
-          items.push({
-            label: $translate.instant('navbar.configuration.dnc.title'),
-            stateLink: 'content.configuration.dnc',
-            id: 'dnc-configuration-link',
-            order: 6
-          });
+          if (UserPermissions.hasPermissionInList(PermissionGroups.accessAllIntegrations)) {
+            items.push({
+              label: $translate.instant('navbar.configuration.dnc.title'),
+              stateLink: 'content.configuration.dnc',
+              id: 'dnc-configuration-link',
+              order: 6
+            });
+          }
         }
+        // ...END OUTBOUND FEATURE FLAG
+
         return items;
       };
 

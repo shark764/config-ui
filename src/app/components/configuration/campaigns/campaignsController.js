@@ -150,7 +150,7 @@ angular.module('liveopsConfigPanel')
         newScope.title = 'Stats';
 
         newScope.cancelCallback = function () {
-          $scope.showDispocc = false;
+          $scope.showDispoDNC = false;
           $document.find('modal').remove();
         };
 
