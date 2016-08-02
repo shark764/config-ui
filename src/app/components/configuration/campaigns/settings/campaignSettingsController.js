@@ -566,7 +566,7 @@ angular.module('liveopsConfigPanel')
         // If any fields haven't been filled out, don't validate, they will get "required" error messages.
         if (form.startHour.$error.required || form.startMinutes.$error.required || form.startAmPm.$error.required ||
           form.endHour.$error.required || form.endMinutes.$error.required || form.endAmPm.$error.required) {
-          return;
+            return;
         }
 
         // Ensure that start time is earlier than end time
