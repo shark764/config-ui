@@ -15,7 +15,8 @@ angular.module('liveopsConfigPanel')
         'provider',
         'telValue',
         'phoneExtension',
-        'extensiondescription'
+        'extensiondescription',
+        'region'
       ];
 
       $scope.resetPassword = function() {
