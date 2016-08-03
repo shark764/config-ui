@@ -93,7 +93,11 @@ angular.module('liveopsConfigPanel')
 
       dnc.submit = function () {
         var listFileData = dnc.selectedDncList.listFileUpload;
-        dnc.selectedDncList.expiration = convertDateToMySqlFormat(dnc.selectedDncList.expiration);
+        if (dnc.selectedDncList.expiration === null) {
+          delete dnc.selectedDncList.expiration;
+        } else {
+          dnc.selectedDncList.expiration = convertDateToMySqlFormat(dnc.selectedDncList.expiration);
+        }
 
         if (!angular.isDefined(dnc.selectedDncList.id)) {
           return dnc.selectedDncList.save({
