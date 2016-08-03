@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## [4.1.14]
 * CXV1-3589 - Initial addition of *feature-flagged* campaigns/outbound feature, still in development.
 * CXV1-3027 - Update group management view for reason lists
 * Bump config-shared to 1.2.4
