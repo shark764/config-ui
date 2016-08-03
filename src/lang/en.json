@@ -803,7 +803,7 @@
   "campaigns.details.settings.addDnc":"Add to DNC",
   "campaigns.details.settings.addtoList":"Add to List(s)",
   "campaigns.details.settings.date.invalid":"Please enter a valid date.",
-  "campaigns.details.settings.startHr.invailid":"Start hour required.",
+  "campaigns.details.settings.startHr.invalid":"Start hour required.",
   "campaigns.details.settings.startMin.invalid":"Start minutes required.",
   "campaigns.details.settings.startAmPm.invalid":"Start AM/PM required.",
   "campaigns.details.settings.endHr.invalid":"End hour required.",

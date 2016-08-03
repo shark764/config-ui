@@ -332,6 +332,15 @@ angular.module('liveopsConfigPanel')
         });
       };
 
+      function validateSchedule (currentForm) {
+        // If any fields haven't been filled out, don't validate, they will get "required" error messages.
+        if (currentForm.startHour.$error.required || currentForm.startMinutes.$error.required || currentForm.startAmPm.$error.required || currentForm.endHour.$error.required || currentForm.endMinutes.$error.required || currentForm.endAmPm.$error.required) {
+            return;
+        }
+
+        startEndIsInvalid(form);
+      }
+
       csc.changeDispoMap = function (value, name, index) {
         if (value === 'dnc') {
           $scope.showDispoDNC = true;
@@ -532,7 +541,7 @@ angular.module('liveopsConfigPanel')
         }
 
         if (csc.newExceptionHour && !csc.newExceptionHour.allDay) {
-          validateExceptionTime(currentForm);
+          csc.validateTimeAndDate(currentForm, 'true');
         }
 
         if (csc.exceptionTimeIsInvalid || !currentForm.date.$valid) {
@@ -560,7 +569,7 @@ angular.module('liveopsConfigPanel')
       };
 
 
-      function validateStartEndTime (form, schedExep) {
+      function startEndIsInvalid (form, schedExep) {
         var scheduleOrException = schedExep ? 'exception' : 'schedule';
 
         // Ensure that start time is earlier than end time
@@ -584,16 +593,29 @@ angular.module('liveopsConfigPanel')
         }
       }
 
-      function validateExceptionTime(currentForm) {
+      function timeFieldsInvalid (currentForm) {
+        if (currentForm.startHour.$error.required || currentForm.startMinutes.$error.required || currentForm.startAmPm.$error.required || currentForm.endHour.$error.required || currentForm.endMinutes.$error.required || currentForm.endAmPm.$error.required) {
+            return true;
+        }
+        return false;
+      }
+
+      csc.validateTimeAndDate = function (currentForm, isException) {
         csc.exceptionTimeIsInvalid = false;
+        csc.scheduleTimeIsInvalid = false;
 
         // If any fields haven't been filled out, don't validate, they will get "required" error messages.
-        if (currentForm.startHour.$error.required || currentForm.startMinutes.$error.required || currentForm.startAmPm.$error.required || currentForm.endHour.$error.required || currentForm.endMinutes.$error.required || currentForm.endAmPm.$error.required) {
-            return;
+        if (timeFieldsInvalid(currentForm)) {
+          return;
         }
 
-        csc.exceptionTimeIsInvalid = validateStartEndTime(currentForm, 'true');
-
+        if (isException) {
+          csc.exceptionTimeIsInvalid = startEndIsInvalid(currentForm, 'true');
+        } else {
+          if (startEndIsInvalid(currentForm)) {
+            csc.scheduleTimeIsInvalid = startEndIsInvalid(currentForm);
+          }
+        }
       }
 
       csc.removeException = function (index) {
