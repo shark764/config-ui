@@ -129,18 +129,18 @@
         </div>
 
         <div class="input-group time-select">
+          <div class="lo-error" ng-if="csc.scheduleTimeIsInvalid">{{'campaigns.details.settings.time.invalid' | translate}}</div>
           <label>{{'campaigns.details.setting.earliestTime' | translate}}</label>
-
           <div>
-            <select name="scheduleStartHour" required ng-model="csc.scheduleStartHour" ng-options="n for n in csc.hours">
+            <select name="startHour" required ng-model="csc.scheduleStartHour" ng-options="n for n in csc.hours" ng-change="csc.validateTimeAndDate(forms.settingsForm)">
               <option disabled value="">{{'campaigns.details.setting.hour' | translate}}</option>
             </select>
             :
-            <select name="scheduleStartMinute" required ng-model="csc.scheduleStartMinutes" ng-options="n for n in csc.minutes">
+            <select name="startMinutes" required ng-model="csc.scheduleStartMinutes" ng-options="n for n in csc.minutes" ng-change="csc.validateTimeAndDate(forms.settingsForm)">
               <option disabled value="">{{'campaigns.details.setting.minute' | translate}}</option>
             </select>
             |
-            <select name="scheduleStartAmPm" required ng-model="csc.scheduleStartAmPm">
+            <select name="startAmPm" required ng-model="csc.scheduleStartAmPm" ng-change="csc.validateTimeAndDate(forms.settingsForm)">
               <option value="am">AM</option>
               <option value="pm">PM</option>
             </select>
@@ -149,15 +149,15 @@
         <div class="input-group time-select">
           <label>{{'campaigns.details.setting.latestTime' | translate}}</label>
           <div>
-            <select name="scheduleEndHour" required ng-model="csc.scheduleEndHour" ng-options="n for n in csc.hours">
+            <select name="endHour" required ng-model="csc.scheduleEndHour" ng-options="n for n in csc.hours" ng-change="csc.validateTimeAndDate(forms.settingsForm)">
               <option disabled value="">{{'campaigns.details.setting.hour' | translate}}</option>
             </select>
             :
-            <select name="scheduleEndMinute" required ng-model="csc.scheduleEndMinutes" ng-options="n for n in csc.minutes">
+            <select name="endMinutes" required ng-model="csc.scheduleEndMinutes" ng-options="n for n in csc.minutes" ng-change="csc.validateTimeAndDate(forms.settingsForm)">
               <option disabled value="">{{'campaigns.details.setting.minute' | translate}}</option>
             </select>
             |
-            <select name="scheduleEndAmPm" required ng-model="csc.scheduleEndAmPm">
+            <select name="endAmPm" required ng-model="csc.scheduleEndAmPm" ng-change="csc.validateTimeAndDate(forms.settingsForm)">
               <option value="am">AM</option>
               <option value="pm">PM</option>
             </select>
@@ -186,7 +186,7 @@
         error-type-date="{{'campaigns.details.settings.date.invalid' | translate}}">
       </form-error>
       <form-error field="forms.exceptionsForm.startHour"
-        error-type-required="{{'campaigns.details.settings.startHr.invailid' | translate}}">
+        error-type-required="{{'campaigns.details.settings.startHr.invalid' | translate}}">
       </form-error>
       <form-error field="forms.exceptionsForm.startMinutes"
         error-type-required="{{'campaigns.details.settings.startMin.invalid' | translate}}">
@@ -266,7 +266,7 @@
             <label>{{'campaigns.details.setting.allDay' | translate}}</label>
           </div>
 
-          <button id="donotcall-btn" class="btn" type="button" ng-click="csc.addHoursException()">
+          <button id="add-hours-exception" class="btn" type="button" ng-click="csc.addHoursException(forms.exceptionsForm)">
             <i class="fa fa-plus"></i>
           </button>
         </ng-form>
@@ -349,7 +349,7 @@
       class="btn btn-primary campaign-submit"
       ng-click="csc.submit()"
       type="submit"
-      ng-disabled="!('MANAGE_CAMPAIGNS' | hasPermission) || forms.settingsForm.$pending || forms.settingsForm.$invalid || !forms.settingsForm.$dirty"
+      ng-disabled="!('MANAGE_CAMPAIGNS' | hasPermission) || forms.settingsForm.$pending || forms.settingsForm.$invalid || !forms.settingsForm.$dirty || csc.scheduleTimeIsInvalid"
       value="{{'value.submit' | translate}}" />
   </div>
 </ng-form>
