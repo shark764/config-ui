@@ -1,59 +1,42 @@
 .list-editor {
-  border: 1px solid black;
+  border: #CCCCCC solid 1px;
   height: 100%;
   margin: 10px auto;
-  width: 75%;
+  width: 95%;
 
   .list-controls {
-    border-bottom: 1px solid black;
-    height: 2.2em;
+    border-bottom: #CCCCCC solid 1px;
+    height: 48px;
     padding: 7px 5px 5px 5px;
 
-    .fa-plus-square-o {
-      margin-left: 60px;
+    .fa-dot-circle-o {
+      margin-left:50px;
+      margin-top:5px;
     }
 
-    .fa-plus {
-      margin-left: 10px;
-    }
-
-    .fa-arrow-down {
-      margin-left: 20px;
-    }
-
-    .fa-arrow-up {
-      margin-left: 10px;
-    }
-
-    .fa-plus,
-    .fa-arrow-up,
-    .fa-arrow-down {
-      color: green;
+    .fa-plus-square {
+      margin-left: 50px;
     }
 
     .fa-times {
-      color: maroon;
       margin-left: 10px;
     }
 
-    .fa-arrow-left {
-      margin-left: 20px;
+    .fa-chevron-circle-left {
+      margin-left: 60px;
     }
 
-    .fa-arrow-right {
-      margin-left: 10px;
+    .fa-chevron-circle-right, .fa-chevron-circle-down, .fa-chevron-circle-up{
+      margin-left: 15px;
     }
 
-    .fa-arrow-left,
-    .fa-arrow-right {
-      color: darkblue;
-    }
   }
 
   .list-body {
     height: 20em;
     overflow: auto;
     padding: 15px;
+    font-size:15px;
 
     ul {
       list-style-position: inside;
@@ -62,11 +45,12 @@
         list-style-type: circle;
       }
 
+
       li {
         padding: 3px;
 
         .selectedDispo {
-          border: 1px solid orange;
+          border: 1px solid #ccc;
           margin-right: 0;
           padding: 1px 10px 1px 1px;
         }
@@ -82,7 +66,7 @@
 
         .dispoDropdown {
           background-color: white;
-          border: 1px solid black;
+          border: 1px solid #ccc;
           right: 50%;
           position: absolute;
           z-index: 10;
@@ -90,15 +74,15 @@
           ul {
             padding: 5px;
 
-            li {
-
+            li:hover {
+              background-color: $accent-light;
             }
           }
         }
 
         div:not(.dispoDropdown):not(.wrapper) {
-          border: 1px solid orange;
-          color: orange;
+          border: 1px solid #ccc;
+          color: #ccc;
           display: inline-block;
           margin-left: 0;
           padding: 1px;

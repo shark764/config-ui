@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+* CXV1-4403 - Visual improvements to dispo/reasons list editor
 
 ## [4.1.15]
 * CXV1-4394 - Made follow up fix to issue where campaign settings page was loading up w/blank expiry
