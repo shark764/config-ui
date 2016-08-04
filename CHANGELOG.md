@@ -4,6 +4,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [4.1.15]
+* CXV1-4394 - Made follow up fix to issue where campaign settings page was loading up w/blank expiry
+
 ## [4.1.14]
 * CXV1-3589 - Initial addition of *feature-flagged* campaigns/outbound feature, still in development.
 * CXV1-3027 - Update group management view for reason lists
