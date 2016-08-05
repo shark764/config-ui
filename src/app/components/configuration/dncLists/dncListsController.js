@@ -22,8 +22,8 @@ angular.module('liveopsConfigPanel')
 
       function convertDateFromMySqlFormat(date) {
         if (date !== null) {
-          if (date.expiration) {
-            var indivDate = date.expiration;
+          if (date) {
+            var indivDate = date;
             return indivDate.substr(0, 10);
           }
         } else {
@@ -138,7 +138,7 @@ angular.module('liveopsConfigPanel')
 
       //Init date to tomorrow
       // TODO: this should be globalized somehow, as it is used in the other dnc list controller
-      function provideDateToday() {
+      function provideDateTomorrow() {
         var newLocalDate = new Date();
         var newUTCDate = $moment.utc([
           newLocalDate.getFullYear(), newLocalDate.getMonth(), newLocalDate.getDate()
@@ -147,7 +147,7 @@ angular.module('liveopsConfigPanel')
         return $moment(today).format('YYYY-MM-DD');
       }
 
-      dnc.provideDateToday = provideDateToday();
+      dnc.provideDateTomorrow = provideDateTomorrow();
       dnc.tableConfig = dncListsTableConfig;
     }
   ]);
