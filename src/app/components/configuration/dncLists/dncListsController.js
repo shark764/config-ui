@@ -9,15 +9,25 @@ angular.module('liveopsConfigPanel')
       $scope.forms = {};
 
       function convertDateToMySqlFormat(date) {
-        var newDate = new Date(date);
-        var tomorrow = $moment(newDate).add(1, 'days')._d;
-        return $moment(tomorrow).format('YYYY-MM-DD') + ' 00:00:00';
+        var convertedDate = date;
+        if (date) {
+          var newDate = new Date(date);
+          var tomorrow = $moment(newDate).add(1, 'days')._d;
+          convertedDate = $moment(tomorrow).format('YYYY-MM-DD') + ' 00:00:00';
+        }
+
+        return convertedDate;
+
       }
 
       function convertDateFromMySqlFormat(date) {
-        if (date.expiration) {
-          var indivDate = date.expiration;
-          date.expiration = indivDate.substr(0, 10);
+        if (date !== null) {
+          if (date.expiration) {
+            var indivDate = date.expiration;
+            return indivDate.substr(0, 10);
+          }
+        } else {
+          return '';
         }
       }
 
@@ -45,14 +55,11 @@ angular.module('liveopsConfigPanel')
           tenantId: dnc.selectedDncList.tenantId,
           active: !dnc.selectedDncList.active,
           name: dnc.selectedDncList.name,
-          description: dnc.selectedDncList.description,
-          expiration: dnc.selectedDncList.expiration
+          description: dnc.selectedDncList.description
         });
 
-        return dncListcopy.save().then(function(result){
-          $scope.selectedDncList.$original.active = result.active;
-        }, function(errorResponse){
-          return $q.reject(errorResponse.data.error.attribute.active);
+        return dncListcopy.save(function(result){
+          dnc.selectedDncList.$original.active = result.active;
         });
       };
 
@@ -65,7 +72,6 @@ angular.module('liveopsConfigPanel')
         dnc.selectedDncList.listFileUpload = fileData;
         $scope.forms.detailsForm.$setDirty();
       };
-
 
       dnc.downloadDncList = function (dncListId) {
         DncListService.download(dncListId, Session);
@@ -84,16 +90,16 @@ angular.module('liveopsConfigPanel')
         dnc.forceClose = true;
       });
 
-      $scope.$watch('dnc.selectedDncList', function (currentlySelectedList) {
-        if (currentlySelectedList) {
+      $scope.$watch('dnc.selectedDncList', function () {
+        if (dnc.selectedDncList) {
           dnc.selectedDncList.listFileUpload = null;
-          convertDateFromMySqlFormat(currentlySelectedList);
+          dnc.selectedDncList.expiration = convertDateFromMySqlFormat(dnc.selectedDncList.expiration);
         }
       });
 
       dnc.submit = function () {
         var listFileData = dnc.selectedDncList.listFileUpload;
-        if (dnc.selectedDncList.expiration === null) {
+        if (!dnc.selectedDncList.expiration) {
           delete dnc.selectedDncList.expiration;
         } else {
           dnc.selectedDncList.expiration = convertDateToMySqlFormat(dnc.selectedDncList.expiration);
@@ -119,7 +125,7 @@ angular.module('liveopsConfigPanel')
         } else {
           uploadListFile(listFileData);
         }
-        convertDateFromMySqlFormat(dnc.selectedDncList);
+        dnc.selectedDncList.expiration = convertDateFromMySqlFormat(dnc.selectedDncList);
       };
 
       // individual list not being used at this time,

@@ -4,6 +4,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [4.1.17]
+* CXV1-4390 - Got campaigns properly enabling and disabling
+
 ## [4.1.16]
 * CXV1-4403 - Visual improvements to dispo/reasons list editor
 
