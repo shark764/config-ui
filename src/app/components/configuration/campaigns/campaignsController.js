@@ -111,12 +111,11 @@ angular.module('liveopsConfigPanel')
       cc.updateActive = function() {
         var campaignCopy = new Campaign({
           id: cc.selectedCampaign.id,
-          tenantId: cc.selectedCampaign.tenantId,
+          tenantId: Session.tenant.tenantId,
           active: !cc.selectedCampaign.active,
           name: cc.selectedCampaign.name,
           description: cc.selectedCampaign.description
         });
-        cc.selectedCampaign.active = !cc.selectedCampaign.active;
 
         return campaignCopy.save(function(result){
           cc.selectedCampaign.$original.active = result.active;

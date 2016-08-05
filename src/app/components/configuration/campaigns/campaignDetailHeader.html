@@ -3,7 +3,7 @@
   confirm-disable-message="{{'campaigns.details.disable.confirm' | translate}}"
   confirm-enable-message="{{'campaigns.details.enable.confirm' | translate}}"
   ng-disabled="!('MANAGE_CAMPAIGNS' | hasPermission)"
-  on-confirm="updateActive()"></toggle>
+  on-confirm="cc.updateActive()"></toggle>
 
   <div class="info">
     <h1>{{cc.selectedCampaign.$original.name}}</h1>
@@ -20,7 +20,7 @@
         date="cc.selectedCampaign.$original.updated">
       </b>
     </div>
-    <div class="details" ng-if="!(['MANAGE_CAMPAIGNS'] | hasPermission)"> 
+    <div class="details" ng-if="!(['MANAGE_CAMPAIGNS'] | hasPermission)">
       <b audit-text
         translation="value.createdon.time"
         date="cc.selectedCampaign.$original.created">
