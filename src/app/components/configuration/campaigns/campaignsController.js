@@ -161,6 +161,16 @@ angular.module('liveopsConfigPanel')
         CampaignCallListDownload.download(campaignId, Session);
       };
 
+      cc.confirmSubmit = function() {
+        if(angular.isDefined(cc.selectedCampaign.$original) && !cc.selectedCampaign.$original.shared) {
+          return Modal.showConfirm({
+            message: $translate.instant('disposition.details.shared.confirm'),
+            okCallback: cc.submit
+          });
+        }
+        cc.submit();
+      };
+
       cc.submit = function () {
         return cc.selectedCampaign.save({
           tenantId: Session.tenant.tenantId
@@ -182,6 +192,12 @@ angular.module('liveopsConfigPanel')
         });
       };
 
+      $scope.$watch(function() {
+       return cc.selectedCampaign;
+     }, function() {
+       cc.duplicateError = false;
+     });
+
       cc.editCampaignSettings = function (currentlySelectedCampaign) {
         $state.go('content.configuration.campaignSettings', {
           id: currentlySelectedCampaign.id
@@ -194,7 +210,8 @@ angular.module('liveopsConfigPanel')
 
       cc.create = function () {
         cc.selectedCampaign = new Campaign({
-          tenantId: Session.tenant.tenantId
+          tenantId: Session.tenant.tenantId,
+          active: true
         });
       };
 
