@@ -125,7 +125,7 @@ angular.module('liveopsConfigPanel')
         } else {
           uploadListFile(listFileData);
         }
-        dnc.selectedDncList.expiration = convertDateFromMySqlFormat(dnc.selectedDncList);
+        dnc.selectedDncList.expiration = convertDateFromMySqlFormat(dnc.selectedDncList.expiration);
       };
 
       // individual list not being used at this time,
