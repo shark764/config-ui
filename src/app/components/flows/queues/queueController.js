@@ -9,6 +9,8 @@ angular.module('liveopsConfigPanel')
       vm.forms = {};
       vm.selectedQueueVersion = null;
 
+      $scope.showBasicQuery = true;
+
       vm.fetchQueues = function() {
         return Queue.cachedQuery({
           tenantId: Session.tenant.tenantId

@@ -59,7 +59,10 @@
 </div>
 
 <!-- Basic Query Read Only -->
-<div ng-if="readOnly" class="basic-readonly-query" ng-repeat="level in qbc.query.val">
+<div ng-show="readOnly && qbc.loading">
+  <loading></loading>
+</div>
+<div ng-if="readOnly && !qbc.loading" class="basic-readonly-query" ng-repeat="level in qbc.query.val">
   <h3 ng-show="$index !== 0 && level.vals[0] % 60 !== 0">
     {{'queue.query.readonly.after.seconds' | translate:{seconds:level.vals[0]} }}
   </h3>

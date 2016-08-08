@@ -17,6 +17,7 @@ angular.module('liveopsConfigPanel')
         vm.query = ZermeloService.addFilter($scope.level, $scope.group.zermeloKey, $scope.type, vm.selectedItem.id);
       }
       vm.filters.push(vm.selectedItem);
+      vm.selectedItem = null;
     };
 
     vm.removeFilter = function(filter) {
