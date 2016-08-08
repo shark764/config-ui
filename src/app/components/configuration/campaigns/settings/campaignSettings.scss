@@ -6,7 +6,7 @@
   }
 
   small {
-    padding: 0 0 20px;
+    padding: 0 10px 20px;
     display: block;
   }
 
@@ -14,19 +14,39 @@
     left: 8px;
     position: relative;
   }
+
+  .infopane-left {
+    display: inline-block;
+    width: 45%;
+  }
+
+  .infopane-right {
+    display: inline-block;
+    width:45%;
+    vertical-align: top;
+    margin-top: 15px;
+  }
+  .text-right {
+    text-align: right;
+  }
 }
 
 
 .col-1 {
-  width: 35%;
+  width: 49%;
   display: inline-block;
   vertical-align: top;
+  padding-left: 160px;
 }
 
 .col-2 {
-  width: 35%;
+  width: 49%;
   display: inline-block;
   vertical-align: top;
+
+  .spacing {
+    margin-bottom: 20px;
+  }
 }
 
 .col-3 {
@@ -48,14 +68,26 @@
   padding: 10px 15px;
 }
 
+
 #dnc-list {
   display: inline-block;
   width:90%;
 }
 
+.dnc-table {
+  padding-left: 15px;
+}
+
+.dnclist-name {
+  width:90%;
+}
+.remove-dnc {
+  width:10%;
+}
+
 #add-dnc {
   display: inline-block;
-  width: 10%;
+  width: 9%;
   vertical-align: middle;
 }
 
@@ -224,6 +256,8 @@
 }
 
 #exceptions-table {
+  border: 1px solid #ccc;
+  width: 85%;
   td {
     text-align: center;
   }

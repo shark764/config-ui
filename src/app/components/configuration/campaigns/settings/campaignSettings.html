@@ -1,10 +1,27 @@
 <loading ng-if="csc.loading"></loading>
 <ng-form name="forms.settingsForm" ng-if="!csc.loading">
   <div class="campaign-setting">
-    <h2 class="campaign-setting-title">{{'campaigns.details.settings' | translate}} - {{csc.campaignSettings.name}}</h2>
-    <small>{{'value.indicatesRequiredField' | translate}}</small>
-
+    <div class="campaign-setting-infopane">
+      <div class="infopane-left">
+        <h2 class="campaign-setting-title">{{'campaigns.details.settings' | translate}} - {{csc.campaignSettings.name}}</h2>
+        <small>{{'value.indicatesRequiredField' | translate}}</small>
+      </div>
+      <div class="infopane-right">
+        <div class="info text-right">
+          <b audit-text ng-if="!!csc.versionSettings.createdBy"
+            translation="value.updatedby"
+            user-id="csc.versionSettings.createdBy"
+            date="csc.versionSettings.created">
+          </b>
+        </div>
+      </div>
+  </div>
     <div class="col-1">
+      <div class="input-group">
+        <div class="divider-header first-header">
+          <h4>{{'value.details.detail' | translate}}</h4>
+        </div>
+      </div>
       <div disable-contents="! (['MANAGE_CAMPAIGNS'] | hasPermission)">
         <div class="input-group">
           <form-error field="forms.settingsForm.channel" error-type-required="{{'campaigns.details.channelDropdownDefault.error' | translate}}"></form-error>
@@ -70,8 +87,52 @@
      </div>
 
      <div class="input-group">
+       <div class="divider-header first-header">
+         <h4>{{'campaigns.details.setting.dnc' | translate}}</h4>
+       </div>
+    </div>
+
+     <div disable-contents="! (['MANAGE_CAMPAIGNS'] | hasPermission)">
+        <div class="input-group">
+          <div id="dnc-list">
+            <select name="dncListId" class="do-not-call"
+                ng-model="csc.selectedDncList"
+                ng-options="dncList.id as dncList.name for dncList in csc.dncLists | orderBy:'name'"
+                >
+               <option value="" disabled>{{'campaigns.details.settings.select.dnc' | translate}}</option>
+            </select>
+         </div>
+
+         <div id="add-dnc">
+            <button id="donotcall-btn"
+               class="btn pull-right"
+               type="button"
+               ng-click="csc.addDNC(csc.selectedDncList)"
+               ng-disabled="csc.enableDisableDncAddBtn(csc.selectedDncList)">
+              <i class="fa fa-plus"></i>
+            </button>
+         </div>
+        </div>
+
+        <div class="input-group" id="dnc-list-display">
+          <table class="dnc-table">
+            <tr ng-repeat="dncList in csc.selectedLists">
+              <td class="dnclist-name">{{dncList.name}}</td>
+              <td class="remove-dnc"><i class="fa fa-close remove list" ng-click="csc.removeDNC($index)"></i></td>
+            </tr>
+          </table>
+        </div>
+     </div>
+
+     <div class="input-group">
         <form-error field="forms.settingsForm.flowId" error-type-required="{{'campaigns.details.setting.dispositionList.error' | translate}}"></form-error>
      </div>
+
+    <div class="input-group">
+      <div class="divider-header first-header">
+        <h4>{{'campaigns.details.setting.disposition' | translate}}</h4>
+      </div>
+    </div>
      <div class="input-group">
         <label>{{'campaigns.details.setting.dispositionList' | translate}} *</label>
         <select name="dispositionId"
@@ -85,44 +146,35 @@
       <div class="input-group">
         <button class="btn dispo-btn" ng-disabled="!csc.versionSettings.dispositionCodeListId || csc.versionSettings.dispositionCodeListId.length === 0" ng-click="csc.gotoDispoMap(csc.versionSettings.dispositionCodeListId)">{{'campaigns.details.setting.dispositionBtn' | translate}}</button>
       </div>
-    <div disable-contents="! (['MANAGE_CAMPAIGNS'] | hasPermission)">
-       <div class="input-group">
-         <div class="divider-header first-header">
-           <h4>{{'campaigns.details.setting.dnc' | translate}}</h4>
-         </div>
 
-         <div id="dnc-list">
-           <select name="dncListId" class="do-not-call"
-               ng-model="csc.selectedDncList"
-               ng-options="dncList.id as dncList.name for dncList in csc.dncLists | orderBy:'name'"
-               >
-              <option value="" disabled>{{'campaigns.details.settings.select.dnc' | translate}}</option>
-           </select>
-        </div>
-
-        <div id="add-dnc">
-           <button id="donotcall-btn"
-              class="btn pull-right"
-              type="button"
-              ng-click="csc.addDNC(csc.selectedDncList)"
-              ng-disabled="csc.enableDisableDncAddBtn(csc.selectedDncList)">
-             <i class="fa fa-plus"></i>
-           </button>
-        </div>
-       </div>
-
-       <div class="input-group" id="dnc-list-display">
-         <ul>
-           <li ng-repeat="dncList in csc.selectedLists">
-             {{dncList.name}}
-             <i class="fa fa-close remove list" ng-click="csc.removeDNC($index)"></i>
-           </li>
-         </ul>
-       </div>
-    </div>
   </div>
 
     <div class="col-2">
+      <div class="spacing" disable-contents="! (['MANAGE_CAMPAIGNS'] | hasPermission)">
+          <div class="divider-header first-header">
+            <h4>{{'campaigns.details.setting.redial' | translate}}</h4>
+          </div>
+
+          <div class="input-group">
+            <label>{{'campaigns.details.setting.retry' | translate}}</label>
+            <input ng-model="csc.versionSettings.defaultLeadRetryInterval"
+                   name="defaultLeadRetryInterval"
+                   class="redial"
+                   string-to-number
+                   type="number"/>
+          </div>
+
+          <div class="input-group">
+            <label>{{'campaigns.details.setting.retryMax' | translate}}</label>
+            <input ng-model="csc.versionSettings.defaultMaxRetries"
+                   name="defaultMaxRetries"
+                   class="redial"
+                   type="number"
+                   min="1"
+                   required/>
+          </div>
+      </div>
+
       <div disable-contents="! (['MANAGE_CAMPAIGNS'] | hasPermission)">
         <div class="divider-header first-header">
           <h4>{{'campaigns.details.setting.scheduling' | translate}}</h4>
@@ -307,35 +359,6 @@
 
         <!-- END WIP -->
 
-    </div>
-
-    <div class="col-3">
-      <div disable-contents="! (['MANAGE_CAMPAIGNS'] | hasPermission)">
-        <div class="input-group">
-          <div class="divider-header first-header">
-            <h4>{{'campaigns.details.setting.redial' | translate}}</h4>
-          </div>
-
-          <div class="input-group">
-            <label>{{'campaigns.details.setting.retry' | translate}}</label>
-            <input ng-model="csc.versionSettings.defaultLeadRetryInterval"
-                   name="defaultLeadRetryInterval"
-                   class="redial"
-                   string-to-number
-                   type="number"/>
-          </div>
-
-          <div class="input-group">
-            <label>{{'campaigns.details.setting.retryMax' | translate}}</label>
-            <input ng-model="csc.versionSettings.defaultMaxRetries"
-                   name="defaultMaxRetries"
-                   class="redial"
-                   type="number"
-                   min="1"
-                   required/>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 
