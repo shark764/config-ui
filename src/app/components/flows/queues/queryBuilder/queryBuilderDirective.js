@@ -7,8 +7,7 @@ angular.module('liveopsConfigPanel')
       templateUrl: 'app/components/flows/queues/queryBuilder/queryBuilder.html',
       controller: 'queryBuilderController as qbc',
       scope: {
-        queryString: '=',
-        entities: '='
+        queryString: '='
       },
       link: function(scope, element, attrs) {
         scope.readOnly = scope.$eval(attrs.readOnly);

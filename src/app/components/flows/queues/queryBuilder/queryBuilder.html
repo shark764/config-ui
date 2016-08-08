@@ -59,17 +59,13 @@
 </div>
 
 <!-- Basic Query Read Only -->
-<div ng-show="readOnly && qbc.loading">
-  <loading></loading>
-</div>
-<div ng-if="readOnly && !qbc.loading" class="basic-readonly-query" ng-repeat="level in qbc.query.val">
+<div ng-if="readOnly" class="basic-readonly-query" ng-repeat="level in qbc.query.val">
   <h3 ng-show="$index !== 0 && level.vals[0] % 60 !== 0">
     {{'queue.query.readonly.after.seconds' | translate:{seconds:level.vals[0]} }}
   </h3>
   <h3 ng-show="$index !== 0 && level.vals[0] % 60 === 0">
     {{'queue.query.readonly.after.minutes' | translate:{minutes:level.vals[0] / 60} }}
   </h3>
-  <div ng-show="!level.vals[1].keys.length">{{'queues.query.builder.filters.none' | translate}}</div>
   <div ng-repeat="group in level.vals[1].keys">
 
     <!-- Skills Edge Case -->
@@ -79,12 +75,12 @@
       </label>
       <div class="tag-wrapper clear" ng-show="level.vals[1].vals[$index].val[0].val[0].val === 'every'">
         <div class="tag" ng-repeat="item in level.vals[1].vals[$index].val[0].val[1].keys">
-          <span ng-bind="qbc.getDisplay(group.val, item)"></span>
+          {{qbc.getDisplay(group.val, item)}}
         </div>
       </div>
       <div class="tag-wrapper clear" ng-show="level.vals[1].vals[$index].val[1].val[0].val === 'every'">
         <div class="tag" ng-repeat="item in level.vals[1].vals[$index].val[1].val[1].keys">
-          <span ng-bind="qbc.getDisplay(group.val, item)"></span>
+          {{qbc.getDisplay(group.val, item)}}
         </div>
       </div>
     </div>
@@ -95,12 +91,12 @@
       </label>
       <div class="tag-wrapper clear" ng-show="level.vals[1].vals[$index].val[0].val[0].val === 'some'">
         <div class="tag" ng-repeat="item in level.vals[1].vals[$index].val[0].val[1].keys">
-          <span ng-bind="qbc.getDisplay(group.val, item)"></span>
+          {{qbc.getDisplay(group.val, item)}}
         </div>
       </div>
       <div class="tag-wrapper clear" ng-show="level.vals[1].vals[$index].val[1].val[0].val === 'some'">
         <div class="tag" ng-repeat="item in level.vals[1].vals[$index].val[1].val[1].keys">
-          <span ng-bind="qbc.getDisplay(group.val, item)"></span>
+          {{qbc.getDisplay(group.val, item)}}
         </div>
       </div>
     </div>
@@ -112,12 +108,12 @@
       </label>
       <div class="tag-wrapper clear" ng-show="level.vals[1].vals[$index].val[0].val[0].val === 'every'">
         <div class="tag" ng-repeat="item in level.vals[1].vals[$index].val[0].val[1].val">
-          <span ng-bind="qbc.getDisplay(group.val, item)"></span>
+          {{qbc.getDisplay(group.val, item)}}
         </div>
       </div>
       <div class="tag-wrapper clear" ng-show="level.vals[1].vals[$index].val[1].val[0].val === 'every'">
         <div class="tag" ng-repeat="item in level.vals[1].vals[$index].val[1].val[1].val">
-          <span ng-bind="qbc.getDisplay(group.val, item)"></span>
+          {{qbc.getDisplay(group.val, item)}}
         </div>
       </div>
     </div>
@@ -128,12 +124,12 @@
       </label>
       <div class="tag-wrapper clear" ng-show="level.vals[1].vals[$index].val[0].val[0].val === 'some'">
         <div class="tag" ng-repeat="item in level.vals[1].vals[$index].val[0].val[1].val">
-          <span ng-bind="qbc.getDisplay(group.val, item)"></span>
+          {{qbc.getDisplay(group.val, item)}}
         </div>
       </div>
       <div class="tag-wrapper clear" ng-show="level.vals[1].vals[$index].val[1].val[0].val === 'some'">
         <div class="tag" ng-repeat="item in level.vals[1].vals[$index].val[1].val[1].val">
-          <span ng-bind="qbc.getDisplay(group.val, item)"></span>
+          {{qbc.getDisplay(group.val, item)}}
         </div>
       </div>
     </div>
