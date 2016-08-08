@@ -21,6 +21,7 @@ angular.module('liveopsConfigPanel')
             campaignsCopy.id = campaigns.id;
             campaignsCopy.tenantId = Session.tenant.tenantId;
             campaignsCopy.active = $scope.active;
+            campaignsCopy.properties = campaigns.properties;
             return campaignsCopy.save().then(function(campaignsCopy) {
               angular.copy(campaignsCopy, campaigns);
               campaigns.checked = true;
