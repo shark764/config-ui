@@ -17,6 +17,11 @@ angular.module('liveopsConfigPanel')
       }
     ];
 
+    if (vm.timeAmount % 60 === 0) {
+      vm.timeAmount = vm.timeAmount / 60;
+      vm.multiplier = 60;
+    }
+
     vm.updateQueryLevel = $element.controller('queryBuilder').updateQueryLevel;
 
     $scope.$watch(function() {
