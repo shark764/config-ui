@@ -117,6 +117,12 @@ angular.module('liveopsConfigPanel')
           }
         }
 
+        if(!csc.versionSettings.schedule.length){
+          csc.noDaysChecked = true;
+        } else {
+          csc.noDaysChecked = false;
+        }
+
         // TODO: push exception hours as well
         if (angular.isDefined(csc.exceptions)) {
           csc.exceptions.forEach(function (exception) {
@@ -628,6 +634,8 @@ angular.module('liveopsConfigPanel')
 
         csc.versionSettings.defaultLeadRetryInterval = convertToTimestamp(csc.versionSettings.defaultLeadRetryInterval);
         generateSchedule();
+
+        if(csc.noDaysChecked) return;
 
         // Deleting id and created so that we can force the API to create a new version,
         // since versions are not to be editable

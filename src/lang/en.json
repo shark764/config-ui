@@ -812,6 +812,7 @@
   "campaigns.details.settings.endMins.invalid":"End minutes required.",
   "campaigns.details.settings.endAmPm.invalid":"End AM/PM required.",
   "campaigns.details.settings.time.invalid":"Start time must be earlier than end time.",
+  "campaigns.details.settings.day.invalid":"Please select the days to call.",
   "contacts.table.title":"Contact List Management",
   "contacts.details.contacts.expiration":"Expiraton",
   "contacts.details.state":"State",
