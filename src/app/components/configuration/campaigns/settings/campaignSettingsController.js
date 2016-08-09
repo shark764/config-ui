@@ -276,11 +276,11 @@ angular.module('liveopsConfigPanel')
           tenantId: Session.tenant.tenantId
         });
 
-        _.remove(csc.flows, function (flow) {
-          return flow.tenantId !== Session.tenant.tenantId;
+        csc.flows.$promise.then(function () {
+          _.remove(csc.flows, function (flow) {
+            return flow.tenantId !== Session.tenant.tenantId;
+          });
         });
-
-        return csc.flows;
       };
 
       csc.fetchDispositions = function () {
