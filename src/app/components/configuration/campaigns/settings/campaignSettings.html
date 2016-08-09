@@ -182,6 +182,7 @@
 
         <div class="input-group time-select">
           <div class="lo-error" ng-if="csc.scheduleTimeIsInvalid">{{'campaigns.details.settings.time.invalid' | translate}}</div>
+          <div class="lo-error" ng-if="csc.noDaysChecked">{{'campaigns.details.settings.day.invalid' | translate}}</div>
           <label>{{'campaigns.details.setting.earliestTime' | translate}}</label>
           <div>
             <select name="startHour" required ng-model="csc.scheduleStartHour" ng-options="n for n in csc.hours" ng-change="csc.validateTimeAndDate(forms.settingsForm)">
