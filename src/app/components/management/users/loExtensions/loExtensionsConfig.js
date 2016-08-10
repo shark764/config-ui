@@ -18,8 +18,8 @@ angular.module('liveopsConfigPanel')
     }, {
       value: 'pstn',
       display: $translate.instant('pstn')
-    }, {
-      value: 'sip',
-      display: $translate.instant('sip')
-    }];
+    }];//,{
+    //   value: 'sip',
+    //   display: $translate.instant('sip')
+    // }];
   }]);
