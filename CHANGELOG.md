@@ -5,6 +5,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 * CXV1-4415 - Campaign settings UI improvements
 * CXV1-4676 - Campaign settings bug fix
+* CXV1-3111 - Hide SIP extension 
 
 ## [4.1.17]
 * CXV1-4390 - Got campaigns properly enabling and disabling
