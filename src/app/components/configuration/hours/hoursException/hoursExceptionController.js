@@ -46,13 +46,18 @@ angular.module('liveopsConfigPanel')
         $scope.form.$setDirty();
 
         startWatcher = $scope.$watch(function() {
-          return _.last($scope.hours.$exceptions).startTimeMinutes;
+          if ($scope.hours.$exceptions) {
+            return _.last($scope.hours.$exceptions).startTimeMinutes;
+          }
+          vm.addBtnDisabled = false;
         }, function() {
           vm.reValidateExceptionHours();
         });
-
         endWatcher = $scope.$watch(function() {
-          return _.last($scope.hours.$exceptions).endTimeMinutes;
+          if ($scope.hours.$exceptions) {
+            return _.last($scope.hours.$exceptions).endTimeMinutes;
+          }
+          vm.addBtnDisabled = false;
         }, function() {
           vm.reValidateExceptionHours();
         });
