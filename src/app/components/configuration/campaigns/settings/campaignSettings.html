@@ -26,7 +26,7 @@
         <div class="input-group">
           <form-error field="forms.settingsForm.channel" error-type-required="{{'campaigns.details.channelDropdownDefault.error' | translate}}"></form-error>
         </div>
-        <div class="input-group">
+        <div class="input-group extra-padding">
           <label>{{'details.channelType' | translate}} *</label>
           <div>
             <select required ng-model="csc.versionSettings.channel" ng-options="channel for channel in csc.campaignChannels" ng-disabled="csc.campaignChannels.length < 2">
@@ -35,7 +35,7 @@
           </div>
         </div>
 
-        <div class="input-group">
+        <div class="input-group extra-padding">
           <label>{{'details.flow' | translate}} *</label>
           <div>
             <form-error field="forms.settingsForm.flowId" error-type-required="{{'campaigns.details.flow.error' | translate}}"></form-error>
@@ -48,7 +48,7 @@
         <div class="input-group">
           <form-error field="forms.settingsForm.callerId" error-type-phone-number="{{'campaigns.details.setting.anierror' | translate}}"></form-error>
         </div>
-        <div class="input-group">
+        <div class="input-group extra-padding">
           <label>{{'campaigns.details.editor.ani' | translate}}</label>
           <div>
             <input ng-model="csc.versionSettings.callerId" name="callerId" class="ani" type="tel"/>
@@ -58,7 +58,7 @@
         <div class="input-group">
           <form-error field="forms.settingsForm.flowId" error-type-required="{{'campaigns.details.flow.error' | translate}}"></form-error>
         </div>
-        <div class="input-group">
+        <div class="input-group extra-padding">
           <label>{{'campaigns.details.setting.timezoneHeader' | translate}} *</label>
 
           <select name="timezone"
@@ -69,7 +69,7 @@
           </select>
         </div>
 
-        <div class="input-group">
+        <div class="input-group extra-padding">
           <label>{{'campaigns.details.setting.expiry' | translate}}</label>
           <div>
             <input
@@ -133,7 +133,7 @@
         <h4>{{'campaigns.details.setting.disposition' | translate}}</h4>
       </div>
     </div>
-     <div class="input-group">
+     <div class="input-group extra-padding">
         <label>{{'campaigns.details.setting.dispositionList' | translate}} *</label>
         <select name="dispositionId"
             ng-model="csc.versionSettings.dispositionCodeListId"

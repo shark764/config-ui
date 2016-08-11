@@ -20,6 +20,10 @@
     width: 45%;
   }
 
+  .extra-padding {
+    padding-left: 15px;
+  }
+
   .infopane-right {
     display: inline-block;
     width:45%;
@@ -178,7 +182,8 @@
 }
 
 .disposition-header {
-  text-align: left;
+  text-align: center;
+  text-decoration: underline;
   padding-top: 10px;
   padding-bottom: 10px;
 }

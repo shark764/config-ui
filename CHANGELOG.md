@@ -9,6 +9,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 * CXV1-2803 - Bug fix for business hour exception page
 * CXV1-3069 - Bug fix error message displaying before new user login
 * CXV1-4732 - Add tooltips to disposition list editor
+* CXV1-4415 - Fix Campaign left column and dispo mapping text
 
 ## [4.1.17]
 * CXV1-4390 - Got campaigns properly enabling and disabling
