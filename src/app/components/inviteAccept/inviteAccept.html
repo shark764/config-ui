@@ -39,7 +39,7 @@
             <form-error field="detailsForm.confirmPassword"
               error-type-required="{{'details.confirm-password.error' | translate}}"></form-error>
             <input type="password" name="confirmPassword" ng-model="user.confirmPassword"
-              ng-required="true" ng-blur="checkPassword()" />
+              ng-required="false" ng-blur="checkPassword()" />
 
             <p id="password-policy"><small>{{'details.password.default.policy' | translate}}</small></p>
           </div>
