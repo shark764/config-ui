@@ -11,6 +11,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 * CXV1-4732 - Add tooltips to disposition list editor
 * CXV1-4415 - Fix Campaign left column and dispo mapping text
 * CXV1-4758 - Fixed issue with disposition list ID on campaign settings page not saving
+* CXV1-4102 - Add login URL to Salesforce Integration
 
 ## [4.1.17]
 * CXV1-4390 - Got campaigns properly enabling and disabling

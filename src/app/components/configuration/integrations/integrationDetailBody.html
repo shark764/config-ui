@@ -94,8 +94,19 @@
         <input ng-required="true" type="password" ng-model="selectedIntegration.properties.securityToken" name="securityToken"/>
       </div>
     </div>
+    <div class="input-group">
+      <label>{{'integration.details.properties.loginUrl' | translate}}</label>
+      <form-error field="forms.detailsForm.loginUrl" error-type-url="{{'integration.loginUrl.error' | translate}}" ></form-error>
+      <div>
+        <input ng-required="false" type="url" ng-model="selectedIntegration.properties.loginUrl" name="loginUrl"/>
+      </div>
+    </div>
   </div>
-
+  <div class="input-group">
+    <div>
+      <p class="null">{{'integration.details.loginUrl.message' | translate}}</p>
+    </div>
+  </div>
   <!-- Listeners -->
   <div ng-if="selectedIntegration.type == 'salesforce' || selectedIntegration.type == 'facebook'">
     <integration-listeners integration="selectedIntegration" fetch-listeners="fetchListeners()"></integration-listeners>
