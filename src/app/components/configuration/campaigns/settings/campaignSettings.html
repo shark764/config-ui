@@ -182,7 +182,6 @@
 
         <div class="input-group time-select">
           <div class="lo-error" ng-if="csc.scheduleTimeIsInvalid">{{'campaigns.details.settings.time.invalid' | translate}}</div>
-          <div class="lo-error" ng-if="csc.noDaysChecked">{{'campaigns.details.settings.day.invalid' | translate}}</div>
           <label>{{'campaigns.details.setting.earliestTime' | translate}}</label>
           <div>
             <select name="startHour" required ng-model="csc.scheduleStartHour" ng-options="n for n in csc.hours" ng-change="csc.validateTimeAndDate(forms.settingsForm)">
@@ -217,6 +216,9 @@
           </div>
         </div>
 
+        <div class="input-group">
+          <div class="lo-error" ng-if="csc.noDaysChecked">{{'campaigns.details.settings.day.invalid' | translate}}</div>
+        </div>
         <div class="input-group nowrap">
           <label>{{'campaigns.details.setting.daysToCall' | translate}}</label>
             {{'campaigns.details.setting.s' | translate}}<input class="week" type="checkbox" name="sunday" ng-model="csc.sundaySelected">

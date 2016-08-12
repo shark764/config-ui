@@ -244,9 +244,6 @@ angular.module('liveopsConfigPanel')
             tenantId: Session.tenant.tenantId,
             versionId: response.latestVersion
           }).$promise.then(function (campVersion) {
-            // temporary fix for API typo
-            campVersion.dispositionCodeListId = campVersion.dispostionCodeListId;
-            delete campVersion.dispostionCodeListId;
             csc.versionSettings = campVersion;
             convertDefaultExpiryToFormValue(csc.versionSettings);
             csc.versionSettings.defaultLeadRetryInterval = convertTimestampToFormVal(csc.versionSettings.defaultLeadRetryInterval);
@@ -635,7 +632,9 @@ angular.module('liveopsConfigPanel')
         csc.versionSettings.defaultLeadRetryInterval = convertToTimestamp(csc.versionSettings.defaultLeadRetryInterval);
         generateSchedule();
 
-        if(csc.noDaysChecked) return;
+        if (csc.noDaysChecked) {
+          return;
+        }
 
         // Deleting id and created so that we can force the API to create a new version,
         // since versions are not to be editable

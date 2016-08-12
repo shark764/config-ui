@@ -10,6 +10,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 * CXV1-3069 - Bug fix error message displaying before new user login
 * CXV1-4732 - Add tooltips to disposition list editor
 * CXV1-4415 - Fix Campaign left column and dispo mapping text
+* CXV1-4758 - Fixed issue with disposition list ID on campaign settings page not saving
 
 ## [4.1.17]
 * CXV1-4390 - Got campaigns properly enabling and disabling
