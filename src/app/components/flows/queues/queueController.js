@@ -42,7 +42,7 @@ angular.module('liveopsConfigPanel')
         });
       });
 
-      $scope.$on(loEvents.bulkActions.close, vm.reset);
+      $rootScope.$on(loEvents.bulkActions.close, vm.confirmCancel);
 
       vm.confirmCancel = function() {
         if (vm.forms.detailsForm.$dirty) {
@@ -145,6 +145,7 @@ angular.module('liveopsConfigPanel')
           priorityRate: version.priorityRate,
           priorityUnit: version.priorityUnit
         });
+        angular.element('#queue-version-panel').css('display', 'table-cell');
       };
 
       vm.toggleDetails = function(version) {
@@ -208,6 +209,7 @@ angular.module('liveopsConfigPanel')
         vm.selectedQueueVersion = vm.getDefaultVersion();
         vm.selectedQueueVersion.queueId = vm.selectedQueue.id;
         vm.selectedQueueVersion.name = 'v' + (vm.fetchVersions().length + 1);
+        angular.element('#queue-version-panel').css('display', 'table-cell');
       };
 
       vm.saveVersion = function() {

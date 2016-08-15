@@ -19,6 +19,7 @@ angular.module('liveopsConfigPanel')
               });
               $scope.ngResource = null;
               $scope.$emit(loEvents.bulkActions.close);
+              angular.element('#queue-version-panel').hide();
             });
           };
 
