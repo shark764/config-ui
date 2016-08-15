@@ -42,6 +42,8 @@ angular.module('liveopsConfigPanel')
       vm.clearFilters = function() {
         $scope.filters.resource = null;
         $scope.filters.flow = null;
+        $scope.filters.startDate = $moment();
+        $scope.filters.endDate = $moment();
       };
 
       vm.searchRecordings = function() {
