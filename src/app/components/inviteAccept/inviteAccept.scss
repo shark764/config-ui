@@ -4,12 +4,16 @@
   padding-top: $navbar-height;
   height: 100%;
   width: 100%;
-  
+
   #invite-accept-wrapper {
     max-width: 600px;
     margin: auto auto;
   }
-  
+
+  .invite-padding {
+    padding-left: 20px;
+  }
+
   .details-pane {
     background-color: #ffffff;
     box-sizing: border-box;
@@ -18,13 +22,13 @@
     @include drop-shadow();
     height: auto;
     padding: 10px;
-    
+
     .detail-body {
       flex: none;
       height: auto;
     }
   }
-  
+
   .btn-primary {
     margin-top: 20px;
     width: 100px;
