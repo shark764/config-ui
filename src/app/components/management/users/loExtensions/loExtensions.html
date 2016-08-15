@@ -1,8 +1,9 @@
+
 <div class="divider-header">
     <h4>{{'details.extensions' | translate}}</h4>
     <button id="add-extension-btn" class="btn pull-right" type="button"
-      ng-click="createExtension()"
-      ng-disabled="creatingExtension">
+      ng-click="lec.createExtension()"
+      ng-disabled="lec.creatingExtension !== false || lec.editingExtension !== null">
       <i class="fa fa-plus"></i>
     </button>
   </div>
@@ -11,13 +12,12 @@
   <form-error field="extensions"></form-error>
   <input type="hidden" name="extensions" ng-model="extensions"/>
 
-  <div ng-show="creatingExtension" class="add-extension">
+  <div ng-show="lec.creatingExtension" class="add-extension">
     <lo-extension-editor extension="newExtension"></lo-extension-editor>
-
     <div class="input-group">
       <label></label>
       <div class="submit-controls">
-        <a class="btn" ng-click="creatingExtension = false">{{'value.cancel' | translate}}</a>
+        <a class="btn" ng-click="lec.editingExtension = null; lec.creatingExtension = false">{{'value.cancel' | translate}}</a>
         <a class="btn btn-primary" ng-click="add()" ng-disabled="loExtensionsForm.$invalid">{{'value.save' | translate}}</a>
       </div>
     </div>
@@ -31,8 +31,8 @@
     dnd-moved="moved($index)"
     dnd-selected="tenantUser.extensions.selected = extension"
     id="{{extension.type | translate}}-{{extension.provider | translate}}">
-
     <div class="lo-extension-table-row" ng-class="{'default-extension': $index === 0}" ng-hide="lec.editingExtension === extension">
+
       <div class="lo-extension-table-col control-col">
         <div class="handle" title="{{'details.extension.drag.titletext' | translate}}">:::</div>
       </div>
@@ -50,9 +50,10 @@
         {{extension.description | translate}}
       </div>
 
+
       <div class="lo-extension-table-col small-col" dnd-nodrag>
         <a ng-click="lec.editingExtension = extension"
-          ng-show="extension.type === 'pstn' || extension.type === 'sip'">
+          ng-show="(extension.type === 'pstn' || extension.type === 'sip' || extension.provider === 'twilio') && (lec.creatingExtension === false && lec.editingExtension === null)">
             ({{'value.edit' | translate}})
         </a>
       </div>
@@ -72,13 +73,13 @@
       </div>
 
       <ng-form name="extensions{{$index}}" separate-validation>
-        <lo-extension-editor  extension="extension" dnd-nodrag></lo-extension-editor>
+        <lo-extension-editor  all-extensions="tenantUser.extensions" extension="extension" dnd-nodrag></lo-extension-editor>
       </form>
       <div class="input-group" dnd-nodrag>
         <label></label>
         <div class="submit-controls">
-          <a class="btn" ng-click="lec.editingExtension = null">{{'value.cancel' | translate}}</a>
-          <a class="btn btn-primary" ng-click="lec.save()" ng-disabled="!extensions{{$index}}.$dirty || extensions{{$index}}.$invalid">{{'value.save' | translate}}</a>
+          <a class="btn" ng-click="lec.cancelEditExtension(extension)">{{'value.cancel' | translate}}</a>
+          <a class="btn btn-primary" ng-click="lec.save()">{{'value.save' | translate}}</a>
         </div>
       </div>
     </div>

@@ -1,8 +1,10 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('IntegrationsController', ['$scope', 'Session', 'Integration', 'Listener', 'integrationTableConfig', 'loEvents', '$q',
-    function($scope, Session, Integration, Listener, integrationTableConfig, loEvents, $q) {
+  .controller('IntegrationsController', ['$scope', 'Session', 'Integration', 'Listener', 'integrationTableConfig', 'loEvents', '$q', 'twilioRegions',
+    function($scope, Session, Integration, Listener, integrationTableConfig, loEvents, $q, twilioRegions) {
+
+      $scope.twilioRegions = twilioRegions;
 
       $scope.fetchIntegrations = function() {
         return Integration.cachedQuery({

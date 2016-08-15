@@ -27,14 +27,14 @@
     error-type-required="{{'details.extension.value.required' | translate}}"
     error-type-pattern="{{'details.extensions.sipformat.error' | translate}}" >
   </form-error>
-
   <div ng-show="extension.type == 'webrtc'" class="secondary-field-col">
     <select id="extension-provider-dropdown" name="provider"
-      ng-disabled="ngDisabled"
+      ng-disabled="extension.provider === 'twilio'"
       ng-required="extension.type == 'webrtc'"
       ng-class="{'default-selected': ! extension.provider}"
       ng-model="extension.provider"
-      ng-options="provider.value as provider.display for provider in loExtensionProviders">
+      ng-options="provider.value as provider.display for provider in loExtensionProviders"
+      ng-change="clearProviderDesc(extension.provider)">
       <option class="disabled" value="" ng-disabled="true">
         {{'details.extension.provider' | translate}}
       </option>
@@ -79,10 +79,21 @@
     error-type-required="{{'details.extension.description.required' | translate}}" >
   </form-error>
   <input type="text"
-      ng-disabled="ngDisabled"
-      ng-required="true"
+      ng-disabled="lec.editingExtension !== null && extension.provider === 'twilio'"
+      ng-required="extension.provider !== 'twilio'"
       name="extensiondescription"
       placeholder="{{'value.description' | translate}}"
       ng-model="extension.description">
   </input>
+</div>
+
+<div class="input-group" ng-show="extension.provider === 'twilio'">
+  <label>{{'user.details.region' | translate}}</label>
+  <select id="extension-region-dropdown"
+    name="region"
+    ng-disabled="ngDisabled"
+    ng-class="{'default-selected': ! extension.provider}"
+    ng-required="extension.provider === 'twilio'"
+    ng-model="extension.region"
+    ng-options="region.value as region.display for region in twilioRegions">
 </div>

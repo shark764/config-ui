@@ -86,5 +86,6 @@
     <ba-reset-password ng-if="['PLATFORM_MANAGE_ALL_USER_PASSWORDS', 'MANAGE_ALL_USER_PASSWORDS']  | hasPermission"></ba-reset-password>
     <ba-user-skills ng-if="['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_TENANT_ENROLLMENT'] | hasPermission" users="fetchTenantUsers()"></ba-user-skills>
     <ba-user-groups ng-if="['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_TENANT_ENROLLMENT'] | hasPermission" users="fetchTenantUsers()"></ba-user-groups>
+    <ba-set-twilio-region users="fetchTenantUsers()"></ba-set-twilio-region>
   </bulk-action-executor>
 </lo-details-panel>
