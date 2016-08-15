@@ -13,6 +13,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 * CXV1-4758 - Fixed issue with disposition list ID on campaign settings page not saving
 * CXV1-4102 - Add login URL to Salesforce Integration
 * CXV1-2913 - Clear filter on recordings doesn't reset date
+* CXV1-2088 - Update request for the popup tooltip in creating a new user
 
 ## [4.1.17]
 * CXV1-4390 - Got campaigns properly enabling and disabling
