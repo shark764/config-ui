@@ -59,7 +59,6 @@ angular.module('liveopsConfigPanel')
                 vm.forms.detailsForm[field + index].$setValidity('api', false);
                 vm.forms.detailsForm[field + index].$error.api = message;
                 Alert.error(message);
-                console.log("message: ", message);
               });
 
               return $q.reject(response);
