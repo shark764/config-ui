@@ -1,16 +1,23 @@
-.integrations-default-region {
-  white-space: nowrap;
+.web-rtc-providers {
+  .input-group {
+    padding-top: 10px;
+  }
 
-   div {
-    float: left;
-    padding-right: 10px;
-    width: 50%;
+  .integrations-default-region {
+    white-space: nowrap;
 
-    label {
-      margin-right: 10px;
-    }
-    select {
-      width: 100%;
+     div {
+      float: left;
+      padding-right: 10px;
+      width: 50%;
+
+      label {
+        margin-right: 10px;
+      }
+
+      select {
+        width: 100%;
+      }
     }
   }
 }
