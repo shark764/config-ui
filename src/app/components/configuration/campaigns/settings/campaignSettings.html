@@ -250,7 +250,7 @@
         error-type-required="{{'campaigns.details.settings.startAmPm.invalid' | translate}}">
       </form-error>
       <form-error field="forms.exceptionsForm.endHour"
-        error-type-required="{{'campaigns.details.settings.endHr.invaild' | translate}}">
+        error-type-required="{{'campaigns.details.settings.endHr.invalid' | translate}}">
       </form-error>
       <form-error field="forms.exceptionsForm.endMinutes"
         error-type-required="{{'campaigns.details.settings.endMins.invalid' | translate}}">
@@ -323,7 +323,7 @@
             <label>{{'campaigns.details.setting.allDay' | translate}}</label>
           </div>
 
-          <button id="add-hours-exception" class="btn" type="button" ng-click="csc.addHoursException(forms.exceptionsForm)">
+          <button id="add-hours-exception" class="btn" type="button" ng-disabled="forms.exceptionsForm.$invalid" ng-click="csc.addHoursException(forms.exceptionsForm)">
             <i class="fa fa-plus"></i>
           </button>
         </ng-form>
