@@ -4,6 +4,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [4.1.19]
+* CXV1-4805 - Fixed UI issues with campaign settings page schedule exceptions
+* CXV1-4180 - Minor UI fixes
+
 ## [4.1.18]
 * CXV1-4179 and CXV1-4180 - Implemented Twilio Regions UI dropdown in users and integrations views
 * CXV1-4415 - Campaign settings UI improvements
