@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+* (no specific ticket) - Fixed incorrect campaign start/stop popup messaging
 
 ## [4.1.19]
 * CXV1-4805 - Fixed UI issues with campaign settings page schedule exceptions

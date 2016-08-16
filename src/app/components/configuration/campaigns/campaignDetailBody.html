@@ -44,8 +44,8 @@
       <toggle
         class="status-toggle"
         ng-model="cc.selectedCampaign.currentState"
-        confirm-disable-message="{{'campaigns.details.start.confirm' | translate}}"
-        confirm-enable-message="{{'campaigns.details.stop.confirm' | translate}}"
+        confirm-disable-message="{{'campaigns.details.stop.confirm' | translate}}"
+        confirm-enable-message="{{'campaigns.details.start.confirm' | translate}}"
         ng-disabled="forms.detailsForm.$pending || forms.detailsForm.$invalid || forms.detailsForm.$dirty || ! cc.selectedCampaign.hasVersion"
         on-confirm="cc.startStopCampaign()"></toggle>
       </ng-form>
@@ -112,11 +112,11 @@
     </div>
     <div class="form-col right align-top">
       <!-- Taking this out until API data that gives us these stats is fixed -->
-      <!-- <p ng-show="cc.selectedCampaign.latestJobData">
+      <p ng-show="cc.selectedCampaign.latestJobData">
         {{'campaigns.details.lastUpdate' | translate}} - {{cc.selectedCampaign.latestJobData.created | date:'MM/dd/yyyy HH:mm:ss' }}
         <br> {{'campaigns.details.updateStatus' | translate}} - {{cc.selectedCampaign.latestJobData.status}}
         <br> {{'campaigns.details.leadCount' | translate}} - {{cc.selectedCampaign.latestJobData.rowsProcessed}}
-      </p> -->
+      </p>
     </div>
   </div>
 </div>
