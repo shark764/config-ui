@@ -3,7 +3,7 @@
     <h4>{{'details' | translate}}</h4>
   </div>
 
-  <div ng-if="selectedIntegration.type == 'twilio' || selectedIntegration.type == 'plivo'">
+  <div ng-if="selectedIntegration.type == 'twilio' || selectedIntegration.type == 'plivo'" class="web-rtc-providers">
     <div ng-if="selectedIntegration.type == 'twilio'">
       <div class="input-group">
         <label>{{'integration.details.properties.accountSid' | translate}} *</label>
@@ -32,7 +32,7 @@
       </div>
     </div>
 
-    <div class="input-group integrations-default-region">
+    <div ng-if="selectedIntegration.type == 'twilio'" class="input-group integrations-default-region">
       <label>{{'integration.details.properties.defaultRegion' | translate}} *</label>
       <div>
         <select
