@@ -39,16 +39,15 @@
            name="region"
            ng-model="selectedIntegration.properties.region"
            ng-options="region.value as region.display for region in twilioRegions"></select>
-       </div>
+      </div>
 
       <div>
-          <label>{{'integration.details.properties.defaultRegionForced' | translate}} *</label>
-          <toggle
+        <label>{{'integration.details.properties.defaultRegionForced' | translate}} *</label>
+        <toggle
             ng-model="selectedIntegration.properties.forceRegion"
             ng-required="true"
             name="forceRegion"/>
       </div>
-
     </div>
 
     <div class="input-group">
@@ -121,7 +120,7 @@
       </div>
     </div>
   </div>
-  <div class="input-group">
+  <div class="input-group" ng-if="selectedIntegration.type == 'salesforce' || selectedIntegration.type == 'facebook'">
     <div>
       <p class="null">{{'integration.details.loginUrl.message' | translate}}</p>
     </div>
