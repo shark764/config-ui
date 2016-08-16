@@ -16,6 +16,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 * CXV1-2913 - Clear filter on recordings doesn't reset date
 * CXV1-2088 - Update request for the popup tooltip in creating a new user
 * CXV1-2274 - Invite acceptance page misaligned
+* CXV1-2647 - Cannot manually change date on recordings page
 
 ## [4.1.17]
 * CXV1-4390 - Got campaigns properly enabling and disabling
