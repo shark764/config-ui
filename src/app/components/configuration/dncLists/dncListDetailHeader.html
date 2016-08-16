@@ -1,5 +1,5 @@
 <div ng-if="! dnc.selectedDncList.isNew()">
-  <toggle class="status-toggle" ng-model="selectedDncList.active"
+  <toggle class="status-toggle" ng-model="dnc.selectedDncList.active"
   confirm-disable-message="{{'dnc.details.disable.confirm' | translate}}"
   confirm-enable-message="{{'dnc.details.enable.confirm' | translate}}"
   ng-disabled="! (['PLATFORM_MANAGE_ALL_TENANTS', 'MANAGE_TENANT'] | hasPermission)"

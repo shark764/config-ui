@@ -33,6 +33,8 @@ angular.module('liveopsConfigPanel')
 
       function uploadListFile(fileObj) {
         if (angular.isDefined(fileObj)) {
+          dnc.selectedDncList.expiration = convertDateFromMySqlFormat(dnc.selectedDncList.expiration);
+
           var upload = Upload.upload({
             headers: {
               'Content-Type': 'multipart/form-data'
@@ -42,9 +44,7 @@ angular.module('liveopsConfigPanel')
             file: fileObj
           });
 
-          upload.then(function (response) {
-            // TBD
-          });
+          return upload;
         }
       }
 
@@ -52,13 +52,13 @@ angular.module('liveopsConfigPanel')
       dnc.updateActive = function () {
         var dncListcopy = new DncLists({
           id: dnc.selectedDncList.id,
-          tenantId: dnc.selectedDncList.tenantId,
+          tenantId: Session.tenant.tenantId,
           active: !dnc.selectedDncList.active,
           name: dnc.selectedDncList.name,
           description: dnc.selectedDncList.description
         });
 
-        return dncListcopy.save(function(result){
+        return dncListcopy.save().then(function(result){
           dnc.selectedDncList.$original.active = result.active;
         });
       };
@@ -125,7 +125,6 @@ angular.module('liveopsConfigPanel')
         } else {
           uploadListFile(listFileData);
         }
-        dnc.selectedDncList.expiration = convertDateFromMySqlFormat(dnc.selectedDncList.expiration);
       };
 
       // individual list not being used at this time,
