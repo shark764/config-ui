@@ -2,7 +2,7 @@
 
 describe('loExtensionEditor directive', function(){
   var isolateScope;
-  
+
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('gulpAngular'));
 
@@ -12,7 +12,7 @@ describe('loExtensionEditor directive', function(){
 
     var element = $compile('<ng-form><lo-extension-editor extension="extension"></lo-extension-editor></ng-form>')($scope);
     $scope.$digest();
-    
+
     isolateScope = element.find('lo-extension-editor').isolateScope();
     isolateScope.form = {
       type: {
@@ -46,6 +46,11 @@ describe('loExtensionEditor directive', function(){
         $setValidity: jasmine.createSpy('$setPristine')
       },
       extensions: {
+        $setPristine: jasmine.createSpy('$setPristine'),
+        $setUntouched: jasmine.createSpy('$setUntouched'),
+        $setValidity: jasmine.createSpy('$setPristine')
+      },
+      region: {
         $setPristine: jasmine.createSpy('$setPristine'),
         $setUntouched: jasmine.createSpy('$setUntouched'),
         $setValidity: jasmine.createSpy('$setPristine')
@@ -84,7 +89,7 @@ describe('loExtensionEditor directive', function(){
       expect(isolateScope.form.extensiondescription.$setUntouched).toHaveBeenCalled();
     });
   });
-  
+
   describe('updateExtension function', function() {
     it('should add the pstn extension to the number, if given', function() {
       isolateScope.phoneNumber = 'mynewnumber';
