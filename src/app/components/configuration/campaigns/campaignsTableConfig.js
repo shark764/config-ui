@@ -18,7 +18,7 @@ angular.module('liveopsConfigPanel')
         'header': {
           'display': $translate.instant('campaigns.table.dialer')
         },
-        'name': '$original.currentState'
+        'name': 'currentState'
       }, {
         'header': {
           'display': $translate.instant('details.channelType')
@@ -38,7 +38,7 @@ angular.module('liveopsConfigPanel')
         },
         'name': '$original.active',
         'id': 'status-column-dropdown',
-        'lookup': '$original:active',        
+        'lookup': '$original:active',
         'sortable': true,
         'transclude': true,
         'filter': 'selectedOptions'

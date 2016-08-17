@@ -227,6 +227,8 @@ angular.module('liveopsConfigPanel')
             tenantId: Session.tenant.tenantId,
             campaignId: cc.selectedCampaign.id
           });
+        default:
+          cc.selectedCampaign.currentState = 'stopped';
         }
       };
 
