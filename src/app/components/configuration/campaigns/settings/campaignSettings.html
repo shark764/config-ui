@@ -35,10 +35,12 @@
           </div>
         </div>
 
+        <div class="input-group">
+          <form-error field="forms.settingsForm.flowId" error-type-required="{{'campaigns.details.flow.error' | translate}}"></form-error>
+        </div>
         <div class="input-group extra-padding">
           <label>{{'details.flow' | translate}} *</label>
           <div>
-            <form-error field="forms.settingsForm.flowId" error-type-required="{{'campaigns.details.flow.error' | translate}}"></form-error>
             <select name="flowId" required ng-model="csc.versionSettings.flowId" ng-options="flow.id as flow.name for flow in csc.flows">
               <option disabled value="">{{'campaigns.details.flow' | translate}}</option>
             </select>
@@ -56,7 +58,7 @@
         </div>
 
         <div class="input-group">
-          <form-error field="forms.settingsForm.flowId" error-type-required="{{'campaigns.details.flow.error' | translate}}"></form-error>
+          <form-error field="forms.settingsForm.timezone" error-type-required="{{'campaigns.details.timezone.error' | translate}}"></form-error>
         </div>
         <div class="input-group extra-padding">
           <label>{{'campaigns.details.setting.timezoneHeader' | translate}} *</label>
@@ -66,6 +68,20 @@
             ng-options="timezone.timezone as timezone.getDisplay() for timezone in csc.timezones | orderBy:'offsetInMilliseconds'"
             required>
             <option value="" disabled>{{'campaigns.details.settings.select.timezone' | translate}}</option>
+          </select>
+        </div>
+
+        <div class="input-group">
+          <form-error field="forms.settingsForm.region" error-type-required="{{'campaigns.details.setting.region.error' | translate}}"></form-error>
+        </div>
+        <div class="input-group extra-padding">
+          <label>{{'campaigns.details.setting.regionHeader' | translate}} *</label>
+
+          <select name="region"
+            ng-model="csc.versionSettings.defaultRegion"
+            ng-options="region as region for region in csc.regions | orderBy: region"
+            required>
+            <option value="" disabled>{{'campaigns.details.settings.select.region' | translate}}</option>
           </select>
         </div>
 
@@ -124,14 +140,14 @@
         </div>
      </div>
 
-     <div class="input-group">
-        <form-error field="forms.settingsForm.flowId" error-type-required="{{'campaigns.details.setting.dispositionList.error' | translate}}"></form-error>
-     </div>
 
     <div class="input-group">
       <div class="divider-header first-header">
         <h4>{{'campaigns.details.setting.disposition' | translate}}</h4>
       </div>
+    </div>
+    <div class="input-group">
+      <form-error field="forms.settingsForm.dispositionId" error-type-required="{{'campaigns.details.setting.dispositionList.error' | translate}}"></form-error>
     </div>
      <div class="input-group extra-padding">
         <label>{{'campaigns.details.setting.dispositionList' | translate}} *</label>
@@ -182,7 +198,7 @@
 
         <div class="input-group time-select">
           <div class="lo-error" ng-if="csc.scheduleTimeIsInvalid">{{'campaigns.details.settings.time.invalid' | translate}}</div>
-          <label>{{'campaigns.details.setting.earliestTime' | translate}}</label>
+          <label>{{'campaigns.details.setting.earliestTime' | translate}} *</label>
           <div>
             <select name="startHour" required ng-model="csc.scheduleStartHour" ng-options="n for n in csc.hours" ng-change="csc.validateTimeAndDate(forms.settingsForm)">
               <option disabled value="">{{'campaigns.details.setting.hour' | translate}}</option>
@@ -199,7 +215,7 @@
           </div>
         </div>
         <div class="input-group time-select">
-          <label>{{'campaigns.details.setting.latestTime' | translate}}</label>
+          <label>{{'campaigns.details.setting.latestTime' | translate}} *</label>
           <div>
             <select name="endHour" required ng-model="csc.scheduleEndHour" ng-options="n for n in csc.hours" ng-change="csc.validateTimeAndDate(forms.settingsForm)">
               <option disabled value="">{{'campaigns.details.setting.hour' | translate}}</option>
@@ -220,7 +236,7 @@
           <div class="lo-error" ng-if="csc.noDaysChecked">{{'campaigns.details.settings.day.invalid' | translate}}</div>
         </div>
         <div class="input-group nowrap">
-          <label>{{'campaigns.details.setting.daysToCall' | translate}}</label>
+          <label>{{'campaigns.details.setting.daysToCall' | translate}} *</label>
             {{'campaigns.details.setting.s' | translate}}<input class="week" type="checkbox" name="sunday" ng-model="csc.sundaySelected">
             {{'campaigns.details.setting.m' | translate}}<input class="week" type="checkbox" name="monday" ng-model="csc.mondaySelected">
             {{'campaigns.details.setting.t' | translate}}<input class="week" type="checkbox" name="tuesday" ng-model="csc.tuesdaySelected">
@@ -230,8 +246,6 @@
             {{'campaigns.details.setting.s' | translate}}<input class="week" type="checkbox" name="saturday" ng-model="csc.saturdaySelected">
         </div>
       </div>
-
-      <!-- WIP EXCEPTIONS!!!!! -->
 
       <div class="divider-header">
         <h4>{{'campaigns.details.setting.exceptions' | translate}}</h4>
@@ -359,8 +373,6 @@
             {{'hours.exception.noneDefined' | translate}} {{'hours.exception.noneDefined.hasPermission' | translate}}
           </div>
         </div>
-
-        <!-- END WIP -->
 
     </div>
   </div>
