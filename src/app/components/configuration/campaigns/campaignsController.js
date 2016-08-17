@@ -2,8 +2,8 @@
 
 angular.module('liveopsConfigPanel')
   .controller('campaignsController', [
-    '$scope', '$rootScope', '$timeout', '$translate', '$moment', '$q', '$state', '$document', '$compile', 'Alert', 'Session', 'Campaign', 'CampaignStart', 'CampaignStop', 'CampaignCallListJobs', 'CampaignCallListDownload', 'campaignsTableConfig', 'loEvents', 'Flow', 'Upload', 'DirtyForms', 'apiHostname',
-    function ($scope, $rootScope, $timeout, $translate, $moment, $q, $state, $document, $compile, Alert, Session, Campaign, CampaignStart, CampaignStop, CampaignCallListJobs, CampaignCallListDownload, campaignsTableConfig, loEvents, Flow, Upload, DirtyForms, apiHostname) {
+    '$scope', '$rootScope', '$timeout', '$translate', '$moment', '$q', '$state', '$document', '$compile', 'Alert', 'Session', 'Campaign', 'CampaignStart', 'CampaignStop', 'CampaignCallListJobs', 'CampaignCallListDownload', 'campaignsTableConfig', 'loEvents', 'Flow', 'Upload', 'DirtyForms', 'apiHostname', 'Modal',
+    function ($scope, $rootScope, $timeout, $translate, $moment, $q, $state, $document, $compile, Alert, Session, Campaign, CampaignStart, CampaignStop, CampaignCallListJobs, CampaignCallListDownload, campaignsTableConfig, loEvents, Flow, Upload, DirtyForms, apiHostname, Modal) {
       var cc = this;
       var CampaignCallListDownload = new CampaignCallListDownload(),
           currentlySelectedCampaign = cc.selectedCampaign;
