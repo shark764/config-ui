@@ -44,6 +44,8 @@
       <toggle
         class="status-toggle"
         ng-model="cc.selectedCampaign.currentState"
+        true-value="started"
+        false-value="stopped"
         confirm-disable-message="{{'campaigns.details.stop.confirm' | translate}}"
         confirm-enable-message="{{'campaigns.details.start.confirm' | translate}}"
         ng-disabled="forms.detailsForm.$pending || forms.detailsForm.$invalid || forms.detailsForm.$dirty || ! cc.selectedCampaign.hasVersion"
@@ -87,8 +89,7 @@
         </button>
       </div>
 
-      <!-- Taking this out until API data that gives us these stats is fixed -->
-      <!-- <div>
+      <div>
         <button
           id="stats-btn"
           class="btn"
@@ -96,7 +97,7 @@
           ng-disabled="!cc.selectedCampaign.id || !cc.selectedCampaign.hasCallList">
           {{'campaigns.details.statsBtn' | translate}}
         </button>
-      </div> -->
+      </div>
 
       <div>
         <button
