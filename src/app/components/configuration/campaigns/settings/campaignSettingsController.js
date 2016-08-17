@@ -664,7 +664,9 @@ angular.module('liveopsConfigPanel')
           tenantId: Session.tenant.tenantId,
           campaignId: getCampaignId
         }).then(function (response) {
-          $state.go('content.configuration.campaigns');
+          $state.go('content.configuration.campaigns', {
+            id: getCampaignId
+          });
         });
       };
     }
