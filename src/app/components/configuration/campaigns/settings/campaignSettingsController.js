@@ -38,6 +38,8 @@ angular.module('liveopsConfigPanel')
 
           csc.scheduleStartAmPm = 'am';
           csc.scheduleEndAmPm = 'pm';
+          csc.scheduleStartMinutes = '00';
+          csc.scheduleEndMinutes = '00';
           csc.loading = false;
           csc.leadExpiry = 0;
           csc.versionSettings.defaultLeadRetryInterval = 0;
