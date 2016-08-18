@@ -70,56 +70,10 @@
   <div class="divider-header">
     <h4>{{'campaigns.details.contacts.header' | translate}}</h4>
   </div>
-<div disable-contents="! (['MANAGE_CAMPAIGNS'] | hasPermission)">
-  <div class="input-group multi-col">
-    <div class="form-col left align-top">
-      <div>
-        <button
-          id="import-btn"
-          class="btn"
-          accept=".csv"
-          ngf-change="cc.importContactList($file)"
-          ngf-select
-          ng-model-options="{allowInvalid : true}"
-          ngf-max-size="20MB"
-          ng-model="cc.selectedCampaign.callListData"
-          type="button"
-          ng-disabled="!cc.selectedCampaign.id">
-          {{'campaigns.details.importBtn' | translate}}
-        </button>
-      </div>
 
-      <div>
-        <button
-          id="stats-btn"
-          class="btn"
-          ng-click="cc.openStatsModal()"
-          ng-disabled="!cc.selectedCampaign.id || !cc.selectedCampaign.hasCallList">
-          {{'campaigns.details.statsBtn' | translate}}
-        </button>
-      </div>
-
-      <div>
-        <button
-          id="download-btn"
-          class="btn"
-          ng-click="cc.downloadCallList(cc.selectedCampaign.id)"
-          type="button"
-          ng-disabled="!cc.selectedCampaign.id || !cc.selectedCampaign.hasCallList">
-          {{'campaigns.details.downloadBtn' | translate}}
-        </button>
-      </div>
-
-    </div>
-    <div class="form-col right align-top">
-      <!-- Taking this out until API data that gives us these stats is fixed -->
-      <p ng-show="cc.selectedCampaign.latestJobData">
-        {{'campaigns.details.lastUpdate' | translate}} - {{cc.selectedCampaign.latestJobData.created | date:'MM/dd/yyyy HH:mm:ss' }}
-        <br> {{'campaigns.details.updateStatus' | translate}} - {{cc.selectedCampaign.latestJobData.status}}
-        <br> {{'campaigns.details.leadCount' | translate}} - {{cc.selectedCampaign.latestJobData.rowsProcessed}}
-      </p>
-    </div>
-  </div>
-</div>
-
+  <csv-upload
+    selected-row="cc.selectedCampaign"
+    template-url="app/components/configuration/campaigns/campaignCsvUpload.html"
+    download-path="/campaigns/{{cc.selectedCampaign.id}}/call-list/download.csv"
+    job-service-name='campaigns'></csv-upload>
 </form>

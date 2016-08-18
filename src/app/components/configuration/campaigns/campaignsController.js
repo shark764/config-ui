@@ -2,13 +2,12 @@
 
 angular.module('liveopsConfigPanel')
   .controller('campaignsController', [
-    '$scope', '$rootScope', '$timeout', '$translate', '$moment', '$q', '$state', '$document', '$compile', 'Alert', 'Session', 'Campaign', 'CampaignStart', 'CampaignStop', 'CampaignCallListJobs', 'CampaignCallListDownload', 'campaignsTableConfig', 'loEvents', 'Flow', 'Upload', 'DirtyForms', 'apiHostname', 'Modal',
-    function ($scope, $rootScope, $timeout, $translate, $moment, $q, $state, $document, $compile, Alert, Session, Campaign, CampaignStart, CampaignStop, CampaignCallListJobs, CampaignCallListDownload, campaignsTableConfig, loEvents, Flow, Upload, DirtyForms, apiHostname, Modal) {
+    '$scope', '$rootScope', '$timeout', '$translate', '$moment', '$q', '$state', '$compile', 'Alert', 'Session', 'Campaign', 'CampaignStart', 'CampaignStop', 'campaignsTableConfig', 'loEvents', 'Flow', 'DirtyForms', 'apiHostname', 'Modal',
+    function ($scope, $rootScope, $timeout, $translate, $moment, $q, $state, $compile, Alert, Session, Campaign, CampaignStart, CampaignStop, campaignsTableConfig, loEvents, Flow, DirtyForms, apiHostname, Modal) {
       var cc = this;
-      var CampaignCallListDownload = new CampaignCallListDownload(),
-          currentlySelectedCampaign = cc.selectedCampaign;
-        // load up all of the page data...
+      var currentlySelectedCampaign = cc.selectedCampaign;
 
+      // load up all of the page data...
       // first call the campaigns...
       cc.campaigns = Campaign.cachedQuery({
         tenantId: Session.tenant.tenantId
@@ -43,42 +42,18 @@ angular.module('liveopsConfigPanel')
       // which means that it is also a valid campaign that can actually be started
       function hasVersion() {
         cc.selectedCampaign.hasVersion = angular.isDefined(cc.selectedCampaign.latestVersion);
-      }
+      };
 
-      function hasOne (arr) {
-        if(angular.isDefined(arr)) {
+      // simply checking if an array contains one or more items
+      function hasOne(arr) {
+        if (angular.isDefined(arr)) {
           if (arr.length > 0) {
             return true;
           } else {
             return false;
           }
         }
-      }
-
-      function getJobData () {
-        var jobList = CampaignCallListJobs.cachedGet({
-          tenantId: Session.tenant.tenantId,
-          campaignId: cc.selectedCampaign.id
-        });
-
-        jobList.$promise.then(function () {
-          cc.loading = true;
-          cc.selectedCampaign.hasCallList = hasOne(jobList.jobs);
-          if (cc.selectedCampaign.hasCallList) {
-            var latestJobId = jobList.jobs[0];
-
-            var lastJobData = CampaignCallListJobs.cachedGet({
-              tenantId: Session.tenant.tenantId,
-              campaignId: cc.selectedCampaign.id,
-              jobId: latestJobId
-            });
-
-            lastJobData.$promise.then(function (response) {
-              cc.selectedCampaign.latestJobData = response;
-            });
-          }
-        });
-      }
+      };
 
       function getFlowName(cam, flo) {
         // add a flowName property to the campaign object with the name of the
@@ -99,16 +74,10 @@ angular.module('liveopsConfigPanel')
 
         if (currentlySelectedCampaign) {
           hasVersion();
-
-          // get the jobs and download lists...
-          // unless, of course, it's a new campaign and neither exist
-          if (!cc.selectedCampaign.isNew()) {
-            getJobData();
-          }
         }
       });
 
-      cc.updateActive = function() {
+      cc.updateActive = function () {
         var campaignCopy = new Campaign({
           id: cc.selectedCampaign.id,
           tenantId: Session.tenant.tenantId,
@@ -117,52 +86,13 @@ angular.module('liveopsConfigPanel')
           description: cc.selectedCampaign.description
         });
 
-        return campaignCopy.save(function(result){
+        return campaignCopy.save(function (result) {
           cc.selectedCampaign.$original.active = result.active;
         });
       };
 
-      cc.importContactList = function (fileData) {
-        if (fileData) {
-          var upload = Upload.upload({
-            headers: {
-              'Content-Type': 'multipart/form-data'
-            },
-            url: apiHostname + '/v1/tenants/' + Session.tenant.tenantId + '/campaigns/' + cc.selectedCampaign.id + '/call-list',
-            method: 'POST',
-            file: fileData
-          });
-
-          upload.then(function () {
-            $timeout(function () {
-              getJobData ();
-            });
-          });
-
-          return upload;
-        }
-      };
-
-      cc.openStatsModal = function () {
-        var newScope = $scope.$new();
-        newScope.modalBody = 'app/components/configuration/campaigns/stats.modal.html';
-        newScope.title = 'Stats';
-
-        newScope.cancelCallback = function () {
-          $scope.showDispoDNC = false;
-          $document.find('modal').remove();
-        };
-
-        var element = $compile('<modal></modal>')(newScope);
-        $document.find('html > body').append(element);
-      };
-
-      cc.downloadCallList = function (campaignId) {
-        CampaignCallListDownload.download(campaignId, Session);
-      };
-
-      cc.confirmSubmit = function() {
-        if(angular.isDefined(cc.selectedCampaign.$original) && !cc.selectedCampaign.$original.shared) {
+      cc.confirmSubmit = function () {
+        if (angular.isDefined(cc.selectedCampaign.$original) && !cc.selectedCampaign.$original.shared) {
           return Modal.showConfirm({
             message: $translate.instant('disposition.details.shared.confirm'),
             okCallback: cc.submit
@@ -173,30 +103,30 @@ angular.module('liveopsConfigPanel')
 
       cc.submit = function () {
         return cc.selectedCampaign.save({
-          tenantId: Session.tenant.tenantId
-        }, function (response) {
-          Alert.success($translate.instant('value.saveSuccess'));
-          cc.duplicateError = false;
-        }, function (err) {
-          Alert.error($translate.instant('value.saveFail'));
-          if (err.data.error.attribute.name) {
-            cc.duplicateError = true;
-            cc.duplicateErrorMessage = err.data.error.attribute.name.capitalize();
-          }
-        })
-        .then(function (response) {
-          // once the campaign has been saved, re-evaluate for the presence of a version
-          // so that we can properly enable or disable the start/stop toggle
-          hasVersion();
-          cc.selectedCampaign.hasCallList = hasOne(response.jobs);
-        });
+            tenantId: Session.tenant.tenantId
+          }, function (response) {
+            Alert.success($translate.instant('value.saveSuccess'));
+            cc.duplicateError = false;
+          }, function (err) {
+            Alert.error($translate.instant('value.saveFail'));
+            if (err.data.error.attribute.name) {
+              cc.duplicateError = true;
+              cc.duplicateErrorMessage = err.data.error.attribute.name.capitalize();
+            }
+          })
+          .then(function (response) {
+            // once the campaign has been saved, re-evaluate for the presence of a version
+            // so that we can properly enable or disable the start/stop toggle
+            hasVersion();
+            cc.selectedCampaign.hasCallList = hasOne(response.jobs);
+          });
       };
 
-      $scope.$watch(function() {
-       return cc.selectedCampaign;
-     }, function() {
-       cc.duplicateError = false;
-     });
+      $scope.$watch(function () {
+        return cc.selectedCampaign;
+      }, function () {
+        cc.duplicateError = false;
+      });
 
       cc.editCampaignSettings = function (currentlySelectedCampaign) {
         $state.go('content.configuration.campaignSettings', {
@@ -231,6 +161,5 @@ angular.module('liveopsConfigPanel')
           cc.selectedCampaign.currentState = 'stopped';
         }
       };
-
     }
   ]);

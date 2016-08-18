@@ -1,0 +1,55 @@
+<div disable-contents="! (['MANAGE_CAMPAIGNS'] | hasPermission)">
+  <div class="input-group multi-col">
+    <div class="form-col left align-top">
+      <div>
+        <button
+          id="import-btn"
+          class="btn"
+          accept=".csv"
+          ngf-change="importFile($file)"
+          ngf-select
+          ng-model-options="{allowInvalid : true}"
+          ngf-max-size="20MB"
+          ng-model="selectedRow.listData"
+          type="button"
+          ng-disabled="!selectedRow.id">
+          {{'campaigns.details.importBtn' | translate}}
+        </button>
+      </div>
+
+      <div>
+        <button
+          id="stats-btn"
+          class="btn"
+          ng-click="openStatsModal()"
+          ng-disabled="!selectedRow.id || !selectedRow.hasList || !uploadStats ||  selectedRow.latestJobData.status === 'error'">
+          {{'campaigns.details.statsBtn' | translate}}
+        </button>
+      </div>
+
+      <div>
+        <button
+          id="download-btn"
+          class="btn"
+          ng-click="downloadCallList(selectedRow.id)"
+          type="button"
+          ng-disabled="!selectedRow.id || !selectedRow.hasList || !uploadStats || selectedRow.latestJobData.status === 'error'">
+          {{'campaigns.details.downloadBtn' | translate}}
+        </button>
+      </div>
+    </div>
+    <div class="form-col right align-top">
+      <loading ng-show="!uploadStats && selectedRow.hasList"></loading>
+      <div ng-show="uploadStats && selectedRow.hasList && selectedRow.latestJobData.status !== 'error'">
+        <ul>
+          <li ng-if="selectedRow.latestJobData.created">
+            {{'campaigns.details.lastUpdate' | translate}} - {{selectedRow.latestJobData.created | date:'MM/dd/yyyy HH:mm:ss' }}
+          </li>
+          <li ng-if="displayData(selectedRow.latestJobData.rowsProcessed) && selectedRow.latestJobData.status !=='error'">
+            {{'campaigns.details.leadCount' | translate}} - {{selectedRow.latestJobData.rowsProcessed}}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

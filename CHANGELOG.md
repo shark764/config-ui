@@ -3,7 +3,8 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
-* CXV1-4903 - Rearrage campaign settings 
+* CXV1-4858 - Implemented new directive for uploading and downloading CSV's for the Outbound functionality
+* CXV1-4903 - Rearrage campaign settings
 * CXV1-4838 - Campaign expiry absolute date and time
 * CXV1-4838 - Got campaign start/stop functionality working & re-introduced campaign stats in side panel
 * (no specific ticket) - Updated config-shared to latest version w/campaign start/stop fix
@@ -19,6 +20,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 * CXV1-4180 - Minor UI fixes
 
 ## [4.1.18]
+NOTE: WILL NEED A FEATURE FLAG FOR TWILIO REGIONS TICKET (4179 and 4180) IF THIS GETS RELEASED BEFORE
+TOOLBAR WORK IS COMPLETE
 * CXV1-4179 and CXV1-4180 - Implemented Twilio Regions UI dropdown in users and integrations views
 * CXV1-4415 - Campaign settings UI improvements
 * CXV1-4676 - Campaign settings bug fix
