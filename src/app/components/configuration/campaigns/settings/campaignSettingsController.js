@@ -2,8 +2,8 @@
 
 angular.module('liveopsConfigPanel')
   .controller('campaignSettingsController', [
-    '$scope', '$rootScope', '$state', '$stateParams', '$translate', '$moment', '$q', '$document', '$compile', '$timeout', 'Session', 'Flow', 'Timezone', 'Region', 'Campaign', 'CampaignVersion', 'Disposition', 'DispositionList', 'DirtyForms', 'loEvents', 'getCampaignId', 'DncLists', 'campaignChannelTypes',
-    function ($scope, $rootScope, $state, $stateParams, $translate, $moment, $q, $document, $compile, $timeout, Session, Flow, Timezone, Region, Campaign, CampaignVersion, Disposition, DispositionList, DirtyForms, loEvents, getCampaignId, DncLists, campaignChannelTypes) {
+    '$scope', '$rootScope', '$state', '$stateParams', '$translate', '$moment', '$q', '$document', '$compile', '$timeout', 'Session', 'Flow', 'Timezone', 'Region', 'Campaign', 'CampaignVersion', 'Disposition', 'DispositionList', 'DirtyForms', 'loEvents', 'getCampaignId', 'DncLists', 'campaignChannelTypes', 'regionCodes',
+    function ($scope, $rootScope, $state, $stateParams, $translate, $moment, $q, $document, $compile, $timeout, Session, Flow, Timezone, Region, Campaign, CampaignVersion, Disposition, DispositionList, DirtyForms, loEvents, getCampaignId, DncLists, campaignChannelTypes, regionCodes) {
       $scope.forms = {};
       $scope.showDispoDNC = false;
       // adding to the scope all of the data from the campaigns page
@@ -314,20 +314,13 @@ angular.module('liveopsConfigPanel')
       };
 
       csc.loadRegions = function () {
-        csc.regions = ["CR", "TG", "TJ", "ZA", "IM", "PE", "LC", "CH", "RU", "MP", "CK", "SI", "AU", "KR", "IT", "FI", "GF", "SC", "SX", "ZZ", "TT", "TK", "MY", "SY",
-         "MN", "TF", "KP", "AM", "DZ", "UY", "TD", "DJ", "BI", "MK", "MU", "LI", "NU", "GR", "GY", "CG", "NF", "ML", "AX", "GM", "SA", "CX", "BH", "NE", "BN", "MF", "CD",
-          "DK", "BJ", "ME", "SJ", "BO", "JO", "CV", "VE", "CI", "UZ", "TN", "IS", "TA", "EH", "AC", "TM", "GA", "LS", "TZ", "AT", "LT", "NP", "BG", "IL", "GU", "PK", "PT",
-           "HR", "VU", "PF", "BM", "MR", "GE", "HU", "TW", "MM", "VG", "YE", "SR", "PN", "VA", "PR", "KW", "SE", "GB", "VN", "CF", "PA", "VC", "JP", "IR", "AF", "LY", "MZ",
-            "RO", "QA", "CM", "GG", "BY", "SD", "BQ", "MO", "KY", "AR", "BR", "ZW", "NR", "NZ", "AW", "FJ", "ID", "SV", "CN", "FM", "HT", "CC", "RW", "BA", "TL", "JM", "KM",
-             "KE", "WS", "TO", "PY", "SH", "CY", "GH", "MA", "SG", "LK", "PH", "SM", "WF", "TR", "PS", "BZ", "CU", "TV", "AD", "SB", "DM", "LR", "OM", "SO", "DO", "AL", "BL",
-              "FR", "GW", "MS", "BB", "CA", "MG", "KH", "LA", "GP", "HN", "TH", "DE", "LB", "KZ", "AS", "EC", "NO", "AO", "FK", "ET", "MD", "AG", "BE", "MV", "SZ", "CZ", "CL",
-               "BT", "NL", "EG", "MQ", "SN", "FO", "EE", "ST", "KN", "BW", "MH", "NI", "PG", "VI", "IQ", "KG", "US", "ZM", "MC", "GI", "NC", "GT", "BF", "YT", "LU", "UA", "IE",
-                "LV", "GD", "MW", "BS", "AZ", "SK", "GQ", "TC", "RE", "IN", "ES", "GL", "001", "KI", "HK", "CO", "SS", "RS", "IO", "NG", "UG", "CW", "SL", "ER", "JE", "AE", "PM",
-                 "BD", "MT", "AI", "GN", "PW", "NA", "MX", "PL"];
+        csc.regions = regionCodes;
       };
 
       csc.cancel = function () {
-        $state.go('content.configuration.campaigns');
+        $state.go('content.configuration.campaigns', {
+          id: getCampaignId
+        });
       };
 
       csc.fetchDNCList = function () {

@@ -79,7 +79,7 @@
 
           <select name="region"
             ng-model="csc.versionSettings.defaultRegion"
-            ng-options="region as region for region in csc.regions | orderBy: region"
+            ng-options="region.code as region.name for region in csc.regions"
             required>
             <option value="" disabled>{{'campaigns.details.settings.select.region' | translate}}</option>
           </select>
