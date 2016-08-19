@@ -89,7 +89,6 @@ angular.module('liveopsConfigPanel')
     };
 
     vm.submit = function() {
-      console.log('HAIL STEVENS');
       vm.selectedReasonList.reasons.forEach(function(reason) {
         if (reason.name === $translate.instant('reasons.details.select')) {
           $scope.err = true;

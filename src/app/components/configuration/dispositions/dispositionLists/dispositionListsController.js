@@ -89,7 +89,6 @@ angular.module('liveopsConfigPanel')
     };
 
     vm.submit = function() {
-      console.log('HAIL STEVENS');
       vm.selectedDispositionList.dispositions.forEach(function(disposition) {
         if (disposition.name === $translate.instant('dispositions.details.select')) {
           $scope.err = true;
