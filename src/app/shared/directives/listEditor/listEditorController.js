@@ -19,7 +19,7 @@ angular.module('liveopsConfigPanel')
             $scope.possibleDispos = dispos.filter(function(possibleDispo) {
               var found = false;
               $scope.dispositionList.forEach(function(dispo) {
-                if (dispo.dispositionId === possibleDispo.id) {
+                if (dispo.dispositionId === possibleDispo.id || dispo.reasonId === possibleDispo.id) {
                   found = true;
                 }
               });
@@ -158,8 +158,11 @@ angular.module('liveopsConfigPanel')
         $scope.dropdown = -1;
       };
 
-      $scope.selectNewDispo = function(dropdownIndex) {
+      $scope.selectNewDispo = function(dropdownId) {
         var listIndex = list.indexOf($scope.selectedDispo);
+        var dropdownIndex = _.findIndex($scope.possibleDispos, function(item) {
+          return item.id === dropdownId;
+        });
 
         if ($scope.selectedDispo.name.slice(0, 8) !== 'Select a') {
           $scope.possibleDispos.push($scope.selectedDispo);

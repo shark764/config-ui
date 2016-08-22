@@ -20,7 +20,7 @@
           <div class="dropdown-arrow" ng-click="toggleDropdown($index)" ng-show="disposition === selectedDispo && !readOnly"><i class="fa fa-sort-desc fa-lg"></i></div>
           <div ng-show="dropdown === $index" class="dispoDropdown">
             <ul>
-              <li ng-repeat="dispo in possibleDispos track by dispo.id" ng-click="selectNewDispo($index)" ng-hide="!dispo.active || (shared && !dispo.shared)">{{dispo.name}}</li>
+              <li ng-repeat="dispo in possibleDispos track by dispo.id" ng-click="selectNewDispo(dispo.id)" ng-hide="!dispo.active || (shared && !dispo.shared)">{{dispo.name}}</li>
             </ul>
           </div>
         </div>
