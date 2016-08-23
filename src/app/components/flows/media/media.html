@@ -14,6 +14,7 @@
     <div name="$original.type">
       <span ng-show="item.type === 'tts'">{{'media.details.mediaTypes.tts' | translate}}</span>
       <span ng-show="item.type === 'audio'">{{'media.details.mediaTypes.audio' | translate}}</span>
+      <span ng-show="item.type === 'list'">{{'media.details.mediaTypes.list' | translate}}</span>
     </div>
   </lo-resource-table>
 </div>
@@ -24,14 +25,18 @@
   right-element-id="right-panel"
   left-element-id="table-pane" ></resize-handle>
 
-<lo-details-panel id="right-panel" class="right-panel"
+<lo-details-panel
+  id="right-panel"
+  class="right-panel"
   name="mediaDetailsController"
   ng-show="selectedMedia"
   ng-resource="selectedMedia"
   lo-media-details>
 
-  <ng-form unsaved-changes-warning class="details-pane"
-    ng-show="selectedMedia" name="forms.mediaForm"
+  <ng-form unsaved-changes-warning
+    class="details-pane"
+    ng-show="selectedMedia"
+    name="forms.mediaForm"
     ng-model="selectedMedia"
     ng-resource="selectedMedia"
     lo-form-submit
@@ -51,12 +56,55 @@
         value="{{'value.cancel' | translate}}"
         lo-cancel>
       </input>
-      <input id="submit-details-btn" class="btn btn-primary"
-        type="submit" value="{{'value.submit' | translate}}"
+      <input
+        id="submit-details-btn"
+        class="btn btn-primary"
+        type="submit"
+        value="{{'value.submit' | translate}}"
         ng-disabled="forms.mediaForm.$invalid || ! forms.mediaForm.$dirty"
-        lo-submit="mediaDetailsController.submit()"
+        lo-submit="mediaDetailsController.submit(selectedMedia, forms.mediaForm)"
         lo-submit-spinner
         lo-submit-spinner-status="selectedMedia.$busy">
+      </input>
+    </div>
+  </ng-form>
+</lo-details-panel>
+
+<resize-handle
+  ng-show="showSecondPanel === true && selectedMedia.type ==='list'"
+  id="resize-pane"
+  right-element-id="right-panel"
+  left-element-id="table-pane"></resize-handle>
+
+<lo-details-panel id="right-panel-addl" class="right-panel"
+  ng-show="showSecondPanel === true && selectedMedia.type ==='list'"
+  name="mediaDetailsController"
+  lo-media-details
+  form="forms.mediaForm"
+  ng-resource="selectedMedia.secondScope">
+
+  <ng-form unsaved-changes-warning class="details-pane"
+    name="forms.mediaFormAddl"
+    ng-model="selectedMedia.secondScope"
+    ng-resource="selectedMedia.secondScope">
+
+    <div class="detail-body"
+      ng-include src="'app/components/flows/media/mediaDetailPanelAddl.html'">
+    </div>
+
+    <div class="detail-controls">
+      <input id="cancel-details-btn" type="button" class="btn"
+        value="{{'value.cancel' | translate}}"
+        ng-click="closeAddlPanel()">
+      </input>
+      <input id="submit-details-btn"
+        class="btn btn-primary"
+        type="submit"
+        value="{{'value.submit' | translate}}"
+        ng-disabled="forms.mediaFormAddl.$invalid || ! forms.mediaFormAddl.$dirty"
+        ng-click="mediaDetailsController.submit(selectedMedia.secondScope, forms.mediaFormAddl)"
+        lo-submit-spinner
+        lo-submit-spinner-status="selectedMedia.secondScope.$busy">
       </input>
     </div>
   </ng-form>

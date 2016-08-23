@@ -6,7 +6,8 @@ angular.module('liveopsConfigPanel')
       itemSelected: 'table:resource:selected',
       itemChecked: 'table:resource:checked',
       itemCreate: 'table:resource:create',
-      actions: 'table:click:actions'
+      actions: 'table:click:actions',
+      altClose: 'table:panel:altClose'
     },
     bulkActions: {
       close: 'details:panel:close'

@@ -21,17 +21,6 @@ describe('media details directive', function() {
     };
   }]));
 
-  describe('onSelect function', function() {
-    it('should remove the selectedMedia source', inject(function() {
-      $scope.selectedMedia = {
-        source: 'a source'
-      };
-
-      controller.onSelect();
-      expect($scope.selectedMedia.source).toBeUndefined();
-    }));
-  });
-
   describe('submit function', function() {
     it('should save the selectedMedia if the audio source isn\'t dirty', inject(function(Media, $httpBackend, apiHostname) {
       $scope.forms.mediaForm.audiosourcefile.$dirty = false;

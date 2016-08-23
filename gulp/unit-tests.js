@@ -49,14 +49,19 @@ module.exports = function (options) {
       }));
   }
 
-  function runTests(singleRun, reporters, specFiles, done) {
+  function runTests(singleRun, reporters, specFiles, done, captureConsole) {
     listFiles(specFiles, function (files) {
+      captureConsole === undefined ? true : false;
+
       karma.server.start({
         configFile: __dirname + '/../karma.conf.js',
         files: files,
         singleRun: singleRun,
         autoWatch: !singleRun,
-        reporters: reporters
+        reporters: reporters,
+        client: {
+          captureConsole: captureConsole
+        }
       }, done);
     });
   }
@@ -78,6 +83,15 @@ module.exports = function (options) {
     }
 
     runTests(true, ['progress'], specFiles, done);
+  });
+
+  gulp.task('test:errors', ['scripts'], function (done) {
+    var specFiles = [
+      options.src + '/**/*.spec.js',
+      options.src + '/**/*.mock.js'
+    ];
+
+    runTests(true, ['dots'], specFiles, done, false);
   });
 
   gulp.task('coverage', ['scripts'], function (done) {
