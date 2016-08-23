@@ -15,8 +15,17 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.fetchMedias = function() {
-        return Media.cachedQuery({
+        // Forcing the resource table to show the spinner, since we have to do work on the response before showing it *facepalm*
+        $scope.media = {};
+        $scope.media.$promise = true;
+        $scope.media.$resolved = false;
+        
+        Media.cachedQuery({
           tenantId: Session.tenant.tenantId
+        }).$promise.then(function(mediaItems) {
+          $scope.media = mediaItems.filter(function(item) {
+            return item.type !== 'list';
+          });
         });
       };
 
@@ -27,5 +36,6 @@ angular.module('liveopsConfigPanel')
       $scope.tableConfig = mediaTableConfig;
       $scope.twilioLangs = twilioLangs;
       $scope.twilioVoices = twilioVoices;
+      $scope.fetchMedias();
     }
   ]);
