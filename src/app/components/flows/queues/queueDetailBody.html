@@ -94,14 +94,13 @@
         <td colspan="5">
           <div disable-contents="! ('MANAGE_ALL_QUEUES' | hasPermission)">
 
-            <readonly-query query="version.query">
+            <readonly-query query="version.query" show-basic-query="showBasicQuery">
 
               <!-- Basic Query -->
               <div id="version-basic-query-details" ng-show="showBasicQuery" class="input-group">
                 <label class="textarea-label disabled">{{'queue.details.version.query.basic.title' | translate}}</label>
                 <a class="show-advanced-link"
-                  ng-show="showBasicQuery"
-                  ng-click="showBasicQuery = false;">
+                  ng-click="showBasicQuery = !showBasicQuery;">
                       {{'queue.details.version.query.advanced.link' | translate}}
                 </a>
                 <query-builder query-string="query" read-only="true"></query-builder>
@@ -111,8 +110,7 @@
               <div class="input-group advanced-query-readonly" ng-show="!showBasicQuery">
                 <label class="textarea-label disabled">{{'queue.details.version.query.advanced.title' | translate}}</label>
                 <a class="show-basic-link"
-                  ng-show="! showBasicQuery"
-                  ng-click="showBasicQuery = true;">
+                  ng-click="showBasicQuery = !showBasicQuery;">
                     {{'queue.details.version.query.basic.link' | translate}}
                 </a>
                 <textarea id="advanced-query-field" ng-disabled="true" type="text" ng-model="query" name="query"></textarea>
