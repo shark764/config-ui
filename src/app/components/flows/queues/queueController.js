@@ -63,6 +63,10 @@ angular.module('liveopsConfigPanel')
 
       vm.reset = function() {
         $rootScope.$emit('queue.query.reset');
+        vm.forms.detailsForm.$setUntouched();
+        vm.forms.detailsForm.$setPristine();
+        vm.forms.versionForm.$setUntouched();
+        vm.forms.versionForm.$setPristine();
         vm.selectedQueueVersion = null;
         vm.selectedQueue = null;
       };
