@@ -7,6 +7,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 * (no specific ticket) - Updated config-shared to latest version w/campaign start/stop fix
 * (no specific ticket) - Fixed incorrect campaign start/stop popup messaging
 * CXV1-2273 - Bug with manually typing a date for business hrs exception rule
+* CXV1-2516 - Default to show basic query on query builder
 
 ## [4.1.19]
 * CXV1-4805 - Fixed UI issues with campaign settings page schedule exceptions
