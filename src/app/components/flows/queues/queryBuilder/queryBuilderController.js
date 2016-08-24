@@ -17,7 +17,9 @@ angular.module('liveopsConfigPanel')
     });
 
     $rootScope.$on('queue.query.reset', function() {
-      vm.query = ZermeloService.resetQuery();
+      if (!$scope.readOnly) {
+        vm.query = ZermeloService.resetQuery();
+      }
     });
 
     vm.basicMode = function() {
