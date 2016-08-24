@@ -67,6 +67,10 @@ angular.module('liveopsConfigPanel')
         var isNew = vm.selectedQueue.isNew();
 
         return vm.selectedQueue.save(function(queue) {
+          vm.forms.detailsForm.$setUntouched();
+          vm.forms.detailsForm.$setPristine();
+          vm.forms.versionForm.$setUntouched();
+          vm.forms.versionForm.$setPristine();
           if (isNew) {
             vm.initialVersion.queueId = queue.id;
             vm.saveInitialVersion(vm.selectedQueue);
