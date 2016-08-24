@@ -152,19 +152,6 @@ describe('QueueController', function() {
     it('should be defined', function() {
       expect(controller.submit).toBeDefined();
     });
-
-    it('should save the selected queue', function() {
-      spyOn(controller, 'saveInitialVersion');
-      controller.initialVersion = new QueueVersion();
-
-      controller.selectedQueue = new Queue({
-        tenantId: 'tenant-id'
-      });
-
-      $httpBackend.expectPOST(apiHostname + '/v1/tenants/tenant-id/queues').respond(200, mockQueues[0]);
-      controller.submit();
-      $httpBackend.flush();
-    });
   });
 
   describe('saveInitialVersion function', function() {
