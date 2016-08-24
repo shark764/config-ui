@@ -10,6 +10,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 * CXV1-2516 - Default to show basic query on query builder
 * CXV1-2553 - Fix display issues when new query versions are created
 * CXV1-2514 - Fix issue with cancel message on query builder
+* CXV1-5027 - Add queryVersion to new queue versions
 
 ## [4.1.19]
 * CXV1-4805 - Fixed UI issues with campaign settings page schedule exceptions
