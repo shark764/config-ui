@@ -78,12 +78,12 @@
       </label>
       <div class="tag-wrapper clear" ng-show="level.vals[1].vals[$index].val[0].val[0].val === 'every'">
         <div class="tag" ng-repeat="item in level.vals[1].vals[$index].val[0].val[1].keys">
-          {{qbc.getDisplay(group.val, item)}}
+          {{qbc.getDisplay(group.val, item._obj)}}
         </div>
       </div>
       <div class="tag-wrapper clear" ng-show="level.vals[1].vals[$index].val[1].val[0].val === 'every'">
         <div class="tag" ng-repeat="item in level.vals[1].vals[$index].val[1].val[1].keys">
-          {{qbc.getDisplay(group.val, item)}}
+          {{qbc.getDisplay(group.val, item._obj)}}
         </div>
       </div>
     </div>
@@ -94,12 +94,12 @@
       </label>
       <div class="tag-wrapper clear" ng-show="level.vals[1].vals[$index].val[0].val[0].val === 'some'">
         <div class="tag" ng-repeat="item in level.vals[1].vals[$index].val[0].val[1].keys">
-          {{qbc.getDisplay(group.val, item)}}
+          {{qbc.getDisplay(group.val, item._obj)}}
         </div>
       </div>
       <div class="tag-wrapper clear" ng-show="level.vals[1].vals[$index].val[1].val[0].val === 'some'">
         <div class="tag" ng-repeat="item in level.vals[1].vals[$index].val[1].val[1].keys">
-          {{qbc.getDisplay(group.val, item)}}
+          {{qbc.getDisplay(group.val, item._obj)}}
         </div>
       </div>
     </div>
@@ -111,12 +111,12 @@
       </label>
       <div class="tag-wrapper clear" ng-show="level.vals[1].vals[$index].val[0].val[0].val === 'every'">
         <div class="tag" ng-repeat="item in level.vals[1].vals[$index].val[0].val[1].val">
-          {{qbc.getDisplay(group.val, item)}}
+          {{qbc.getDisplay(group.val, item._obj)}}
         </div>
       </div>
       <div class="tag-wrapper clear" ng-show="level.vals[1].vals[$index].val[1].val[0].val === 'every'">
         <div class="tag" ng-repeat="item in level.vals[1].vals[$index].val[1].val[1].val">
-          {{qbc.getDisplay(group.val, item)}}
+          {{qbc.getDisplay(group.val, item._obj)}}
         </div>
       </div>
     </div>
@@ -127,12 +127,12 @@
       </label>
       <div class="tag-wrapper clear" ng-show="level.vals[1].vals[$index].val[0].val[0].val === 'some'">
         <div class="tag" ng-repeat="item in level.vals[1].vals[$index].val[0].val[1].val">
-          {{qbc.getDisplay(group.val, item)}}
+          {{qbc.getDisplay(group.val, item._obj)}}
         </div>
       </div>
       <div class="tag-wrapper clear" ng-show="level.vals[1].vals[$index].val[1].val[0].val === 'some'">
         <div class="tag" ng-repeat="item in level.vals[1].vals[$index].val[1].val[1].val">
-          {{qbc.getDisplay(group.val, item)}}
+          {{qbc.getDisplay(group.val, item._obj)}}
         </div>
       </div>
     </div>

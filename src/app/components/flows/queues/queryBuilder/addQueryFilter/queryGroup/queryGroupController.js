@@ -36,9 +36,13 @@ angular.module('liveopsConfigPanel')
             if (list.val[0].name === $scope.type || (list.val[0].name === "every" && $scope.type === "all")) {
               vm.filters = $scope.group.items.filter(function(item) {
                 if ($scope.group.zermeloKey === "SKILLS") {
-                  return list.val[1].keys.includes(item.id);
+                  return _.some(list.val[1].keys, function(listItem) {
+                    return listItem._obj === item.id;
+                  });
                 }
-                return list.val[1].val.includes(item.id);
+                return _.some(list.val[1].val, function(listItem) {
+                  return listItem._obj === item.id;
+                });
               });
             }
           });
