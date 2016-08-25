@@ -19,42 +19,93 @@
     <div class="col-1">
       <div class="input-group">
         <div class="divider-header first-header">
-          <h4>{{'value.details.detail' | translate}}</h4>
+          <h4>{{'campaigns.details.settings' | translate}}</h4>
         </div>
       </div>
       <div disable-contents="! (['MANAGE_CAMPAIGNS'] | hasPermission)">
+
         <div class="input-group">
           <form-error field="forms.settingsForm.channel" error-type-required="{{'campaigns.details.channelDropdownDefault.error' | translate}}"></form-error>
         </div>
+
         <div class="input-group extra-padding">
-          <label>{{'details.channelType' | translate}} *</label>
+          <label>{{'campaigns.details.settings.channelType' | translate}} *</label>
           <div>
-            <select required ng-model="csc.versionSettings.channel" ng-options="channel for channel in csc.campaignChannels" ng-disabled="csc.campaignChannels.length < 2">
+            <select required ng-model="csc.versionSettings.channel" ng-options="channel for channel in csc.campaignChannels" ng-disabled="csc.campaignChannels.length < 2" title="{{'campaigns.details.settings.typeTooltip' | translate}}">
               <option disabled value="">{{'campaigns.details.channelDropdownDefault' | translate}}</option>
             </select>
           </div>
         </div>
 
+          <div class="input-group extra-padding" title="{{'campaigns.details.settings.expiryTooltip' | translate}}">
+            <label>{{'campaigns.details.setting.expiry' | translate}}</label>
+            <div class="schedule-exception-date-group">
+              <input type="text"
+              name="campaignDate"
+              ng-model="csc.newExpiryHour.day"
+              moment-picker="csc.newExpiryHour.day"
+              format="YYYY-MM-DD"
+              start-view="month"
+              max-view="month"
+              ng-model-options="{timezone: 'UTC'}"
+              min-date=hec.provideDateToday
+              items="hours.$exceptions"
+              class="schedule-exception-date"
+              readonly
+              >
+
+              <i class="fa fa-calendar fa-lg schedule-exception-calendar" aria-hidden="true"></i>
+
+              <div class="schedule-exception-time" >
+                <select name="campaignHour" ng-disabled="!csc.newExpiryHour.day" ng-model="csc.newExpiryHour.endHour" ng-options="n for n in csc.hours">
+                  <option disabled value="">HH</option>
+                </select>
+                :
+                <select name="campaignMinutes" ng-disabled="!csc.newExpiryHour.day" ng-model="csc.newExpiryHour.endMinutes" ng-options="n for n in csc.minutes">
+                  <option disabled value="">MM</option>
+                </select>
+                |
+                <select name="campaignAmPm" ng-disabled="!csc.newExpiryHour.day" ng-model="csc.newExpiryHour.AmPm" ng-click="csc.updateExpiry(csc.newExpiryHour.day, csc.newExpiryHour.endHour, csc.newExpiryHour.endMinutes, csc.newExpiryHour.AmPm)">
+                  <option value="am">AM</option>
+                  <option value="pm">PM</option>
+                </select>
+              </div>
+            </div>
+
+          </div>
+        </ng-form>
         <div class="input-group">
           <form-error field="forms.settingsForm.flowId" error-type-required="{{'campaigns.details.flow.error' | translate}}"></form-error>
         </div>
         <div class="input-group extra-padding">
           <label>{{'details.flow' | translate}} *</label>
           <div>
-            <select name="flowId" required ng-model="csc.versionSettings.flowId" ng-options="flow.id as flow.name for flow in csc.flows">
+            <select name="flowId" required ng-model="csc.versionSettings.flowId" ng-options="flow.id as flow.name for flow in csc.flows" title="{{'campaigns.details.settings.flowTooltip' | translate}}">
               <option disabled value="">{{'campaigns.details.flow' | translate}}</option>
             </select>
           </div>
         </div>
 
         <div class="input-group">
-          <form-error field="forms.settingsForm.callerId" error-type-phone-number="{{'campaigns.details.setting.anierror' | translate}}"></form-error>
-        </div>
-        <div class="input-group extra-padding">
-          <label>{{'campaigns.details.editor.ani' | translate}}</label>
-          <div>
-            <input ng-model="csc.versionSettings.callerId" name="callerId" class="ani" type="tel"/>
+          <div class="divider-header first-header">
+            <h4>{{'value.details.detail' | translate}}</h4>
           </div>
+        </div>
+
+        <div class="input-group">
+          <form-error field="forms.settingsForm.region" error-type-required="{{'campaigns.details.setting.region.error' | translate}}"></form-error>
+        </div>
+
+        <div class="input-group extra-padding">
+          <label>{{'campaigns.details.setting.regionHeader' | translate}} *</label>
+
+          <select name="region"
+            ng-model="csc.versionSettings.defaultRegion"
+            ng-options="region.code as region.name for region in csc.regions"
+            required
+            title="{{'campaigns.details.settings.regionTooltip' | translate}}">
+            <option value="" disabled>{{'campaigns.details.settings.select.region' | translate}}</option>
+          </select>
         </div>
 
         <div class="input-group">
@@ -66,38 +117,21 @@
           <select name="timezone"
             ng-model="csc.versionSettings.defaultTimeZone"
             ng-options="timezone.timezone as timezone.getDisplay() for timezone in csc.timezones | orderBy:'offsetInMilliseconds'"
-            required>
+            required
+            title="{{'campaigns.details.settings.timezoneTooltip' | translate}}">
             <option value="" disabled>{{'campaigns.details.settings.select.timezone' | translate}}</option>
           </select>
         </div>
 
         <div class="input-group">
-          <form-error field="forms.settingsForm.region" error-type-required="{{'campaigns.details.setting.region.error' | translate}}"></form-error>
-        </div>
-        <div class="input-group extra-padding">
-          <label>{{'campaigns.details.setting.regionHeader' | translate}} *</label>
-
-          <select name="region"
-            ng-model="csc.versionSettings.defaultRegion"
-            ng-options="region.code as region.name for region in csc.regions"
-            required>
-            <option value="" disabled>{{'campaigns.details.settings.select.region' | translate}}</option>
-          </select>
+          <form-error field="forms.settingsForm.callerId" error-type-phone-number="{{'campaigns.details.setting.anierror' | translate}}"></form-error>
         </div>
 
         <div class="input-group extra-padding">
-          <label>{{'campaigns.details.setting.expiry' | translate}}</label>
+          <label>{{'campaigns.details.setting.ani' | translate}}
+          </label>
           <div>
-            <input
-              ng-model="csc.leadExpiry"
-              numbers-only
-              type="number"
-              name="defaultLeadExpiration"
-              string-to-number>
-            <select ng-model="csc.expiryUnit">
-              <option value="hr">{{'campaigns.details.settings.hours' | translate}}</option>
-              <option value="day">{{'campaigns.details.settings.days' | translate}}</option>
-            </select>
+            <input ng-model="csc.versionSettings.callerId" name="callerId" class="ani" type="tel" title="{{'campaigns.details.settings.aniTooltip' | translate}}"/>
           </div>
         </div>
      </div>
@@ -114,7 +148,7 @@
             <select name="dncListId" class="do-not-call"
                 ng-model="csc.selectedDncList"
                 ng-options="dncList.id as dncList.name for dncList in csc.dncLists | orderBy:'name'"
-                >
+                title="{{'campaigns.details.settings.dncTooltip' | translate}}">
                <option value="" disabled>{{'campaigns.details.settings.select.dnc' | translate}}</option>
             </select>
          </div>
@@ -154,13 +188,14 @@
         <select name="dispositionId"
             ng-model="csc.versionSettings.dispositionCodeListId"
             ng-options="disposition.id as disposition.name for disposition in csc.dispositionLists"
-            required>
+            required
+            title="{{'campaigns.details.settings.dispoTooltip' | translate}}">
             <option value="" disabled>{{'campaigns.details.settings.select.disposition' | translate}}</option>
           </select>
       </div>
 
       <div class="input-group">
-        <button class="btn dispo-btn" ng-disabled="!csc.versionSettings.dispositionCodeListId || csc.versionSettings.dispositionCodeListId.length === 0" ng-click="csc.gotoDispoMap(csc.versionSettings.dispositionCodeListId)">{{'campaigns.details.setting.dispositionBtn' | translate}}</button>
+        <button title="{{'campaigns.details.settings.dispoBtnTooltip' | translate}}" class="btn dispo-btn" ng-disabled="!csc.versionSettings.dispositionCodeListId || csc.versionSettings.dispositionCodeListId.length === 0" ng-click="csc.gotoDispoMap(csc.versionSettings.dispositionCodeListId)">{{'campaigns.details.setting.dispositionBtn' | translate}}</button>
       </div>
 
   </div>
@@ -177,7 +212,8 @@
                    name="defaultLeadRetryInterval"
                    class="redial"
                    string-to-number
-                   type="number"/>
+                   type="number"
+                   title="{{'campaigns.details.settings.minretryTooltip' | translate}}"/>
           </div>
 
           <div class="input-group">
@@ -187,7 +223,8 @@
                    class="redial"
                    type="number"
                    min="1"
-                   required/>
+                   required
+                   title="{{'campaigns.details.settings.maxretryTooltip' | translate}}"/>
           </div>
       </div>
 
@@ -196,7 +233,7 @@
           <h4>{{'campaigns.details.setting.scheduling' | translate}}</h4>
         </div>
 
-        <div class="input-group time-select">
+        <div class="input-group time-select" title="{{'campaigns.details.settings.earlycallTooltip' | translate}}">
           <div class="lo-error" ng-if="csc.scheduleTimeIsInvalid">{{'campaigns.details.settings.time.invalid' | translate}}</div>
           <label>{{'campaigns.details.setting.earliestTime' | translate}} *</label>
           <div>
@@ -214,7 +251,7 @@
             </select>
           </div>
         </div>
-        <div class="input-group time-select">
+        <div class="input-group time-select" title="{{'campaigns.details.settings.latecallTooltip' | translate}}">
           <label>{{'campaigns.details.setting.latestTime' | translate}} *</label>
           <div>
             <select name="endHour" required ng-model="csc.scheduleEndHour" ng-options="n for n in csc.hours" ng-change="csc.validateTimeAndDate(forms.settingsForm)">
@@ -235,7 +272,7 @@
         <div class="input-group">
           <div class="lo-error" ng-if="csc.noDaysChecked">{{'campaigns.details.settings.day.invalid' | translate}}</div>
         </div>
-        <div class="input-group nowrap">
+        <div class="input-group nowrap" title="{{'campaigns.details.settings.dayscallTooltip' | translate}}">
           <label>{{'campaigns.details.setting.daysToCall' | translate}} *</label>
             {{'campaigns.details.setting.s' | translate}}<input class="week" type="checkbox" name="sunday" ng-model="csc.sundaySelected">
             {{'campaigns.details.setting.m' | translate}}<input class="week" type="checkbox" name="monday" ng-model="csc.mondaySelected">
@@ -274,9 +311,9 @@
       </form-error>
       <div class="lo-error" ng-if="csc.exceptionTimeIsInvalid">{{'campaigns.details.settings.time.invalid' | translate}}</div>
 
-      <div class="exceptions-form nowrap">
+      <div class="exceptions-form nowrap" title="{{'campaigns.details.settings.exceptToolip' | translate}}">
         <ng-form name="forms.exceptionsForm" separate-validation>
-          <div class="schedule-exception-date-group">
+          <div class="schedule-exception-date-group" >
             <input type="text"
             name="date"
             ng-model="csc.newExceptionHour.date"
