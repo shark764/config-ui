@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+* CXV1-4903 - Rearrage campaign settings 
+* CXV1-4838 - Campaign expiry absolute date and time
 * CXV1-4838 - Got campaign start/stop functionality working & re-introduced campaign stats in side panel
 * (no specific ticket) - Updated config-shared to latest version w/campaign start/stop fix
 * (no specific ticket) - Fixed incorrect campaign start/stop popup messaging
