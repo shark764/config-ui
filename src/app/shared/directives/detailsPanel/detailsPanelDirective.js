@@ -9,7 +9,8 @@ angular.module('liveopsConfigPanel')
         transclude: true,
         templateUrl: 'app/shared/directives/detailsPanel/detailsPanel.html',
         scope: {
-          ngResource: '='
+          ngResource: '=',
+          queueController: '='
         },
         controller: function($scope) {
           this.close = function() {

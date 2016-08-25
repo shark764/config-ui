@@ -1,4 +1,4 @@
 <div class="details-pane">
-  <i id="close-details-button" class="fa fa-remove remove" ng-click="close()"></i>
+  <i id="close-details-button" class="fa fa-remove remove" ng-click="queueController === undefined ? close() : queueController.confirmCancel()"></i>
   <ng-transclude class="details-pane"></ng-transclude>
 </div>
