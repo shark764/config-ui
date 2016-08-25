@@ -30,7 +30,7 @@
 
 <lo-details-panel id="right-panel" class="right-panel"
   ng-show="qc.selectedQueue || showBulkActions"
-  ng-resource="qc.selectedQueue">
+  ng-resource="qc.selectedQueue" queue-controller="qc">
 
   <ng-form unsaved-changes-warning name="qc.forms.detailsForm"
     ng-show="qc.selectedQueue"
@@ -78,7 +78,7 @@
 
 <lo-details-panel id="queue-version-panel" class="right-panel"
   ng-show="qc.selectedQueueVersion"
-  ng-resource="qc.selectedQueueVersion">
+  ng-resource="qc.selectedQueueVersion" queue-controller="qc">
 
   <ng-form unsaved-changes-warning
     name="qc.forms.versionForm"
