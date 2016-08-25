@@ -2,14 +2,15 @@
 
 angular.module('liveopsConfigPanel')
   .controller('campaignSettingsController', [
-    '$scope', '$rootScope', '$state', '$stateParams', '$translate', '$moment', '$q', '$document', '$compile', '$timeout', 'Session', 'Flow', 'Tenant', 'Timezone', 'Region', 'Campaign', 'CampaignVersion', 'Disposition', 'DispositionList', 'DirtyForms', 'loEvents', 'getCampaignId', 'DncLists', 'campaignChannelTypes', 'regionCodes',
-    function ($scope, $rootScope, $state, $stateParams, $translate, $moment, $q, $document, $compile, $timeout, Session, Flow, Tenant, Timezone, Region, Campaign, CampaignVersion, Disposition, DispositionList, DirtyForms, loEvents, getCampaignId, DncLists, campaignChannelTypes, regionCodes) {
+    '$scope', '$rootScope', '$state', '$stateParams', '$translate', '$moment', '$q', '$document', '$compile', '$timeout', 'Session', 'Flow', 'Timezone', 'Region', 'Campaign', 'CampaignVersion', 'Disposition', 'DispositionList', 'DirtyForms', 'loEvents', 'getCampaignId', 'DncLists', 'campaignChannelTypes', 'regionCodes',
+    function ($scope, $rootScope, $state, $stateParams, $translate, $moment, $q, $document, $compile, $timeout, Session, Flow, Timezone, Region, Campaign, CampaignVersion, Disposition, DispositionList, DirtyForms, loEvents, getCampaignId, DncLists, campaignChannelTypes, regionCodes) {
       $scope.forms = {};
       $scope.showDispoDNC = false;
       // adding to the scope all of the data from the campaigns page
       var csc = this;
       csc.loading = true;
       csc.expiryUnit = 'hr';
+      csc.newExpiryHour = [];
       csc.campaignSettings = Campaign.get({
         tenantId: Session.tenant.tenantId,
         id: getCampaignId
@@ -26,7 +27,7 @@ angular.module('liveopsConfigPanel')
             convertDefaultExpiryToFormValue(csc.versionSettings);
             csc.versionSettings.defaultLeadRetryInterval = convertTimestampToFormVal(csc.versionSettings.defaultLeadRetryInterval);
             parseSchedule();
-
+            fetchCampaigndate(csc.versionSettings.campaignExpiration);
             csc.versionSettings.defaultLeadRetryInterval = checkConditionals(csc.versionSettings.defaultLeadRetryInterval);
             csc.versionSettings.defaultMaxRetries = checkConditionals(csc.versionSettings.defaultMaxRetries, 1);
             csc.loading = false;
@@ -36,14 +37,8 @@ angular.module('liveopsConfigPanel')
             tenantId: Session.tenant.tenantId
           });
 
-          Tenant.cachedGet({id: Session.tenant.tenantId}).$promise.then(function(tenant) {
-            csc.versionSettings.defaultTimeZone = tenant.timezone;
-          })
-
           csc.scheduleStartAmPm = 'am';
           csc.scheduleEndAmPm = 'pm';
-          csc.scheduleStartMinutes = '00';
-          csc.scheduleEndMinutes = '00';
           csc.loading = false;
           csc.leadExpiry = 0;
           csc.versionSettings.defaultLeadRetryInterval = 0;
@@ -319,6 +314,74 @@ angular.module('liveopsConfigPanel')
 
       csc.loadRegions = function () {
         csc.regions = regionCodes;
+      };
+
+
+      //csc.newExpiryHour = campaignExpiration;
+      function fetchCampaigndate(campaignDate){
+
+        if(angular.isDefined(campaignDate)){
+          var expireDate = campaignDate.substr(0, 10);
+          var time = campaignDate.substr(11, 19);
+          var newTime = time.split(":");
+
+          //NOTE: parsing the first value because the hours wants a integer and not a string
+          var parseHr = parseInt(newTime[0]);
+
+          csc.newExpiryHour.day = expireDate;
+          csc.newExpiryHour.endMinutes = addLeadingZeros(parseInt(newTime[1]));
+
+          if (parseHr > 12) {
+            csc.newExpiryHour.endHour = parseHr - 12;
+            csc.newExpiryHour.AmPm = 'pm';
+          } else if (parseHr < 12) {
+            csc.newExpiryHour.endHour = parseHr;
+            csc.newExpiryHour.AmPm = "am";
+            if (parseHr === 0) {
+              csc.newExpiryHour.endHour = 12;
+              csc.newExpiryHour.AmPm = 'am';
+            }
+          } else if (parseHr === 12) {
+            csc.newExpiryHour.endHour = parseHr;
+            csc.newExpiryHour.AmPm = 'pm';
+          } else {
+            csc.newExpiryHour.endHour = 12;
+            csc.newExpiryHour.AmPm = 'am';
+          }
+        }
+      };
+
+      csc.checkExpiry = function(day, hr, min, amPm){
+        var newExpiryDay;
+
+        if(hr === 12 && amPm === 'am'){
+
+          newExpiryDay = day + " 00"+":"+min+":00";
+          csc.newExpiryHour.length = 0;
+          csc.newExpiryHour.push(newExpiryDay);
+
+        } else if (hr === 12 && amPm === 'pm') {
+
+          newExpiryDay = day+" "+hr+":"+min+":00";
+          csc.newExpiryHour.length = 0;
+          csc.newExpiryHour.push(newExpiryDay);
+
+        } else if (hr < 12 && amPm === 'am'){
+
+          if(hr < 10){
+            newExpiryDay = day+" "+("0"+hr)+":"+min+":00";
+          }else{
+            newExpiryDay = day+" "+hr+":"+min+":00";
+          }
+          csc.newExpiryHour.length = 0;
+          csc.newExpiryHour.push(newExpiryDay);
+
+        } else if (hr < 12 && amPm === 'pm'){
+
+          newExpiryDay = day+" "+(hr+12)+":"+min+":00";
+          csc.newExpiryHour.length = 0;
+          csc.newExpiryHour.push(newExpiryDay);
+        }
       };
 
       csc.cancel = function () {
@@ -645,6 +708,8 @@ angular.module('liveopsConfigPanel')
         csc.versionSettings.defaultLeadRetryInterval = convertToTimestamp(csc.versionSettings.defaultLeadRetryInterval);
         generateSchedule();
 
+        csc.checkExpiry(csc.newExpiryHour.day, csc.newExpiryHour.endHour, csc.newExpiryHour.endMinutes, csc.newExpiryHour.AmPm);
+
         if (csc.noDaysChecked) {
           return;
         }
@@ -658,14 +723,16 @@ angular.module('liveopsConfigPanel')
           csc.versionSettings.dispositionMappings = {};
         }
 
+        if(angular.isDefined(csc.newExpiryHour)){
+          csc.versionSettings.campaignExpiration = csc.newExpiryHour[0];
+        }
+
         csc.versionSettings.doNotContactLists = _.map(csc.selectedLists, 'id');
         csc.versionSettings.save({
           tenantId: Session.tenant.tenantId,
           campaignId: getCampaignId
         }).then(function (response) {
-          $state.go('content.configuration.campaigns', {
-            id: getCampaignId
-          });
+          $state.go('content.configuration.campaigns');
         });
       };
     }
