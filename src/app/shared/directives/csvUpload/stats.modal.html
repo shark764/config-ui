@@ -1,0 +1,38 @@
+<div class="publish" id="stats-modal">
+  <h3 class="header">{{title}}</h3>
+  <div id="stats-modal">
+    <ul>
+      <li ng-if="displayData(selectedRow.latestJobData.created)">
+        {{'campaigns.details.lastUpdate' | translate}}:
+        {{selectedRow.latestJobData.created | date:'MM/dd/yyyy HH:mm:ss' }}
+      </li>
+      <li ng-if="displayData(selectedRow.latestJobData.completed)">
+        {{'campaigns.details.lastUpdate' | translate}}:
+        {{selectedRow.latestJobData.completed | date:'MM/dd/yyyy HH:mm:ss' }}
+      </li>
+      <li ng-if="displayData(selectedRow.latestJobData.rowsAltered)">
+        Records Changed:
+        {{selectedRow.latestJobData.rowsAltered}}
+      </li>
+      <li ng-if="displayData(selectedRow.latestJobData.rowsDeleted)">
+        Records Deleted:
+        {{selectedRow.latestJobData.rowsDeleted}}
+      </li>
+      <li ng-if="displayData(selectedRow.latestJobData.pendingLeads)">
+        Pending Leads:
+        {{selectedRow.latestJobData.pendingLeads}}
+      </li>
+    </ul>
+    <hr>
+    <ul>
+      <li="displayData(selectedRow.latestJobData.rowsProcessed)">
+        Record Count:
+        {{selectedRow.latestJobData.rowsProcessed}}
+      </li>
+    </ul>
+  </div>
+
+  <div class="footer">
+    <input type="button" id="modal-cancel" class="btn btn-primary" ng-click="cancelCallback()" value="{{'value.close' | translate}}" />
+  </div>
+</div>

@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('dncListsController', ['$scope', '$state', '$timeout', '$translate', 'Session', 'apiHostname', 'DncLists', 'Upload', '$q', '$moment', 'loEvents', 'Alert', 'dncListsTableConfig',
-    function ($scope, $state, $timeout, $translate, Session, apiHostname, DncLists, Upload, $q, $moment, loEvents, Alert, dncListsTableConfig) {
+  .controller('dncListsController', ['$scope', '$state', '$timeout', '$translate', 'Session', 'apiHostname', 'DncLists', '$q', '$moment', 'loEvents', 'Alert', 'dncListsTableConfig',
+    function ($scope, $state, $timeout, $translate, Session, apiHostname, DncLists, $q, $moment, loEvents, Alert, dncListsTableConfig) {
       var dnc = this,
         DncListService = new DncLists();
 
@@ -17,7 +17,6 @@ angular.module('liveopsConfigPanel')
         }
 
         return convertedDate;
-
       }
 
       function convertDateFromMySqlFormat(date) {
@@ -30,24 +29,6 @@ angular.module('liveopsConfigPanel')
           return '';
         }
       }
-
-      function uploadListFile(fileObj) {
-        if (angular.isDefined(fileObj)) {
-          dnc.selectedDncList.expiration = convertDateFromMySqlFormat(dnc.selectedDncList.expiration);
-
-          var upload = Upload.upload({
-            headers: {
-              'Content-Type': 'multipart/form-data'
-            },
-            url: apiHostname + '/v1/tenants/' + Session.tenant.tenantId + '/dnclists/' + dnc.selectedDncList.id + '/upload',
-            method: 'POST',
-            file: fileObj
-          });
-
-          return upload;
-        }
-      }
-
 
       dnc.updateActive = function () {
         var dncListcopy = new DncLists({
@@ -71,10 +52,6 @@ angular.module('liveopsConfigPanel')
         delete dnc.selectedDncList.listFileUpload;
         dnc.selectedDncList.listFileUpload = fileData;
         $scope.forms.detailsForm.$setDirty();
-      };
-
-      dnc.downloadDncList = function (dncListId) {
-        DncListService.download(dncListId, Session);
       };
 
       $scope.$on(loEvents.tableControls.itemCreate, function () {
@@ -118,12 +95,7 @@ angular.module('liveopsConfigPanel')
               dnc.duplicateError = true;
               dnc.duplicateErrorMessage = err.data.error.attribute.name.capitalize();
             }
-          }).
-          then(function () {
-            uploadListFile(listFileData);
-          });
-        } else {
-          uploadListFile(listFileData);
+          })
         }
       };
 

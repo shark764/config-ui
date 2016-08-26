@@ -44,29 +44,13 @@
       ng-if="!dnc.selectedDncList.isNew()">
   </div>
 
-  <div class="input-group listFile-source">
-    <label>{{'dnc.details.upload' | translate}} *</label>
-
-    <input id="listFile-source-upload-file" type="text"
-      name="listFilesourcefile"
-      ng-model="dnc.selectedDncList.listFileUpload.name"
-      ng-disabled="true"
-      ng-required="true">
-    <div id="listFile-source-upload-btn" type="button" class="btn"
-      ngf-select="dnc.onListFileSelect($file)"
-      ngf-max-size="20MB"
-      accept=".csv">
-      <i class="fa fa-upload" />
-    </div>
+  <div class="divider-header">
+    <h4>{{'dnc.details.upload' | translate}} *</h4>
   </div>
 
-  <div class="input-group download-dnc-list">
-    <button
-      id="download-btn"
-      class="btn"
-      ng-click="dnc.downloadDncList(dnc.selectedDncList.id)"
-      ng-disabled="dnc.selectedDncList.isNew()"
-      type="button">
-      {{'dncEdit.table.dncListDownload' | translate}}
-    </button>
+  <csv-upload
+    selected-row="dnc.selectedDncList"
+    template-url="app/components/configuration/dncLists/dncListUpload.html"
+    download-path="/dnclists/{{dnc.selectedDncList.id}}/download.csv"
+    job-service-name='dncLists'></csv-upload>
   </div>
