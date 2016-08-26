@@ -21,11 +21,21 @@ lo-details-panel {
     clear: both;
     margin-bottom: 15px;
 
+    &.toggle {
+      label.toggle-label,
+      div {
+        display: inline-block;
+      }
+
+      div {
+        width: auto;
+      }
+    }
+
     .form-col {
       display: table-cell;
       vertical-align: middle;
-      width: 50%;
-      padding: 0 20px;
+      padding: 0 20px 0 0;
 
       button {
         width: 120px;
@@ -50,30 +60,6 @@ lo-details-panel {
       &.align-top {
         vertical-align: top;
       }
-
-      &.toggle-label {
-        padding-top: 11px;
-      }
     }
-  }
-}
-
-#stats-modal {
-  padding: 20px;
-
-  hr {
-    margin: 10px 0;
-  }
-
-  ul {
-    list-style: none;
-
-    li {
-      line-height: 1.5em;
-    }
-  }
-
-  .footer {
-    text-align: center;
   }
 }

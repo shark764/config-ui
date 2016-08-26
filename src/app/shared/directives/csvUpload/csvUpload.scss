@@ -1,0 +1,66 @@
+lo-details-panel {
+  csv-upload {
+    .multi-col {
+      clear: both;
+      margin: 0 0 15px;
+
+      .form-col {
+        vertical-align: middle;
+        padding: 0;
+        float: left;
+
+        &.left {
+          div {
+            width: 120px;
+            margin-left: 160px;
+
+            button {
+              width: 100%;
+            }
+          }
+        }
+
+        &.right {
+          width: 200px;
+          padding-left: 20px;
+
+          ul {
+            padding-left: 10px;
+          }
+        }
+
+        div {
+          margin-bottom: 10px;
+        }
+
+        p {
+          line-height: 1.6em;
+        }
+
+        &.align-top {
+          vertical-align: top;
+        }
+      }
+    }
+  }
+
+  #stats-modal {
+    padding: 20px;
+
+    hr {
+      margin: 10px 0;
+    }
+
+    ul {
+      list-style: none;
+
+      li {
+        line-height: 1.5em;
+      }
+    }
+
+    .footer {
+      text-align: center;
+    }
+  }
+}

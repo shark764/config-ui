@@ -32,10 +32,8 @@
     </div>
   </div>
 
-  <div class="input-group multi-col">
-    <div class="form-col left toggle-label">
-      <label>{{'campaigns.details.dialer' | translate}}</label>
-    </div>
+  <div class="input-group multi-col toggle">
+    <label class="toggle-label">{{'campaigns.details.dialer' | translate}}</label>
     <div class="form-col right">
       <ng-form
         name="forms.startStopForm"
@@ -55,7 +53,8 @@
   </div>
 </div>
   <div class="input-group multi-col">
-    <div class="form-col left">
+    <label>&nbsp;</label>
+    <div class="form-col right">
       <button id="actions-btn"
         class="btn"
         ng-click="cc.editCampaignSettings(cc.selectedCampaign)"
