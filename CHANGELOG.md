@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+* CXV1-4940 - Changed Twilio integration default option text
 * CXV1-4858 - Implemented new directive for uploading and downloading CSV's for the Outbound functionality
 * CXV1-4903 - Rearrage campaign settings
 * CXV1-4838 - Campaign expiry absolute date and time
