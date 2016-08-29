@@ -49,7 +49,7 @@
 
   <div class="input-group" ng-show="! selectedTenant.isNew()">
     <label class="textarea-label">{{'tenant.details.region' | translate}}</label>
-    <p id="tenant-details-region" class="added-padding">{{selectedTenant.$region.name}}</p>
+    <p id="tenant-details-region" class="added-padding">{{selectedTenant.regionDisplay}}</p>
   </div>
 
   <div class="input-group" ng-if="! selectedTenant.isNew()">

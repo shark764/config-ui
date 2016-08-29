@@ -1,11 +1,11 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('loExtensionsController', ['$rootScope', '$scope', '$q', '$translate', 'Session', '_', 'Alert', 'twilioRegions',
-    function($rootScope, $scope, $q, $translate, Session, _, Alert, twilioRegions) {
+  .controller('loExtensionsController', ['$rootScope', '$scope', '$q', '$translate', 'Session', '_', 'Alert', 'GlobalRegionsList',
+    function($rootScope, $scope, $q, $translate, Session, _, Alert, GlobalRegionsList) {
       var vm = this;
       $scope.newExtension = {};
-      $scope.twilioRegions = twilioRegions
+      $scope.twilioRegions = GlobalRegionsList
 
       function flagFormsAsClosed () {
         vm.editingExtension = null;
@@ -17,7 +17,7 @@ angular.module('liveopsConfigPanel')
       vm.resetExtension = function() {
         $scope.newExtension = {};
         $scope.newExtension.type = 'webrtc';
-        $scope.newExtension.region = twilioRegions[0].value;
+        $scope.newExtension.region = GlobalRegionsList[0].twilioId;
 
         flagFormsAsClosed();
       };
@@ -113,7 +113,7 @@ angular.module('liveopsConfigPanel')
       });
 
       $scope.newExtension.type = 'webrtc';
-      $scope.newExtension.region = twilioRegions[0].value;
+      $scope.newExtension.region = GlobalRegionsList[0].value;
 
     }
   ]);

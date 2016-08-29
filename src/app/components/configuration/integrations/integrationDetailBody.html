@@ -38,14 +38,13 @@
         <select
            name="region"
            ng-model="selectedIntegration.properties.region"
-           ng-options="region.value as region.display for region in twilioRegions"></select>
+           ng-options="region.twilioId as region.display for region in twilioRegions | filter: {twilioId: '!' + twilioDefaultRegion}"></select>
       </div>
 
       <div>
-        <label>{{'integration.details.properties.defaultRegionForced' | translate}} *</label>
+        <label>{{'integration.details.properties.defaultRegionForced' | translate}}</label>
         <toggle
             ng-model="selectedIntegration.properties.forceRegion"
-            ng-required="true"
             name="forceRegion"/>
       </div>
     </div>

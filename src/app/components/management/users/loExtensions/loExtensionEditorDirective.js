@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('loExtensionEditor', ['$rootScope', 'loExtensionProviders', 'loExtensionTypes', 'twilioRegions', '$translate',  function($rootScope, loExtensionProviders, loExtensionTypes, twilioRegions, $translate) {
+  .directive('loExtensionEditor', ['$rootScope', 'loExtensionProviders', 'loExtensionTypes', 'GlobalRegionsList', '$translate',  function($rootScope, loExtensionProviders, loExtensionTypes, GlobalRegionsList, $translate) {
       return {
         restrict: 'E',
         require: '^form',
@@ -15,7 +15,7 @@ angular.module('liveopsConfigPanel')
           $scope.loExtensionProviders = loExtensionProviders;
           $scope.loExtensionTypes = loExtensionTypes;
           $scope.sipPattern = '[s|S]{1}[i|I]{1}[p|P]{1}:.*';
-          $scope.twilioRegions = twilioRegions;
+          $scope.twilioRegions = GlobalRegionsList;
 
           // grab Twilio's default description list for resetting Twilio desc later on
           function getDefaultTwilioDesc (extensionList) {
@@ -56,7 +56,7 @@ angular.module('liveopsConfigPanel')
             $scope.sipExtension = null;
 
             if (!angular.isDefined($scope.extension.region)) {
-              $scope.extension.region = twilioRegions[0].value;
+              $scope.extension.region = GlobalRegionsList[0].twilioId;
             }
 
             angular.forEach([

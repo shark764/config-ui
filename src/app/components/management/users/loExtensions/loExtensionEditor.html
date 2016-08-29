@@ -95,5 +95,5 @@
     ng-class="{'default-selected': ! extension.provider}"
     ng-required="extension.provider === 'twilio'"
     ng-model="extension.region"
-    ng-options="region.value as region.display for region in twilioRegions">
+    ng-options="region.twilioId as region.display for region in twilioRegions">
 </div>

@@ -1,15 +1,15 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('TenantsController', ['$scope', 'Session', 'Tenant', 'TenantUser', 'tenantTableConfig', 'UserPermissions', 'AuthService', 'Region', '$q', 'loEvents', 'Timezone', 'PermissionGroups', 'Alert',
-    function($scope, Session, Tenant, TenantUser, tenantTableConfig, UserPermissions, AuthService, Region, $q, loEvents, Timezone, PermissionGroups, Alert) {
+  .controller('TenantsController', ['$scope', 'Session', 'Tenant', 'TenantUser', 'tenantTableConfig', 'UserPermissions', 'AuthService', 'Region', '$q', 'loEvents', 'Timezone', 'PermissionGroups', 'Alert', 'GlobalRegionsList',
+    function ($scope, Session, Tenant, TenantUser, tenantTableConfig, UserPermissions, AuthService, Region, $q, loEvents, Timezone, PermissionGroups, Alert, GlobalRegionsList) {
       var vm = this;
 
-      vm.loadTimezones = function() {
+      vm.loadTimezones = function () {
         $scope.timezones = Timezone.query();
       };
 
-      vm.loadTenants = function() {
+      vm.loadTenants = function () {
         if (UserPermissions.hasPermissionInList(PermissionGroups.accessAllTenants)) {
           //User has permission to view all tenants on the platform
           $scope.tenants = Tenant.cachedQuery({
@@ -38,7 +38,7 @@ angular.module('liveopsConfigPanel')
         return promise;
       };
 
-      vm.loadUsers = function(tenants) {
+      vm.loadUsers = function (tenants) {
         $scope.users = TenantUser.cachedQuery({
           tenantId: Session.tenant.tenantId
         });
@@ -46,7 +46,7 @@ angular.module('liveopsConfigPanel')
         return tenants;
       };
 
-      $scope.create = function() {
+      $scope.create = function () {
         $scope.selectedTenant = new Tenant({
           regionId: Session.activeRegionId,
           adminUserId: Session.user.id,
@@ -55,8 +55,8 @@ angular.module('liveopsConfigPanel')
         });
       };
 
-      $scope.submit = function() {
-        return $scope.selectedTenant.save(null, null, function(err){
+      $scope.submit = function () {
+        return $scope.selectedTenant.save(null, null, function (err) {
           if (err.data.error.attribute.parentId) {
             Alert.error(err.data.error.attribute.parentId);
           } else if (err.data.error.attribute.name) {
@@ -65,44 +65,65 @@ angular.module('liveopsConfigPanel')
         });
       };
 
-      $scope.$on(loEvents.tableControls.itemCreate, function() {
+      $scope.$on(loEvents.tableControls.itemCreate, function () {
         $scope.create();
       });
 
-      $scope.$on('created:resource:Tenant', function(event, newTenant) {
+      $scope.$on('created:resource:Tenant', function (event, newTenant) {
         if (newTenant.adminUserId === Session.user.id) {
           AuthService.refreshTenants();
         }
       });
 
-      $scope.$on('updated:resource:Tenant', function() {
+      $scope.$on('updated:resource:Tenant', function () {
         AuthService.refreshTenants();
       });
 
-      $scope.$watch('selectedTenant', function(newVal) {
+      function getTenantRegionDisplay(tenant) {
+        var deferred = $q.defer();
+
+        var region = Region.cachedGet({
+          id: tenant.regionId
+        });
+
+        // once we get the region data, find the "name" property of the region response
+        region.$promise.then(function (regionResponse) {
+          // next, return the object from the GlobalRegionsList service where the tenantId value matches
+          // what we got from the region response, and then return the "display" property of that object
+          deferred.resolve(_.findWhere(GlobalRegionsList, {'tenantId': regionResponse.name}).display);
+        });
+
+        return deferred.promise;
+      };
+
+
+      $scope.$watch('selectedTenant', function (newVal) {
         if (newVal) {
+          // here is where we get the "user friendly" universal display name for the region
           var result = angular.isDefined(newVal.$promise) ? newVal.$promise : newVal;
-          $q.when(result).then(function(tenant) {
-            tenant.$region = Region.cachedGet({
-              id: tenant.regionId
+          $q.when(result).then(function (tenantResponse) {
+            var tenantDisplayName = getTenantRegionDisplay(tenantResponse);
+
+            tenantDisplayName.then(function (displayResponse) {
+              $scope.selectedTenant.regionDisplay = displayResponse;
             });
           });
         }
       });
 
-      $scope.updateActive = function(){
+      $scope.updateActive = function () {
         var tenantCopy = new Tenant({
           id: $scope.selectedTenant.id,
           regionId: $scope.selectedTenant.regionId,
-          active: ! $scope.selectedTenant.active
+          active: !$scope.selectedTenant.active
         });
 
-        return tenantCopy.save(function(result){
+        return tenantCopy.save(function (result) {
           $scope.selectedTenant.$original.active = result.active;
         });
       };
 
-      $scope.tableConfig = tenantTableConfig(function() {
+      $scope.tableConfig = tenantTableConfig(function () {
         return $scope.tenants;
       });
 
