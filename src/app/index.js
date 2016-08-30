@@ -40,9 +40,10 @@ angular.module('liveopsConfigPanel', [
         .preferredLanguage('en');
     }
   ])
-  .run(['queryCache', '$rootScope', function(queryCache, $rootScope) {
-    $rootScope.$on('$stateChangeSuccess', function() {
+  .run(['queryCache', '$rootScope','$state', function(queryCache, $rootScope, $state) {
+    $rootScope.$on('$stateChangeSuccess', function(current, previous) {
       queryCache.removeAll();
+      $rootScope.title = $state.current.title + ' | CxEngage';
     });
     $rootScope.$on('$stateChangeError', function() {
       console.error('State change error!');
