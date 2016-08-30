@@ -1,25 +1,26 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('IntegrationsController', ['$scope', 'Session', 'Integration', 'Listener', 'integrationTableConfig', 'loEvents', '$q', 'twilioRegions',
-    function($scope, Session, Integration, Listener, integrationTableConfig, loEvents, $q, twilioRegions) {
+  .controller('IntegrationsController', ['$scope', 'Session', 'Integration', 'Tenant', 'Listener', 'integrationTableConfig', 'loEvents', '$q', 'GlobalRegionsList', 'Region',
+    function ($scope, Session, Integration, Tenant, Listener, integrationTableConfig, loEvents, $q, GlobalRegionsList, Region) {
 
-      $scope.twilioRegions = twilioRegions;
+      $scope.twilioRegions = GlobalRegionsList;
+      $scope.twilioDefaultRegion = GlobalRegionsList[0].twilioId;
 
-      $scope.fetchIntegrations = function() {
+      $scope.fetchIntegrations = function () {
         return Integration.cachedQuery({
           tenantId: Session.tenant.tenantId
         });
       };
 
-      $scope.fetchListeners = function(invalidate) {
+      $scope.fetchListeners = function (invalidate) {
         return Listener.cachedQuery({
           tenantId: Session.tenant.tenantId,
           integrationId: $scope.selectedIntegration.id
         }, 'Listener' + $scope.selectedIntegration.id, invalidate);
       };
 
-      $scope.$on(loEvents.tableControls.itemCreate, function() {
+      $scope.$on(loEvents.tableControls.itemCreate, function () {
         $scope.selectedIntegration = new Integration({
           tenantId: Session.tenant.tenantId,
           properties: {
@@ -28,21 +29,21 @@ angular.module('liveopsConfigPanel')
         });
       });
 
-      $scope.submit = function() {
+      $scope.submit = function () {
         return $scope.selectedIntegration.save();
       };
 
-      $scope.updateActive = function(){
+      $scope.updateActive = function () {
         var integrationCopy = new Integration({
           id: $scope.selectedIntegration.id,
           tenantId: $scope.selectedIntegration.tenantId,
-          active: ! $scope.selectedIntegration.active
+          active: !$scope.selectedIntegration.active
         });
 
-        return integrationCopy.save().then(function(result){
+        return integrationCopy.save().then(function (result) {
           $scope.selectedIntegration.$original.active = result.active;
           $scope.fetchListeners(true);
-        }, function(errorResponse){
+        }, function (errorResponse) {
           return $q.reject(errorResponse.data.error.attribute.active);
         });
       };

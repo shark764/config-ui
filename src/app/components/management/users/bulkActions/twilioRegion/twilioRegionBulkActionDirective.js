@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('baSetTwilioRegion', ['BulkAction', 'Session', 'twilioRegions',
-    function(BulkAction, Session, twilioRegions) {
+  .directive('baSetTwilioRegion', ['BulkAction', 'Session', 'GlobalRegionsList',
+    function(BulkAction, Session, GlobalRegionsList) {
       return {
         restrict: 'E',
         scope: {
@@ -12,8 +12,8 @@ angular.module('liveopsConfigPanel')
         templateUrl: 'app/components/management/users/bulkActions/twilioRegion/twilioRegionBulkAction.html',
         link: function($scope, elem, attr, bulkActionExecutor) {
           $scope.bulkAction = new BulkAction();
-          $scope.twilioRegions = twilioRegions;
-          $scope.selectedRegion = $scope.twilioRegions[0].value;
+          $scope.twilioRegions = GlobalRegionsList;
+          $scope.selectedRegion = $scope.twilioRegions[0].twilioId;
 
           if (bulkActionExecutor) {
             bulkActionExecutor.register($scope.bulkAction);

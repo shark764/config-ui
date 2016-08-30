@@ -8,6 +8,6 @@
 
 <div class="action-wrapper">
   <div>
-    <select id="extension-region-dropdown" ng-disabled="! bulkAction.checked" ng-model="selectedRegion" ng-options="region.value as region.display for region in twilioRegions"></select>
+    <select id="extension-region-dropdown" ng-disabled="! bulkAction.checked" ng-model="selectedRegion" ng-options="region.twilioId as region.display for region in twilioRegions"></select>
   </div>
 </div>
