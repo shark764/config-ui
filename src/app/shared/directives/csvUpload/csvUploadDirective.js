@@ -150,6 +150,7 @@ angular.module('liveopsConfigPanel')
               if ($scope.newlyUploaded) {
                 Alert.error(convertClojureToJs(currentErrorMsg));
               };
+              $scope.uploadStats = true;
             };
           };
 
@@ -215,6 +216,16 @@ angular.module('liveopsConfigPanel')
 
           $scope.importFile = function (fileData) {
             var jobId;
+            var importUrlPath;
+
+            switch($scope.jobServiceName) {
+              case 'campaigns':
+                importUrlPath = '/campaigns/' + $scope.selectedRow.id + '/call-list';
+                break;
+              case 'dncLists':
+                importUrlPath = '/dnclists/' + $scope.selectedRow.id + '/upload';
+                break;
+            }
 
             if (fileData) {
               $scope.uploadStats = false;
@@ -222,7 +233,7 @@ angular.module('liveopsConfigPanel')
                 headers: {
                   'Content-Type': 'multipart/form-data'
                 },
-                url: apiHostname + '/v1/tenants/' + Session.tenant.tenantId + '/campaigns/' + $scope.selectedRow.id + '/call-list',
+                url: apiHostname + '/v1/tenants/' + Session.tenant.tenantId + importUrlPath,
                 method: 'POST',
                 file: fileData
               });
