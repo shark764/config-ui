@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+* CXV1-2275 - Fix invite page password issue bug
 * CXV1-5125 - Removed default Twilio region from integrations page
 * CXV1-4940 - Changed Twilio integration default region text in regions dropdown
 * CXV1-5149 - Set Twilio region display names to match Tenant region display names
