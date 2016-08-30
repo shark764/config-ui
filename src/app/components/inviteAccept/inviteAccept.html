@@ -30,7 +30,7 @@
 
             <form-error field="detailsForm.password"
               error-type-required="{{'details.password.error' | translate}}"></form-error>
-            <input ng-required="true" autocomplete="off" ng-model="user.password" name="password" type="password"  />
+            <input ng-required="true" autocomplete="off" ng-model="user.password" name="password" type="password"  ng-change="checkPassword()"/>
           </div>
 
           <div class="input-group">

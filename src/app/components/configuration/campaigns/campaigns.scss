@@ -63,3 +63,23 @@ lo-details-panel {
     }
   }
 }
+
+#stats-modal {
+  padding: 20px;
+
+  hr {
+    margin: 10px 0;
+  }
+
+  ul {
+    list-style: none;
+
+    li {
+      line-height: 1.5em;
+    }
+  }
+
+  .footer {
+    text-align: center;
+  }
+}
