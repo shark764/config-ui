@@ -275,6 +275,19 @@ angular.module('liveopsConfigPanel')
         return addLeadingZeros(hours);
       }
 
+      //Init date to tomorrow
+      // TODO: this should be globalized somehow, as it is used in the other dnc list controller
+      function provideDateTomorrow() {
+        var newLocalDate = new Date();
+        var newUTCDate = $moment.utc([
+          newLocalDate.getFullYear(), newLocalDate.getMonth(), newLocalDate.getDate()
+        ]).add('2', 'days');
+        var today = new Date(newUTCDate);
+        return $moment(today).format('YYYY-MM-DD');
+      }
+
+      csc.provideDateTomorrow = provideDateTomorrow();
+
       // TODO: Centralize this
       csc.fetchFlows = function () {
         csc.flows = Flow.cachedQuery({

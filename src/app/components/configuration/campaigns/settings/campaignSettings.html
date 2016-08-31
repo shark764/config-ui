@@ -53,7 +53,7 @@
             start-view="month"
             max-view="month"
             ng-model-options="{timezone: 'UTC'}"
-            min-date=hec.provideDateToday
+            min-date=csc.provideDateTomorrow
             items="hours.$exceptions"
             class="schedule-exception-date"
             readonly
@@ -131,11 +131,10 @@
           <form-error field="forms.settingsForm.callerId" error-type-phone-number="{{'campaigns.details.setting.anierror' | translate}}"></form-error>
         </div>
         <div class="input-group extra-padding">
-          <label>{{'campaigns.details.setting.ani' | translate}}
-          </label>
+          <label>{{'campaigns.details.setting.ani' | translate}} *</label>
 
           <div>
-            <input ng-model="csc.versionSettings.callerId" name="callerId" class="ani" type="tel" title="{{'campaigns.details.settings.aniTooltip' | translate}}"/>
+            <input ng-model="csc.versionSettings.callerId" name="callerId" required class="ani" type="tel" title="{{'campaigns.details.settings.aniTooltip' | translate}}"/>
           </div>
         </div>
 
@@ -332,7 +331,7 @@
             max-view="month"
             required
             ng-model-options="{timezone: 'UTC'}"
-            min-date=hec.provideDateToday
+            min-date=csc.provideDateTomorrow
             items="hours.$exceptions"
             class="schedule-exception-date"
             readonly>

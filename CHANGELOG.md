@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+* CXV1-5184 - Date Selector should only allow future dates campaign settings
+* CXV1-5172 - Bug fix campaign settings caller id now required
 * CXV1-2275 - Fix invite page password issue bug
 * CXV1-5125 - Removed default Twilio region from integrations page
 * CXV1-4940 - Changed Twilio integration default region text in regions dropdown
