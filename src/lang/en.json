@@ -444,6 +444,8 @@
   "tenant.details.name.error": "Please enter a name",
   "tenant.details.creating": "Creating New Tenant",
   "tenant.details.id": "Tenant ID",
+  "tenant.details.integration": "Default Outbound Gateway",
+  "tenant.details.integration.placeholder": "Select gateway...",
   "tenant.details.timezone": "Timezone",
   "tenant.details.timezone.required": "Please select a timezone",
   "tenant.details.timezone.placeholder": "Select timezone...",
