@@ -787,7 +787,7 @@
 
   "campaigns.details.setting.flow":"Flow",
   "campaigns.details.setting.ani":"Caller ID",
-  "campaigns.details.setting.anierror":"Please enter a numer in e.164 format",
+  "campaigns.details.setting.anierror":"Please enter a number in e.164 format",
   "campaigns.details.setting.timezoneHeader":"Timezone",
   "campaigns.details.setting.timezoneHeader.error":"Please select a time zone",
   "campaigns.details.setting.regionHeader":"Region",

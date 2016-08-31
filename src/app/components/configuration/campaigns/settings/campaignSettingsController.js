@@ -348,8 +348,6 @@ angular.module('liveopsConfigPanel')
             csc.newExpiryHour.endHour = 12;
             csc.newExpiryHour.AmPm = 'am';
           }
-        } else {
-          csc.newExpiryHour.day = moment().add(1, 'days');
         }
       };
 
@@ -704,14 +702,6 @@ angular.module('liveopsConfigPanel')
         $scope.forms.settingsForm.$setDirty();
       };
 
-      csc.checkCallerid = function(){
-        if(angular.isUndefined(csc.versionSettings.callerId)){
-          csc.noCallerid = true;
-        } else {
-          csc.noCallerid = false;
-        }
-      };
-
       csc.submit = function () {
         convertExpiryToTimestamp();
 
@@ -720,9 +710,7 @@ angular.module('liveopsConfigPanel')
 
         csc.checkExpiry(csc.newExpiryHour.day, csc.newExpiryHour.endHour, csc.newExpiryHour.endMinutes, csc.newExpiryHour.AmPm);
 
-        csc.checkCallerid();
-
-        if (csc.noDaysChecked || csc.noCallerid) {
+        if (csc.noDaysChecked) {
           return;
         }
 
