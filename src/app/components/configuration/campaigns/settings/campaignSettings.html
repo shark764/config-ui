@@ -128,11 +128,14 @@
         </div>
 
         <div class="input-group">
+          <div class="lo-error extra-padding" ng-if="csc.noCallerid">{{'campaigns.details.callerid.error' | translate}}</div>
+        </div>
+
+        <div class="input-group">
           <form-error field="forms.settingsForm.callerId" error-type-phone-number="{{'campaigns.details.setting.anierror' | translate}}"></form-error>
         </div>
         <div class="input-group extra-padding">
-          <label>{{'campaigns.details.setting.ani' | translate}}
-          </label>
+          <label>{{'campaigns.details.setting.ani' | translate}} *</label>
 
           <div>
             <input ng-model="csc.versionSettings.callerId" name="callerId" class="ani" type="tel" title="{{'campaigns.details.settings.aniTooltip' | translate}}"/>
