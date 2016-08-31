@@ -10,6 +10,11 @@ angular.module('liveopsConfigPanel')
         'name': '$original.type'
       }, {
         'header': {
+          'display': $translate.instant('value.name')
+        },
+        'name': '$original.name'
+      }, {
+        'header': {
           'display': $translate.instant('value.status'),
           'valuePath': 'value',
           'displayPath': 'display',
@@ -25,7 +30,7 @@ angular.module('liveopsConfigPanel')
       'orderBy': '$original.type',
       'title': $translate.instant('integration.table.title'),
       'sref': 'content.configuration.integrations',
-      'showCreate': false,
+      'showCreate': true,
       'showBulkActions': function() {
         return UserPermissions.hasPermission('MANAGE_ALL_PROVIDERS');
       },

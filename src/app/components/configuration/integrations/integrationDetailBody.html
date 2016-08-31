@@ -1,6 +1,36 @@
 <div disable-contents="!('MANAGE_ALL_PROVIDERS' | hasPermission)">
-  <div class="divider-header first-header" ng-hide="selectedIntegration.type === 'facebook'">
+  <div class="divider-header first-header">
     <h4>{{'details' | translate}}</h4>
+  </div>
+
+  <div>
+    <div class="input-group" ng-if="selectedIntegration.isNew()">
+      <label>{{'value.type' | translate}} *</label>
+      <select
+        ng-model="selectedIntegration.type"
+        ng-options="type as type for type in customIntegrationTypes">
+      </select>
+    </div>
+
+    <div class="input-group">
+      <label>{{'value.name' | translate}} *</label>
+      <div>
+        <input type="text" ng-model="selectedIntegration.name">
+        </input>
+      </div>
+    </div>
+
+    <!-- <div class="input-group">
+      <label class="textarea-label">{{'value.description' | translate}}</label>
+      <div>
+        <textarea ng-model="selectedIntegration.description">
+        </textarea>
+      </div>
+    </div> -->
+
+    <div class="divider-header" ng-if="selectedIntegration.type === 'salesforce'">
+      <h4>{{'value.credentials' | translate}}</h4>
+    </div>
   </div>
 
   <div ng-if="selectedIntegration.type == 'twilio' || selectedIntegration.type == 'plivo'" class="web-rtc-providers">
@@ -75,7 +105,7 @@
     </div>
   </div>
 
-  <div ng-if="selectedIntegration.type == 'salesforce'">
+  <div ng-if="selectedIntegration.type == 'salesforce'" class="salesforce">
     <div class="input-group">
       <label>{{'integration.details.properties.username' | translate}} *</label>
       <form-error field="forms.detailsForm.username" error-type-required="{{'integration.username.error' | translate}}" ></form-error>
@@ -119,7 +149,7 @@
       </div>
     </div>
   </div>
-  <div class="input-group" ng-if="selectedIntegration.type == 'salesforce' || selectedIntegration.type == 'facebook'">
+  <div class="input-group login-url" ng-if="selectedIntegration.type == 'salesforce'">
     <div>
       <p class="null">{{'integration.details.loginUrl.message' | translate}}</p>
     </div>
