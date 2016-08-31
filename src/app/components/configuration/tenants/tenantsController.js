@@ -105,7 +105,7 @@ angular.module('liveopsConfigPanel')
             var tenantDisplayName = getTenantRegionDisplay(tenantResponse);
 
             tenantDisplayName.then(function (displayResponse) {
-              $scope.selectedTenant.regionDisplay = displayResponse;
+              $scope.selectedTenant.$regionDisplay = displayResponse;
             });
           });
         }
