@@ -143,6 +143,7 @@ angular.module('liveopsConfigPanel')
                 if ($scope.newlyUploaded) {
                   Alert.error(convertClojureToJs(currentErrorMsg));
                 }
+                $scope.uploadStats = true;
               });
             } else {
               // if we have no previous successful upload stats to fall back upon,
@@ -175,16 +176,23 @@ angular.module('liveopsConfigPanel')
                     if ($scope.newlyUploaded) {
                       Alert.success($translate.instant('value.uploadProcessedSuccessfully'));
                     };
+                    // possibly redundant code since we're about to stop the polling after
+                    // this conditional statement, but this is more of a fail safe
+                    stopPolling();
+                    $scope.uploadStats = true;
                   };
                   // now that we have a final response, either success or error, stop polling
                   // and update the ui accordingly
                   stopPolling();
-                  $scope.uploadStats = true;
+                  return;
                 } else {
                   // if the upload status is not either 'completed' or 'error',
                   // then it means it's still running, which means we need to keep polling
                   $scope.uploadStats = false;
                 };
+                // possibly redundant code, more of a fail safe
+                stopPolling();
+                $scope.uploadStats = true;
               });
             }, 1750);
           };
