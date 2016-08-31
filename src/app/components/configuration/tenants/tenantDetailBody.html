@@ -47,6 +47,18 @@
     </select>
   </div>
 
+  <div class="input-group"
+    ng-if="integrations.$resolved">
+    <label>{{'tenant.details.integration' | translate}} *</label>
+
+    <select name="integration"
+      ng-model="selectedTenant.outboundIntegrationId"
+      ng-options="integration.id as integration.getDisplay().capitalize() for integration in integrations | telephony">
+
+      <option value="" disabled>{{'tenant.details.integration.placeholder' | translate}}</option>
+    </select>
+  </div>
+
   <div class="input-group" ng-show="! selectedTenant.isNew()">
     <label class="textarea-label">{{'tenant.details.region' | translate}}</label>
     <p id="tenant-details-region" class="added-padding">{{selectedTenant.$regionDisplay}}</p>
