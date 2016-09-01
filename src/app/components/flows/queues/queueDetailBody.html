@@ -46,7 +46,8 @@
 </div>
 
 <div id="create-new-queue-query-details" ng-if="qc.selectedQueue.isNew()">
-  <query-builder query-string="qc.initialVersion.query"></query-builder>
+  <query-list-creator ng-if="qc.VERSION_NUM === 1" form="qc.forms.detailsForm" query-string="qc.initialVersion.query"></query-list-creator>
+  <query-builder ng-if="qc.VERSION_NUM === 2" query-string="qc.initialVersion.query"></query-builder>
 
   <div class="divider-header">
     <h4>{{'queue.details.priority' | translate}}</h4>
@@ -103,7 +104,25 @@
                   ng-click="showBasicQuery = !showBasicQuery;">
                       {{'queue.details.version.query.advanced.link' | translate}}
                 </a>
-                <query-builder query-string="query" read-only="true"></query-builder>
+                <query-builder ng-if="qc.VERSION_NUM === 2" query-string="query" read-only="true"></query-builder>
+                <p ng-if="qc.VERSION_NUM === 1" class="null" ng-show="!ednQuery">{{'queue.details.version.query.basic.invalid' | translate}}</p>
+
+                <div ng-if="qc.VERSION_NUM === 1" ng-repeat="escalation in ednQuery.escalations">
+                  <div class="basic-readonly-query">
+                    <h3 ng-show="escalation.afterSecondsInQueue > 0 && escalation.afterSecondsInQueue % 60 !== 0">
+                      {{'queue.query.readonly.after.seconds' | translate:{seconds:escalation.afterSecondsInQueue} }}
+                    </h3>
+                    <h3 ng-show="escalation.afterSecondsInQueue > 0 && escalation.afterSecondsInQueue % 60 === 0">
+                      {{'queue.query.readonly.after.minutes' | translate:{minutes:escalation.afterSecondsInQueue / 60} }}
+                    </h3>
+                    <object-group-editor
+                      ng-repeat="item in escalation.query.groups"
+                      object-group="item.objectGroup"
+                      readonly="true"
+                      key="item.key">
+                    </object-group-editor>
+                  </div>
+                </div>
               </div>
 
               <!-- Advanced Query -->
