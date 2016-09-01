@@ -97,7 +97,7 @@
   "twilioRegion.japan": "Japan",
   "twilioRegion.singapore": "Singapore",
   "twilioRegion.usEastCoast": "US East Coast (Virginia)",
-  "twilioRegion.lowestLatency": "Lowest Latency",
+  "twilioRegion.lowestLatency": "Global Low Latency",
   "loading": "Loading",
   "api.error": "The API could not be contacted. Please reload the page to try again. If this error persists, please contact your systems administrator",
   "permissions.unauthorized.message": "Sorry, your account does not have the correct permissions to view that page.",
