@@ -754,5 +754,18 @@ angular.module('liveopsConfigPanel')
           $state.go('content.configuration.campaigns');
         });
       };
+
+      csc.dateWatch = function(){
+        var unwatch = $scope.$watch('csc.newExpiryHour.day', function(){});
+        $scope.$watch('csc.newExpiryHour.day', function(newVal, oldVal){
+          if(angular.isDefined(newVal) && angular.isDefined(oldVal)){
+            if(oldVal !== newVal){
+              $scope.forms.settingsForm.$setDirty();
+              unwatch();
+            }
+          }
+        });
+      };
+
     }
   ]);
