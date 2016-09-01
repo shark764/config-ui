@@ -2,8 +2,8 @@
 
 angular.module('liveopsConfigPanel')
   .controller('campaignSettingsController', [
-    '$scope', '$rootScope', '$state', '$stateParams', '$translate', '$moment', '$q', '$document', '$compile', '$timeout', 'Session', 'Flow', 'Timezone', 'Region', 'Campaign', 'CampaignVersion', 'Disposition', 'DispositionList', 'DirtyForms', 'loEvents', 'getCampaignId', 'DncLists', 'campaignChannelTypes', 'regionCodes',
-    function ($scope, $rootScope, $state, $stateParams, $translate, $moment, $q, $document, $compile, $timeout, Session, Flow, Timezone, Region, Campaign, CampaignVersion, Disposition, DispositionList, DirtyForms, loEvents, getCampaignId, DncLists, campaignChannelTypes, regionCodes) {
+    '$scope', '$rootScope', '$state', '$stateParams', '$translate', '$moment', '$q', '$document', '$compile', '$timeout', 'Session', 'Flow', 'Timezone', 'Region', 'Campaign', 'CampaignVersion', 'Disposition', 'DispositionList', 'DirtyForms', 'loEvents', 'getCampaignId', 'DncLists', 'campaignChannelTypes', 'regionCodes', 'Tenant',
+    function ($scope, $rootScope, $state, $stateParams, $translate, $moment, $q, $document, $compile, $timeout, Session, Flow, Timezone, Region, Campaign, CampaignVersion, Disposition, DispositionList, DirtyForms, loEvents, getCampaignId, DncLists, campaignChannelTypes, regionCodes, Tenant) {
       $scope.forms = {};
       $scope.showDispoDNC = false;
       // adding to the scope all of the data from the campaigns page
@@ -37,8 +37,14 @@ angular.module('liveopsConfigPanel')
             tenantId: Session.tenant.tenantId
           });
 
+          Tenant.cachedGet({id: Session.tenant.tenantId}).$promise.then(function(tenant) {
+            csc.versionSettings.defaultTimeZone = tenant.timezone;
+          });
+
           csc.scheduleStartAmPm = 'am';
           csc.scheduleEndAmPm = 'pm';
+          csc.scheduleStartMinutes = '00';
+          csc.scheduleEndMinutes = '00';
           csc.loading = false;
           csc.leadExpiry = 0;
           csc.versionSettings.defaultLeadRetryInterval = 0;

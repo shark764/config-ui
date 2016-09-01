@@ -9,8 +9,8 @@ angular.module('liveopsConfigPanel')
       vm.forms = {};
       vm.selectedQueueVersion = null;
 
-      // Specifies that we are using Zermelo v2
-      var VERSION_NUM = 2;
+      // Specifies that we are using Zermelo v1 or v2
+      vm.VERSION_NUM = 1;
 
       $scope.showBasicQuery = true;
 
@@ -30,7 +30,7 @@ angular.module('liveopsConfigPanel')
           priorityValue: 1,
           priorityRate: 10,
           priorityUnit: 'seconds',
-          queryVersion: VERSION_NUM
+          queryVersion: vm.VERSION_NUM
         });
       };
 
@@ -156,7 +156,7 @@ angular.module('liveopsConfigPanel')
           priorityValue: version.priorityValue,
           priorityRate: version.priorityRate,
           priorityUnit: version.priorityUnit,
-          queryVersion: VERSION_NUM
+          queryVersion: vm.VERSION_NUM
         });
         angular.element('#queue-version-panel').css('display', 'table-cell');
       };

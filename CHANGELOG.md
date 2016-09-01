@@ -24,6 +24,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 * CXV1-5027 - Add queryVersion to new queue versions
 * CXV1-5167 - Add default outbound integration to tenant settings
 * CXV1-5162 - URL change needed for Silent Monitoring toolbar
+* (no ticket) - Flag query builder to show v1 query builder for now
 
 ## [4.1.19]
 * CXV1-4805 - Fixed UI issues with campaign settings page schedule exceptions
