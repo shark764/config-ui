@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+* CXV1-5184 - Date Selector should only allow future dates campaign settings
 * CXV1-5172 - Bug fix campaign settings caller id now required
 * CXV1-2275 - Fix invite page password issue bug
 * CXV1-5125 - Removed default Twilio region from integrations page
@@ -20,6 +21,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 * CXV1-2553 - Fix display issues when new query versions are created
 * CXV1-2514 - Fix issue with cancel message on query builder
 * CXV1-5027 - Add queryVersion to new queue versions
+* CXV1-5167 - Add default outbound integration to tenant settings
 
 ## [4.1.19]
 * CXV1-4805 - Fixed UI issues with campaign settings page schedule exceptions

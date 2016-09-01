@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('TenantsController', ['$scope', 'Session', 'Tenant', 'TenantUser', 'tenantTableConfig', 'UserPermissions', 'AuthService', 'Region', '$q', 'loEvents', 'Timezone', 'PermissionGroups', 'Alert', 'GlobalRegionsList',
-    function ($scope, Session, Tenant, TenantUser, tenantTableConfig, UserPermissions, AuthService, Region, $q, loEvents, Timezone, PermissionGroups, Alert, GlobalRegionsList) {
+  .controller('TenantsController', ['$scope', 'Session', 'Tenant', 'TenantUser', 'tenantTableConfig', 'UserPermissions', 'AuthService', 'Region', '$q', 'loEvents', 'Timezone', 'PermissionGroups', 'Alert', 'GlobalRegionsList', 'Integration',
+    function ($scope, Session, Tenant, TenantUser, tenantTableConfig, UserPermissions, AuthService, Region, $q, loEvents, Timezone, PermissionGroups, Alert, GlobalRegionsList, Integration) {
       var vm = this;
 
       vm.loadTimezones = function () {
@@ -44,6 +44,13 @@ angular.module('liveopsConfigPanel')
         });
 
         return tenants;
+      };
+
+      vm.loadIntegrations = function(tenantId) {
+        // tried using cachedQuery but it didn't work when selectedTenant was changed
+        $scope.integrations = Integration.query({
+          tenantId: tenantId
+        });
       };
 
       $scope.create = function () {
@@ -108,6 +115,8 @@ angular.module('liveopsConfigPanel')
               $scope.selectedTenant.$regionDisplay = displayResponse;
             });
           });
+
+          vm.loadIntegrations($scope.selectedTenant.id);
         }
       });
 

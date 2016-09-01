@@ -125,7 +125,7 @@ angular.module('liveopsConfigPanel')
           url: '/tenants?id',
           title: 'Configuration - Tenant Management',
           templateUrl: 'app/components/configuration/tenants/tenants.html',
-          controller: 'TenantsController',
+          controller: 'TenantsController as tc',
           reloadOnSearch: false,
           resolve: {
             hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
