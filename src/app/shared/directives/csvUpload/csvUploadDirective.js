@@ -18,13 +18,10 @@ angular.module('liveopsConfigPanel')
           $scope.newlyUploaded = false;
 
           $scope.downloadCsv = function () {
-            var apiHostNameNoProtocol = apiHostname.slice(8);
-            window.location.href = 'https://' +
-              window.atob(Session.token) + '@' +
-              apiHostNameNoProtocol +
+            window.location.href = apiHostname +
               '/v1/tenants/' +
               Session.tenant.tenantId +
-              $scope.downloadPath;
+              $scope.downloadPath + '?token=' + Session.token;
           };
 
 
