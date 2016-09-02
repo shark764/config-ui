@@ -207,7 +207,7 @@ angular.module('liveopsConfigPanel')
         }
 
         // BEGIN OUTBOUND FEATURE FLAG...
-        if (appFlags.OUTBOUND_PAGES) {
+        //if (appFlags.OUTBOUND_PAGES) {
           if (UserPermissions.hasPermissionInList(PermissionGroups.accessAllCampaigns)) {
             items.push({
               label: $translate.instant('navbar.configuration.campaigns.title'),
@@ -225,7 +225,7 @@ angular.module('liveopsConfigPanel')
               order: 6
             });
           }
-        }
+        //}
         // ...END OUTBOUND FEATURE FLAG
 
         return items;
