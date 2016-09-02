@@ -2,8 +2,8 @@
 
 angular.module('liveopsConfigPanel')
   .controller('campaignsController', [
-    '$scope', '$rootScope', '$timeout', '$translate', '$moment', '$q', '$state', '$compile', 'Alert', 'Session', 'Campaign', 'CampaignStart', 'CampaignStop', 'campaignsTableConfig', 'loEvents', 'Flow', 'DirtyForms', 'apiHostname', 'Modal',
-    function ($scope, $rootScope, $timeout, $translate, $moment, $q, $state, $compile, Alert, Session, Campaign, CampaignStart, CampaignStop, campaignsTableConfig, loEvents, Flow, DirtyForms, apiHostname, Modal) {
+    '$scope', '$rootScope', '$timeout', '$translate', '$moment', '$q', '$state', '$stateParams', '$compile', 'Alert', 'Session', 'Campaign', 'CampaignStart', 'CampaignStop', 'campaignsTableConfig', 'loEvents', 'Flow', 'DirtyForms', 'apiHostname', 'Modal',
+    function ($scope, $rootScope, $timeout, $translate, $moment, $q, $state, $stateParams, $compile, Alert, Session, Campaign, CampaignStart, CampaignStop, campaignsTableConfig, loEvents, Flow, DirtyForms, apiHostname, Modal) {
       var cc = this;
       var currentlySelectedCampaign = cc.selectedCampaign;
 
