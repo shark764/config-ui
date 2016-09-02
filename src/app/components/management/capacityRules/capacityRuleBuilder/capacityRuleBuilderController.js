@@ -102,7 +102,7 @@ angular.module('liveopsConfigPanel')
           }
 
           return _.pluck(rule.channels, 'name').join(', ') + ': ' + rule.count;
-        })).join(' | ');
+        })).join(($scope.quantifier === 'all' ? ' & ' : ' | '));
       };
     }
   ]);

@@ -1,6 +1,7 @@
 {
   "value.active": "Active",
   "value.any": "Any",
+  "value.all": "All",
   "value.id": "ID",
   "value.cancel": "Cancel",
   "value.close": "Close",
@@ -90,6 +91,7 @@
   "value.uploadSuccess": "File successfully uploaded",
   "value.uploadFail": "Sorry, there was a problem uploading your file. Please try again, and if the problem persists, please contact your systems administrator.",
   "value.uploadProcessedSuccessfully": "Your list has been successfully updated",
+  "value.ruleType": "Rule Type",
   "twilioRegion.tenantDefault": "Use Tenant Default",
   "twilioRegion.australia": "Australia",
   "twilioRegion.brazil": "Brazil",
