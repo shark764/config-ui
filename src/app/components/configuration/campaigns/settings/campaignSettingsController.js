@@ -752,7 +752,9 @@ angular.module('liveopsConfigPanel')
           campaignId: getCampaignId
         }).then(function (response) {
           Alert.warning($translate.instant('campaigns.details.mustRestartDialerAlert'));
-          $state.go('content.configuration.campaigns');
+          $state.go('content.configuration.campaigns', {
+            id: getCampaignId
+          });
         });
       };
 
