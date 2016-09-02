@@ -3,7 +3,10 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
-* CXV1-5081 - Bug fix bulkActions enable/disable makes flow name disappear 
+
+## [4.1.20]
+* CXV1-5278 - Provide feedback after campaign is altered notifying user that they must restart campaign
+* CXV1-5081 - Bug fix bulkActions enable/disable makes flow name disappear
 * CXV1-5190 - Bug fix for submit not being active on campaign settings
 * CXV1-5184 - Date Selector should only allow future dates campaign settings
 * CXV1-5172 - Bug fix campaign settings caller id now required
