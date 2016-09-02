@@ -15,9 +15,12 @@ angular.module('liveopsConfigPanel')
         },
         link: function ($scope, elem, attr, ctrl) {
           var uploadStatus;
-          $scope.newlyUploaded = false;
+          var intervals = [];
 
-          $scope.downloadCsv = function () {
+          $scope.downloadCsv = function ($event) {
+            $event.preventDefault();
+            $event.stopPropagation();
+
             var apiHostNameNoProtocol = apiHostname.slice(8);
             var userPw = window.atob(Session.token);
             userPw = userPw.split(':');
@@ -64,6 +67,7 @@ angular.module('liveopsConfigPanel')
 
             jobList.$promise.then(function (response) {
               $scope.loading = true;
+              $scope.newlyUploaded = false;
 
               $scope.selectedRow.hasList = hasOne(jobList.jobs);
               if ($scope.selectedRow.hasList) {
@@ -84,7 +88,10 @@ angular.module('liveopsConfigPanel')
           };
 
           function stopPolling() {
-            $interval.cancel(uploadStatus);
+            angular.forEach(intervals, function (value, key) {
+              $interval.cancel(intervals[key]);
+            });
+
           };
 
           function hasOne(arr) {
@@ -148,7 +155,9 @@ angular.module('liveopsConfigPanel')
                 if ($scope.newlyUploaded) {
                   Alert.error(convertClojureToJs(currentErrorMsg));
                 }
-                $scope.uploadStats = true;
+                $q.when($scope.selectedRow.latestJobData).then(function () {
+                  $scope.selectedRow.uploadStats = true;
+                });
               });
             } else {
               // if we have no previous successful upload stats to fall back upon,
@@ -156,7 +165,7 @@ angular.module('liveopsConfigPanel')
               if ($scope.newlyUploaded) {
                 Alert.error(convertClojureToJs(currentErrorMsg));
               };
-              $scope.uploadStats = true;
+              $scope.selectedRow.uploadStats = true;
             };
           };
 
@@ -166,40 +175,46 @@ angular.module('liveopsConfigPanel')
               var lastJobData = getJobData(jobId);
 
               // get the complete data from the jobId
-              lastJobData.$promise.then(function (response) {
-                $scope.selectedRow.latestJobData = response;
-                if (response.status === 'error' || response.result === null || response.status === 'completed') {
-                  if (response.status === 'error' || response.result === null) {
-                    // if there was an error AND we have had a successful upload
-                    // in the past, use the getPrevJobId() function to grab the
-                    // data from the most recent successful upload
-                    var prevId = getPrevJobId(jobList.jobs);
-                    $q.when(prevId, function (prevIdResponse) {
-                      handleErrors(response, prevIdResponse);
-                    });
-                  } else {
-                    if ($scope.newlyUploaded) {
-                      Alert.success($translate.instant('value.uploadProcessedSuccessfully'));
+              if (lastJobData) {
+                lastJobData.$promise.then(function (response) {
+                  $scope.selectedRow.latestJobData = response;
+                  if (response.status === 'error' || response.result === null || response.status === 'completed') {
+                    if (response.status === 'error' || response.result === null) {
+                      // if there was an error AND we have had a successful upload
+                      // in the past, use the getPrevJobId() function to grab the
+                      // data from the most recent successful upload
+                      var prevId = getPrevJobId(jobList.jobs);
+                      $q.when(prevId, function (prevIdResponse) {
+                        handleErrors(response, prevIdResponse);
+                      });
+                    } else {
+                      if ($scope.newlyUploaded) {
+                        Alert.success($translate.instant('value.uploadProcessedSuccessfully'));
+                      };
+                      // possibly redundant code since we're about to stop the polling after
+                      // this conditional statement, but this is more of a fail safe
+                      stopPolling();
+                      $scope.selectedRow.uploadStats = true;
                     };
-                    // possibly redundant code since we're about to stop the polling after
-                    // this conditional statement, but this is more of a fail safe
+                    // now that we have a final response, either success or error, stop polling
+                    // and update the ui accordingly
                     stopPolling();
-                    $scope.uploadStats = true;
+                    return;
+                  } else {
+                    // if the upload status is not either 'completed' or 'error',
+                    // then it means it's still running, which means we need to keep polling
+                    $scope.selectedRow.uploadStats = false;
                   };
-                  // now that we have a final response, either success or error, stop polling
-                  // and update the ui accordingly
+                  // possibly redundant code, more of a fail safe
                   stopPolling();
+                  $scope.selectedRow.uploadStats = true;
                   return;
-                } else {
-                  // if the upload status is not either 'completed' or 'error',
-                  // then it means it's still running, which means we need to keep polling
-                  $scope.uploadStats = false;
-                };
-                // possibly redundant code, more of a fail safe
-                stopPolling();
-                $scope.uploadStats = true;
-              });
+                });
+
+              }
             }, 1750);
+
+            intervals.push(uploadStatus);
           };
 
           function getPrevJobId(list) {
@@ -208,23 +223,26 @@ angular.module('liveopsConfigPanel')
             var data = getJobData(list[0]);
             // the goal here it to return the most recent
             // *successful* upload stats
-            return data.$promise.then(function (response) {
-              // check to see if that upload was successful, and if so
-              // return that job ID
-              if (_.find(response, {'status': 'completed'})) {
-                return response.jobId;
-              } else {
-                // if it turns out this upload was not successful, then
-                // remove this job from the array and move on to the next one
-                // until we've gone through all of the jobs
-                if (list.length >= 1) {
-                  list.shift();
-                  return getPrevJobId(list);
+            if (data) {
+              return data.$promise.then(function (response) {
+                // check to see if that upload was successful, and if so
+                // return that job ID
+                if (_.find(response, {'status': 'completed'})) {
+                  return response.jobId;
                 } else {
-                  return null;
+                  // if it turns out this upload was not successful, then
+                  // remove this job from the array and move on to the next one
+                  // until we've gone through all of the jobs
+                  if (list.length >= 1) {
+                    list.shift();
+                    return getPrevJobId(list);
+                  } else {
+                    return null;
+                  };
                 };
-              };
-            });
+              });
+            };
+
           };
 
           $scope.importFile = function (fileData) {
@@ -241,7 +259,7 @@ angular.module('liveopsConfigPanel')
             }
 
             if (fileData) {
-              $scope.uploadStats = false;
+              $scope.selectedRow.uploadStats = false;
               var upload = Upload.upload({
                 headers: {
                   'Content-Type': 'multipart/form-data'
@@ -287,9 +305,11 @@ angular.module('liveopsConfigPanel')
             // get the jobs and download lists...
             // unless, of course, it's a new campaign and neither exist
             $q.when(newRowData, function (response) {
+              stopPolling();
+
               if (newRowData) {
                 if (!$scope.selectedRow.isNew()) {
-                  $scope.uploadStats = false;
+                  $scope.selectedRow.uploadStats = false;
                   $scope.downloadPath = $scope.downloadPath;
                   $scope.jobServiceName = $scope.jobServiceName;
                   getJobId();
