@@ -23,15 +23,15 @@
           class="btn"
           ng-click="downloadCsv($event)"
           type="button"
-          ng-disabled="!selectedRow.id || !selectedRow.hasList || !uploadStats || selectedRow.latestJobData.status !== 'completed'">
+          ng-disabled="!selectedRow.id || !selectedRow.hasList || !selectedRow.uploadStats || selectedRow.latestJobData.status !== 'completed'">
           {{'campaigns.details.downloadBtn' | translate}}
         </button>
       </div>
     </div>
 
     <div class="form-col right align-top">
-      <loading ng-show="!uploadStats && selectedRow.hasList"></loading>
-      <div ng-show="uploadStats && selectedRow.hasList && selectedRow.latestJobData.status !== 'error'">
+      <loading ng-show="!selectedRow.uploadStats && selectedRow.hasList"></loading>
+      <div ng-show="selectedRow.uploadStats && selectedRow.hasList && selectedRow.latestJobData.status !== 'error'">
         <ul>
           <li ng-if="selectedRow.latestJobData.created">
             {{'campaigns.details.lastUpdate' | translate}} - {{selectedRow.latestJobData.created | date:'MM/dd/yyyy HH:mm:ss' }}
