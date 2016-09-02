@@ -5,7 +5,9 @@ angular.module('liveopsConfigPanel')
     function(Campaign, Session, BulkAction, statuses) {
       return {
         restrict: 'E',
-        scope: {},
+        scope: {
+          flows: '='
+        },
         require: '?^bulkActionExecutor',
         templateUrl: 'app/components/configuration/campaigns/bulkActions/campaignsStatus/setCampaignsStatusBulkAction.html',
         link: function($scope, elem, attr, bulkActionExecutor) {
@@ -18,14 +20,26 @@ angular.module('liveopsConfigPanel')
 
           $scope.bulkAction.apply = function(campaigns) {
             var campaignsCopy = new Campaign();
+
             campaignsCopy.id = campaigns.id;
             campaignsCopy.tenantId = Session.tenant.tenantId;
             campaignsCopy.active = $scope.active;
             campaignsCopy.properties = campaigns.properties;
             return campaignsCopy.save().then(function(campaignsCopy) {
               angular.copy(campaignsCopy, campaigns);
-              campaigns.checked = true;
-              return campaigns;
+
+              var flowName = _.find($scope.flows, function(val){
+                  if(campaignsCopy.flowId){
+                    return campaignsCopy.flowId === val.id;
+                  }
+              });
+
+              if(angular.isDefined(flowName)){
+                campaigns.flowName = flowName.name;
+              }
+                campaigns.checked = true;
+
+                return campaigns;
             });
           };
 
