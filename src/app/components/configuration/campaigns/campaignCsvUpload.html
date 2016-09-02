@@ -12,7 +12,7 @@
           ngf-max-size="20MB"
           ng-model="selectedRow.listData"
           type="button"
-          ng-disabled="!selectedRow.id">
+          ng-disabled="!selectedRow.hasVersion || (selectedRow.hasList && !selectedRow.uploadStats)">
           {{'campaigns.details.importBtn' | translate}}
         </button>
       </div>
@@ -22,7 +22,7 @@
           id="stats-btn"
           class="btn"
           ng-click="openStatsModal()"
-          ng-disabled="!selectedRow.id || !selectedRow.hasList || !uploadStats || selectedRow.latestJobData.status === 'error'">
+          ng-disabled="selectedRow.latestJobData.status !== 'completed'">
           {{'campaigns.details.statsBtn' | translate}}
         </button>
       </div>
@@ -31,22 +31,22 @@
         <button
           id="download-btn"
           class="btn"
-          ng-click="downloadCsv()"
+          ng-click="downloadCsv($event)"
           type="button"
-          ng-disabled="!selectedRow.id || !selectedRow.hasList || !uploadStats || selectedRow.latestJobData.status === 'error'">
+          ng-disabled="selectedRow.latestJobData.status !== 'completed'">
           {{'campaigns.details.downloadBtn' | translate}}
         </button>
       </div>
     </div>
     <div class="form-col right align-top">
-      <loading ng-show="!uploadStats && selectedRow.hasList"></loading>
-      <div ng-show="uploadStats && selectedRow.hasList && selectedRow.latestJobData.status !== 'error'">
+      <loading ng-show="!selectedRow.uploadStats && selectedRow.hasList"></loading>
+      <div ng-show="selectedRow.uploadStats && selectedRow.hasList && selectedRow.latestJobData.status !== 'error'">
         <ul>
           <li ng-if="selectedRow.latestJobData.created">
             {{'campaigns.details.lastUpdate' | translate}} - {{selectedRow.latestJobData.created | date:'MM/dd/yyyy HH:mm:ss' }}
           </li>
-          <li ng-if="displayData(selectedRow.latestJobData.rowsProcessed) && selectedRow.latestJobData.status !=='error'">
-            {{'campaigns.details.leadCount' | translate}} - {{selectedRow.latestJobData.rowsProcessed}}
+          <li ng-if="displayData(selectedRow.latestJobData.leadCount) && selectedRow.latestJobData.status !=='error'">
+            {{'campaigns.details.leadCount' | translate}} - {{selectedRow.latestJobData.leadCount}}
           </li>
         </ul>
       </div>

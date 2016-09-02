@@ -6,28 +6,24 @@
         {{'campaigns.details.lastUpdate' | translate}}:
         {{selectedRow.latestJobData.created | date:'MM/dd/yyyy HH:mm:ss' }}
       </li>
-      <li ng-if="displayData(selectedRow.latestJobData.completed)">
-        {{'campaigns.details.lastUpdate' | translate}}:
-        {{selectedRow.latestJobData.completed | date:'MM/dd/yyyy HH:mm:ss' }}
-      </li>
-      <li ng-if="displayData(selectedRow.latestJobData.rowsAltered)">
-        Records Changed:
-        {{selectedRow.latestJobData.rowsAltered}}
-      </li>
-      <li ng-if="displayData(selectedRow.latestJobData.rowsDeleted)">
-        Records Deleted:
-        {{selectedRow.latestJobData.rowsDeleted}}
-      </li>
-      <li ng-if="displayData(selectedRow.latestJobData.pendingLeads)">
-        Pending Leads:
-        {{selectedRow.latestJobData.pendingLeads}}
+      <li ng-if="displayData(selectedRow.latestJobData.leadCount)">
+        {{'campaigns.details.leadCount' | translate}}:
+        {{selectedRow.latestJobData.leadCount}}
       </li>
     </ul>
     <hr>
     <ul>
       <li="displayData(selectedRow.latestJobData.rowsProcessed)">
-        Record Count:
+        {{'campaigns.details.rowsProcessed' | translate}}:
         {{selectedRow.latestJobData.rowsProcessed}}
+      </li>
+      <li ng-if="displayData(selectedRow.latestJobData.rowsAltered)">
+        {{'campaigns.details.rowsAltered' | translate}}:
+        {{selectedRow.latestJobData.rowsAltered}}
+      </li>
+      <li ng-if="displayData(selectedRow.latestJobData.rowsDeleted)">
+        {{'campaigns.details.rowsDeleted' | translate}}:
+        {{selectedRow.latestJobData.rowsDeleted}}
       </li>
     </ul>
   </div>
