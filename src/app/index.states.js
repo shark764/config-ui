@@ -238,7 +238,7 @@ angular.module('liveopsConfigPanel')
         // ACTIVATE THE CAMPAIGNS FEATURE
         .state('content.configuration.campaigns', {
           url: '/campaigns?id',
-          title: 'Configuraton - Campaign Management',
+          title: 'Configuration - Campaign Management',
           templateUrl: 'app/components/configuration/campaigns/campaigns.html',
           controller: 'campaignsController as cc',
           reloadOnSearch: false,
