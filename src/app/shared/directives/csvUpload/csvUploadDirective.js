@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('csvUpload', ['$timeout', '$state', '$translate', '$q', '$interval', '$document', '$compile', 'Alert', 'Session', 'Upload', 'apiHostname', 'Modal', 'CampaignCallListJobs', 'DncListJobs',
-    function ($timeout, $state, $translate, $q, $interval, $document, $compile, Alert, Session, Upload, apiHostname, Modal, CampaignCallListJobs, DncListJobs) {
+  .directive('csvUpload', ['$timeout', '$state', '$translate', '$q', '$interval', '$document', '$compile', '$window', 'Alert', 'Session', 'Upload', 'apiHostname', 'Modal', 'CampaignCallListJobs', 'DncListJobs',
+    function ($timeout, $state, $translate, $q, $interval, $document, $compile, $window, Alert, Session, Upload, apiHostname, Modal, CampaignCallListJobs, DncListJobs) {
       return {
         restrict: 'E',
         templateUrl: function (elem, attrs) {
@@ -18,10 +18,18 @@ angular.module('liveopsConfigPanel')
           $scope.newlyUploaded = false;
 
           $scope.downloadCsv = function () {
-            window.location.href = apiHostname +
+            var apiHostNameNoProtocol = apiHostname.slice(8);
+            var userPw = window.atob(Session.token);
+            userPw = userPw.split(':');
+            userPw[0] = encodeURIComponent(userPw[0]);
+            userPw[1] = encodeURIComponent(userPw[1]);
+            userPw = userPw.join(':');
+            $window.open('https://' +
+              userPw + '@' +
+              apiHostNameNoProtocol +
               '/v1/tenants/' +
               Session.tenant.tenantId +
-              $scope.downloadPath + '?token=' + Session.token;
+              $scope.downloadPath, "_self");
           };
 
 
