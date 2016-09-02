@@ -6,6 +6,7 @@ angular.module('liveopsConfigPanel')
       require: 'ngModel',
       scope: {
         ngModel: '=',
+        quantifier: '=',
       },
       templateUrl: 'app/components/management/capacityRules/capacityRuleBuilder/capacityRuleBuilder.html',
       controller: 'CapacityRuleBuilderController',

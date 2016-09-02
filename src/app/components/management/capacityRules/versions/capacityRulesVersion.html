@@ -10,7 +10,19 @@
       <input ng-required="true" type="text" ng-model="selectedVersion.name" name="name"></input>
     </div>
 
-    <capacity-rule-builder ng-model="selectedVersion.ruleSet" name="ruleSet"></capacity-rule-builder>
+    <div class="input-group">
+      <label>{{'value.ruleType' | translate}} *</label>
+      <div>
+        <select name="activeVersion"
+          ng-required
+          ng-model="selectedVersion.quantifier">
+          <option value="any">{{'value.any' | translate}}</option>
+          <option value="all">{{'value.all' | translate}}</option>
+        </select>
+      </div>
+    </div>
+
+    <capacity-rule-builder ng-model="selectedVersion.ruleSet" name="ruleSet" quantifier="selectedVersion.quantifier"></capacity-rule-builder>
 
     <div class="flow-controls input-group">
       <input id="cancel-flow-version-btn" type="button" ng-click="hideCreateNew()" class="btn" value="{{'value.cancel' | translate}}" />
@@ -44,6 +56,6 @@
     <td><a ng-click="toggleViewing(version)">view</a></td>
   </tr>
   <tr ng-repeat-end ng-show="version.viewing">
-    <td colspan="4">Rule set: <i>{{version.ruleSet}}</i></td>
+    <td colspan="4">Rule set: <i>{{version.quantifier.capitalize()}} {{version.ruleSet}}</i></td>
   </tr>
 </table>

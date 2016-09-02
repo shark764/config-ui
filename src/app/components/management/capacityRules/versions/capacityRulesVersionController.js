@@ -9,7 +9,8 @@ angular.module('liveopsConfigPanel')
           name: '',
           ruleSet: '{[:voice] 1 [:email :messaging] 4}',
           capacityRuleId: $scope.capacityRule.id,
-          tenantId: Session.tenant.tenantId
+          tenantId: Session.tenant.tenantId,
+          quantifier: 'any'
         });
       }
 
