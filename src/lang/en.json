@@ -737,6 +737,7 @@
   "campaigns.table.dialer": "Dialer State",
   "campaigns.table.flow": "Flow",
   "campaigns.dashboardLink.title":"Link to Dashboard",
+  "campaigns.details.mustRestartDialerAlert": "Dialer must be restarted to apply settings edit.",
   "campaigns.details.versionsDropdownDefault": "Select a version...",
   "campaigns.details.channelDropdownDefault": "Select a channel...",
   "campaigns.details.channelDropdownDefault.error": "You must select a channel type",
