@@ -39,12 +39,10 @@ angular.module('liveopsConfigPanel')
       'title' : $translate.instant('dnc.table.title'),
       'sref' : 'content.configuration.dnc',
       'showCreate': function () {
-        return true;
-        //return UserPermissions.hasPermission('MANAGE_ALL_CAMPAIGNS');
+        return UserPermissions.hasPermission('MANAGE_CAMPAIGNS');
       },
       'showBulkActions': function () {
-        return true;
-        //return UserPermissions.hasPermission('MANAGE_ALL_CAMPAIGNS');
+        return UserPermissions.hasPermission('MANAGE_CAMPAIGNS');
       }
       // Still awaiting DNC List docs, so commenting out
       //'helpLink' : helpDocsHostname + '/Help/Content/Configuring%20CxEngage/Business%20Hours/Business_Hours.htm'

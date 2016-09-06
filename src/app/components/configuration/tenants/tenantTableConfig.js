@@ -53,10 +53,10 @@ angular.module('liveopsConfigPanel')
           'title': $translate.instant('tenant.table.title'),
           'sref': 'content.configuration.tenants',
           'showBulkActions': function() {
-            return UserPermissions.hasPermissionInList(['PLATFORM_MANAGE_ALL_TENANTS', 'MANAGE_TENANT']);
+            return UserPermissions.hasPermissionInList(['PLATFORM_MANAGE_ALL_TENANTS']);
           },
           'showCreate': function() {
-            return UserPermissions.hasPermissionInList(['PLATFORM_CREATE_ALL_TENANTS', 'CREATE_CHILD_TENANT']);
+            return UserPermissions.hasPermissionInList(['CREATE_CHILD_TENANT']);
           },
           'helpLink': helpDocsHostname + '/Help/Content/Configuring%20CxEngage/Creating_Tenants.htm'
         };
