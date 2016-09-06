@@ -533,7 +533,7 @@ angular.module('liveopsConfigPanel')
         })
         .state('content.userprofile', {
           url: '/userprofile',
-          title:'CxEngage User Porfile',
+          title:'CxEngage User Profile',
           templateUrl: 'app/components/userProfile/userProfile.html',
           controller: 'UserProfileController',
           secure: true
