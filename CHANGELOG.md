@@ -4,6 +4,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [4.1.21]
+* (no ticket) - Added back feature flag since Outbound is no longer the next release
+
 ## [4.1.20]
 * CXV1-5278 - Provide feedback after campaign is altered notifying user that they must restart campaign
 * CXV1-5081 - Bug fix bulkActions enable/disable makes flow name disappear
