@@ -43,12 +43,15 @@
         </form-error>
         <lo-multibox name="{{fieldName}}"
           ng-init="onSelectCallback = onSelect(mapping); initMapping(mapping)"
-          ng-disabled="!('MANAGE_ALL_MEDIA' | hasPermission)"
+          ng-if="('MANAGE_ALL_MEDIA' | hasPermission)"
           items="fetchMedias()"
           resource-name="Media"
           selected-item="mapping.$media"
           on-item-select="onSelectCallback">
         </lo-multibox>
+        <div ng-if="!('MANAGE_ALL_MEDIA' | hasPermission)" class="read-only-mapping">
+          {{mapping.name}}
+        </div>
       </td>
       <td class='remove-col'>
         <i id="remove-media-mapping-button"

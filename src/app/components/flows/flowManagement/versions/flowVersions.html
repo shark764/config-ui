@@ -51,6 +51,6 @@
       <audit-text translation="value.displayName" user-id="version.createdBy"></audit-text>
     </td>
     <td><a ng-href="#/flows/viewer/{{version.flowId}}/{{version.version}}">view</a></td>
-    <td><a ng-click="onEditClick({version: version})">edit</a></td>
+    <td><a ng-if="('MANAGE_ALL_FLOWS' | hasPermission)" ng-click="onEditClick({version: version})">edit</a></td>
   </tr>
 </table>

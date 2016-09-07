@@ -232,7 +232,7 @@ angular.module('liveopsConfigPanel')
       vm.getFlowsConfig = function() {
         var items = [];
 
-        if (UserPermissions.hasPermissionInList(PermissionGroups.accessAllFlows)) {
+        if (UserPermissions.hasPermissionInList(PermissionGroups.viewFlows)) {
           items.push({
             label: $translate.instant('navbar.flows.title'),
             stateLink: 'content.flows.flowManagement',
@@ -241,7 +241,7 @@ angular.module('liveopsConfigPanel')
           });
         }
 
-        if (UserPermissions.hasPermissionInList(['UPDATE_DISPOSITIONS'])) {
+        if (UserPermissions.hasPermissionInList(PermissionGroups.viewDispositions)) {
           items.push({
             label: $translate.instant('navbar.flows.dispositions.title'),
             stateLink: 'content.flows.dispositions',
@@ -250,7 +250,7 @@ angular.module('liveopsConfigPanel')
           });
         }
 
-        if (UserPermissions.hasPermissionInList(['UPDATE_DISPOSITION_LIST'])) {
+        if (UserPermissions.hasPermissionInList(PermissionGroups.viewDispositions)) {
           items.push({
             label: $translate.instant('navbar.flows.dispositions.lists.title'),
             stateLink: 'content.flows.dispositionLists',
@@ -259,7 +259,7 @@ angular.module('liveopsConfigPanel')
           });
         }
 
-        if (UserPermissions.hasPermissionInList(PermissionGroups.accessAllQueues)) {
+        if (UserPermissions.hasPermissionInList(PermissionGroups.viewQueues)) {
           items.push({
             label: $translate.instant('navbar.flows.queues.title'),
             stateLink: 'content.flows.queues',
@@ -268,7 +268,7 @@ angular.module('liveopsConfigPanel')
           });
         }
 
-        if (UserPermissions.hasPermissionInList(PermissionGroups.accessAllMedia)) {
+        if (UserPermissions.hasPermissionInList(PermissionGroups.viewMedia)) {
           items.push({
             label: $translate.instant('navbar.flows.mediacollections.title'),
             stateLink: 'content.flows.media-collections',
@@ -284,7 +284,7 @@ angular.module('liveopsConfigPanel')
           });
         }
 
-        if (UserPermissions.hasPermissionInList(PermissionGroups.accessAllDispatchMappings)) {
+        if (UserPermissions.hasPermissionInList(PermissionGroups.viewDispatchMappings)) {
           items.push({
             label: $translate.instant('navbar.flows.dispatchmappings.title'),
             stateLink: 'content.flows.dispatchMappings',

@@ -11,20 +11,20 @@
   <form-error field="forms.detailsForm.name" error-type-required="{{'details.name.error' | translate}}" ></form-error>
   <div class="lo-error" role="alert" ng-if='dc.duplicateError'>{{dc.duplicateErrorMessage}}</div>
   <div>
-    <input ng-required="true" type="text" ng-model="dc.selectedDisposition.name" name="name" ng-disabled="dc.selectedDisposition.tenantId !== Session.tenant.tenantId"/>
+    <input ng-required="true" type="text" ng-model="dc.selectedDisposition.name" name="name" ng-disabled="dc.selectedDisposition.tenantId !== Session.tenant.tenantId || !('UPDATE_DISPOSITIONS' | hasPermission)"/>
   </div>
 </div>
 
 <div class="input-group">
   <label>{{'details.externalId' | translate}}</label>
   <div>
-    <input type="text" ng-model="dc.selectedDisposition.externalId" name="externalId" ng-disabled="dc.selectedDisposition.tenantId !== Session.tenant.tenantId"/>
+    <input type="text" ng-model="dc.selectedDisposition.externalId" name="externalId" ng-disabled="dc.selectedDisposition.tenantId !== Session.tenant.tenantId || !('UPDATE_DISPOSITIONS' | hasPermission)"/>
   </div>
 </div>
 
 <div class="input-group">
   <label class="textarea-label">{{'value.description' | translate}}</label>
-  <textarea ng-model="dc.selectedDisposition.description" ng-disabled="dc.selectedDisposition.tenantId !== Session.tenant.tenantId"></textarea>
+  <textarea ng-model="dc.selectedDisposition.description" ng-disabled="dc.selectedDisposition.tenantId !== Session.tenant.tenantId || !('UPDATE_DISPOSITIONS' | hasPermission)"></textarea>
 </div>
 
 <div class="input-group">

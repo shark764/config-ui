@@ -60,7 +60,7 @@
 <div ng-show="!qc.selectedQueue.isNew()" class="queue-versions">
   <div class="divider-header">
     <h4>Versions</h4>
-    <a id="add-queue-version-btn" class="btn pull-right" title="Create new version" ng-click="qc.addQueueVersion()"><i class="fa fa-plus"></i></a>
+    <a id="add-queue-version-btn" ng-disabled="!('MANAGE_ALL_QUEUES' | hasPermission)" class="btn pull-right" title="Create new version" ng-click="qc.addQueueVersion()"><i class="fa fa-plus"></i></a>
   </div>
   <loading ng-show="! qc.versions.$resolved && ! qc.versions.length"></loading>
   <p id="no-versions-msg" ng-show="qc.versions.$resolved && qc.versions.length < 1" class="null">{{'queue.details.version.none' | translate}}</p>

@@ -56,7 +56,7 @@ angular.module('liveopsConfigPanel')
       'searchOn': ['$original.name'],
       'orderBy': '$original.name',
       'title' : $translate.instant('dispositionLists.table.title'),
-      'sref' : 'content.configuration.dispositionLists',
+      'sref' : 'content.flows.dispositionLists',
       'showCreate': function () {
         return UserPermissions.hasPermission('CREATE_DISPOSITION_LIST');
       },
