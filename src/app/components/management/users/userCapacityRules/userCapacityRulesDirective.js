@@ -22,8 +22,8 @@ angular.module('liveopsConfigPanel')
         function reset(){
           TenantUser.cachedGet({
             tenantId: Session.tenant.tenantId,
-            id: $scope.user.id,
-          }, 'User' +  $scope.user.id)
+            id: $scope.user.id
+          }, 'User' +  $scope.user.id, true)
           .$promise.then(function(user){
             $timeout(function(){
               if(user.$capacityRules[0]){
