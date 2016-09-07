@@ -3,7 +3,7 @@
 </div>
 
 <div>
-  <div class="input-group">
+  <div class="input-group" disable-contents="! ('MAP_ALL_CONTACT_POINTS' | hasPermission)">
     <label>{{'value.name' | translate}} *</label>
     <form-error field="forms.dispatchMappingForm.name"
       error-type-required="{{'value.error.name.required' | translate}}">
@@ -15,7 +15,7 @@
     </div>
   </div>
 
-  <div class="input-group">
+  <div class="input-group" disable-contents="! ('MAP_ALL_CONTACT_POINTS' | hasPermission)">
     <label class="textarea-label">{{'value.description' | translate}}</label>
     <div>
       <textarea name="description"

@@ -7,7 +7,7 @@ angular.module('liveopsConfigPanel')
         restrict: 'E',
         scope: {},
         require: '?^bulkActionExecutor',
-        templateUrl: 'app/components/configuration/reasons/bulkActions/reasonShared/setReasonSharedBulkAction.html',
+        templateUrl: 'app/components/management/reasons/bulkActions/reasonShared/setReasonSharedBulkAction.html',
         link: function($scope, elem, attr, bulkActionExecutor) {
           $scope.bulkAction = new BulkAction();
           $scope.statuses = reasonsTableConfig.fields.filter(function(item) {

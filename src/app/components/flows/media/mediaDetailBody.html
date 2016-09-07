@@ -53,6 +53,7 @@
         ngf-select="mediaDetailsController.onSelect()"
         ngf-max-size="100MB"
         ng-model="selectedMedia.$sourceAudioFile"
+        ng-disabled="!('MANAGE_ALL_MEDIA' | hasPermission)"
         accept="audio/*">
         <i class="fa fa-upload" />
       </div>

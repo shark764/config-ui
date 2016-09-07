@@ -7,7 +7,7 @@ angular.module('liveopsConfigPanel')
         restrict: 'E',
         scope: {},
         require: '?^bulkActionExecutor',
-        templateUrl: 'app/components/configuration/reasons/bulkActions/reasonStatus/setReasonStatusBulkAction.html',
+        templateUrl: 'app/components/management/reasons/bulkActions/reasonStatus/setReasonStatusBulkAction.html',
         link: function($scope, elem, attr, bulkActionExecutor) {
           $scope.bulkAction = new BulkAction();
           $scope.statuses = statuses();
