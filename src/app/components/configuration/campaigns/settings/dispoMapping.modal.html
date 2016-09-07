@@ -1,7 +1,7 @@
-<div class="publish disposition-modal" >
+<div class="publish disposition-modal">
   <h3 class="header">{{title}}</h3>
   <loading class="dispo-loading" ng-if="dispoLoading"></loading>
-  <ng-form name="forms.dispositionMapping" class="disposition-mapping-form" ng-if="!dispoLoading">
+  <ng-form name="forms.dispositionMapping" class="disposition-mapping-form" ng-if="!dispoLoading" disable-contents="!(['MANAGE_CAMPAIGNS'] | hasPermission)">
     <div class="input-group disposition-map">
       <table class="disposition-table">
         <tr>

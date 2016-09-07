@@ -106,20 +106,20 @@ angular.module('liveopsConfigPanel')
           });
         }
 
-        if (UserPermissions.hasPermissionInList(['UPDATE_PRESENCE_REASONS'])) {
+        if (UserPermissions.hasPermissionInList(PermissionGroups.viewReasons)) {
           items.push({
-            label: $translate.instant('navbar.configuration.reasons.title'),
-            stateLink: 'content.configuration.reasons',
-            id: 'reasons-configuration-link',
+            label: $translate.instant('navbar.management.reasons.title'),
+            stateLink: 'content.management.reasons',
+            id: 'reasons-management-link',
             order: 2
           });
         }
 
-        if (UserPermissions.hasPermissionInList(['UPDATE_REASON_LIST'])) {
+        if (UserPermissions.hasPermissionInList(PermissionGroups.viewReasonLists)) {
           items.push({
-            label: $translate.instant('navbar.configuration.reasons.lists.title'),
-            stateLink: 'content.configuration.reasonLists',
-            id: 'reason-lists-configuration-link',
+            label: $translate.instant('navbar.management.reasons.lists.title'),
+            stateLink: 'content.management.reasonLists',
+            id: 'reason-lists-management-link',
             order: 3
           });
         }
@@ -170,7 +170,7 @@ angular.module('liveopsConfigPanel')
       vm.getConfigurationConfig = function() {
         var items = [];
 
-        if (UserPermissions.hasPermissionInList(PermissionGroups.accessTenants)) {
+        if (UserPermissions.hasPermissionInList(PermissionGroups.viewTenants)) {
           items.push({
             label: $translate.instant('navbar.configuration.tenants.title'),
             stateLink: 'content.configuration.tenants',
@@ -179,7 +179,7 @@ angular.module('liveopsConfigPanel')
           });
         }
 
-        if (UserPermissions.hasPermissionInList(PermissionGroups.accessAllIntegrations)) {
+        if (UserPermissions.hasPermissionInList(PermissionGroups.viewIntegrations)) {
           items.push({
             label: $translate.instant('navbar.configuration.integrations.title'),
             stateLink: 'content.configuration.integrations',
@@ -197,7 +197,7 @@ angular.module('liveopsConfigPanel')
           });
         }
 
-        if (UserPermissions.hasPermissionInList(PermissionGroups.accessAllBusinessHours)) {
+        if (UserPermissions.hasPermissionInList(PermissionGroups.viewBusinessHours) || UserPermissions.hasPermissionInList(PermissionGroups.manageBusinessHours)) {
           items.push({
             label: $translate.instant('navbar.configuration.bh.title'),
             stateLink: 'content.configuration.hours',
@@ -208,16 +208,14 @@ angular.module('liveopsConfigPanel')
 
         // BEGIN OUTBOUND FEATURE FLAG...
         if (appFlags.OUTBOUND_PAGES) {
-          if (UserPermissions.hasPermissionInList(PermissionGroups.accessAllCampaigns)) {
+          if (UserPermissions.hasPermissionInList(PermissionGroups.viewCampaigns)) {
             items.push({
               label: $translate.instant('navbar.configuration.campaigns.title'),
               stateLink: 'content.configuration.campaigns',
               id: 'campaigns-configuration-link',
               order: 5
             });
-          }
 
-          if (UserPermissions.hasPermissionInList(PermissionGroups.accessAllCampaigns)) {
             items.push({
               label: $translate.instant('navbar.configuration.dnc.title'),
               stateLink: 'content.configuration.dnc',
@@ -234,7 +232,7 @@ angular.module('liveopsConfigPanel')
       vm.getFlowsConfig = function() {
         var items = [];
 
-        if (UserPermissions.hasPermissionInList(PermissionGroups.accessAllFlows)) {
+        if (UserPermissions.hasPermissionInList(PermissionGroups.viewFlows)) {
           items.push({
             label: $translate.instant('navbar.flows.title'),
             stateLink: 'content.flows.flowManagement',
@@ -245,18 +243,18 @@ angular.module('liveopsConfigPanel')
 
         if (UserPermissions.hasPermissionInList(['UPDATE_DISPOSITIONS'])) {
           items.push({
-            label: $translate.instant('navbar.configuration.dispositions.title'),
-            stateLink: 'content.configuration.dispositions',
-            id: 'dispositions-configuration-link',
+            label: $translate.instant('navbar.flows.dispositions.title'),
+            stateLink: 'content.flows.dispositions',
+            id: 'dispositions-flows-link',
             order: 2
           });
         }
 
         if (UserPermissions.hasPermissionInList(['UPDATE_DISPOSITION_LIST'])) {
           items.push({
-            label: $translate.instant('navbar.configuration.dispositions.lists.title'),
-            stateLink: 'content.configuration.dispositionLists',
-            id: 'disposition-lists-configuration-link',
+            label: $translate.instant('navbar.flows.dispositions.lists.title'),
+            stateLink: 'content.flows.dispositionLists',
+            id: 'disposition-lists-flows-link',
             order: 3
           });
         }

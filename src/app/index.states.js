@@ -129,7 +129,7 @@ angular.module('liveopsConfigPanel')
           reloadOnSearch: false,
           resolve: {
             hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
-              return UserPermissions.resolvePermissions(PermissionGroups.accessTenants);
+              return UserPermissions.resolvePermissions(PermissionGroups.viewTenants);
             }]
           }
         })
@@ -153,7 +153,7 @@ angular.module('liveopsConfigPanel')
           reloadOnSearch: false,
           resolve: {
             hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
-              return UserPermissions.resolvePermissions(PermissionGroups.accessAllLists);
+              return UserPermissions.resolvePermissions(PermissionGroups.viewCampaigns);
             }]
           }
         })
@@ -162,51 +162,27 @@ angular.module('liveopsConfigPanel')
           abstract: true,
           template: '<ui-view />'
         })
-        .state('content.configuration.dispositions', {
-          url: '/dispositions?id',
-          title: 'Flows - Disposition Management',
-          templateUrl: 'app/components/configuration/dispositions/dispositions.html',
-          controller: 'dispositionsController as dc',
-          reloadOnSearch: false,
-          resolve: {
-            hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
-              return UserPermissions.resolvePermissions(PermissionGroups.accessDispositions);
-            }]
-          }
-        })
-        .state('content.configuration.dispositionLists', {
-          url: '/dispositionLists?id',
-          title: 'Flows - Disposition List Management',
-          templateUrl: 'app/components/configuration/dispositions/dispositionLists/dispositionLists.html',
-          controller: 'dispositionListsController as dlc',
-          reloadOnSearch: false,
-          resolve: {
-            hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
-              return UserPermissions.resolvePermissions(PermissionGroups.accessDispositionLists);
-            }]
-          }
-        })
-        .state('content.configuration.reasons', {
+        .state('content.management.reasons', {
           url: '/reasons?id',
           title: 'User Management - Presence Reasons ',
-          templateUrl: 'app/components/configuration/reasons/reasons.html',
+          templateUrl: 'app/components/management/reasons/reasons.html',
           controller: 'reasonsController as rc',
           reloadOnSearch: false,
           resolve: {
             hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
-              return UserPermissions.resolvePermissions(PermissionGroups.accessReasons);
+              return UserPermissions.resolvePermissions(PermissionGroups.viewReasons);
             }]
           }
         })
-        .state('content.configuration.reasonLists', {
+        .state('content.management.reasonLists', {
           url: '/reasonLists?id',
           title: 'User Management - Presence Reasons Lists',
-          templateUrl: 'app/components/configuration/reasons/reasonLists/reasonLists.html',
+          templateUrl: 'app/components/management/reasons/reasonLists/reasonLists.html',
           controller: 'reasonListsController as rlc',
           reloadOnSearch: false,
           resolve: {
             hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
-              return UserPermissions.resolvePermissions(PermissionGroups.accessReasonLists);
+              return UserPermissions.resolvePermissions(PermissionGroups.viewReasonLists);
             }]
           }
         })
@@ -218,7 +194,7 @@ angular.module('liveopsConfigPanel')
           reloadOnSearch: false,
           resolve: {
             hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
-              return UserPermissions.resolvePermissions(PermissionGroups.accessAllIntegrations);
+              return UserPermissions.resolvePermissions(PermissionGroups.viewIntegrations);
             }]
           }
         })
@@ -230,7 +206,7 @@ angular.module('liveopsConfigPanel')
           reloadOnSearch: false,
           resolve: {
             hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
-              return UserPermissions.resolvePermissions(PermissionGroups.accessAllBusinessHours);
+              return UserPermissions.hasPermissionInList(PermissionGroups.viewBusinessHours) || UserPermissions.resolvePermissions(PermissionGroups.manageBusinessHours);
             }]
           }
         })
@@ -244,7 +220,7 @@ angular.module('liveopsConfigPanel')
           reloadOnSearch: false,
           resolve: {
             hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
-              return UserPermissions.resolvePermissions(PermissionGroups.accessAllCampaigns);
+              return UserPermissions.resolvePermissions(PermissionGroups.viewCampaigns);
             }]
           }
         })
@@ -256,7 +232,7 @@ angular.module('liveopsConfigPanel')
           reloadOnSearch: false,
           resolve: {
             hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
-              return UserPermissions.resolvePermissions(PermissionGroups.accessAllCampaigns);
+              return UserPermissions.resolvePermissions(PermissionGroups.viewCampaigns);
             }],
             getCampaignId: ['$stateParams', function ($stateParams) {
               return $stateParams.id;
@@ -271,7 +247,7 @@ angular.module('liveopsConfigPanel')
           reloadOnSearch: false,
           resolve: {
             hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
-              return UserPermissions.resolvePermissions(PermissionGroups.accessAllCampaigns);
+              return UserPermissions.resolvePermissions(PermissionGroups.viewCampaigns);
             }]
           }
         })
@@ -303,6 +279,30 @@ angular.module('liveopsConfigPanel')
           resolve: {
             hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
               return UserPermissions.resolvePermissions(PermissionGroups.accessAllQueues);
+            }]
+          }
+        })
+        .state('content.flows.dispositions', {
+          url: '/dispositions?id',
+          title: 'Flows - Disposition Management',
+          templateUrl: 'app/components/flows/dispositions/dispositions.html',
+          controller: 'dispositionsController as dc',
+          reloadOnSearch: false,
+          resolve: {
+            hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
+              return UserPermissions.resolvePermissions(PermissionGroups.accessDispositions);
+            }]
+          }
+        })
+        .state('content.flows.dispositionLists', {
+          url: '/dispositionLists?id',
+          title: 'Flows - Disposition List Management',
+          templateUrl: 'app/components/flows/dispositions/dispositionLists/dispositionLists.html',
+          controller: 'dispositionListsController as dlc',
+          reloadOnSearch: false,
+          resolve: {
+            hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
+              return UserPermissions.resolvePermissions(PermissionGroups.accessDispositionLists);
             }]
           }
         })

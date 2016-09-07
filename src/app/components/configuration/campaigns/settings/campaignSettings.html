@@ -175,7 +175,7 @@
           <table class="dnc-table">
             <tr ng-repeat="dncList in csc.selectedLists">
               <td class="dnclist-name">{{dncList.name}}</td>
-              <td class="remove-dnc"><i class="fa fa-close remove list" ng-click="csc.removeDNC($index)"></i></td>
+              <td class="remove-dnc"><i class="fa fa-close remove list" ng-if="(['MANAGE_CAMPAIGNS'] | hasPermission)" ng-click="csc.removeDNC($index)"></i></td>
             </tr>
           </table>
         </div>
@@ -194,6 +194,7 @@
      <div class="input-group extra-padding">
         <label>{{'campaigns.details.setting.dispositionList' | translate}} *</label>
         <select name="dispositionId"
+            ng-disabled="!(['MANAGE_CAMPAIGNS'] | hasPermission)"
             ng-model="csc.versionSettings.dispositionCodeListId"
             ng-options="disposition.id as disposition.name for disposition in csc.dispositionLists"
             required
@@ -320,7 +321,7 @@
       </form-error>
       <div class="lo-error" ng-if="csc.exceptionTimeIsInvalid">{{'campaigns.details.settings.time.invalid' | translate}}</div>
 
-      <div class="exceptions-form nowrap" title="{{'campaigns.details.settings.exceptToolip' | translate}}">
+      <div class="exceptions-form nowrap" title="{{'campaigns.details.settings.exceptToolip' | translate}}" disable-contents="!(['MANAGE_CAMPAIGNS'] | hasPermission)">
         <ng-form name="forms.exceptionsForm" separate-validation>
           <div class="schedule-exception-date-group" >
             <input type="text"
@@ -408,7 +409,7 @@
                   <a class="remove"
                     title="{{'hours.exception.remove' | translate}}"
                     ng-click="hec.removeException(exception.$originalIndex)">
-                    <i class="fa fa-times" ng-click="csc.removeException($index)"></i>
+                    <i class="fa fa-times" ng-if="(['MANAGE_CAMPAIGNS'] | hasPermission)" ng-click="csc.removeException($index)"></i>
                   </a>
                 </td>
               </tr>
