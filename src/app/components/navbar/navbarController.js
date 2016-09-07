@@ -232,7 +232,7 @@ angular.module('liveopsConfigPanel')
       vm.getFlowsConfig = function() {
         var items = [];
 
-        if (UserPermissions.hasPermissionInList(PermissionGroups.viewFlows)) {
+        if (UserPermissions.hasPermissionInList(PermissionGroups.accessAllFlows)) {
           items.push({
             label: $translate.instant('navbar.flows.title'),
             stateLink: 'content.flows.flowManagement',
