@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('realtimeDashboardsManagementTableConfig', ['$translate',
-    function($translate) {
+  .service('realtimeDashboardsManagementTableConfig', ['$translate', 'UserPermissions',
+    function($translate, UserPermissions) {
       return {
         'fields': [{
           'header': {
@@ -15,7 +15,9 @@ angular.module('liveopsConfigPanel')
         'title': $translate.instant('realtimeDashboards.table.title'),
         'sref': 'content.realtime-dashboards-management',
         'showBulkActions': false,
-        'showCreate': true
+        'showCreate': function() {
+          return UserPermissions.hasPermissionInList(['MANAGE_ALL_REALTIME_DASHBOARDS']);
+        }
       };
     }
   ]);
