@@ -4,6 +4,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 * CXV1-4469 - Fixed issue with wrong capacity rule being selected on users page
+* CXV1-4859 - Add tooltips to Settings page controls
 
 ## [4.1.21]
 * (no ticket) - Added back feature flag since Outbound is no longer the next release
