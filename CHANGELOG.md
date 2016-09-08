@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+* CXV1-4469 - Fixed issue with wrong capacity rule being selected on users page
 
 ## [4.1.21]
 * (no ticket) - Added back feature flag since Outbound is no longer the next release
