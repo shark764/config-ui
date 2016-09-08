@@ -145,7 +145,13 @@ angular.module('liveopsConfigPanel')
 
     function parseString(stringToParse) {
       try {
+        var counter = 0;
+        stringToParse = stringToParse.replace(/#uuid/g, function(match) {
+          counter++;
+          return match + counter;
+        });
         var newQuery = jsedn.parse(stringToParse);
+        replaceUUID(newQuery);
         query = newQuery;
         ednString = toEdnString(query);
         return query;
@@ -161,31 +167,54 @@ angular.module('liveopsConfigPanel')
     function makeNewClause(type, itemId, condition) {
       if (type === keywordEnum.SKILLS) {
         var comparator = new jsedn.List([keywordEnum[condition[0]], condition[1]]);
-        return new jsedn.Map([itemId, comparator]);
+        return new jsedn.Map([new jsedn.Tagged(new jsedn.Tag('uuid'), itemId), comparator]);
       }
-      return new jsedn.Set([itemId]);
+      return new jsedn.Set([new jsedn.Tagged(new jsedn.Tag('uuid'), itemId)]);
     }
 
     function pushNewRule(type, queryGroup, itemId, condition) {
       if (type === keywordEnum.SKILLS) {
         var comparator = new jsedn.List([keywordEnum[condition[0]], condition[1]]);
-        queryGroup.set(itemId, comparator);
+        queryGroup.set(new jsedn.Tagged(new jsedn.Tag('uuid'), itemId), comparator);
         return;
       }
-      queryGroup.val.push(itemId);
+      queryGroup.val.push(new jsedn.Tagged(new jsedn.Tag('uuid'), itemId));
     }
 
     function deleteIdFromQuery(type, queryGroup, itemId) {
       if (type === keywordEnum.SKILLS) {
         queryGroup.keys.forEach(function(key, index) {
-          if (key === itemId) {
+          if (key._obj === itemId) {
             queryGroup.keys.splice(index, 1);
             queryGroup.vals.splice(index, 1);
           }
         });
         return;
       }
-      _.pull(queryGroup.val, itemId);
+      console.log("Comparing to ", itemId)
+      _.remove(queryGroup.val, function(value) {
+        console.log("Examining ", value);
+        return value._obj === itemId;
+      });
+    }
+
+    function replaceUUID(obj) {
+      if (Array.isArray(obj)) {
+        obj.forEach(function(val, idx) {
+          replaceUUID(val);
+        });
+      } else {
+        for (var prop in obj) {
+          if (obj[prop] === null || !obj.hasOwnProperty(prop)) {
+            continue;
+          }
+          if (typeof obj[prop] === 'object') {
+            replaceUUID(obj[prop]);
+          } else if (obj.hasOwnProperty('_tag')) {
+            obj._tag = new jsedn.Tag('uuid');
+          }
+        }
+      }
     }
 
   }]);
