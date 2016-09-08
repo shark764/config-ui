@@ -326,7 +326,7 @@ describe('NavbarController', function() {
     }));
 
     it('should add the Tenants link if the user has permissions', inject(function(UserPermissions, filterFilter) {
-      var permissionsList = ['PLATFORM_VIEW_ALL_TENANTS', 'PLATFORM_MANAGE_ALL_TENANTS', 'PLATFORM_CREATE_ALL_TENANTS', 'PLATFORM_CREATE_TENANT_ROLES', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_TENANT'];
+      var permissionsList = ['PLATFORM_VIEW_ALL_TENANTS', 'MANAGE_TENANT'];
       var currentPermission;
       spyOn(UserPermissions, 'hasPermission').and.callFake(function(permission) {
         switch (permission) {
@@ -425,7 +425,7 @@ describe('NavbarController', function() {
     }));
 
     it('should add the Integrations link if the user has permissions', inject(function(UserPermissions, filterFilter) {
-      var permissionsList = ['VIEW_ALL_PROVIDERS', 'MANAGE_ALL_PROVIDERS'];
+      var permissionsList = ['VIEW_ALL_PROVIDERS'];
       var currentPermission;
       spyOn(UserPermissions, 'hasPermission').and.callFake(function(permission) {
         switch (permission) {
@@ -458,7 +458,7 @@ describe('NavbarController', function() {
     }));
 
     it('should add the Flows link if the user has permissions', inject(function(UserPermissions, filterFilter) {
-      var permissionsList = ['VIEW_ALL_FLOWS', 'MANAGE_ALL_FLOWS', 'MAP_ALL_CONTACT_POINTS'];
+      var permissionsList = ['VIEW_ALL_FLOWS'];
       var currentPermission;
       spyOn(UserPermissions, 'hasPermission').and.callFake(function(permission) {
         switch (permission) {
@@ -491,7 +491,7 @@ describe('NavbarController', function() {
     }));
 
     it('should add the Queues link if the user has permissions', inject(function(UserPermissions, filterFilter) {
-      var permissionsList = ['VIEW_ALL_FLOWS', 'MANAGE_ALL_FLOWS', 'MANAGE_ALL_QUEUES'];
+      var permissionsList = ['VIEW_ALL_FLOWS'];
       var currentPermission;
       spyOn(UserPermissions, 'hasPermission').and.callFake(function(permission) {
         switch (permission) {
@@ -525,7 +525,7 @@ describe('NavbarController', function() {
     }));
 
     it('should add the Media Collections link if the user has permissions', inject(function(UserPermissions, filterFilter) {
-      var permissionsList = ['VIEW_ALL_MEDIA', 'VIEW_ALL_FLOWS', 'MANAGE_ALL_FLOWS'];
+      var permissionsList = ['VIEW_ALL_MEDIA'];
       var currentPermission;
       spyOn(UserPermissions, 'hasPermission').and.callFake(function(permission) {
         switch (permission) {
@@ -558,7 +558,7 @@ describe('NavbarController', function() {
     }));
 
     it('should add the Media link if the user has permissions', inject(function(UserPermissions, filterFilter) {
-      var permissionsList = ['VIEW_ALL_MEDIA', 'VIEW_ALL_FLOWS', 'MANAGE_ALL_FLOWS'];
+      var permissionsList = ['VIEW_ALL_MEDIA'];
       var currentPermission;
       spyOn(UserPermissions, 'hasPermission').and.callFake(function(permission) {
         switch (permission) {
@@ -591,7 +591,7 @@ describe('NavbarController', function() {
     }));
 
     it('should add the Dispatch Mappings link if the user has permissions', inject(function(UserPermissions, filterFilter) {
-      var permissionsList = ['VIEW_ALL_CONTACT_POINTS', 'MAP_ALL_CONTACT_POINTS'];
+      var permissionsList = ['VIEW_ALL_CONTACT_POINTS'];
       var currentPermission;
       spyOn(UserPermissions, 'hasPermission').and.callFake(function(permission) {
         switch (permission) {

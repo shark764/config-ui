@@ -595,10 +595,8 @@ angular.module('liveopsConfigPanel')
           controller: 'RealtimeDashboardsManagementController',
           reloadOnSearch: false,
           resolve: {
-            hasPermission: ['UserPermissions', function(UserPermissions) {
-              return UserPermissions.resolvePermissions([
-                'VIEW_ALL_REALTIME_DASHBOARDS'
-              ]);
+            hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
+              return UserPermissions.resolvePermissions(PermissionGroups.viewDashboards);
             }],
             dashboards: ['RealtimeDashboardsSettings', function(RealtimeDashboardsSettings) {
               return _.filter(RealtimeDashboardsSettings.mockDashboards, function(dash) {
@@ -613,11 +611,8 @@ angular.module('liveopsConfigPanel')
           templateUrl: 'app/components/reporting/realtime/realtimeDashboardEditor/realtimeDashboardsEditor.html',
           controller: 'realtimeDashboardsEditorController',
           resolve: {
-            hasPermission: ['UserPermissions', function(UserPermissions) {
-              return UserPermissions.resolvePermissions([
-                'VIEW_ALL_REALTIME_DASHBOARDS',
-                'MANAGE_ALL_REALTIME_DASHBOARDS'
-              ]);
+            hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
+              return UserPermissions.resolvePermissions(PermissionGroups.viewDashboards);
             }],
             dashboard: ['$stateParams', 'Session', 'RealtimeDashboard', 'RealtimeDashboardsSettings', '$q', function($stateParams, Session, RealtimeDashboard, RealtimeDashboardsSettings, $q) {
               var deferred = $q.defer();
@@ -677,10 +672,8 @@ angular.module('liveopsConfigPanel')
           controller: 'RealtimeDashboardsController',
           reloadOnSearch: false,
           resolve: {
-            hasPermission: ['UserPermissions', function(UserPermissions) {
-              return UserPermissions.resolvePermissions([
-                'VIEW_ALL_REALTIME_DASHBOARDS'
-              ]);
+            hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
+              return UserPermissions.resolvePermissions(PermissionGroups.viewDashboards);
             }],
             dashboard: ['$stateParams', '$state', 'RealtimeDashboardsSettings', 'RealtimeDashboard', 'Session', '$q', function($stateParams, $state, RealtimeDashboardsSettings, RealtimeDashboard, Session, $q) {
 
@@ -765,7 +758,7 @@ angular.module('liveopsConfigPanel')
           reloadOnSearch: false,
           resolve: {
             hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
-              return UserPermissions.resolvePermissions(PermissionGroups.accessAllCustomStats);
+              return UserPermissions.resolvePermissions(PermissionGroups.viewCustomStats);
             }]
           }
         })
@@ -776,7 +769,7 @@ angular.module('liveopsConfigPanel')
           controller: 'customStatsEditorController',
           resolve: {
             hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
-              return UserPermissions.resolvePermissions(PermissionGroups.accessAllCustomStats);
+              return UserPermissions.resolvePermissions(PermissionGroups.viewCustomStats);
             }],
             customStat: ['$stateParams', 'Session', 'CustomStat', '$q', function($stateParams, Session, CustomStat, $q) {
               var deferred = $q.defer();
@@ -819,7 +812,7 @@ angular.module('liveopsConfigPanel')
           controller: 'customStatsEditorController',
           resolve: {
             hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
-              return UserPermissions.resolvePermissions(PermissionGroups.accessAllCustomStats);
+              return UserPermissions.resolvePermissions(PermissionGroups.viewCustomStats);
             }],
             customStat: ['$stateParams', 'Session', 'CustomStat', '$q', function($stateParams, Session, CustomStat, $q) {
               var deferred = $q.defer();

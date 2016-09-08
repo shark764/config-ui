@@ -51,6 +51,6 @@
       <audit-text translation="value.displayName" user-id="version.createdBy"></audit-text>
     </td>
     <td><a ng-click="viewVersion(version)">view</a></td>
-    <td><a ng-click="onEditClick({version: version})">edit</a></td>
+    <td><a ng-if="('CUSTOM_STATS_CREATE' | hasPermission)" ng-click="onEditClick({version: version})">edit</a></td>
   </tr>
 </table>

@@ -297,14 +297,25 @@ angular.module('liveopsConfigPanel')
       };
 
       vm.getReportingConfig = function() {
-        var items = [
-          {
+        var items = [];
+
+        if (UserPermissions.hasPermissionInList(PermissionGroups.viewDashboards)) {
+          items.push({
             label: $translate.instant('navbar.reports.rtd.title'),
             stateLink: 'content.realtime-dashboards-management.viewer({dashboardId: "overview-dashboard"})',
             id: 'realtime-dashboard-link',
             order: 1
-          },
-          {
+          });
+
+          items.push({
+            label: $translate.instant('navbar.reports.rtdCustom.title'),
+            stateLink: 'content.realtime-dashboards-management',
+            id: 'custom-realtime-dashboard-link',
+            order: 2
+          });
+
+          // Grouping historical dashboards with realtime for now. Need to find out why there's no historical dashboards permissions
+          items.push({
             label: $translate.instant('navbar.reports.hd.title'),
             stateLink: 'content.reports',
             stateLinkParams: {
@@ -312,25 +323,19 @@ angular.module('liveopsConfigPanel')
             },
             id: 'reports-management-link',
             order: 3
-          },
-          {
+          });
+        }
+
+        if (UserPermissions.hasPermissionInList(PermissionGroups.viewRecordings)) {
+          items.push({
             label: 'Recordings',
             stateLink: 'content.recordings',
             id: 'recording-management-link',
             order: 4
-          }
-        ];
-
-        if (UserPermissions.hasPermissionInList(PermissionGroups.accessAllRealtimeDashboards)) {
-          items.push({
-            label: $translate.instant('navbar.reports.rtdCustom.title'),
-            stateLink: 'content.realtime-dashboards-management',
-            id: 'custom-realtime-dashboard-link',
-            order: 2
           });
         }
 
-        if (UserPermissions.hasPermissionInList(PermissionGroups.accessAllCustomStats)) {
+        if (UserPermissions.hasPermissionInList(PermissionGroups.viewCustomStats)) {
           items.push({
             label: 'Custom Statistics',
             stateLink: 'content.reporting.custom-stats',

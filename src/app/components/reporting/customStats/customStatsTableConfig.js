@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('customStatsManagementTableConfig', ['$translate', 'helpDocsHostname',
-    function($translate, helpDocsHostname) {
+  .service('customStatsManagementTableConfig', ['$translate', 'helpDocsHostname', 'UserPermissions',
+    function($translate, helpDocsHostname, UserPermissions) {
       return {
         'fields': [{
           'header': {
@@ -28,7 +28,9 @@ angular.module('liveopsConfigPanel')
         'title': $translate.instant('customStat.table.title'),
         'sref': 'content.reporting.custom-stats',
         'showBulkActions': false,
-        'showCreate': true
+        'showCreate': function() {
+          return UserPermissions.hasPermission('CUSTOM_STATS_CREATE');
+        }
       };
     }
   ]);
