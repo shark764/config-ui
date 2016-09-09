@@ -56,7 +56,7 @@ angular.module('liveopsConfigPanel')
       'searchOn': ['$original.name'],
       'orderBy': '$original.name',
       'title' : $translate.instant('reasons.table.title'),
-      'sref' : 'content.configuration.reasons',
+      'sref' : 'content.management.reasons',
       'showCreate': function () {
         return UserPermissions.hasPermission('CREATE_PRESENCE_REASONS');
       },
