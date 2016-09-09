@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+* CXV1-4638 - Frontend for zendesk integrations
 * CXV1-4469 - Fixed issue with wrong capacity rule being selected on users page
 * CXV1-4859 - Add tooltips to Settings page controls
 
