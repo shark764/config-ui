@@ -95,7 +95,7 @@
         <td colspan="5">
           <div disable-contents="! ('MANAGE_ALL_QUEUES' | hasPermission)">
 
-            <readonly-query query="version.query" show-basic-query="showBasicQuery">
+            <readonly-query query="version.query" show-basic-query="showBasicQuery" version="qc.VERSION_NUM">
 
               <!-- Basic Query -->
               <div id="version-basic-query-details" ng-show="showBasicQuery" class="input-group">
@@ -104,10 +104,10 @@
                   ng-click="showBasicQuery = !showBasicQuery;">
                       {{'queue.details.version.query.advanced.link' | translate}}
                 </a>
-                <query-builder ng-if="qc.VERSION_NUM === 2" query-string="query" read-only="true"></query-builder>
-                <p ng-if="qc.VERSION_NUM === 1" class="null" ng-show="!ednQuery">{{'queue.details.version.query.basic.invalid' | translate}}</p>
+                <query-builder ng-if="version === 2" query-string="query" read-only="true"></query-builder>
+                <p ng-if="version === 1" class="null" ng-show="!ednQuery">{{'queue.details.version.query.basic.invalid' | translate}}</p>
 
-                <div ng-if="qc.VERSION_NUM === 1" ng-repeat="escalation in ednQuery.escalations">
+                <div ng-if="version === 1" ng-repeat="escalation in ednQuery.escalations">
                   <div class="basic-readonly-query">
                     <h3 ng-show="escalation.afterSecondsInQueue > 0 && escalation.afterSecondsInQueue % 60 !== 0">
                       {{'queue.query.readonly.after.seconds' | translate:{seconds:escalation.afterSecondsInQueue} }}
