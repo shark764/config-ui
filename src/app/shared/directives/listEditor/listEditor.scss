@@ -4,6 +4,10 @@
   margin: 10px auto;
   width: 95%;
 
+  .fixdisplay {
+    display: -moz-inline-box;
+  }
+
   .list-controls {
     border-bottom: #CCCCCC solid 1px;
     height: 48px;
