@@ -25,6 +25,7 @@
         <div class="divider-header first-header">
           <h4>{{'campaigns.details.settings' | translate}}</h4>
         </div>
+          <p class="null msg">{{'campaigns.details.defaults' | translate}}</p>
       </div>
 
       <div disable-contents="! (['MANAGE_CAMPAIGNS'] | hasPermission)">
@@ -36,7 +37,7 @@
         <div class="input-group extra-padding">
           <label>{{'campaigns.details.settings.channelType' | translate}} *</label>
           <div>
-            <select required ng-model="csc.versionSettings.channel" ng-options="channel for channel in csc.campaignChannels" ng-disabled="csc.campaignChannels.length < 2" title="{{'campaigns.details.settings.typeTooltip' | translate}}">
+            <select required ng-model="csc.versionSettings.channel" ng-options="channel for channel in csc.campaignChannels" ng-disabled="csc.campaignChannels.length < 2">
               <option disabled value="">{{'campaigns.details.channelDropdownDefault' | translate}}</option>
             </select>
           </div>
@@ -85,7 +86,7 @@
         <div class="input-group extra-padding">
           <label>{{'details.flow' | translate}} *</label>
           <div>
-            <select name="flowId" required ng-model="csc.versionSettings.flowId" ng-options="flow.id as flow.name for flow in csc.flows" title="{{'campaigns.details.settings.flowTooltip' | translate}}">
+            <select name="flowId" required ng-model="csc.versionSettings.flowId" ng-options="flow.id as flow.name for flow in csc.flows">
               <option disabled value="">{{'campaigns.details.flow' | translate}}</option>
             </select>
           </div>
@@ -107,7 +108,6 @@
           <select name="region"
             ng-model="csc.versionSettings.defaultRegion"
             ng-options="region.code as region.name for region in csc.regions"
-            title="{{'campaigns.details.settings.regionTooltip' | translate}}"
             required>
             <option value="" disabled>{{'campaigns.details.settings.select.region' | translate}}</option>
           </select>
@@ -122,7 +122,6 @@
           <select name="timezone"
             ng-model="csc.versionSettings.defaultTimeZone"
             ng-options="timezone.timezone as timezone.getDisplay() for timezone in csc.timezones | orderBy:'offsetInMilliseconds'"
-            title="{{'campaigns.details.settings.timezoneTooltip' | translate}}"
             required>
             <option value="" disabled>{{'campaigns.details.settings.select.timezone' | translate}}</option>
           </select>
@@ -153,9 +152,7 @@
           <div id="dnc-list">
             <select name="dncListId" class="do-not-call"
                 ng-model="csc.selectedDncList"
-                title="{{'campaigns.details.settings.dncTooltip' | translate}}"
-                ng-options="dncList.id as dncList.name for dncList in csc.dncLists | orderBy:'name'"
-                title="{{'campaigns.details.settings.dncTooltip' | translate}}">
+                ng-options="dncList.id as dncList.name for dncList in csc.dncLists | orderBy:'name'">
                <option value="" disabled>{{'campaigns.details.settings.select.dnc' | translate}}</option>
             </select>
          </div>
@@ -211,11 +208,14 @@
 
     <div class="col-2">
       <div class="spacing" disable-contents="! (['MANAGE_CAMPAIGNS'] | hasPermission)">
-          <div class="divider-header first-header">
-            <h4>{{'campaigns.details.setting.redial' | translate}}</h4>
+          <div class="input-group">
+            <div class="divider-header first-header">
+              <h4>{{'campaigns.details.setting.redial' | translate}}</h4>
+            </div>
+            <p class="null msg">{{'campaigns.details.redials' | translate}}</p>
           </div>
 
-          <div class="input-group">
+          <div class="input-group extra-padding">
             <label>{{'campaigns.details.setting.retry' | translate}}</label>
             <input ng-model="csc.versionSettings.defaultLeadRetryInterval"
                    name="defaultLeadRetryInterval"
@@ -225,7 +225,7 @@
                    title="{{'campaigns.details.settings.minretryTooltip' | translate}}"/>
           </div>
 
-          <div class="input-group">
+          <div class="input-group extra-padding">
             <label>{{'campaigns.details.setting.retryMax' | translate}}</label>
             <input ng-model="csc.versionSettings.defaultMaxRetries"
                    title="{{'campaigns.details.settings.maxretryTooltip' | translate}}"
@@ -239,11 +239,15 @@
       </div>
 
       <div disable-contents="! (['MANAGE_CAMPAIGNS'] | hasPermission)">
-        <div class="divider-header first-header">
-          <h4>{{'campaigns.details.setting.scheduling' | translate}}</h4>
+
+        <div class="input-group">
+          <div class="divider-header first-header">
+            <h4>{{'campaigns.details.setting.scheduling' | translate}}</h4>
+          </div>
+          <p class="null msg">{{'campaigns.details.schedule' | translate}}</p>
         </div>
 
-        <div class="input-group time-select" title="{{'campaigns.details.settings.earlycallTooltip' | translate}}">
+        <div class="input-group time-select extra-padding" title="{{'campaigns.details.settings.earlycallTooltip' | translate}}">
           <div class="lo-error" ng-if="csc.scheduleTimeIsInvalid">{{'campaigns.details.settings.time.invalid' | translate}}</div>
           <label>{{'campaigns.details.setting.earliestTime' | translate}} *</label>
           <div title="{{'campaigns.details.settings.earlycallTooltip' | translate}}">
@@ -261,7 +265,7 @@
             </select>
           </div>
         </div>
-        <div class="input-group time-select" title="{{'campaigns.details.settings.latecallTooltip' | translate}}">
+        <div class="input-group time-select extra-padding" title="{{'campaigns.details.settings.latecallTooltip' | translate}}">
           <label>{{'campaigns.details.setting.latestTime' | translate}} *</label>
           <div title="{{'campaigns.details.settings.latecallTooltip' | translate}}">
             <select name="endHour" required ng-model="csc.scheduleEndHour" ng-options="n for n in csc.hours" ng-change="csc.validateTimeAndDate(forms.settingsForm)">
@@ -282,7 +286,7 @@
         <div class="input-group">
           <div class="lo-error" ng-if="csc.noDaysChecked">{{'campaigns.details.settings.day.invalid' | translate}}</div>
         </div>
-        <div class="input-group nowrap" title="{{'campaigns.details.settings.dayscallTooltip' | translate}}">
+        <div class="input-group nowrap  extra-padding" title="{{'campaigns.details.settings.dayscallTooltip' | translate}}">
           <label>{{'campaigns.details.setting.daysToCall' | translate}} *</label>
             {{'campaigns.details.setting.s' | translate}}<input class="week" type="checkbox" name="sunday" ng-model="csc.sundaySelected">
             {{'campaigns.details.setting.m' | translate}}<input class="week" type="checkbox" name="monday" ng-model="csc.mondaySelected">
@@ -294,9 +298,12 @@
         </div>
       </div>
 
-      <div class="divider-header">
-        <h4>{{'campaigns.details.setting.exceptions' | translate}}</h4>
-      </div>
+
+        <div class="divider-header">
+          <h4>{{'campaigns.details.setting.exceptions' | translate}}</h4>
+        </div>
+        <p class="null msg">{{'campaigns.details.exception' | translate}}</p>
+
 
       <form-error field="forms.exceptionsForm.date"
         error-type-date="{{'campaigns.details.settings.date.invalid' | translate}}">
@@ -321,7 +328,7 @@
       </form-error>
       <div class="lo-error" ng-if="csc.exceptionTimeIsInvalid">{{'campaigns.details.settings.time.invalid' | translate}}</div>
 
-      <div class="exceptions-form nowrap" title="{{'campaigns.details.settings.exceptToolip' | translate}}" disable-contents="!(['MANAGE_CAMPAIGNS'] | hasPermission)">
+      <div class="exceptions-form nowrap  extra-padding" disable-contents="!(['MANAGE_CAMPAIGNS'] | hasPermission)">
         <ng-form name="forms.exceptionsForm" separate-validation>
           <div class="schedule-exception-date-group" >
             <input type="text"
@@ -416,7 +423,7 @@
             </tbody>
           </table>
 
-          <div ng-if="!csc.exceptions.length" class="null">
+          <div ng-if="!csc.exceptions.length" class="null msg">
             {{'hours.exception.noneDefined' | translate}} {{'hours.exception.noneDefined.hasPermission' | translate}}
           </div>
         </div>

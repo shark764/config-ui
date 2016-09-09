@@ -1,11 +1,15 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('IntegrationsController', ['$scope', 'Session', 'Integration', 'Tenant', 'Listener', 'integrationTableConfig', 'loEvents', '$q', 'GlobalRegionsList', 'Region',
-    function ($scope, Session, Integration, Tenant, Listener, integrationTableConfig, loEvents, $q, GlobalRegionsList, Region) {
+  .controller('IntegrationsController', ['$scope', 'Session', 'Integration', 'Tenant', 'Listener', 'integrationTableConfig', 'loEvents', '$q', 'GlobalRegionsList', 'Region','appFlags',
+    function ($scope, Session, Integration, Tenant, Listener, integrationTableConfig, loEvents, $q, GlobalRegionsList, Region, appFlags) {
 
       $scope.twilioRegions = GlobalRegionsList;
       $scope.twilioDefaultRegion = GlobalRegionsList[0].twilioId;
+
+      if(appFlags.SHOW_ZENDESK){
+        $scope.showZendesk = true;
+      }
 
       $scope.fetchIntegrations = function () {
         return Integration.cachedQuery({

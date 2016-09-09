@@ -124,6 +124,37 @@
       <p class="null">{{'integration.details.loginUrl.message' | translate}}</p>
     </div>
   </div>
+
+  <div ng-if="selectedIntegration.type == 'zendesk' && showZendesk == true" >
+    <div class="input-group">
+      <label>{{'integration.details.properties.username' | translate}} *</label>
+      <form-error field="forms.detailsForm.username" error-type-required="{{'integration.username.error' | translate}}" ></form-error>
+      <div>
+        <input ng-required="true" type="text" ng-model="selectedIntegration.properties.username" name="username"/>
+      </div>
+    </div>
+    <div class="input-group">
+      <label>{{'integration.details.properties.apiKey' | translate}} *</label>
+      <form-error field="forms.detailsForm.apiKey" error-type-required="{{'integration.apiKey.error' | translate}}" ></form-error>
+      <div>
+        <input ng-required="true" type="text" ng-model="selectedIntegration.properties.authToken" name="apiKey"/>
+      </div>
+    </div>
+    <div class="input-group">
+      <label>{{'integration.details.properties.url' | translate}} *</label>
+      <form-error field="forms.detailsForm.zendeskUrl" error-type-required="{{'integration.zendeskUrl.error' | translate}}" ></form-error>
+      <div>
+        <input ng-required="true" type="text" ng-model="selectedIntegration.properties.endpointPrefix" name="zendeskUrl"/>
+      </div>
+    </div>
+    <div class="input-group">
+      <label>{{'integration.details.properties.interactionFieldId' | translate}} *</label>
+      <form-error field="forms.detailsForm.interactionFieldId" error-type-required="{{'integration.interactionFieldId.error' | translate}}" ></form-error>
+      <div>
+        <input ng-required="true" type="text" ng-model="selectedIntegration.properties.interactionFieldId" name="interactionFieldId"/>
+      </div>
+    </div>
+  </div>
   <!-- Listeners -->
   <div ng-if="selectedIntegration.type == 'salesforce' || selectedIntegration.type == 'facebook'">
     <integration-listeners integration="selectedIntegration" fetch-listeners="fetchListeners()"></integration-listeners>
