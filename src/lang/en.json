@@ -13,6 +13,7 @@
   "value.createdOn": "Created On",
   "value.createdby.time": "Created by {{displayName}} on {{date}}",
   "value.createdon.time": "Created on {{date}}",
+  "value.credentials": "Credentials",
   "value.date": "Date",
   "value.description": "Description",
   "value.designerLink": "Designer Link",

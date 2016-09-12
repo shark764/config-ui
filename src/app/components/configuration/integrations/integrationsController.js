@@ -4,6 +4,8 @@ angular.module('liveopsConfigPanel')
   .controller('IntegrationsController', ['$scope', 'Session', 'Integration', 'Tenant', 'Listener', 'integrationTableConfig', 'loEvents', '$q', 'GlobalRegionsList', 'Region','appFlags',
     function ($scope, Session, Integration, Tenant, Listener, integrationTableConfig, loEvents, $q, GlobalRegionsList, Region, appFlags) {
 
+      $scope.customIntegrationTypes = ['salesforce'];
+
       $scope.twilioRegions = GlobalRegionsList;
       $scope.twilioDefaultRegion = GlobalRegionsList[0].twilioId;
 
@@ -26,15 +28,15 @@ angular.module('liveopsConfigPanel')
 
       $scope.$on(loEvents.tableControls.itemCreate, function () {
         $scope.selectedIntegration = new Integration({
-          tenantId: Session.tenant.tenantId,
-          properties: {
-            webRtc: true
-          }
+          properties: {},
+          active: true
         });
       });
 
       $scope.submit = function () {
-        return $scope.selectedIntegration.save();
+        return $scope.selectedIntegration.save({
+          tenantId: Session.tenant.tenantId
+        });
       };
 
       $scope.updateActive = function () {
