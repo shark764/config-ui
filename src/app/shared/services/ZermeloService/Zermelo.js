@@ -191,9 +191,7 @@ angular.module('liveopsConfigPanel')
         });
         return;
       }
-      console.log("Comparing to ", itemId)
       _.remove(queryGroup.val, function(value) {
-        console.log("Examining ", value);
         return value._obj === itemId;
       });
     }
