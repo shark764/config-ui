@@ -332,7 +332,7 @@ angular.module('liveopsConfigPanel')
         })
         .state('content.flows.dispatchMappings', {
           url: '/dispatchMappings?id',
-          title: 'Flows - Dispatach Mapping Management',
+          title: 'Flows - Dispatch Mapping Management',
           templateUrl: 'app/components/flows/dispatchMappings/dispatchMappings.html',
           controller: 'DispatchMappingsController',
           reloadOnSearch: false,
