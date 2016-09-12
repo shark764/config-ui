@@ -65,15 +65,15 @@ describe('Zermelo Query Service', function() {
         query = ZermeloService.addFilter(0, 'USERS', 'some', mockId1);
         var set = query.at(0).at(queryKey).at(usersKey).at(0).at(1);
         expect(set instanceof jsedn.Set).toEqual(true);
-        expect(set.val).toContain(mockId1);
+        expect(set.val).toContain(jasmine.objectContaining({"_obj": mockId1}));
       });
 
       it('should add user id to existing set if already there', function() {
         ZermeloService.addFilter(0, 'USERS', 'some', mockId1);
 
         query = ZermeloService.addFilter(0, 'USERS', 'some', mockId2);
-        expect(query.at(0).at(queryKey).at(usersKey).at(0).at(1).val).toContain(mockId1);
-        expect(query.at(0).at(queryKey).at(usersKey).at(0).at(1).val).toContain(mockId2);
+        expect(query.at(0).at(queryKey).at(usersKey).at(0).at(1).val).toContain(jasmine.objectContaining({"_obj": mockId1}));
+        expect(query.at(0).at(queryKey).at(usersKey).at(0).at(1).val).toContain(jasmine.objectContaining({"_obj": mockId2}));
       });
 
       it('should not effect groups or skills already in the query', function() {
@@ -96,8 +96,8 @@ describe('Zermelo Query Service', function() {
         ZermeloService.addFilter(0, 'USERS', 'some', mockId2);
 
         query = ZermeloService.removeFilter(0, 'USERS', 'some', mockId1);
-        expect(query.at(0).at(queryKey).at(usersKey).at(0).at(1).val).not.toContain(mockId1);
-        expect(query.at(0).at(queryKey).at(usersKey).at(0).at(1).val).toContain(mockId2);
+        expect(query.at(0).at(queryKey).at(usersKey).at(0).at(1).val).not.toContain(jasmine.objectContaining({"_obj": mockId1}));
+        expect(query.at(0).at(queryKey).at(usersKey).at(0).at(1).val).toContain(jasmine.objectContaining({"_obj": mockId2}));
       });
 
       it('should remove the :user-id key if there are no user ids', function() {
@@ -157,15 +157,15 @@ describe('Zermelo Query Service', function() {
         query = ZermeloService.addFilter(0, 'GROUPS', 'some', mockId1);
         var set = query.at(0).at(queryKey).at(groupsKey).at(0).at(1);
         expect(set instanceof jsedn.Set).toEqual(true);
-        expect(set.val).toContain(mockId1);
+        expect(set.val).toContain(jasmine.objectContaining({"_obj": mockId1}));
       });
 
       it('should add group id to existing set if already there', function() {
         ZermeloService.addFilter(0, 'GROUPS', 'some', mockId1);
 
         query = ZermeloService.addFilter(0, 'GROUPS', 'some', mockId2);
-        expect(query.at(0).at(queryKey).at(groupsKey).at(0).at(1).val).toContain(mockId1);
-        expect(query.at(0).at(queryKey).at(groupsKey).at(0).at(1).val).toContain(mockId2);
+        expect(query.at(0).at(queryKey).at(groupsKey).at(0).at(1).val).toContain(jasmine.objectContaining({"_obj": mockId1}));
+        expect(query.at(0).at(queryKey).at(groupsKey).at(0).at(1).val).toContain(jasmine.objectContaining({"_obj": mockId2}));
       });
 
       it('should not effect users or skills already in the query', function() {
@@ -184,11 +184,11 @@ describe('Zermelo Query Service', function() {
 
         query = ZermeloService.addFilter(0, 'GROUPS', 'some', mockId2);
         expect(query.at(0).at(queryKey).at(groupsKey).exists(allKey)).toEqual(true);
-        expect(query.at(0).at(queryKey).at(groupsKey).at(0).at(1).val).toContain(mockId1);
-        expect(query.at(0).at(queryKey).at(groupsKey).at(0).at(1).val).not.toContain(mockId2);
+        expect(query.at(0).at(queryKey).at(groupsKey).at(0).at(1).val).toContain(jasmine.objectContaining({"_obj": mockId1}));
+        expect(query.at(0).at(queryKey).at(groupsKey).at(0).at(1).val).not.toContain(jasmine.objectContaining({"_obj": mockId2}));
         expect(query.at(0).at(queryKey).at(groupsKey).exists(someKey)).toEqual(true);
-        expect(query.at(0).at(queryKey).at(groupsKey).at(1).at(1).val).toContain(mockId2);
-        expect(query.at(0).at(queryKey).at(groupsKey).at(1).at(1).val).not.toContain(mockId1);
+        expect(query.at(0).at(queryKey).at(groupsKey).at(1).at(1).val).toContain(jasmine.objectContaining({"_obj": mockId2}));
+        expect(query.at(0).at(queryKey).at(groupsKey).at(1).at(1).val).not.toContain(jasmine.objectContaining({"_obj": mockId1}));
       });
 
     });
@@ -217,14 +217,14 @@ describe('Zermelo Query Service', function() {
         query = ZermeloService.addFilter(0, 'GROUPS', 'all', mockId1);
         var set = query.at(0).at(queryKey).at(groupsKey).at(0).at(1);
         expect(set instanceof jsedn.Set).toEqual(true);
-        expect(set.val).toContain(mockId1);
+        expect(set.val).toContain(jasmine.objectContaining({"_obj": mockId1}));
       });
 
       it('should add group id to existing set if already there', function() {
         query = ZermeloService.addFilter(0, 'GROUPS', 'all', mockId1);
         query = ZermeloService.addFilter(0, 'GROUPS', 'all', mockId2);
-        expect(query.at(0).at(queryKey).at(groupsKey).at(0).at(1).val).toContain(mockId1);
-        expect(query.at(0).at(queryKey).at(groupsKey).at(0).at(1).val).toContain(mockId2);
+        expect(query.at(0).at(queryKey).at(groupsKey).at(0).at(1).val).toContain(jasmine.objectContaining({"_obj": mockId1}));
+        expect(query.at(0).at(queryKey).at(groupsKey).at(0).at(1).val).toContain(jasmine.objectContaining({"_obj": mockId2}));
       });
 
       it('should not effect users or skills already in the query', function() {
@@ -243,11 +243,11 @@ describe('Zermelo Query Service', function() {
 
         query = ZermeloService.addFilter(0, 'GROUPS', 'all', mockId2);
         expect(query.at(0).at(queryKey).at(groupsKey).exists(someKey)).toEqual(true);
-        expect(query.at(0).at(queryKey).at(groupsKey).at(0).at(1).val).toContain(mockId1);
-        expect(query.at(0).at(queryKey).at(groupsKey).at(0).at(1).val).not.toContain(mockId2);
+        expect(query.at(0).at(queryKey).at(groupsKey).at(0).at(1).val).toContain(jasmine.objectContaining({"_obj": mockId1}));
+        expect(query.at(0).at(queryKey).at(groupsKey).at(0).at(1).val).not.toContain(jasmine.objectContaining({"_obj": mockId2}));
         expect(query.at(0).at(queryKey).at(groupsKey).exists(allKey)).toEqual(true);
-        expect(query.at(0).at(queryKey).at(groupsKey).at(1).at(1).val).toContain(mockId2);
-        expect(query.at(0).at(queryKey).at(groupsKey).at(1).at(1).val).not.toContain(mockId1);
+        expect(query.at(0).at(queryKey).at(groupsKey).at(1).at(1).val).toContain(jasmine.objectContaining({"_obj": mockId2}));
+        expect(query.at(0).at(queryKey).at(groupsKey).at(1).at(1).val).not.toContain(jasmine.objectContaining({"_obj": mockId1}));
       });
 
     });
@@ -259,8 +259,8 @@ describe('Zermelo Query Service', function() {
         ZermeloService.addFilter(0, 'GROUPS', 'some', mockId2);
 
         query = ZermeloService.removeFilter(0, 'GROUPS', 'some', mockId1);
-        expect(query.at(0).at(queryKey).at(groupsKey).at(0).at(1).val).not.toContain(mockId1);
-        expect(query.at(0).at(queryKey).at(groupsKey).at(0).at(1).val).toContain(mockId2);
+        expect(query.at(0).at(queryKey).at(groupsKey).at(0).at(1).val).not.toContain(jasmine.objectContaining({"_obj": mockId1}));
+        expect(query.at(0).at(queryKey).at(groupsKey).at(0).at(1).val).toContain(jasmine.objectContaining({"_obj": mockId2}));
       });
 
       it('should remove the :groups key if there are no group ids', function() {
@@ -308,8 +308,8 @@ describe('Zermelo Query Service', function() {
         ZermeloService.addFilter(0, 'GROUPS', 'all', mockId2);
 
         query = ZermeloService.removeFilter(0, 'GROUPS', 'all', mockId1);
-        expect(query.at(0).at(queryKey).at(groupsKey).at(0).at(1).val).not.toContain(mockId1);
-        expect(query.at(0).at(queryKey).at(groupsKey).at(0).at(1).val).toContain(mockId2);
+        expect(query.at(0).at(queryKey).at(groupsKey).at(0).at(1).val).not.toContain(jasmine.objectContaining({"_obj": mockId1}));
+        expect(query.at(0).at(queryKey).at(groupsKey).at(0).at(1).val).toContain(jasmine.objectContaining({"_obj": mockId2}));
       });
 
       it('should remove the :groups key if there are no group ids', function() {
@@ -378,27 +378,28 @@ describe('Zermelo Query Service', function() {
         query = ZermeloService.addFilter(0, 'SKILLS', 'some', mockId1, condition1);
         var map = query.at(0).at(queryKey).at(skillsKey).at(0).at(1);
         expect(map instanceof jsedn.Map).toEqual(true);
-        expect(map.keys).toContain(mockId1);
+        expect(map.keys).toContain(jasmine.objectContaining({"_obj": mockId1}));
       });
 
       it('should associate the skill id with a list containing a comparator symbol and number', function() {
         query = ZermeloService.addFilter(0, 'SKILLS', 'some', mockId1, condition1);
         var map = query.at(0).at(queryKey).at(skillsKey).at(0).at(1);
-        expect(map.at(mockId1) instanceof jsedn.List).toEqual(true);
-        expect(map.at(mockId1).at(0)).toEqual(greaterKey);
-        expect(map.at(mockId1).at(1)).toEqual(condition1[1]);
+        expect(map.keys).toContain(jasmine.objectContaining({"_obj": mockId1}));
+        expect(map.vals[0] instanceof jsedn.List).toEqual(true);
+        expect(map.vals[0].at(0)).toEqual(greaterKey);
+        expect(map.vals[0].at(1)).toEqual(condition1[1]);
       });
 
       it('should add skill to existing EDN map if already there', function() {
         ZermeloService.addFilter(0, 'SKILLS', 'some', mockId1, condition1);
         query = ZermeloService.addFilter(0, 'SKILLS', 'some', mockId2, condition2);
         var map = query.at(0).at(queryKey).at(skillsKey).at(0).at(1);
-        expect(map.keys).toContain(mockId1);
-        expect(map.keys).toContain(mockId2);
-        expect(map.at(mockId1).at(0)).toEqual(greaterKey);
-        expect(map.at(mockId1).at(1)).toEqual(condition1[1]);
-        expect(map.at(mockId2).at(0)).toEqual(greaterEqualKey);
-        expect(map.at(mockId2).at(1)).toEqual(condition2[1]);
+        expect(map.keys).toContain(jasmine.objectContaining({"_obj": mockId1}));
+        expect(map.keys).toContain(jasmine.objectContaining({"_obj": mockId2}));
+        expect(map.vals[0].at(0)).toEqual(greaterKey);
+        expect(map.vals[0].at(1)).toEqual(condition1[1]);
+        expect(map.vals[1].at(0)).toEqual(greaterEqualKey);
+        expect(map.vals[1].at(1)).toEqual(condition2[1]);
       });
 
       it('should not effect users or groups already in the query', function() {
@@ -417,11 +418,11 @@ describe('Zermelo Query Service', function() {
 
         query = ZermeloService.addFilter(0, 'SKILLS', 'some', mockId2, condition2);
         expect(query.at(0).at(queryKey).at(skillsKey).exists(allKey)).toEqual(true);
-        expect(query.at(0).at(queryKey).at(skillsKey).at(0).at(1).keys).toContain(mockId1);
-        expect(query.at(0).at(queryKey).at(skillsKey).at(0).at(1).keys).not.toContain(mockId2);
+        expect(query.at(0).at(queryKey).at(skillsKey).at(0).at(1).keys).toContain(jasmine.objectContaining({"_obj": mockId1}));
+        expect(query.at(0).at(queryKey).at(skillsKey).at(0).at(1).keys).not.toContain(jasmine.objectContaining({"_obj": mockId2}));
         expect(query.at(0).at(queryKey).at(skillsKey).exists(someKey)).toEqual(true);
-        expect(query.at(0).at(queryKey).at(skillsKey).at(1).at(1).keys).toContain(mockId2);
-        expect(query.at(0).at(queryKey).at(skillsKey).at(1).at(1).keys).not.toContain(mockId1);
+        expect(query.at(0).at(queryKey).at(skillsKey).at(1).at(1).keys).toContain(jasmine.objectContaining({"_obj": mockId2}));
+        expect(query.at(0).at(queryKey).at(skillsKey).at(1).at(1).keys).not.toContain(jasmine.objectContaining({"_obj": mockId1}));
       });
 
     });
@@ -450,27 +451,28 @@ describe('Zermelo Query Service', function() {
         query = ZermeloService.addFilter(0, 'SKILLS', 'all', mockId1, condition1);
         var map = query.at(0).at(queryKey).at(skillsKey).at(0).at(1);
         expect(map instanceof jsedn.Map).toEqual(true);
-        expect(map.keys).toContain(mockId1);
+        expect(map.keys).toContain(jasmine.objectContaining({"_obj": mockId1}));
       });
 
       it('should associate the skill id with a list containing a comparator symbol and number', function() {
         query = ZermeloService.addFilter(0, 'SKILLS', 'all', mockId1, condition1);
         var map = query.at(0).at(queryKey).at(skillsKey).at(0).at(1);
-        expect(map.at(mockId1) instanceof jsedn.List).toEqual(true);
-        expect(map.at(mockId1).at(0)).toEqual(greaterKey);
-        expect(map.at(mockId1).at(1)).toEqual(condition1[1]);
+        expect(map.keys).toContain(jasmine.objectContaining({"_obj": mockId1}))
+        expect(map.vals[0] instanceof jsedn.List).toEqual(true);
+        expect(map.vals[0].at(0)).toEqual(greaterKey);
+        expect(map.vals[0].at(1)).toEqual(condition1[1]);
       });
 
       it('should add skill to existing EDN map if already there', function() {
         ZermeloService.addFilter(0, 'SKILLS', 'all', mockId1, condition1);
         query = ZermeloService.addFilter(0, 'SKILLS', 'all', mockId2, condition2);
         var map = query.at(0).at(queryKey).at(skillsKey).at(0).at(1);
-        expect(map.keys).toContain(mockId1);
-        expect(map.keys).toContain(mockId2);
-        expect(map.at(mockId1).at(0)).toEqual(greaterKey);
-        expect(map.at(mockId1).at(1)).toEqual(condition1[1]);
-        expect(map.at(mockId2).at(0)).toEqual(greaterEqualKey);
-        expect(map.at(mockId2).at(1)).toEqual(condition2[1]);
+        expect(map.keys).toContain(jasmine.objectContaining({"_obj": mockId1}));
+        expect(map.keys).toContain(jasmine.objectContaining({"_obj": mockId2}));
+        expect(map.vals[0].at(0)).toEqual(greaterKey);
+        expect(map.vals[0].at(1)).toEqual(condition1[1]);
+        expect(map.vals[1].at(0)).toEqual(greaterEqualKey);
+        expect(map.vals[1].at(1)).toEqual(condition2[1]);
       });
 
       it('should not effect users or groups already in the query', function() {
@@ -489,11 +491,11 @@ describe('Zermelo Query Service', function() {
 
         query = ZermeloService.addFilter(0, 'SKILLS', 'all', mockId2, condition2);
         expect(query.at(0).at(queryKey).at(skillsKey).exists(someKey)).toEqual(true);
-        expect(query.at(0).at(queryKey).at(skillsKey).at(0).at(1).keys).toContain(mockId1);
-        expect(query.at(0).at(queryKey).at(skillsKey).at(0).at(1).keys).not.toContain(mockId2);
+        expect(query.at(0).at(queryKey).at(skillsKey).at(0).at(1).keys).toContain(jasmine.objectContaining({"_obj": mockId1}));
+        expect(query.at(0).at(queryKey).at(skillsKey).at(0).at(1).keys).not.toContain(jasmine.objectContaining({"_obj": mockId2}));
         expect(query.at(0).at(queryKey).at(skillsKey).exists(allKey)).toEqual(true);
-        expect(query.at(0).at(queryKey).at(skillsKey).at(1).at(1).keys).toContain(mockId2);
-        expect(query.at(0).at(queryKey).at(skillsKey).at(1).at(1).keys).not.toContain(mockId1);
+        expect(query.at(0).at(queryKey).at(skillsKey).at(1).at(1).keys).toContain(jasmine.objectContaining({"_obj": mockId2}));
+        expect(query.at(0).at(queryKey).at(skillsKey).at(1).at(1).keys).not.toContain(jasmine.objectContaining({"_obj": mockId1}));
       });
 
     });
@@ -505,8 +507,8 @@ describe('Zermelo Query Service', function() {
         ZermeloService.addFilter(0, 'SKILLS', 'some', mockId2, condition2);
 
         query = ZermeloService.removeFilter(0, 'SKILLS', 'some', mockId1);
-        expect(query.at(0).at(queryKey).at(skillsKey).at(0).at(1).exists(mockId1)).toEqual(false);
-        expect(query.at(0).at(queryKey).at(skillsKey).at(0).at(1).exists(mockId2)).toEqual(true);
+        expect(query.at(0).at(queryKey).at(skillsKey).at(0).at(1).keys).not.toContain(jasmine.objectContaining({"_obj": mockId1}));
+        expect(query.at(0).at(queryKey).at(skillsKey).at(0).at(1).keys).toContain(jasmine.objectContaining({"_obj": mockId2}));
       });
 
       it('should remove the :skills key if there are no skill ids', function() {
@@ -554,8 +556,8 @@ describe('Zermelo Query Service', function() {
         ZermeloService.addFilter(0, 'SKILLS', 'all', mockId2, condition2);
 
         query = ZermeloService.removeFilter(0, 'SKILLS', 'all', mockId1);
-        expect(query.at(0).at(queryKey).at(skillsKey).at(0).at(1).exists(mockId1)).toEqual(false);
-        expect(query.at(0).at(queryKey).at(skillsKey).at(0).at(1).exists(mockId2)).toEqual(true);
+        expect(query.at(0).at(queryKey).at(skillsKey).at(0).at(1).keys).not.toContain(jasmine.objectContaining({"_obj": mockId1}));
+        expect(query.at(0).at(queryKey).at(skillsKey).at(0).at(1).keys).toContain(jasmine.objectContaining({"_obj": mockId2}));
       });
 
       it('should remove the :skills key if there are no skill ids', function() {
