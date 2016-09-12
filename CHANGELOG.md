@@ -12,6 +12,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 * CXV1-4859 - Add tooltips to Settings page controls
 * CXV1-4912 - Enable multiple salesforce integrations
 * Updated Realtime Dashboards to 4.2.0
+* Bumping flow designer
 
 ## [4.1.21]
 * (no ticket) - Added back feature flag since Outbound is no longer the next release
