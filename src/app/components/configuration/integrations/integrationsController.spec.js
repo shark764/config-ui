@@ -45,11 +45,9 @@ describe('IntegrationsController', function() {
 
   describe('ON submit', function() {
     it('should save the integration', inject(function(Integration, apiHostname) {
-      $scope.selectedIntegration = new Integration({
-        tenantId: 'myTenant'
-      });
+      $scope.selectedIntegration = new Integration();
 
-      $httpBackend.expectPOST(apiHostname + '/v1/tenants/myTenant/integrations').respond(200);
+      $httpBackend.expectPOST(apiHostname + '/v1/tenants/tenant-id/integrations').respond(200);
       $scope.submit();
 
       $httpBackend.flush();
