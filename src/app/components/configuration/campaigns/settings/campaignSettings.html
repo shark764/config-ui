@@ -61,7 +61,17 @@
             ng-click="csc.dateWatch()"
             >
 
-            <i class="fa fa-calendar fa-lg schedule-exception-calendar" aria-hidden="true"></i>
+            <i class="fa fa-calendar fa-lg schedule-exception-calendar" aria-hidden="true" ng-model="csc.newExpiryHour.day"
+            moment-picker="csc.newExpiryHour.day"
+            format="YYYY-MM-DD"
+            start-view="month"
+            max-view="month"
+            ng-model-options="{timezone: 'UTC'}"
+            min-date=csc.provideDateTomorrow
+            items="hours.$exceptions"
+            class="schedule-exception-date"
+            ng-click="csc.dateWatch()"
+            ng-if="(['MANAGE_CAMPAIGNS'] | hasPermission)"></i>
 
             <div class="schedule-exception-time" >
               <select name="campaignHour" ng-disabled="!csc.newExpiryHour.day" ng-model="csc.newExpiryHour.endHour" ng-options="n for n in csc.hours">
@@ -345,7 +355,17 @@
             class="schedule-exception-date"
             readonly>
 
-            <i class="fa fa-calendar fa-lg schedule-exception-calendar" aria-hidden="true"></i>
+            <i class="fa fa-calendar fa-lg schedule-exception-calendar" aria-hidden="true" ng-model="csc.newExceptionHour.date"
+            moment-picker="csc.newExceptionHour.date"
+            format="YYYY-MM-DD"
+            start-view="month"
+            max-view="month"
+            ng-required
+            ng-model-options="{timezone: 'UTC'}"
+            min-date=csc.provideDateTomorrow
+            items="hours.$exceptions"
+            class="schedule-exception-date"
+            ng-if="(['MANAGE_CAMPAIGNS'] | hasPermission)"></i>
           </div>
 
           <div class="schedule-exception-time" disable-contents="csc.newExceptionHour.allDay">
