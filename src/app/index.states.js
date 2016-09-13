@@ -540,7 +540,7 @@ angular.module('liveopsConfigPanel')
         })
         .state('content.reports', {
           url: '/reports?id',
-          title:'Reporting - Historical Reporting',
+          title:'Reporting - Historical Dashboards',
           templateUrl: 'app/components/reports/reports.html',
           controller: 'ReportsController'
         })
@@ -590,7 +590,7 @@ angular.module('liveopsConfigPanel')
         })
         .state('content.realtime-dashboards-management', {
           url: '/realtime-dashboards?id',
-          title:'Reporting - Realtime Dashboard',
+          title:'Reporting - Custom Realtime Dashboards',
           templateUrl: 'app/components/reporting/realtime/realtimeDashboardManagement/realtimeDashboardsManagement.html',
           controller: 'RealtimeDashboardsManagementController',
           reloadOnSearch: false,
@@ -607,7 +607,7 @@ angular.module('liveopsConfigPanel')
         })
         .state('content.realtime-dashboards-management.editor', {
           url: '/editor/:dashboardId',
-          title:'Reporting - Realtime Dashboard Editor',
+          title:'Reporting - Custom Realtime Dashboards - Editor',
           templateUrl: 'app/components/reporting/realtime/realtimeDashboardEditor/realtimeDashboardsEditor.html',
           controller: 'realtimeDashboardsEditorController',
           resolve: {
@@ -752,7 +752,7 @@ angular.module('liveopsConfigPanel')
         })
         .state('content.reporting.custom-stats', {
           url: '/custom-stats?id',
-          title:'Reporting - Custom Realtime Dashboard',
+          title:'Reporting - Custom Statistics',
           templateUrl: 'app/components/reporting/customStats/customStatsManagement.html',
           controller: 'customStatsManagementController',
           reloadOnSearch: false,
@@ -764,7 +764,7 @@ angular.module('liveopsConfigPanel')
         })
         .state('content.reporting.custom-stats-editor', {
           url: '/custom-stats/editor/:customStatId/:draftId/?readOnly',
-          title:'Reporting - Custom Realtime Dashboard - Editor',
+          title:'Reporting - Custom Statistics - Editor',
           templateUrl: 'app/components/reporting/customStatsEditor/customStatsEditor.html',
           controller: 'customStatsEditorController',
           resolve: {
@@ -807,7 +807,7 @@ angular.module('liveopsConfigPanel')
         })
         .state('content.reporting.custom-stats-viewer', {
           url: '/custom-stats/viewer/:customStatId/:draftId/',
-          title:'Reporting - Custom Realtime Dashboard - Viewer',
+          title:'Reporting - Custom Statistics - Viewer',
           templateUrl: 'app/components/reporting/customStatsEditor/customStatsEditor.html',
           controller: 'customStatsEditorController',
           resolve: {
