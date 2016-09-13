@@ -751,7 +751,9 @@ angular.module('liveopsConfigPanel')
           tenantId: Session.tenant.tenantId,
           campaignId: getCampaignId
         }).then(function (response) {
-          Alert.warning($translate.instant('campaigns.details.mustRestartDialerAlert'));
+          if (response.currentState === 'started') {
+            Alert.warning($translate.instant('campaigns.details.mustRestartDialerAlert'));
+          }
           $state.go('content.configuration.campaigns', {
             id: getCampaignId
           });
