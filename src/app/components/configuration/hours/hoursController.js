@@ -151,13 +151,13 @@ angular.module('liveopsConfigPanel')
       $scope.$on(loEvents.tableControls.itemCreate, function() {
 
         //Set up the cache and $scope.tenants so it will be a ngResource array
-          var newTenant = Tenant.cachedGet({id: Session.tenant.tenantId});
-          newTenant.$promise.then(function(){
+          var tenantData = Tenant.cachedGet({id: Session.tenant.tenantId});
+          tenantData.$promise.then(function(){
 
             vm.selectedHour = new BusinessHour({
               tenantId: Session.tenant.tenantId,
               active: true,
-              timezone: newTenant.timezone
+              timezone: tenantData.timezone
             });
 
             vm.exceptionHour = null;
