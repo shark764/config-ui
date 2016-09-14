@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+* CXV1-2281 - Bug fix timezone should default to tenant's timezone
 * CXV1-4859 - Bug fix for Campaign Settings tool tip
 * CXV1-5396 - Typo fix for Dispatch Mapping
 * CXV1-3993 - Reasons/Disposition Lists are not displayed very well in FireFox
