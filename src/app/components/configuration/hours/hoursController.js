@@ -2,8 +2,8 @@
 
 angular.module('liveopsConfigPanel')
   .controller('hoursController', [
-    '$scope', '$rootScope', '$translate', '$moment', '$q', 'Alert','Session', 'BusinessHour', 'Timezone', 'hoursTableConfig', 'loEvents',
-    function ($scope, $rootScope, $translate, $moment, $q, Alert, Session, BusinessHour, Timezone, hoursTableConfig, loEvents) {
+    '$scope', '$rootScope', '$translate', '$moment', '$q', 'Alert','Session', 'Tenant', 'Region','BusinessHour', 'Timezone', 'hoursTableConfig', 'loEvents',
+    function ($scope, $rootScope, $translate, $moment, $q, Alert, Session, Tenant, Region, BusinessHour, Timezone, hoursTableConfig, loEvents) {
 
       var vm = this;
       vm.dayPrefixes = [{
@@ -149,14 +149,22 @@ angular.module('liveopsConfigPanel')
       });
 
       $scope.$on(loEvents.tableControls.itemCreate, function() {
-        vm.selectedHour = new BusinessHour({
-          tenantId: Session.tenant.tenantId,
-          active: true,
-          timezone: 'US/Eastern'
-        });
 
-        vm.exceptionHour = null;
-        vm.onIsHoursCustomChanged();
+        //Set up the cache and $scope.tenants so it will be a ngResource array
+          var newTenant = Tenant.cachedGet({id: Session.tenant.tenantId});
+          newTenant.$promise.then(function(){
+
+            vm.selectedHour = new BusinessHour({
+              tenantId: Session.tenant.tenantId,
+              active: true,
+              timezone: newTenant.timezone
+            });
+
+            vm.exceptionHour = null;
+            vm.onIsHoursCustomChanged();
+          });
+
+
       });
 
       vm.tableConfig = hoursTableConfig;
