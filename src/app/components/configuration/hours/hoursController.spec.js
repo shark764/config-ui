@@ -8,6 +8,8 @@ describe('hoursController', function() {
     apiHostname,
     mockBusinessHours,
     Session,
+    Tenant,
+    Region,
     loEvents,
     BusinessHour,
     BusinessHourException;
@@ -15,11 +17,13 @@ describe('hoursController', function() {
   beforeEach(module('gulpAngular', 'liveopsConfigPanel', 'liveopsConfigPanel.timezone.mock',
       'liveopsConfigPanel.tenant.businessHour.mock', 'liveopsConfigPanel.mockutils'));
 
-  beforeEach(inject(['$rootScope', '$httpBackend', 'apiHostname', 'Session', 'mockBusinessHours', 'loEvents', 'BusinessHour', 'BusinessHourException', '$controller',
-    function($rootScope, _$httpBackend, _apiHostname, _Session, _mockBusinessHours, _loEvents, _BusinessHour, _BusinessHourException, $controller) {
+  beforeEach(inject(['$rootScope', '$httpBackend', 'apiHostname', 'Session', 'Tenant','Region','mockBusinessHours', 'loEvents', 'BusinessHour', 'BusinessHourException', '$controller',
+    function($rootScope, _$httpBackend, _apiHostname, _Session, _Tenant,_Region,_mockBusinessHours, _loEvents, _BusinessHour, _BusinessHourException, $controller) {
       $scope = $rootScope.$new();
       $httpBackend = _$httpBackend;
       Session = _Session;
+      Tenant = _Tenant;
+      Region = _Region;
       apiHostname = _apiHostname;
       mockBusinessHours = _mockBusinessHours;
       BusinessHour = _BusinessHour;
@@ -49,12 +53,16 @@ describe('hoursController', function() {
     };
 
     $rootScope.$broadcast(loEvents.tableControls.itemCreate);
-    $scope.$digest();
+    $scope.$digest()
+    $httpBackend.flush();
+    $httpBackend.expect('GET', apiHostname + '/v1/tenants/tenant-id').respond(200);
 
     expect(controller.selectedHour.id).toBeFalsy();
     expect(controller.selectedHour.active).toBeTruthy();
-    expect(controller.selectedHour.timezone).toEqual('US/Eastern');
+    expect(controller.selectedHour.timezone).toEqual('someTimeZone');
     expect(controller.exceptionHour).toBeNull();
+
+
   }));
 
   describe('ON loadTimezones', function() {
