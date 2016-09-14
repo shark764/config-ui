@@ -164,7 +164,6 @@ angular.module('liveopsConfigPanel')
             vm.onIsHoursCustomChanged();
           });
 
-
       });
 
       vm.tableConfig = hoursTableConfig;
