@@ -190,7 +190,7 @@ angular.module('liveopsConfigPanel')
                     } else {
                       if ($scope.newlyUploaded) {
                         Alert.success($translate.instant('value.uploadProcessedSuccessfully'));
-                        if ($scope.jobServiceName === 'campaigns') {
+                        if ($scope.jobServiceName === 'campaigns' && $scope.selectedRow.currentState === 'started') {
                           Alert.warning($translate.instant('campaigns.details.mustRestartDialerAlert'));
                         };
                       };

@@ -34,6 +34,10 @@ angular.module('liveopsConfigPanel')
       });
 
       $scope.submit = function () {
+        if ($scope.selectedIntegration.description === null) {
+          delete $scope.selectedIntegration.description
+        }
+        
         return $scope.selectedIntegration.save({
           tenantId: Session.tenant.tenantId
         });
