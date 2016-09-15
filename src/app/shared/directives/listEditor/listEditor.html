@@ -25,7 +25,7 @@
           </div>
         </div>
 
-        <div class="wrapper" ng-show="disposition.type === 'category'">
+        <div class="wrapper fixdisplay" ng-show="disposition.type === 'category'">
           <input id="category-{{$index}}" ng-click="selectDisposition($index)" ng-focus="highlightText($event)" ng-class="{selectedDispo: disposition === selectedDispo}" ng-model="disposition.name" ng-disabled="readOnly"></input>
         </div>
 
