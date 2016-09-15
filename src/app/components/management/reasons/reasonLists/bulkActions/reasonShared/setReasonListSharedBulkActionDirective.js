@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('baSetReasonListShared', ['ReasonList', 'Session', 'BulkAction', 'reasonListsTableConfig',
-    function(ReasonList, Session, BulkAction, reasonListsTableConfig) {
+  .directive('baSetReasonListShared', ['ReasonList', 'Session', 'BulkAction', 'reasonListsTableConfig', 'Alert', '$translate', '$q',
+    function(ReasonList, Session, BulkAction, reasonListsTableConfig, Alert, $translate, $q) {
       return {
         restrict: 'E',
         scope: {},
@@ -19,6 +19,12 @@ angular.module('liveopsConfigPanel')
           }
 
           $scope.bulkAction.apply = function(reasonList) {
+            if (Session.tenant.tenantId !== reasonList.tenantId) {
+              Alert.error($translate.instant('bulkActions.reason.fail', {reasonName: reasonList.name}))
+              var deferred = $q.defer();
+              deferred.reject('Cannot edit shared status of inherited reason list');
+              return deferred.promise;
+            }
             var reasonListCopy = new ReasonList();
             reasonListCopy.id = reasonList.id;
             reasonListCopy.tenantId = Session.tenant.tenantId;

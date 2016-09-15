@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('baSetDispositionStatus', ['Disposition', 'Session', 'BulkAction', 'statuses',
-    function(Disposition, Session, BulkAction, statuses) {
+  .directive('baSetDispositionStatus', ['Disposition', 'Session', 'BulkAction', 'statuses', 'Alert', '$translate', '$q',
+    function(Disposition, Session, BulkAction, statuses, Alert, $translate, $q) {
       return {
         restrict: 'E',
         scope: {},
@@ -17,6 +17,12 @@ angular.module('liveopsConfigPanel')
           }
 
           $scope.bulkAction.apply = function(disposition) {
+            if (Session.tenant.tenantId !== disposition.tenantId) {
+              Alert.error($translate.instant('bulkActions.reason.fail', {reasonName: disposition.name}))
+              var deferred = $q.defer();
+              deferred.reject('Cannot edit status of inherited disposition');
+              return deferred.promise;
+            }
             var dispositionCopy = new Disposition();
             dispositionCopy.id = disposition.id;
             dispositionCopy.tenantId = Session.tenant.tenantId;

@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('baSetReasonStatus', ['Reason', 'Session', 'BulkAction', 'statuses',
-    function(Reason, Session, BulkAction, statuses) {
+  .directive('baSetReasonStatus', ['Reason', 'Session', 'BulkAction', 'statuses', 'Alert', '$translate', '$q',
+    function(Reason, Session, BulkAction, statuses, Alert, $translate, $q) {
       return {
         restrict: 'E',
         scope: {},
@@ -17,6 +17,12 @@ angular.module('liveopsConfigPanel')
           }
 
           $scope.bulkAction.apply = function(reason) {
+            if (Session.tenant.tenantId !== reason.tenantId) {
+              Alert.error($translate.instant('bulkActions.reason.fail', {reasonName: reason.name}))
+              var deferred = $q.defer();
+              deferred.reject('Cannot disable inherited reason');
+              return deferred.promise;
+            }
             var reasonCopy = new Reason();
             reasonCopy.id = reason.id;
             reasonCopy.tenantId = Session.tenant.tenantId;

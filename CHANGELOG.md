@@ -11,6 +11,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 * CXV1-4469 - Fixed issue with wrong capacity rule being selected on users page
 * CXV1-4859 - Add tooltips to Settings page controls
 * CXV1-4912 - Enable multiple salesforce integrations
+* CXV1-3596 - Reasons/Dispos bulk action fail messages
 * Updated Realtime Dashboards to 4.2.0
 * Bumping flow designer
 
