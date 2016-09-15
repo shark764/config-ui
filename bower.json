@@ -19,7 +19,7 @@
     "angular-toastr": "~1.4.1",
     "MouseWheelJS": "*",
     "teljs": "git@github.com:liveops/tel.js.git#master",
-    "flow-designer": "git@github.com:liveops/flow-designer.git#2.1.0",
+    "flow-designer": "git@github.com:liveops/flow-designer.git#2.2.0",
     "angular-moment-picker": "git@github.com:indrimuska/angular-moment-picker.git#0.2.1",
     "realtime-dashboards": "git@github.com:liveops/realtime-dashboards.git#4.2.0",
     "liveops-config-panel-shared": "git@github.com:liveops/config-shared#1.3.7",
