@@ -25,7 +25,6 @@
         <div class="divider-header first-header">
           <h4>{{'campaigns.details.settings' | translate}}</h4>
         </div>
-          <p class="null msg">{{'campaigns.details.defaults' | translate}}</p>
       </div>
 
       <div disable-contents="! (['MANAGE_CAMPAIGNS'] | hasPermission)">
@@ -106,6 +105,7 @@
           <div class="divider-header first-header">
             <h4>{{'campagins.details.settings.defaults' | translate}}</h4>
           </div>
+          <p class="null msg">{{'campaigns.details.defaults' | translate}}</p>
         </div>
 
         <div class="input-group">
@@ -118,6 +118,7 @@
           <select name="region"
             ng-model="csc.versionSettings.defaultRegion"
             ng-options="region.code as region.name for region in csc.regions"
+            title="{{'campaigns.details.settings.regionTooltip' | translate}}"
             required>
             <option value="" disabled>{{'campaigns.details.settings.select.region' | translate}}</option>
           </select>
@@ -132,6 +133,7 @@
           <select name="timezone"
             ng-model="csc.versionSettings.defaultTimeZone"
             ng-options="timezone.timezone as timezone.getDisplay() for timezone in csc.timezones | orderBy:'offsetInMilliseconds'"
+            title="{{'campaigns.details.settings.timezoneTooltip' | translate}}"
             required>
             <option value="" disabled>{{'campaigns.details.settings.select.timezone' | translate}}</option>
           </select>

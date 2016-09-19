@@ -19,6 +19,7 @@ angular.module('liveopsConfigPanel')
           $scope.bulkAction.apply = function(dncLists) {
             var dncListsCopy = new DncLists();
             dncListsCopy.id = dncLists.id;
+            dncListsCopy.name = dncLists.name;
             dncListsCopy.tenantId = Session.tenant.tenantId;
             dncListsCopy.active = $scope.active;
             return dncListsCopy.save().then(function(dncListsCopy) {

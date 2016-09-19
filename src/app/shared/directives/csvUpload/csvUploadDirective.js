@@ -190,9 +190,6 @@ angular.module('liveopsConfigPanel')
                     } else {
                       if ($scope.newlyUploaded) {
                         Alert.success($translate.instant('value.uploadProcessedSuccessfully'));
-                        if ($scope.jobServiceName === 'campaigns' && $scope.selectedRow.currentState === 'started') {
-                          Alert.warning($translate.instant('campaigns.details.mustRestartDialerAlert'));
-                        };
                       };
                       // possibly redundant code since we're about to stop the polling after
                       // this conditional statement, but this is more of a fail safe
@@ -310,7 +307,7 @@ angular.module('liveopsConfigPanel')
             $q.when(newRowData, function (response) {
               stopPolling();
 
-              if (newRowData) {
+              if (newRowData && angular.isFunction($scope.selectedRow.isNew)) {
                 if (!$scope.selectedRow.isNew()) {
                   $scope.selectedRow.uploadStats = false;
                   $scope.downloadPath = $scope.downloadPath;

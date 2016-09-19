@@ -1,29 +1,49 @@
 <div class="publish" id="stats-modal">
   <h3 class="header">{{title}}</h3>
-  <div id="stats-modal">
+  <div>
     <ul>
       <li ng-if="displayData(selectedRow.latestJobData.created)">
-        {{'campaigns.details.lastUpdate' | translate}}:
-        {{selectedRow.latestJobData.created | date:'MM/dd/yyyy HH:mm:ss' }}
+        <div>
+          {{'campaigns.details.lastUpdate' | translate}}:
+        </div>
+        <div>
+          {{selectedRow.latestJobData.created | date:'MM/dd/yyyy HH:mm:ss' }}
+        </div>
       </li>
       <li ng-if="displayData(selectedRow.latestJobData.leadCount)">
-        {{'campaigns.details.leadCount' | translate}}:
-        {{selectedRow.latestJobData.leadCount}}
+        <div>
+          {{'campaigns.details.leadCount' | translate}}:
+        </div>
+        <div>
+          {{selectedRow.latestJobData.leadCount}}
+        </div>
       </li>
     </ul>
     <hr>
     <ul>
-      <li="displayData(selectedRow.latestJobData.rowsProcessed)">
-        {{'campaigns.details.rowsProcessed' | translate}}:
-        {{selectedRow.latestJobData.rowsProcessed}}
+      <li ng-if="displayData(selectedRow.latestJobData.rowsProcessed)">
+        <div>
+          {{'campaigns.details.rowsProcessed' | translate}}:
+        </div>
+        <div>
+          {{selectedRow.latestJobData.rowsProcessed}}
+        </div>
       </li>
       <li ng-if="displayData(selectedRow.latestJobData.rowsAltered)">
-        {{'campaigns.details.rowsAltered' | translate}}:
-        {{selectedRow.latestJobData.rowsAltered}}
+        <div>
+          {{'campaigns.details.rowsAltered' | translate}}:
+        </div>
+        <div>
+          {{selectedRow.latestJobData.rowsAltered}}
+        </div>
       </li>
       <li ng-if="displayData(selectedRow.latestJobData.rowsDeleted)">
-        {{'campaigns.details.rowsDeleted' | translate}}:
-        {{selectedRow.latestJobData.rowsDeleted}}
+        <div>
+          {{'campaigns.details.rowsDeleted' | translate}}:
+        </div>
+        <div>
+          {{selectedRow.latestJobData.rowsDeleted}}
+        </div>
       </li>
     </ul>
   </div>

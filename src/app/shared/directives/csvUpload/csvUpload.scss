@@ -43,24 +43,40 @@ lo-details-panel {
       }
     }
   }
+}
 
-  #stats-modal {
-    padding: 20px;
+#stats-modal {
+  padding: 20px;
 
-    hr {
-      margin: 10px 0;
-    }
+  hr {
+    margin: 5px 0 10px;
+  }
 
-    ul {
-      list-style: none;
+  ul {
+    list-style: none;
 
-      li {
-        line-height: 1.5em;
+    li {
+      line-height: 1.5em;
+      padding: 0 0 5px;
+
+      div {
+        display: inline-block;
+        width: 45%;
+
+        &:nth-child(odd) {
+          text-align: right;
+          padding-right: 10px;
+        }
       }
     }
+  }
 
-    .footer {
-      text-align: center;
-    }
+  .header {
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+
+  .footer {
+    text-align: center;
   }
 }

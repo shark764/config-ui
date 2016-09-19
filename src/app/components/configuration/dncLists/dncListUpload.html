@@ -12,7 +12,7 @@
           ngf-max-size="20MB"
           ng-model="selectedRow.listData"
           type="button"
-          ng-disabled="!selectedRow.id">
+          ng-disabled="!selectedRow.id || (selectedRow.hasList && !selectedRow.uploadStats)">
           {{'campaigns.details.importBtn' | translate}}
         </button>
       </div>

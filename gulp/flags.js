@@ -16,7 +16,7 @@ module.exports = function(options) {
         name: 'liveopsConfigPanel.flags',
         constants: {
           appFlags: {
-            OUTBOUND_PAGES: argv.outboundPages || false,
+            OUTBOUND_PAGES: argv.outboundPages || true,
             SHOW_ZENDESK: argv.showZendesk || false
           }
         }
