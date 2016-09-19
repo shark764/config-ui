@@ -2,12 +2,12 @@
   <toggle class="status-toggle" ng-model="dnc.selectedDncList.active"
   confirm-disable-message="{{'dnc.details.disable.confirm' | translate}}"
   confirm-enable-message="{{'dnc.details.enable.confirm' | translate}}"
-  ng-disabled="! (['PLATFORM_MANAGE_ALL_TENANTS', 'MANAGE_TENANT'] | hasPermission)"
+  ng-disabled="!('MANAGE_CAMPAIGNS' | hasPermission)"
   on-confirm="dnc.updateActive()"></toggle>
 
   <div class="info">
     <h1>{{dnc.selectedDncList.$original.name}}</h1>
-      <div class="details" ng-if="['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_USERS', 'MANAGE_ALL_USER_EXTENSIONS', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_ALL_USER_LOCATIONS', 'MANAGE_TENANT_ENROLLMENT'] | hasPermission">
+      <div class="details" ng-if="['MANAGE_CAMPAIGNS'] | hasPermission">
       <b audit-text
         translation="value.createdby.time"
         user-id="dnc.selectedDncList.$original.createdBy"
@@ -20,7 +20,7 @@
         date="dnc.selectedDncList.$original.updated">
       </b>
     </div>
-    <div class="details" ng-if="!(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_USERS', 'MANAGE_ALL_USER_EXTENSIONS', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_ALL_USER_LOCATIONS', 'MANAGE_TENANT_ENROLLMENT'] | hasPermission)">
+    <div class="details" ng-if="!(['MANAGE_CAMPAIGNS'] | hasPermission)">
       <b audit-text
         translation="value.createdon.time"
         date="dnc.selectedDncList.$original.created">
