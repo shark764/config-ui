@@ -81,6 +81,10 @@ angular.module('liveopsConfigPanel')
         return dnc.selectedDncList.save({
           tenantId: Session.tenant.tenantId
         }, function (response) {
+          if(dnc.selectedDncList && dnc.dncLists.indexOf(dnc.selectedDncList) < 0) {
+            dnc.dncLists.push(response);
+          }
+
           dnc.duplicateError = false;
         }, function (err) {
           if (err.data.error.attribute.name) {

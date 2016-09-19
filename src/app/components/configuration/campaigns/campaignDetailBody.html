@@ -7,7 +7,11 @@
     <form-error ng-if="!cc.selectedCampaign.name" field="forms.detailsForm.name" error-type-required="{{'campaigns.details.name.error' | translate}}">
     </form-error>
     <div>
-      <input required ng-model="cc.selectedCampaign.name" name="name" type="text"></input>
+      <input
+      required
+      ng-model="cc.selectedCampaign.name"
+      name="name"
+      type="text"></input>
     </div>
   </div>
 

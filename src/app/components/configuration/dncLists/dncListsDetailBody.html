@@ -1,17 +1,19 @@
 <div class="divider-header first-header">
   <h4>{{'details' | translate}}</h4>
 </div>
-
 <div disable-contents="! (['MANAGE_CAMPAIGNS'] | hasPermission)">
   <div class="input-group">
     <label>{{'value.name' | translate}} *</label>
-
-    <form-error ng-if="!dnc.selectedDncList.name"  field="dnc.forms.detailsForm.name"
+    <form-error ng-if="!dnc.selectedDncList.name" field="dnc.forms.detailsForm.name"
       error-type-required="{{'value.error.name.required' | translate}}">
     </form-error>
-    <input type="text" name="name"
+    <div>
+      <input
+      required
       ng-model="dnc.selectedDncList.name"
-      ng-required="true" value={{dnc.selectedDncList.name}} />
+      name="name"
+      type="text">
+    </div>
   </div>
 
   <div class="input-group">
@@ -20,7 +22,7 @@
       ng-model="dnc.selectedDncList.description"
       name="description">
       {{dnc.selectedDncList.description}}
-  </textarea>
+    </textarea>
   </div>
 
   <div class="input-group">
@@ -50,4 +52,4 @@
     template-url="app/components/configuration/dncLists/dncListUpload.html"
     download-path="/dnclists/{{dnc.selectedDncList.id}}/download.csv"
     job-service-name='dncLists'></csv-upload>
-  </div>
+</div>

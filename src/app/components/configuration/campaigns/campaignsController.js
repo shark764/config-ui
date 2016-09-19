@@ -2,8 +2,8 @@
 
 angular.module('liveopsConfigPanel')
   .controller('campaignsController', [
-    '$scope', '$rootScope', '$timeout', '$translate', '$moment', '$q', '$state', '$stateParams', '$compile', 'Alert', 'Session', 'Campaign', 'CampaignStart', 'CampaignStop', 'campaignsTableConfig', 'loEvents', 'Flow', 'DirtyForms', 'apiHostname', 'Modal',
-    function ($scope, $rootScope, $timeout, $translate, $moment, $q, $state, $stateParams, $compile, Alert, Session, Campaign, CampaignStart, CampaignStop, campaignsTableConfig, loEvents, Flow, DirtyForms, apiHostname, Modal) {
+    '$scope', '$timeout', '$translate', '$moment', '$q', '$state', '$stateParams', '$compile', 'Alert', 'Session', 'Campaign', 'CampaignStart', 'CampaignStop', 'campaignsTableConfig', 'loEvents', 'Flow', 'DirtyForms', 'apiHostname',
+    function ($scope, $timeout, $translate, $moment, $q, $state, $stateParams, $compile, Alert, Session, Campaign, CampaignStart, CampaignStop, campaignsTableConfig, loEvents, Flow, DirtyForms, apiHostname) {
       var cc = this;
       var currentlySelectedCampaign = cc.selectedCampaign;
 
@@ -89,16 +89,6 @@ angular.module('liveopsConfigPanel')
         return campaignCopy.save(function (result) {
           cc.selectedCampaign.$original.active = result.active;
         });
-      };
-
-      cc.confirmSubmit = function () {
-        if (angular.isDefined(cc.selectedCampaign.$original) && !cc.selectedCampaign.$original.shared) {
-          return Modal.showConfirm({
-            message: $translate.instant('disposition.details.shared.confirm'),
-            okCallback: cc.submit
-          });
-        }
-        cc.submit();
       };
 
       cc.submit = function () {
