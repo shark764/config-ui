@@ -3,10 +3,10 @@
 angular.module('liveopsConfigPanel')
   .controller('dncListsController', ['$scope', '$state', '$timeout', '$translate', 'Session', 'apiHostname', 'DncLists', '$q', '$moment', 'loEvents', 'Alert', 'dncListsTableConfig',
     function ($scope, $state, $timeout, $translate, Session, apiHostname, DncLists, $q, $moment, loEvents, Alert, dncListsTableConfig) {
-      var dnc = this,
-        DncListService = new DncLists();
+      var dnc = this;
 
       $scope.forms = {};
+      dnc.tableConfig = dncListsTableConfig;
 
       function convertDateToMySqlFormat(date) {
         var convertedDate = date;
@@ -17,7 +17,7 @@ angular.module('liveopsConfigPanel')
         }
 
         return convertedDate;
-      }
+      };
 
       function convertDateFromMySqlFormat(date) {
         if (date !== null) {
@@ -28,7 +28,7 @@ angular.module('liveopsConfigPanel')
         } else {
           return '';
         }
-      }
+      };
 
       dnc.updateActive = function () {
         var dncListcopy = new DncLists({
@@ -39,7 +39,7 @@ angular.module('liveopsConfigPanel')
           description: dnc.selectedDncList.description
         });
 
-        return dncListcopy.save().then(function(result){
+        return dncListcopy.save().then(function (result) {
           dnc.selectedDncList.$original.active = result.active;
         });
       };
@@ -48,20 +48,18 @@ angular.module('liveopsConfigPanel')
         tenantId: Session.tenant.tenantId
       });
 
-      dnc.onListFileSelect = function (fileData) {
-        delete dnc.selectedDncList.listFileUpload;
-        dnc.selectedDncList.listFileUpload = fileData;
-        $scope.forms.detailsForm.$setDirty();
-      };
-
       $scope.$on(loEvents.tableControls.itemCreate, function () {
         dnc.selectedDncList = null;
+        dnc.create();
+      });
+
+      dnc.create = function () {
         dnc.selectedDncList = new DncLists({
           tenantId: Session.tenant.tenantId,
           active: true,
           expiration: null
         });
-      });
+      };
 
       $scope.$on(loEvents.bulkActions.close, function () {
         dnc.forceClose = true;
@@ -69,34 +67,27 @@ angular.module('liveopsConfigPanel')
 
       $scope.$watch('dnc.selectedDncList', function () {
         if (dnc.selectedDncList) {
-          dnc.selectedDncList.listFileUpload = null;
           dnc.selectedDncList.expiration = convertDateFromMySqlFormat(dnc.selectedDncList.expiration);
         }
       });
 
       dnc.submit = function () {
-        var listFileData = dnc.selectedDncList.listFileUpload;
         if (!dnc.selectedDncList.expiration) {
           delete dnc.selectedDncList.expiration;
         } else {
           dnc.selectedDncList.expiration = convertDateToMySqlFormat(dnc.selectedDncList.expiration);
         }
 
-        if (!angular.isDefined(dnc.selectedDncList.id)) {
-          return dnc.selectedDncList.save({
-            tenantId: Session.tenant.tenantId
-          }, function (response) {
-            dnc.dncLists.push(response);
-            Alert.success($translate.instant('value.saveSuccess'));
-            dnc.duplicateError = false;
-          }, function (err) {
-            Alert.error($translate.instant('value.saveFail'));
-            if (err.data.error.attribute.name) {
-              dnc.duplicateError = true;
-              dnc.duplicateErrorMessage = err.data.error.attribute.name.capitalize();
-            }
-          })
-        }
+        return dnc.selectedDncList.save({
+          tenantId: Session.tenant.tenantId
+        }, function (response) {
+          dnc.duplicateError = false;
+        }, function (err) {
+          if (err.data.error.attribute.name) {
+            dnc.duplicateError = true;
+            dnc.duplicateErrorMessage = err.data.error.attribute.name.capitalize();
+          }
+        })
       };
 
       // individual list not being used at this time,
@@ -116,9 +107,25 @@ angular.module('liveopsConfigPanel')
         ]).add('2', 'days');
         var today = new Date(newUTCDate);
         return $moment(today).format('YYYY-MM-DD');
-      }
+      };
 
       dnc.provideDateTomorrow = provideDateTomorrow();
-      dnc.tableConfig = dncListsTableConfig;
+
+      dnc.dateWatch = function () {
+        var unwatch = $scope.$watch('dnc.selectedDncList.expiration', function () {});
+        $scope.$watch('dnc.selectedDncList.expiration', function (newVal, oldVal) {
+          if (oldVal === null) {
+            $scope.forms.detailsForm.$setDirty();
+            unwatch();
+          } else {
+            if (newVal && angular.isDefined(oldVal)) {
+              if (oldVal.substring(0, 10) !== newVal.substring(0, 10)) {
+                $scope.forms.detailsForm.$setDirty();
+                unwatch();
+              }
+            }
+          }
+        });
+      };
     }
   ]);

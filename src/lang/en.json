@@ -304,6 +304,7 @@
   "dncEdit.table.expiration": "Expiration",
   "dncEdit.table.dncListDownload": "Download CSV",
   "dncEdit.details.creating": "Creating new contact",
+  "dncEdit.bulkActions.enable.dnc":"Enable/Disable Do Not Contact Lists",
   "flow.type": "Type",
   "flow.type.choose": "Select a Type...",
   "flow.type.customer": "Customer",

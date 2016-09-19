@@ -2,22 +2,25 @@
   <h4>{{'details' | translate}}</h4>
 </div>
 
-<div disable-contents="! (['MANAGE_ALL_BUSINESS_HOURS'] | hasPermission)">
+<div disable-contents="! (['MANAGE_CAMPAIGNS'] | hasPermission)">
   <div class="input-group">
     <label>{{'value.name' | translate}} *</label>
 
-    <form-error field="dnc.forms.detailsForm.name"
+    <form-error ng-if="!dnc.selectedDncList.name"  field="dnc.forms.detailsForm.name"
       error-type-required="{{'value.error.name.required' | translate}}">
     </form-error>
     <input type="text" name="name"
       ng-model="dnc.selectedDncList.name"
-      ng-required="true" value={{dnc.selectedDncList.name}}
-      ng-disabled="!dnc.selectedDncList.isNew()" />
+      ng-required="true" value={{dnc.selectedDncList.name}} />
   </div>
 
   <div class="input-group">
     <label class="textarea-label">{{'value.description' | translate}}</label>
-    <textarea ng-model="dnc.selectedDncList.description" ng-disabled="!dnc.selectedDncList.isNew()">{{dnc.selectedDncList.description}}</textarea>
+    <textarea
+      ng-model="dnc.selectedDncList.description"
+      name="description">
+      {{dnc.selectedDncList.description}}
+  </textarea>
   </div>
 
   <div class="input-group">
@@ -33,15 +36,9 @@
       ng-model-options="{timezone: 'UTC'}"
       min-date="dnc.provideDateTomorrow"
       id="dncDatepicker"
-      ng-if="dnc.selectedDncList.isNew()"
       value="dnc.selectedDncList.expiration"
+      ng-click="dnc.dateWatch()"
       readonly>
-
-      <input type="text"
-      name="expiration"
-      ng-model="dnc.selectedDncList.expiration"
-      ng-disabled="!dnc.selectedDncList.isNew()"
-      ng-if="!dnc.selectedDncList.isNew()">
   </div>
 
   <div class="divider-header">

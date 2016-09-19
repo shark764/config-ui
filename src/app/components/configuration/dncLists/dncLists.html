@@ -23,12 +23,12 @@
 </div>
 
 <resize-handle
-  ng-show="!! dnc.selectedDncList || showBulkActions"
+  ng-show="dnc.selectedDncList || showBulkActions"
   id="resize-pane"
-  right-element-id="right-panel"
+  right-element-id="dnc-details-panel"
   left-element-id="table-pane"></resize-handle>
 
-<lo-details-panel id="right-panel"
+<lo-details-panel id="dnc-details-panel"
   class="right-panel"
   ng-show="dnc.selectedDncList || showBulkActions"
   ng-resource="dnc.selectedDncList">
@@ -56,7 +56,8 @@
         id="cancel-details-btn" class="btn" type="button"
         ng-disabled="dnc.selectedDncList.$busy"
         value="{{'value.cancel' | translate}}"
-        lo-cancel></input>
+        lo-cancel
+        ng-click="dnc.selectedDncList.expiration = null"></input>
 
       <input
         id="submit-details-btn"
@@ -75,6 +76,6 @@
     items="dnc.dncLists"
     show-bulk-actions="showBulkActions">
 
-    <ba-set-dncLists-status></ba-set-dncLists-status>
+    <ba-set-dnc-lists-status></ba-set-dnc-lists-status>
   </bulk-action-executor>
 </lo-details-panel>

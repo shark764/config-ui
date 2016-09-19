@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+* Merging work from hotfix branch into master
 * CXV1-2281 - Bug fix timezone should default to tenant's timezone
 * CXV1-4859 - Bug fix for Campaign Settings tool tip
 * CXV1-5396 - Typo fix for Dispatch Mapping
@@ -12,7 +13,6 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 * CXV1-4859 - Add tooltips to Settings page controls
 * CXV1-4912 - Enable multiple salesforce integrations
 * CXV1-3596 - Reasons/Dispos bulk action fail messages
-* Updated Realtime Dashboards to 4.2.0
 * Bumping flow designer
 
 ## [4.1.21]
