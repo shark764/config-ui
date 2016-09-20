@@ -115,17 +115,23 @@ angular.module('liveopsConfigPanel')
 
       dnc.provideDateTomorrow = provideDateTomorrow();
 
-      dnc.dateWatch = function () {
+      dnc.dateWatch = function (dncListId) {
         var unwatch = $scope.$watch('dnc.selectedDncList.expiration', function () {});
         $scope.$watch('dnc.selectedDncList.expiration', function (newVal, oldVal) {
-          if (oldVal === null) {
-            $scope.forms.detailsForm.$setDirty();
-            unwatch();
-          } else {
-            if (newVal && angular.isDefined(oldVal)) {
-              if (oldVal.substring(0, 10) !== newVal.substring(0, 10)) {
-                $scope.forms.detailsForm.$setDirty();
-                unwatch();
+          // do not evaluate for changes in date if we are switching between
+          // dnc lists in the table
+          if (dncListId === dnc.selectedDncList.id) {
+            // if the user has never set an expiry date, activate submit button on any change
+            if (oldVal === null) {
+              $scope.forms.detailsForm.$setDirty();
+              unwatch();
+            } else {
+              // if the user *has* s  elected a date and is now changing that date
+              if (newVal && angular.isDefined(oldVal)) {
+                if (oldVal.substring(0, 10) !== newVal.substring(0, 10)) {
+                  $scope.forms.detailsForm.$setDirty();
+                  unwatch();
+                }
               }
             }
           }
