@@ -4,6 +4,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 * Update Realtime Dashboards to 4.2.0 (New Available endpoint changes)
+* Fixed bug with DNC List edit panels being dirty upon initially loading
 
 ## [4.1.22]
 * CXV1-5500 - Came to a resolution on this although QE disagrees, will leave it to Clint to decide
