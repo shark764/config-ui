@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## [4.1.22]
 * CXV1-5500 - Came to a resolution on this although QE disagrees, will leave it to Clint to decide
 * CXV1-5446 - Removed modal confirmation pop up with incorrect text in it
 * CXV1-5445 - Made DNC list fields editable
