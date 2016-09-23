@@ -12,8 +12,10 @@ angular.module('liveopsConfigPanel')
 
       $scope.$on('enableAddExceptionHour', function () {
         vm.addBtnDisabled = false;
-        startWatcher();
-        endWatcher();
+        if (angular.isDefined(startWatcher)) {
+          startWatcher();
+          endWatcher();
+        }
       });
 
       vm.addHoursException = function () {
