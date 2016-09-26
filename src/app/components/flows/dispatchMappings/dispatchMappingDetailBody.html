@@ -70,6 +70,12 @@
       </form-error>
     <div>
       <input id="phone-form-field" name="telvalue" type="tel"
+        ng-if="selectedDispatchMapping.channelType === 'voice' || selectedDispatchMapping.channelType === 'sms'"
+        lo-validate="isTelInput()"
+        ng-required="isTelInput()"
+        ng-model="selectedDispatchMapping.value">
+      <input id="phone-form-field" name="telvalue" type="text"
+        ng-if="selectedDispatchMapping.channelType !== 'voice' && selectedDispatchMapping.channelType !== 'sms'"
         lo-validate="isTelInput()"
         ng-required="isTelInput()"
         ng-model="selectedDispatchMapping.value">
