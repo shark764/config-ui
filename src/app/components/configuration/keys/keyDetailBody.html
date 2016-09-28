@@ -1,0 +1,53 @@
+<div>
+  <div class="divider-header first-header">
+    <h4>{{'details' | translate}}</h4>
+  </div>
+
+  <div>
+    <div class="input-group">
+      <label>{{'value.name' | translate}} *</label>
+      <input type="text" ng-model="selectedKey.name" required></input>
+    </div>
+
+    <div class="input-group">
+      <label class="textarea-label">{{'value.description' | translate}}</label>
+      <div>
+        <textarea ng-model="selectedKey.description">
+        </textarea>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label>{{'value.role' | translate}} *</label>
+      <div>
+        <select name="role"
+          ng-model="selectedKey.roleId"
+          ng-options="role.id as role.name for role in fetchRoles()"
+          required>
+          <option value="" disabled>{{'users.details.role.select' | translate}}</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider-header" ng-if="!selectedKey.isNew()">
+    <h4>{{'keys.key' | translate}}</h4>
+  </div>
+
+  <div ng-if="!selectedKey.isNew()">
+    <div class="input-group">
+      <label>
+        <i ng-click="toggleKeyMask()" class="fa" ng-class="{'fa-eye-slash': keyMask, 'fa-eye': !keyMask}" title="{{keyMask ? ('keys.details.unhide' | translate) : ('keys.details.hide' | translate)}}" aria-hidden="true"></i>
+        &nbsp&nbsp&nbsp {{'keys.sid' | translate}}
+      </label>
+      <input id="key-sid" type="password" value="{{selectedKey.id}}" disabled></input>
+    </div>
+
+    <div class="input-group">
+      <label></label>
+      <button class="btn" ng-click="confirmDeleteKey()">
+        {{'keys.details.delete' | translate}}
+      </button>
+    </div>
+  </div>
+</div>

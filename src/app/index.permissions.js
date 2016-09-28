@@ -31,6 +31,7 @@
       viewDispatchMappings: ['VIEW_ALL_CONTACT_POINTS'],
       viewDashboards: ['VIEW_ALL_REALTIME_DASHBOARDS'],
       viewRecordings: ['VIEW_ALL_RECORDINGS'],
-      viewCustomStats: ['CUSTOM_STATS_READ']
+      viewCustomStats: ['CUSTOM_STATS_READ'],
+      viewAppCreds: ['MANAGE_ALL_APP_CREDENTIALS']
     });
 })();

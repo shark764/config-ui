@@ -251,6 +251,18 @@ angular.module('liveopsConfigPanel')
             }]
           }
         })
+        .state('content.configuration.keys', {
+          url: '/keys?id',
+          title: 'Configuration - API Keys',
+          templateUrl: 'app/components/configuration/keys/keys.html',
+          controller: 'keysController as kc',
+          reloadOnSearch: false,
+          resolve: {
+            hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
+              return UserPermissions.resolvePermissions(PermissionGroups.viewAppCreds);
+            }]
+          }
+        })
         .state('content.flows', {
           abstract: true,
           url: '/flows',

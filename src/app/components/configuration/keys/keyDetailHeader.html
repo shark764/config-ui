@@ -1,0 +1,29 @@
+<div ng-if="! selectedKey.isNew()">
+  <toggle class="status-toggle" ng-model="selectedKey.status"
+  confirm-disable-message="{{'keys.details.disable.confirm' | translate}}"
+  confirm-enable-message="{{'keys.details.enable.confirm' | translate}}"
+  true-value="enabled"
+  false-value="disabled"
+  on-confirm="updateActive()"></toggle>
+
+  <div class="info">
+    <h1 id="key-details-name-header">{{selectedKey.$original.name}}</h1>
+    <div class="details">
+      <div>
+        <b audit-text
+          translation="value.createdby.time"
+          user-id="selectedKey.$original.createdBy"
+          date="selectedKey.$original.created">
+        </b>
+        <br/>
+        <b audit-text ng-if="!!selectedKey.$original.updatedBy"
+          translation="value.updatedby"
+          user-id="selectedKey.$original.updatedBy"
+          date="selectedKey.$original.updated">
+        </b>
+      </div>
+    </div>
+  </div>
+</div>
+
+<h1 id="key-details-create-header" ng-if="selectedKey.isNew()">{{'keys.details.creating' | translate}}</h1>
