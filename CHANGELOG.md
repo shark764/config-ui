@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## [4.2.0]
 * Update Realtime Dashboards to 4.3.0 (New Available endpoint changes + Custom Gauge Widgets)
 * Fixed bug with DNC List edit panels being dirty upon initially loading
 * Only validate dispatch mappings as phone numbers on voice/sms
