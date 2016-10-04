@@ -36,7 +36,9 @@ angular.module('liveopsConfigPanel')
       'orderBy': '$original.type',
       'title': $translate.instant('integration.table.title'),
       'sref': 'content.configuration.integrations',
-      'showCreate': true,
+      'showCreate': function() {
+        return UserPermissions.hasPermission('MANAGE_ALL_PROVIDERS');
+      },
       'showBulkActions': function() {
         return UserPermissions.hasPermission('MANAGE_ALL_PROVIDERS');
       },

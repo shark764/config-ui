@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+* CXV1-4426 - UI for View Only Platform Role (contains known issues, see ticket for more info)
 
 ## [4.2.2]
 * Update Realtime Dashboards to 4.3.2 (Bug fixes)
