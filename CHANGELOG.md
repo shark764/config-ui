@@ -4,6 +4,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [4.2.1]
+* Update Realtime Dashboards to 4.3.1 (Bug fixes)
+
 ## [4.2.0]
 * Update Realtime Dashboards to 4.3.0 (New Available endpoint changes + Custom Gauge Widgets)
 * Fixed bug with DNC List edit panels being dirty upon initially loading
