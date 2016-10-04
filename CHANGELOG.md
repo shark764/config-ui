@@ -4,6 +4,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [4.2.2]
+* Update Realtime Dashboards to 4.3.2 (Bug fixes)
+
 ## [4.2.1]
 * Update Realtime Dashboards to 4.3.1 (Bug fixes)
 
