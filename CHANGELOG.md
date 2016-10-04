@@ -4,6 +4,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 * CXV1-4426 - UI for View Only Platform Role (contains known issues, see ticket for more info)
+* Hotfixes for queue query builder. Version 1 and 2 queries should both display and be allowed to be copied. New queries and new versions (not copies) should produce Zermelo v2 queries. Copies will produce queries using the same version of Zermelo as the original.
 
 ## [4.2.2]
 * Update Realtime Dashboards to 4.3.2 (Bug fixes)
