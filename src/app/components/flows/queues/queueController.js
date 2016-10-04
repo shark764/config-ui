@@ -93,11 +93,16 @@ angular.module('liveopsConfigPanel')
 
       vm.saveInitialVersion = function(queue) {
         var qv = vm.initialVersion;
-        qv.query = ZermeloService.getQueryString();
+
+        if(vm.VERSION_NUM === 2) {
+          qv.query = ZermeloService.getQueryString();
+        }
 
         vm.initialVersion.save()
           .then(function(versionResult) {
-            $rootScope.$emit('queue.query.reset');
+            if(vm.VERSION_NUM === 2) {
+              $rootScope.$emit('queue.query.reset');
+            }
             queue.activeVersion = versionResult.version;
             queue.activeQueue = versionResult;
             queue.active = true;
@@ -144,10 +149,12 @@ angular.module('liveopsConfigPanel')
       };
 
       vm.copySelectedVersion = function(version) {
-        $rootScope.$emit('queue.query.reset');
-        ZermeloService.parseString(version.query)
+        if(version.queryVersion === 2) {
+          $rootScope.$emit('queue.query.reset');
+          ZermeloService.parseString(version.query)
+        }
         vm.selectedQueueVersion = new QueueVersion({
-          query: ZermeloService.getQueryString(),
+          query: version.queryVersion === 2 ? ZermeloService.getQueryString() : version.query,
           name: 'v' + (vm.fetchVersions().length + 1),
           tenantId: version.tenantId,
           queueId: version.queueId,
@@ -156,7 +163,7 @@ angular.module('liveopsConfigPanel')
           priorityValue: version.priorityValue,
           priorityRate: version.priorityRate,
           priorityUnit: version.priorityUnit,
-          queryVersion: vm.VERSION_NUM
+          queryVersion: version.queryVersion
         });
         angular.element('#queue-version-panel').css('display', 'table-cell');
       };
@@ -218,18 +225,25 @@ angular.module('liveopsConfigPanel')
       });
 
       vm.addQueueVersion = function() {
-        $rootScope.$emit('queue.query.reset');
+        if (vm.VERSION_NUM === 2) {
+          $rootScope.$emit('queue.query.reset');
+          angular.element('#queue-version-panel').css('display', 'table-cell');
+        }
         vm.selectedQueueVersion = vm.getDefaultVersion();
         vm.selectedQueueVersion.queueId = vm.selectedQueue.id;
         vm.selectedQueueVersion.name = 'v' + (vm.fetchVersions().length + 1);
-        angular.element('#queue-version-panel').css('display', 'table-cell');
       };
 
       vm.saveVersion = function() {
-        vm.selectedQueueVersion.query = ZermeloService.getQueryString();
+        if(vm.selectedQueue.queryVersion === 2) {
+          vm.selectedQueueVersion.query = ZermeloService.getQueryString();
+        }
         return vm.selectedQueueVersion.save().then(function(version) {
+          Alert.success($translate.instant('value.saveSuccess'));
           vm.selectedQueueVersion = null;
-          $rootScope.$emit('queue.query.reset');
+          if(vm.selectedQueueVersion.queryVersion === 2) {
+            $rootScope.$emit('queue.query.reset');
+          }
           return version;
         }).finally(vm.updateVersions);
       };
