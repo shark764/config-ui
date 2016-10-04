@@ -25,7 +25,7 @@ angular.module('liveopsConfigPanel')
               if (!Session.tenant || tenant.tenantId !== Session.tenant.tenantId) {
                 DirtyForms.confirmIfDirty(function() {
                   Session.setTenant(tenant);
-                  vm.updateTopbarConfig();
+                  $scope.updateTopbarConfig();
                   var goTo = $state.current;
                   if($state.includes('content.realtime-dashboards-management.editor')) {
                     goTo = 'content.realtime-dashboards-management';
@@ -90,6 +90,9 @@ angular.module('liveopsConfigPanel')
 
       $scope.$on('resource:create', $scope.onCreateClick);
       $scope.$on('resource:actions', $scope.onActionsClick);
+      $rootScope.$on('readAllMode', function() {
+        $scope.updateTopbarConfig();
+      });
       $scope.$watch('Session.tenants', $scope.populateTenantsHandler);
 
       vm.getManagementConfig = function() {
@@ -356,13 +359,13 @@ angular.module('liveopsConfigPanel')
         return items;
       };
 
-      vm.updateTopbarConfig = function() {
+      $scope.updateTopbarConfig = function() {
         $scope.managementDropConfig = vm.getManagementConfig();
         $scope.configurationDropConfig = vm.getConfigurationConfig();
         $scope.flowsDropConfig = vm.getFlowsConfig();
         $scope.reportingDropConfig = vm.getReportingConfig();
       };
 
-      vm.updateTopbarConfig();
+      $scope.updateTopbarConfig();
     }
   ]);

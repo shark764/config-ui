@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('TenantsController', ['$scope', 'Session', 'Tenant', 'TenantUser', 'tenantTableConfig', 'UserPermissions', 'AuthService', 'Region', '$q', 'loEvents', 'Timezone', 'PermissionGroups', 'Alert', 'GlobalRegionsList', 'Integration',
-    function ($scope, Session, Tenant, TenantUser, tenantTableConfig, UserPermissions, AuthService, Region, $q, loEvents, Timezone, PermissionGroups, Alert, GlobalRegionsList, Integration) {
+  .controller('TenantsController', ['$rootScope', '$scope', 'Session', 'Tenant', 'TenantUser', 'tenantTableConfig', 'UserPermissions', 'AuthService', 'Region', '$q', 'loEvents', 'Timezone', 'PermissionGroups', 'Alert', 'GlobalRegionsList', 'Integration',
+    function ($rootScope, $scope, Session, Tenant, TenantUser, tenantTableConfig, UserPermissions, AuthService, Region, $q, loEvents, Timezone, PermissionGroups, Alert, GlobalRegionsList, Integration) {
       var vm = this;
 
       vm.loadTimezones = function () {
@@ -119,6 +119,15 @@ angular.module('liveopsConfigPanel')
           vm.loadIntegrations($scope.selectedTenant.id);
         }
       });
+
+      $scope.setViewOnlyTenant = function() {
+        Session.setTenant({
+          tenantId: $scope.selectedTenant.id,
+          tenantName: $scope.selectedTenant.name + ' *',
+          tenantPermissions: PermissionGroups.readAllMode
+        });
+        $rootScope.$emit('readAllMode');
+      };
 
       $scope.updateActive = function () {
         var tenantCopy = new Tenant({

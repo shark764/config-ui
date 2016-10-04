@@ -59,6 +59,11 @@
     </select>
   </div>
 
+  <div class="input-group" ng-if="('PLATFORM_VIEW_ALL' | hasPermission)">
+    <label></label>
+    <input ng-click="setViewOnlyTenant()" type="button" class="btn" value="{{'tenant.details.setActive' | translate}}"></input>
+  </div>
+
   <div class="input-group" ng-show="! selectedTenant.isNew()">
     <label class="textarea-label">{{'tenant.details.region' | translate}}</label>
     <p id="tenant-details-region" class="added-padding">{{selectedTenant.$regionDisplay}}</p>

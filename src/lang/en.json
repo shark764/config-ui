@@ -461,6 +461,7 @@
   "tenant.details.enable.confirm": "This will enable this tenant. Do you want to continue?",
   "tenant.table.title": "Tenant Management",
   "tenant.details.parent": "Parent Tenant",
+  "tenant.details.setActive": "Set As Active Tenant",
   "integration.details": "Integration",
   "integration.details.properties.accountSid": "Account SID",
   "integration.details.properties.authId": "Auth ID",
