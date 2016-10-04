@@ -2,8 +2,8 @@
 
   <input name="query" type="hidden" ng-model="qc.selectedQueueVersion.query" ng-required="true" />
 
-  <query-list-creator form="qc.forms.versionForm" ng-if="qc.selectedQueueVersion && qc.VERSION_NUM === 1" query-string="qc.selectedQueueVersion.query"></query-list-creator>
-  <query-builder ng-if="qc.selectedQueueVersion && qc.VERSION_NUM === 2" query-string="qc.selectedQueueVersion.query"></query-builder>
+  <query-list-creator form="qc.forms.versionForm" ng-if="qc.selectedQueueVersion && qc.selectedQueueVersion.queryVersion === 1" query-string="qc.selectedQueueVersion.query"></query-list-creator>
+  <query-builder ng-if="qc.selectedQueueVersion && qc.selectedQueueVersion.queryVersion === 2" query-string="qc.selectedQueueVersion.query"></query-builder>
 
   <div class="divider-header">
     <h4>{{'queue.details.priority' | translate}}</h4>
