@@ -235,15 +235,15 @@ angular.module('liveopsConfigPanel')
       };
 
       vm.saveVersion = function() {
-        if(vm.selectedQueue.queryVersion === 2) {
+        if(vm.selectedQueueVersion.queryVersion === 2) {
           vm.selectedQueueVersion.query = ZermeloService.getQueryString();
         }
         return vm.selectedQueueVersion.save().then(function(version) {
           Alert.success($translate.instant('value.saveSuccess'));
-          vm.selectedQueueVersion = null;
           if(vm.selectedQueueVersion.queryVersion === 2) {
             $rootScope.$emit('queue.query.reset');
           }
+          vm.selectedQueueVersion = null;
           return version;
         }).finally(vm.updateVersions);
       };
