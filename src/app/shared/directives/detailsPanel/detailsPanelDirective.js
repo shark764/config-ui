@@ -10,18 +10,26 @@ angular.module('liveopsConfigPanel')
         templateUrl: 'app/shared/directives/detailsPanel/detailsPanel.html',
         scope: {
           ngResource: '=',
-          queueController: '='
+          queueController: '=',
+          alternateClose: '='
         },
         controller: function($scope) {
+
           this.close = function() {
-            DirtyForms.confirmIfDirty(function() {
-              $location.search({
-                id: null
+            // $scope.alternateClose gives us a chance to override the default close
+            // function body if necessary
+            if ($scope.alternateClose === true) {
+              $scope.$emit(loEvents.tableControls.altClose);
+            } else {
+              DirtyForms.confirmIfDirty(function() {
+                $location.search({
+                  id: null
+                });
+                $scope.ngResource = null;
+                $scope.$emit(loEvents.bulkActions.close);
+                angular.element('#queue-version-panel').hide();
               });
-              $scope.ngResource = null;
-              $scope.$emit(loEvents.bulkActions.close);
-              angular.element('#queue-version-panel').hide();
-            });
+            }
           };
 
           $scope.close = this.close;

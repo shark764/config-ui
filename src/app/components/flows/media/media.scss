@@ -1,3 +1,50 @@
+lo-multibox {
+  .label-container {
+    background: white;
+
+    input {
+      background: white;
+    }
+  }
+}
+
+.media-list-table {
+  tr {
+    th {
+      &:nth-child(1) {
+        width: 50%;
+      }
+
+      &:nth-child(2) {
+        width: 30%;
+      }
+
+      &:nth-child(3) {
+        width: 10%;
+      }
+    }
+  }
+
+  &.has-audio-length {
+    tr {
+      th {
+        &:nth-child(1) {
+          width: 50%;
+        }
+
+        &:nth-child(2),
+        &:nth-child(3) {
+          width: 15%;
+        }
+
+        &:nth-child(4) {
+          width: 10%;
+        }
+      }
+    }
+  }
+}
+
 .audio-source .btn {
   margin-left: 4px;
 }

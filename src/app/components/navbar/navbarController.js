@@ -282,16 +282,16 @@ angular.module('liveopsConfigPanel')
 
         if (UserPermissions.hasPermissionInList(PermissionGroups.viewMedia)) {
           items.push({
-            label: $translate.instant('navbar.flows.mediacollections.title'),
-            stateLink: 'content.flows.media-collections',
-            id: 'media-collection-management-link',
+            label: $translate.instant('navbar.flows.media.title'),
+            stateLink: 'content.flows.media',
+            id: 'media-management-link',
             order: 5
           });
 
           items.push({
-            label: $translate.instant('navbar.flows.media.title'),
-            stateLink: 'content.flows.media',
-            id: 'media-management-link',
+            label: $translate.instant('navbar.flows.mediacollections.title'),
+            stateLink: 'content.flows.media-collections',
+            id: 'media-collection-management-link',
             order: 6
           });
         }

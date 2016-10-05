@@ -4,7 +4,7 @@
     items="fetchMediaCollections()"
     search-query="searchQuery">
   </table-controls>
-  
+
   <lo-resource-table
     config="tableConfig"
     items="fetchMediaCollections()"
@@ -58,18 +58,19 @@
 
 <resize-handle
   id="resize-pane-2"
-  ng-show="selectedMedia"
+  ng-show="selectedMedia && selectedMediaCollection"
   right-element-id="media-pane"
   left-element-id="details-pane"></resize-handle>
 
 <lo-details-panel lo-media id="media-pane" class="right-panel"
   name="mediaDetailsController"
-  ng-show="selectedMedia"
+  ng-show="selectedMedia && selectedMediaCollection"
   ng-resource="selectedMedia"
   lo-media-details>
 
   <ng-form unsaved-changes-warning
-    ng-show="selectedMedia" name="forms.mediaForm"
+    ng-show="selectedMedia"
+    name="forms.mediaForm"
     class="details-pane"
     ng-model="selectedMedia"
     ng-resource="selectedMedia"
@@ -104,6 +105,46 @@
       <a ng-show="loading" ng-disabled="true" class="btn btn-primary">
         <i class="fa fa-refresh fa-spin"></i>
       </a>
+    </div>
+  </ng-form>
+</lo-details-panel>
+
+<resize-handle
+  ng-show="showSecondPanel === true && selectedMedia.type ==='list' && selectedMediaCollection"
+  id="resize-pane"
+  right-element-id="right-panel"
+  left-element-id="table-pane" ></resize-handle>
+
+<lo-details-panel id="right-panel" class="right-panel"
+  ng-show="showSecondPanel === true && selectedMedia.type ==='list' && selectedMediaCollection"
+  name="mediaDetailsController"
+  lo-media-details
+  form="forms.mediaFormAddl"
+  ng-resource="selectedMedia.secondScope"
+  alternate-close="true">
+
+  <ng-form unsaved-changes-warning class="details-pane"
+    name="forms.mediaFormAddl"
+    ng-model="selectedMedia.secondScope">
+
+    <div class="detail-body"
+      ng-include src="'app/components/flows/media/mediaDetailPanelAddl.html'">
+    </div>
+
+    <div class="detail-controls">
+      <input id="cancel-details-btn" type="button" class="btn"
+        value="{{'value.cancel' | translate}}"
+        ng-click="closeAddlPanel()">
+      </input>
+      <input id="submit-details-btn"
+        class="btn btn-primary"
+        type="submit"
+        value="{{'value.submit' | translate}}"
+        ng-disabled="forms.mediaFormAddl.$invalid || ! forms.mediaFormAddl.$dirty"
+        ng-click="mediaDetailsController.submit(selectedMedia.secondScope, forms.mediaFormAddl)"
+        lo-submit-spinner
+        lo-submit-spinner-status="selectedMedia.secondScope.$busy">
+      </input>
     </div>
   </ng-form>
 </lo-details-panel>

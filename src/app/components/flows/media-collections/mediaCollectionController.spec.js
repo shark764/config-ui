@@ -98,23 +98,6 @@ describe('MediaCollectionController', function() {
       $scope.submitMedia();
       expect($scope.mediaDetailsController.submit).toHaveBeenCalled();
     }));
-
-    it('should set the selectedMedia to null on success', inject(function($q) {
-      $scope.mediaDetailsController = {
-        submit: jasmine.createSpy('submit').and.callFake(function() {
-          var deferred = $q.defer();
-          deferred.resolve();
-          return deferred.promise;
-        })
-      };
-
-      $scope.selectedMedia = {
-        id: 'media'
-      };
-      $scope.submitMedia();
-      $scope.$digest();
-      expect($scope.selectedMedia).toBeNull();
-    }));
   });
 
   describe('submitMediaAndNew function', function() {
@@ -133,25 +116,6 @@ describe('MediaCollectionController', function() {
 
       $scope.submitMediaAndNew();
       expect($scope.mediaDetailsController.submit).toHaveBeenCalled();
-    }));
-
-    it('should set the selectedMedia to an empty media on success', inject(function($q, Session) {
-      $scope.mediaDetailsController = {
-        submit: jasmine.createSpy('submit').and.callFake(function() {
-          var deferred = $q.defer();
-          deferred.resolve();
-          return deferred.promise;
-        })
-      };
-
-      $scope.selectedMedia = {
-        id: 'media'
-      };
-      $scope.submitMediaAndNew();
-      $scope.$digest();
-      expect($scope.selectedMedia).not.toBeNull();
-      expect($scope.selectedMedia.properties).toEqual({});
-      expect($scope.selectedMedia.tenantId).toEqual(Session.tenant.tenantId);
     }));
   });
 });

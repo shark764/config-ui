@@ -1,3 +1,5 @@
+<h1>{{'media.details.creating' | translate}}</h1>
+
 <div class="divider-header first-header">
   <h4>{{'details' | translate}}</h4>
 </div>
@@ -5,29 +7,28 @@
 <div class="tile" disable-contents="!('MANAGE_ALL_MEDIA' | hasPermission)">
   <div class="input-group">
     <label>{{'value.name' | translate}} *</label>
-    <form-error field="forms.mediaForm.name"
+    <form-error field="forms.mediaFormAddl.name"
       error-type-required="{{'media.details.name.error' | translate}}">
     </form-error>
     <div>
       <input type="text" name="name"
         ng-required="true"
-        ng-model="selectedMedia.name">
+        ng-model="selectedMedia.secondScope.name">
       </input>
     </div>
   </div>
 
   <div class="input-group">
     <label>{{'value.type' | translate}} *</label>
-    <form-error field="forms.mediaForm.type"
+    <form-error field="forms.mediaFormAddl.type"
       error-type-required="{{'media.details.type.error' | translate}}">
     </form-error>
     <div>
       <select name="type"
         ng-change="text = ''"
         ng-required="true"
-        ng-disabled="!selectedMedia.isNew()"
-        ng-model="selectedMedia.type"
-        ng-options="type.value as type.display for type in getMediaTypes()">
+        ng-model="selectedMedia.secondScope.type"
+        ng-options="type.value as type.display for type in getMediaTypes(['list'])">
         <option value="" disabled>{{'media.details.type.select' | translate}}</option>
       </select>
     </div>
@@ -36,42 +37,26 @@
   <div class="input-group">
     <label class="textarea-label">{{'value.description' | translate}}</label>
     <div>
-      <textarea ng-model="selectedMedia.description"></textarea>
-    </div>
-  </div>
-
-  <div class="input-group" ng-if="selectedMedia.type === 'list' && selectedMedia.totalLength">
-    <label>{{'media.details.list.playTime' | translate}}</label>
-    <div>
-      00:00
+      <textarea ng-model="selectedMedia.secondScope.description"></textarea>
     </div>
   </div>
 </div>
-<media-lists
-  list="selectedMedia"
-  form="forms.mediaForm"
-  media="fetchMedias()"
-  bypass-reset="bypassReset"
-  ng-if="selectedMedia.type === 'list'"></media-lists>
-<div class="divider-header" ng-if="selectedMedia.type !== 'list'">
-  <h4>{{'value.source' | translate}}</h4>
-</div>
 
-<div class="tile audio-source" ng-show="selectedMedia.type === 'audio'">
+<div class="tile audio-source" ng-show="selectedMedia.secondScope.type === 'audio'">
   <div class="input-group">
     <label>{{'media.details.source.upload.file' | translate}} *</label>
 
     <div>
       <input id="audio-source-upload-file" type="text"
         name="audiosourcefile"
-        ng-model="selectedMedia.$sourceAudioFile.name"
-        ng-required="selectedMedia.type === 'audio' && !selectedMedia.source"
+        ng-model="selectedMedia.secondScope.$sourceAudioFile.name"
+        ng-required="selectedMedia.secondScope.type === 'audio' && !selectedMedia.source"
         ng-disabled="true">
 
       <div id="audio-source-upload-btn" type="button" class="btn"
-        ngf-select="mediaDetailsController.onSelect(forms.mediaForm)"
+        ngf-select="mediaDetailsController.onSelect(forms.mediaFormAddl)"
         ngf-max-size="100MB"
-        ng-model="selectedMedia.$sourceAudioFile"
+        ng-model="selectedMedia.secondScope.$sourceAudioFile"
         ng-disabled="!('MANAGE_ALL_MEDIA' | hasPermission)"
         accept="audio/*">
         <i class="fa fa-upload" />
@@ -86,45 +71,45 @@
 
   <div class="input-group">
     <label>{{'media.details.source.upload.url' | translate}} *</label>
-    <form-error field="forms.mediaForm.audiosourceurl"
+    <form-error field="forms.mediaFormAddl.audiosourceurl"
       error-type-required="{{'media.details.source.error' | translate}}"
       error-type-url="{{'media.details.source.url.error' | translate}}">
     </form-error>
     <input id="audio-source-url-field" name="audiosourceurl" type="url"
       ng-disabled="!('MANAGE_ALL_MEDIA' | hasPermission)"
       ng-model-options="{allowInvalid : true}"
-      ng-model="selectedMedia.source"
-      ng-required="selectedMedia.type === 'audio' && !selectedMedia.$sourceAudioFile"
-      lo-validate="selectedMedia.type === 'audio'">
+      ng-model="selectedMedia.secondScope.source"
+      ng-required="selectedMedia.secondScope.type === 'audio' && !selectedMedia.secondScope.$sourceAudioFile"
+      lo-validate="selectedMedia.secondScope.type === 'audio'">
     </input>
   </div>
 </div>
 
-<div class="input-group" ng-show="selectedMedia.type === 'tts'">
+<div class="input-group" ng-show="selectedMedia.secondScope.type === 'tts'">
   <label>{{'media.details.source.text' | translate}} *</label>
   <form-error
-    field="forms.mediaForm.sourcetts"
+    field="forms.mediaFormAddl.sourcetts"
     error-type-required="{{'media.details.source.error' | translate}}">
   </form-error>
 
   <input id="tts-source-field" type="text" name="sourcetts"
-    ng-required="selectedMedia.type === 'tts'"
+    ng-required="selectedMedia.secondScope.type === 'tts'"
     ng-disabled="!('MANAGE_ALL_MEDIA' | hasPermission)"
-    ng-model="selectedMedia.source">
+    ng-model="selectedMedia.secondScope.source">
   </input>
 </div>
 
-<div class="input-group" ng-show="selectedMedia.type === 'tts'">
+<div class="input-group" ng-show="selectedMedia.secondScope.type === 'tts'">
   <label>{{'media.details.property.language' | translate}}</label>
 <form-error
-  field="forms.mediaForm.language"
+  field="forms.mediaFormAddl.language"
   error-type-required="{{'media.details.language.error' | translate}}">
 </form-error>
 
   <select id="tts-property-language-field" type="text" name="language"
-    ng-required="selectedMedia.type === 'tts'"
+    ng-required="selectedMedia.secondScope.type === 'tts'"
     ng-disabled="!('MANAGE_ALL_MEDIA' | hasPermission)"
-    ng-model="selectedMedia.properties.language"
+    ng-model="selectedMedia.secondScope.properties.language"
     ng-options="lang.value as lang.display for lang in twilioLangs">
     <option value="" ng-disabled=true>
       {{'media.details.property.language.select' | translate}}
@@ -132,17 +117,17 @@
   </select>
 </div>
 
-<div class="input-group" ng-show="selectedMedia.type === 'tts'">
+<div class="input-group" ng-show="selectedMedia.secondScope.type === 'tts'">
   <label>{{'media.details.property.voice' | translate}}</label>
 <form-error
-  field="forms.mediaForm.voice"
+  field="forms.mediaFormAddl.voice"
   error-type-required="{{'media.details.voice.error' | translate}}">
 </form-error>
 
   <select id="tts-property-voice-field" type="text" name="voice"
-    ng-required="selectedMedia.type === 'tts'"
+    ng-required="selectedMedia.secondScope.type === 'tts'"
     ng-disabled="!('MANAGE_ALL_MEDIA' | hasPermission)"
-    ng-model="selectedMedia.properties.voice"
+    ng-model="selectedMedia.secondScope.properties.voice"
     ng-options="voice.value as voice.display for voice in twilioVoices">
     <option value="" ng-disabled=true>
       {{'media.details.property.voice.select' | translate}}

@@ -1,0 +1,55 @@
+<div class="divider-header">
+  <h4>{{'list.items.header' | translate}}</h4>
+  <a ng-hide="!('MANAGE_ALL_MEDIA' | hasPermission)" id="add-list-item-button" class="btn pull-right" ng-click="addListItem()" ng-disabled="!addBtnEnabled" title="{{'media.details.list.add.alt' | translate}}"><i class="fa fa-plus"></i></a>
+</div>
+
+<form-error field="form.source"
+  error-type-required="{{'media.lists.error.required' | translate}}">
+</form-error>
+<input type="hidden" name="source" ng-model="list.source" required/>
+
+<table
+  class="media-list-table table"
+  ng-class="{'has-audio-length': selectedMedia.totalLength}"
+  resource="list"
+  form="form">
+  <thead>
+    <th>{{'value.name' | translate}}</th>
+    <th>{{'value.type' | translate}}</th>
+    <th ng-if="selectedMedia.totalLength">{{'value.length' | translate}}</th>
+    <th>&nbsp;</th>
+  </thead>
+  <tbody>
+    <tr ng-show="! list.source.length">
+      <td colspan="3">
+        <p class="null">{{'media.details.list.add' | translate}}</p>
+      </td>
+    </tr>
+    <tr ng-repeat="listItem in list.source track by $index">
+      <td>
+        <lo-multibox name="listItem{{$index}}"
+          ng-init="onSelectCallback = onSelect(list); initMediaList(list)"
+          ng-disabled="!('MANAGE_ALL_MEDIA' | hasPermission)"
+          items="mediaListObjs"
+          resource-name="Media"
+          selected-item="listItem"
+          on-item-select="onSelectCallback"
+          idx="$index"
+          bypass-multipicker="bypassMultipicker">
+        </lo-multibox>
+      </td>
+      <td>
+        {{list.source[$index].type}}
+      </td>
+      <td ng-if="selectedMedia.totalLength">
+        {{list.source[$index].properties.length}}
+      </td>
+      <td class='remove-col'>
+        <i id="remove-media-list-item-button"
+          class="fa fa-times remove"
+          ng-hide="!('MANAGE_ALL_MEDIA' | hasPermission)"
+          ng-click="removeMediaItem($index)"></i>
+      </td>
+    </tr>
+  </tbody>
+</table>

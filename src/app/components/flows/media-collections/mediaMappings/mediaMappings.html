@@ -1,6 +1,6 @@
 <div class="divider-header ">
   <h4>{{'media.collections.media.mapping' | translate}}</h4>
-  <a ng-hide="!('MANAGE_ALL_MEDIA' | hasPermission)" id="add-media-mapping-button" class="btn pull-right" ng-click="addMapping()" title="{{'flow.details.mapping.add.alt' | translate}}"><i class="fa fa-plus"></i></a>
+  <a ng-hide="!('MANAGE_ALL_MEDIA' | hasPermission)" id="add-media-mapping-button" class="btn pull-right" ng-click="addMapping()" title="{{'flow.details.mapping.add.alt' | translate}}" ng-disabled="!!bypassMultipicker"><i class="fa fa-plus"></i></a>
 </div>
 
 <form-error field="form.mediaMap"
@@ -47,7 +47,8 @@
           items="fetchMedias()"
           resource-name="Media"
           selected-item="mapping.$media"
-          on-item-select="onSelectCallback">
+          on-item-select="onSelectCallback"
+          bypass-multipicker="bypassMultipicker">
         </lo-multibox>
         <div ng-if="!('MANAGE_ALL_MEDIA' | hasPermission)" class="read-only-mapping">
           {{mapping.name}}
@@ -56,7 +57,7 @@
       <td class='remove-col'>
         <i id="remove-media-mapping-button"
           class="fa fa-times remove"
-          ng-hide="!('MANAGE_ALL_MEDIA' | hasPermission)"
+          ng-hide="!('MANAGE_ALL_MEDIA' | hasPermission) || !!bypassMultipicker"
           ng-click="removeMapping($index)"></i>
       </td>
     </tr>

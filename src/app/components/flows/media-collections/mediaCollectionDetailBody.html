@@ -12,7 +12,7 @@
       <input type="text" ng-model="selectedMediaCollection.name" name="mediacollectionname" required></input>
     </div>
   </div>
-  
+
   <div class="input-group">
     <label class="textarea-label">{{'value.description' | translate}}</label>
     <form-error field="forms.mediaCollectionForm.description"></form-error>
@@ -20,7 +20,7 @@
       <textarea ng-model="selectedMediaCollection.description" name="description"></textarea>
     </div>
   </div>
-  
+
   <div ng-if="selectedMediaCollection.mediaMap != undefined && selectedMediaCollection.mediaMap.length > 0" class="input-group">
     <label>{{'media.collections.defaultMediaKey' | translate}} *</label>
     <div>
@@ -34,5 +34,8 @@
     </div>
   </div>
 </div>
-
-<media-mappings collection="selectedMediaCollection" form="forms.mediaCollectionForm"></media-mappings>
+<media-mappings
+  collection="selectedMediaCollection"
+  form="forms.mediaCollectionForm"
+  bypass-multipicker="bypassMultipicker">
+</media-mappings>
