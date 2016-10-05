@@ -11,20 +11,20 @@
   <form-error field="forms.detailsForm.name" error-type-required="{{'details.name.error' | translate}}" ></form-error>
   <div class="lo-error" role="alert" ng-if='rc.duplicateError'>{{rc.duplicateErrorMessage}}</div>
   <div>
-    <input ng-required="true" type="text" ng-model="rc.selectedReason.name" name="name" ng-disabled="rc.selectedReason.tenantId !== Session.tenant.tenantId"/>
+    <input ng-required="true" type="text" ng-model="rc.selectedReason.name" name="name" ng-disabled="rc.selectedReason.tenantId !== Session.tenant.tenantId || !('UPDATE_PRESENCE_REASONS' | hasPermission)"/>
   </div>
 </div>
 
 <div class="input-group">
   <label>{{'details.externalId' | translate}}</label>
   <div>
-    <input type="text" ng-model="rc.selectedReason.externalId" name="externalId" ng-disabled="rc.selectedReason.tenantId !== Session.tenant.tenantId"/>
+    <input type="text" ng-model="rc.selectedReason.externalId" name="externalId" ng-disabled="rc.selectedReason.tenantId !== Session.tenant.tenantId || !('UPDATE_PRESENCE_REASONS' | hasPermission)"/>
   </div>
 </div>
 
 <div class="input-group">
   <label class="textarea-label">{{'value.description' | translate}}</label>
-  <textarea ng-model="rc.selectedReason.description" ng-disabled="rc.selectedReason.tenantId !== Session.tenant.tenantId"></textarea>
+  <textarea ng-model="rc.selectedReason.description" ng-disabled="rc.selectedReason.tenantId !== Session.tenant.tenantId || !('UPDATE_PRESENCE_REASONS' | hasPermission)"></textarea>
 </div>
 
 <div class="input-group">

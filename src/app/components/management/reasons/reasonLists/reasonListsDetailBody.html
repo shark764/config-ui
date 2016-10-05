@@ -11,20 +11,20 @@
   <form-error field="forms.detailsForm.name" error-type-required="{{'details.name.error' | translate}}" ></form-error>
   <div class="lo-error" role="alert" ng-if='rlc.duplicateError'>{{rlc.duplicateErrorMessage}}</div>
   <div>
-    <input ng-required="true" type="text" ng-model="rlc.selectedReasonList.name" name="name" ng-disabled="rlc.selectedReasonList.tenantId !== Session.tenant.tenantId"/>
+    <input ng-required="true" type="text" ng-model="rlc.selectedReasonList.name" name="name" ng-disabled="rlc.selectedReasonList.tenantId !== Session.tenant.tenantId || !(['UPDATE_REASON_LIST'] | hasPermission)"/>
   </div>
 </div>
 
 <div class="input-group">
   <label>{{'details.externalId' | translate}}</label>
   <div>
-    <input type="text" ng-model="rlc.selectedReasonList.externalId" name="externalId" ng-disabled="rlc.selectedReasonList.tenantId !== Session.tenant.tenantId"/>
+    <input type="text" ng-model="rlc.selectedReasonList.externalId" name="externalId" ng-disabled="rlc.selectedReasonList.tenantId !== Session.tenant.tenantId || !(['UPDATE_REASON_LIST'] | hasPermission)"/>
   </div>
 </div>
 
 <div class="input-group">
   <label class="textarea-label">{{'value.description' | translate}}</label>
-  <textarea ng-model="rlc.selectedReasonList.description" ng-disabled="rlc.selectedReasonList.tenantId !== Session.tenant.tenantId"></textarea>
+  <textarea ng-model="rlc.selectedReasonList.description" ng-disabled="rlc.selectedReasonList.tenantId !== Session.tenant.tenantId || !(['UPDATE_REASON_LIST'] | hasPermission)"></textarea>
 </div>
 
 <div class="input-group">
@@ -43,5 +43,5 @@
 
 <div class="input-group">
   <div class="lo-error" ng-show="err">{{'reasons.invalid' | translate}}</div>
-  <list-editor ng-model="rlc.selectedReasonList.reasons" form="forms.detailsForm" type="reasons" read-only="rlc.selectedReasonList.tenantId !== Session.tenant.tenantId" shared="rlc.selectedReasonList.shared"></list-editor>
+  <list-editor ng-model="rlc.selectedReasonList.reasons" form="forms.detailsForm" type="reasons" read-only="rlc.selectedReasonList.tenantId !== Session.tenant.tenantId || !(['UPDATE_REASON_LIST'] | hasPermission)" shared="rlc.selectedReasonList.shared"></list-editor>
 </div>

@@ -73,7 +73,7 @@
 
       <div>
         <label>{{'integration.details.properties.defaultRegionForced' | translate}}</label>
-        <toggle
+        <toggle ng-disabled="!('MANAGE_ALL_PROVIDERS' | hasPermission)"
             ng-model="selectedIntegration.properties.forceRegion"
             name="forceRegion"/>
       </div>

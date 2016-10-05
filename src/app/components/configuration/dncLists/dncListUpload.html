@@ -1,4 +1,4 @@
-<div disable-contents="! (['MANAGE_CAMPAIGNS'] | hasPermission)">
+<div>
   <div class="input-group multi-col">
     <div class="form-col left align-top">
       <div>
@@ -12,7 +12,7 @@
           ngf-max-size="20MB"
           ng-model="selectedRow.listData"
           type="button"
-          ng-disabled="!selectedRow.id || (selectedRow.hasList && !selectedRow.uploadStats)">
+          ng-disabled="!selectedRow.id || (selectedRow.hasList && !selectedRow.uploadStats) || !(['MANAGE_CAMPAIGNS'] | hasPermission)">
           {{'campaigns.details.importBtn' | translate}}
         </button>
       </div>
