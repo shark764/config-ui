@@ -36,13 +36,17 @@
         <div class="input-group extra-padding">
           <label>{{'campaigns.details.settings.channelType' | translate}} *</label>
           <div>
-            <select required ng-model="csc.versionSettings.channel" ng-options="channel for channel in csc.campaignChannels" ng-disabled="csc.campaignChannels.length < 2">
+            <select required
+            title="{{'campaigns.settings.tooltip.channel' | translate}}"
+            ng-model="csc.versionSettings.channel"
+            ng-options="channel for channel in csc.campaignChannels"
+            ng-disabled="csc.campaignChannels.length < 2">
               <option disabled value="">{{'campaigns.details.channelDropdownDefault' | translate}}</option>
             </select>
           </div>
         </div>
 
-        <div class="input-group extra-padding" title="{{'campaigns.details.settings.expiryTooltip' | translate}}">
+        <div class="input-group extra-padding" title="{{'campaigns.settings.tooltip.expiry' | translate}}">
           <label>{{'campaigns.details.setting.expiry' | translate}}</label>
           <div class="schedule-exception-date-group">
             <input type="text"
@@ -95,7 +99,7 @@
         <div class="input-group extra-padding">
           <label>{{'details.flow' | translate}} *</label>
           <div>
-            <select name="flowId" required ng-model="csc.versionSettings.flowId" ng-options="flow.id as flow.name for flow in csc.flows">
+            <select title="{{'campaigns.settings.tooltip.flow' | translate}}" name="flowId" required ng-model="csc.versionSettings.flowId" ng-options="flow.id as flow.name for flow in csc.flows">
               <option disabled value="">{{'campaigns.details.flow' | translate}}</option>
             </select>
           </div>
@@ -118,7 +122,7 @@
           <select name="region"
             ng-model="csc.versionSettings.defaultRegion"
             ng-options="region.code as region.name for region in csc.regions"
-            title="{{'campaigns.details.settings.regionTooltip' | translate}}"
+            title="{{'campaigns.settings.tooltip.region' | translate}}"
             required>
             <option value="" disabled>{{'campaigns.details.settings.select.region' | translate}}</option>
           </select>
@@ -133,7 +137,7 @@
           <select name="timezone"
             ng-model="csc.versionSettings.defaultTimeZone"
             ng-options="timezone.timezone as timezone.getDisplay() for timezone in csc.timezones | orderBy:'offsetInMilliseconds'"
-            title="{{'campaigns.details.settings.timezoneTooltip' | translate}}"
+            title="{{'campaigns.settings.tooltip.timezone' | translate}}"
             required>
             <option value="" disabled>{{'campaigns.details.settings.select.timezone' | translate}}</option>
           </select>
@@ -146,7 +150,7 @@
           <label>{{'campaigns.details.setting.ani' | translate}} *</label>
 
           <div>
-            <input ng-model="csc.versionSettings.callerId" name="callerId" required class="ani" type="tel" title="{{'campaigns.details.settings.aniTooltip' | translate}}"/>
+            <input ng-model="csc.versionSettings.callerId" name="callerId" required class="ani" type="tel" title="{{'campaigns.settings.tooltip.callerId' | translate}}"/>
           </div>
         </div>
 
@@ -213,7 +217,7 @@
       </div>
 
       <div class="input-group">
-        <button title="{{'campaigns.details.settings.dispoBtnTooltip' | translate}}" class="btn dispo-btn" ng-disabled="!csc.versionSettings.dispositionCodeListId || csc.versionSettings.dispositionCodeListId.length === 0" ng-click="csc.gotoDispoMap(csc.versionSettings.dispositionCodeListId)">{{'campaigns.details.setting.dispositionBtn' | translate}}</button>
+        <button title="{{'campaigns.details.settings.dispoBtnTooltip' | translate}}" class="btn dispo-btn" ng-if="csc.versionSettings.dispositionCodeListId && csc.versionSettings.dispositionCodeListId.length !== 0" ng-click="csc.gotoDispoMap(csc.versionSettings.dispositionCodeListId)">{{'campaigns.details.setting.dispositionBtn' | translate}}</button>
       </div>
 
   </div><!--end of col 1 -->

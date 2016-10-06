@@ -12,6 +12,7 @@
           ngf-max-size="20MB"
           ng-model="selectedRow.listData"
           type="button"
+          title="{{'campaigns.details.tooltip.importContacts' | translate}}"
           ng-disabled="!selectedRow.hasVersion || (selectedRow.hasList && !selectedRow.uploadStats) || selectedRow.currentState === 'started' || !(['MANAGE_CAMPAIGNS'] | hasPermission)">
           {{'campaigns.details.importBtn' | translate}}
         </button>
@@ -22,7 +23,8 @@
           id="stats-btn"
           class="btn"
           ng-click="openStatsModal()"
-          ng-disabled="selectedRow.latestJobData.status !== 'completed'">
+          title="{{'campaigns.details.tooltip.stats' | translate}}"
+          ng-if="selectedRow.latestJobData.status === 'completed'">
           {{'campaigns.details.statsBtn' | translate}}
         </button>
       </div>
@@ -33,7 +35,8 @@
           class="btn"
           ng-click="downloadCsv($event)"
           type="button"
-          ng-disabled="selectedRow.latestJobData.status !== 'completed'">
+          title="{{'campaigns.details.tooltip.download' | translate}}"
+          ng-if="selectedRow.latestJobData.status === 'completed'">
           {{'campaigns.details.downloadBtn' | translate}}
         </button>
       </div>

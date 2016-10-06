@@ -10,6 +10,7 @@
     <div>
       <input
       required
+      title="{{'dnc.details.tooltip.name' | translate}}"
       ng-model="dnc.selectedDncList.name"
       name="name"
       type="text">
@@ -19,6 +20,7 @@
   <div class="input-group">
     <label class="textarea-label">{{'value.description' | translate}}</label>
     <textarea
+      title="{{'dnc.details.tooltip.description' | translate}}"
       ng-model="dnc.selectedDncList.description"
       name="description">
       {{dnc.selectedDncList.description}}
@@ -30,6 +32,7 @@
 
     <input type="text" name="expiration"
       moment-picker="dnc.selectedDncList.expiration"
+      title="{{'dnc.details.tooltip.expiration' | translate}}"
       ng-model="dnc.selectedDncList.expiration"
       format="YYYY-MM-DD"
       change="dnc.onChange(newVal, oldVal)"
@@ -43,11 +46,12 @@
       readonly>
   </div>
 
-  <div class="divider-header">
+  <div class="divider-header" ng-if="!dnc.selectedDncList.isNew()">
     <h4>{{'dnc.details.upload' | translate}} *</h4>
   </div>
 
   <csv-upload
+    ng-if="!dnc.selectedDncList.isNew()"
     selected-row="dnc.selectedDncList"
     template-url="app/components/configuration/dncLists/dncListUpload.html"
     download-path="/dnclists/{{dnc.selectedDncList.id}}/download.csv"
