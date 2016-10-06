@@ -20,7 +20,7 @@
           is-required="true"
           on-enter="onEnter(item)"
           selected-item="selectedReasonList"
-          filters="filterReasonLists"
+          filters="[filterReasonLists, removeDefaultReasons]"
           lo-submit="save(selectedReasonList)"
           event="reasons.enter.event"></type-ahead>
       </div>

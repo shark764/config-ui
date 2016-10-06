@@ -158,6 +158,10 @@ angular.module('liveopsConfigPanel')
             return matchingLists.length === 0;
           };
 
+          $scope.removeDefaultReasons = function(item) {
+            return !item.isDefault;
+          };
+
           $scope.onEnter = function(){
             //Trigger the lo-submit handler that is attached to the type-ahead
             //Normally they are only triggered by click, but it does support custom events

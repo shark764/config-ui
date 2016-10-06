@@ -37,7 +37,17 @@
   </div>
 </div>
 
-<div class="divider-header first-header">
+<div class="input-group">
+  <label title="{{'reasonLists.details.isDefault.tooltip' | translate}}">{{'value.isDefault' | translate}}</label>
+  <div>
+    <toggle class="status-toggle" name="isDefault" title="{{'reasonLists.details.isDefault.tooltip' | translate}}"
+      ng-disabled="!('UPDATE_REASON_LIST' | hasPermission) || rlc.selectedReasonList.tenantId !== Session.tenant.tenantId"
+      ng-model="rlc.selectedReasonList.isDefault">
+    </toggle>
+  </div>
+</div>
+
+<div class="divider-header">
   <h4>{{'reasons' | translate}}</h4>
 </div>
 

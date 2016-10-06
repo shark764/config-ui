@@ -32,6 +32,10 @@
       </li>
     </ul>
 
+    <div ng-hide="$parent.loading || (!$parent.loading && dispositionList.length)" class="null">
+      {{emptyListMessage()}}
+    </div>
+
     <loading ng-show="$parent.loading"></loading>
   </div>
 

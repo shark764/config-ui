@@ -2,7 +2,7 @@
   <toggle class="status-toggle" ng-model="rlc.selectedReasonList.active"
   confirm-disable-message="{{'reasonLists.details.disable.confirm' | translate}}"
   confirm-enable-message="{{'reasonLists.details.enable.confirm' | translate}}"
-  ng-disabled="! (['UPDATE_REASON_LIST'] | hasPermission) || rlc.selectedReasonList.tenantId !== Session.tenant.tenantId"
+  ng-disabled="! (['UPDATE_REASON_LIST'] | hasPermission) || rlc.selectedReasonList.tenantId !== Session.tenant.tenantId || !rlc.selectedReasonList.reasons.length"
   on-confirm="rlc.updateActive()"></toggle>
 
   <div class="info">

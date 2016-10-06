@@ -156,8 +156,8 @@ angular.module('liveopsConfigPanel')
             return matchingLists.length === 0;
           };
 
-          $scope.removeSystemReasons = function(item) {
-            return item.name !== 'System Presence Reasons';
+          $scope.removeDefaultReasons = function(item) {
+            return !item.isDefault;
           };
 
           $scope.removeDisabledItems = function(item) {
