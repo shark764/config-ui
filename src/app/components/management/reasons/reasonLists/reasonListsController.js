@@ -138,6 +138,16 @@ angular.module('liveopsConfigPanel')
       });
     };
 
+    vm.listIsEmpty = function() {
+      var list = vm.selectedReasonList.reasons;
+      for (var i = 0; i < list.length; i++) {
+        if (angular.isUndefined(list[i].type) && list[i].name !== $translate.instant('reasons.details.select')) {
+          return false;
+        }
+      }
+      return true;
+    };
+
     $scope.$watch(function() {
       return vm.selectedReasonList;
     }, function() {

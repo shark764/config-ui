@@ -63,7 +63,7 @@
         lo-submit="dlc.confirmSubmit()"
         lo-submit-spinner
         lo-submit-spinner-status="dlc.selectedDispositionList.$busy"
-        ng-disabled="forms.detailsForm.$pending || forms.detailsForm.$invalid || ! forms.detailsForm.$dirty || dlc.selectedDispositionList.tenantId !== Session.tenant.tenantId"
+        ng-disabled="forms.detailsForm.$pending || forms.detailsForm.$invalid || ! forms.detailsForm.$dirty || dlc.selectedDispositionList.tenantId !== Session.tenant.tenantId || dlc.listIsEmpty()"
         class="btn btn-primary"
         type="submit"
         value="{{'value.submit' | translate}}" />

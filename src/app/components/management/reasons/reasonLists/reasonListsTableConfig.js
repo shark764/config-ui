@@ -41,6 +41,27 @@ angular.module('liveopsConfigPanel')
         'transclude': true
       }, {
         'header': {
+          'display': $translate.instant('value.default'),
+          'displayPath': 'display',
+          'valuePath': 'value',
+          'options': [
+            {
+              'display': $translate.instant('value.yes'),
+              'displayKey': 'value.yes',
+              'value': true
+            },
+            {
+              'display': $translate.instant('value.no'),
+              'displayKey': 'value.no',
+              'value': false
+            }
+          ]
+        },
+        'name': '$original.isDefault',
+        'id': 'shared-column-dropdown',
+        'transclude': true
+      }, {
+        'header': {
           'display': $translate.instant('value.status'),
           'valuePath': 'value',
           'displayPath': 'display',

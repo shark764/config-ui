@@ -16,6 +16,11 @@
       <span ng-if="!item.$original.shared" class="disabled">{{'value.no' | translate}}</span>
     </span>
 
+    <span name="$original.isDefault">
+      <span ng-if="item.$original.isDefault">{{'value.yes' | translate}}</span>
+      <span ng-if="!item.$original.isDefault" class="disabled">{{'value.no' | translate}}</span>
+    </span>
+
     <span name="$original.active">
       <span ng-if="item.$original.active">{{'value.enabled' | translate}}</span>
       <span ng-if="!item.$original.active" class="disabled">{{'value.disabled' | translate}}</span>
@@ -63,7 +68,7 @@
         lo-submit="rlc.confirmSubmit()"
         lo-submit-spinner
         lo-submit-spinner-status="rlc.selectedReasonList.$busy"
-        ng-disabled="forms.detailsForm.$pending || forms.detailsForm.$invalid || ! forms.detailsForm.$dirty || rlc.selectedReasonList.tenantId !== Session.tenant.tenantId"
+        ng-disabled="forms.detailsForm.$pending || forms.detailsForm.$invalid || ! forms.detailsForm.$dirty || rlc.selectedReasonList.tenantId !== Session.tenant.tenantId || rlc.listIsEmpty()"
         class="btn btn-primary"
         type="submit"
         value="{{'value.submit' | translate}}" />

@@ -369,6 +369,11 @@ angular.module('liveopsConfigPanel')
         return disposition.name === this.name;
       };
 
+      $scope.emptyListMessage = function() {
+        var type = $scope.type.slice(0, -1);
+        return $translate.instant('list.details.emptyList', {listTypeCapitalize: type.capitalize(), listType: type});
+      };
+
       // Have to do this in a timeout or dispositionList will be undefined
       $timeout($scope.init);
 
