@@ -11,6 +11,7 @@
       required
       ng-model="cc.selectedCampaign.name"
       name="name"
+      title="{{'campaigns.details.tooltip.name' | translate}}"
       type="text"></input>
     </div>
   </div>
@@ -32,11 +33,11 @@
   <div class="input-group">
     <label class="textarea-label">{{'value.description' | translate}}</label>
     <div>
-      <textarea ng-model="cc.selectedCampaign.description"></textarea>
+      <textarea ng-model="cc.selectedCampaign.description" title="{{'campaigns.details.tooltip.description' | translate}}"></textarea>
     </div>
   </div>
 
-  <div class="input-group multi-col toggle">
+  <div class="input-group multi-col toggle" ng-if="cc.selectedCampaign.hasVersion">
     <label class="toggle-label">{{'campaigns.details.dialer' | translate}}</label>
     <div class="form-col right">
       <ng-form
@@ -48,6 +49,7 @@
         ng-model="cc.selectedCampaign.currentState"
         true-value="started"
         false-value="stopped"
+        title="{{ cc.selectedCampaign.currentState === 'started' ? ('campaigns.details.tooltip.stopDialer' | translate) : ('campaigns.details.tooltip.startDialer' | translate) }}"
         confirm-disable-message="{{'campaigns.details.stop.confirm' | translate}}"
         confirm-enable-message="{{'campaigns.details.start.confirm' | translate}}"
         ng-disabled="forms.detailsForm.$pending || forms.detailsForm.$invalid || forms.detailsForm.$dirty || ! cc.selectedCampaign.hasVersion || !(['MANAGE_CAMPAIGNS'] | hasPermission)"
@@ -56,13 +58,14 @@
     </div>
   </div>
 </div>
-  <div class="input-group multi-col">
+  <div class="input-group multi-col" ng-if="!cc.selectedCampaign.isNew()">
     <label>&nbsp;</label>
     <div class="form-col right">
       <button id="actions-btn"
         class="btn"
         ng-click="cc.editCampaignSettings(cc.selectedCampaign)"
         type="button"
+        title="{{'campaigns.details.tooltip.settings' | translate}}"
         ng-disabled="!cc.selectedCampaign.id">
         {{'campaigns.details.settingsBtn' | translate}}
       </button>
@@ -70,11 +73,16 @@
     <div class="form-col right"></div>
   </div>
 
-  <div class="divider-header">
+  <div class="null" ng-if="!cc.selectedCampaign.hasVersion && !cc.selectedCampaign.isNew()">
+    <p>{{'campaigns.details.noVersion' | translate}}</p>
+  </div>
+
+  <div class="divider-header" ng-if="cc.selectedCampaign.hasVersion">
     <h4>{{'campaigns.details.contacts.header' | translate}}</h4>
   </div>
 
   <csv-upload
+    ng-if="cc.selectedCampaign.hasVersion"
     selected-row="cc.selectedCampaign"
     template-url="app/components/configuration/campaigns/campaignCsvUpload.html"
     download-path="/campaigns/{{cc.selectedCampaign.id}}/call-list/download.csv"

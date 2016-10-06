@@ -12,6 +12,7 @@
           ngf-max-size="20MB"
           ng-model="selectedRow.listData"
           type="button"
+          title="{{'dnc.details.tooltip.import' | translate}}"
           ng-disabled="!selectedRow.id || (selectedRow.hasList && !selectedRow.uploadStats) || !(['MANAGE_CAMPAIGNS'] | hasPermission)">
           {{'campaigns.details.importBtn' | translate}}
         </button>
@@ -23,6 +24,8 @@
           class="btn"
           ng-click="downloadCsv($event)"
           type="button"
+          title="{{'dnc.details.tooltip.download' | translate}}"
+          ng-if="selectedRow.hasList"
           ng-disabled="!selectedRow.id || !selectedRow.hasList || !selectedRow.uploadStats || selectedRow.latestJobData.status !== 'completed'">
           {{'campaigns.details.downloadBtn' | translate}}
         </button>
