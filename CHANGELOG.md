@@ -4,6 +4,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [4.3.1]
+* Update Realtime Dashboards to 4.4.1
+
 ## [4.3.0]
 * Update Realtime Dashboards to 4.4.0
 * CXV1-4815 - UI for new "media lists" media type, to be applied on both media and media collections pages
