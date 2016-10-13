@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## [4.3.0]
+* Update Realtime Dashboards to 4.4.0
 * CXV1-4815 - UI for new "media lists" media type, to be applied on both media and media collections pages
 * CXV1-4426 - UI for View Only Platform Role (contains known issues, see ticket for more info)
 * CXV1-5805 - Add tenant default property to Reason Lists
