@@ -3,7 +3,10 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## [4.3.2]
 * Update Realtime Dashboards to 4.4.2
+* Revert queue builder to v1 and hide API key management page
 
 ## [4.3.1]
 * Update Realtime Dashboards to 4.4.1
