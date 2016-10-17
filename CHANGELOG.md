@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+* CXV1-6027 - Enable drag-sorting for media list items
 * CXV1-4953 - Created App Dock for interaction data from interactions table
 * CXV1-6012 - Added dashboard categories so they can be grouped together in dropdown
 * Update Realtime Dashboards to 4.4.3

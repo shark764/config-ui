@@ -21,6 +21,7 @@ angular.module('liveopsConfigPanel', [
     'dndLists',
     'angular-momentjs',
     'agent-toolbar',
+    'ui.sortable',
     'ui.codemirror'
   ])
   .config(['$translateProvider', 'toastrConfig',

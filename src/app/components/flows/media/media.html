@@ -31,6 +31,7 @@
   name="mediaDetailsController"
   ng-show="selectedMedia"
   ng-resource="selectedMedia"
+  second-panel="showSecondPanel"
   lo-media-details>
 
   <ng-form unsaved-changes-warning
@@ -61,7 +62,7 @@
         class="btn btn-primary"
         type="submit"
         value="{{'value.submit' | translate}}"
-        ng-disabled="forms.mediaForm.$invalid || ! forms.mediaForm.$dirty"
+        ng-disabled="forms.mediaForm.$invalid || ! forms.mediaForm.$dirty || showSecondPanel === true"
         lo-submit="mediaDetailsController.submit(selectedMedia, forms.mediaForm)"
         lo-submit-spinner
         lo-submit-spinner-status="selectedMedia.$busy">
@@ -73,8 +74,8 @@
 <resize-handle
   ng-show="showSecondPanel === true && selectedMedia.type ==='list'"
   id="resize-pane"
-  right-element-id="right-panel"
-  left-element-id="table-pane"></resize-handle>
+  right-element-id="right-panel-addl"
+  left-element-id="right-panel"></resize-handle>
 
 <lo-details-panel id="right-panel-addl" class="right-panel"
   ng-show="showSecondPanel === true && selectedMedia.type ==='list'"
