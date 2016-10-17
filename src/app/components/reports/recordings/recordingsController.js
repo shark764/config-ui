@@ -68,8 +68,8 @@ angular.module('liveopsConfigPanel')
             });
 
             Recording.query({
-              tenantId: interactionSearch.results.tenantId,
-              interactionId: interaction.id
+              tenantId: Session.tenant.tenantId,
+              interactionId: interaction.interactionId
             }).$promise.then(function(recordings) {
               angular.forEach(recordings, function(recording) {
                 recording.$interaction = interaction;

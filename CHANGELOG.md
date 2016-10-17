@@ -5,6 +5,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 
 ## [4.3.2]
+* CXV1-5974 - Fix Recordings page
 * Update Realtime Dashboards to 4.4.2
 * Revert queue builder to v1 and hide API key management page
 

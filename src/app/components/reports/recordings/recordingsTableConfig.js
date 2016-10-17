@@ -13,7 +13,8 @@ angular.module('liveopsConfigPanel')
           'header': {
             'display': $translate.instant('recordings.table.datetime')
           },
-          'name': '$interaction.startTime'
+          'name': '$interaction.endTimestamp | date: "medium"',
+          'format': 'time'
         }, {
         //   'header': {
         //     'display': $translate.instant('recordings.table.flag')
