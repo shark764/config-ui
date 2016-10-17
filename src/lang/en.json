@@ -1039,5 +1039,20 @@
   "customStats.details.enable.confirm": "This will enable this custom stat. Do you want to continue?",
   "customStats.details.creating": "Creating New Custom Stat",
   "customStats.details.versions.create.title": "Create new version",
-  "customStats.details.version.add.alt": "Create new version for this custom stat"
+  "customStats.details.version.add.alt": "Create new version for this custom stat",
+  "appdock.header": "Liveops Apps",
+  "appdock.audioRecordings.tabs.interactions": "Interactions",
+  "appdock.audioRecordings.tabs.messageTranscripts": "Message Transcript(s)",
+  "appdock.interactionId": "Interaction ID",
+  "appdock.recordingId": "Recording ID",
+  "appdock.audioRecordings.details.play": "Play",
+  "appdock.audioRecordings.details.dateTime": "Date & Time",
+  "appdock.audioRecordings.details.flowName": "Flow Name",
+  "appdock.audioRecordings.details.callerANI": "Caller ANI",
+  "appdock.audioRecordings.details.noInfo": "Sorry, no interaction information was found.",
+  "appdock.recordingsHdr": "Voice Recording(s)",
+  "appdock.transcriptsHdr": "Messaging Transcript(s)",
+  "appdock.messaging.agent": "Agent",
+  "appdock.messaging.unknownUser": "(Unknown User)",
+  "appdock.messaging.fromFlow": "(from Flow)"
 }

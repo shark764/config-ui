@@ -11,8 +11,18 @@ angular.module('liveopsConfigPanel')
       var maxTimeout = 120;
 
       $('#birstFrame').on('load', function() {
+
         $scope.dashboardReady = true;
         $scope.$apply();
+
+        document.domain = "cxengagelabs.net";
+        var birstFrame = $('#birstFrame').context;
+        var script   = document.createElement("script");
+        script.type  = "text/javascript";
+        script.text  = "function interceptClickEvent(e) {var href;var target = e.target || e.srcElement;if (target.tagName === 'A') {href = target.getAttribute('href');if (href.startsWith('iframe://parent.cxengagelabs.net/')) {parent.addApp({type: 'recording', id: href});e.preventDefault();}}}if (document.addEventListener) {document.addEventListener('click', interceptClickEvent);} else if (document.attachEvent) {document.attachEvent('onclick', interceptClickEvent);}";
+
+        $(birstFrame).contents().find('body').append(script);
+
       });
 
       $scope.fetch = function() {
@@ -49,6 +59,7 @@ angular.module('liveopsConfigPanel')
           }
         });
       };
+
 
       $scope.buildUrl = function() {
         var buildingUrl = BIRST_URL + '/SSO.aspx?';

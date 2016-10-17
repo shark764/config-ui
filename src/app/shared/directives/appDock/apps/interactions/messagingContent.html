@@ -1,0 +1,30 @@
+<md-content flex ng-show="selectedItem">
+  <md-card class="recording-data-card" flex>
+    <md-content layout-padding layout-margin>
+
+      <h1 class="md-headline">{{'appdock.transcriptsHdr' | translate}}</h1>
+
+      <h3 class="md-subhead"><strong>ID:</strong> {{configData.id}}</h3>
+      <md-divider></md-divider>
+
+      <md-list flex>
+        <md-list-item ng-repeat="message in interactionData" layout-padding>
+
+          <strong layout="column">
+            [{{message.payload.timestamp | date:'medium'}}]
+          </strong>
+
+          <strong layout="column">
+            {{message.payload.userName}}
+          </strong>
+
+          <p layout="column">
+            <em>{{message.payload.body.text}}</em>
+          </p>
+
+        </md-list-item>
+      </md-list>
+
+    </md-content>
+  </md-card>
+</md-content>
