@@ -4,6 +4,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [4.3.3]
+* CXV1-6003 - Recrodings page search does not finish if there are zero Interactions
+
 ## [4.3.2]
 * CXV1-5974 - Fix Recordings page
 * Update Realtime Dashboards to 4.4.2

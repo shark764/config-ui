@@ -55,7 +55,7 @@ angular.module('liveopsConfigPanel')
         $scope.recordings.$resolved = false;
         RealtimeStatisticInteraction.cachedGet(params).$promise.then(function (interactionSearch) {
           var totalResolved = 0;
-          if (interactionSearch.results.interactions === null) {
+          if (!interactionSearch.results.interactions.length) {
             $scope.recordings.$resolved = true;
           }
           angular.forEach(interactionSearch.results.interactions, function(interaction) {
