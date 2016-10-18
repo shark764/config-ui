@@ -4,6 +4,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 * CXV1-4953 - Created App Dock for interaction data from interactions table
+* CXV1-6012 - Added dashboard categories so they can be grouped together in dropdown
+* Update Realtime Dashboards to 4.4.3
+* Update Config Shared to 1.3.15
 
 ## [4.3.3]
 * CXV1-6003 - Recrodings page search does not finish if there are zero Interactions
