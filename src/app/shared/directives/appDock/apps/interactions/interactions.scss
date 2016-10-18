@@ -1,0 +1,74 @@
+$content-bgcolor: #d2def2;
+$active-tab-bgcolor: $content-bgcolor;
+
+md-card {
+  margin-top: 0;
+}
+
+.recording-data-card {
+  background-color: $content-bgcolor;
+
+  audio {
+    background-color: #F9F9F9;
+  }
+}
+
+loading {
+  .loading {
+    padding: {
+      top: 80px;
+      bottom: 80px;
+    }
+  }
+}
+
+#audio-content {
+  md-sidenav {
+
+    md-list {
+      padding-top: 0;
+
+      md-list-item {
+        &.active-item {
+          background-color: $active-tab-bgcolor;
+        }
+
+        &.md-3-line {
+          min-height: 30px;
+          padding: {
+            top: 15px;
+            bottom: 15px;
+          }
+        }
+      }
+    }
+  }
+
+  .heading-container {
+    .md-subhead {
+      display: block;
+      padding: {
+        top: 5px;
+        bottom: 10px;
+      }
+    }
+  }
+}
+
+#messaging-content {
+  md-list-item {
+    padding-left: 0;
+
+    &.layout-padding {
+      padding: {
+        top: 0;
+        bottom: 0;
+      }
+      min-height: auto;
+    }
+
+    .layout-column {
+        padding: 0 15px 10px 0;
+    }
+  }
+}

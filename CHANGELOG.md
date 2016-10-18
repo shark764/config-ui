@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+* CXV1-4953 - Created App Dock for interaction data from interactions table
 
 ## [4.3.3]
 * CXV1-6003 - Recrodings page search does not finish if there are zero Interactions

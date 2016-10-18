@@ -1,0 +1,142 @@
+$hdr-background: #07487a;
+
+
+#app-toolbar{
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  padding: 0;
+  margin: 0;
+  background: #FFF;
+
+  .heading-container {
+    padding: {
+      top: 0;
+      bottom: 0;
+    }
+
+    margin: {
+      top: 0;
+      bottom: 0;
+    }
+  }
+
+  .details {
+    padding: {
+      top: 0;
+      bottom: 0;
+    }
+
+    margin: {
+      top: 0;
+      bottom: 0;
+    }
+  }
+}
+
+md-icon {
+  height: auto !important;
+  font-size: 28px !important;
+}
+
+md-tabs {
+  overflow: auto;
+
+  &.tab-open {
+    .md-active {
+      span {
+        &:after {
+          font-family: FontAwesome;
+          font-size: 1.2em;
+          content: " \f106";
+        }
+      }
+    }
+  }
+
+  &.tab-closed {
+    .md-active {
+      span {
+        &:after {
+          font-family: FontAwesome;
+          font-size: 1.2em;
+          content: " \f107";
+        }
+      }
+    }
+  }
+
+  md-ink-bar {
+    background: white;
+  }
+}
+
+md-tabs.md-default-theme md-tabs-wrapper,
+md-tabs md-tabs-wrapper {
+  background-color: #07487a !important;
+  span {
+    color: white !important;
+    font-size: 1.15em;
+  }
+}
+
+section {
+  max-height: 300px;
+  overflow: auto;
+}
+
+md-tab-item {
+  &.md-tab {
+    cursor: pointer;
+
+    &.md-active {
+      cursor: pointer;
+    }
+  }
+}
+
+.app-dock-content {
+
+}
+
+.app-dock-content {
+  position: relative;
+
+  .close-dock {
+    position: absolute;
+    right: 20px;
+    top: 2px;
+    display: block;
+    z-index: 100;
+
+    md-icon {
+      color: white;
+    }
+  }
+}
+
+.tabs-box {
+
+
+  md-content {
+    background-color: transparent !important;
+
+    p,
+    label {
+      line-height: 1em;
+    }
+
+    label {
+      font-weight: bold;
+    }
+  }
+}
+
+md-toolbar.md-default-theme:not(.md-menu-toolbar),
+md-toolbar:not(.md-menu-toolbar) {
+  &.highlight-error {
+    background: #ef4545;
+    color: white;
+  }
+}

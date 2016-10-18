@@ -1,0 +1,29 @@
+<div id="app-toolbar" layout="column" ng-show="showAppDock">
+  <md-content class="app-dock-content">
+    <md-button
+      class="md-icon-button close-dock"
+      aria-label="Close Apps"
+      ng-click="closeAppPanel()">
+
+      <md-icon class="fa fa-times">
+    </md-button>
+    <div class="app" ng-repeat="app in apps">
+      <md-content class="tabs-box">
+        <md-tabs
+          layout-fill
+          md-dynamic-height
+          ng-class="{'tab-closed': showApps, 'tab-open': !showApps}">
+
+          <md-tab
+            label="{{'appdock.audioRecordings.tabs.interactions' | translate}}"
+            ng-if="app.type === 'recording'"
+            ng-click="toggleAppsDisplay()">
+
+            <interactions config="app" ng-show="showApps"></interactions>
+          </md-tab>
+
+        </md-tabs>
+      </md-content>
+    </div>
+  </md-content>
+</div>

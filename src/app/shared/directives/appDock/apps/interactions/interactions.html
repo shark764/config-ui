@@ -1,0 +1,29 @@
+<loading ng-show="isLoading"></loading>
+
+<div layout="row" ng-if="showNoResultsMsg === true">
+  <md-toolbar
+    class="highlight-error"
+    layout-padding
+    layout-margin
+    layout-align="center center">
+      {{'appdock.audioRecordings.details.noInfo' | translate}}
+    </md-toolbar>
+</div>
+
+<section
+  ng-if="selectedItem.url && interactionData.length > 0 && showNoResultsMsg !== true"
+  id="audio-content"
+  layout="row"
+  flex
+  layout-align="start start"
+  ng-include="'app/shared/directives/appDock/apps/interactions/audioRecordingContent.html'">
+</section>
+
+<section
+  ng-if="selectedItem.payload && interactionData.length > 0 && showNoResultsMsg !== true"
+  id="messaging-content"
+  layout="row"
+  flex
+  layout-align="start start"
+  flex
+  ng-include="'app/shared/directives/appDock/apps/interactions/messagingContent.html'"></section>
