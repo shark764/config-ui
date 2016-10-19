@@ -16,13 +16,9 @@ angular.module('liveopsConfigPanel')
         $scope.$apply();
 
         document.domain = "cxengagelabs.net";
-        var birstFrame = $('#birstFrame').context;
-        var script   = document.createElement("script");
-        script.type  = "text/javascript";
-        script.text  = "function interceptClickEvent(e) {var href;var target = e.target || e.srcElement;if (target.tagName === 'A') {href = target.getAttribute('href');if (href.startsWith('iframe://parent.cxengagelabs.net/')) {parent.addApp({type: 'recording', id: href});e.preventDefault();}}}if (document.addEventListener) {document.addEventListener('click', interceptClickEvent);} else if (document.attachEvent) {document.attachEvent('onclick', interceptClickEvent);}";
+        var script = "function interceptClickEvent(e) {var hrefPath;var target = e.target || e.srcElement;if (target.tagName === 'A') {hrefPath = target.getAttribute('href');if(hrefPath.startsWith('iframe://parent.cxengagelabs.net/')) {var hrefId = hrefPath.replace('iframe://parent.cxengagelabs.net/', ''); parent.addApp({type: 'recording', id: hrefId});e.preventDefault();}}}if (document.addEventListener) {document.addEventListener('click', interceptClickEvent);} else if (document.attachEvent) {document.attachEvent('onclick', interceptClickEvent);}";
 
-        $(birstFrame).contents().find('body').append(script);
-
+        $('#birstFrame').contents().find('body').append($('<script type="text/javascript">').html(script))
       });
 
       $scope.fetch = function() {
