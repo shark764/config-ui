@@ -1,6 +1,5 @@
 $hdr-background: #07487a;
 
-
 #app-toolbar{
   width: 100%;
   position: fixed;
@@ -9,6 +8,11 @@ $hdr-background: #07487a;
   padding: 0;
   margin: 0;
   background: #FFF;
+
+  section {
+    max-height: 300px;
+    overflow: auto;
+  }
 
   .heading-container {
     padding: {
@@ -79,11 +83,6 @@ md-tabs md-tabs-wrapper {
     color: white !important;
     font-size: 1.15em;
   }
-}
-
-section {
-  max-height: 300px;
-  overflow: auto;
 }
 
 md-tab-item {
