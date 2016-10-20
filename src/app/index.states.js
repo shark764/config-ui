@@ -711,12 +711,20 @@ angular.module('liveopsConfigPanel')
 
               return deferred.promise;
             }],
-            dashboards: ['RealtimeDashboardsSettings', 'RealtimeDashboard', 'Session', '$q', function(RealtimeDashboardsSettings, RealtimeDashboard, Session, $q) {
+            dashboards: ['RealtimeDashboardsSettings', 'RealtimeDashboard', 'Session', '$q', '$translate', function(RealtimeDashboardsSettings, RealtimeDashboard, Session, $q, $translate) {
               var deferred = $q.defer();
 
               RealtimeDashboard.query({
                 tenantId: Session.tenant.tenantId,
               }, function(data) {
+                // Add category attribute to each dashboard so they can be grouped together in the dropdown
+                data.forEach(function(item) {
+                  item.dashboardCategory = $translate.instant('realtimeDashboards.category.custom');
+                });
+                RealtimeDashboardsSettings.mockDashboards.forEach(function(item) {
+                  item.dashboardCategory = $translate.instant('realtimeDashboards.category.standard');
+                });
+
                 var dashboards = _.filter(_.union(data, RealtimeDashboardsSettings.mockDashboards), function(dash) {
                   return dash.enabled === true || dash.active === true;
                 });
