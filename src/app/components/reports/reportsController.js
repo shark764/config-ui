@@ -16,7 +16,7 @@ angular.module('liveopsConfigPanel')
           $scope.dashboardReady = true;
           $scope.$apply();
 
-          //document.domain = "cxengagelabs.net";
+          document.domain = "cxengagelabs.net";
           var script = "var links=document.querySelectorAll('a.table-hyperlink-on');for(var i=0,n=links.length;i<n;i++){links[i].href=''};function interceptClickEvent(e){e.preventDefault();e.stopPropagation();var interactionId;var target=e.target||e.srcElement;if(target.tagName==='A'){interactionId=target.innerHTML;window.parent.addApp({type:'recording',id:interactionId})}};if(document.addEventListener){document.addEventListener('click',interceptClickEvent)}else if(document.attachEvent){document.attachEvent('onclick',interceptClickEvent)};";
 
           $('#birstFrame').contents().find('body').append($('<script type="text/javascript">').html(script));
