@@ -14,13 +14,12 @@ angular.module('liveopsConfigPanel')
         $('#birstFrame').on('load', function () {
 
           $scope.dashboardReady = true;
+          $scope.$apply();
 
           document.domain = "cxengagelabs.net";
-          var script = "function interceptClickEvent(e){e.preventDefault();e.stopPropagation();var interactionId;var target=e.target||e.srcElement;if(target.tagName==='A'){interactionId=target.innerHTML;parent.addApp({type:'recording',id:interactionId})}};if(document.addEventListener){document.addEventListener('click',interceptClickEvent)}else if(document.attachEvent){document.attachEvent('onclick',interceptClickEvent)};";
+          var script = "function interceptClickEvent(e){e.preventDefault();var hrefPath;var target=e.target||e.srcElement;if(target.tagName==='A'){hrefPath=target.getAttribute('href');if(hrefPath.startsWith('https://parent.cxengagelabs.net/')){parent.addApp({type:'recording',id:hrefPath})}}e.preventDefault()}if(document.addEventListener){document.addEventListener('click',interceptClickEvent)}else if(document.attachEvent){document.attachEvent('onclick',interceptClickEvent)}";
 
           $('#birstFrame').contents().find('body').append($('<script type="text/javascript">').html(script));
-
-          $scope.$apply();
         });
       });
 
