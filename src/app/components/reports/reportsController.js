@@ -10,17 +10,15 @@ angular.module('liveopsConfigPanel')
       var sleepTime = 15;
       var maxTimeout = 120;
 
-      $(document).ready(function() {
-        $('#birstFrame').on('load', function() {
+      $('#birstFrame').on('load', function() {
 
-          $scope.dashboardReady = true;
-          $scope.$apply();
+        $scope.dashboardReady = true;
+        $scope.$apply();
 
-          document.domain = "cxengagelabs.net";
-          var script = "var links=document.querySelectorAll('a.table-hyperlink-on');for(var i=0,n=links.length;i<n;i++){links[i].href=''};function interceptClickEvent(e){e.preventDefault();e.stopPropagation();var interactionId;var target=e.target||e.srcElement;if(target.tagName==='A'){interactionId=target.innerHTML;window.parent.addApp({type:'recording',id:interactionId})}};if(document.addEventListener){document.addEventListener('click',interceptClickEvent)}else if(document.attachEvent){document.attachEvent('onclick',interceptClickEvent)};";
+        document.domain = "cxengagelabs.net";
+        var script = "function interceptClickEvent(e) {var hrefPath;var target = e.target || e.srcElement;if (target.tagName === 'A') {hrefPath = target.getAttribute('href');if(hrefPath.startsWith('iframe://parent.cxengagelabs.net/')) {var hrefId = hrefPath.replace('iframe://parent.cxengagelabs.net/', ''); parent.addApp({type: 'recording', id: hrefId});e.preventDefault();}}}if (document.addEventListener) {document.addEventListener('click', interceptClickEvent);} else if (document.attachEvent) {document.attachEvent('onclick', interceptClickEvent);}";
 
-          $('#birstFrame').contents().find('body').append($('<script type="text/javascript">').html(script));
-        });
+        $('#birstFrame').contents().find('body').append($('<script type="text/javascript">').html(script))
       });
 
       $scope.fetch = function() {
