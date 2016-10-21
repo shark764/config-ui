@@ -415,10 +415,10 @@ angular.module('liveopsConfigPanel')
 
               return deferred.promise;
             }],
-            platformFlow: ['Session','apiHostname', '$http', function(Session, apiHostname, $http){
+            tenantSettings: ['Session','apiHostname', '$http', function(Session, apiHostname, $http){
               return $http.get(apiHostname + '/v1/tenants/' + Session.tenant.tenantId + '/settings')
                 .then(function(data){
-                  return _.findWhere(data.data.result, {name: 'platform-defaults-flow'}).value;
+                  return data.data.result;
                 });
             }]
           }
@@ -471,10 +471,10 @@ angular.module('liveopsConfigPanel')
             resources: ['FlowResource', function(FlowResource) {
               return FlowResource.loadResources();
             }],
-            platformFlow: ['Session','apiHostname', '$http', function(Session, apiHostname, $http){
+            tenantSettings: ['Session','apiHostname', '$http', function(Session, apiHostname, $http){
               return $http.get(apiHostname + '/v1/tenants/' + Session.tenant.tenantId + '/settings')
                 .then(function(data){
-                  return _.findWhere(data.data.result, {name: 'platform-defaults-flow'}).value;
+                  return data.data.result;
                 });
             }]
           }
