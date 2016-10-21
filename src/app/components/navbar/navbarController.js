@@ -358,6 +358,14 @@ angular.module('liveopsConfigPanel')
             id: 'reports-management-link',
             order: 3
           });
+
+          //TODO does the viewDashboards role group make sense for this? Is the "Reporting" menu correct?
+          items.push({
+            label: $translate.instant('navbar.reports.interactions.title'),
+            stateLink: 'content.reporting.interactions',
+            id: 'interactions-link',
+            order: 4
+          });
         }
 
         if (UserPermissions.hasPermissionInList(PermissionGroups.viewRecordings)) {

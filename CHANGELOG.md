@@ -5,6 +5,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 * CXV1-6543 - Fixed bug: Cannot change dispatch mapping - submit button stays greyed out
 * Bumping flow designer
+* CXV1-5536 - Added new page for interactions in conversation
+* Update Realtime Dashboards to 4.4.6
+* Update Config Shared to 1.3.18
 
 ## [4.7.0]
 * CXV1-6491 - Got recordings page and app dock to automatically refresh audio URL every 5 mins
@@ -49,9 +52,12 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 * CXV1-6012 - Added dashboard categories so they can be grouped together in dropdown
 * CXV1-6056 - Fixed date and time sorting on recordings.
 * CXV1-6086 - Fix linking of custom dashboard statistic widgets to source switchers
+<<<<<<< fe5ad3dd18806bc615ede0b5577ca064f432681b
 * CXV1-6137 - Silent Monitoring undefined interaction id
 * Update Realtime Dashboards to 4.4.5
 * Update Config Shared to 1.3.16
+=======
+>>>>>>> CXV1-5536: Added new page for interactions in conversation.
 * Updated styling of realtime report dropdown labels to be consistent (all light grey)
 
 ## [4.3.3]

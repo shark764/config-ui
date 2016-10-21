@@ -596,6 +596,38 @@ angular.module('liveopsConfigPanel')
             }]
           }
         })
+        .state('content.reporting.interactions', {
+          url: '/interactions?id',
+          title: 'Reporting - Interactions ',
+          templateUrl: 'app/components/reports/interactions/interactions.html',
+          controller: 'InteractionsController as ic',
+          reloadOnSearch: false,
+          resolve: {
+            hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
+              // TODO role group?
+              return UserPermissions.resolvePermissions(PermissionGroups.viewDashboards);
+            }],
+            users: ['TenantUser', 'Session', '$q', function(TenantUser, Session, $q) {
+              var deferred = $q.defer();
+              TenantUser.query({
+                tenantId: Session.tenant.tenantId
+              }, function(users) {
+                deferred.resolve(users);
+              });
+              return deferred.promise;
+            }],
+
+            flows: ['Flow', 'Session', '$q', function(Flow, Session, $q) {
+              var deferred = $q.defer();
+              Flow.query({
+                tenantId: Session.tenant.tenantId
+              }, function(flows) {
+                deferred.resolve(flows);
+              });
+              return deferred.promise;
+            }]
+          }
+        })
         .state('invite-accept', {
           url: '/invite-accept?userId&tenantId&token',
           title:'CxEngage Accept Invite',
