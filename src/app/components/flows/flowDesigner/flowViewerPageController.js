@@ -1,10 +1,13 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('ViewerPageController', ['$scope', 'flow', 'platformFlow', 'notations', 'data', 'FlowResource', 'FlowNotationService', 'FlowLibrary', 'lodash',
-    function($scope, flow, platformFlow, notations, data, FlowResource, FlowNotationService, FlowLibrary, lodash) {
+  .controller('ViewerPageController', ['$scope', 'flow', 'tenantSettings', 'notations', 'data', 'FlowResource', 'FlowNotationService', 'FlowLibrary', 'lodash',
+    function($scope, flow, tenantSettings, notations, data, FlowResource, FlowNotationService, FlowLibrary, lodash) {
       $scope.flow = flow;
       $scope.flowData = data;
+      $scope.tenantSettings = tenantSettings;
+
+      var platformFlow = _.findWhere(tenantSettings, {name: 'platform-defaults-flow'}).value;
 
       FlowResource.setPlatformFlow(platformFlow);
 
