@@ -6,10 +6,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 * CXV1-6027 - Enable drag-sorting for media list items
 * CXV1-4953 - Created App Dock for interaction data from interactions table
 * CXV1-6012 - Added dashboard categories so they can be grouped together in dropdown
-* Update Realtime Dashboards to 4.4.3
-* Update Config Shared to 1.3.15
-* Updated styling of realtime report dropdown labels to be consistent (all light grey)
 * CXV1-6056 - Fixed date and time sorting on recordings.
+* CXV1-6086 - Fix linking of custom dashboard statistic widgets to source switchers
+* Update Realtime Dashboards to 4.4.5
+* Update Config Shared to 1.3.16
+* Updated styling of realtime report dropdown labels to be consistent (all light grey)
 
 ## [4.3.3]
 * CXV1-6003 - Recrodings page search does not finish if there are zero Interactions
