@@ -14,6 +14,7 @@ angular.module('liveopsConfigPanel')
             'display': $translate.instant('recordings.table.datetime')
           },
           'name': '$interaction.endTimestamp | date: "medium"',
+          'sortOn': '$interaction.endTimestamp',
           'format': 'time'
         }, {
         //   'header': {
