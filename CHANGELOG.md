@@ -8,6 +8,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 * Update Realtime Dashboards to 4.4.3
 * Update Config Shared to 1.3.15
 * Updated styling of realtime report dropdown labels to be consistent (all light grey)
+* CXV1-6056 - Fixed date and time sorting on recordings.
 
 ## [4.3.3]
 * CXV1-6003 - Recrodings page search does not finish if there are zero Interactions
