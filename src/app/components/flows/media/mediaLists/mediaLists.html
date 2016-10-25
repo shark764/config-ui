@@ -14,18 +14,29 @@
   resource="list"
   form="form">
   <thead>
+    <th>&nbsp;</th>
     <th>{{'value.name' | translate}}</th>
     <th>{{'value.type' | translate}}</th>
     <th ng-if="selectedMedia.totalLength">{{'value.length' | translate}}</th>
     <th>&nbsp;</th>
-  </thead>
-  <tbody>
-    <tr ng-show="! list.source.length">
-      <td colspan="3">
+  <thead>
+  <tbody ui-sortable ng-model="list.source">
+    <tr ng-show="! list.source.length" ng-class="not-sortable">
+      <td colspan="{{selectedMedia.totalLength > 0 ? 5 : 4}}">
         <p class="null">{{'media.details.list.add' | translate}}</p>
       </td>
     </tr>
-    <tr ng-repeat="listItem in list.source track by $index">
+    <tr
+      ng-repeat="listItem in list.source track by $index"
+      class="not-sortable"
+      class="item">
+      <td>
+        <div
+          class="handle"
+          ng-attr-title="{{'details.extension.drag.titletext' | translate}}">
+          :::
+        </div>
+      </td>
       <td>
         <lo-multibox name="listItem{{$index}}"
           ng-init="onSelectCallback = onSelect(list); initMediaList(list)"
@@ -47,6 +58,7 @@
       <td class='remove-col'>
         <i id="remove-media-list-item-button"
           class="fa fa-times remove"
+          ng-class="{'not-removable' : list.secondScope && list.secondScope.hasOwnProperty('type') === true}"
           ng-hide="!('MANAGE_ALL_MEDIA' | hasPermission)"
           ng-click="removeMediaItem($index)"></i>
       </td>

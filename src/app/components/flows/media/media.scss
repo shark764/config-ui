@@ -10,17 +10,25 @@ lo-multibox {
 
 .media-list-table {
   tr {
-    th {
+    td {
       &:nth-child(1) {
-        width: 50%;
+        width: 3%;
       }
 
       &:nth-child(2) {
-        width: 30%;
+        width: 47%;
       }
 
       &:nth-child(3) {
+        width: 30%;
+      }
+
+      &:nth-child(4) {
         width: 10%;
+      }
+
+      .handle {
+        cursor: move;
       }
     }
   }
@@ -29,15 +37,19 @@ lo-multibox {
     tr {
       th {
         &:nth-child(1) {
-          width: 50%;
+          width: 3%;
         }
 
-        &:nth-child(2),
-        &:nth-child(3) {
+        &:nth-child(2) {
+          width: 47%;
+        }
+
+        &:nth-child(3),
+        &:nth-child(4) {
           width: 15%;
         }
 
-        &:nth-child(4) {
+        &:nth-child(5) {
           width: 10%;
         }
       }
@@ -60,4 +72,9 @@ lo-multibox {
 
 #audio-source-upload-file {
   width: calc(100% - 40px);
+}
+
+.not-removable {
+  opacity: .5;
+  cursor: default;
 }

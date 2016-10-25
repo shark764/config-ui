@@ -1,164 +1,165 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('mediaLists', ['$timeout', '$templateRequest', '$compile', '$rootScope', 'loEvents', 'Media', 'Session',
-      function ($timeout, $templateRequest, $compile, $rootScope, loEvents, Media, Session) {
-        return {
-          restrict: 'E',
-          scope: {
-            list: '=',
-            form: '=',
-            media: '=',
-            bypassReset: '='
-          },
-          link: function (scope, element, attr, ctrl) {
-            compileTemplate(false);
+  .directive('mediaLists', ['$timeout', '$templateRequest', '$compile', '$translate', '$rootScope', 'loEvents', 'Media', 'Session',
+    function ($timeout, $templateRequest, $compile, $translate, $rootScope, loEvents, Media, Session) {
+      return {
+        restrict: 'E',
+        scope: {
+          list: '=',
+          form: '=',
+          media: '=',
+          bypassReset: '='
+        },
+        link: function (scope, element, attr, ctrl) {
+          compileTemplate(false);
 
-            function compileTemplate(watch) {
-              $templateRequest('app/components/flows/media/mediaLists/mediaLists.html').then(function (html) {
-                // execute slightly different code if we're compiling based on a $watch
-                if (watch) {
-                  var htmlTemp = html;
-                  var template = angular.element(htmlTemp);
-                } else {
-                  var template = angular.element(html);
-                  element.append(template);
-                }
-
-                $compile(template)(scope);
-                $timeout(function () {
-                  // make sure that a form exists, and if it does, that we
-                  // haven't opted to bypass the resetting of the form,
-                  // which is useful when saving from another panel
-                  if (scope.form && scope.bypassReset !== true) {
-                    scope.form.$setPristine();
-                    scope.form.$setUntouched();
-                    scope.bypassReset = false;
-                  }
-                });
-              });
-            };
-
-            if (!scope.list.source) {
-              scope.addBtnEnabled = false;
-              scope.list.source = [''];
-            } else {
-              scope.addBtnEnabled = true;
-            }
-
-            function setAddBtn(mediaList, removal) {
-              if (mediaList.length > 0) {
-                _.forEach(mediaList, function (val, key) {
-                  if (angular.isUndefined(val) || _.isEmpty(val) && mediaList.length > 0) {
-                    scope.addBtnEnabled = false;
-                  } else {
-                    scope.addBtnEnabled = true;
-                  }
-                });
+          function compileTemplate(watch) {
+            $templateRequest('app/components/flows/media/mediaLists/mediaLists.html').then(function (html) {
+              // execute slightly different code if we're compiling based on a $watch
+              if (watch) {
+                var htmlTemp = html;
+                var template = angular.element(htmlTemp);
               } else {
-                if (removal) {
-                  delete scope.list.source;
-                  scope.addBtnEnabled = true;
+                var template = angular.element(html);
+                element.append(template);
+              }
+
+              $compile(template)(scope);
+              $timeout(function () {
+                // make sure that a form exists, and if it does, that we
+                // haven't opted to bypass the resetting of the form,
+                // which is useful when saving from another panel
+                if (scope.form && scope.bypassReset !== true) {
+                  scope.form.$setPristine();
+                  scope.form.$setUntouched();
+                  scope.bypassReset = false;
                 }
-              }
-            };
-
-            scope.fetchMedias = function () {
-              return Media.cachedQuery({
-                tenantId: Session.tenant.tenantId
               });
-            };
+            });
+          };
 
-            function listMedias() {
-              if (scope.list.source) {
-                scope.list.source.forEach(function (listItem, idx, list) {
-                  if (typeof listItem === 'string') {
-                    list[idx] = scope.media.filter(function (item) {
-                      return item.id === listItem;
-                    })[0];
-                  }
-                });
-              }
-            };
+          if (!scope.list.source) {
+            scope.addBtnEnabled = false;
+            scope.list.source = [''];
+          } else {
+            scope.addBtnEnabled = true;
+          }
 
-            scope.addListItem = function () {
-              if (scope.addBtnEnabled) {
-                if (scope.list.source) {
-                  scope.list.source.push({});
+          function setAddBtn(mediaList, removal) {
+            if (mediaList.length > 0) {
+              _.forEach(mediaList, function (val, key) {
+                if (angular.isUndefined(val) || _.isEmpty(val) && mediaList.length > 0) {
                   scope.addBtnEnabled = false;
                 } else {
-                  scope.list.source = [{}];
-                }
-              } else {
-                return false;
-              }
-            };
-
-            scope.removeMediaItem = function (index) {
-              var tempList = scope.list;
-              scope.list.source.splice(index, 1);
-              _.forEach(tempList.source, function (val, key) {
-                if (val === undefined || _.isEmpty(val) && tempList.source.length > 0) {
-                  if (key === (tempList.source.length - 1)) {
-                    scope.list.source.splice(key, 1);
-                  } else {
-                    delete scope.list.source[key];
-                  }
+                  scope.addBtnEnabled = true;
                 }
               });
+            } else {
+              if (removal) {
+                delete scope.list.source;
+                scope.addBtnEnabled = true;
+              }
+            }
+          };
 
-              setAddBtn(scope.list.source, true);
-            };
+          scope.fetchMedias = function () {
+            return Media.cachedQuery({
+              tenantId: Session.tenant.tenantId
+            });
+          };
 
-            scope.onSelect = function (mediaList) {
-              return function (media, index) {
-                // if a selection has been made, add the media id to the media list
-                if (angular.isDefined(media) && media !== null) {
-                  scope.list.source[index] = media.id;
-                  // now give us the entire list of available media items
-                  listMedias();
-
-                  if (scope.form.source) {
-                    scope.form.source.$setDirty();
-                    scope.form.source.$setTouched();
-                  }
-                  scope.addBtnEnabled = true;
-                } else {
-                  if (scope.list.source.length > 0) {
-                    scope.addBtnEnabled = false;
-                  } else {
-                    scope.addBtnEnabled = true;
-                  }
+          function listMedias() {
+            if (scope.list.source) {
+              scope.list.source.forEach(function (listItem, idx, list) {
+                if (typeof listItem === 'string') {
+                  list[idx] = scope.media.filter(function (item) {
+                    return item.id === listItem;
+                  })[0];
                 }
-              };
-            };
+              });
+            }
+          };
 
-            $rootScope.$on('closeAddlPanel', function (event, data) {
-              setAddBtn(scope.list.source);
+          scope.addListItem = function () {
+            if (scope.addBtnEnabled) {
+              if (scope.list.source) {
+                scope.list.source.push({});
+                scope.addBtnEnabled = false;
+              } else {
+                scope.list.source = [{}];
+              }
+            } else {
+              return false;
+            }
+          };
+
+          scope.removeMediaItem = function (index) {
+            // to prevent bugs, prevent removal of item while 2nd panel is open
+            if (scope.list.secondScope && scope.list.secondScope.hasOwnProperty('type') === true) {
+              return;
+            }
+
+            var tempList = scope.list;
+            scope.list.source.splice(index, 1);
+            _.forEach(tempList.source, function (val, key) {
+              if (val === undefined || _.isEmpty(val) && tempList.source.length > 0) {
+                if (key === (tempList.source.length - 1)) {
+                  scope.list.source.splice(key, 1);
+                } else {
+                  delete scope.list.source[key];
+                }
+              }
             });
 
-            scope.initMediaList = function (mediaList) {
-              return scope.fetchMedias().$promise.then(function (medias) {
-                // here is where we set the array that will supply the multibox with
-                // an array of medias EXCLUDING media lists
-                scope.mediaListObjs = _.filter(medias, function (media) {
-                  return media.type !== 'list';
-                });
+            setAddBtn(scope.list.source, true);
+          };
 
-                for (var mediaIndex in medias) {
-                  if (mediaList.id === medias[mediaIndex].id) {
-                    mediaList.$media = medias[mediaIndex];
-                    break;
-                  }
-                }
-
+          scope.onSelect = function (mediaList) {
+            return function (media, index) {
+              // if a selection has been made, add the media id to the media list
+              if (angular.isDefined(media) && media !== null) {
+                scope.list.source[index] = media.id;
+                // now give us the entire list of available media items
                 listMedias();
-              });
-        };
 
-        scope.$on(loEvents.tableControls.itemSelected, function (event) {
-          compileTemplate(true);
-        });
-      }
-    };
-  }]);
+                if (scope.form.source) {
+                  scope.form.source.$setDirty();
+                  scope.form.source.$setTouched();
+                }
+              }
+
+              setAddBtn(mediaList);
+            };
+          };
+
+          $rootScope.$on('closeAddlPanel', function (event, data) {
+            setAddBtn(scope.list.source);
+          });
+
+          scope.initMediaList = function (mediaList) {
+            return scope.fetchMedias().$promise.then(function (medias) {
+              // here is where we set the array that will supply the multibox with
+              // an array of medias EXCLUDING media lists
+              scope.mediaListObjs = _.filter(medias, function (media) {
+                return media.type !== 'list';
+              });
+
+              for (var mediaIndex in medias) {
+                if (mediaList.id === medias[mediaIndex].id) {
+                  mediaList.$media = medias[mediaIndex];
+                  break;
+                }
+              }
+
+              listMedias();
+            });
+          };
+
+          scope.$on(loEvents.tableControls.itemSelected, function (event) {
+            compileTemplate(true);
+          });
+        }
+      };
+    }
+  ]);
