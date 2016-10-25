@@ -524,38 +524,38 @@ describe('NavbarController', function() {
       }
     }));
 
-    it('should add the Media Collections link if the user has permissions', inject(function(UserPermissions, filterFilter) {
-      var permissionsList = ['VIEW_ALL_MEDIA'];
-      var currentPermission;
-      spyOn(UserPermissions, 'hasPermission').and.callFake(function(permission) {
-        switch (permission) {
-          case currentPermission:
-            return true;
-          default:
-            return false;
-        }
-      });
-
-      for (var i = 0; i < permissionsList.length; i++) {
-        currentPermission = permissionsList[i];
-
-        $controller('NavbarController', {
-          '$scope': $scope
-        });
-        $scope.$digest();
-
-        expect($scope.flowsDropConfig).toBeDefined();
-        expect($scope.flowsDropConfig.length).toBeGreaterThan(0);
-
-        var mcConfigItem = filterFilter($scope.flowsDropConfig, {
-          id: 'media-collection-management-link'
-        });
-        expect(mcConfigItem.length).toBe(1);
-        mcConfigItem = mcConfigItem[0];
-
-        expect(mcConfigItem.stateLink).toEqual('content.flows.media-collections');
-      }
-    }));
+    // it('should add the Media Collections link if the user has permissions', inject(function(UserPermissions, filterFilter) {
+    //   var permissionsList = ['VIEW_ALL_MEDIA'];
+    //   var currentPermission;
+    //   spyOn(UserPermissions, 'hasPermission').and.callFake(function(permission) {
+    //     switch (permission) {
+    //       case currentPermission:
+    //         return true;
+    //       default:
+    //         return false;
+    //     }
+    //   });
+    //
+    //   for (var i = 0; i < permissionsList.length; i++) {
+    //     currentPermission = permissionsList[i];
+    //
+    //     $controller('NavbarController', {
+    //       '$scope': $scope
+    //     });
+    //     $scope.$digest();
+    //
+    //     expect($scope.flowsDropConfig).toBeDefined();
+    //     expect($scope.flowsDropConfig.length).toBeGreaterThan(0);
+    //
+    //     var mcConfigItem = filterFilter($scope.flowsDropConfig, {
+    //       id: 'media-collection-management-link'
+    //     });
+    //     expect(mcConfigItem.length).toBe(1);
+    //     mcConfigItem = mcConfigItem[0];
+    //
+    //     expect(mcConfigItem.stateLink).toEqual('content.flows.media-collections');
+    //   }
+    // }));
 
     it('should add the Media link if the user has permissions', inject(function(UserPermissions, filterFilter) {
       var permissionsList = ['VIEW_ALL_MEDIA'];

@@ -1,6 +1,6 @@
 <div class="divider-header">
   <h4>{{'list.items.header' | translate}}</h4>
-  <a ng-hide="!('MANAGE_ALL_MEDIA' | hasPermission)" id="add-list-item-button" class="btn pull-right" ng-click="addListItem()" ng-disabled="!addBtnEnabled" title="{{'media.details.list.add.alt' | translate}}"><i class="fa fa-plus"></i></a>
+  <a ng-hide="!('MANAGE_ALL_MEDIA' | hasPermission)" id="add-list-item-button" class="btn pull-right" ng-click="addListItem()" ng-disabled="!addBtnEnabled || list.secondScope.type" title="{{'media.details.list.add.alt' | translate}}"><i class="fa fa-plus"></i></a>
 </div>
 
 <form-error field="form.source"
@@ -45,8 +45,7 @@
           resource-name="Media"
           selected-item="listItem"
           on-item-select="onSelectCallback"
-          idx="$index"
-          bypass-multipicker="bypassMultipicker">
+          idx="$index">
         </lo-multibox>
       </td>
       <td>

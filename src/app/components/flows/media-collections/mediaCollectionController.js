@@ -104,6 +104,7 @@ angular.module('liveopsConfigPanel')
         $scope.create();
       });
 
+
       $rootScope.$on('closeAddlPanel', function (event, emitPayload) {
         // only carry out this code block if we're saving
         if (emitPayload.data.isSaving === true) {

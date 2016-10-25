@@ -12,6 +12,8 @@ angular.module('liveopsConfigPanel')
           bypassReset: '='
         },
         link: function (scope, element, attr, ctrl) {
+          var selectedId;
+
           compileTemplate(false);
 
           function compileTemplate(watch) {
@@ -113,10 +115,12 @@ angular.module('liveopsConfigPanel')
             });
 
             setAddBtn(scope.list.source, true);
+            scope.form.source.$setDirty();
           };
 
           scope.onSelect = function (mediaList) {
             return function (media, index) {
+
               // if a selection has been made, add the media id to the media list
               if (angular.isDefined(media) && media !== null) {
                 scope.list.source[index] = media.id;
@@ -127,14 +131,35 @@ angular.module('liveopsConfigPanel')
                   scope.form.source.$setDirty();
                   scope.form.source.$setTouched();
                 }
-              }
+                scope.addBtnEnabled = true;
 
-              setAddBtn(mediaList);
+              } else {
+                if (scope.list.source.length > 0) {
+                  // this prevents disabling of the add button in cases
+                  // when the user has put focus on the multipicker
+                  // but not made a selection
+                  if (angular.isUndefined(selectedId) || angular.isUndefined(mediaList)) {
+                    scope.addBtnEnabled = false;
+                  }
+                } else {
+                  scope.addBtnEnabled = true;
+                }
+              }
             };
           };
 
           $rootScope.$on('closeAddlPanel', function (event, data) {
             setAddBtn(scope.list.source);
+          });
+
+          scope.$on('multipickerClicked', function (clickData) {
+            if (clickData.targetScope.selectedItem) {
+              // we need to capture this just to tell the onItemSelect
+              // function not to change the add button status if nothing
+              // was selected during the course of that function's execution
+              selectedId = clickData.targetScope.selectedItem.id;
+            }
+            scope.addBtnEnabled = true;
           });
 
           scope.initMediaList = function (mediaList) {

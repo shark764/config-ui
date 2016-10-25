@@ -288,12 +288,14 @@ angular.module('liveopsConfigPanel')
             order: 5
           });
 
-          items.push({
-            label: $translate.instant('navbar.flows.mediacollections.title'),
-            stateLink: 'content.flows.media-collections',
-            id: 'media-collection-management-link',
-            order: 6
-          });
+          // removing this for now as per product, since we are not
+          // ready to handle Media Collections on the flow side yet
+          // items.push({
+          //   label: $translate.instant('navbar.flows.mediacollections.title'),
+          //   stateLink: 'content.flows.media-collections',
+          //   id: 'media-collection-management-link',
+          //   order: 6
+          // });
         }
 
         if (UserPermissions.hasPermissionInList(PermissionGroups.viewDispatchMappings)) {
