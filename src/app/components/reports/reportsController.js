@@ -10,15 +10,16 @@ angular.module('liveopsConfigPanel')
       var sleepTime = 15;
       var maxTimeout = 120;
 
-      $('#birstFrame').on('load', function () {
+      $(document).ready(function () {
+        $('#birstFrame').on('load', function () {
 
-        $scope.dashboardReady = true;
-        $scope.$apply();
+          $scope.dashboardReady = true;
+          $scope.$apply();
+          var js = "function interceptClickEvent(e){e.preventDefault();var hrefPath;var target=e.target||e.srcElement;if(target.tagName==='A'){hrefPath=target.getAttribute('href');if(hrefPath.startsWith('https://parent.cxengagelabs.net/')){parent.addApp({type:'recording',id:hrefPath})}}e.preventDefault()} $(document).on('click',interceptClickEvent);";
 
-        document.domain = 'cxengagelabs.net';
-        var js = "function interceptClickEvent(e){e.preventDefault();var hrefPath;var target=e.target||e.srcElement;if(target.tagName==='A'){hrefPath=target.getAttribute('href');if(hrefPath.startsWith('https://parent.cxengagelabs.net/')){parent.addApp({type:'recording',id:hrefPath})}}e.preventDefault()} $(document).on('click',interceptClickEvent);";
           frames[0].window.eval(js);
 
+        });
       });
 
       $scope.fetch = function () {
