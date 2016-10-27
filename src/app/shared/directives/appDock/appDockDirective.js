@@ -20,7 +20,7 @@ angular.module('liveopsConfigPanel')
             $timeout(function () {
               // use the calculated height of the app dock as the
               // css 'bottom' property to move the agent toolbar
-              // up or down along with it 
+              // up or down along with it
               var toolbarElem = angular.element('#config-ui-agent-toolbar');
 
               if (scope.toolbarStatus) {
@@ -43,6 +43,13 @@ angular.module('liveopsConfigPanel')
           };
 
           window.addApp = function (app) {
+            // extract the interaction ID from the link if it's
+            // coming from the interactions table
+            if (app.type === 'recording') {
+              var hrefSplit = app.id.split('/');
+              app.id = hrefSplit[hrefSplit.length - 1];
+            }
+
             scope.apps = [];
             scope.showAppDock = true;
             scope.showApps = true;
