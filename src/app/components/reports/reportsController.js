@@ -11,26 +11,27 @@ angular.module('liveopsConfigPanel')
       var maxTimeout = 120;
 
       $('#birstFrame').on('load', function () {
+
         $scope.dashboardReady = true;
         $scope.$apply();
 
         document.domain = 'cxengagelabs.net';
-        var js = "function interceptClickEvent(e){e.preventDefault();var hrefPath;var target=e.target||e.srcElement;if(target.tagName==='A'){hrefPath=target.getAttribute('href');if(hrefPath.indexOf('parent.cxengagelabs.net')!==-1){var hrefPathSplit=hrefPath.split('/');var interactionId=hrefPathSplit[hrefPathSplit.length-1];parent.addApp({type:'recording',id:interactionId})}}e.preventDefault()}$(document).on('click',interceptClickEvent);";
+        var js = "function interceptClickEvent(e){e.preventDefault();var hrefPath;var target=e.target||e.srcElement;if(target.tagName==='A'){hrefPath=target.getAttribute('href');if(hrefPath.startsWith('https://parent.cxengagelabs.net/')){parent.addApp({type:'recording',id:hrefPath})}}e.preventDefault()} $(document).on('click',interceptClickEvent);";
+          frames[0].window.eval(js);
 
-        frames[0].window.eval(js);
       });
 
       $scope.fetch = function () {
-          Report.get({
-            tenantId: Session.tenant.tenantId
-          }, function (data) {
-            $scope.birst.SSOToken = data.reportToken;
-            $scope.buildUrl();
-          }, function (response) {
-            switch (response.status) {
-            case 418:
-              if (time <= maxTimeout) {
-                $scope.birst.message = $translate.instant('reports.provisioning');
+        Report.get({
+          tenantId: Session.tenant.tenantId
+        }, function (data) {
+          $scope.birst.SSOToken = data.reportToken;
+          $scope.buildUrl();
+        }, function (response) {
+          switch (response.status) {
+          case 418:
+            if (time <= maxTimeout) {
+              $scope.birst.message = $translate.instant('reports.provisioning');
               $timeout(function () {
                 time = time + sleepTime;
                 $scope.fetch();
