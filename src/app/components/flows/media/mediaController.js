@@ -1,15 +1,16 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('MediaController', ['$rootScope', '$scope', '$location',  '$timeout', 'Media', 'Session', 'mediaTableConfig', 'loEvents', 'twilioLangs', 'twilioVoices',
-    function($rootScope, $scope, $location, $timeout, Media, Session, mediaTableConfig, loEvents, twilioLangs, twilioVoices) {
+  .controller('MediaController', ['$rootScope', '$scope', '$location', '$q', '$timeout', 'Media', 'Session', 'mediaTableConfig', 'loEvents', 'twilioLangs', 'twilioVoices',
+    function ($rootScope, $scope, $location, $q, $timeout, Media, Session, mediaTableConfig, loEvents, twilioLangs, twilioVoices) {
       $scope.Session = Session;
       $scope.forms = {};
       $scope.showSecondPanel = false;
+      var MediaSvc = new Media();
 
       var emitPayloadData;
 
-      $scope.create = function() {
+      $scope.create = function () {
         $scope.selectedMedia = null;
         $scope.selectedMedia = new Media({
           properties: {},
@@ -18,16 +19,22 @@ angular.module('liveopsConfigPanel')
         });
       };
 
-      $scope.fetchMedias = function() {
+      $scope.fetchMedias = function () {
         return Media.cachedQuery({
           tenantId: Session.tenant.tenantId
         });
       };
-      $scope.$on(loEvents.tableControls.itemCreate, function() {
+
+      $q.when($scope.fetchMedias().$promise).then(function (response) {
+        $scope.medias = response;
+        MediaSvc.getListSourceName($scope.medias);
+      });
+
+      $scope.$on(loEvents.tableControls.itemCreate, function () {
         $scope.create();
       });
 
-      $scope.$on(loEvents.tableControls.itemSelected, function() {
+      $scope.$on(loEvents.tableControls.itemSelected, function () {
         $timeout(function () {
           // this is where we check on the data from last media item saved in
           // order to determine whether or not to completely wipe out the second media panel
@@ -45,7 +52,7 @@ angular.module('liveopsConfigPanel')
         });
       });
 
-      $scope.$on(loEvents.bulkActions.close, function() {
+      $scope.$on(loEvents.bulkActions.close, function () {
         if ($scope.selectedMedia.secondScope) {
           $scope.closeAddlPanel();
         } else {
@@ -83,7 +90,7 @@ angular.module('liveopsConfigPanel')
         };
       });
 
-      $scope.$on('resource:details:create:Media', function(event, data) {
+      $scope.$on('resource:details:create:Media', function (event, data) {
         $scope.showSecondPanel = true;
         $scope.forms.mediaFormAddl.$setPristine();
         $scope.forms.mediaFormAddl.$setUntouched();

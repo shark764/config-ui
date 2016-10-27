@@ -1,12 +1,13 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('loMediaDetails', ['$rootScope', '$location', '$translate', '$timeout', '$state', 'Alert', 'Media', 'mediaTypes', 'Session', 'apiHostname', 'Upload',
-    function ($rootScope, $location, $translate, $timeout, $state, Alert, Media, mediaTypes, Session, apiHostname, Upload) {
+  .directive('loMediaDetails', ['$rootScope', '$location', '$translate', '$timeout', '$state', '$q', 'Alert', 'Media', 'mediaTypes', 'Session', 'apiHostname', 'Upload',
+    function ($rootScope, $location, $translate, $timeout, $state, $q, Alert, Media, mediaTypes, Session, apiHostname, Upload) {
       return {
         restrict: 'AE',
         controller: function ($scope) {
           $scope.bypassReset = false;
+          var MediaSvc = new Media();
 
           // get the list of media types, with an optional argument of excludeArr,
           // which is a list of string values for media types to leave out of this
@@ -28,6 +29,21 @@ angular.module('liveopsConfigPanel')
               $location.url($location.path());
             }
           }
+
+          function resetMediaTableSourceNames (form) {
+            // If we're not saving from the first media panel, then
+            // reset the media names in the media page table
+            if (form.$name === 'forms.mediaForm') {
+              var allMedia = Media.cachedQuery({
+                tenantId: Session.tenant.tenantId
+              });
+
+              $q.when(allMedia.$promise).then(function (response) {
+                $scope.medias = response;
+                MediaSvc.getListSourceName($scope.medias);
+              });
+            }
+          };
 
           function saveMediaList(model, form, addNew) {
             // create an array of the media item ids
@@ -71,6 +87,9 @@ angular.module('liveopsConfigPanel')
                 model.name = null;
               }
             }).then(function (savedMedia) {
+              // update the user-friendly media list item names in the table
+              resetMediaTableSourceNames(form);
+
               $scope.bypassReset = true;
               if (model.type === 'list') {
                 // now that we've saved the media object with its source as an array,

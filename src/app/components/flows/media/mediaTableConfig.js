@@ -12,7 +12,7 @@ angular.module('liveopsConfigPanel')
         'header': {
           'display': $translate.instant('value.source')
         },
-        'name': '$original.source'
+        'name': 'mediaSourceName'
       }, {
         'header': {
           'display': $translate.instant('value.type'),
