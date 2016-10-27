@@ -70,8 +70,14 @@ angular.module('liveopsConfigPanel')
         // state of the forms in both panels
         emitPayloadData = emitPayload.data;
         if (emitPayload.data.isSaving === true && emitPayload.data.formName === 'forms.mediaFormAddl') {
-          $scope.forms.mediaForm.$setDirty();
-          $scope.forms.mediaFormAddl.$setPristine();
+          if ($scope.forms.mediaForm) {
+            $scope.forms.mediaForm.$setDirty();
+          }
+
+          if ($scope.forms.mediaFormAddl) {
+            $scope.forms.mediaFormAddl.$setPristine();
+          }
+
           $scope.selectedMedia.secondScope = null;
           $scope.showSecondPanel = false;
         };

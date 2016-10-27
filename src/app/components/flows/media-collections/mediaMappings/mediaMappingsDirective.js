@@ -2,7 +2,7 @@
 
 angular.module('liveopsConfigPanel')
   .directive('mediaMappings', ['$timeout', 'Media', 'Session',
-    function($timeout, Media, Session) {
+    function ($timeout, Media, Session) {
       return {
         restrict: 'E',
         scope: {
@@ -11,15 +11,35 @@ angular.module('liveopsConfigPanel')
           bypassMultipicker: '='
         },
         templateUrl: 'app/components/flows/media-collections/mediaMappings/mediaMappings.html',
-        link: function(scope) {
-
-          scope.fetchMedias = function() {
+        link: function (scope, element) {
+          scope.fetchMedias = function () {
             return Media.cachedQuery({
               tenantId: Session.tenant.tenantId
             });
           };
 
-          scope.addMapping = function() {
+          // this was the least painful way to keep track of the media panel being
+          // open or closed, otherwise I'd have to add even more emits and twisted
+          // logic to keep track of everything
+          var mediaPanel = document.getElementById('media-pane');
+          var observer = new MutationObserver(function (mutations) {
+            mutations.forEach(function (mutation) {
+              if (angular.element(mutation.target).hasClass('ng-hide') !== true) {
+                scope.mediaPaneOpen = true;
+                scope.bypassMultipicker = false;
+              } else {
+                scope.mediaPaneOpen = false;
+              };
+              scope.$apply();
+            });
+          });
+
+          observer.observe(mediaPanel, {
+            attributes: true,
+            characterData: true
+          });
+
+          scope.addMapping = function () {
             if (scope.bypassMultipicker !== true) {
               if (scope.collection.mediaMap) {
                 scope.collection.mediaMap.push({});
@@ -29,7 +49,7 @@ angular.module('liveopsConfigPanel')
             }
           };
 
-          scope.removeMapping = function(index) {
+          scope.removeMapping = function (index) {
             if (scope.collection.mediaMap[index].lookup === scope.collection.defaultMediaKey) {
               scope.collection.defaultMediaKey = null;
             }
@@ -44,14 +64,14 @@ angular.module('liveopsConfigPanel')
             scope.form.mediaMap.$setTouched();
           };
 
-          scope.resetDefaultMediaKey = function() {
+          scope.resetDefaultMediaKey = function () {
             scope.collection.defaultMediaKey = null;
             scope.form.defaultMediaKey.$setDirty();
             scope.form.defaultMediaKey.$setTouched();
           };
 
-          scope.onSelect = function(mediaMap) {
-            return function(media) {
+          scope.onSelect = function (mediaMap) {
+            return function (media) {
               if (media) {
                 mediaMap.id = media.id;
 
@@ -61,12 +81,12 @@ angular.module('liveopsConfigPanel')
             };
           };
 
-          scope.initMapping = function(mediaMap) {
+          scope.initMapping = function (mediaMap) {
             if (!mediaMap.id) {
               return;
             }
 
-            return scope.fetchMedias().$promise.then(function(medias) {
+            return scope.fetchMedias().$promise.then(function (medias) {
               for (var mediaIndex in medias) {
                 if (mediaMap.id === medias[mediaIndex].id) {
                   mediaMap.$media = medias[mediaIndex];

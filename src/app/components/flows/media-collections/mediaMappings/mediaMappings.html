@@ -1,6 +1,6 @@
 <div class="divider-header ">
   <h4>{{'media.collections.media.mapping' | translate}}</h4>
-  <a ng-hide="!('MANAGE_ALL_MEDIA' | hasPermission)" id="add-media-mapping-button" class="btn pull-right" ng-click="addMapping()" title="{{'flow.details.mapping.add.alt' | translate}}" ng-disabled="!!bypassMultipicker"><i class="fa fa-plus"></i></a>
+  <a ng-hide="!('MANAGE_ALL_MEDIA' | hasPermission)" id="add-media-mapping-button" class="btn pull-right" ng-click="addMapping()" title="{{'flow.details.mapping.add.alt' | translate}}" ng-disabled="bypassMultipicker === true || mediaPaneOpen === true"><i class="fa fa-plus"></i></a>
 </div>
 
 <form-error field="form.mediaMap"
