@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## [4.4.0]
 * CXV1-6119 - Fixed media list add btn disabling issue
 * CXV1-6120 - Fixed issue with Submit button not enabling on media lists
 * CXV1-6027 - Enable drag-sorting for media list items
