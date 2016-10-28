@@ -26,8 +26,7 @@ angular.module('liveopsConfigPanel')
       };
 
       $q.when($scope.fetchMedias().$promise).then(function (response) {
-        $scope.medias = response;
-        MediaSvc.getListSourceName($scope.medias);
+        MediaSvc.getListSourceName($scope.fetchMedias());
       });
 
       $scope.$on(loEvents.tableControls.itemCreate, function () {
