@@ -31,7 +31,7 @@ angular.module('liveopsConfigPanel')
           }
 
           function resetMediaTableSourceNames (form) {
-            // If we're not saving from the first media panel, then
+            // If we're saving from the first media panel, then
             // reset the media names in the media page table
             if (form.$name === 'forms.mediaForm') {
               var allMedia = Media.cachedQuery({
