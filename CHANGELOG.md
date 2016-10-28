@@ -4,11 +4,15 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [4.4.3]
+* CXV1-4953 Reinstated the Recordings link in navbar since AppDock is not yet working
+
 ## [4.4.2]
 * CXV1-6116 - Fixed issue with spinner not showing up on load of media page
 
 ## [4.4.1]
 * CXV1-6116 - Put user-friendly media item names for media lists in table on media page
+* CXV1-4953 - Feature-flagged AppDock due to reappearance of cross-domain issue
 
 ## [4.4.0]
 * CXV1-6119 - Fixed media list add btn disabling issue
