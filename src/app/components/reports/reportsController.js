@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('ReportsController', ['$scope', '$sce', '$http', 'Session', 'Report', '$state',  'BIRST_URL', '$timeout', '$translate', 'appFlags',
+  .controller('ReportsController', ['$scope', '$sce', '$http', 'Session', 'Report', '$state', 'BIRST_URL', '$timeout', '$translate', 'appFlags',
     function ($scope, $sce, $http, Session, Report, $state, BIRST_URL, $timeout, $translate, appFlags) {
       $scope.birst = {};
       $scope.dashboardReady = false;
@@ -10,22 +10,22 @@ angular.module('liveopsConfigPanel')
       var sleepTime = 15;
       var maxTimeout = 120;
 
-      $('#birstFrame').on('load', function () {
+      $(document).ready(function () {
+        $('#birstFrame').on('load', function () {
 
-        $scope.dashboardReady = true;
-        $scope.$apply();
+          $scope.dashboardReady = true;
+          $scope.$apply();
 
-        // feature flag to temporarily suppress click handler that
-        // open the app dock
-        if (!appFlags.APPDOCK) {
-          return;
-        } 
+          // feature flag to temporarily suppress click handler that
+          // open the app dock
+          if (!appFlags.APPDOCK) {
+            return;
+          }
 
-        document.domain = 'cxengagelabs.net';
-        var js = "function interceptClickEvent(e){e.preventDefault();var hrefPath;var target=e.target||e.srcElement;if(target.tagName==='A'){hrefPath=target.getAttribute('href');if(hrefPath.startsWith('https://parent.cxengagelabs.net/')){parent.addApp({type:'recording',id:hrefPath})}}e.preventDefault()} $(document).on('click',interceptClickEvent);";
+          var js = "function interceptClickEvent(e){e.preventDefault();var hrefPath;var target=e.target||e.srcElement;if(target.tagName==='A'){hrefPath=target.getAttribute('href');if(hrefPath.startsWith('https://parent.cxengagelabs.net/')){parent.addApp({type:'recording',id:hrefPath})}}e.preventDefault()} $(document).on('click',interceptClickEvent);";
 
-        frames[0].window.eval(js);
-
+          frames[0].window.eval(js);
+        });
       });
 
       $scope.fetch = function () {

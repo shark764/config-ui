@@ -18,7 +18,7 @@ module.exports = function(options) {
           appFlags: {
             OUTBOUND_PAGES: argv.outboundPages || true,
             SHOW_ZENDESK: argv.showZendesk || false,
-            APPDOCK: argv.showAppdock || false
+            APPDOCK: argv.showAppdock || true
           }
         }
       }))
