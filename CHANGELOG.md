@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+* IMPORTANT - Still debugging AppDock on dev, so if AppDock is not working yet, make sure to set the feature flag in gulp/flags.js to APPDOCK: argv.showAppdock || false
 
 ## [4.4.3]
 * CXV1-4953 Reinstated the Recordings link in navbar since AppDock is not yet working
