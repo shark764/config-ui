@@ -8,7 +8,7 @@ angular.module('liveopsConfigPanel')
         'orderBy': '$original.name',
         'sref': 'content.management.capacityRules',
         'title': $translate.instant('capacityRules.table.title'),
-        'helpLink': helpDocsHostname + '/Help/Content/Managing%20Users/Creating_Capacity_Rules.htm',
+        'helpLink': helpDocsHostname + '/Help/Content/Managing%20Users/Capacity_Rules/Creating_Capacity_Rules.htm',
         'showBulkActions': function() {
           return false;
         },
