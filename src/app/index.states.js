@@ -596,15 +596,14 @@ angular.module('liveopsConfigPanel')
             }]
           }
         })
-        .state('content.reporting.interactions', {
-          url: '/interactions?id',
-          title: 'Reporting - Interactions ',
-          templateUrl: 'app/components/reports/interactions/interactions.html',
-          controller: 'InteractionsController as ic',
+        .state('content.reporting.silentMonitoring', {
+          url: '/silentMonitoring?id',
+          title: 'Reporting - Silent Monitoring ',
+          templateUrl: 'app/components/reports/silentMonitoring/silentMonitoring.html',
+          controller: 'SilentMonitoringController as ic',
           reloadOnSearch: false,
           resolve: {
             hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
-              // TODO role group?
               return UserPermissions.resolvePermissions(PermissionGroups.viewDashboards);
             }],
             users: ['TenantUser', 'Session', '$q', function(TenantUser, Session, $q) {

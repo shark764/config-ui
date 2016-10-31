@@ -19,11 +19,11 @@
       </button>
     </div>
   </div>
-  
+
   <div class="table-controls">
     <div class="col">
       <div ng-show="showSearch" class="inner-addon right">
-        <input type="text" 
+        <input type="text"
           ng-model="searchQuery"
           placeholder="{{'table.search.placeholder' | translate}}">
         </input>
@@ -38,6 +38,36 @@
 
         {{'table.actions.button' | translate}}
       </button>
+
+      <div ng-if="config.greaterOrLessThan" class="btn filter-button">
+        <div class="dropdown-label" ng-click="showDrop = ! showDrop">
+          <span>{{config.greaterOrLessThan.display}}</span>
+          <span ng-if="greaterOrLessThan.comparison && greaterOrLessThan.value && (greaterOrLessThan.unit || !config.greaterOrLessThan.units)">
+            {{greaterOrLessThan.comparison}} {{greaterOrLessThan.value}} {{greaterOrLessThan.unit.display}}
+          </span>
+          <div ng-if="showAll" class="all-label">
+            <span ng-if="all.checked"><span ng-if="label">:</span> All</span>
+            <span ng-if="!all.checked"><span ng-if="label">:</span> (...)</span>
+          </div>
+          <span><i class="fa" ng-class="{'fa-caret-up' : showDrop, 'fa-caret-down' : ! showDrop}"></i></span>
+        </div>
+        <div class="dropdown-container">
+          <div class="dropdown filter-dropdown greater-or-less-than-filters" ng-hide="! showDrop || options.length === 0">
+            <select type="number" name="comparison"
+              ng-model="greaterOrLessThan.comparison">
+              <option value=">">&gt;</option>
+              <option value="<">&lt;</option>
+            </select>
+            <input type="number" name="value"
+            ng-model="greaterOrLessThan.value">
+            <select type="number" name="unit"
+              ng-if="config.greaterOrLessThan.units"
+              ng-model="greaterOrLessThan.unit"
+              ng-options="unit as unit.display for unit in config.greaterOrLessThan.units">
+            </select>
+          </div>
+        </div>
+      </div>
 
       <filter-dropdown id="table-columns-dropdown" class="btn"
         label="{{'table.columns.button' | translate}}"

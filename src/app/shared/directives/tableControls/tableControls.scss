@@ -5,7 +5,7 @@ table-controls {
   padding: 20px;
   padding-bottom: 0;
   box-sizing: border-box;
-  
+
   #controls-wrapper {
     position: relative;
     margin-bottom: 20px;
@@ -39,7 +39,11 @@ table-controls {
         padding: 7px 15px;
       }
 
-      filter-dropdown {
+      filter-dropdown{
+        padding: 0;
+      }
+
+      .filter-button {
         padding: 0;
       }
 
@@ -54,6 +58,11 @@ table-controls {
 
     .dropdown-container {
       top: -3px;
+
+      .greater-or-less-than-filters {
+        @include flexbox;
+        padding: 6px 6px;
+      }
     }
   }
 
