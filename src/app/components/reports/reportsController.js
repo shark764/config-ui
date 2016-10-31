@@ -21,11 +21,8 @@ angular.module('liveopsConfigPanel')
           if (!appFlags.APPDOCK) {
             return;
           }
-          
-          document.domain = 'cxengagelabs.net';
-          var js = "function interceptClickEvent(e){e.preventDefault();var hrefPath;var target=e.target||e.srcElement;if(target.tagName==='A'){hrefPath=target.getAttribute('href');if(hrefPath.startsWith('https://parent.cxengagelabs.net/')){parent.addApp({type:'recording',id:hrefPath})}}e.preventDefault()} $(document).on('click',interceptClickEvent);";
 
-          frames[0].window.eval(js);
+          document.domain = 'cxengagelabs.net';
         });
       });
 
