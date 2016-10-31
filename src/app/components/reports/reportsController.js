@@ -15,14 +15,6 @@ angular.module('liveopsConfigPanel')
 
           $scope.dashboardReady = true;
           $scope.$apply();
-
-          // feature flag to temporarily suppress click handler that
-          // open the app dock
-          if (!appFlags.APPDOCK) {
-            return;
-          }
-
-          document.domain = 'cxengagelabs.net';
         });
       });
 
