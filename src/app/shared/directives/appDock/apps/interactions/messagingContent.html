@@ -11,7 +11,7 @@
         <md-list-item ng-repeat="message in interactionData" layout-padding>
 
           <strong layout="column">
-            [{{message.payload.timestamp | date:'medium'}}]
+            [{{message.payload.timestamp | convertToTimezone:TimezoneValHolder.tenantTimezone:'MMM D, YYYY hh:mm:ss'}}]
           </strong>
 
           <strong layout="column">

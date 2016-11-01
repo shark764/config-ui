@@ -13,7 +13,7 @@
         <h3
           layout-align=" start"
           ng-click="setSelectedItem(interactionItem)">
-            {{interactionItem.updated | date:'medium'}}
+            {{interactionItem.updated | convertToTimezone:TimezoneValHolder.tenantTimezone:'MMM D, YYYY hh:mm:ss'}}
         </h3>
       </div>
     </md-list-item>
@@ -34,12 +34,12 @@
           <p audit-text
             translation="value.createdby.time"
             user-id="selectedItem.$original.createdBy"
-            date="selectedItem.$original.created"
+            date="selectedItem.$original.created | convertToTimezone:TimezoneValHolder.tenantTimezone:'MMM D, YYYY hh:mm:ss'"
             class="md-caption"></p>
           <p audit-text
             translation="value.updatedby"
             user-id="selectedItem.$original.updatedBy"
-            date="selectedItem.$original.updated"
+            date="selectedItem.$original.updated | convertToTimezone:TimezoneValHolder.tenantTimezone:'MMM D, YYYY hh:mm:ss'"
             class="md-caption"></p>
         </div>
       </div>
@@ -70,7 +70,7 @@
         </div>
 
         <div flex="90">
-          <p>{{selectedItem.updated | date:'medium'}}</p>
+          <p>{{selectedItem.updated | convertToTimezone:TimezoneValHolder.tenantTimezone:'MMM D, YYYY hh:mm:ss'}}</p>
         </div>
       </div>
     </md-content>
