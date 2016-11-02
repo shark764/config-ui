@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('interactions', ['$sce', '$q', '$translate', '$timeout', 'Recording', 'Messaging', 'MessagingFrom', 'Session',
-    function ($sce, $q, $translate, $timeout, Recording, Messaging, MessagingFrom, Session) {
+  .directive('interactions', ['$sce', '$q', '$translate', '$timeout', 'Recording', 'Messaging', 'MessagingFrom', 'Tenant', 'Session',
+    function ($sce, $q, $translate, $timeout, Recording, Messaging, MessagingFrom, Tenant, Session) {
       return {
         restrict: 'E',
         transclude: true,
@@ -23,6 +23,9 @@ angular.module('liveopsConfigPanel')
           scope.setSelectedItem = function (item) {
             scope.selectedItem = item;
           };
+
+          // using this as a "bridge" to pass timezone val down to ng-include html
+          scope.TimezoneValHolder = {};
 
           // since the messages API doesn't give us the user's name,
           // we have to hit a separate "from" endpoint, and this maps the
@@ -104,11 +107,22 @@ angular.module('liveopsConfigPanel')
             });
           };
 
+          function tenantTimezone () {
+            var tenant = Tenant.cachedGet({
+              id: Session.tenant.tenantId,
+            });
+
+            return $q.when(tenant).then(function (tenantData) {
+              scope.TimezoneValHolder.tenantTimezone = tenantData.timezone;
+            });
+          }
+
           // once we've attempted to get both, set interactionData to
           // be the first response that's actually an array
           $q.all([
               messages(),
-              recordings()
+              recordings(),
+              tenantTimezone()
             ])
             .then(function (interactionsResponse) {
               scope.interactionData = _.find(interactionsResponse, function (item) {
@@ -133,7 +147,6 @@ angular.module('liveopsConfigPanel')
               }
 
               scope.$emit('appDockDataLoaded');
-
             });
         }
       };

@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+* CXV1-6186 - Add Timezone conversion to AppDock
 
 ## [4.4.5]
 CXV1-4953 - Unflagged AppDock for further testing, but if it's not working, needs to be re-flagged
