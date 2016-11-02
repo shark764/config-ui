@@ -22,6 +22,14 @@ angular.module('liveopsConfigPanel')
           pageId: {
             type: 'string'
           }
+        },
+        email: {
+          email: {
+            type: 'string'
+          },
+          password: {
+            type: 'password'
+          }
         }
       };
 

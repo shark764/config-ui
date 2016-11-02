@@ -4,9 +4,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 * CXV1-6186 - Add Timezone conversion to AppDock
+* CXV1-6103 - Add email integration fields & UI
 
 ## [4.4.5]
-CXV1-4953 - Unflagged AppDock for further testing, but if it's not working, needs to be re-flagged
+* CXV1-4953 - Unflagged AppDock for further testing, but if it's not working, needs to be re-flagged
 
 ## [4.4.4]
 * CXV1-5567 - Fixed link to help docs on Capacity Rules page

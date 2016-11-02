@@ -87,6 +87,72 @@
     </div>
   </div>
 
+  <div ng-if="selectedIntegration.type == 'email'">
+
+    <!-- Incoming email protocol -->
+    <div class="input-group">
+      <label>{{'integration.details.properties.incomingType' | translate}} *</label>
+      <form-error field="forms.detailsForm.incomingType" error-type-required="{{'integration.incomingType.error' | translate}}"></form-error>
+      <div>
+        <input ng-disabled="true" ng-required="true" type="text" ng-model="selectedIntegration.properties.incomingType" name="incomingType"/>
+      </div>
+    </div>
+
+    <!-- Incoming IMAP Server Address -->
+    <div class="input-group">
+      <label>{{'integration.details.properties.incomingImap' | translate}} *</label>
+      <form-error field="forms.detailsForm.incomingImap" error-type-required="{{'integration.incomingImap.error' | translate}}"></form-error>
+      <div>
+        <input ng-required="true" type="text" ng-model="selectedIntegration.properties.imapServer" name="incomingImap"/>
+      </div>
+    </div>
+
+    <!-- SMTP Host -->
+    <div class="input-group">
+      <label>{{'integration.details.properties.smtpHost' | translate}} *</label>
+      <form-error field="forms.detailsForm.smtpHost" error-type-required="{{'integration.smtpHost.error' | translate}}"></form-error>
+      <div>
+        <input ng-required="true" type="text" ng-model="selectedIntegration.properties.smtpHost" name="smtpHost"/>
+      </div>
+    </div>
+
+    <!-- SMTP Port -->
+    <div class="input-group">
+      <label>{{'integration.details.properties.smtpPort' | translate}} *</label>
+      <form-error field="forms.detailsForm.smtpPort" error-type-required="{{'integration.smtpPort.error' | translate}}"></form-error>
+      <div>
+        <input ng-required="true" type="text" ng-model="selectedIntegration.properties.smtpPort" name="smtpPort"/>
+      </div>
+    </div>
+
+    <!-- Use SMTP SSL? -->
+    <div class="input-group">
+      <label>{{'integration.details.properties.smtpSsl' | translate}}</label>
+      <div>
+        <toggle ng-required="true" ng-model="selectedIntegration.properties.smtpSsl" ng-disabled="!('MANAGE_ALL_PROVIDERS' | hasPermission)"/>
+      </div>
+    </div>
+
+    <!-- SMTP User -->
+    <div class="input-group">
+      <label>{{'integration.details.properties.smtpUser' | translate}} *</label>
+      <form-error field="forms.detailsForm.smtpUser" error-type-required="{{'integration.smtpUser.error' | translate}}"></form-error>
+      <div>
+        <input ng-required="true" type="text" ng-model="selectedIntegration.properties.smtpUser" name="smtpUser"/>
+      </div>
+    </div>
+
+    <!-- SMTP password -->
+    <div class="input-group">
+      <label>{{'integration.details.properties.smtpPassword' | translate}} *</label>
+      <form-error field="forms.detailsForm.smtpPassword" error-type-required="{{'integration.smtpPassword.error' | translate}}"></form-error>
+      <div>
+        <input ng-required="true" type="password" ng-model="selectedIntegration.properties.smtpPassword" name="smtpPassword"/>
+      </div>
+    </div>
+
+  </div>
+
   <div ng-if="selectedIntegration.type == 'client'">
     <div class="input-group">
       <label>{{'integration.details.properties.accessKey' | translate}} *</label>
@@ -149,6 +215,7 @@
       </div>
     </div>
   </div>
+
   <div class="input-group login-url" ng-if="selectedIntegration.type == 'salesforce'">
     <div>
       <p class="null">{{'integration.details.loginUrl.message' | translate}}</p>
@@ -185,8 +252,9 @@
       </div>
     </div>
   </div>
+
   <!-- Listeners -->
-  <div ng-if="selectedIntegration.type == 'salesforce' || selectedIntegration.type == 'facebook'">
+  <div ng-if="selectedIntegration.type == 'salesforce' || selectedIntegration.type == 'facebook' || selectedIntegration.type == 'email'">
     <integration-listeners integration="selectedIntegration" fetch-listeners="fetchListeners()"></integration-listeners>
   </div>
 </div>
