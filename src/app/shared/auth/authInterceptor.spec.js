@@ -34,7 +34,7 @@ describe('AuthInterceptor', function() {
       headers: {}
     });
 
-    expect(config.headers.Authorization).toBe('Basic ' + Session.token);
+    expect(config.headers.Authorization).toBe('Token ' + Session.token);
   });
 
   it('should not add the authorization header when the request URL is not valid', function() {

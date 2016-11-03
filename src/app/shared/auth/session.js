@@ -66,8 +66,7 @@ angular.module('liveopsConfigPanel')
       this.setUser = function(user) {
         this.user = {
           id: user.id,
-          displayName: user.getDisplay(),
-          email: user.email
+          displayName: user.getDisplay()
         };
         this.flush();
       };
@@ -123,7 +122,9 @@ angular.module('liveopsConfigPanel')
         if (!this.token) {
           return false;
         } else {
-          return this.token.indexOf('Token') < 0; //Prevent page load error when still authenticated with temp token
+          if (angular.isString(this.token)) {
+            return this.token.indexOf('Token') < 0; //Prevent page load error when still authenticated with temp token
+          }
         }
       };
 

@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('UserProfileController', ['$scope', '$translate', 'AuthService', 'Session', 'User', 'TenantUser',
-    function($scope, $translate, AuthService, Session, User, TenantUser) {
+  .controller('UserProfileController', ['$scope', '$translate', '$q', 'AuthService', 'Session', 'User', 'TenantUser', 'Token',
+    function($scope, $translate, $q, AuthService, Session, User, TenantUser, Token) {
 
       $scope.tenantUser = TenantUser.get({
         id: Session.user.id,
@@ -26,16 +26,19 @@ angular.module('liveopsConfigPanel')
         delete $scope.tenantUser.status; //User cannot edit their own status
         delete $scope.tenantUser.roleId; //User cannot edit their own platform roleId
 
+
         var password = $scope.tenantUser.$user.password;
         return $scope.tenantUser.$user.save(function(user) {
           Session.setUser(user);
 
+
           if ($scope.userForm.password.$dirty) {
-            var token = AuthService.generateToken(user.email, password);
-            Session.setToken(token);
+            $q.when(AuthService.generateToken(user.email, password, Token)).then(function (tokenResponse) {
+              Session.setToken(tokenResponse.token);
+              $scope.userForm.password.$setPristine();
+            });
           }
 
-          $scope.userForm.password.$setPristine();
         });
       };
     }
