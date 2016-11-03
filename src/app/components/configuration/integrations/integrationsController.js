@@ -6,6 +6,8 @@ angular.module('liveopsConfigPanel')
 
       $scope.customIntegrationTypes = ['salesforce'];
 
+      $scope.smtpEncryptionTypes = ['TLS', 'SSL'];
+
       $scope.twilioRegions = GlobalRegionsList;
       $scope.twilioDefaultRegion = GlobalRegionsList[0].twilioId;
 
@@ -37,7 +39,7 @@ angular.module('liveopsConfigPanel')
         if ($scope.selectedIntegration.description === null) {
           delete $scope.selectedIntegration.description
         }
-        
+
         return $scope.selectedIntegration.save({
           tenantId: Session.tenant.tenantId
         });

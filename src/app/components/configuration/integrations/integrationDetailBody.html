@@ -127,10 +127,12 @@
 
     <!-- Use SMTP SSL? -->
     <div class="input-group">
-      <label>{{'integration.details.properties.smtpSsl' | translate}}</label>
-      <div>
-        <toggle ng-required="true" ng-model="selectedIntegration.properties.smtpSsl" ng-disabled="!('MANAGE_ALL_PROVIDERS' | hasPermission)"/>
-      </div>
+      <label>{{'integration.details.properties.smtpEncryptionType' | translate}} *</label>
+      <form-error field="forms.detailsForm.smtpEncryptionType" error-type-required="{{'integration.smtpEncryptionType.error' | translate}}"></form-error>
+      <select
+        ng-model="selectedIntegration.properties.smtpEncryptionType"
+        ng-options="type as type for type in smtpEncryptionTypes">
+      </select>
     </div>
 
     <!-- SMTP User -->
