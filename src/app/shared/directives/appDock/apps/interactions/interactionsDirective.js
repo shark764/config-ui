@@ -112,7 +112,7 @@ angular.module('liveopsConfigPanel')
               id: Session.tenant.tenantId,
             });
 
-            return $q.when(tenant).then(function (tenantData) {
+            return $q.when(tenant.$promise).then(function (tenantData) {
               scope.TimezoneValHolder.tenantTimezone = tenantData.timezone;
             });
           }

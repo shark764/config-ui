@@ -33,11 +33,13 @@
         <div flex>
           <p audit-text
             translation="value.createdby.time"
+            no-username-fallback="true"
             user-id="selectedItem.$original.createdBy"
             date="selectedItem.$original.created | convertToTimezone:TimezoneValHolder.tenantTimezone:'MMM D, YYYY hh:mm:ss A'"
             class="md-caption"></p>
           <p audit-text
             translation="value.updatedby"
+            no-username-fallback="true"
             user-id="selectedItem.$original.updatedBy"
             date="selectedItem.$original.updated | convertToTimezone:TimezoneValHolder.tenantTimezone:'MMM D, YYYY hh:mm:ss A'"
             class="md-caption"></p>
