@@ -4,7 +4,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
-## [4.4.6]
+## [4.5.0]
 * CXV1-6186 - Add Timezone conversion to AppDock
 * CXV1-6103 - Add email integration fields & UI
 
