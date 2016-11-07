@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## [4.4.6]
 * CXV1-6186 - Add Timezone conversion to AppDock
 * CXV1-6103 - Add email integration fields & UI
 
@@ -30,6 +32,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 * CXV1-6012 - Added dashboard categories so they can be grouped together in dropdown
 * CXV1-6056 - Fixed date and time sorting on recordings.
 * CXV1-6086 - Fix linking of custom dashboard statistic widgets to source switchers
+* CXV1-6137 - Silent Monitoring undefined interaction id
 * Update Realtime Dashboards to 4.4.5
 * Update Config Shared to 1.3.16
 * Updated styling of realtime report dropdown labels to be consistent (all light grey)

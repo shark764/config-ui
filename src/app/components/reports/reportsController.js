@@ -15,7 +15,7 @@ angular.module('liveopsConfigPanel')
 
           $scope.dashboardReady = true;
           $scope.$apply();
-          document.domain='cxengagelabs.net';
+          document.domain = window.location.hostname;
         });
       });
 

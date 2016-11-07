@@ -95,7 +95,7 @@
         <div ng-switch-default ng-switch="!!field.actionLink">
           <!-- if a value exists for field.actionLink, show content with the link specified TBD... -->
           <span ng-switch-when="true">
-            <a ng-click="toggleToolbarVisibility(item.id)">
+            <a ng-click="toggleToolbarVisibility(item.interactionId)">
               <lo-resource-table-cell
                 name="{{field.linkText}}"
                 ng-if="field.transclude"
