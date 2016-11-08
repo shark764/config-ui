@@ -15,7 +15,17 @@ angular.module('liveopsConfigPanel')
 
           $scope.dashboardReady = true;
           $scope.$apply();
-          document.domain = window.location.hostname;
+
+          // parse out just the domain with no subdomain
+          var domainOnly;
+          // if there is a domain suffix, split it up to grab the domain only
+          if (window.location.hostname.split('.').length > 1) {
+            domainOnly = window.location.hostname.split('.').slice(1).join('.');
+          } else {
+            // otherwise (as in the case of 'localhost', just get the hostname)
+            domainOnly = window.location.hostname;
+          };
+          document.domain = domainOnly;
         });
       });
 

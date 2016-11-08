@@ -1066,7 +1066,7 @@
   "appdock.interactionId": "Interaction ID",
   "appdock.recordingId": "Recording ID",
   "appdock.audioRecordings.details.play": "Play",
-  "appdock.audioRecordings.details.dateTime": "Date & Time",
+  "appdock.audioRecordings.details.dateTime": "Tenant Date & Time",
   "appdock.audioRecordings.details.flowName": "Flow Name",
   "appdock.audioRecordings.details.callerANI": "Caller ANI",
   "appdock.audioRecordings.details.noInfo": "Sorry, no interaction information was found.",
