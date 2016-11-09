@@ -8,6 +8,12 @@ var $scope,
   $q,
   AuthService;
 
+var TOKEN_RESPONSE = {
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyLWlkIjoiYzA5NTFkNTAtNjU2Yy0xMWU2LWIxYjktY2E4MTQ4NDQ4OGRmIiwidHlwZSI6InRva2VuIiwiZXhwIjoxNDc4NzEwMzk0LCJpYXQiOjE0Nzg2MjM5OTR9.JhUVmcBiJ3GvroQ3HfX8hZYAiEjfXHO2EI1J-XhJt88',
+  ttl: 86400
+};
+
+
 describe('LoginController', function() {
   beforeEach(module('liveopsConfigPanel.tenant.user.mock'));
   beforeEach(module('liveopsConfigPanel'));
@@ -89,6 +95,9 @@ describe('LoginController', function() {
 
   describe('LoginController login fail', function() {
     it('should not redirect me on 401 and show authentication error', function() {
+      $httpBackend.whenPOST(apiHostname + '/v1/tokens').respond(TOKEN_RESPONSE);
+      $httpBackend.expectPOST(apiHostname + '/v1/tokens');
+
       $httpBackend.expect('POST', apiHostname + '/v1/login').respond(401, {
         error: 'Invalid username and password.'
       });
@@ -98,11 +107,13 @@ describe('LoginController', function() {
 
       $scope.login();
       $httpBackend.flush();
-
       expect($state.current.name).toBe('login');
     });
 
     it('should not redirect me 500 and do nothing', function() {
+      $httpBackend.whenPOST(apiHostname + '/v1/tokens').respond(TOKEN_RESPONSE);
+      $httpBackend.expectPOST(apiHostname + '/v1/tokens');
+
       $httpBackend.expect('POST', apiHostname + '/v1/login').respond(500);
 
       $scope.username = 'username';

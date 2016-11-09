@@ -7,10 +7,10 @@ angular.module('liveopsConfigPanel')
         this.request = function(request) {
           if (request.url.indexOf(apiHostname) >= 0 && Session.token) {
             if (Session.token && Session.token.indexOf('Token') >= 0) {
-              //Don't prepend Basic if we're using an API session token E.g. from an invite
+              //Don't prepend Token if we're using an API session token E.g. from an invite
               request.headers.Authorization = Session.token;
             } else {
-              request.headers.Authorization = 'Basic ' + Session.token;
+              request.headers.Authorization = 'Token ' + Session.token;
             }
           }
 

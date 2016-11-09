@@ -2,7 +2,6 @@
 
 /* global spyOn: false  */
 
-var TOKEN = 'dGl0YW5AbGl2ZW9wcy5jb206Z0tWbmZGOXdyczZYUFNZcw==';
 var USERNAME = 'titan@liveops.com';
 var PASSWORD = 'gKVnfF9wrs6XPSYs';
 var TENANTS = [{
@@ -17,6 +16,7 @@ var TENANTS = [{
 var platformPermissions = [];
 
 var LOGIN_RESPONSE;
+var TOKEN_RESPONSE;
 
 describe('AuthService', function() {
   var $scope,
@@ -24,20 +24,22 @@ describe('AuthService', function() {
     $httpBackend,
     AuthService,
     Session,
-    apiHostname;
+    apiHostname,
+    Token;
 
   beforeEach(module('liveopsConfigPanel'));
   beforeEach(module('gulpAngular'));
   beforeEach(module('liveopsConfigPanel.user.mock'));
 
-  beforeEach(inject(['$rootScope', '$location', '$httpBackend', 'AuthService', 'Session', 'apiHostname', 'mockUsers',
-    function($rootScope, _$location, _$httpBackend, _AuthService, _Session, _apiHostname, mockUsers) {
+  beforeEach(inject(['$rootScope', '$location', '$httpBackend', 'AuthService', 'Session', 'apiHostname', 'mockUsers', 'Token',
+    function($rootScope, _$location, _$httpBackend, _AuthService, _Session, _apiHostname, mockUsers, _Token) {
       $scope = $rootScope.$new();
       $location = _$location;
       $httpBackend = _$httpBackend;
       AuthService = _AuthService;
       Session = _Session;
       apiHostname = _apiHostname;
+      Token = _Token;
 
       LOGIN_RESPONSE = {
         result: {
@@ -47,12 +49,17 @@ describe('AuthService', function() {
           platformPermissions: platformPermissions
         }
       };
+
+      TOKEN_RESPONSE = {
+        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyLWlkIjoiYzA5NTFkNTAtNjU2Yy0xMWU2LWIxYjktY2E4MTQ4NDQ4OGRmIiwidHlwZSI6InRva2VuIiwiZXhwIjoxNDc4NzEwMzk0LCJpYXQiOjE0Nzg2MjM5OTR9.JhUVmcBiJ3GvroQ3HfX8hZYAiEjfXHO2EI1J-XhJt88',
+        ttl: 86400
+      };
     }
   ]));
 
   it('should have a method get an authentication token', function() {
-    var token = AuthService.generateToken(USERNAME, PASSWORD);
-    expect(token).toBe(TOKEN);
+    var token = AuthService.generateToken(USERNAME, PASSWORD, Token);
+    expect(token).toBeTruthy();
   });
 
   it('should have a method to logout which destroys the session', function() {
@@ -62,6 +69,9 @@ describe('AuthService', function() {
 
   describe('ON login', function() {
     it('should set the session when successful', function() {
+      $httpBackend.whenPOST(apiHostname + '/v1/tokens').respond(TOKEN_RESPONSE);
+      $httpBackend.expectPOST(apiHostname + '/v1/tokens');
+
       $httpBackend.expectPOST(apiHostname + '/v1/login').respond(LOGIN_RESPONSE);
 
       spyOn(Session, 'set');
@@ -70,11 +80,14 @@ describe('AuthService', function() {
       $httpBackend.flush();
 
       expect(Session.set).toHaveBeenCalledWith(
-        jasmine.any(Object), TENANTS, AuthService.generateToken(USERNAME, PASSWORD), platformPermissions);
+        jasmine.any(Object), TENANTS, TOKEN_RESPONSE.token, platformPermissions);
     });
 
 
     it('should validate on failure', function() {
+      $httpBackend.whenPOST(apiHostname + '/v1/tokens').respond(TOKEN_RESPONSE);
+      $httpBackend.expectPOST(apiHostname + '/v1/tokens');
+
       $httpBackend.expectPOST(apiHostname + '/v1/login').respond(500, '');
 
       spyOn(Session, 'set');
