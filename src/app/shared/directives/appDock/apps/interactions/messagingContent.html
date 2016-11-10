@@ -14,7 +14,7 @@
             [{{message.payload.timestamp | convertToTimezone:TimezoneValHolder.tenantTimezone:'MMM D, YYYY hh:mm:ss A'}}]
           </strong>
 
-          <strong layout="column">
+          <strong layout="column" ng-if="message.payload.userName">
             {{message.payload.userName}}
           </strong>
 

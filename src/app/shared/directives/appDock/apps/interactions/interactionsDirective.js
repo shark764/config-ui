@@ -74,14 +74,16 @@ angular.module('liveopsConfigPanel')
             return $q.when(messaging.$promise).then(function (response) {
               return $q.all(
                 _.map(response, function (val, key) {
-                  var fromUser = MessagingFrom.cachedGet({
-                    tenantId: Session.tenant.tenantId,
-                    from: response[key].payload.from
-                  });
+                  if (val.payload.from !== 'CxEngage') {
+                    var fromUser = MessagingFrom.cachedGet({
+                      tenantId: Session.tenant.tenantId,
+                      from: response[key].payload.from
+                    });
 
-                  return $q.when(fromUser.$promise).then(function (fromUserResponse) {
-                    response[key].payload.userName = getUserName(fromUserResponse);
-                  });
+                    return $q.when(fromUser.$promise).then(function (fromUserResponse) {
+                      response[key].payload.userName = getUserName(fromUserResponse);
+                    });      
+                  }
                 })
               ).then(function () {
                 scope.isLoading = false;

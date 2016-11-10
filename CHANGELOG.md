@@ -6,7 +6,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 * CXV1-5713 - Switch to token based auth
 * CXV1-6336 - Re-enable SIP extension.
 
-## [4.5.1]
+## [4.5.3]
+* CXV1-6355 - Fixed issue with messages from CxEngage breaking appDock
+
+## [4.5.2]
 * CXV1-6186 - Add Timezone conversion to AppDock
 
 ## [4.5.0]
