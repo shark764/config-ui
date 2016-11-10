@@ -19,7 +19,7 @@ angular.module('liveopsConfigPanel')
           // parse out just the domain with no subdomain
           var domainOnly;
           // if there is a domain suffix, split it up to grab the domain only
-          if (window.location.hostname.split('.').length > 1) {
+          if (window.location.hostname.split('.').length > 2) {
             domainOnly = window.location.hostname.split('.').slice(1).join('.');
           } else {
             // otherwise (as in the case of 'localhost', just get the hostname)
