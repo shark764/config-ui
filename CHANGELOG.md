@@ -4,6 +4,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 * CXV1-5713 - Switch to token based auth
+* CXV1-6336 - Re-enable SIP extension.
 
 ## [4.5.1]
 * CXV1-6186 - Add Timezone conversion to AppDock
