@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+* CXV1-6193 - Added UI for Transfer List, but still not 100% perfect, remaining issues are:
+  - Sorting of endpoints inside of each product not working 100% consistently
+  - Click behavior is a bit odd, as it can take a few clicks to get a link on the table to register
+  - The column headers are not quite lined up with the data
 
 ## [4.6.0]
 * CXV1-5713 - Switch to token based auth

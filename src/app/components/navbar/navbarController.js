@@ -229,15 +229,22 @@ angular.module('liveopsConfigPanel')
         }
         // ...END OUTBOUND FEATURE FLAG
 
-        if (appFlags.API_KEYS) {
-          if (UserPermissions.hasPermissionInList(PermissionGroups.viewAppCreds)) {
-            items.push({
-              label: $translate.instant('navbar.configuration.keys.title'),
-              stateLink: 'content.configuration.keys',
-              id: 'key-configuration-link',
-              order: 7
-            });
-          }
+        if (UserPermissions.hasPermissionInList(PermissionGroups.viewAppCreds)) {
+          items.push({
+            label: $translate.instant('navbar.configuration.keys.title'),
+            stateLink: 'content.configuration.keys',
+            id: 'key-configuration-link',
+            order: 7
+          });
+        }
+
+        if (UserPermissions.hasPermission('VIEW_ALL_TRANSFER_LISTS')) {
+          items.push({
+            label: $translate.instant('navbar.configuration.transferLists.title'),
+            stateLink: 'content.configuration.transferLists',
+            id: 'transferList-configuration-link',
+            order: 8
+          });
         }
 
         if (appFlags.TEMPLATES) {
