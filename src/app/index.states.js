@@ -263,6 +263,18 @@ angular.module('liveopsConfigPanel')
             }]
           }
         })
+        .state('content.configuration.messageTemplates', {
+          url: '/messageTemplates?id',
+          title: 'Configuration - API Keys',
+          templateUrl: 'app/components/configuration/messageTemplates/messageTemplates.html',
+          controller: 'messageTemplatesController as mtc',
+          reloadOnSearch: false,
+          resolve: {
+            hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
+              return UserPermissions.resolvePermissions(PermissionGroups.viewMessageTemplates);
+            }]
+          }
+        })
         .state('content.flows', {
           abstract: true,
           url: '/flows',

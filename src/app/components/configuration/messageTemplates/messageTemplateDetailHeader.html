@@ -1,0 +1,26 @@
+<div ng-if="! mtc.selectedMessageTemplate.isNew()">
+  <toggle class="status-toggle" ng-model="mtc.selectedMessageTemplate.active"
+    confirm-disable-message="{{'messageTemplates.details.disable.confirm' | translate}}"
+    confirm-enable-message="{{'messageTemplates.details.enable.confirm' | translate}}"
+    on-confirm="mtc.updateActive()"
+    ng-disabled="! ('MANAGE_ALL_MESSAGE_TEMPLATES' | hasPermission)"></toggle>
+
+  <div class="info">
+    <h1 id="messageTemplate-details-name-header">{{mtc.selectedMessageTemplate.$original.name}}</h1>
+    <div class="details">
+      <b audit-text
+        translation="value.createdby.time"
+        user-id="mtc.selectedMessageTemplate.$original.createdBy"
+        date="mtc.selectedMessageTemplate.$original.created">
+      </b>
+      <br/>
+      <b audit-text ng-if="!!mtc.selectedMessageTemplate.$original.updatedBy"
+        translation="value.updatedby"
+        user-id="mtc.selectedMessageTemplate.$original.updatedBy"
+        date="mtc.selectedMessageTemplate.$original.updated">
+      </b>
+    </div>
+  </div>
+</div>
+
+<h1 id="messageTemplate-details-create-header" ng-hide="! mtc.selectedMessageTemplate.isNew()">{{'messageTemplates.details.creating' | translate}}</h1>

@@ -19,7 +19,8 @@ module.exports = function(options) {
             OUTBOUND_PAGES: argv.outboundPages || true,
             SHOW_ZENDESK: argv.showZendesk || false,
             APPDOCK: argv.showAppdock || true,
-            API_KEYS: argv.showApiKeys || false
+            API_KEYS: argv.showApiKeys || false,
+            TEMPLATES: argv.showTemplates || false
           }
         }
       }))
