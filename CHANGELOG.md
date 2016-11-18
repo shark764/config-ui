@@ -5,6 +5,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 * CXV1-5713 - Switch to token based auth
 * CXV1-6336 - Re-enable SIP extension.
+* CXV1-3541 - Message Templates (navbar link hidden by TEMPLATES feature flag)
 
 ## [4.5.3]
 * CXV1-6355 - Fixed issue with messages from CxEngage breaking appDock

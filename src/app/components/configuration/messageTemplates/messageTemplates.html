@@ -1,0 +1,65 @@
+<div id="table-pane">
+  <table-controls
+    config="mtc.tableConfig"
+    items="mtc.fetchMessageTemplates()"
+    search-query="mtc.searchQuery">
+  </table-controls>
+
+  <lo-resource-table
+    config="mtc.tableConfig"
+    items="mtc.fetchMessageTemplates()"
+    selected="mtc.selectedMessageTemplate"
+    search-query="mtc.searchQuery">
+
+    <span name="$original.active">
+      <span ng-if="item.$original.active">{{'value.enabled' | translate}}</span>
+      <span ng-if="!item.$original.active" class="disabled">{{'value.disabled' | translate}}</span>
+    </span>
+
+  </lo-resource-table>
+</div>
+
+<resize-handle
+  ng-show="mtc.selectedMessageTemplate || showBulkActions"
+  id="resize-pane"
+  right-element-id="right-panel"
+  left-element-id="table-pane"></resize-handle>
+
+  <lo-details-panel id="right-panel"
+    class="right-panel"
+    ng-show="mtc.selectedMessageTemplate || showBulkActions"
+    ng-resource="mtc.selectedMessageTemplate">
+
+    <ng-form unsaved-changes-warning class="details-pane"
+      ng-show="mtc.selectedMessageTemplate && !showBulkActions" name="forms.detailsForm"
+      ng-model="mtc.selectedMessageTemplate"
+      ng-resource="mtc.selectedMessageTemplate"
+      lo-form-submit
+      lo-form-cancel
+      lo-form-alert>
+
+      <ng-form name="forms.headerForm" separate-validation>
+        <div class="detail-header"
+           ng-include src="'app/components/configuration/messageTemplates/messageTemplateDetailHeader.html'">
+         </div>
+      </ng-form>
+
+      <div class="detail-body"
+        ng-include src="'app/components/configuration/messageTemplates/messageTemplateDetailBody.html'">
+      </div>
+
+      <div class="detail-controls">
+        <input id="cancel-details-btn" type="button" class="btn"
+          value="{{'value.cancel' | translate}}"
+          lo-cancel>
+        </input>
+        <input id="submit-details-btn" class="btn btn-primary"
+          type="submit" value="{{'value.submit' | translate}}"
+          ng-disabled="forms.detailsForm.$invalid || ! forms.detailsForm.$dirty"
+          lo-submit="mtc.submit()"
+          lo-submit-spinner
+          lo-submit-spinner-status="mtc.selectedMessageTemplate.$busy">
+        </input>
+      </div>
+    </ng-form>
+  </lo-details-panel>
