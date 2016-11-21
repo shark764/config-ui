@@ -62,4 +62,12 @@
         </input>
       </div>
     </ng-form>
+
+    <bulk-action-executor class="details-pane"
+      ng-show="showBulkActions"
+      items="mtc.fetchMessageTemplates()"
+      show-bulk-actions="showBulkActions">
+
+      <ba-set-message-template-status></ba-set-message-template-status>
+    </bulk-action-executor>
   </lo-details-panel>
