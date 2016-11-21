@@ -265,7 +265,7 @@ angular.module('liveopsConfigPanel')
         })
         .state('content.configuration.messageTemplates', {
           url: '/messageTemplates?id',
-          title: 'Configuration - API Keys',
+          title: 'Configuration - Message Templates',
           templateUrl: 'app/components/configuration/messageTemplates/messageTemplates.html',
           controller: 'messageTemplatesController as mtc',
           reloadOnSearch: false,

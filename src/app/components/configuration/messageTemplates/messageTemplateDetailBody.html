@@ -18,14 +18,14 @@
 
 <div class="input-group">
   <label class="label">{{'value.type' | translate}} *</label>
-  <select required ng-options="type.value as type.label for type in mtc.templateTypes" ng-model="mtc.selectedMessageTemplate.type" ng-disabled="!(['MANAGE_ALL_MESSAGE_TEMPLATES'] | hasPermission)"></select>
+  <select required ng-options="type.value as type.label for type in mtc.templateTypes" ng-model="mtc.selectedMessageTemplate.type" ng-disabled="!(['MANAGE_ALL_MESSAGE_TEMPLATES'] | hasPermission) || true"></select>
 </div>
 
 <div class="input-group">
   <label class="textarea-label">{{'value.channels' | translate}} *</label>
   <div class="template-channel" ng-repeat="channel in mtc.channelTypes">
     <input type="checkbox" ng-checked="mtc.selectedMessageTemplate.channels.indexOf(channel.value) !== -1"
-      ng-disabled="!(['MANAGE_ALL_MESSAGE_TEMPLATES'] | hasPermission)" ng-click="mtc.toggleCheck(channel)"></input>
+      ng-disabled="!(['MANAGE_ALL_MESSAGE_TEMPLATES'] | hasPermission) || true" ng-click="mtc.toggleCheck(channel)"></input>
       {{channel.label}}
   </div>
 </div>

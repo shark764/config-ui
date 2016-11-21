@@ -45,7 +45,8 @@ angular.module('liveopsConfigPanel')
       vm.selectedMessageTemplate = new MessageTemplate({
         tenantId: Session.tenant.tenantId,
         active: true,
-        channels: []
+        channels: ['sms'],
+        type: templateTypes[0].value
       });
     });
 
