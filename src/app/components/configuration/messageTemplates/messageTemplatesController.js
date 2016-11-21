@@ -44,7 +44,8 @@ angular.module('liveopsConfigPanel')
     $scope.$on(loEvents.tableControls.itemCreate, function() {
       vm.selectedMessageTemplate = new MessageTemplate({
         tenantId: Session.tenant.tenantId,
-        active: true
+        active: true,
+        channels: []
       });
     });
 
