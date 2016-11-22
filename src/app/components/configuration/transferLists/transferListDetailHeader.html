@@ -1,0 +1,26 @@
+<div ng-if="! tlc.selectedTransferList.isNew()">
+  <toggle class="status-toggle" ng-model="tlc.selectedTransferList.active"
+    confirm-disable-message="{{'transferLists.details.disable.confirm' | translate}}"
+    confirm-enable-message="{{'transferLists.details.enable.confirm' | translate}}"
+    on-confirm="tlc.updateActive()"
+    ng-disabled="! ('MANAGE_ALL_TRANSFER_LISTS' | hasPermission) || !tlc.selectedTransferList.endpoints.length || tlc.selectedContact.isNew()  || tlc.showInput.indexOf(true) !== -1 || tlc.openEditPanel !== false"></toggle>
+
+  <div class="info">
+    <h1 id="transferList-details-name-header">{{tlc.selectedTransferList.$original.name}}</h1>
+    <div class="details">
+      <b audit-text
+        translation="value.createdby.time"
+        user-id="tlc.selectedTransferList.$original.createdBy"
+        date="tlc.selectedTransferList.$original.created">
+      </b>
+      <br/>
+      <b audit-text ng-if="!!tlc.selectedTransferList.$original.updatedBy"
+        translation="value.updatedby"
+        user-id="tlc.selectedTransferList.$original.updatedBy"
+        date="tlc.selectedTransferList.$original.updated">
+      </b>
+    </div>
+  </div>
+</div>
+
+<h1 id="transferList-details-create-header" ng-hide="! tlc.selectedTransferList.isNew()">{{'transferLists.details.creating' | translate}}</h1>

@@ -1,0 +1,185 @@
+<ng-form name="forms.contactHeaderForm" separate-validation>
+  <div class="detail-header">
+    <h1 id="transferList-details-create-header" ng-hide="! tlc.selectedContact.isNew() || tlc.editingProductName === true">
+      {{'transferLists.contact.details.creating' | translate}}
+    </h1>
+    <h1 id="transferList-details-edit-header" ng-hide="tlc.selectedContact.isNew()">
+      {{tlc.selectedContact.name}}
+    </h1>
+  </div>
+</ng-form>
+{{forms.contactForm.$invalid}}
+<div class="detail-body">
+  <div class="divider-header first-header">
+    <h4>{{'details' | translate}}</h4>
+  </div>
+
+  <div
+    class="input-group">
+    <label>{{'transferLists.contact.details.productName' | translate}} *</label>
+    <form-error field="forms.contactForm.selectedProduct" error-type-required="{{'transferLists.contact.error.productName' | translate}}" ></form-error>
+    <select
+      ng-show="tlc.editingProductName !== true && newTransferList !== true"
+      name="selectedProduct"
+      ng-model="tlc.selectedProduct"
+      required="true">
+      <option class="default-option" value="">{{'transferLists.contact.details.selectedProduct' | translate}}</option>
+      <option
+        ng-repeat="product in tlc.products"
+        ng-selected="tlc.selectedProduct === product"
+        ng-value="product">
+        {{product}}
+      </option>
+    </select>
+
+    <input
+      required="true"
+      type="text"
+      ng-model="tlc.selectedProduct"
+      ng-if="tlc.editingProductName === true"
+      ng-minlength="1"
+      name="createProduct">
+
+    <a
+      href
+      class="create-product"
+      ng-if="tlc.selectedContact.isNew()">
+      <small
+        ng-if="tlc.editingProductName !== true && tlc.newTransferList !== true"
+        ng-click="tlc.editingProductName = true">
+        {{'transferLists.contact.details.createProduct' | translate}}
+      </small>
+      <small
+        ng-if="tlc.editingProductName === true && tlc.newTransferList !== true"
+        ng-click="tlc.editingProductName = false; tlc.selectedProduct = null; vm.newTransferList = false">
+        {{'transferLists.contact.details.cancelCreateProduct' | translate}}
+      </small>
+    </a>
+
+  </div>
+
+  <div class="input-group">
+    <label>{{'value.name' | translate}} *</label>
+    <form-error field="forms.contactForm.name" error-type-required="{{'details.name.error' | translate}}" ></form-error>
+    <div class="lo-error" role="alert" ng-if='tlc.duplicateError'>{{tlc.duplicateErrorMessage}}</div>
+    <div>
+      <input
+      required="true"
+      type="text"
+      ng-model="tlc.selectedContact.name"
+      name="name"
+      ng-disabled="!(['MANAGE_ALL_TRANSFER_LISTS'] | hasPermission)"/>
+    </div>
+  </div>
+
+  <div class="input-group">
+    <label>{{'value.contactType' | translate}} *</label>
+    <form-error field="forms.contactForm.contactType" error-type-required="{{'details.contactType.error' | translate}}"></form-error>
+    <div>
+      <select
+      required="true"
+      ng-model="tlc.selectedContact.contactType" ng-change="tlc.checkContactType()"
+      name="contactType"
+      ng-disabled="!(['MANAGE_ALL_TRANSFER_LISTS'] | hasPermission)"
+      ng-options="item.value as item.label for item in tlc.contactTypes">
+        <option disabled value="">{{'transferLists.contact.details.contactTypeDefault' | translate}}</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="input-group">
+    <label>{{'value.transferType' | translate}} *</label>
+    <form-error field="forms.contactForm.transferType" error-type-required="{{'details.transferType.error' | translate}}" ></form-error>
+    <div>
+      <select
+        required="true"
+        name="transferType"
+        ng-disabled="(!(['MANAGE_ALL_TRANSFER_LISTS'] | hasPermission)) || (tlc.selectedContact.contactType === 'queue' || tlc.selectedContact.contactType === 'flow')"
+        ng-model="tlc.selectedContact.transferType"
+        ng-options="item.value as item.label for item in tlc.transferTypes">
+        <option disabled value="">{{'transferLists.contact.details.transferTypeDefault' | translate}}</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="input-group">
+    <label>{{'value.endpoint' | translate}} *</label>
+    <form-error
+      field="forms.contactForm.endpoint"
+      error-type-email="{{'details.email.error' | translate}}"
+      ng-if="tlc.selectedContact.contactType === 'email'"></form-error>
+    <form-error
+      field="forms.contactForm.endpoint"
+      error-type-phone-number="{{'transferLists.contact.details.PSTNerror' | translate}}"
+      ng-if="tlc.selectedContact.contactType === 'PSTN'"></form-error>
+    <form-error
+      field="forms.contactForm.endpoint"
+      error-type-pattern="{{'details.extensions.sipformat.error' | translate}}"
+      ng-if="tlc.selectedContact.contactType === 'SIP'"></form-error>
+    </form-error>
+    <form-error
+      field="forms.contactForm.endpoint"
+      error-type-required="{{'details.endpoint.error' | translate}}" ></form-error>
+    <div class="lo-error" ng-show="tlc.flowError">{{'transferLists.contact.details.flowError' | translate}}</div>
+    <div class="lo-error" ng-show="tlc.queueError">{{'transferLists.contact.details.queueError' | translate}}</div>
+    <div>
+      <input
+        required="true"
+        ng-if="tlc.selectedContact.contactType === 'email'"
+        type="email"
+        ng-model="tlc.selectedContact.endpoint"
+        name="endpoint"
+        ng-disabled="!(['MANAGE_ALL_TRANSFER_LISTS'] | hasPermission)"/>
+      <input
+        required="true"
+        ng-if="tlc.selectedContact.contactType === 'WebRTC'"
+        type="text"
+        ng-model="tlc.selectedContact.endpoint"
+        name="endpoint"
+        ng-disabled="!(['MANAGE_ALL_TRANSFER_LISTS'] | hasPermission)"/>
+      <input
+        required="true"
+        ng-if="tlc.selectedContact.contactType === 'SIP'"
+        type="text"
+        ng-pattern="tlc.sipPattern"
+        ng-model="tlc.selectedContact.endpoint"
+        name="endpoint"
+        ng-disabled="!(['MANAGE_ALL_TRANSFER_LISTS'] | hasPermission)"/>
+      <input
+        required="true"
+        ng-if="tlc.selectedContact.contactType === 'PSTN'"
+        type="tel"
+        ng-model="tlc.selectedContact.endpoint"
+        name="endpoint"
+        ng-disabled="!(['MANAGE_ALL_TRANSFER_LISTS'] | hasPermission)"/>
+
+      <type-ahead
+        items="tlc.fetchFlows()"
+        ng-show="tlc.selectedContact.contactType === 'flow'"
+        selected-item="tlc.selectedContact.endpoint"
+        name-field="endpoint"
+        placeholder="{{'transferLists.contact.details.selectFlow' | translate}}"></type-ahead>
+      <type-ahead
+        items="tlc.fetchQueues()"
+        ng-show="tlc.selectedContact.contactType === 'queue'"
+        selected-item="tlc.selectedContact.endpoint"
+        name-field="endpoint"
+        placeholder="{{'transferLists.contact.details.selectQueue' | translate}}"></type-ahead>
+    </div>
+  </div>
+</div>
+
+<div class="detail-controls">
+  <input id="cancel-details-btn" type="button" class="btn"
+    value="{{'value.cancel' | translate}}"
+    ng-click="tlc.cancelContact()">
+  </input>
+  <input
+    id="submit-details-btn"
+    class="btn btn-primary"
+    type="submit"
+    value="{{'value.save' | translate}}"
+    ng-disabled="forms.contactForm.$invalid || ! forms.contactForm.$dirty || !tlc.selectedContact.endpoint"
+    lo-submit="tlc.saveContact()"
+  </input>
+</div>

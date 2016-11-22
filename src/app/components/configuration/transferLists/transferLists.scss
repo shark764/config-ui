@@ -1,0 +1,121 @@
+select {
+  option {
+    &:empty {
+      display:none
+    }
+  }
+}
+
+.default-option {
+  display: none;
+}
+
+.create-product {
+  display: block;
+  padding-top: 5px;
+}
+
+.empty-row {
+  padding: 10px;
+}
+
+.transfer-list-table {
+  width: 100%;
+  cursor: grab;
+
+  table {
+    td {
+      a,
+      i {
+        display: inline-block;
+        padding: 10px;
+      }
+    }
+
+    .handle {
+      cursor: move;
+    }
+  }
+
+  tr {
+    &.cols {
+      th,
+      td {
+        &:nth-child(1) {
+          width: 5%;
+        }
+
+        &:nth-child(2) {
+          width: 30%;
+        }
+
+        &:nth-child(3) {
+          width: 25%;
+        }
+
+        &:nth-child(4) {
+          width: 20%;
+        }
+
+        &:nth-child(5) {
+          width: 13%;
+          text-align: left;
+        }
+
+        &:nth-child(6) {
+          width: 7%;
+          text-align: left;
+        }
+      }
+    }
+  }
+}
+
+table {
+  width: 100%;
+
+  td {
+    &[colspan] {
+      padding: 0;
+
+      > div {
+        padding: 10px;
+
+        strong,
+        label,
+        a,
+        input {
+          display: inline-block;
+
+          &:not(label) {
+            margin-right: 15px;
+          }
+        }
+
+        input {
+          width: 250px;
+          margin-left: 5px;
+        }
+      }
+    }
+  }
+
+  .prevent-sort {
+    pointer-events: none;
+    cursor: default;
+
+    .enable-pointer-events {
+      pointer-events: all;
+      cursor: grab;
+    }
+  }
+
+  .edit-panel-open {
+    opacity: .5;
+    cursor: default;
+  }
+}
+
+.default-cursor {
+  cursor: default !important;
+}

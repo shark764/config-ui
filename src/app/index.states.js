@@ -275,6 +275,18 @@ angular.module('liveopsConfigPanel')
             }]
           }
         })
+        .state('content.configuration.transferLists', {
+          url: '/transferLists?id',
+          title: 'Configuration - Transfer Lists',
+          templateUrl: 'app/components/configuration/transferLists/transferLists.html',
+          controller: 'transferListsController as tlc',
+          reloadOnSearch: false,
+          resolve: {
+            hasPermission: ['UserPermissions', function(UserPermissions) {
+              return UserPermissions.resolvePermissions(['VIEW_ALL_TRANSFER_LISTS']);
+            }]
+          }
+        })
         .state('content.flows', {
           abstract: true,
           url: '/flows',

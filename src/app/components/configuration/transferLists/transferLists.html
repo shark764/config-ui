@@ -1,0 +1,98 @@
+<div id="table-pane">
+  <table-controls
+    config="tlc.tableConfig"
+    items="tlc.transferLists"
+    search-query="tlc.searchQuery">
+  </table-controls>
+
+  <lo-resource-table
+    config="tlc.tableConfig"
+    items="tlc.transferLists"
+    selected="tlc.selectedTransferList"
+    search-query="tlc.searchQuery">
+
+    <span name="$original.active">
+      <span ng-if="item.$original.active">{{'value.enabled' | translate}}</span>
+      <span ng-if="!item.$original.active" class="disabled">{{'value.disabled' | translate}}</span>
+    </span>
+
+  </lo-resource-table>
+</div>
+
+<resize-handle
+  ng-show="tlc.selectedTransferList || showBulkActions"
+  id="resize-pane"
+  right-element-id="right-panel"
+  left-element-id="table-pane"></resize-handle>
+
+<lo-details-panel id="right-panel"
+  class="right-panel"
+  ng-show="tlc.selectedTransferList || showBulkActions"
+  ng-resource="tlc.selectedTransferList">
+
+  <ng-form unsaved-changes-warning class="details-pane"
+    ng-show="tlc.selectedTransferList && !showBulkActions" name="forms.detailsForm"
+    ng-model="tlc.selectedTransferList"
+    ng-resource="tlc.selectedTransferList"
+    lo-form-submit
+    lo-form-cancel
+    lo-form-alert>
+
+    <ng-form name="forms.headerForm" separate-validation>
+      <div class="detail-header"
+         ng-include src="'app/components/configuration/transferLists/transferListDetailHeader.html'">
+       </div>
+    </ng-form>
+
+    <div class="detail-body"
+      ng-include src="'app/components/configuration/transferLists/transferListDetailBody.html'">
+    </div>
+
+    <div class="detail-controls">
+      <input id="cancel-details-btn"
+        type="button"
+        class="btn"
+        value="{{'value.cancel' | translate}}"
+        lo-cancel
+        ng-click="tlc.cancelContact()">
+
+      <input id="submit-details-btn" class="btn btn-primary"
+        type="submit" value="{{'value.submit' | translate}}"
+        ng-disabled="forms.detailsForm.$invalid || ! forms.detailsForm.$dirty || !tlc.selectedTransferList.endpoints.length || tlc.selectedContact.isNew()  || tlc.showInput.indexOf(true) !== -1"
+        lo-submit="tlc.submit()"
+        lo-submit-spinner
+        lo-submit-spinner-status="tlc.selectedTransferList.$busy">
+    </div>
+  </ng-form>
+
+  <bulk-action-executor class="details-pane transferlist-ba"
+    ng-show="showBulkActions"
+    items="tlc.transferLists"
+    show-bulk-actions="showBulkActions">
+
+    <ba-set-transferlist-status></ba-set-transferlist-status>
+  </bulk-action-executor>
+</lo-details-panel>
+
+<resize-handle
+  ng-show="tlc.selectedContact.isNew() || tlc.selectedContact.hasOwnProperty('contactType') || tlc.openEditPanel === true"
+  id="resize-pane-addl"
+  right-element-id="right-panel-addl"
+  left-element-id="right-panel"></resize-handle>
+
+<lo-details-panel id="right-panel-addl"
+  class="right-panel"
+  ng-show="tlc.selectedContact.isNew() || tlc.selectedContact.hasOwnProperty('contactType') || tlc.openEditPanel === true"
+  ng-resource="tlc.selectedContact">
+
+  <ng-form name="forms.contactForm" separate-validation
+    class="details-pane"
+    ng-show="tlc.selectedContact.isNew() || tlc.selectedContact.hasOwnProperty('contactType')"
+    ng-resource="tlc.selectedContact"
+    lo-form-submit
+    lo-form-cancel
+    lo-form-alert>
+    <ng-include class="details-pane" src="'app/components/configuration/transferLists/contactDetails.html'"></ng-include>
+  </ng-form>
+
+</lo-details-panel>
