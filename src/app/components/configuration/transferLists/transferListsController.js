@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('transferListsController', ['transferListsTableConfig', 'transferTypes', 'contactTypes', 'Flow', 'Queue', 'TransferList', 'Session', '$scope', '$timeout', '$translate', '$q', 'loEvents', 'Modal', 'Alert', function (transferListsTableConfig, transferTypes, contactTypes, Flow, Queue, TransferList, Session, $scope, $timeout, $translate, $q, loEvents, Modal, Alert) {
+  .controller('transferListsController', ['transferListsTableConfig', 'transferTypes', 'contactTypes', 'Flow', 'Queue', 'TransferList', 'Session', '$scope', '$timeout', '$translate', '$q', 'Modal', 'Alert', 'loEvents', function (transferListsTableConfig, transferTypes, contactTypes, Flow, Queue, TransferList, Session, $scope, $timeout, $translate, $q, Modal, Alert, loEvents) {
     var vm = this;
     $scope.forms = {};
     $scope.err = false;
@@ -19,6 +19,12 @@ angular.module('liveopsConfigPanel')
       },
       stop: function () {
         sortByProductName();
+      }
+    };
+
+    vm.sortableOptionsSingleProduct = {
+      stop: function () {
+        $scope.forms.detailsForm.endpoints.$setDirty();
       }
     };
 
@@ -306,6 +312,10 @@ angular.module('liveopsConfigPanel')
         active: true,
         endpoints: []
       });
+    });
+
+    $scope.$on(loEvents.bulkActions.close, function () {
+      vm.cancelContact();
     });
 
     $scope.$on(loEvents.tableControls.itemSelected, function () {

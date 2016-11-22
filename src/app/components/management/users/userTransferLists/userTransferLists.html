@@ -1,0 +1,59 @@
+<div class="divider-header">
+  <h4>{{'navbar.management.transfers.transferLists.title' | translate}} <span class="count" ng-show="userTransferLists.$resolved">({{userTransferLists.length}})</span></h4>
+</div>
+
+<loading ng-show="!fetchTransferLists().$resolved && userTransferLists && !userTransferLists.$resolved"></loading>
+
+<div ng-show="fetchTransferLists().$resolved && userTransferLists.$resolved" class="detail-group">
+  <ng-form class="instant-add"
+    lo-form-submit
+    lo-form-alert
+    separate-validation id="addTransferList"
+    name="addTransferList"
+    ng-show="['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_TENANT_ENROLLMENT'] | hasPermission">
+      <div>
+        <form-error field="addTransferList.name"></form-error>
+
+        <type-ahead name-field="name"
+          placeholder="{{'details.transfers.placeholder' | translate}}"
+          items="fetchTransferLists()"
+          is-required="true"
+          on-enter="onEnter(item)"
+          selected-item="selectedTransferList"
+          filters="[filterTransferLists, removeDefaultTransfers, removeDisabledItems]"
+          lo-submit="save(selectedTransferList)"
+          event="transfers.enter.event"></type-ahead>
+      </div>
+      <div>
+        <a lo-submit-spinner
+          lo-submit-spinner-status="saving"
+          id="add-transfer-btn"
+          ng-disabled="!selectedTransferList"
+          class="btn"
+          lo-submit="save(selectedTransferList)"
+          title="{{'value.save' | translate}}">
+            <i class="fa fa-plus"></i>
+        </a>
+      </div>
+  </ng-form>
+
+  <p ng-hide="fetchTransferLists().$resolved && userTransferLists.$resolved && fetchTransferLists().length" class="null">{{'details.usertransfers.none' | translate}}</p>
+  <p id="no-user-transfers" ng-show="userTransferLists.length === 0 && ! addNew" class="null" translate="details.usertransfers.none" translate-value-display-name="{{user.getDisplay()}}"></p>
+
+  <div ng-show="userTransferLists.length > 0">
+    <div id="tag-wrapper" class=" clear" ng-class="{collapsed : collapsed}">
+      <div id="tags-inside" class="clear">
+        <div ng-repeat="userTransferList in userTransferLists" class="tag">
+          {{userTransferList.name}}
+          <a ng-click="remove(userTransferList)" title="{{'details.usertransfers.remove' | translate}}" ng-hide="userTransferList.name === 'System Transfers'"><i class="fa fa-times"></i></a>
+        </div>
+      </div>
+    </div>
+
+    <div ng-show="! hideCollapseControls">
+      <div class="expander down" ng-show="collapsed"><a ng-click="collapsed = false" title="{{'details.transfers.showall' | translate}}"><i class="fa fa-ellipsis-h"></i></a></div>
+      <div class="expander up" ng-show="! collapsed"><a ng-click="collapsed = true" title="{{'details.groups.hideextra' | translate}}"><i class="fa fa-caret-up"></i></a></div>
+    </div>
+
+  </div>
+</div>
