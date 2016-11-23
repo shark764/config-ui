@@ -192,6 +192,7 @@
   "details.usergroups.none": "This user is not assigned to any groups.",
   "details.userreasons.none": "This user has not been assigned any presence reasons.",
   "details.usertransfers.none": "This user has not been assigned any transfer lists.",
+  "details.transfers.none": "There are no transfers for the selected tenant.",
   "details.userreasons.remove": "Remove reason list from this user",
   "details.usertransfers.remove": "Remove transfer list from this user",
   "details.usergroups.remove": "Remove user from this group",

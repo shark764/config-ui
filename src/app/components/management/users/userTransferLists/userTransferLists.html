@@ -37,7 +37,7 @@
       </div>
   </ng-form>
 
-  <p ng-hide="fetchTransferLists().$resolved && userTransferLists.$resolved && fetchTransferLists().length" class="null">{{'details.usertransfers.none' | translate}}</p>
+  <p ng-hide="fetchTransferLists().$resolved && userTransferLists.$resolved && fetchTransferLists().length" class="null">{{'details.transfers.none' | translate}}</p>
   <p id="no-user-transfers" ng-show="userTransferLists.length === 0 && ! addNew" class="null" translate="details.usertransfers.none" translate-value-display-name="{{user.getDisplay()}}"></p>
 
   <div ng-show="userTransferLists.length > 0">
