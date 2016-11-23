@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('interactions', ['$sce', '$q', '$translate', '$timeout', 'Recording', 'Messaging', 'MessagingFrom', 'Tenant', 'Session',
-    function ($sce, $q, $translate, $timeout, Recording, Messaging, MessagingFrom, Tenant, Session) {
+  .directive('interactions', ['$sce', '$q', '$translate', '$interval', 'Recording', 'Messaging', 'MessagingFrom', 'Tenant', 'Session',
+    function ($sce, $q, $translate, $interval, Recording, Messaging, MessagingFrom, Tenant, Session) {
       return {
         restrict: 'E',
         transclude: true,
@@ -11,6 +11,8 @@ angular.module('liveopsConfigPanel')
           config: '='
         },
         link: function (scope, attr, elem) {
+          var getRecordingUrl;
+
           scope.isLoading = true;
           // clearing out all interaction data as a safeguard
           scope.interactionData = null;
@@ -82,7 +84,7 @@ angular.module('liveopsConfigPanel')
 
                     return $q.when(fromUser.$promise).then(function (fromUserResponse) {
                       response[key].payload.userName = getUserName(fromUserResponse);
-                    });      
+                    });
                   }
                 })
               ).then(function () {
@@ -117,7 +119,45 @@ angular.module('liveopsConfigPanel')
             return $q.when(tenant.$promise).then(function (tenantData) {
               scope.TimezoneValHolder.tenantTimezone = tenantData.timezone;
             });
-          }
+          };
+
+          scope.$on('appDockDataLoaded', function () {
+            $interval.cancel(getRecordingUrl);
+            var audioCurrentTime = 0;
+
+            getRecordingUrl = $interval(function () {
+              var audioPlayer = document.getElementById('audio-player');
+
+              // first off, rewind audio every time a new recording is selected
+              audioPlayer.onloadeddata = function () {
+                audioPlayer.currentTime = 0;
+              };
+
+              var audioIsPlaying = false;
+              if (!(audioPlayer.ended || audioPlayer.paused)) {
+                audioIsPlaying = true;
+              }
+
+              if (scope.selectedItem && scope.selectedItem.url && audioPlayer && audioIsPlaying !== true) {
+                return $q.when(recordings()).then(function (recordingsResponse) {
+                  // get the stopping point before we reset the audio player
+                  // with a new src url
+                  audioCurrentTime = audioPlayer.currentTime;
+                  scope.interactionData = recordingsResponse;
+
+                  // if the audio file was paused at some point after
+                  // the beginning of the playback, then skip back to that point
+                  audioPlayer.onloadeddata = function () {
+                    audioPlayer.currentTime = audioCurrentTime;
+                  };
+                });
+              }
+            }, 300000);
+          });
+
+          scope.$on('closingPanel', function () {
+            $interval.cancel(getRecordingUrl);
+          });
 
           // once we've attempted to get both, set interactionData to
           // be the first response that's actually an array
@@ -145,7 +185,6 @@ angular.module('liveopsConfigPanel')
                 if (!scope.selectedItem) {
                   scope.setSelectedItem(scope.interactionData[0]);
                 }
-
               }
 
               scope.$emit('appDockDataLoaded');

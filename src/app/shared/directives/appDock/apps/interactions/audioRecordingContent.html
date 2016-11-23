@@ -32,9 +32,8 @@
       <md-divider></md-divider>
 
       <div layout="row">
-
         <md-card flex layout-fill>
-          <audio controls oncontextmenu="return false;" name="recordingAudio" ng-src="{{selectedItem.url | trustUrl}}"></audio>
+          <audio id="audio-player" controls oncontextmenu="return false;" name="recordingAudio" ng-src="{{selectedItem.url | trustUrl}}"></audio>
         </md-card>
 
       </div>

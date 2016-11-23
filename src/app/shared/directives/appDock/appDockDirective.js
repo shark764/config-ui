@@ -44,6 +44,7 @@ angular.module('liveopsConfigPanel')
             scope.apps = [];
             scope.showApps = false;
             scope.showAppDock = false;
+            scope.$broadcast('closingPanel');
             resetAgentToolbarPosition();
           };
 

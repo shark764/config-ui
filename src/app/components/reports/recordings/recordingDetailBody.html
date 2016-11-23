@@ -12,7 +12,13 @@
 <div class="input-group">
   <label>{{'recordings.details.play' | translate}}</label>
   <div>
-    <audio controls oncontextmenu="return false;" name="recordingAudio" src="{{selectedRecording.url | trusted}}"></audio>
+    <audio
+      controls
+      oncontextmenu="return false;"
+      name="recordingAudio"
+      id="audio-player-panel"
+      preload="auto"
+      src="{{selectedRecording.url | trusted}}"></audio>
   </div>
 </div>
 
