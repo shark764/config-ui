@@ -1,27 +1,14 @@
-select {
-  option {
-    &:empty {
-      display:none
-    }
-  }
-}
-
-.default-option {
-  display: none;
-}
-
-.create-product {
-  display: block;
-  padding-top: 5px;
-}
-
-.empty-row {
-  padding: 10px;
-}
-
 .transfer-list-table {
   width: 510px;
   cursor: grab;
+
+  select {
+    option {
+      &:empty {
+        display:none
+      }
+    }
+  }
 
   table {
     td {
@@ -72,10 +59,23 @@ select {
       }
     }
   }
+
+  .default-option {
+    display: none;
+  }
+
+  .create-product {
+    display: block;
+    padding-top: 5px;
+  }
+
+  .empty-row {
+    padding: 10px;
+  }
 }
 
-table,
-.table {
+table.transfer-list-table,
+table.transfer-list-table table {
   width: 100%;
 
   td,
@@ -124,6 +124,24 @@ table,
   .edit-panel-open {
     opacity: .5;
     cursor: default;
+  }
+}
+
+.warm-cold-checkboxes {
+  > label {
+    vertical-align: top;
+    padding-top: 5px;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    li {
+      padding: 5px 0;
+      margin: 0;
+    }
   }
 }
 

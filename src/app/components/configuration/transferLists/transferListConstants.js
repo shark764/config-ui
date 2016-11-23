@@ -10,14 +10,6 @@ angular.module('liveopsConfigPanel')
       {
         label: $translate.instant('transferLists.contact.details.internal'),
         value: 'internal'
-      },
-      {
-        label: $translate.instant('transferLists.contact.details.coldTransfer'),
-        value: 'internal'
-      },
-      {
-        label: $translate.instant('transferLists.contact.details.warmTransfer'),
-        value: 'internal'
       }
     ];
   }])
@@ -38,14 +30,6 @@ angular.module('liveopsConfigPanel')
       {
         label: $translate.instant('transferLists.contact.details.queue'),
         value: 'queue'
-      },
-      {
-        label: $translate.instant('transferLists.contact.details.flow'),
-        value: 'flow'
-      },
-      {
-        label: $translate.instant('transferLists.contact.details.email'),
-        value: 'email'
       }
     ];
   }]);

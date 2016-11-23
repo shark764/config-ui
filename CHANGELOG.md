@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+* CXV1-6193 - On Transfer Lists page, moved "Warm" and "Cold" options from select menu to checkboxes, also made CSS fixes
 * CXV1-6193 - Added UI for Transfer List on new Transfer list page, and also added ability to assign transfer lists from Users page
 
 ## [4.6.0]

@@ -102,6 +102,34 @@
     </div>
   </div>
 
+  <div class="input-group warm-cold-checkboxes">
+    <label>{{'value.transferTypeWarmCold' | translate}} *</label>
+    <div>
+      <ul>
+        <li>
+          <label>
+            <input type="checkbox"
+             ng-model="tlc.selectedContact.warmTransfer"
+             name="warmTransfer"
+             ng-true-value="true"
+             ng-false-value="false">
+             {{'transferLists.contact.details.warmTransfer' | translate}}
+          </label>
+        </li>
+        <li>
+          <label>
+            <input type="checkbox"
+             ng-model="tlc.selectedContact.coldTransfer"
+             name="coldTransfer"
+             ng-true-value="true"
+             ng-false-value="false">
+             {{'transferLists.contact.details.coldTransfer' | translate}}
+          </label>
+        </li>
+      </ul>
+    </div>
+  </div>
+
   <div class="input-group">
     <label>{{'value.endpoint' | translate}} *</label>
     <form-error
@@ -179,7 +207,10 @@
     class="btn btn-primary"
     type="submit"
     value="{{'value.save' | translate}}"
-    ng-disabled="forms.contactForm.$invalid || ! forms.contactForm.$dirty || !tlc.selectedContact.endpoint"
+    ng-disabled="forms.contactForm.$invalid
+    || ! forms.contactForm.$dirty
+    || !tlc.selectedContact.endpoint
+    || ((tlc.selectedContact.coldTransfer === false || angular.isUndefined(tlc.selectedContact.coldTransfer)) && (tlc.selectedContact.warmTransfer === false || angular.isUndefined(tlc.selectedContact.warmTransfer)))"
     lo-submit="tlc.saveContact()"
   </input>
 </div>
