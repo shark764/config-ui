@@ -20,7 +20,7 @@ select {
 }
 
 .transfer-list-table {
-  width: 100%;
+  width: 510px;
   cursor: grab;
 
   table {
@@ -41,8 +41,11 @@ select {
     &.cols {
       th,
       td {
+        padding: 10px 0;
+
         &:nth-child(1) {
           width: 5%;
+          padding-left: 10px;
         }
 
         &:nth-child(2) {
@@ -71,10 +74,18 @@ select {
   }
 }
 
-table {
+table,
+.table {
   width: 100%;
 
+  td,
+  th {
+    padding: 0;
+    margin: 0;
+  }
+
   td {
+
     &[colspan] {
       padding: 0;
 
@@ -118,4 +129,8 @@ table {
 
 .default-cursor {
   cursor: default !important;
+}
+
+.pointer-cursor {
+  cursor: pointer !important;
 }

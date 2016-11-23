@@ -78,7 +78,7 @@
           </a>
 
           <input
-            class="product{{$index}} enable-pointer-events"
+            class="product{{$index}} enable-pointer-events default-cursor"
             type="text"
             value="{{product}}"
             ng-show="tlc.showInput[$index] === true"
@@ -93,7 +93,7 @@
 
           <a
             href
-            class="enable-pointer-events"
+            class="enable-pointer-events pointer-cursor"
             ng-click="tlc.showInput[$index] = !tlc.showInput[$index]; tlc.updateProductName(tlc.prevProductName, $index)"
             ng-show="tlc.showInput[$index] === true">
             <small>{{'transferLists.contact.details.doneEditing' | translate}}</small>
