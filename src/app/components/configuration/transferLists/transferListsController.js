@@ -135,6 +135,7 @@ angular.module('liveopsConfigPanel')
         return true;
       };
       vm.selectedProduct = null;
+      vm.openEditPanel = true;
       $scope.forms.contactForm.$setPristine();
       $scope.forms.contactForm.$setUntouched();
     };
