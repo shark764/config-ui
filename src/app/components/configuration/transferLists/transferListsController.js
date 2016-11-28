@@ -66,7 +66,7 @@ angular.module('liveopsConfigPanel')
     };
 
     vm.checkContactType = function () {
-      vm.selectedContact.overrideHide = true;
+      vm.overrideHide = true;
       if (vm.selectedContact.contactType === 'queue' || vm.selectedContact.contactType === 'flow') {
         vm.selectedContact.transferType = 'internal';
       }
@@ -98,11 +98,11 @@ angular.module('liveopsConfigPanel')
     };
 
     vm.editContact = function (endpointData) {
+      vm.overrideHide = true;
       getFlowQueueData(endpointData).then(function (response) {
         var endpoint = response;
         vm.openEditPanel = true;
         vm.selectedContact = endpoint;
-        vm.selectedContact.overrideHide = true;
         vm.selectedContactBackup = angular.copy(vm.selectedContact);
         vm.selectedEndpointIdx = endpoint.tempIdx;
         $scope.forms.contactForm.$setPristine();
