@@ -1,6 +1,6 @@
 <ng-form name="forms.contactHeaderForm" separate-validation>
   <div class="detail-header">
-    <h1 id="transferList-details-create-header" ng-hide="! tlc.selectedContact.isNew() || tlc.editingProductName === true">
+    <h1 id="transferList-details-create-header" ng-hide="! tlc.selectedContact.isNew()">
       {{'transferLists.contact.details.creating' | translate}}
     </h1>
     <h1 id="transferList-details-edit-header" ng-hide="tlc.selectedContact.isNew()">
@@ -12,50 +12,6 @@
 <div class="detail-body">
   <div class="divider-header first-header">
     <h4>{{'details' | translate}}</h4>
-  </div>
-
-  <div
-    class="input-group">
-    <label>{{'transferLists.contact.details.productName' | translate}} *</label>
-    <form-error field="forms.contactForm.selectedProduct" error-type-required="{{'transferLists.contact.error.productName' | translate}}" ></form-error>
-    <select
-      ng-show="tlc.editingProductName !== true && newTransferList !== true"
-      name="selectedProduct"
-      ng-model="tlc.selectedProduct"
-      required="true">
-      <option class="default-option" value="">{{'transferLists.contact.details.selectedProduct' | translate}}</option>
-      <option
-        ng-repeat="product in tlc.products"
-        ng-selected="tlc.selectedProduct === product"
-        ng-value="product">
-        {{product}}
-      </option>
-    </select>
-
-    <input
-      required="true"
-      type="text"
-      ng-model="tlc.selectedProduct"
-      ng-if="tlc.editingProductName === true"
-      ng-minlength="1"
-      name="createProduct">
-
-    <a
-      href
-      class="create-product"
-      ng-if="tlc.selectedContact.isNew()">
-      <small
-        ng-if="tlc.editingProductName !== true && tlc.newTransferList !== true"
-        ng-click="tlc.editingProductName = true">
-        {{'transferLists.contact.details.createProduct' | translate}}
-      </small>
-      <small
-        ng-if="tlc.editingProductName === true && tlc.newTransferList !== true"
-        ng-click="tlc.editingProductName = false; tlc.selectedProduct = null; vm.newTransferList = false">
-        {{'transferLists.contact.details.cancelCreateProduct' | translate}}
-      </small>
-    </a>
-
   </div>
 
   <div class="input-group">
@@ -130,7 +86,7 @@
     </div>
   </div>
 
-  <div class="input-group">
+  <div class="input-group" ng-if="tlc.selectedContact.overrideHide === true">
     <label>{{'value.endpoint' | translate}} *</label>
     <form-error
       field="forms.contactForm.endpoint"

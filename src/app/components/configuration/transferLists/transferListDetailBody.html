@@ -44,123 +44,61 @@
   <thead>
   <tbody
     ui-sortable="tlc.sortableOptions"
-    ng-model="tlc.products">
+    ng-model="tlc.selectedTransferList.endpoints">
     <tr ng-show="! tlc.selectedTransferList.endpoints.length">
       <td colspan="6">
         <p class="null empty-row">{{'transferLists.details.empty' | translate}}</p>
       </td>
     </tr>
     <tr
-      ng-repeat="product in tlc.products track by $index"
-      ng-init="tlc.showInput[$index] = false"
-      ng-class="{'prevent-sort' : tlc.openEditPanel === true || tlc.showInput.indexOf(true) !== -1}"
-      ng-attr-title="{{'transferLists.contact.details.reorderProducts' | translate}}">
-      <td colspan="6">
-        <div>
-          <label>Product Name:</label>
-          <strong
-            ng-show="tlc.showInput[$index] === false"
-            class="product-name{{$index}}">
-            <span ng-if="tlc.openEditPanel === true">
-              {{::product}}
-            </span>
-            <span ng-if="tlc.openEditPanel !== true">
-              {{product}}
-            </span>
-          </strong>
-
-          <a
-            ng-class="{'edit-panel-open prevent-sort' : tlc.openEditPanel === true}"
-            href
-            ng-click="tlc.showInput[$index] = !tlc.showInput[$index]; tlc.prevProductName = product"
-            ng-show="tlc.showInput[$index] === false">
-            <small>{{'transferLists.contact.details.editProductName' | translate}}</small>
-          </a>
-
-          <input
-            class="product{{$index}} enable-pointer-events default-cursor"
-            type="text"
-            value="{{product}}"
-            ng-show="tlc.showInput[$index] === true"
-            ng-minlength="1"
-            name="productNameField">
-
-          <input
-            class="hidden-product{{$index}}"
-            type="hidden"
-            ng-model="product"
-            name="productNameField">
-
-          <a
-            href
-            class="enable-pointer-events pointer-cursor"
-            ng-click="tlc.showInput[$index] = !tlc.showInput[$index]; tlc.updateProductName(tlc.prevProductName, $index)"
-            ng-show="tlc.showInput[$index] === true">
-            <small>{{'transferLists.contact.details.doneEditing' | translate}}</small>
-          </a>
+      ng-class="{'edit-panel-open prevent-sort default-cursor' : tlc.openEditPanel === true}"
+      ng-repeat="listItemEndpoint in tlc.selectedTransferList.endpoints"
+      ng-attr-title="{{listItemEndpoint.contactType === 'flow' || listItemEndpoint.contactType === 'queue' ? listItemEndpoint.endpoint.getDisplay() : listItemEndpoint.endpoint}}"
+      class="item cols">
+      <td>
+        <div
+          class="handle"
+          ng-attr-title="{{'transferLists.contact.details.reorderContacts' | translate}}">
+          :::
         </div>
-        <table>
-          <tbody
-            ui-sortable="tlc.sortableOptionsSingleProduct"
-            ng-model="tlc.selectedTransferList.endpoints">
-            <tr ng-show="! tlc.selectedTransferList.endpoints.length">
-              <td colspan="6">
-                <p class="null empty-row">{{'transferLists.details.empty' | translate}}</p>
-              </td>
-            </tr>
-            <tr
-              ng-repeat="listItemEndpoint in tlc.getEndpointsByHierarchy(product, tlc.selectedTransferList.endpoints)"
-              ng-attr-title="{{listItemEndpoint.contactType === 'flow' || listItemEndpoint.contactType === 'queue' ? listItemEndpoint.endpoint.getDisplay() : listItemEndpoint.endpoint}}"
-              class="item cols">
-              <td>
-                <div
-                  class="handle"
-                  ng-attr-title="{{'transferLists.contact.details.reorderContacts' | translate}}">
-                  :::
-                </div>
-              </td>
-              <td class="prevent-sort">
-                <span ng-if="tlc.openEditPanel === true">
-                  {{::listItemEndpoint.name}}
-                </span>
-                <span ng-if="tlc.openEditPanel !== true">
-                  {{listItemEndpoint.name}}
-                </span>
-              </td>
-              <td class="prevent-sort">
-                <span ng-if="tlc.openEditPanel === true">
-                  {{::listItemEndpoint.transferType}}
-                </span>
-                <span ng-if="tlc.openEditPanel !== true">
-                  {{listItemEndpoint.transferType}}
-                </span>
-              </td>
-              <td class="prevent-sort">
-                <span ng-if="tlc.openEditPanel === true">
-                  {{::listItemEndpoint.contactType}}
-                </span>
-                <span ng-if="tlc.openEditPanel !== true">
-                  {{listItemEndpoint.contactType}}
-                </span>
-              </td>
-              <td>
-                <a
-                  ng-class="{'edit-panel-open prevent-sort' : tlc.openEditPanel === true || tlc.showInput.indexOf(true) !== -1}"
-                  ng-click="tlc.editContact(listItemEndpoint, product)">
-                    {{'transferLists.contact.details.edit' | translate}}
-                </a>
-              </td>
-              <td>
-                <i id="remove-transfer-list-item-button"
-                  ng-class="{'edit-panel-open prevent-sort' : tlc.openEditPanel === true || tlc.showInput.indexOf(true) !== -1}"
-                  class="fa fa-times remove"
-                  ng-hide="!('MANAGE_ALL_TRANSFER_LISTS' | hasPermission)"
-                  ng-click="tlc.removeContact(listItemEndpoint.tempIdx)"></i>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+      </td>
+      <td>
+        <span ng-if="tlc.openEditPanel === true">
+          {{::listItemEndpoint.name}}
+        </span>
+        <span ng-if="tlc.openEditPanel !== true">
+          {{listItemEndpoint.name}}
+        </span>
+      </td>
+      <td>
+        <span ng-if="tlc.openEditPanel === true">
+          {{::listItemEndpoint.transferType}}
+        </span>
+        <span ng-if="tlc.openEditPanel !== true">
+          {{listItemEndpoint.transferType}}
+        </span>
+      </td>
+      <td>
+        <span ng-if="tlc.openEditPanel === true">
+          {{::listItemEndpoint.contactType}}
+        </span>
+        <span ng-if="tlc.openEditPanel !== true">
+          {{listItemEndpoint.contactType}}
+        </span>
+      </td>
+      <td>
+        <a
+          ng-click="tlc.editContact(listItemEndpoint)">
+            {{'transferLists.contact.details.edit' | translate}}
+        </a>
+      </td>
+      <td>
+        <i id="remove-transfer-list-item-button"
+          class="fa fa-times remove"
+          ng-hide="!('MANAGE_ALL_TRANSFER_LISTS' | hasPermission)"
+          ng-click="tlc.removeContact(listItemEndpoint.tempIdx)"></i>
       </td>
     </tr>
   </tbody>
+
 </table>

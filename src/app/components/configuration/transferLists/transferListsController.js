@@ -8,7 +8,6 @@ angular.module('liveopsConfigPanel')
     vm.tableConfig = transferListsTableConfig;
     vm.transferTypes = transferTypes;
     vm.contactTypes = contactTypes;
-    vm.showInput = [];
     vm.openEditPanel = false;
     vm.sipPattern = '[s|S]{1}[i|I]{1}[p|P]{1}:.*';
     vm.formsFilled = false;
@@ -16,33 +15,8 @@ angular.module('liveopsConfigPanel')
     vm.sortableOptions = {
       update: function (e, ui) {
         $scope.forms.detailsForm.endpoints.$setDirty();
-      },
-      stop: function () {
-        sortByProductName();
       }
     };
-
-    vm.sortableOptionsSingleProduct = {
-      stop: function () {
-        $scope.forms.detailsForm.endpoints.$setDirty();
-      }
-    };
-
-    function sortByProductName() {
-      var sortedEndpoints = [];
-
-      _.map(vm.products, function (productVal, productKey) {
-        _.each(vm.selectedTransferList.endpoints, function (endpointVal, endpointKey) {
-          if (endpointVal.hierarchy === productVal) {
-            sortedEndpoints.push(endpointVal);
-          }
-        });
-      });
-
-      delete vm.selectedTransferList.endpoints;
-      vm.selectedTransferList['endpoints'] = sortedEndpoints;
-      vm.products = listProducts(vm.selectedTransferList.endpoints, 'hierarchy');
-    }
 
     function getFlowQueueData(currentProduct) {
       return $q.all([
@@ -91,65 +65,46 @@ angular.module('liveopsConfigPanel')
       });
     };
 
-    function listProducts(endpoints, property) {
-      vm.selectedTransferList.endpoints = addTempIdx(endpoints);
-      var products = _.map(vm.selectedTransferList.endpoints, property);
-      return _.uniq(products);
-    };
-
     vm.checkContactType = function () {
+      vm.selectedContact.overrideHide = true;
       if (vm.selectedContact.contactType === 'queue' || vm.selectedContact.contactType === 'flow') {
         vm.selectedContact.transferType = 'internal';
       }
+
       vm.selectedContact.endpoint = null;
       vm.flowError = false;
       vm.queueError = false;
     };
 
     vm.cancelContact = function () {
-      if (vm.openEditPanel !== true) {
-        vm.selectedProduct = null;
-      } else {
-        vm.selectedTransferList.endpoints[vm.selectedEndpointIdx] = angular.copy(vm.selectedContactBackup);
-      }
+      vm.selectedTransferList.endpoints[vm.selectedEndpointIdx] = angular.copy(vm.selectedContactBackup);
 
       vm.selectedContact = null;
       vm.openEditPanel = false;
-      vm.newTransferList = false;
       $scope.forms.contactForm.$setPristine();
       $scope.forms.contactForm.$setUntouched();
     };
 
     vm.createContact = function (endpoints) {
-      // if we don't any have products yet
-      if (!angular.isArray(vm.products) || angular.isArray(vm.products) && vm.products.length < 1) {
-        vm.editingProductName = true;
-        vm.newTransferList = true;
-      } else {
-        vm.editingProductName = false;
-        vm.newTransferList = false;
-      }
       vm.endpoints = endpoints;
       vm.selectedContact = {};
       vm.selectedContact.isNew = function () {
         return true;
       };
-      vm.selectedProduct = null;
+      vm.overrideHide = false;
       vm.openEditPanel = true;
       $scope.forms.contactForm.$setPristine();
       $scope.forms.contactForm.$setUntouched();
     };
 
-    vm.editContact = function (endpointData, product) {
+    vm.editContact = function (endpointData) {
       getFlowQueueData(endpointData).then(function (response) {
         var endpoint = response;
         vm.openEditPanel = true;
         vm.selectedContact = endpoint;
+        vm.selectedContact.overrideHide = true;
         vm.selectedContactBackup = angular.copy(vm.selectedContact);
         vm.selectedEndpointIdx = endpoint.tempIdx;
-        vm.selectedProduct = product;
-        vm.editingProductName = false;
-        vm.newTransferList = false;
         $scope.forms.contactForm.$setPristine();
         $scope.forms.contactForm.$setUntouched();
       })
@@ -175,7 +130,7 @@ angular.module('liveopsConfigPanel')
       _.remove(vm.selectedTransferList.endpoints, {
         tempIdx: indexToDelete
       });
-      vm.products = listProducts(vm.selectedTransferList.endpoints, 'hierarchy');
+      vm.selectedTransferList.endpoints = addTempIdx(vm.selectedTransferList.endpoints);
       $scope.forms.detailsForm.$setDirty();
     };
 
@@ -211,26 +166,6 @@ angular.module('liveopsConfigPanel')
       };
     };
 
-    vm.getEndpointsByHierarchy = function (productName, endpoints, bypass) {
-      return _.filter(endpoints, function (val) {
-        return productName === val.hierarchy;
-      });
-    };
-
-    vm.updateProductName = function (prevName, index) {
-      var newName = angular.element('.product' + index).val();
-      angular.element('.hidden-product' + index).val(newName);
-
-      _.each(vm.selectedTransferList.endpoints, function (val, key) {
-        if (val.hierarchy === prevName) {
-          vm.selectedTransferList.endpoints[key].hierarchy = newName;
-        }
-      });
-
-      vm.products = listProducts(vm.selectedTransferList.endpoints, 'hierarchy');
-      $scope.forms.detailsForm.endpoints.$setDirty();
-    }
-
     vm.saveContact = function () {
       $q.all([
           vm.fetchFlows().$promise,
@@ -239,7 +174,6 @@ angular.module('liveopsConfigPanel')
         .then(function (values) {
           var flows = values[0];
           var queues = values[1];
-          vm.selectedContact['hierarchy'] = vm.selectedProduct;
           if (vm.selectedContact.contactType === 'queue' && typeof vm.selectedContact.endpoint === 'string') {
             vm.selectedContact.endpoint = queues.filter(function (queue) {
               return queue.name === vm.selectedContact.endpoint;
@@ -263,9 +197,8 @@ angular.module('liveopsConfigPanel')
             vm.selectedTransferList.endpoints.push(vm.selectedContact);
           }
 
-          vm.products = listProducts(vm.selectedTransferList.endpoints, 'hierarchy');
+          vm.selectedTransferList.endpoints = addTempIdx(vm.selectedTransferList.endpoints);
 
-          vm.newTransferList = false;
           vm.flowError = false;
           vm.queueError = false;
           vm.selectedContact = null;
@@ -304,7 +237,6 @@ angular.module('liveopsConfigPanel')
     };
 
     $scope.$on(loEvents.tableControls.itemCreate, function () {
-      delete vm.products;
       vm.selectedContact = null;
       vm.openEditPanel = false;
 
@@ -321,10 +253,9 @@ angular.module('liveopsConfigPanel')
 
     $scope.$on(loEvents.tableControls.itemSelected, function () {
       vm.replaceResources();
-      delete vm.products;
       $timeout(function () {
         if (vm.selectedTransferList) {
-          vm.products = listProducts(vm.selectedTransferList.endpoints, 'hierarchy');
+          vm.selectedTransferList.endpoints = addTempIdx(vm.selectedTransferList.endpoints);
         }
       });
     });
