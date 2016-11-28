@@ -3,7 +3,7 @@
     confirm-disable-message="{{'transferLists.details.disable.confirm' | translate}}"
     confirm-enable-message="{{'transferLists.details.enable.confirm' | translate}}"
     on-confirm="tlc.updateActive()"
-    ng-disabled="! ('MANAGE_ALL_TRANSFER_LISTS' | hasPermission) || !tlc.selectedTransferList.endpoints.length || tlc.selectedContact.isNew()  || tlc.showInput.indexOf(true) !== -1 || tlc.openEditPanel !== false"></toggle>
+    ng-disabled="! ('MANAGE_ALL_TRANSFER_LISTS' | hasPermission) || !tlc.selectedTransferList.endpoints.length || tlc.selectedContact.isNew() || tlc.openEditPanel !== false"></toggle>
 
   <div class="info">
     <h1 id="transferList-details-name-header">{{tlc.selectedTransferList.$original.name}}</h1>
