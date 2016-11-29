@@ -1,6 +1,6 @@
 <ng-form name="forms.contactHeaderForm" separate-validation>
   <div class="detail-header">
-    <h1 id="transferList-details-create-header" ng-hide="! tlc.selectedContact.isNew()">
+    <h1 id="transferList-details-create-header" ng-hide="! tlc.selectedContact.isNew() || tlc.editingCategoryName === true">
       {{'transferLists.contact.details.creating' | translate}}
     </h1>
     <h1 id="transferList-details-edit-header" ng-hide="tlc.selectedContact.isNew()">
@@ -9,9 +9,56 @@
   </div>
 </ng-form>
 
-<div class="detail-body">
+<div class="detail-body transfer-list-contact-form">
   <div class="divider-header first-header">
     <h4>{{'details' | translate}}</h4>
+  </div>
+
+  <div
+    class="input-group">
+    <label>{{'transferLists.contact.details.categoryName' | translate}} *</label>
+    <form-error field="forms.contactForm.selectedCategory" error-type-required="{{'transferLists.contact.error.categoryName' | translate}}" ></form-error>
+    <select
+      ng-show="tlc.editingCategoryName !== true && newTransferList !== true"
+      name="selectedCategory"
+      ng-model="tlc.selectedCategory"
+      required="true">
+      <option
+        ng-disabled="true"
+        class="default-option"
+        value="">{{'transferLists.contact.details.selectedCategory' | translate}}</option>
+      <option
+        ng-repeat="category in tlc.categories"
+        ng-selected="tlc.selectedCategory === category"
+        ng-value="category">
+        {{category}}
+      </option>
+    </select>
+
+    <input
+      required="true"
+      type="text"
+      ng-model="tlc.selectedCategory"
+      ng-if="tlc.editingCategoryName === true"
+      ng-minlength="1"
+      name="createCategory">
+
+    <a
+      href
+      class="create-category"
+      ng-if="tlc.selectedContact.isNew()">
+      <small
+        ng-if="tlc.editingCategoryName !== true && tlc.newTransferList !== true"
+        ng-click="tlc.editingCategoryName = true">
+        {{'transferLists.contact.details.createCategory' | translate}}
+      </small>
+      <small
+        ng-if="tlc.editingCategoryName === true && tlc.newTransferList !== true"
+        ng-click="tlc.editingCategoryName = false; tlc.selectedCategory = null; tlc.newTransferList = false">
+        {{'transferLists.contact.details.cancelCreateCategory' | translate}}
+      </small>
+    </a>
+
   </div>
 
   <div class="input-group">
@@ -67,8 +114,8 @@
             <input type="checkbox"
              ng-model="tlc.selectedContact.warmTransfer"
              name="warmTransfer"
-             ng-true-value="true"
-             ng-false-value="false">
+             ng-true-value="'true'"
+             ng-false-value="'false'">
              {{'transferLists.contact.details.warmTransfer' | translate}}
           </label>
         </li>
@@ -77,8 +124,8 @@
             <input type="checkbox"
              ng-model="tlc.selectedContact.coldTransfer"
              name="coldTransfer"
-             ng-true-value="true"
-             ng-false-value="false">
+             ng-true-value="'true'"
+             ng-false-value="'false'">
              {{'transferLists.contact.details.coldTransfer' | translate}}
           </label>
         </li>
@@ -86,7 +133,7 @@
     </div>
   </div>
 
-  <div class="input-group" ng-if="tlc.overrideHide === true">
+  <div class="input-group">
     <label>{{'value.endpoint' | translate}} *</label>
     <form-error
       field="forms.contactForm.endpoint"
@@ -166,7 +213,7 @@
     ng-disabled="forms.contactForm.$invalid
     || ! forms.contactForm.$dirty
     || !tlc.selectedContact.endpoint
-    || ((tlc.selectedContact.coldTransfer === false || angular.isUndefined(tlc.selectedContact.coldTransfer)) && (tlc.selectedContact.warmTransfer === false || angular.isUndefined(tlc.selectedContact.warmTransfer)))"
+    || ((tlc.selectedContact.coldTransfer === 'false' || angular.isUndefined(tlc.selectedContact.coldTransfer)) && (tlc.selectedContact.warmTransfer === 'false' || angular.isUndefined(tlc.selectedContact.warmTransfer)))"
     lo-submit="tlc.saveContact()"
   </input>
 </div>

@@ -2,14 +2,6 @@
   width: 510px;
   cursor: grab;
 
-  select {
-    option {
-      &:empty {
-        display:none
-      }
-    }
-  }
-
   table {
     td {
       a,
@@ -64,7 +56,7 @@
     display: none;
   }
 
-  .create-product {
+  .create-category {
     display: block;
     padding-top: 5px;
   }
@@ -74,7 +66,8 @@
   }
 }
 
-table.transfer-list-table {
+table.transfer-list-table,
+table.transfer-list-table table {
   width: 100%;
 
   td,
@@ -150,4 +143,14 @@ table.transfer-list-table {
 
 .pointer-cursor {
   cursor: pointer !important;
+}
+
+.transfer-list-contact-form {
+  select {
+    option {
+      &:empty {
+        display:none
+      }
+    }
+  }
 }

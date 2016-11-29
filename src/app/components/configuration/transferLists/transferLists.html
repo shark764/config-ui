@@ -58,7 +58,7 @@
 
       <input id="submit-details-btn" class="btn btn-primary"
         type="submit" value="{{'value.submit' | translate}}"
-        ng-disabled="forms.detailsForm.$invalid || ! forms.detailsForm.$dirty || !tlc.selectedTransferList.endpoints.length || tlc.selectedContact.isNew()"
+        ng-disabled="forms.detailsForm.$invalid || ! forms.detailsForm.$dirty || !tlc.selectedTransferList.endpoints.length || tlc.selectedContact.isNew()  || tlc.showInput.indexOf(true) !== -1"
         lo-submit="tlc.submit()"
         lo-submit-spinner
         lo-submit-spinner-status="tlc.selectedTransferList.$busy">
