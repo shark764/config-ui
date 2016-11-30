@@ -30,8 +30,10 @@
   ng-show="tlc.selectedTransferList || showBulkActions"
   ng-resource="tlc.selectedTransferList">
 
-  <ng-form unsaved-changes-warning class="details-pane"
-    ng-show="tlc.selectedTransferList && !showBulkActions" name="forms.detailsForm"
+  <ng-form
+    class="details-pane"
+    ng-show="tlc.selectedTransferList && !showBulkActions"
+    name="forms.detailsForm"
     ng-model="tlc.selectedTransferList"
     ng-resource="tlc.selectedTransferList"
     lo-form-submit
@@ -92,9 +94,8 @@
     ng-resource="tlc.selectedContact"
     lo-form-submit
     lo-form-cancel
-    lo-form-alert
-    unsaved-changes-warning>
-    
+    lo-form-alert>
+
     <ng-include class="details-pane" src="'app/components/configuration/transferLists/contactDetails.html'"></ng-include>
   </ng-form>
 

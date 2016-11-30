@@ -106,6 +106,14 @@ angular.module('liveopsConfigPanel')
       return _.uniq(categories);
     };
 
+    function clearContactFormData () {
+      vm.selectedContact = null;
+      vm.openEditPanel = false;
+      vm.newTransferList = false;
+      $scope.forms.contactForm.$setPristine();
+      $scope.forms.contactForm.$setUntouched();
+    };
+
     vm.checkContactType = function () {
       if (vm.selectedContact.contactType === 'queue' || vm.selectedContact.contactType === 'flow') {
         vm.selectedContact.transferType = 'internal';
@@ -121,12 +129,7 @@ angular.module('liveopsConfigPanel')
       } else {
         vm.selectedTransferList.endpoints[vm.selectedEndpointIdx] = angular.copy(vm.selectedContactBackup);
       }
-
-      vm.selectedContact = null;
-      vm.openEditPanel = false;
-      vm.newTransferList = false;
-      $scope.forms.contactForm.$setPristine();
-      $scope.forms.contactForm.$setUntouched();
+      clearContactFormData();
     };
 
     vm.createContact = function (endpoints) {
@@ -344,8 +347,10 @@ angular.module('liveopsConfigPanel')
     });
 
     $scope.$on(loEvents.tableControls.itemSelected, function () {
+      if (vm.openEditPanel === true) {
+        clearContactFormData();
+      }
       vm.replaceResources();
-      delete vm.categories;
       $timeout(function () {
         if (vm.selectedTransferList) {
           vm.categories = listCategories(vm.selectedTransferList.endpoints, 'hierarchy');
