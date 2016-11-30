@@ -47,7 +47,10 @@
     ng-model="tlc.categories">
     <tr ng-show="! tlc.selectedTransferList.endpoints.length">
       <td colspan="6">
-        <p class="null empty-row">{{'transferLists.details.empty' | translate}}</p>
+        <p class="null empty-row">
+          {{'transferLists.details.empty' | translate}}
+          <span>{{'transferLists.details.empty.cantSave' | translate}}</span>
+        </p>
       </td>
     </tr>
     <tr

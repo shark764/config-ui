@@ -36,7 +36,8 @@
     ng-resource="tlc.selectedTransferList"
     lo-form-submit
     lo-form-cancel
-    lo-form-alert>
+    lo-form-alert
+    unsaved-changes-warning>
 
     <ng-form name="forms.headerForm" separate-validation>
       <div class="detail-header"
@@ -91,7 +92,9 @@
     ng-resource="tlc.selectedContact"
     lo-form-submit
     lo-form-cancel
-    lo-form-alert>
+    lo-form-alert
+    unsaved-changes-warning>
+    
     <ng-include class="details-pane" src="'app/components/configuration/transferLists/contactDetails.html'"></ng-include>
   </ng-form>
 
