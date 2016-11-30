@@ -991,6 +991,7 @@
   "transferLists.details.disable.confirm": "This will disable this Transfer List. Do you want to continue?",
   "transferLists.details.enable.confirm": "This will enable this Transfer List. Do you want to continue?",
   "transferLists.details.empty": "Add transfer contacts with the plus button above.",
+  "transferLists.details.empty.cantSave": "You must have one or more contacts in your transfer list in order to save.",
   "transferLists.contact.error.categoryName": "Category name is required.",
   "transferLists.contact.details.edit": "edit",
   "transferLists.contact.details.creating": "Creating New Contact",

@@ -63,6 +63,12 @@
 
   .empty-row {
     padding: 10px;
+
+    span {
+      display: block;
+      font-weight: bold;
+      color: #D72727;
+    }
   }
 }
 
