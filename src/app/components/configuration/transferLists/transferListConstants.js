@@ -19,14 +19,17 @@ angular.module('liveopsConfigPanel')
         label: $translate.instant('transferLists.contact.details.PSTN'),
         value: 'PSTN'
       },
-      {
-        label: $translate.instant('transferLists.contact.details.SIP'),
-        value: 'SIP'
-      },
-      {
-        label: $translate.instant('transferLists.contact.details.WebRTC'),
-        value: 'WebRTC'
-      },
+
+      // commenting these two out as they don't work yet, but
+      // eventually will, so I don't want to delete them altogether
+      // {
+      //   label: $translate.instant('transferLists.contact.details.SIP'),
+      //   value: 'SIP'
+      // },
+      // {
+      //   label: $translate.instant('transferLists.contact.details.WebRTC'),
+      //   value: 'WebRTC'
+      // },
       {
         label: $translate.instant('transferLists.contact.details.queue'),
         value: 'queue'
