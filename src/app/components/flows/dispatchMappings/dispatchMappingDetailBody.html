@@ -62,7 +62,7 @@
     </div>
   </div>
 
-  <div class="input-group" ng-show="isTelInput()">
+  <div class="input-group" ng-if="isTelInput()">
     <label>{{'dispatchMappings.details.mapping' | translate}} *</label>
       <form-error field="forms.dispatchMappingForm.telvalue"
         error-type-required="{{'dispatchMappings.details.mapping.error' | translate}}"
