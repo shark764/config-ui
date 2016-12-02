@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+* CXV1-5605 - Fixed Firefox bug with dropdown menu appearing behind widgets  
 * CXV1-6543 - Fixed bug: Cannot change dispatch mapping - submit button stays greyed out
 * Bumping flow designer
 * CXV1-5536 - Added new page for interactions in conversation
