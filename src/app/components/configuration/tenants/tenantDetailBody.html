@@ -64,9 +64,18 @@
     <input ng-click="setViewOnlyTenant()" type="button" class="btn" value="{{'tenant.details.setActive' | translate}}"></input>
   </div>
 
-  <div class="input-group" ng-show="! selectedTenant.isNew()">
+  <div class="input-group">
     <label class="textarea-label">{{'tenant.details.region' | translate}}</label>
-    <p id="tenant-details-region" class="added-padding">{{selectedTenant.$regionDisplay}}</p>
+    <form-error field="forms.detailsForm.region"
+      error-type-required="{{'tenant.details.region.required' | translate}}">
+    </form-error>
+    <select name="region"
+      ng-required="true"
+      ng-model="selectedTenant.regionId"
+      ng-options="region.id as region.description for region in regions | orderBy:'description'">
+
+      <option value="" disabled>{{'tenant.details.region.placeholder' | translate}}</option>
+    </select>
   </div>
 
   <div class="input-group" ng-if="! selectedTenant.isNew()">
