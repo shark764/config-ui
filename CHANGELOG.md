@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+* Bumping flow designer
 
 ## [4.7.0]
 * CXV1-6491 - Got recordings page and app dock to automatically refresh audio URL every 5 mins
