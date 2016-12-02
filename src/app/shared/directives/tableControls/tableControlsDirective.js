@@ -3,13 +3,13 @@
 angular.module('liveopsConfigPanel')
   /** table-controls element directive
    * Component to generate set of controls for a resource table, including search bar, create buttons, actions buttons, columns filter, and title
-   * 
+   *
    * Accepted config values:
    * * fields (array of objects): The config items for the columns. Config for headers accepts:
    *     - checked (boolean): Whether to show the column. Defaults to true
    *     - header (object): The config for the header of the column
    *         * display (string): The column title. Defaults to undefined
-   * 
+   *
    *  * helpLink (string): The URL for the help link icon. Defaults to undefined, and the help icon is hidden.
    *  * showBulkActions (boolean): Whether to show the 'Actions' button and checkbox column. Defaults to true
    *  * showCreate (boolean): Whether to show the 'Create' button. Defaults to true
@@ -24,7 +24,8 @@ angular.module('liveopsConfigPanel')
         scope: {
           config: '=', //Config object. See above for accepted values
           items: '=', //Source list of items to be added to the table
-          searchQuery: '=' //Expose the text entered in the search bar
+          searchQuery: '=', //Expose the text entered in the search bar
+          greaterOrLessThan: '=?' //Expose the greaterOrLessThan inputs
         },
         templateUrl: 'app/shared/directives/tableControls/tableControls.html',
         transclude: true,
@@ -39,7 +40,17 @@ angular.module('liveopsConfigPanel')
             $scope.showBulkActions = angular.isDefined($scope.config.showBulkActions) ? $scope.config.showBulkActions : true;
             $scope.showSearch = angular.isDefined($scope.config.showSearch) ? $scope.config.showSearch : true;
             $scope.showCreate = angular.isDefined($scope.config.showCreate) ? $scope.config.showCreate : true;
+
+            if ($scope.config.greaterOrLessThan) {
+              $scope.greaterOrLessThan = {
+                'comparison': '>'
+              };
+              if ($scope.config.greaterOrLessThan.units) {
+                $scope.greaterOrLessThan.unit = $scope.config.greaterOrLessThan.units[0];
+              }
+            }
           });
+
 
           $scope.$on('dropdown:item:checked', function() {
             //Save the user's preferred column config

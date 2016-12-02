@@ -59,6 +59,7 @@
     <tr ng-repeat="item in (filtered = (items |
         selectedTableOptions:config.fields |
         search:config.searchOn:searchQuery |
+        greaterOrLessThanFilter:config.greaterOrLessThan.path:greaterOrLessThan.comparison:greaterOrLessThan.value:greaterOrLessThan.unit.value |
         orderBy:orderBy:reverseSortOrder))"
       ng-init="item.$index = $index"
       ng-class="{selected: item === selected, 'lo-highlight': item === selected}">

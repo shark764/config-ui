@@ -6,6 +6,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 * CXV1-5605 - Fixed Firefox bug with dropdown menu appearing behind widgets  
 * CXV1-6543 - Fixed bug: Cannot change dispatch mapping - submit button stays greyed out
 * Bumping flow designer
+* CXV1-5536 - Added new page for interactions in conversation
 
 ## [4.7.0]
 * CXV1-6491 - Got recordings page and app dock to automatically refresh audio URL every 5 mins

@@ -358,6 +358,13 @@ angular.module('liveopsConfigPanel')
             id: 'reports-management-link',
             order: 3
           });
+
+          items.push({
+            label: $translate.instant('navbar.reports.silentMonitoring.title'),
+            stateLink: 'content.reporting.silentMonitoring',
+            id: 'silent-monitoring-link',
+            order: 4
+          });
         }
 
         if (UserPermissions.hasPermissionInList(PermissionGroups.viewRecordings)) {

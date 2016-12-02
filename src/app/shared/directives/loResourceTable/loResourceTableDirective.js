@@ -30,6 +30,12 @@ angular.module('liveopsConfigPanel')
    *       }]
    *     can search complex object like {description: 'The Platform User', skills: [{id: 1234, name: 'Skill 1'}, {id: 5432, name: 'A Skill'}]}
    *     See 'search' filter for more info
+   *  * greaterOrLessThan (object): The config of the greaterOrLessThan filter:
+   *      - display (string): The title of the button
+   *      - path (string): The property to be used by the filter
+   *      - units (array of objects): Optional list of units to be used as a multiplier to the value comparing.
+   *        * display (string): Display value of option
+   *        * value (string): Multiplier of value when comparing
    *  * orderBy (string): The default property used to order the items. Defaults to undefined, and items are ordered as given by the items attribute
    *  * resourceKey (string): The property on the items to be used as their ID for the URL params. Defaults to 'id'
    *  * reverseSort (boolean): When true, items will be displayed in descending order based on the orderBy field. Defaults to false (items displayed in ascending order)
@@ -37,7 +43,6 @@ angular.module('liveopsConfigPanel')
    *  * stateKey (string): The name of the URL param that identifies an item. Defaults to 'id'
    *  * sref (string): Optional name of the state to go to when clicking a table row. Defaults to undefined
    */
-
   .directive('loResourceTable', ['$rootScope', '$filter', '$location', '$parse', 'loEvents', 'DirtyForms',
     function($rootScope, $filter, $location, $parse, loEvents, DirtyForms) {
       return {
@@ -46,6 +51,7 @@ angular.module('liveopsConfigPanel')
           config: '=', //Config object. See above for accepted values
           items: '=', //Source list of items to be added to the table
           searchQuery: '=?', // (string) Optional search string passed to search filter for items. Matches determined by 'config.searchOn'
+          greaterOrLessThan: '=?', // Optional filter object passed to filter items. Matches determined by 'config.searchOn'
           selected: '=' //Expose the currently selected table item
         },
         templateUrl: 'app/shared/directives/loResourceTable/loResourceTable.html',
