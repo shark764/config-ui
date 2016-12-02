@@ -494,6 +494,8 @@
   "tenant.details.timezone": "Timezone",
   "tenant.details.timezone.required": "Please select a timezone",
   "tenant.details.timezone.placeholder": "Select timezone...",
+  "tenant.details.region.required": "Please select a region",
+  "tenant.details.region.placeholder": "Select region...",
   "tenant.details.disable.confirm": "This will disable this tenant. Do you want to continue?",
   "tenant.details.enable.confirm": "This will enable this tenant. Do you want to continue?",
   "tenant.table.title": "Tenant Management",

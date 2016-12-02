@@ -9,6 +9,10 @@ angular.module('liveopsConfigPanel')
         $scope.timezones = Timezone.query();
       };
 
+      vm.loadRegions = function() {
+        $scope.regions = Region.query();
+      };
+
       vm.loadTenants = function () {
         if (UserPermissions.hasPermissionInList(PermissionGroups.accessAllTenants)) {
           //User has permission to view all tenants on the platform
@@ -147,5 +151,6 @@ angular.module('liveopsConfigPanel')
 
       vm.loadTenants();
       vm.loadTimezones();
+      vm.loadRegions();
     }
   ]);
