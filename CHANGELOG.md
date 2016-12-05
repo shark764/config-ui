@@ -4,7 +4,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 * CXV1-5465 - Fixed bug: Tenant names in navbar not updating on edit
-* CXV1-5029 - Fixed bug: Dispositions List shows error in Developor Tools
+* CXV1-5469 - Fixed bug: Disabled reasons lists should not show when adding to a group
+* CXV1-5029 - Fixed bug: Dispositions List shows error in Developer Tools
 * CXV1-5605 - Fixed Firefox bug with dropdown menu appearing behind widgets  
 * CXV1-6543 - Fixed bug: Cannot change dispatch mapping - submit button stays greyed out
 * Bumping flow designer

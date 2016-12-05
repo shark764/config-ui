@@ -86,10 +86,6 @@ angular.module('liveopsConfigPanel')
           };
 
           $scope.remove = function (groupReasonList) {
-
-            console.log("Group reason list:", groupReasonList)
-
-
             var tgu = new TenantGroupReasonList({
               groupId: $scope.group.id,
               reasonListId: groupReasonList.id,
@@ -128,7 +124,9 @@ angular.module('liveopsConfigPanel')
               groupId: $scope.group.id
             }, $scope.reset);
 
-            $q.all([$scope.fetchReasonLists().$promise, $scope.groupReasonLists.$promise]).then(function () {
+            $q.all([
+              $scope.fetchReasonLists().$promise, $scope.groupReasonLists.$promise
+            ]).then(function () {
 
               $timeout(function () {
                 $scope.updateCollapseState(tagWrapper.height());
@@ -152,14 +150,19 @@ angular.module('liveopsConfigPanel')
           });
 
           $scope.filterReasonLists = function(item) {
-            var matchingLists = $scope.groupReasonLists.filter(function(reasonList) {
-              return reasonList.id === item.id;
-            });
+            var matchingLists = [];
+
+            if ($scope.groupReasonLists) {
+              matchingLists = $scope.groupReasonLists.filter(function(reasonList) {
+                return reasonList.id === item.id;
+              });
+            }
+
             return matchingLists.length === 0;
           };
 
           $scope.removeDefaultReasons = function(item) {
-            return !item.isDefault;
+            return !item.isDefault && item.active === true;
           };
 
           $scope.onEnter = function(){
