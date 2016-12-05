@@ -11,16 +11,17 @@ angular.module('liveopsConfigPanel')
         if (unit) {
           unitMultiplier = unit;
         }
-        if (comparison == '>') {
-          for (var i = 0; i < items.length; i++) {
-            var item = items[i];
+        var i, item;
+        if (comparison === '>') {
+          for (i = 0; i < items.length; i++) {
+            item = items[i];
             if (item[property] >= value * unitMultiplier) {
               filtered.push(item);
             }
           }
-        } else if (comparison == '<') {
-          for (var i = 0; i < items.length; i++) {
-            var item = items[i];
+        } else if (comparison === '<') {
+          for (i = 0; i < items.length; i++) {
+            item = items[i];
             if (item[property] <= value * unitMultiplier) {
               filtered.push(item);
             }
@@ -31,5 +32,5 @@ angular.module('liveopsConfigPanel')
         }
         return filtered;
       }
-    }
+    };
   });

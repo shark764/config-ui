@@ -53,7 +53,7 @@ angular.module('liveopsConfigPanel')
 
       vm.itemEdit = function (item) {
         if(item.tenantId === Session.tenant.tenantId) {
-          return item.$edit = !item.$edit;
+          return (item.$edit = !item.$edit);
         }
 
         return false;

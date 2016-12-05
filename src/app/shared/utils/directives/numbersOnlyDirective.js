@@ -5,24 +5,23 @@ angular.module('liveopsConfigPanel')
     return {
         require: 'ngModel',
         link: function (scope, element, attr, ngModelCtrl) {
-            function fromUser(text) {
-                if (text) {
-                  try {
-                    var transformedInput = text.replace(/[^0-9]|\s/g, '');
+          function fromUser(text) {
+            var transformedInput;
+            if (text) {
+              try {
+                transformedInput = text.replace(/[^0-9]|\s/g, '');
 
-                    if (transformedInput !== text) {
-                        ngModelCtrl.$setViewValue(transformedInput);
-                        ngModelCtrl.$render();
-                    }
-                  } catch(err) {
-                    transformedInput = '';
-                  }
-
-                  return transformedInput;
+                if (transformedInput !== text) {
+                    ngModelCtrl.$setViewValue(transformedInput);
+                    ngModelCtrl.$render();
                 }
-                return undefined;
+              } catch(err) {
+                transformedInput = '';
+              }
             }
-            ngModelCtrl.$parsers.push(fromUser);
+            return transformedInput;
+          }
+          ngModelCtrl.$parsers.push(fromUser);
         }
     };
 });

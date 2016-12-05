@@ -10,7 +10,7 @@ angular.module('liveopsConfigPanel')
         scope: {
           config: '='
         },
-        link: function (scope, attr, elem) {
+        link: function (scope) {
           var getRecordingUrl;
 
           scope.isLoading = true;
@@ -49,7 +49,7 @@ angular.module('liveopsConfigPanel')
 
                   if (messageFromData.lastName) {
                     if (messageFromData.firstName) {
-                      return fromNameString + ' ' + messageFromData.lastName
+                      return fromNameString + ' ' + messageFromData.lastName;
                     } else {
                       fromNameString = messageFromData.lastName;
                     }
@@ -109,7 +109,7 @@ angular.module('liveopsConfigPanel')
             }, function (err) {
               return err;
             });
-          };
+          }
 
           function tenantTimezone () {
             var tenant = Tenant.cachedGet({
@@ -119,7 +119,7 @@ angular.module('liveopsConfigPanel')
             return $q.when(tenant.$promise).then(function (tenantData) {
               scope.TimezoneValHolder.tenantTimezone = tenantData.timezone;
             });
-          };
+          }
 
           scope.$on('appDockDataLoaded', function () {
             $interval.cancel(getRecordingUrl);

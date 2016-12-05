@@ -25,7 +25,7 @@ angular.module('liveopsConfigPanel')
         });
       };
 
-      $q.when($scope.fetchMedias().$promise).then(function (response) {
+      $q.when($scope.fetchMedias().$promise).then(function () {
         MediaSvc.getListSourceName($scope.fetchMedias());
       });
 
@@ -86,10 +86,10 @@ angular.module('liveopsConfigPanel')
 
           $scope.selectedMedia.secondScope = null;
           $scope.showSecondPanel = false;
-        };
+        }
       });
 
-      $scope.$on('resource:details:create:Media', function (event, data) {
+      $scope.$on('resource:details:create:Media', function () {
         $scope.showSecondPanel = true;
         $scope.forms.mediaFormAddl.$setPristine();
         $scope.forms.mediaFormAddl.$setUntouched();

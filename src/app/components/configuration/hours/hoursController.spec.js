@@ -53,7 +53,7 @@ describe('hoursController', function() {
     };
 
     $rootScope.$broadcast(loEvents.tableControls.itemCreate);
-    $scope.$digest()
+    $scope.$digest();
     $httpBackend.flush();
     $httpBackend.expect('GET', apiHostname + '/v1/tenants/tenant-id').respond(200);
 

@@ -11,7 +11,7 @@ angular.module('liveopsConfigPanel')
           media: '=',
           bypassReset: '='
         },
-        link: function (scope, element, attr, ctrl) {
+        link: function (scope, element) {
           var selectedId;
 
           compileTemplate(false);
@@ -19,11 +19,12 @@ angular.module('liveopsConfigPanel')
           function compileTemplate(watch) {
             $templateRequest('app/components/flows/media/mediaLists/mediaLists.html').then(function (html) {
               // execute slightly different code if we're compiling based on a $watch
+              var template;
               if (watch) {
                 var htmlTemp = html;
-                var template = angular.element(htmlTemp);
+                template = angular.element(htmlTemp);
               } else {
-                var template = angular.element(html);
+                template = angular.element(html);
                 element.append(template);
               }
 
@@ -39,7 +40,7 @@ angular.module('liveopsConfigPanel')
                 }
               });
             });
-          };
+          }
 
           if (!scope.list.source) {
             scope.addBtnEnabled = false;
@@ -50,7 +51,7 @@ angular.module('liveopsConfigPanel')
 
           function setAddBtn(mediaList, removal) {
             if (mediaList.length > 0) {
-              _.forEach(mediaList, function (val, key) {
+              _.forEach(mediaList, function (val) {
                 if (angular.isUndefined(val) || _.isEmpty(val) && mediaList.length > 0) {
                   scope.addBtnEnabled = false;
                 } else {
@@ -63,7 +64,7 @@ angular.module('liveopsConfigPanel')
                 scope.addBtnEnabled = true;
               }
             }
-          };
+          }
 
           scope.fetchMedias = function () {
             return Media.cachedQuery({
@@ -81,7 +82,7 @@ angular.module('liveopsConfigPanel')
                 }
               });
             }
-          };
+          }
 
           scope.addListItem = function () {
             if (scope.addBtnEnabled) {
@@ -148,7 +149,7 @@ angular.module('liveopsConfigPanel')
             };
           };
 
-          $rootScope.$on('closeAddlPanel', function (event, data) {
+          $rootScope.$on('closeAddlPanel', function () {
             setAddBtn(scope.list.source);
           });
 
@@ -181,7 +182,7 @@ angular.module('liveopsConfigPanel')
             });
           };
 
-          scope.$on(loEvents.tableControls.itemSelected, function (event) {
+          scope.$on(loEvents.tableControls.itemSelected, function () {
             compileTemplate(true);
           });
         }

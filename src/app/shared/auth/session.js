@@ -11,8 +11,8 @@
 
 // this will suffice in beta however.
 angular.module('liveopsConfigPanel')
-  .service('Session', ['sessionKey', 'preferenceKey', '$translate', '$filter', '$rootScope', 'loEvents', 'lodash',
-    function(sessionKey, preferenceKey, $translate, $filter, $rootScope, loEvents, lodash) {
+  .service('Session', ['sessionKey', 'preferenceKey', '$translate', '$filter', '$rootScope', 'loEvents',
+    function(sessionKey, preferenceKey, $translate, $filter, $rootScope, loEvents) {
       var self = this;
 
       this.userSessionKey = sessionKey;

@@ -27,6 +27,7 @@
     "Handlebars": false,
     "console": false,
     "document": false,
+    "MutationObserver": false,
     "angular": false,
     // Angular Mocks
     "inject": false,
@@ -42,7 +43,6 @@
     "beforeEach": false,
     "after": false,
     "afterEach": false,
-    "g": false,
     "expect": false,
     "describe": false,
     "jasmine": false,

@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('ReportsController', ['$scope', '$sce', '$http', 'Session', 'Report', '$state', 'BIRST_URL', '$timeout', '$translate', 'appFlags',
-    function ($scope, $sce, $http, Session, Report, $state, BIRST_URL, $timeout, $translate, appFlags) {
+  .controller('ReportsController', ['$scope', '$sce', '$http', 'Session', 'Report', '$state', 'BIRST_URL', '$timeout', '$translate', '$window',
+    function ($scope, $sce, $http, Session, Report, $state, BIRST_URL, $timeout, $translate, $window) {
       $scope.birst = {};
       $scope.dashboardReady = false;
       $scope.birst.message = $translate.instant('reports.default');
@@ -19,12 +19,12 @@ angular.module('liveopsConfigPanel')
           // parse out just the domain with no subdomain
           var domainOnly;
           // if there is a domain suffix, split it up to grab the domain only
-          if (window.location.hostname.split('.').length > 2) {
-            domainOnly = window.location.hostname.split('.').slice(1).join('.');
+          if ($window.location.hostname.split('.').length > 2) {
+            domainOnly = $window.location.hostname.split('.').slice(1).join('.');
           } else {
             // otherwise (as in the case of 'localhost', just get the hostname)
-            domainOnly = window.location.hostname;
-          };
+            domainOnly = $window.location.hostname;
+          }
           document.domain = domainOnly;
         });
       });

@@ -12,5 +12,5 @@ angular.module('liveopsConfigPanel')
         type: '@',
         level: '='
       }
-    }
+    };
   });

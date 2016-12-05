@@ -5,7 +5,7 @@ angular.module('liveopsConfigPanel')
     function($rootScope, $scope, $q, $translate, Session, _, Alert, GlobalRegionsList) {
       var vm = this;
       $scope.newExtension = {};
-      $scope.twilioRegions = GlobalRegionsList
+      $scope.twilioRegions = GlobalRegionsList;
 
       function flagFormsAsClosed () {
         vm.editingExtension = null;
@@ -29,7 +29,7 @@ angular.module('liveopsConfigPanel')
         }).then(function(tenantUser) {
           vm.resetExtension();
           Alert.success($translate.instant('details.extensions.success'));
-          return tenantUser
+          return tenantUser;
         }, function(response) {
           if(response.data.error.attribute.activeExtension) {
             Alert.error(response.data.error.attribute.activeExtension);
@@ -56,12 +56,11 @@ angular.module('liveopsConfigPanel')
           $scope.tenantUser.reset();
           return $q.reject(response);
         });
-        flagFormsAsClosed();
       };
 
-      vm.cancelEditExtension = function (extensionVal) {
+      vm.cancelEditExtension = function () {
         flagFormsAsClosed();
-      }
+      };
 
       $scope.add = function() {
         $scope.tenantUser.activeExtension = $scope.tenantUser.extensions[0];

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('dncListsTableConfig', ['statuses', '$translate', 'UserPermissions', 'helpDocsHostname', function(statuses, $translate, UserPermissions, helpDocsHostname) {
+  .service('dncListsTableConfig', ['statuses', '$translate', 'UserPermissions', function(statuses, $translate, UserPermissions) {
     return {
       'fields': [{
         'header': {
@@ -44,7 +44,5 @@ angular.module('liveopsConfigPanel')
       'showBulkActions': function () {
         return UserPermissions.hasPermission('MANAGE_CAMPAIGNS');
       }
-      // Still awaiting DNC List docs, so commenting out
-      //'helpLink' : helpDocsHostname + '/Help/Content/Configuring%20CxEngage/Business%20Hours/Business_Hours.htm'
     };
   }]);

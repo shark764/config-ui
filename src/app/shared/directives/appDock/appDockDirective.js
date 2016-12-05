@@ -10,7 +10,7 @@ angular.module('liveopsConfigPanel')
           ngResource: '=',
           toolbarStatus: '='
         },
-        link: function (scope, attrs, elem, controller) {
+        link: function (scope, attrs, elem) {
           // feature flag to temporarily suppress the appdock
           if (!appFlags.APPDOCK) {
             return;
@@ -48,7 +48,7 @@ angular.module('liveopsConfigPanel')
             resetAgentToolbarPosition();
           };
 
-          window.addApp = function (app) {
+          $window.addApp = function (app) {
             scope.apps = [];
             scope.showAppDock = true;
             scope.showApps = true;

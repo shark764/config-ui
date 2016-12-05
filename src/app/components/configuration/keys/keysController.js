@@ -86,7 +86,7 @@ angular.module('liveopsConfigPanel')
         } else {
           angular.element('#key-sid').attr('type', 'text');
         }
-      }
+      };
 
       $scope.confirmDeleteKey = function() {
         Modal.showConfirm({

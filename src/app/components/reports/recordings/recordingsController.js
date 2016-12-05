@@ -17,7 +17,7 @@ angular.module('liveopsConfigPanel')
           // first off, rewind audio every time a new recording is selected
           audioPlayer.onloadeddata = function () {
             audioPlayer.currentTime = 0;
-          }
+          };
 
           // the interval we're setting here is to poll the API for
           // an automatically updated recording URL
@@ -52,13 +52,13 @@ angular.module('liveopsConfigPanel')
                   // the beginning of the playback, then skip back to that point
                   audioPlayer.onloadeddata = function () {
                     audioPlayer.currentTime = audioCurrentTime;
-                  }
+                  };
                 }
               });
             }
           }, 300000);
         }
-      };
+      }
 
       vm.filterObject = function (params, predicate) {
         var newParam = {};

@@ -12,7 +12,7 @@ angular.module('liveopsConfigPanel')
     vm.groups = Group.cachedQuery({tenantId: Session.tenant.tenantId});
     vm.users = TenantUser.cachedQuery({tenantId: Session.tenant.tenantId});
 
-    $q.all([vm.skills.$promise, vm.groups.$promise, vm.users.$promise]).then(function(values) {
+    $q.all([vm.skills.$promise, vm.groups.$promise, vm.users.$promise]).then(function() {
       vm.loading = false;
     });
 

@@ -17,7 +17,7 @@ angular.module('liveopsConfigPanel')
         }
 
         return convertedDate;
-      };
+      }
 
       function convertDateFromMySqlFormat(date) {
         if (date !== null) {
@@ -28,7 +28,7 @@ angular.module('liveopsConfigPanel')
         } else {
           return '';
         }
-      };
+      }
 
       dnc.updateActive = function () {
         var dncListcopy = new DncLists({
@@ -91,7 +91,7 @@ angular.module('liveopsConfigPanel')
             dnc.duplicateError = true;
             dnc.duplicateErrorMessage = err.data.error.attribute.name.capitalize();
           }
-        })
+        });
       };
 
       // individual list not being used at this time,
@@ -111,7 +111,7 @@ angular.module('liveopsConfigPanel')
         ]).add('2', 'days');
         var today = new Date(newUTCDate);
         return $moment(today).format('YYYY-MM-DD');
-      };
+      }
 
       dnc.provideDateTomorrow = provideDateTomorrow();
 

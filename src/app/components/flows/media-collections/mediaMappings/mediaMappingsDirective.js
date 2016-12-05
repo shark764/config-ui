@@ -11,7 +11,7 @@ angular.module('liveopsConfigPanel')
           bypassMultipicker: '='
         },
         templateUrl: 'app/components/flows/media-collections/mediaMappings/mediaMappings.html',
-        link: function (scope, element) {
+        link: function (scope) {
           scope.fetchMedias = function () {
             return Media.cachedQuery({
               tenantId: Session.tenant.tenantId
@@ -29,7 +29,7 @@ angular.module('liveopsConfigPanel')
                 scope.bypassMultipicker = false;
               } else {
                 scope.mediaPaneOpen = false;
-              };
+              }
               scope.$apply();
             });
           });
