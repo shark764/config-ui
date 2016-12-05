@@ -18,11 +18,14 @@ angular.module('liveopsConfigPanel')
           $scope.possibleDispos.$promise.then(function(dispos) {
             $scope.possibleDispos = dispos.filter(function(possibleDispo) {
               var found = false;
-              $scope.dispositionList.forEach(function(dispo) {
-                if (dispo.dispositionId === possibleDispo.id || dispo.reasonId === possibleDispo.id) {
-                  found = true;
-                }
-              });
+              if ($scope.dispositionList) {
+                $scope.dispositionList.forEach(function(dispo) {
+                  if (dispo.dispositionId === possibleDispo.id || dispo.reasonId === possibleDispo.id) {
+                    found = true;
+                  }
+                });
+              }
+
               return !found;
             }).sort(function(a, b) {
               var A = a.name.toLowerCase();
@@ -43,11 +46,14 @@ angular.module('liveopsConfigPanel')
           $scope.possibleDispos.$promise.then(function(reasons) {
             $scope.possibleDispos = reasons.filter(function(possibleReason) {
               var found = false;
-              $scope.dispositionList.forEach(function(reason) {
-                if (reason.reasonId === possibleReason.id) {
-                  found = true;
-                }
-              });
+              if ($scope.dispositionList) {
+                $scope.dispositionList.forEach(function(reason) {
+                  if (reason.reasonId === possibleReason.id) {
+                    found = true;
+                  }
+                });
+              }
+
               return !found;
             }).sort(function(a, b) {
               var A = a.name.toLowerCase();
