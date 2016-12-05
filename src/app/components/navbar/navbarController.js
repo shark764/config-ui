@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('NavbarController', ['$rootScope', '$scope', '$state', 'AuthService', 'Session', 'DirtyForms', '$translate', 'UserPermissions', 'PermissionGroups', '$window', 'helpDocsHostname', 'appFlags',
-    function($rootScope, $scope, $state, AuthService, Session, DirtyForms, $translate, UserPermissions, PermissionGroups, $window, helpDocsHostname, appFlags) {
+  .controller('NavbarController', ['$rootScope', '$scope', '$state', 'AuthService', 'Session', 'DirtyForms', '$translate', 'UserPermissions', 'PermissionGroups', '$window', 'helpDocsHostname', 'appFlags', 'loEvents',
+    function($rootScope, $scope, $state, AuthService, Session, DirtyForms, $translate, UserPermissions, PermissionGroups, $window, helpDocsHostname, appFlags, loEvents) {
       var vm = this;
       $scope.hovering = false;
       $scope.Session = Session;
@@ -88,12 +88,14 @@ angular.module('liveopsConfigPanel')
         }
       ];
 
+      $scope.$on(loEvents.session.tenants.updated, $scope.populateTenantsHandler);
       $scope.$on('resource:create', $scope.onCreateClick);
       $scope.$on('resource:actions', $scope.onActionsClick);
       $rootScope.$on('readAllMode', function() {
         $scope.updateTopbarConfig();
       });
-      $scope.$watch('Session.tenants', $scope.populateTenantsHandler);
+
+      $scope.populateTenantsHandler();
 
       vm.getManagementConfig = function() {
         var items = [];

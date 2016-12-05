@@ -9,6 +9,7 @@ describe('NavbarController', function() {
     $controller,
     $httpBackend,
     Session,
+    loEvents,
     apiHostname,
     mockTenants;
 
@@ -17,8 +18,8 @@ describe('NavbarController', function() {
   beforeEach(module('liveopsConfigPanel.mock'));
   beforeEach(module('liveopsConfigPanel.tenant.mock'));
 
-  beforeEach(inject(['$rootScope', '$state', '$controller', '$httpBackend', 'Session', 'apiHostname', 'mockTenants',
-    function(_$rootScope, _$state, _$controller, _$httpBackend, _Session, _apiHostname, _mockTenants) {
+  beforeEach(inject(['$rootScope', '$state', '$controller', '$httpBackend', 'Session', 'apiHostname', 'mockTenants', 'loEvents',
+    function(_$rootScope, _$state, _$controller, _$httpBackend, _Session, _apiHostname, _mockTenants, _loEvents) {
       $rootScope = _$rootScope;
       $scope = $rootScope.$new();
       $state = _$state;
@@ -27,6 +28,7 @@ describe('NavbarController', function() {
       apiHostname = _apiHostname;
       mockTenants = _mockTenants;
       Session = _Session;
+      loEvents = _loEvents;
     }
   ]));
 
@@ -67,6 +69,7 @@ describe('NavbarController', function() {
       Session.token = 'abc';
       Session.tenants = mockTenants;
       spyOn($state, 'go');
+      spyOn($scope, '$on');
       $controller('NavbarController', {
         '$scope': $scope
       });
@@ -76,6 +79,10 @@ describe('NavbarController', function() {
       expect(Session.tenants).toBeDefined();
       expect(Session.tenants.length).toEqual(2);
     }));
+
+    it('should attach populateTenantsHandler as a callback on tenants update event', function () {
+      expect($scope.$on).toHaveBeenCalledWith(loEvents.session.tenants.updated, $scope.populateTenantsHandler);
+    });
 
     it('should select the first tenant retrieved as the active tenant if no tenant is set in the Session', function() {
       expect(Session.tenant.tenantId).toBe(mockTenants[0].id);

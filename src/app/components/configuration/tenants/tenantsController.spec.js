@@ -127,12 +127,4 @@ describe('TenantsController', function() {
 
     expect(AuthService.refreshTenants).not.toHaveBeenCalled();
   }));
-
-  it('should refresh the tenants if user updates a tenant', inject(function(AuthService) {
-    spyOn(AuthService, 'refreshTenants');
-    $scope.$broadcast('updated:resource:Tenant');
-    $scope.$digest();
-
-    expect(AuthService.refreshTenants).toHaveBeenCalled();
-  }));
 });
