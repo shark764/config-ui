@@ -11,8 +11,8 @@
 
 // this will suffice in beta however.
 angular.module('liveopsConfigPanel')
-  .service('Session', ['sessionKey', 'preferenceKey', '$translate', '$filter',
-    function(sessionKey, preferenceKey, $translate, $filter) {
+  .service('Session', ['sessionKey', 'preferenceKey', '$translate', '$filter', '$rootScope', 'loEvents', 'lodash',
+    function(sessionKey, preferenceKey, $translate, $filter, $rootScope, loEvents, lodash) {
       var self = this;
 
       this.userSessionKey = sessionKey;
@@ -92,7 +92,7 @@ angular.module('liveopsConfigPanel')
         this.tenant = null;
         this.tenants = null;
         this.platformPermissions = null;
-
+        this.destroyListeners();
         localStorage.removeItem(this.userSessionKey);
       };
 
@@ -144,6 +144,50 @@ angular.module('liveopsConfigPanel')
         }));
       };
 
+      this.updateTenantProperty = function (property, tenantId, newValue) {
+        var changeFlag = false;
+
+        if (self.tenant && self.tenant.tenantId === tenantId && self.tenant[property] !== newValue) {
+          self.tenant[property] = newValue;
+          changeFlag = true;
+        }
+
+        if (Array.isArray(self.tenants)) {
+          self.tenants = self.tenants.map(function (tenant) {
+            if (tenant.tenantId === tenantId && tenant[property] !== newValue) {
+              tenant[property] = newValue;
+              $rootScope.$broadcast(loEvents.session.tenants.updated);
+              changeFlag = true;
+            }
+            return tenant;
+          });
+        }
+
+        if (changeFlag) {
+          self.flush();
+        }
+      };
+
+      this.listenerDestroyers = [];
+
+      this.setListeners = function () {
+        self.listenerDestroyers.push(
+          $rootScope.$on(
+            loEvents.resource.updated + ':Tenant',
+            function (event, updatedTenant) {
+              self.updateTenantProperty('tenantName', updatedTenant.id, updatedTenant.name);
+            }
+          )
+        );
+      };
+
+      this.destroyListeners = function () {
+        self.listenerDestroyers.forEach(function(listenerDestroyer) {
+          listenerDestroyer();
+        });
+      };
+
       this.restore();
+      this.setListeners();
     }
   ]);

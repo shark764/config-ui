@@ -86,10 +86,6 @@ angular.module('liveopsConfigPanel')
         }
       });
 
-      $scope.$on('updated:resource:Tenant', function () {
-        AuthService.refreshTenants();
-      });
-
       function getTenantRegionDisplay(tenant) {
         var deferred = $q.defer();
 
@@ -105,7 +101,7 @@ angular.module('liveopsConfigPanel')
         });
 
         return deferred.promise;
-      };
+      }
 
 
       $scope.$watch('selectedTenant', function (newVal) {

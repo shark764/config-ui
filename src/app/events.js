@@ -14,5 +14,13 @@ angular.module('liveopsConfigPanel')
     },
     state: {
       changeCanceled: 'loStateChangeCanceled'
+    },
+    resource: {
+      updated: 'updated:resource'
+    },
+    session: {
+      tenants: {
+        updated: 'session:tenants:updated'
+      }
     }
   });
