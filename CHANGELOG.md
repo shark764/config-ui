@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+* CXV1-6386 - Fixed bug: Recordings page, need to prevent start date from being set to after end date in search filter
 * CXV1-5465 - Fixed bug: Tenant names in navbar not updating on edit
 * CXV1-5469 - Fixed bug: Disabled reasons lists should not show when adding to a group
 * CXV1-5029 - Fixed bug: Dispositions List shows error in Developer Tools

@@ -71,6 +71,10 @@ angular.module('liveopsConfigPanel')
         return newParam;
       };
 
+      vm.getDateToday = function () {
+        return $moment().format('YYYY-MM-DD');
+      };
+
       vm.massageFilters = function () {
         if (!$moment.isMoment($scope.filters.startDate) || !$moment.isMoment($scope.filters.endDate)) {
           $scope.filters.startDate = $moment($scope.filters.startDate);
