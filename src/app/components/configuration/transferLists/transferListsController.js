@@ -15,7 +15,7 @@ angular.module('liveopsConfigPanel')
     vm.disableDoneLink = false;
 
     vm.sortableOptions = {
-      update: function (e, ui) {
+      update: function () {
         $scope.forms.detailsForm.endpoints.$setDirty();
       },
       stop: function () {
@@ -32,8 +32,8 @@ angular.module('liveopsConfigPanel')
     function sortByCategoryName() {
       var sortedEndpoints = [];
 
-      _.map(vm.categories, function (categoryVal, categoryKey) {
-        _.each(vm.selectedTransferList.endpoints, function (endpointVal, endpointKey) {
+      _.map(vm.categories, function (categoryVal) {
+        _.each(vm.selectedTransferList.endpoints, function (endpointVal) {
           if (endpointVal.hierarchy === categoryVal) {
             sortedEndpoints.push(endpointVal);
           }
@@ -41,7 +41,7 @@ angular.module('liveopsConfigPanel')
       });
 
       delete vm.selectedTransferList.endpoints;
-      vm.selectedTransferList['endpoints'] = sortedEndpoints;
+      vm.selectedTransferList.endpoints = sortedEndpoints;
       vm.categories = listCategories(vm.selectedTransferList.endpoints, 'hierarchy');
     }
 
@@ -51,7 +51,7 @@ angular.module('liveopsConfigPanel')
       }
 
       return val.toString();
-    };
+    }
 
     function getFlowQueueData(currentCategory) {
       return $q.all([
@@ -82,8 +82,7 @@ angular.module('liveopsConfigPanel')
 
           return currentCategory;
         });
-    };
-
+    }
     function addTempIdx(endpointObj) {
       // add a temporary index to be used in lieu of a unique key
       // for the endpoints
@@ -94,26 +93,22 @@ angular.module('liveopsConfigPanel')
           _.merge(val, {
             tempIdx: key
           });
-        };
-
+        }
         return val;
       });
-    };
-
+    }
     function listCategories(endpoints, property) {
       vm.selectedTransferList.endpoints = addTempIdx(endpoints);
       var categories = _.map(vm.selectedTransferList.endpoints, property);
       return _.uniq(categories);
-    };
-
+    }
     function clearContactFormData () {
       vm.selectedContact = null;
       vm.openEditPanel = false;
       vm.newTransferList = false;
       $scope.forms.contactForm.$setPristine();
       $scope.forms.contactForm.$setUntouched();
-    };
-
+    }
     vm.checkContactType = function () {
       if (vm.selectedContact.contactType === 'queue' || vm.selectedContact.contactType === 'flow') {
         vm.selectedContact.transferType = 'internal';
@@ -166,8 +161,8 @@ angular.module('liveopsConfigPanel')
         vm.selectedContact.coldTransfer = convertToStr(vm.selectedContact.coldTransfer);
         $scope.forms.contactForm.$setPristine();
         $scope.forms.contactForm.$setUntouched();
-      })
-    }
+      });
+    };
 
     vm.fetchFlows = function () {
       return Flow.cachedQuery({
@@ -225,7 +220,7 @@ angular.module('liveopsConfigPanel')
       };
     };
 
-    vm.getEndpointsByHierarchy = function (categoryName, endpoints, bypass) {
+    vm.getEndpointsByHierarchy = function (categoryName, endpoints) {
       return _.filter(endpoints, function (val) {
         return categoryName === val.hierarchy;
       });
@@ -256,7 +251,7 @@ angular.module('liveopsConfigPanel')
 
       vm.categories = listCategories(vm.selectedTransferList.endpoints, 'hierarchy');
       $scope.forms.detailsForm.endpoints.$setDirty();
-    }
+    };
 
     vm.saveContact = function () {
       $q.all([
@@ -266,7 +261,7 @@ angular.module('liveopsConfigPanel')
         .then(function (values) {
           var flows = values[0];
           var queues = values[1];
-          vm.selectedContact['hierarchy'] = vm.selectedCategory;
+          vm.selectedContact.hierarchy = vm.selectedCategory;
           if (vm.selectedContact.contactType === 'queue' && typeof vm.selectedContact.endpoint === 'string') {
             vm.selectedContact.endpoint = queues.filter(function (queue) {
               return queue.name === vm.selectedContact.endpoint;
@@ -299,7 +294,7 @@ angular.module('liveopsConfigPanel')
           vm.openEditPanel = false;
 
           $scope.forms.detailsForm.$setDirty();
-        })
+        });
     };
 
     vm.submit = function () {

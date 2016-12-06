@@ -20,7 +20,7 @@ angular.module('liveopsConfigPanel')
             } else {
               return mediaTypes;
             }
-          }
+          };
 
           // clears out URL params so that we don't lose the
           // right panel if we're creating a brand new media list
@@ -43,7 +43,7 @@ angular.module('liveopsConfigPanel')
                 MediaSvc.getListSourceName($scope.medias);
               });
             }
-          };
+          }
 
           function saveMediaList(model, form, addNew) {
             // create an array of the media item ids
@@ -58,7 +58,7 @@ angular.module('liveopsConfigPanel')
             model.source = mediaSrcIdArr;
 
             saveMedia(model, addNew, mediaObjArr, form);
-          };
+          }
 
           function saveMedia(model, saveNew, responseData, form) {
             // delete this property off the selectedMedia scope, since
@@ -75,7 +75,7 @@ angular.module('liveopsConfigPanel')
 
             return model.save({
               restoreBackup: false
-            }, function (response) {
+            }, function () {
               Alert.success($translate.instant('value.saveSuccess'));
               $scope.duplicateError = false;
             }, function (err) {
@@ -116,8 +116,8 @@ angular.module('liveopsConfigPanel')
             // putting in defaults in case the media panel is used in
             // other parts of the application where submit function
             // does not have the model and form arguments
-            var model = model || $scope.selectedMedia;
-            var form = form || $scope.forms.mediaForm;
+            model = model || $scope.selectedMedia;
+            form = form || $scope.forms.mediaForm;
 
             if (model.type === 'list') {
               // special behavior for saving media lists
@@ -138,7 +138,7 @@ angular.module('liveopsConfigPanel')
                 method: 'POST',
                 file: model.$sourceAudioFile
               }).then(function (response) {
-                saveMedia(model, addNew, response, form)
+                saveMedia(model, addNew, response, form);
               });
             } else {
               saveMedia(model, addNew, null, form);

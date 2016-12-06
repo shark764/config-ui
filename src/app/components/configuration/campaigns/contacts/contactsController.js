@@ -2,8 +2,8 @@
 
 angular.module('liveopsConfigPanel')
   .controller('contactsController', [
-    '$scope', '$rootScope', '$translate', '$moment', '$q', 'Session', 'Contacts', 'contactsTableConfig', 'loEvents', 'Modal','Alert',
-    function ($scope, $rootScope, $translate, $moment, $q, Session, Contacts, contactsTableConfig, loEvents, Modal, Alert) {
+    '$scope', '$rootScope', '$translate', '$moment', '$q', 'Session', 'Contacts', 'contactsTableConfig', 'loEvents', 'Modal',
+    function ($scope, $rootScope, $translate, $moment, $q, Session, Contacts, contactsTableConfig, loEvents, Modal) {
 
       var con = this;
 
@@ -69,10 +69,8 @@ angular.module('liveopsConfigPanel')
       };
 
       con.submitContact = function(selectedContact){
-        console.log('submit');
+        console.log('submit', selectedContact);
       };
-
-
 
       con.contacts = [contact1, contact2, contact3];
 

@@ -151,7 +151,7 @@ angular.module('liveopsConfigPanel')
       vm.copySelectedVersion = function(version) {
         if(version.queryVersion === 2) {
           $rootScope.$emit('queue.query.reset');
-          ZermeloService.parseString(version.query)
+          ZermeloService.parseString(version.query);
         }
         vm.selectedQueueVersion = new QueueVersion({
           query: version.queryVersion === 2 ? ZermeloService.getQueryString() : version.query,

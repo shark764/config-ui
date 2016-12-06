@@ -25,7 +25,7 @@ angular.module('liveopsConfigPanel')
             console.error('-- ERROR -- Reporting API returned an error.',err);
             $scope.timer = $timeout($scope.poll, $scope.refreshRate);
           });
-      }
+      };
 
       $scope.poll();
     }

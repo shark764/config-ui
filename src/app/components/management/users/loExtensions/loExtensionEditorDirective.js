@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('loExtensionEditor', ['$rootScope', 'loExtensionProviders', 'loExtensionTypes', 'GlobalRegionsList', '$translate',  function($rootScope, loExtensionProviders, loExtensionTypes, GlobalRegionsList, $translate) {
+  .directive('loExtensionEditor', ['$rootScope', 'loExtensionProviders', 'loExtensionTypes', 'GlobalRegionsList',  function($rootScope, loExtensionProviders, loExtensionTypes, GlobalRegionsList) {
       return {
         restrict: 'E',
         require: '^form',
@@ -21,9 +21,9 @@ angular.module('liveopsConfigPanel')
           function getDefaultTwilioDesc (extensionList) {
             var defaultTwilioDesc = _.find(extensionList, {provider: 'twilio'});
             if (angular.isDefined(defaultTwilioDesc)) {
-              return defaultTwilioDesc.description
+              return defaultTwilioDesc.description;
             }
-          };
+          }
 
           var defaultTwilioDesc = getDefaultTwilioDesc($scope.allExtensions);
 

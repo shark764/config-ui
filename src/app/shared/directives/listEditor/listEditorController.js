@@ -4,7 +4,7 @@ angular.module('liveopsConfigPanel')
     .controller('listEditorController', ['$scope', '$timeout', '$translate', '_', 'Disposition', 'Reason', 'Session', function($scope, $timeout, $translate, _, Disposition, Reason, Session) {
 
       // $scope.dispositionList is used all over this controller, here is the shorthand reference
-      var list;
+      var list, i;
 
       // Originally written for disposition lists, then realized the same controls were needed for reason lists....so the variable names are dispo centric
       $scope.init = function() {
@@ -148,7 +148,9 @@ angular.module('liveopsConfigPanel')
           for (var i = nextIndex; i < list.length; i++) {
             if (angular.isDefined(list[i].hierarchy) && list[i].hierarchy[0] === $scope.selectedDispo.hierarchy[0]) {
               nextIndex = i;
-            } else break;
+            } else {
+              break;
+            }
           }
           list.splice(nextIndex + 1, 0, $scope.selectedDispo);
           list.splice(originalIndex, 1);
@@ -233,7 +235,7 @@ angular.module('liveopsConfigPanel')
               if (nextIndex + 1 === list.length) {
                 nextIndex++;
               }
-              for (var i = nextIndex + 1; i < list.length; i++) {
+              for (i = nextIndex + 1; i < list.length; i++) {
                 if (angular.isDefined(list[i].type) || $scope.selectedDispo.hierarchy[0] === list[i].hierarchy[0]) {
                   nextIndex = i;
                   break;
@@ -250,7 +252,7 @@ angular.module('liveopsConfigPanel')
             // SELECTED ITEM IS A CATEGORY
             // gather children into a unit and treat them as a single item
             var children = [$scope.selectedDispo];
-            for (var i = originalIndex + 1; i < list.length; i++) {
+            for (i = originalIndex + 1; i < list.length; i++) {
               nextIndex = i;
               if (angular.isDefined(list[i].hierarchy) && list[i].hierarchy[0] === $scope.selectedDispo.name) {
                 children.push(list[i]);
@@ -260,7 +262,7 @@ angular.module('liveopsConfigPanel')
             }
 
             if (list[nextIndex].type) {
-              for (var i = nextIndex + 1; i < list.length; i++) {
+              for (i = nextIndex + 1; i < list.length; i++) {
                 if (!angular.isDefined(list[i].hierarchy) || !list[i].hierarchy.length) {
                   break;
                 }
@@ -287,13 +289,17 @@ angular.module('liveopsConfigPanel')
           var nextIndex = originalIndex - 1;
 
           // If already at the top of the list, do nothing.
-          if (nextIndex === -1) return;
+          if (nextIndex === -1) {
+            return;
+          }
 
           if (angular.isDefined($scope.selectedDispo.hierarchy)) {
             // SELECTED ITEM IS AN ITEM
-            if ($scope.selectedDispo.hierarchy.length > 0 && angular.isDefined(list[nextIndex].type)) return;
+            if ($scope.selectedDispo.hierarchy.length > 0 && angular.isDefined(list[nextIndex].type)) {
+              return;
+            }
             if (angular.isDefined(list[nextIndex].hierarchy) && list[nextIndex].hierarchy[0] !== $scope.selectedDispo.hierarchy[0]) {
-              for (var i = nextIndex - 1; i >= 0; i--) {
+              for (i = nextIndex - 1; i >= 0; i--) {
                 if (angular.isDefined(list[i].type)) {
                   nextIndex = i;
                   break;
@@ -307,15 +313,17 @@ angular.module('liveopsConfigPanel')
             // SELECTED ITEM IS A CATEGORY
             // gather children into a unit and treat them as a single item
             var children = [$scope.selectedDispo];
-            for (var i = originalIndex + 1; i < list.length; i++) {
+            for (i = originalIndex + 1; i < list.length; i++) {
               if (angular.isDefined(list[i].hierarchy) && list[i].hierarchy[0] === $scope.selectedDispo.name) {
                 children.push(list[i]);
-              } else break;
+              } else {
+                break;
+              }
             }
 
             // item above me has a hierarchy, so its part of a different sublist
             if (angular.isDefined(list[nextIndex].hierarchy) && list[nextIndex].hierarchy.length) {
-              for (var i = nextIndex - 1; i >= 0; i--) {
+              for (i = nextIndex - 1; i >= 0; i--) {
                 if(angular.isDefined(list[i].type)) {
                   nextIndex = i;
                   break;

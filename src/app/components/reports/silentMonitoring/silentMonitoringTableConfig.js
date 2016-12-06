@@ -4,81 +4,81 @@ angular.module('liveopsConfigPanel')
   .service('silentMonitoringTableConfig', ['$translate',
     function ($translate) {
       return {
-        'fields': [{
-          'header': {
-            'display': $translate.instant('silentMonitoring.table.interactionId')
+        fields: [{
+          header: {
+            display: $translate.instant('silentMonitoring.table.interactionId')
           },
-          'name': 'interactionId'
+          name: 'interactionId'
         }, {
-          'header': {
-            'display': $translate.instant('silentMonitoring.table.agents')
+          header: {
+            display: $translate.instant('silentMonitoring.table.agents')
           },
-          'name': 'activeParticipants'
+          name: 'activeParticipants'
         }, {
-          'header': {
-            'display': $translate.instant('silentMonitoring.table.customerIdentification')
+          header: {
+            display: $translate.instant('silentMonitoring.table.customerIdentification')
           },
-          'name': 'customer'
+          name: 'customer'
         }, {
-          'header': {
-            'display': $translate.instant('silentMonitoring.table.contactPoint')
+          header: {
+            display: $translate.instant('silentMonitoring.table.contactPoint')
           },
-          'name': 'contactPoint',
+          name: 'contactPoint',
         }, {
-          'header': {
+          header: {
             'display': $translate.instant('silentMonitoring.table.flow')
           },
-          'name': 'flowId'
+          name: 'flowId'
         }, {
-          'header': {
+          header: {
             'display': $translate.instant('silentMonitoring.table.channel')
           },
-          'name': 'channelType',
-          'checked': false
+          name: 'channelType',
+          checked: false
         }, {
-          'header': {
-            'display': $translate.instant('silentMonitoring.table.direction')
+          header: {
+            display: $translate.instant('silentMonitoring.table.direction')
           },
-          'name': 'direction'
+          name: 'direction'
         }, {
-          'header': {
-            'display': $translate.instant('silentMonitoring.table.presenceState')
+          header: {
+            display: $translate.instant('silentMonitoring.table.presenceState')
           },
-          'name': 'state',
-          'checked': false
+          name: 'state',
+          checked: false
         }, {
-          'header': {
-            'display': $translate.instant('silentMonitoring.table.startDate')
+          header: {
+            display: $translate.instant('silentMonitoring.table.startDate')
           },
-          'name': 'conversationStartTimestamp | date:"mediumDate"',
-          'sortOn': 'conversationStartTimestamp',
-          'checked': false
+          name: 'conversationStartTimestamp | date:"mediumDate"',
+          sortOn: 'conversationStartTimestamp',
+          checked: false
         }, {
-          'header': {
-            'display': $translate.instant('silentMonitoring.table.startTime')
+          header: {
+            display: $translate.instant('silentMonitoring.table.startTime')
           },
-          'name': 'conversationStartTimestamp | date:"mediumTime"',
-          'sortOn': 'conversationStartTimestamp'
+          name: 'conversationStartTimestamp | date:"mediumTime"',
+          sortOn: 'conversationStartTimestamp'
         }, {
-          'header': {
-            'display': $translate.instant('silentMonitoring.table.currentStateDuration')
+          header: {
+            display: $translate.instant('silentMonitoring.table.currentStateDuration')
           },
-          'name': 'currentStateDuration | date:"HH:mm:ss": "UTC"',
-          'sortOn': 'currentStateDuration'
+          name: 'currentStateDuration | date:"HH:mm:ss": "UTC"',
+          sortOn: 'currentStateDuration'
         }, {
-          "header": {
-            "display": "Actions"
+          header: {
+            display: 'Actions'
           },
-          "linkText": "Monitor Call",
-          "actionLink": true,
-          "name": "action"
+          linkText: 'Monitor Call',
+          actionLink: true,
+          name: 'action'
         }],
-        'title': $translate.instant('silentMonitoring.table.title'),
-        'orderBy': 'activeParticipants',
-        'reverseSort': 'true',
-        'showBulkActions': false,
-        'showCreate': false,
-        'searchOn': [{
+        title: $translate.instant('silentMonitoring.table.title'),
+        orderBy: 'activeParticipants',
+        reverseSort: 'true',
+        showBulkActions: false,
+        showCreate: false,
+        searchOn: [{
           path: 'activeParticipants'
         }, {
           path: 'customer'
@@ -91,15 +91,15 @@ angular.module('liveopsConfigPanel')
         }, {
           path: 'direction'
         }],
-        'greaterOrLessThan': {
+        greaterOrLessThan: {
           display: $translate.instant('silentMonitoring.table.filter.duration'),
           path: 'currentStateDuration',
           units: [{
-            'display': $translate.instant('silentMonitoring.table.filter.durationUnit.min'),
-            'value': '60000'
+            display: $translate.instant('silentMonitoring.table.filter.durationUnit.min'),
+            value: '60000'
           }, {
-            'display': $translate.instant('silentMonitoring.table.filter.durationUnit.sec'),
-            'value': '1000'
+            display: $translate.instant('silentMonitoring.table.filter.durationUnit.sec'),
+            value: '1000'
           }]
         }
       };

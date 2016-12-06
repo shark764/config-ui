@@ -121,7 +121,7 @@ angular.module('liveopsConfigPanel')
           if (time > 0) {
             hours = addLeadingZeros(time);
           } else {
-            hours = '00'
+            hours = '00';
           }
         } else {
           // if it's not a number, make it one
@@ -189,7 +189,7 @@ angular.module('liveopsConfigPanel')
           setHours();
         }
 
-        csc.exceptions = []
+        csc.exceptions = [];
 
         var invertedDayMap = _.invert(dayMap);
         csc.versionSettings.schedule.forEach(function (scheduleItem) {
@@ -342,7 +342,7 @@ angular.module('liveopsConfigPanel')
         if(angular.isDefined(campaignDate)){
           var expireDate = campaignDate.substr(0, 10);
           var time = campaignDate.substr(11, 19);
-          var newTime = time.split(":");
+          var newTime = time.split(':');
 
           //NOTE: parsing the first value because the hours wants a integer and not a string
           var parseHr = parseInt(newTime[0]);
@@ -355,7 +355,7 @@ angular.module('liveopsConfigPanel')
             csc.newExpiryHour.AmPm = 'pm';
           } else if (parseHr < 12) {
             csc.newExpiryHour.endHour = parseHr;
-            csc.newExpiryHour.AmPm = "am";
+            csc.newExpiryHour.AmPm = 'am';
             if (parseHr === 0) {
               csc.newExpiryHour.endHour = 12;
               csc.newExpiryHour.AmPm = 'am';
@@ -368,36 +368,36 @@ angular.module('liveopsConfigPanel')
             csc.newExpiryHour.AmPm = 'am';
           }
         }
-      };
+      }
 
       csc.checkExpiry = function(day, hr, min, amPm){
         var newExpiryDay;
 
         if(hr === 12 && amPm === 'am'){
 
-          newExpiryDay = day + " 00"+":"+min+":00";
+          newExpiryDay = day + ' 00:' + min + ':00';
           csc.newExpiryHour.length = 0;
           csc.newExpiryHour.push(newExpiryDay);
 
         } else if (hr === 12 && amPm === 'pm') {
 
-          newExpiryDay = day+" "+hr+":"+min+":00";
+          newExpiryDay = day + ' ' + hr + ':' + min + ':00';
           csc.newExpiryHour.length = 0;
           csc.newExpiryHour.push(newExpiryDay);
 
         } else if (hr < 12 && amPm === 'am'){
 
           if(hr < 10){
-            newExpiryDay = day+" "+("0"+hr)+":"+min+":00";
+            newExpiryDay = day + ' ' + ('0' + hr) + ':' + min + ':00';
           }else{
-            newExpiryDay = day+" "+hr+":"+min+":00";
+            newExpiryDay = day + ' ' + hr + ':' + min + ':00';
           }
           csc.newExpiryHour.length = 0;
           csc.newExpiryHour.push(newExpiryDay);
 
         } else if (hr < 12 && amPm === 'pm'){
 
-          newExpiryDay = day+" "+(hr+12)+":"+min+":00";
+          newExpiryDay = day + ' ' + (hr + 12) + ':' + min + ':00';
           csc.newExpiryHour.length = 0;
           csc.newExpiryHour.push(newExpiryDay);
         }
@@ -419,25 +419,16 @@ angular.module('liveopsConfigPanel')
           // if there is anything in the dnc array, then generate a list of selected
           // dnc lists to use for the dnc selection dropdown
           if (angular.isDefined(csc.versionSettings.doNotContactLists)) {
-            csc.selectedLists = _.filter(csc.dncLists, function (val, key) {
+            csc.selectedLists = _.filter(csc.dncLists, function (val) {
               return csc.versionSettings.doNotContactLists.indexOf(val.id) !== -1;
             });
           } else {
             // otherwise, set the selected and saved dnc lists to be empty
             csc.selectedLists = [];
             csc.versionSettings.doNotContactLists = [];
-          };
+          }
         });
       };
-
-      function validateSchedule (currentForm) {
-        // If any fields haven't been filled out, don't validate, they will get "required" error messages.
-        if (currentForm.startHour.$error.required || currentForm.startMinutes.$error.required || currentForm.startAmPm.$error.required || currentForm.endHour.$error.required || currentForm.endMinutes.$error.required || currentForm.endAmPm.$error.required) {
-            return;
-        }
-
-        startEndIsInvalid(form);
-      }
 
       csc.changeDispoMap = function (value, name, index) {
         if (value === 'dnc') {
@@ -529,7 +520,7 @@ angular.module('liveopsConfigPanel')
         } else {
           return false;
         }
-      }
+      };
 
       function parseDispositionMap() {
         csc.dispositionMappingList = [];
@@ -591,8 +582,8 @@ angular.module('liveopsConfigPanel')
       csc.addDNC = function (newDncListId) {
         // first find the index of this new DNC list id
         var indexOfListToRemove = _.findIndex(csc.dncLists, {
-            id: newDncListId
-          })
+          id: newDncListId
+        });
           // now that we've got the index, add it to the selected DNC lists
         var addedDncObj = csc.dncLists[indexOfListToRemove];
         csc.selectedLists.push(addedDncObj);
@@ -612,7 +603,7 @@ angular.module('liveopsConfigPanel')
       };
 
       csc.getIds = function (list) {
-        return _.map(list, 'id')
+        return _.map(list, 'id');
       };
 
       csc.addHoursException = function (currentForm) {
@@ -632,10 +623,10 @@ angular.module('liveopsConfigPanel')
 
         if (angular.isUndefined(csc.newExceptionHour) || angular.isUndefined(csc.newExceptionHour.date) || csc.newExceptionHour.date.length !== DATE_STRING_LENGTH) {
           $scope.exceptionsDateError = $translate.instant('campaigns.details.settings.date.invalid');
-          currentForm.date.$setValidity("date", false);
+          currentForm.date.$setValidity('date', false);
         } else {
           $scope.exceptionsDateError = undefined;
-          currentForm.date.$setValidity("date", true);
+          currentForm.date.$setValidity('date', true);
         }
 
         if (csc.newExceptionHour && !csc.newExceptionHour.allDay) {
@@ -652,8 +643,8 @@ angular.module('liveopsConfigPanel')
         };
 
         if (csc.newExceptionHour.allDay) {
-          exception.startTime = "00:00:00";
-          exception.endTime = "23:59:59";
+          exception.startTime = '00:00:00';
+          exception.endTime = '23:59:59';
         } else {
           if (angular.isUndefined(csc.newExceptionHour.startHour) || angular.isUndefined(csc.newExceptionHour.startMinutes) || angular.isUndefined(csc.newExceptionHour.endHour) || angular.isUndefined(csc.newExceptionHour.endMinutes)) {
             return;
@@ -714,7 +705,7 @@ angular.module('liveopsConfigPanel')
             csc.scheduleTimeIsInvalid = startEndIsInvalid(currentForm);
           }
         }
-      }
+      };
 
       csc.removeException = function (index) {
         csc.exceptions.splice(index, 1);

@@ -1,7 +1,5 @@
 'use strict';
 
-/* global  window: false */
-
 angular.module('liveopsConfigPanel')
   .service('AuthService', ['$http', '$q', 'Session', 'apiHostname', 'User', '$state', 'Token',
     function ($http, $q, Session, apiHostname, User, $state, Token) {
@@ -16,7 +14,7 @@ angular.module('liveopsConfigPanel')
         return token.save().then(function (response) {
           return response;
         });
-      }
+      };
 
       this.login = function (username, password) {
         Session.token = null; //Destroy any previous token so that the AuthInterceptor doesn't trigger

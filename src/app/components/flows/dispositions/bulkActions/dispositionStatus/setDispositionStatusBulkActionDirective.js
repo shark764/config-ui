@@ -18,7 +18,7 @@ angular.module('liveopsConfigPanel')
 
           $scope.bulkAction.apply = function(disposition) {
             if (Session.tenant.tenantId !== disposition.tenantId) {
-              Alert.error($translate.instant('bulkActions.reason.fail', {reasonName: disposition.name}))
+              Alert.error($translate.instant('bulkActions.reason.fail', {reasonName: disposition.name}));
               var deferred = $q.defer();
               deferred.reject('Cannot edit status of inherited disposition');
               return deferred.promise;

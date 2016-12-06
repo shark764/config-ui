@@ -198,7 +198,7 @@ angular.module('liveopsConfigPanel')
 
     function replaceUUID(obj) {
       if (Array.isArray(obj)) {
-        obj.forEach(function(val, idx) {
+        obj.forEach(function(val) {
           replaceUUID(val);
         });
       } else {

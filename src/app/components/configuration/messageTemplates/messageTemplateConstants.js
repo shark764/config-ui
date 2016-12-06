@@ -23,5 +23,5 @@ angular.module('liveopsConfigPanel')
       //   label: $translate.instant('value.messaging'),
       //   value: 'messaging'
       // }
-    ]
+    ];
   }]);

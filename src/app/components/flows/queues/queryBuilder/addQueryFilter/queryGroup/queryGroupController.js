@@ -10,7 +10,7 @@ angular.module('liveopsConfigPanel')
     vm.filters = [];
 
     vm.addFilter = function() {
-      if ($scope.group.zermeloKey === "SKILLS") {
+      if ($scope.group.zermeloKey === 'SKILLS') {
         // TODO: Allow user to specify condition
         vm.query = ZermeloService.addFilter($scope.level, $scope.group.zermeloKey, $scope.type, vm.selectedItem.id, ['>=', 1]);
       } else {
@@ -27,15 +27,15 @@ angular.module('liveopsConfigPanel')
 
     vm.searchFilters = function(item) {
       return !_.includes(vm.filters, item);
-    }
+    };
 
     vm.initialize = function() {
       vm.query.at($scope.level).at(ZermeloService.keywordEnum.QUERY).keys.forEach(function(key, idx) {
         if (key.name === $scope.group.key) {
           vm.query.at($scope.level).at(ZermeloService.keywordEnum.QUERY).vals[idx].val.forEach(function(list) {
-            if (list.val[0].name === $scope.type || (list.val[0].name === "every" && $scope.type === "all")) {
+            if (list.val[0].name === $scope.type || (list.val[0].name === 'every' && $scope.type === 'all')) {
               vm.filters = $scope.group.items.filter(function(item) {
-                if ($scope.group.zermeloKey === "SKILLS") {
+                if ($scope.group.zermeloKey === 'SKILLS') {
                   return _.some(list.val[1].keys, function(listItem) {
                     return listItem._obj === item.id;
                   });

@@ -13,7 +13,7 @@ angular.module('liveopsConfigPanel')
           downloadPath: '@',
           jobServiceName: '@'
         },
-        link: function ($scope, elem, attr, ctrl) {
+        link: function ($scope) {
           var uploadStatus;
           var intervals = [];
 
@@ -22,7 +22,7 @@ angular.module('liveopsConfigPanel')
             $event.stopPropagation();
 
             var apiHostNameNoProtocol = apiHostname.slice(8);
-            var userPw = window.atob(Session.token);
+            var userPw = $window.atob(Session.token);
             userPw = userPw.split(':');
             userPw[0] = encodeURIComponent(userPw[0]);
             userPw[1] = encodeURIComponent(userPw[1]);
@@ -32,7 +32,7 @@ angular.module('liveopsConfigPanel')
               apiHostNameNoProtocol +
               '/v1/tenants/' +
               Session.tenant.tenantId +
-              $scope.downloadPath, "_self");
+              $scope.downloadPath, '_self');
           };
 
 
@@ -63,9 +63,9 @@ angular.module('liveopsConfigPanel')
                   dncListId: $scope.selectedRow.id
                 });
                 break;
-            };
+            }
 
-            jobList.$promise.then(function (response) {
+            jobList.$promise.then(function () {
               $scope.loading = true;
               $scope.newlyUploaded = false;
 
@@ -85,14 +85,14 @@ angular.module('liveopsConfigPanel')
                 pollForUploadData(jobList, jobId);
               }
             });
-          };
+          }
 
           function stopPolling() {
             angular.forEach(intervals, function (value, key) {
               $interval.cancel(intervals[key]);
             });
 
-          };
+          }
 
           function hasOne(arr) {
             if (angular.isDefined(arr)) {
@@ -102,7 +102,7 @@ angular.module('liveopsConfigPanel')
                 return false;
               }
             }
-          };
+          }
 
           // function to handle API responses coming back in Clojure syntax
           function convertClojureToJs(str) {
@@ -114,7 +114,7 @@ angular.module('liveopsConfigPanel')
               }
             } else {
                 return $translate.instant('value.saveFail');
-            };
+            }
           }
 
           function getJobData(jobId) {
@@ -134,10 +134,10 @@ angular.module('liveopsConfigPanel')
                   jobId: jobId
                 });
                 break;
-            };
+            }
 
             return deferredVal.jobDataPromise;
-          };
+          }
 
           function handleErrors(data, previousJobId) {
             // setting currentErrorMsg because we're going to quite possibly
@@ -164,10 +164,10 @@ angular.module('liveopsConfigPanel')
               // then just check if this is a new upload and if so display the error popup
               if ($scope.newlyUploaded) {
                 Alert.error(convertClojureToJs(currentErrorMsg));
-              };
+              }
               $scope.selectedRow.uploadStats = true;
-            };
-          };
+            }
+          }
 
           function pollForUploadData(jobList, jobId) {
             uploadStatus = $interval(function () {
@@ -190,12 +190,12 @@ angular.module('liveopsConfigPanel')
                     } else {
                       if ($scope.newlyUploaded) {
                         Alert.success($translate.instant('value.uploadProcessedSuccessfully'));
-                      };
+                      }
                       // possibly redundant code since we're about to stop the polling after
                       // this conditional statement, but this is more of a fail safe
                       stopPolling();
                       $scope.selectedRow.uploadStats = true;
-                    };
+                    }
                     // now that we have a final response, either success or error, stop polling
                     // and update the ui accordingly
                     stopPolling();
@@ -204,7 +204,7 @@ angular.module('liveopsConfigPanel')
                     // if the upload status is not either 'completed' or 'error',
                     // then it means it's still running, which means we need to keep polling
                     $scope.selectedRow.uploadStats = false;
-                  };
+                  }
                   // possibly redundant code, more of a fail safe
                   stopPolling();
                   $scope.selectedRow.uploadStats = true;
@@ -215,7 +215,7 @@ angular.module('liveopsConfigPanel')
             }, 1750);
 
             intervals.push(uploadStatus);
-          };
+          }
 
           function getPrevJobId(list) {
 
@@ -238,12 +238,12 @@ angular.module('liveopsConfigPanel')
                     return getPrevJobId(list);
                   } else {
                     return null;
-                  };
-                };
+                  }
+                }
               });
-            };
+            }
 
-          };
+          }
 
           $scope.importFile = function (fileData) {
             var jobId;
@@ -274,12 +274,12 @@ angular.module('liveopsConfigPanel')
                 jobId = response.data.result.jobId;
                 getJobId(jobId);
                 Alert.success($translate.instant('value.uploadSuccess'));
-              }, function (err) {
+              }, function () {
                 Alert.error($translate.instant('value.uploadFail'));
               });
 
               return upload;
-            };
+            }
           };
 
           $scope.openStatsModal = function () {
@@ -304,7 +304,7 @@ angular.module('liveopsConfigPanel')
           $scope.$watch('selectedRow', function(newRowData) {
             // get the jobs and download lists...
             // unless, of course, it's a new campaign and neither exist
-            $q.when(newRowData, function (response) {
+            $q.when(newRowData, function () {
               stopPolling();
 
               if (newRowData && angular.isFunction($scope.selectedRow.isNew)) {
@@ -313,8 +313,8 @@ angular.module('liveopsConfigPanel')
                   $scope.downloadPath = $scope.downloadPath;
                   $scope.jobServiceName = $scope.jobServiceName;
                   getJobId();
-                };
-              };
+                }
+              }
             });
           });
         }

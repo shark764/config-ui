@@ -2,10 +2,9 @@
 
 angular.module('liveopsConfigPanel')
   .controller('campaignsController', [
-    '$scope', '$timeout', '$translate', '$moment', '$q', '$state', '$stateParams', '$compile', 'Alert', 'Session', 'Campaign', 'CampaignStart', 'CampaignStop', 'campaignsTableConfig', 'loEvents', 'Flow', 'DirtyForms', 'apiHostname',
-    function ($scope, $timeout, $translate, $moment, $q, $state, $stateParams, $compile, Alert, Session, Campaign, CampaignStart, CampaignStop, campaignsTableConfig, loEvents, Flow, DirtyForms, apiHostname) {
+    '$scope', '$timeout', '$translate', '$moment', '$q', '$state', '$stateParams', '$compile', 'Alert', 'Session', 'Campaign', 'CampaignStart', 'CampaignStop', 'campaignsTableConfig', 'loEvents', 'Flow',
+    function ($scope, $timeout, $translate, $moment, $q, $state, $stateParams, $compile, Alert, Session, Campaign, CampaignStart, CampaignStop, campaignsTableConfig, loEvents, Flow) {
       var cc = this;
-      var currentlySelectedCampaign = cc.selectedCampaign;
 
       // load up all of the page data...
       // first call the campaigns...
@@ -42,7 +41,7 @@ angular.module('liveopsConfigPanel')
       // which means that it is also a valid campaign that can actually be started
       function hasVersion() {
         cc.selectedCampaign.hasVersion = angular.isDefined(cc.selectedCampaign.latestVersion);
-      };
+      }
 
       // simply checking if an array contains one or more items
       function hasOne(arr) {
@@ -53,7 +52,7 @@ angular.module('liveopsConfigPanel')
             return false;
           }
         }
-      };
+      }
 
       function getFlowName(cam, flo) {
         // add a flowName property to the campaign object with the name of the
@@ -94,7 +93,7 @@ angular.module('liveopsConfigPanel')
       cc.submit = function () {
         return cc.selectedCampaign.save({
             tenantId: Session.tenant.tenantId
-          }, function (response) {
+          }, function () {
             Alert.success($translate.instant('value.saveSuccess'));
             cc.duplicateError = false;
           }, function (err) {

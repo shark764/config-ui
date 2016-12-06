@@ -42,7 +42,7 @@ angular.module('liveopsConfigPanel', [
     }
   ])
   .run(['queryCache', '$rootScope','$state', function(queryCache, $rootScope, $state) {
-    $rootScope.$on('$stateChangeSuccess', function(current, previous) {
+    $rootScope.$on('$stateChangeSuccess', function() {
       queryCache.removeAll();
       $rootScope.title = $state.current.title + ' | CxEngage';
     });

@@ -18,7 +18,7 @@ angular.module('liveopsConfigPanel')
 
           $scope.bulkAction.apply = function(reasonList) {
             if (Session.tenant.tenantId !== reasonList.tenantId) {
-              Alert.error($translate.instant('bulkActions.reason.fail', {reasonName: reasonList.name}))
+              Alert.error($translate.instant('bulkActions.reason.fail', {reasonName: reasonList.name}));
               var deferred = $q.defer();
               deferred.reject('Cannot edit status of inherited reason list');
               return deferred.promise;
