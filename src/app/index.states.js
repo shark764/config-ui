@@ -598,7 +598,7 @@ angular.module('liveopsConfigPanel')
         })
         .state('content.reporting.silentMonitoring', {
           url: '/silentMonitoring?id',
-          title: 'Reporting - Silent Monitoring ',
+          title: 'Reporting - Interaction Monitoring',
           templateUrl: 'app/components/reports/silentMonitoring/silentMonitoring.html',
           controller: 'SilentMonitoringController as ic',
           reloadOnSearch: false,

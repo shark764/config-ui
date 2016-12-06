@@ -1,6 +1,7 @@
 'use strict';
 
 var gulp = require('gulp');
+var replace = require('gulp-replace');
 var browserSync = require('browser-sync');
 var yargs = require('yargs');
 
@@ -24,6 +25,8 @@ module.exports = function(options) {
           }
         }
       }))
+      .pipe(replace('angular.module', '\'use strict\';\r\nangular.module'))
+      .pipe(replace(/"/g, '\''))
       .pipe(gulp.dest(options.src + '/app'));
   });
 };
