@@ -674,6 +674,7 @@
   "bulkActions.twilioRegions": "Set Twilio Regions",
   "bulkActions.reason.fail": "\"{{reasonName}}\" is inherited and cannot be edited.",
   "bulkActions.enable.keys": "Enable/Disable API Keys",
+  "bulkActions.enable.messageTemplates": "Enable/Disable Message Templates",
   "user.profile.save.success": "Your details have been updated.",
   "user.profile.save.fail": "An error occurred while updating your details.",
   "profile.usergroups.none": "You have not been assigned to any groups.",
