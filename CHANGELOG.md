@@ -2,7 +2,8 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [Unreleased]
+## [4.8.1]
+* Bumping flow designer
 
 ## [4.8.0]
 * CXV1-6386 - Fixed bug: Recordings page, need to prevent start date from being set to after end date in search filter
