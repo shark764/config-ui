@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## [4.8.0]
 * CXV1-6386 - Fixed bug: Recordings page, need to prevent start date from being set to after end date in search filter
 * CXV1-5465 - Fixed bug: Tenant names in navbar not updating on edit
 * CXV1-5469 - Fixed bug: Disabled reasons lists should not show when adding to a group
@@ -10,8 +12,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 * CXV1-5605 - Fixed Firefox bug with dropdown menu appearing behind widgets  
 * CXV1-6543 - Fixed bug: Cannot change dispatch mapping - submit button stays greyed out
 * Bumping flow designer
-* CXV1-5536 - Added new page for interactions in conversation
 * CXV1-6514 - Updated tenant create/update to select from regions API.
+* CXV1-5536 - Added new page for interactions in conversation
+* CXV1-6516 - Update soundwave to enable barge-in
 
 ## [4.7.0]
 * CXV1-6491 - Got recordings page and app dock to automatically refresh audio URL every 5 mins
