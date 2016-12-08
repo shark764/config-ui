@@ -231,14 +231,14 @@ angular.module('liveopsConfigPanel')
         }
         // ...END OUTBOUND FEATURE FLAG
 
-        if (UserPermissions.hasPermissionInList(PermissionGroups.viewAppCreds)) {
-          items.push({
-            label: $translate.instant('navbar.configuration.keys.title'),
-            stateLink: 'content.configuration.keys',
-            id: 'key-configuration-link',
-            order: 7
-          });
-        }
+        // if (UserPermissions.hasPermissionInList(PermissionGroups.viewAppCreds)) {
+        //   items.push({
+        //     label: $translate.instant('navbar.configuration.keys.title'),
+        //     stateLink: 'content.configuration.keys',
+        //     id: 'key-configuration-link',
+        //     order: 7
+        //   });
+        // }
 
         if (UserPermissions.hasPermission('VIEW_ALL_TRANSFER_LISTS')) {
           items.push({
