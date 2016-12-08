@@ -15,7 +15,7 @@
   </div>
 
   <div
-    class="input-group">
+    class="input-group cat-name">
     <label>{{'transferLists.contact.details.categoryName' | translate}} *</label>
     <form-error field="forms.contactForm.selectedCategory" error-type-required="{{'transferLists.contact.error.categoryName' | translate}}" ></form-error>
     <select
@@ -45,7 +45,7 @@
 
     <a
       href
-      class="create-category"
+      class="btn lo-main-bg create-category"
       ng-if="tlc.selectedContact.isNew()">
       <small
         ng-if="tlc.editingCategoryName !== true && tlc.newTransferList !== true"
