@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.8.4]
+* CXV1-6694 - Fixed bug: Transfer Lists - Add New Category should be a button not a text line
+
 ## [4.8.3]
 * Bumping flow designer
 

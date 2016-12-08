@@ -159,4 +159,16 @@ table.transfer-list-table table {
       }
     }
   }
+
+  .cat-name {
+    label {
+      vertical-align: top;
+      padding-top: 7px;
+    }
+
+    a {
+      margin-top: 5px;
+      color: #fff;
+    }
+  }
 }
