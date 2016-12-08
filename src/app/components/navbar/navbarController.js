@@ -249,15 +249,13 @@ angular.module('liveopsConfigPanel')
           });
         }
 
-        if (appFlags.TEMPLATES) {
-          if (UserPermissions.hasPermissionInList(PermissionGroups.viewMessageTemplates)) {
-            items.push({
-              label: $translate.instant('navbar.configuration.messageTemplates.title'),
-              stateLink: 'content.configuration.messageTemplates',
-              id: 'template-configuration-link',
-              order: 8
-            });
-          }
+        if (UserPermissions.hasPermissionInList(PermissionGroups.viewMessageTemplates)) {
+          items.push({
+            label: $translate.instant('navbar.configuration.messageTemplates.title'),
+            stateLink: 'content.configuration.messageTemplates',
+            id: 'template-configuration-link',
+            order: 8
+          });
         }
 
         return items;
