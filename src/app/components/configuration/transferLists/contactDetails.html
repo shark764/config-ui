@@ -46,7 +46,7 @@
     <a
       href
       class="btn lo-main-bg create-category"
-      ng-if="tlc.selectedContact.isNew()">
+      ng-if="tlc.selectedContact.isNew() && ((tlc.editingCategoryName !== true && tlc.newTransferList !== true) || (tlc.editingCategoryName === true && tlc.newTransferList !== true))">
       <small
         ng-if="tlc.editingCategoryName !== true && tlc.newTransferList !== true"
         ng-click="tlc.editingCategoryName = true">
