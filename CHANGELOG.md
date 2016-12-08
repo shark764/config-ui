@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.8.3]
+* Bumping flow designer
+
 ## [4.8.2]
 * Bump soundwave for silent monitoring bugfix
 
