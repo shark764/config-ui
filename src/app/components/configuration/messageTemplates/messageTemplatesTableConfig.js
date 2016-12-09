@@ -2,6 +2,7 @@
 
 angular.module('liveopsConfigPanel')
   .service('messageTemplatesTableConfig', ['statuses', '$translate', 'UserPermissions', function(statuses, $translate, UserPermissions) {
+
     return {
       'fields': [{
         'header': {
@@ -23,7 +24,8 @@ angular.module('liveopsConfigPanel')
         'header': {
           'display': $translate.instant('value.channels')
         },
-        'name': '$original.channels'
+        'name': '$original.channels',
+        'transclude': true
       }, {
         'header': {
           'display': $translate.instant('value.status'),

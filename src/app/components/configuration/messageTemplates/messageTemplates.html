@@ -11,6 +11,10 @@
     selected="mtc.selectedMessageTemplate"
     search-query="mtc.searchQuery">
 
+    <span name="$original.channels">
+      {{item.$original.channels.join(', ')}}
+    </span>
+
     <span name="$original.active">
       <span ng-if="item.$original.active">{{'value.enabled' | translate}}</span>
       <span ng-if="!item.$original.active" class="disabled">{{'value.disabled' | translate}}</span>
