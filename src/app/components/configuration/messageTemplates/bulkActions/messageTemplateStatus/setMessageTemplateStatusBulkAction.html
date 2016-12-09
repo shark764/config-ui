@@ -7,10 +7,10 @@
 <div class="action-wrapper">
   <div>
     <select id="bulk-action-enable-select"
-      ng-model="status"
+      ng-model="active"
       ng-disabled="! bulkAction.checked"
       ng-required="bulkAction.checked"
-      ng-options="item.display.toLowerCase() as (item.displayKey | translate) for item in statuses">
+      ng-options="item.value as (item.displayKey | translate) for item in statuses">
     </select>
   </div>
 </div>
