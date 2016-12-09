@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## [4.8.7]
 * CXV1-3541 - Enabled assignment of message templates on users page
 
 ## [4.8.6]
