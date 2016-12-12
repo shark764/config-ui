@@ -7,10 +7,20 @@
     <div class="input-group" ng-if="selectedIntegration.isNew()">
       <label>{{'value.type' | translate}} *</label>
       <select
+        selected="customIntegrationTypes[0]"
+        id="integration-type-select"
+        name="selectedIntegrationType"
         ng-change="setDefaultVal()"
         ng-model="selectedIntegration.type"
-        ng-options="type as type for type in customIntegrationTypes">
+        ng-options="type.name for type in customIntegrationTypes">
       </select>
+    </div>
+
+    <div class="input-group" ng-if="!selectedIntegration.isNew()">
+      <label>{{'value.type' | translate}} *</label>
+      <div>
+        {{getTypeData(selectedIntegration.type, 'name')}}
+      </div>
     </div>
 
     <div class="input-group">
@@ -29,7 +39,7 @@
       </div>
     </div>
 
-    <div class="divider-header" ng-if="selectedIntegration.type === 'salesforce'">
+    <div class="divider-header" ng-if="customTypesHideShowFields(selectedIntegration, 'salesforce')">
       <h4>{{'value.credentials' | translate}}</h4>
     </div>
   </div>
@@ -174,7 +184,73 @@
     </div>
   </div>
 
-  <div ng-if="selectedIntegration.type == 'salesforce'" class="salesforce">
+  <div ng-if="customTypesHideShowFields(selectedIntegration, 'rest')"
+    class="added-padding">
+    <div class="input-group">
+      <label>{{'integration.details.properties.authMethod' | translate}} *</label>
+      <form-error field="forms.detailsForm.selectedAuthMethod" error-type-required="{{'integration.details.properties.selectAuthMethod.error' | translate}}" ></form-error>
+
+      <select
+        ng-init="handleAuthMethodSelect(tempScope, selectedIntegration.authType, 'true')"
+        id="auth-method-select"
+        ng-model="temp"
+        ng-change="handleAuthMethodSelect(tempScope, selectedIntegration.authType)">
+          <option
+            ng-repeat="authMethod in authenticationTypes"
+            ng-selected="selectedIntegration.authType === authMethod.val">
+            {{authMethod.name}}
+          </option>
+      </select>
+    </div>
+    <div
+      ng-if="selectedIntegration.authType === 'basic'"
+      class="added-padding">
+      <div
+        class="input-group">
+        <label>{{'integration.details.properties.username' | translate}} *</label>
+        <input
+          ng-required="true"
+          type="text"
+          ng-model="selectedIntegration.properties.username"
+          name="basicAuthUsername"/>
+      </div>
+
+      <div
+        class="input-group">
+        <label>{{'integration.details.properties.password' | translate}} *</label>
+        <input
+          ng-required="true"
+          type="password"
+          ng-model="selectedIntegration.properties.password"
+          name="basicAuthPassword"/>
+      </div>
+    </div>
+
+    <div
+      ng-if="selectedIntegration.authType === 'token'"
+      class="input-group">
+      <label>{{'integration.details.properties.token' | translate}} *</label>
+      <input
+        ng-required="true"
+        type="password"
+        ng-model="selectedIntegration.properties.token"
+        name="basicAuthUsername"/>
+    </div>
+
+    <div class="input-group added-padding">
+      <label>{{'integration.details.properties.apiUri' | translate}} *</label>
+      <form-error field="forms.detailsForm.restApiUriPrefix" error-type-required="{{'integration.details.restApiUri.error' | translate}}" ></form-error>
+      <div>
+        <input
+          ng-required="true"
+          type="text"
+          ng-model="selectedIntegration.properties.endpointPrefix"
+          name="restApiUriPrefix"/>
+      </div>
+    </div>
+  </div>
+
+  <div ng-if="customTypesHideShowFields(selectedIntegration, 'salesforce')" class="salesforce">
     <div class="input-group">
       <label>{{'integration.details.properties.username' | translate}} *</label>
       <form-error field="forms.detailsForm.username" error-type-required="{{'integration.username.error' | translate}}" ></form-error>
@@ -219,13 +295,13 @@
     </div>
   </div>
 
-  <div class="input-group login-url" ng-if="selectedIntegration.type == 'salesforce'">
+  <div class="input-group login-url" ng-if="customTypesHideShowFields(selectedIntegration, 'salesforce')">
     <div>
       <p class="null">{{'integration.details.loginUrl.message' | translate}}</p>
     </div>
   </div>
 
-  <div ng-if="selectedIntegration.type == 'zendesk' && showZendesk == true" class="zendesk-fields">
+  <div ng-if="customTypesHideShowFields(selectedIntegration, 'zendesk') && showZendesk == true" class="zendesk-fields">
     <div class="input-group">
       <label>{{'integration.details.properties.username' | translate}} *</label>
       <form-error field="forms.detailsForm.username" error-type-required="{{'integration.username.error' | translate}}" ></form-error>
@@ -266,15 +342,19 @@
 
     <div class="input-group" ng-if="selectedIntegration.properties.workItems === true">
       <label>{{'integration.details.properties.zendeskInteractionFieldId' | translate}} *</label>
-      <form-error field="forms.detailsForm.interactionFieldId" ></form-error>
+      <form-error field="forms.detailsForm.interactionFieldId"  error-type-required="{{'integration.zendeskUrl.error' | translate}}" ></form-error>
       <div>
-        <input type="text" ng-model="selectedIntegration.properties.interactionFieldId" name="interactionFieldId"/>
+        <input
+          ng-required="true"
+          type="text"
+          ng-model="selectedIntegration.properties.interactionFieldId"
+          name="interactionFieldId"/>
       </div>
     </div>
   </div>
 
   <!-- Listeners -->
-  <div ng-if="selectedIntegration.type == 'salesforce' || selectedIntegration.type == 'facebook' || selectedIntegration.type == 'email'">
+  <div ng-if="customTypesHideShowFields(selectedIntegration, 'salesforce') || selectedIntegration.type == 'facebook' || selectedIntegration.type == 'email'">
     <integration-listeners integration="selectedIntegration" fetch-listeners="fetchListeners()"></integration-listeners>
   </div>
 </div>

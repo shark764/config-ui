@@ -1,12 +1,64 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('IntegrationsController', ['$scope', 'Session', 'Integration', 'Tenant', 'Listener', 'integrationTableConfig', 'loEvents', '$q', 'GlobalRegionsList', 'Region','appFlags',
-    function ($scope, Session, Integration, Tenant, Listener, integrationTableConfig, loEvents, $q, GlobalRegionsList, Region, appFlags) {
+  .controller('IntegrationsController', ['$scope', '$translate', 'Alert', 'Session', 'Integration', 'Tenant', 'Listener', 'integrationTableConfig', 'loEvents', '$q', 'GlobalRegionsList', 'Region','appFlags',
+    function ($scope, $translate, Alert, Session, Integration, Tenant, Listener, integrationTableConfig, loEvents, $q, GlobalRegionsList, Region, appFlags) {
+      var integrationSvc = new Integration();
+      $scope.tempScope = $scope;
 
-      $scope.customIntegrationTypes = ['salesforce', 'zendesk'];
+      $scope.handleAuthMethodSelect = integrationSvc.handleAuthMethodSelect;
+      $scope.deleteExtraneousData = integrationSvc.deleteExtraneousData;
 
-      $scope.smtpEncryptionTypes = ['TLS', 'SSL'];
+      $scope.customIntegrationTypes = [
+        {
+          name: $translate.instant('integration.details.properties.rest'),
+          value: 'rest'
+        },
+        {
+          name: $translate.instant('integration.details.properties.salesforce'),
+          value: 'salesforce'
+        },
+        {
+          name: $translate.instant('integration.details.properties.zendesk'),
+          value: 'zendesk'
+        }
+      ];
+
+      $scope.getTypeData = function (selectedType, property) {
+        if (!selectedType) {
+          return;
+        }
+
+        var selectedProperty = property || 'value';
+
+        // here we are checking to see if the selectedType is an object
+        // with a more user-friendly name that we can use for display purposes
+        var evaluatedIntegrationType = _.find($scope.customIntegrationTypes, function (typeVal) {
+          return selectedType === typeVal.value;
+        });
+
+        if (angular.isDefined(evaluatedIntegrationType) && selectedProperty !== 'value') {
+          return evaluatedIntegrationType[selectedProperty];
+        } else {
+          return selectedType;
+        }
+      };
+
+      $scope.smtpEncryptionTypes = [
+        'TLS',
+        'SSL'
+      ];
+
+      $scope.authenticationTypes = [
+        {
+          name: $translate.instant('integration.details.properties.basicAuth'),
+          val: 'basic'
+        },
+        {
+          name: $translate.instant('integration.details.properties.tokenAuth'),
+          val: 'token'
+        }
+      ];
 
       $scope.twilioRegions = GlobalRegionsList;
       $scope.twilioDefaultRegion = GlobalRegionsList[0].twilioId;
@@ -15,11 +67,46 @@ angular.module('liveopsConfigPanel')
         $scope.showZendesk = true;
       }
 
-      $scope.fetchIntegrations = function () {
-        return Integration.cachedQuery({
-          tenantId: Session.tenant.tenantId
+      $scope.customTypesHideShowFields = function (selectedIntegration, customTypeValue) {
+        if (selectedIntegration) {
+          if ((selectedIntegration.type && selectedIntegration.type.hasOwnProperty('name') && selectedIntegration.type.value === customTypeValue) || selectedIntegration.type === customTypeValue) {
+            return true;
+          } else {
+            return false;
+          }
+        }
+      }
+
+      function detectAuthMethod (integration) {
+        if (integration.properties && integration.properties.token === '') {
+          return 'basic';
+        } else {
+          return 'token';
+        }
+      }
+
+      function addAuthMethodProp (integrations) {
+        var whichAuthMethod;
+
+        return _.map(integrations, function (val, key) {
+          if (val.hasOwnProperty('type') && val.type === 'rest') {
+            whichAuthMethod = detectAuthMethod(val);
+
+            return _.merge($scope.integrationList[key], {
+              authType: whichAuthMethod
+            });
+          }
         });
-      };
+      }
+
+      $scope.integrationList = Integration.cachedQuery({
+        tenantId: Session.tenant.tenantId
+      });
+
+      $q.when($scope.integrationList.$promise)
+        .then(function (integrationData) {
+           addAuthMethodProp(integrationData);
+        });
 
       $scope.fetchListeners = function (invalidate) {
         return Listener.cachedQuery({
@@ -30,7 +117,7 @@ angular.module('liveopsConfigPanel')
 
       $scope.clearInteractionFieldId = function () {
         if ($scope.selectedIntegration.properties.workItems === false) {
-          $scope.selectedIntegration.properties.interactionFieldId = ''
+          $scope.selectedIntegration.properties.interactionFieldId = '';
         }
       };
 
@@ -45,18 +132,30 @@ angular.module('liveopsConfigPanel')
       $scope.$on(loEvents.tableControls.itemCreate, function () {
         $scope.selectedIntegration = new Integration({
           properties: {},
-          active: true
+          active: true,
+          type: $scope.customIntegrationTypes[0],
+          authType: 'basic'
         });
       });
 
       $scope.submit = function () {
-        if ($scope.selectedIntegration.description === null) {
-          delete $scope.selectedIntegration.description;
-        }
+
+        // we will use this variable after saving to set the auth type select bac to what it was
+        var tempSelectedAuthType = $scope.selectedIntegration.authType;
+        $scope.deleteExtraneousData($scope);
 
         return $scope.selectedIntegration.save({
           tenantId: Session.tenant.tenantId
+        })
+        .then(function (savedIntegration) {
+          Alert.success($translate.instant('value.saveSuccess'));
+        }, function (err) {
+          Alert.error($translate.instant('value.saveFail'));
+        })
+        .then(function() {
+          $scope.handleAuthMethodSelect($scope, tempSelectedAuthType, 'true');
         });
+
       };
 
       $scope.updateActive = function () {
@@ -66,11 +165,17 @@ angular.module('liveopsConfigPanel')
           active: !$scope.selectedIntegration.active
         });
 
+        var tempSelectedAuthType = $scope.selectedIntegration.authType;
+        $scope.deleteExtraneousData($scope);
+
         return integrationCopy.save().then(function (result) {
           $scope.selectedIntegration.$original.active = result.active;
           $scope.fetchListeners(true);
         }, function (errorResponse) {
           return $q.reject(errorResponse.data.error.attribute.active);
+        })
+        .then(function() {
+          $scope.handleAuthMethodSelect($scope, tempSelectedAuthType, 'true');
         });
       };
 

@@ -28,7 +28,7 @@ describe('IntegrationsController', function() {
 
   describe('ON fetchIntegrations', function() {
     it('should fetch the list of integrations on load', function() {
-      var integrations = $scope.fetchIntegrations();
+      var integrations = $scope.integrationList;
 
       $httpBackend.flush();
 

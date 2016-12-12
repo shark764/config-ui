@@ -33,3 +33,9 @@
 .zendesk-fields {
   padding-top: 10px;
 }
+
+#auth-method-select {
+  option:empty {
+    display:none;
+  }
+}
