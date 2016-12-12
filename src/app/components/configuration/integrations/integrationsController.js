@@ -4,7 +4,7 @@ angular.module('liveopsConfigPanel')
   .controller('IntegrationsController', ['$scope', 'Session', 'Integration', 'Tenant', 'Listener', 'integrationTableConfig', 'loEvents', '$q', 'GlobalRegionsList', 'Region','appFlags',
     function ($scope, Session, Integration, Tenant, Listener, integrationTableConfig, loEvents, $q, GlobalRegionsList, Region, appFlags) {
 
-      $scope.customIntegrationTypes = ['salesforce'];
+      $scope.customIntegrationTypes = ['salesforce', 'zendesk'];
 
       $scope.smtpEncryptionTypes = ['TLS', 'SSL'];
 
@@ -26,6 +26,20 @@ angular.module('liveopsConfigPanel')
           tenantId: Session.tenant.tenantId,
           integrationId: $scope.selectedIntegration.id
         }, 'Listener' + $scope.selectedIntegration.id, invalidate);
+      };
+
+      $scope.clearInteractionFieldId = function () {
+        if ($scope.selectedIntegration.properties.workItems === false) {
+          $scope.selectedIntegration.properties.interactionFieldId = ''
+        }
+      };
+
+      $scope.setDefaultVal = function () {
+        if ($scope.selectedIntegration.type === 'zendesk') {
+          if (angular.isUndefined($scope.selectedIntegration.properties.endpointPrefix) || $scope.selectedIntegration.properties.endpointPrefix === '') {
+            $scope.selectedIntegration.properties.endpointPrefix = 'https://obscura.zendesk.com/api/v2'
+          }
+        }
       };
 
       $scope.$on(loEvents.tableControls.itemCreate, function () {
