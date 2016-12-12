@@ -37,7 +37,7 @@ angular.module('liveopsConfigPanel')
       $scope.setDefaultVal = function () {
         if ($scope.selectedIntegration.type === 'zendesk') {
           if (angular.isUndefined($scope.selectedIntegration.properties.endpointPrefix) || $scope.selectedIntegration.properties.endpointPrefix === '') {
-            $scope.selectedIntegration.properties.endpointPrefix = 'https://obscura.zendesk.com/api/v2'
+            $scope.selectedIntegration.properties.endpointPrefix = 'https://subdomain.zendesk.com/api/v2'
           }
         }
       };
