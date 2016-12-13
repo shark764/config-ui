@@ -4,7 +4,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 * CXV1-6592 - Implement UI for Multiple Zendesk Integrations
-
+* CXV1-6603 - Use flow-designer 3.0.3 for Multiple Zendesk Integrations
 ## [4.8.7]
 * CXV1-3541 - Enabled assignment of message templates on users page
 
