@@ -1,13 +1,13 @@
 <div id="table-pane">
   <table-controls
     config="tableConfig"
-    items="fetchIntegrations()"
+    items="integrationList"
     search-query="searchQuery">
   </table-controls>
-  
+
   <lo-resource-table
     config="tableConfig"
-    items="fetchIntegrations()"
+    items="integrationList"
     selected="selectedIntegration"
     search-query="searchQuery">
 
@@ -24,27 +24,27 @@
   right-element-id="right-panel"
   left-element-id="table-pane"></resize-handle>
 
-<lo-details-panel id="right-panel" 
+<lo-details-panel id="right-panel"
   class="right-panel"
   ng-show="selectedIntegration || showBulkActions"
   ng-resource="selectedIntegration">
-  
-  <ng-form unsaved-changes-warning 
+
+  <ng-form unsaved-changes-warning
     class="details-pane"
-    ng-show="selectedIntegration && !showBulkActions" 
+    ng-show="selectedIntegration && !showBulkActions"
     name="forms.detailsForm"
     ng-model="selectedIntegration"
     ng-resource="selectedIntegration"
     lo-form-submit
     lo-form-cancel
     lo-form-alert>
-    
+
     <ng-form name="forms.headerForm" separate-validation>
       <div class="detail-header"
         ng-include src="'app/components/configuration/integrations/integrationDetailHeader.html'">
       </div>
     </ng-form>
-    
+
     <div class="detail-body"
       ng-include src="'app/components/configuration/integrations/integrationDetailBody.html'">
     </div>
@@ -63,12 +63,14 @@
       </input>
     </div>
   </ng-form>
-  
+
   <bulk-action-executor class="details-pane"
     ng-show="showBulkActions"
-    items="fetchIntegrations()"
+    items="integrationList"
     show-bulk-actions="showBulkActions">
-    
-    <ba-set-integration-status></ba-set-integration-status>
+
+    <ba-set-integration-status
+      auth-type="selectedIntegration.authType"
+    ></ba-set-integration-status>
   </bulk-action-executor>
 </lo-details-panel>

@@ -22,9 +22,15 @@ angular.module('liveopsConfigPanel')
             integrationCopy.tenantId = Session.tenant.tenantId;
             integrationCopy.active = $scope.active;
             integrationCopy.properties = integration.properties;
+            integrationCopy.type = integration.type;
+            var tempSelectedIntegration = integration;
+
+            integrationCopy.deleteExtraneousData(integrationCopy);
             return integrationCopy.save().then(function(integrationCopy) {
               angular.copy(integrationCopy, integration);
               integration.checked = true;
+              // we'll be using this to reset the auth method select after saving
+              integrationCopy.handleAuthMethodSelect(tempSelectedIntegration, 'true');
               return integration;
             });
           };
