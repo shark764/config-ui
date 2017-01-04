@@ -16,7 +16,6 @@ angular.module('liveopsConfigPanel')
         scope.$watch('rules', function(rules){
           var isValid = true;
           rules.forEach(function(rule){
-            console.log(rule.count);
             if(!Number.isInteger(rule.count)){
               isValid = false;
             }

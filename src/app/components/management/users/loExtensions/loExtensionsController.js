@@ -24,6 +24,10 @@ angular.module('liveopsConfigPanel')
 
       vm.save = function() {
         $scope.tenantUser.activeExtension = $scope.tenantUser.extensions[0];
+        if ($scope.dontSaveRoleId === true) {
+          delete $scope.tenantUser.roleId
+        };
+
         return $scope.tenantUser.save({
           tenantId: Session.tenant.tenantId
         }).then(function(tenantUser) {

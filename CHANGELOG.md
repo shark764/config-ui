@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+* CXV1-7081 - removed UI for agents to make changes to their extensions on the user profile page, also removed the roleId property from the extensions edit module in order to prevent a JS bug that was occuring when agents made changes to their extensions
 * CXV1-6781 - Enabled generic REST integrations on Integrations page
 * CXV1-6787 - Updated property on regions service to match change in config-shared as part of a ticket to add 2 new regions required for Twilio Interconnect  
 

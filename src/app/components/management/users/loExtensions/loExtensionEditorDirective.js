@@ -7,7 +7,9 @@ angular.module('liveopsConfigPanel')
         require: '^form',
         scope: {
           extension: '=',
-          allExtensions: '='
+          allExtensions: '=',
+          dontSaveRoleId: '=',
+          isDisabled: '='
         },
         templateUrl: 'app/components/management/users/loExtensions/loExtensionEditor.html',
         link: function($scope, element, attrs, ngFormController){
@@ -16,6 +18,10 @@ angular.module('liveopsConfigPanel')
           $scope.loExtensionTypes = loExtensionTypes;
           $scope.sipPattern = '[s|S]{1}[i|I]{1}[p|P]{1}:.*';
           $scope.twilioRegions = GlobalRegionsList;
+
+          _.merge($scope.form, {
+            dontSaveRoleId: $scope.dontSaveRoleId || false
+          });
 
           // grab Twilio's default description list for resetting Twilio desc later on
           function getDefaultTwilioDesc (extensionList) {
