@@ -1,0 +1,78 @@
+<div id="table-pane">
+  <table-controls
+    config="cac.tableConfig"
+    items="cac.fetchContactAttributes()"
+    search-query="cac.searchQuery">
+  </table-controls>
+
+  <lo-resource-table
+    config="cac.tableConfig"
+    items="cac.fetchContactAttributes()"
+    selected="cac.selectedContactAttribute"
+    search-query="cac.searchQuery">
+
+    <span name="$original.mandatory">
+      <span ng-if="item.$original.mandatory">{{'value.yes' | translate}}</span>
+      <span ng-if="!item.$original.mandatory" class="disabled">{{'value.no' | translate}}</span>
+    </span>
+
+    <span name="$original.active">
+      <span ng-if="item.$original.active">{{'value.enabled' | translate}}</span>
+      <span ng-if="!item.$original.active" class="disabled">{{'value.disabled' | translate}}</span>
+    </span>
+
+  </lo-resource-table>
+</div>
+
+<resize-handle
+  ng-show="cac.selectedContactAttribute || showBulkActions"
+  id="resize-pane"
+  right-element-id="right-panel"
+  left-element-id="table-pane"></resize-handle>
+
+  <lo-details-panel id="right-panel"
+    class="right-panel"
+    ng-show="cac.selectedContactAttribute || showBulkActions"
+    ng-resource="cac.selectedContactAttribute">
+
+    <ng-form unsaved-changes-warning class="details-pane"
+      ng-show="cac.selectedContactAttribute && !showBulkActions" name="forms.detailsForm"
+      ng-model="cac.selectedContactAttribute"
+      ng-resource="cac.selectedContactAttribute"
+      lo-form-submit
+      lo-form-cancel
+      lo-form-alert>
+
+      <ng-form name="forms.headerForm" separate-validation>
+        <div class="detail-header"
+           ng-include src="'app/components/configuration/contactAttributes/contactAttributeDetailHeader.html'">
+         </div>
+      </ng-form>
+
+      <div class="detail-body"
+        ng-include src="'app/components/configuration/contactAttributes/contactAttributeDetailBody.html'">
+      </div>
+
+      <div class="detail-controls">
+        <input id="cancel-details-btn" type="button" class="btn"
+          value="{{'value.cancel' | translate}}"
+          lo-cancel>
+        </input>
+        <input id="submit-details-btn" class="btn btn-primary"
+          type="submit" value="{{'value.submit' | translate}}"
+          ng-disabled="forms.detailsForm.$invalid || ! forms.detailsForm.$dirty"
+          lo-submit="cac.submit()"
+          lo-submit-spinner
+          lo-submit-spinner-status="cac.selectedContactAttribute.$busy">
+        </input>
+      </div>
+    </ng-form>
+
+    <bulk-action-executor class="details-pane"
+      ng-show="showBulkActions"
+      items="cac.fetchContactAttributes()"
+      show-bulk-actions="showBulkActions">
+
+      <ba-set-contact-attribute-status></ba-set-message-template-status>
+    </bulk-action-executor>
+  </lo-details-panel>

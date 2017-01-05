@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .config(['$stateProvider', '$urlRouterProvider',
-    function($stateProvider, $urlRouterProvider) {
+  .config(['$stateProvider', '$urlRouterProvider', 'appFlags',
+    function($stateProvider, $urlRouterProvider, appFlags) {
 
       $urlRouterProvider.otherwise(function($injector) {
         var Session = $injector.get('Session');
@@ -154,6 +154,54 @@ angular.module('liveopsConfigPanel')
           resolve: {
             hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
               return UserPermissions.resolvePermissions(PermissionGroups.viewCampaigns);
+            }]
+          }
+        })
+        .state('content.configuration.contactAttributes', {
+          url: '/contactAttributes?id',
+          title: 'Configuration - Contact Attribute Management',
+          templateUrl: 'app/components/configuration/contactAttributes/contactAttributes.html',
+          controller: 'contactAttributesController as cac',
+          reloadOnSearch: false,
+          resolve: {
+            hasPermission: ['$state', '$q', '$timeout', function($state, $q, $timeout) {
+              var deferred = $q.defer();
+              $timeout(function() {
+                if (!appFlags.CONTACT_MANAGEMENT) {
+                $state.go('content.userprofile', {
+                  messageKey: 'permissions.unauthorized.message'
+                });
+                deferred.reject();
+              } else {
+                deferred.resolve();
+              }});
+              return deferred.promise;
+              // permissions not available for this feature yet
+              // return UserPermissions.resolvePermissions(PermissionGroups.viewContactAttributes);
+            }]
+          }
+        })
+        .state('content.configuration.contactLayouts', {
+          url: '/contactLayouts?id',
+          title: 'Configuration - Contact Layout Management',
+          templateUrl: 'app/components/configuration/contactLayouts/contactLayouts.html',
+          controller: 'contactLayoutsController as clc',
+          reloadOnSearch: false,
+          resolve: {
+            hasPermission: ['$state', '$q', '$timeout', function($state, $q, $timeout) {
+              var deferred = $q.defer();
+              $timeout(function() {
+                if (!appFlags.CONTACT_MANAGEMENT) {
+                $state.go('content.userprofile', {
+                  messageKey: 'permissions.unauthorized.message'
+                });
+                deferred.reject();
+              } else {
+                deferred.resolve();
+              }});
+              return deferred.promise;
+              // permissions not available for this feature yet
+              // return UserPermissions.resolvePermissions(PermissionGroups.viewContactLayouts);
             }]
           }
         })

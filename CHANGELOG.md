@@ -4,6 +4,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
 * CXV1-7082 - Created Warning for trying to save integration with the same name
+* CXV1-7053 and CXV1-7054 - Contact Attributes and Layouts *NOTE: Not for production release. Ensure gulp/flags.js has CONTACT_MANAGEMENT set to false before making a prod release*
 
 ## [4.10.3]
 * Bump soundwave

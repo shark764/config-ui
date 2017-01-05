@@ -44,9 +44,11 @@ angular.module('liveopsConfigPanel.config', [])
   return function() {
     return [{
       'display': 'No',
+      'displayKey': 'value.no',
       'value': false
     }, {
       'display': 'Yes',
+      'displayKey': 'value.yes',
       'value': true
     }];
   };
