@@ -24,17 +24,17 @@ angular.module('liveopsConfigPanel')
 
       vm.save = function() {
         $scope.tenantUser.activeExtension = $scope.tenantUser.extensions[0];
-        if ($scope.dontSaveRoleId === true) {
-          delete $scope.tenantUser.roleId
-        };
-
+        var roleId = $scope.tenantUser.roleId;
+        delete $scope.tenantUser.roleId;
         return $scope.tenantUser.save({
           tenantId: Session.tenant.tenantId
         }).then(function(tenantUser) {
+          $scope.tenantUser.roleId = roleId;
           vm.resetExtension();
           Alert.success($translate.instant('details.extensions.success'));
           return tenantUser;
         }, function(response) {
+          $scope.tenantUser.roleId = roleId;
           if(response.data.error.attribute.activeExtension) {
             Alert.error(response.data.error.attribute.activeExtension);
           } else {
