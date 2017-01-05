@@ -2,6 +2,7 @@
   <label>
     <select id="extension-type-dropdown" name="type"
       ng-required="true"
+      ng-disabled="extension.provider === 'twilio'"
       ng-class="{'default-selected': ! extension.type}"
       ng-model="extension.type"
       ng-change="clearValues()"
@@ -90,7 +91,7 @@
   <label>{{'user.details.region' | translate}}</label>
   <select id="extension-region-dropdown"
     name="region"
-    ng-disabled="ngDisabled"
+    ng-disabled="ngDisabled || !(['MANAGE_ALL_USER_EXTENSIONS'] | hasPermission)"
     ng-class="{'default-selected': ! extension.provider}"
     ng-required="extension.provider === 'twilio'"
     ng-model="extension.region"

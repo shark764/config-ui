@@ -86,9 +86,9 @@
         form="extensionsForm"
         ng-disabled="!(
             ('MANAGE_ALL_USER_EXTENSIONS' | hasPermission) ||
-            ('MANAGE_USER_EXTENSIONS' | hasPermission)
-          )"
-        dont-save-role-id="true">
+            ('MANAGE_USER_EXTENSIONS' | hasPermission) ||
+            ('MANAGE_MY_EXTENSIONS' | hasPermission)
+          )">
       </lo-extensions>
     <ng-form>
 

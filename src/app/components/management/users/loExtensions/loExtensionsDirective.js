@@ -7,15 +7,12 @@ angular.module('liveopsConfigPanel')
         restrict: 'E',
         require: '^form',
         scope: {
-          tenantUser: '=',
-          ngDisabled: '=',
-          dontSaveRoleId: '='
+          tenantUser: '='
         },
         templateUrl: 'app/components/management/users/loExtensions/loExtensions.html',
         controller: 'loExtensionsController as lec',
         link: function($scope, element, attrs, ngFormController){
           $scope.form = ngFormController;
-          $scope.isDisabled = $scope.ngDisabled;
         }
       };
     }
