@@ -122,10 +122,12 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.setDefaultVal = function () {
-        if ($scope.selectedIntegration.type === 'zendesk') {
+        if ($scope.selectedIntegration.type.value === 'zendesk') {
           if (angular.isUndefined($scope.selectedIntegration.properties.endpointPrefix) || $scope.selectedIntegration.properties.endpointPrefix === '') {
             $scope.selectedIntegration.properties.endpointPrefix = 'https://subdomain.zendesk.com/api/v2'
           }
+        } else {
+          $scope.selectedIntegration.properties.endpointPrefix = '';
         }
       };
 
@@ -139,7 +141,6 @@ angular.module('liveopsConfigPanel')
       });
 
       $scope.submit = function () {
-
         // we will use this variable after saving to set the auth type select bac to what it was
         var tempSelectedAuthType = $scope.selectedIntegration.authType;
         $scope.deleteExtraneousData($scope);
@@ -148,6 +149,7 @@ angular.module('liveopsConfigPanel')
           tenantId: Session.tenant.tenantId
         })
         .then(function (savedIntegration) {
+
           Alert.success($translate.instant('value.saveSuccess'));
         }, function (err) {
           Alert.error($translate.instant('value.saveFail'));
