@@ -547,6 +547,7 @@
   "integration.details.properties.authMethod":"Authentication Method.",
   "integration.details.properties.basicAuth": "Basic Authentication",
   "integration.details.properties.tokenAuth": "Token Authentication",
+  "integration.details.properties.noAuth": "No Authentication",
   "integration.details.restApiUri.error":"Please enter the API URI",
   "integration.details.properties.apiKey":"API Key",
   "integration.details.properties.url":"URL",
