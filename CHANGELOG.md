@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+* CXV1-7157 - On Integrations, although it's not part of the work from this ticket fixed issue with default API URL for Zendesk not populating as part of the same PR used for the main portion of this work, that was done in config-shared. 
 
 ## [4.9.0]
 * CXV1-7081 - removed UI for agents to make changes to their extensions on the user profile page, also removed the roleId property from the extensions edit module in order to prevent a JS bug that was occuring when agents made changes to their extensions
