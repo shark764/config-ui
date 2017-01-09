@@ -8,6 +8,7 @@ angular.module('liveopsConfigPanel')
 
       $scope.handleAuthMethodSelect = integrationSvc.handleAuthMethodSelect;
       $scope.deleteExtraneousData = integrationSvc.deleteExtraneousData;
+      $scope.authenticationTypes = integrationSvc.authenticationTypes;
 
       $scope.customIntegrationTypes = [
         {
@@ -49,17 +50,6 @@ angular.module('liveopsConfigPanel')
         'SSL'
       ];
 
-      $scope.authenticationTypes = [
-        {
-          name: $translate.instant('integration.details.properties.basicAuth'),
-          val: 'basic'
-        },
-        {
-          name: $translate.instant('integration.details.properties.tokenAuth'),
-          val: 'token'
-        }
-      ];
-
       $scope.twilioRegions = GlobalRegionsList;
       $scope.twilioDefaultRegion = GlobalRegionsList[0].twilioId;
 
@@ -79,7 +69,11 @@ angular.module('liveopsConfigPanel')
 
       function detectAuthMethod (integration) {
         if (integration.properties && integration.properties.token === '') {
-          return 'basic';
+          if (integration.properties.username === '') {
+            return 'noAuth';
+          } else {
+            return 'basic';
+          }
         } else {
           return 'token';
         }
@@ -149,13 +143,12 @@ angular.module('liveopsConfigPanel')
           tenantId: Session.tenant.tenantId
         })
         .then(function (savedIntegration) {
-
           Alert.success($translate.instant('value.saveSuccess'));
         }, function (err) {
           Alert.error($translate.instant('value.saveFail'));
         })
         .then(function() {
-          $scope.handleAuthMethodSelect($scope, tempSelectedAuthType, 'true');
+          $scope.handleAuthMethodSelect($scope, tempSelectedAuthType, $scope.authMethodCopy, 'true');
         });
 
       };

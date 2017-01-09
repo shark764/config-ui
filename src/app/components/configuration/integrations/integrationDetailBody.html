@@ -188,20 +188,19 @@
     class="added-padding">
     <div class="input-group">
       <label>{{'integration.details.properties.authMethod' | translate}} *</label>
-      <form-error field="forms.detailsForm.selectedAuthMethod" error-type-required="{{'integration.details.properties.selectAuthMethod.error' | translate}}" ></form-error>
+      <form-error field="forms.detailsForm.selectedAuthMethod" error-type-required="{{'integration.details.properties.selectAuthMethod.error' | translate}}"></form-error>
 
       <select
-        ng-init="handleAuthMethodSelect(tempScope, selectedIntegration.authType, 'true')"
+        ng-init="handleAuthMethodSelect(tempScope, selectedIntegration.authType, authMethodCopy, 'true')"
         id="auth-method-select"
-        ng-model="temp"
-        ng-change="handleAuthMethodSelect(tempScope, selectedIntegration.authType)">
+        ng-model="authMethodCopy"
+        ng-change="handleAuthMethodSelect(tempScope, selectedIntegration.authType, authMethodCopy)">
           <option
             ng-repeat="authMethod in authenticationTypes"
-            ng-selected="selectedIntegration.authType === authMethod.val">
-            {{authMethod.name}}
-          </option>
+            ng-selected="selectedIntegration.authType === authMethod.val">{{authMethod.name}}</option>
       </select>
     </div>
+
     <div
       ng-if="selectedIntegration.authType === 'basic'"
       class="added-padding">
