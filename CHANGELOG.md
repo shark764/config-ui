@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## [4.9.2]
 * CXV1-7381 - config-shared version bump to allow for fix to POSTS to integrations api
 * CXV1-6787 - Re-added new Twilio regions for Virginia and Oregon Interconnect
 * CXV1-7123 - On Integrations page, added 3rd option for authentication method, 'no authentication'
