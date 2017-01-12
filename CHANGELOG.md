@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+* Fix word wrap bug on API key management
 
 ## [4.9.2]
 * CXV1-7381 - config-shared version bump to allow for fix to POSTS to integrations api
