@@ -328,7 +328,8 @@
       </div>
     </div>
 
-    <div class="input-group">
+    <!-- removing this until the API supports it -->
+    <!-- <div class="input-group">
       <label title="{{'integration.details.properties.workItems' | translate}}">{{'integration.details.properties.workItems' | translate}}</label>
       <div>
         <toggle
@@ -337,7 +338,7 @@
           ng-model="selectedIntegration.properties.workItems"
           ng-disabled="!('MANAGE_ALL_PROVIDERS' | hasPermission)"></toggle>
         </div>
-    </div>
+    </div> -->
 
     <div class="input-group" ng-if="selectedIntegration.properties.workItems === true">
       <label>{{'integration.details.properties.zendeskInteractionFieldId' | translate}} *</label>

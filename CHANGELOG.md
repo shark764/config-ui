@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+* CXV1-7446 - Remove workItems switch from Zendesk integrations
 
 ## [4.9.3]
 * Fix word wrap bug on API key management
