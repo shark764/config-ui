@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+* Update soundwave for toolbar interconnect
 
 ## [4.9.5]
 * Changed password field on Zendesk integration to actually be a password type input (type="password") 
