@@ -4,9 +4,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 * Update soundwave for toolbar interconnect
+* Enable SIP contacts in transfer lists
 
 ## [4.9.5]
-* Changed password field on Zendesk integration to actually be a password type input (type="password") 
+* Changed password field on Zendesk integration to actually be a password type input (type="password")
 
 ## [4.9.4]
 * CXV1-7446 - Remove workItems switch from Zendesk integrations
