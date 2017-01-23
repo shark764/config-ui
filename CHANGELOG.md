@@ -5,6 +5,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 * Update soundwave for toolbar interconnect
 * Enable SIP contacts in transfer lists
+* Add 'messaging' channel type for message templates
 
 ## [4.9.5]
 * Changed password field on Zendesk integration to actually be a password type input (type="password")

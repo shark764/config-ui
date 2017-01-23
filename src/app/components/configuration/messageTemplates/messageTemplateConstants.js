@@ -14,14 +14,14 @@ angular.module('liveopsConfigPanel')
       {
         label: $translate.instant('value.sms'),
         value: 'sms'
+      },
+      {
+        label: $translate.instant('value.messaging'),
+        value: 'messaging'
       }
       // {
       //   label: $translate.instant('value.email'),
       //   value: 'email'
       // },
-      // {
-      //   label: $translate.instant('value.messaging'),
-      //   value: 'messaging'
-      // }
     ];
   }]);

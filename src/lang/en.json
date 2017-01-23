@@ -1032,6 +1032,7 @@
   "messageTemplates.details.enable.confirm": "This will enable this Message Template. Do you want to continue?",
   "messageTemplates.details.disable.confirm": "This will disable this Message Template. Do you want to continue?",
   "messageTemplates.details.creating": "Creating New Message Template",
+  "messageTemplates.details.channelRequired": "Please select at least one channel.",
   "transferLists.table.title": "Transfer Lists",
   "transferLists.table.categoryName": "Transfer Lists",
   "transferLists.details.creating": "Creating New Transfer List",

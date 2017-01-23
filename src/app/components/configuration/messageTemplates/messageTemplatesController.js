@@ -22,6 +22,11 @@ angular.module('liveopsConfigPanel')
     };
 
     vm.submit = function() {
+      if (!vm.selectedMessageTemplate.channels.length) {
+        vm.noChannelsSelected = true;
+        return;
+      }
+      vm.noChannelsSelected = false;
       return vm.selectedMessageTemplate.save({
         tenantId: Session.tenant.tenantId
       }, function(resp) {
