@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## [4.10.0]
 * Update soundwave for toolbar interconnect
 * Enable SIP contacts in transfer lists
 * Add 'messaging' channel type for message templates
