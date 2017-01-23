@@ -23,9 +23,10 @@
 
 <div class="input-group">
   <label class="textarea-label">{{'value.channels' | translate}} *</label>
+  <div class="lo-error" ng-if="mtc.noChannelsSelected">{{'messageTemplates.details.channelRequired' | translate}}</div>
   <div class="template-channel" ng-repeat="channel in mtc.channelTypes">
     <input type="checkbox" ng-checked="mtc.selectedMessageTemplate.channels.indexOf(channel.value) !== -1"
-      ng-disabled="!(['MANAGE_ALL_MESSAGE_TEMPLATES'] | hasPermission) || true" ng-click="mtc.toggleCheck(channel)"></input>
+      ng-disabled="!(['MANAGE_ALL_MESSAGE_TEMPLATES'] | hasPermission)" ng-click="mtc.toggleCheck(channel)"></input>
       {{channel.label}}
   </div>
 </div>
