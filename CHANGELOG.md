@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+* Version bump to 4.10.1-SNAPSHOT and fixed linting errors
 
 ## [4.10.0]
 * Update soundwave for toolbar interconnect

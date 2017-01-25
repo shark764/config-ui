@@ -120,7 +120,7 @@ angular.module('liveopsConfigPanel')
               userId: $scope.user.id
             }, $scope.reset);
 
-            $q.all([$scope.fetchMessageTemplates().$promise, $scope.userMessageTemplates.$promise]).then(function (response) {
+            $q.all([$scope.fetchMessageTemplates().$promise, $scope.userMessageTemplates.$promise]).then(function () {
 
               $timeout(function () {
                 $scope.updateCollapseState(tagWrapper.height());

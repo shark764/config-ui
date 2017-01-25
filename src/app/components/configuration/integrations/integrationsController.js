@@ -65,7 +65,7 @@ angular.module('liveopsConfigPanel')
             return false;
           }
         }
-      }
+      };
 
       function detectAuthMethod (integration) {
         if (integration.properties && integration.properties.token === '') {
@@ -118,7 +118,7 @@ angular.module('liveopsConfigPanel')
       $scope.setDefaultVal = function () {
         if ($scope.selectedIntegration.type.value === 'zendesk') {
           if (angular.isUndefined($scope.selectedIntegration.properties.endpointPrefix) || $scope.selectedIntegration.properties.endpointPrefix === '') {
-            $scope.selectedIntegration.properties.endpointPrefix = 'https://subdomain.zendesk.com/api/v2'
+            $scope.selectedIntegration.properties.endpointPrefix = 'https://subdomain.zendesk.com/api/v2';
           }
         } else {
           $scope.selectedIntegration.properties.endpointPrefix = '';
@@ -142,9 +142,9 @@ angular.module('liveopsConfigPanel')
         return $scope.selectedIntegration.save({
           tenantId: Session.tenant.tenantId
         })
-        .then(function (savedIntegration) {
+        .then(function () {
           Alert.success($translate.instant('value.saveSuccess'));
-        }, function (err) {
+        }, function () {
           Alert.error($translate.instant('value.saveFail'));
         })
         .then(function() {
