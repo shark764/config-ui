@@ -4,6 +4,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 * Version bump to 4.10.1-SNAPSHOT and fixed linting errors
+* CXV1-7598 - Updated config-shared for fix to GlobalRegionsList service, updated gulp to stop build upon linting error
 
 ## [4.10.0]
 * Update soundwave for toolbar interconnect
