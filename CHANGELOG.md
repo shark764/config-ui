@@ -4,6 +4,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [4.10.3]
+* Bump soundwave
+
 ## [4.10.2]
 * Bump realtime dashboards
 * CXV1-7603 - Fixed issue that was preventing users in UK from setting business hour exception to today's date
