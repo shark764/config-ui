@@ -5,7 +5,7 @@ angular.module('liveopsConfigPanel')
     function ($scope, $translate, Alert, Session, Integration, Tenant, Listener, integrationTableConfig, loEvents, $q, GlobalRegionsList, Region, appFlags) {
       var integrationSvc = new Integration();
       $scope.tempScope = $scope;
-
+      $scope.showDuplicateMsg = false;
       $scope.handleAuthMethodSelect = integrationSvc.handleAuthMethodSelect;
       $scope.deleteExtraneousData = integrationSvc.deleteExtraneousData;
       $scope.authenticationTypes = integrationSvc.authenticationTypes;
@@ -125,13 +125,21 @@ angular.module('liveopsConfigPanel')
         }
       };
 
-      $scope.$on(loEvents.tableControls.itemCreate, function () {
+      $scope.createIntegration = function () {
         $scope.selectedIntegration = new Integration({
           properties: {},
           active: true,
           type: $scope.customIntegrationTypes[0],
           authType: 'basic'
         });
+      };
+
+      $scope.$on(loEvents.tableControls.itemCreate, function () {
+        $scope.createIntegration();
+      });
+
+      $scope.$on(loEvents.tableControls.itemSelected, function () {
+        $scope.showDuplicateMsg = false;
       });
 
       $scope.submit = function () {
@@ -144,13 +152,18 @@ angular.module('liveopsConfigPanel')
         })
         .then(function () {
           Alert.success($translate.instant('value.saveSuccess'));
-        }, function () {
+        }, function (err) {
           Alert.error($translate.instant('value.saveFail'));
+          $scope.showDuplicateMsg = false;
+          if (err.data.error.attribute === 'name') {
+            Alert.error(err.data.error.message.capitalize());
+            $scope.duplicateErrorMessage = err.data.error.message.capitalize();
+            $scope.showDuplicateMsg = true;
+          }
         })
         .then(function() {
           $scope.handleAuthMethodSelect($scope, tempSelectedAuthType, $scope.authMethodCopy, 'true');
         });
-
       };
 
       $scope.updateActive = function () {
