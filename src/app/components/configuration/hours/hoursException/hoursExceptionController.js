@@ -21,13 +21,11 @@ angular.module('liveopsConfigPanel')
       vm.addHoursException = function () {
         vm.addBtnDisabled = true;
 
-        //Init date to tomorrow
+        //Init date to today
         var newLocalDate = new Date();
         var newUTCDate = $moment.utc([
           newLocalDate.getFullYear(), newLocalDate.getMonth(), newLocalDate.getDate()
         ]);
-
-        newUTCDate.add(1, 'days');
 
         var newExceptionHour = new BusinessHourException({
           date: newUTCDate,
@@ -36,8 +34,7 @@ angular.module('liveopsConfigPanel')
           endTimeMinutes: -1
         });
 
-        var today = new Date(newUTCDate._d);
-        vm.provideDateToday = $moment(today).format('YYYY-MM-DD');
+        vm.provideDateToday = $moment(newUTCDate).format('YYYY-MM-DD');
 
         if ($scope.hours.$exceptions && angular.isArray($scope.hours.$exceptions)) {
           $scope.hours.$exceptions.push(newExceptionHour);
