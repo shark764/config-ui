@@ -25,9 +25,16 @@
 
     <div class="input-group">
       <label>{{'value.name' | translate}} *</label>
+      <div
+        ng-if="showDuplicateMsg === true"
+        class="lo-error">
+        {{duplicateErrorMessage}}
+      </div>
       <div>
-        <input type="text" ng-model="selectedIntegration.name">
-        </input>
+        <input
+          type="text"
+          ng-model="selectedIntegration.name"
+          name="integrationName" />
       </div>
     </div>
 

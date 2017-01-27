@@ -50,12 +50,16 @@
     </div>
 
     <div class="detail-controls">
-      <input id="cancel-details-btn" type="button" class="btn"
+      <input id="cancel-details-btn"
+        on-click="showDuplicateMsg = false"
+        type="button"
+        class="btn"
         value="{{'value.cancel' | translate}}"
         lo-cancel>
       </input>
       <input id="submit-details-btn" class="btn btn-primary"
-        type="submit" value="{{'value.submit' | translate}}"
+        type="submit"
+        value="{{'value.submit' | translate}}"
         ng-disabled="forms.detailsForm.$invalid || ! forms.detailsForm.$dirty"
         lo-submit="submit()"
         lo-submit-spinner

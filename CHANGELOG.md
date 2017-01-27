@@ -2,7 +2,8 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [Unreleased]
+## Unreleased
+* CXV1-7082 - Created Warning for trying to save integration with the same name
 
 ## [4.10.3]
 * Bump soundwave
