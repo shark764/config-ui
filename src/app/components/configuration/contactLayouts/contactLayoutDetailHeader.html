@@ -1,0 +1,26 @@
+<div ng-if="! clc.selectedContactLayout.isNew()">
+  <toggle class="status-toggle" ng-model="clc.selectedContactLayout.active"
+    confirm-disable-message="{{'contactLayouts.details.disable.confirm' | translate}}"
+    confirm-enable-message="{{'contactLayouts.details.enable.confirm' | translate}}"
+    ng-disabled="clc.selectedContactLayout.active"
+    on-confirm="clc.updateActive()"></toggle>
+
+  <div class="info">
+    <h1 id="contactLayout-details-name-header">{{clc.selectedContactLayout.$original.name}}</h1>
+    <div class="details">
+      <b audit-text
+        translation="value.createdby.time"
+        user-id="clc.selectedContactLayout.$original.createdBy"
+        date="clc.selectedContactLayout.$original.created">
+      </b>
+      <br/>
+      <b audit-text ng-if="!!clc.selectedContactLayout.$original.updatedBy"
+        translation="value.updatedby"
+        user-id="clc.selectedContactLayout.$original.updatedBy"
+        date="clc.selectedContactLayout.$original.updated">
+      </b>
+    </div>
+  </div>
+</div>
+
+<h1 id="contactLayout-details-create-header" ng-hide="! clc.selectedContactLayout.isNew()">{{'contactLayouts.details.creating' | translate}}</h1>

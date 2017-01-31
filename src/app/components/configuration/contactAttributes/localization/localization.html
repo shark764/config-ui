@@ -1,0 +1,24 @@
+<div class="divider-header">
+  <h4>{{'contactAttributes.localization.title' | translate}}</h4>
+  <button id="add-label-btn" class="btn pull-right" title="Add a label"
+    ng-click="addLocalization()"
+    ng-disabled="localizations.length === localeNames.length">
+    <i class="fa fa-plus center"></i>
+  </button>
+</div>
+<input name="label" style="display:none" type="number" min=1 ng-model="localizations.length" />
+<div ng-repeat="item in localizations track by $index">
+  <div class="input-group localization-group">
+    <label>{{'value.label' | translate}} *</label>
+    <input required type="text" ng-model="item.label">
+    <label>{{'value.language' | translate}} *</label>
+    <select
+      required
+      ng-options="locale.value as locale.label for locale in availableLocales($index)"
+      ng-model="item.language"></select>
+    <i id="remove-localization-label"
+      class="fa fa-times remove"
+      ng-click="removeLocalization($index)"></i>
+  </div>
+</div>
+<div class="null" ng-if="!localizations.length">{{'contactAttributes.localization.required' | translate}}</div>

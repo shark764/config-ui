@@ -1,0 +1,57 @@
+<div class="divider-header first-header">
+  <h4>{{'details' | translate}}</h4>
+</div>
+
+<div class="input-group">
+  <label>{{'value.name' | translate}} *</label>
+  <form-error field="forms.detailsForm.objectName" error-type-required="{{'details.name.error' | translate}}" ></form-error>
+  <div>
+    <input
+      ng-required="true"
+      type="text"
+      ng-model="cac.selectedContactAttribute.objectName"
+      name="objectName"
+      ng-disabled="!cac.selectedContactAttribute.isNew()"/>
+  </div>
+</div>
+
+<div class="input-group">
+  <label class="label">{{'value.type' | translate}} *</label>
+  <select
+    required
+    ng-options="type.value as type.label for type in cac.attributeTypes"
+    ng-model="cac.selectedContactAttribute.type"
+    ng-disabled="!cac.selectedContactAttribute.isNew()"></select>
+</div>
+
+<div class="input-group">
+  <label>{{'value.default' | translate}}</label>
+  <div>
+    <form-error field="forms.detailsForm.default"
+      error-type-phone-number="{{'details.phoneNumber.error' | translate}}">
+    </form-error>
+    <input
+      type="tel"
+      lo-validate="cac.isTelInput()"
+      ng-if="cac.selectedContactAttribute.type === 'phone'"
+      ng-model="cac.selectedContactAttribute.default"
+      name="default"/>
+    <input
+      type="text"
+      ng-if="cac.selectedContactAttribute.type !== 'phone'"
+      ng-model="cac.selectedContactAttribute.default"
+      name="default"/>
+  </div>
+</div>
+
+<div class="input-group">
+  <label>{{'value.mandatory' | translate}}</label>
+  <div>
+    <toggle
+      type="text"
+      ng-model="cac.selectedContactAttribute.mandatory"
+      name="mandatory"></toggle>
+  </div>
+</div>
+
+<localization labels="cac.selectedContactAttribute.label" localizations="cac.localizations" form="forms.detailsForm"></localization>

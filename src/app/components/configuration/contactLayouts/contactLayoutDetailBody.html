@@ -1,0 +1,19 @@
+<div class="divider-header first-header">
+  <h4>{{'details' | translate}}</h4>
+</div>
+
+<div class="input-group">
+  <label>{{'value.name' | translate}} *</label>
+  <form-error field="forms.detailsForm.name" error-type-required="{{'details.name.error' | translate}}" ></form-error>
+  <div class="lo-error" role="alert" ng-if='clc.duplicateError'>{{clc.duplicateErrorMessage}}</div>
+  <div>
+    <input ng-required="true" type="text" ng-model="clc.selectedContactLayout.name" name="name"/>
+  </div>
+</div>
+
+<div class="input-group">
+  <label class="textarea-label">{{'value.description' | translate}}</label>
+  <textarea ng-model="clc.selectedContactLayout.description"></textarea>
+</div>
+
+<contact-layout model="clc.selectedContactLayout.layout" form="forms.detailsForm"></contact-layout>

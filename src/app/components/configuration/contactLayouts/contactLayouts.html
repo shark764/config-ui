@@ -1,0 +1,66 @@
+<div id="table-pane">
+  <table-controls
+    config="clc.tableConfig"
+    items="clc.fetchContactLayouts()"
+    search-query="clc.searchQuery">
+  </table-controls>
+
+  <lo-resource-table
+    config="clc.tableConfig"
+    items="clc.fetchContactLayouts()"
+    selected="clc.selectedContactLayout"
+    search-query="clc.searchQuery">
+
+    <span name="$original.active">
+      <span ng-if="item.$original.active">{{'value.enabled' | translate}}</span>
+      <span ng-if="!item.$original.active" class="disabled">{{'value.disabled' | translate}}</span>
+    </span>
+
+  </lo-resource-table>
+</div>
+
+<resize-handle
+  ng-show="clc.selectedContactLayout"
+  id="resize-pane"
+  right-element-id="right-panel"
+  left-element-id="table-pane"></resize-handle>
+
+  <lo-details-panel id="right-panel"
+    class="right-panel"
+    ng-show="clc.selectedContactLayout"
+    ng-resource="clc.selectedContactLayout">
+
+    <ng-form unsaved-changes-warning class="details-pane"
+      ng-show="clc.selectedContactLayout" name="forms.detailsForm"
+      ng-model="clc.selectedContactLayout"
+      ng-resource="clc.selectedContactLayout"
+      lo-form-submit
+      lo-form-cancel
+      lo-form-alert>
+
+      <ng-form name="forms.headerForm" separate-validation>
+        <div class="detail-header"
+           ng-include src="'app/components/configuration/contactLayouts/contactLayoutDetailHeader.html'">
+         </div>
+      </ng-form>
+
+      <div class="detail-body"
+        ng-include src="'app/components/configuration/contactLayouts/contactLayoutDetailBody.html'">
+      </div>
+
+      <div class="detail-controls">
+        <input id="cancel-details-btn" type="button" class="btn"
+          value="{{'value.cancel' | translate}}"
+          lo-cancel>
+        </input>
+        <input id="submit-details-btn" class="btn btn-primary"
+          type="submit" value="{{'value.submit' | translate}}"
+          ng-disabled="forms.detailsForm.$invalid || ! forms.detailsForm.$dirty"
+          lo-submit="clc.submit()"
+          lo-submit-spinner
+          lo-submit-spinner-status="clc.selectedContactLayout.$busy">
+        </input>
+      </div>
+    </ng-form>
+
+  </lo-details-panel>

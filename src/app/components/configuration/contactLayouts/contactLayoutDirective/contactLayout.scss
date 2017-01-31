@@ -1,0 +1,35 @@
+
+.connectedSortable {
+    min-height: 42px;
+    padding-left: 0px;
+}
+
+.attr-placeholder {
+  min-height: 42px;
+  padding: 9px;
+  margin-bottom: 10px;
+  background-color: #fcfcfc;
+  border: 2px dotted red;
+  border-radius: 3px;
+}
+
+.connectedSortable>div {
+    padding: 10px 15px;
+}
+
+contact-layout .divider-header {
+  margin-bottom: 20px;
+}
+
+contact-layout lo-multibox {
+  display: inline-block;
+  width: 50%;
+}
+
+.layout-category {
+  width: 50% !important;
+}
+
+.list-attribute {
+  margin-left: 20px;
+}

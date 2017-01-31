@@ -1,0 +1,24 @@
+.localization-group {
+  margin-bottom: 10px;
+
+  select,
+  input {
+    width: 90%;
+  }
+
+  select {
+    min-width: 170px;
+  }
+
+  i {
+    padding-left: 3px;
+  }
+
+  label:first-of-type {
+    width: 60px !important;
+  }
+
+  label {
+    width: 80px !important;
+  }
+}
