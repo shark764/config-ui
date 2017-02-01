@@ -1,5 +1,6 @@
 .localization-group {
   margin-bottom: 10px;
+  max-width: 520px;
 
   select,
   input {
@@ -19,6 +20,6 @@
   }
 
   label {
-    width: 80px !important;
+    width: 85px !important;
   }
 }
