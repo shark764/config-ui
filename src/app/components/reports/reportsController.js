@@ -31,7 +31,8 @@ angular.module('liveopsConfigPanel')
 
       $scope.fetch = function () {
         Report.get({
-          tenantId: Session.tenant.tenantId
+          tenantId: Session.tenant.tenantId,
+          mode: (($state.current.name === 'content.billing') ? 'platform' : 'reports')
         }, function (data) {
           $scope.birst.SSOToken = data.reportToken;
           $scope.buildUrl();
