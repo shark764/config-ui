@@ -173,6 +173,7 @@
   "navbar.help.help": "Help",
   "navbar.help.api": "API Documentation",
   "navbar.reports.title": "Reporting",
+  "navbar.reports.bd.title": "Billing Reports",
   "navbar.reports.hd.title": "Historical Dashboards",
   "navbar.reports.rtd.title": "Realtime Dashboards",
   "navbar.reports.rtdCustom.title": "Custom Realtime Dashboards",

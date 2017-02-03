@@ -628,6 +628,17 @@ angular.module('liveopsConfigPanel')
           templateUrl: 'app/components/reports/reports.html',
           controller: 'ReportsController'
         })
+        .state('content.billing', {
+          url: '/billing-reports?id',
+          title:'Reporting - Billing Reports',
+          templateUrl: 'app/components/reports/reports.html',
+          controller: 'ReportsController',
+          resolve: {
+            hasPermission: ['UserPermissions', function(UserPermissions) {
+              return UserPermissions.resolvePermissions(['PLATFORM_VIEW_ALL_TENANTS']);
+            }]
+          }
+        })
         .state('content.recordings', {
           url: '/recordings?id',
           title: 'Reporting - Recordings',
