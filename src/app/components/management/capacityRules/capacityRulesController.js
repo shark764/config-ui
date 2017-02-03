@@ -17,7 +17,7 @@ angular.module('liveopsConfigPanel')
         }, 'CapacityRule' + $scope.selectedCapacityRule.id);
 
         angular.forEach(versions, function(version, index){
-          version.fakeVersion = 'v' + index;
+          version.fakeVersion = 'v' + (index + 1);
         });
 
         return versions;
