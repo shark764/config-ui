@@ -3,9 +3,8 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
-* **IMPORTANT** - Changed soundwave version back down to 2.8.10 until we are sure that the work in CXV1-6577 is complete and approved.   
+* CXV1-5699 - Removed reason list creation from Groups until group has been created.    
 * CXV1-4043 - Changed Capacity Rule version naming so that v1 will be the first version, as opposed to v0.
-* CXV1-6577 - Remove auto ticket creation from Zendesk toolbar
 * CXV1-7082 - Created Warning for trying to save integration with the same name
 * CXV1-7053 and CXV1-7054 - Contact Attributes and Layouts *NOTE: Not for production release. Ensure gulp/flags.js has CONTACT_MANAGEMENT set to false before making a prod release*
 
