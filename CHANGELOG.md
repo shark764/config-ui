@@ -3,10 +3,12 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
+* CXV1-7053 and CXV1-7054 - Contact Attributes and Layouts *NOTE: Not for production release. Ensure gulp/flags.js has CONTACT_MANAGEMENT set to false before making a prod release*
+
+## [4.10.4]
 * CXV1-5699 - Removed reason list creation from Groups until group has been created.    
 * CXV1-4043 - Changed Capacity Rule version naming so that v1 will be the first version, as opposed to v0.
 * CXV1-7082 - Created Warning for trying to save integration with the same name
-* CXV1-7053 and CXV1-7054 - Contact Attributes and Layouts *NOTE: Not for production release. Ensure gulp/flags.js has CONTACT_MANAGEMENT set to false before making a prod release*
 
 ## [4.10.3]
 * Bump soundwave
