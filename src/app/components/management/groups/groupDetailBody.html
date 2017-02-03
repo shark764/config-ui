@@ -86,5 +86,8 @@
     </table>
   </div>
 
-  <group-reason-lists group="selectedGroup"></group-reason-lists>
+  <group-reason-lists
+    group="selectedGroup"
+    ng-if="!selectedGroup.isNew()">    
+  </group-reason-lists>
 </div>
