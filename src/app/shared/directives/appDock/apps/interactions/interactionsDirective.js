@@ -159,14 +159,34 @@ angular.module('liveopsConfigPanel')
             $interval.cancel(getRecordingUrl);
           });
 
+          function fetchInteractionData() {
+            var interactionData;
+
+            switch(scope.config.type) {
+              case 'voice':
+                interactionData = recordings();
+                break;
+              case 'messaging':
+                interactionData = messages();
+                break;
+              case 'sms':
+                interactionData = messages();
+                break;
+              default:
+                interactionData = [];
+            }
+
+            return interactionData;
+          }
+
           // once we've attempted to get both, set interactionData to
           // be the first response that's actually an array
           $q.all([
-              messages(),
-              recordings(),
+              fetchInteractionData(),
               tenantTimezone()
             ])
             .then(function (interactionsResponse) {
+
               scope.interactionData = _.find(interactionsResponse, function (item) {
                 return angular.isArray(item);
               });
@@ -174,12 +194,11 @@ angular.module('liveopsConfigPanel')
               // if none of the API calls got us the expected array of
               // data, then that means there is no data for the given
               // interaction, so show the error message
-              if (!angular.isArray(scope.interactionData)) {
+              if (!angular.isArray(scope.interactionData) || (angular.isArray(scope.interactionData) && scope.interactionData.length < 1)) {
                 scope.showNoResultsMsg = true;
+                scope.isLoading = false;
               } else {
-                if (scope.interactionData[0].hasOwnProperty('payload') && scope.interactionData[0].payload.type !== 'message') {
-                  scope.isLoading = false;
-                }
+                scope.isLoading = false;
                 // otherwise, if no item has been selected yet, then automatically
                 // set the first item to display its data on load
                 if (!scope.selectedItem) {
