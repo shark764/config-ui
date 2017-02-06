@@ -7,59 +7,6 @@ angular.module('liveopsConfigPanel')
       var recordingInterval;
       $scope.forms = {};
 
-      function getRecordingUrl(recordingData) {
-        $interval.cancel(recordingInterval);
-
-        var audioCurrentTime = 0;
-        if (recordingData) {
-
-          var audioPlayer = document.getElementById('audio-player-panel');
-          // first off, rewind audio every time a new recording is selected
-          audioPlayer.onloadeddata = function () {
-            audioPlayer.currentTime = 0;
-          };
-
-          // the interval we're setting here is to poll the API for
-          // an automatically updated recording URL
-          recordingInterval = $interval(function () {
-            // make sure that we have an audio player and that it
-            // is NOT currently playing
-            var audioPlayer = document.getElementById('audio-player-panel');
-
-            var audioIsPlaying = false;
-            if (!(audioPlayer.ended || audioPlayer.paused)) {
-              audioIsPlaying = true;
-            }
-
-            if (audioPlayer && audioIsPlaying !== true) {
-              // now get the recording data
-              var recordingUrl = Recording.cachedQuery({
-                tenantId: Session.tenant.tenantId,
-                interactionId: recordingData.interactionId
-              }, Recording + recordingData.interactionId, true);
-
-              // here is where we update the URL for the audio player
-              $q.when(recordingUrl.$promise).then(function (response) {
-                if (response && $scope.selectedRecording) {
-                  // get the stopping point before we reset the audio player
-                  // with a new src url
-                  audioCurrentTime = audioPlayer.currentTime;
-
-                  // here's where we update the url
-                  $scope.selectedRecording.url = response[0].url;
-
-                  // if the audio file was paused at some point after
-                  // the beginning of the playback, then skip back to that point
-                  audioPlayer.onloadeddata = function () {
-                    audioPlayer.currentTime = audioCurrentTime;
-                  };
-                }
-              });
-            }
-          }, 300000);
-        }
-      }
-
       vm.filterObject = function (params, predicate) {
         var newParam = {};
         for (var paramIndex in params) {
@@ -176,9 +123,67 @@ angular.module('liveopsConfigPanel')
         endDate: $moment()
       };
 
+      function getRecordingUrl (recordingDataVal) {
+        // make sure that we have an audio player and that it
+        // is NOT currently playing
+        var audioPlayer = document.getElementById('audio-player-panel');
+        var audioIsPlaying = false;
+        if (!(audioPlayer.ended || audioPlayer.paused)) {
+          audioIsPlaying = true;
+        }
+
+        if ((audioPlayer && audioIsPlaying !== true)) {
+          // now get the recording data
+          var recordingUrl = Recording.cachedQuery({
+            tenantId: Session.tenant.tenantId,
+            interactionId: recordingDataVal.interactionId
+          }, Recording + recordingDataVal.interactionId, true);
+
+          // here is where we update the URL for the audio player
+          recordingUrl.$promise.then(function (recordingUrlResponse) {
+            if (recordingUrlResponse && $scope.selectedRecording) {
+              // get the stopping point before we reset the audio player
+              // with a new src url
+              var audioCurrentTimeVal = audioPlayer.currentTime;
+
+              // here's where we update the url
+              $scope.selectedRecording.url = recordingUrlResponse[0].url;
+
+              // if the audio file was paused at some point after
+              // the beginning of the playback, then skip back to that point
+              audioPlayer.onloadeddata = function () {
+                audioPlayer.currentTime = audioCurrentTimeVal;
+              };
+
+              pollforRecordingUrl(recordingUrlResponse);
+            }
+          });
+        }
+      }
+
+      function pollforRecordingUrl (recordingData) {
+        if (recordingData) {
+          var audioPlayer = document.getElementById('audio-player-panel');
+          // first off, rewind audio every time a new recording is selected
+          audioPlayer.onloadeddata = function () {
+            audioPlayer.currentTime = 0;
+          };
+
+          // the interval we're setting here is to poll the API for
+          // an automatically updated recording URL
+          recordingInterval = $interval(function () {
+            getRecordingUrl(recordingData);
+          }, 30000);
+        }
+      }
+
+
       $scope.$on(loEvents.tableControls.itemSelected, function (event, recordingData) {
-        $q.when(recordingData).then(function () {
-          getRecordingUrl(recordingData);
+        $q.when(recordingData).then(function (recordingDataResponse) {
+          $interval.cancel(recordingInterval);
+          if (recordingDataResponse) {
+            getRecordingUrl(recordingDataResponse);
+          }
         });
       });
 
