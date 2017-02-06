@@ -21,7 +21,7 @@ module.exports = function(options) {
             SHOW_ZENDESK: argv.showZendesk || true,
             APPDOCK: argv.showAppdock || true,
             API_KEYS: argv.showApiKeys || false,
-            CONTACT_MANAGEMENT: argv.contactManagement || false,
+            CONTACT_MANAGEMENT: argv.contactManagement || true,
             PLATFORM_REPORTING: argv.platformReporting || true
           }
         }
