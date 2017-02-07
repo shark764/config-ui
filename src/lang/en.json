@@ -1052,6 +1052,7 @@
   "contactAttributes.localization.required": "Contact attributes require at least one localization label.",
   "contactAttributes.details.enable.confirm": "This will enable this Contact Attribute. Do you want to continue?",
   "contactAttributes.details.disable.confirm": "This will disable this Contact Attribute. Do you want to continue?",
+  "contactAttributes.readonly.warning": "This contact attribute is inherited and cannot be edited.",
   "contactLayouts.table.title": "Contact Layouts",
   "contactLayouts.details.creating": "Creating New Contact Layout",
   "contactLayouts.layout.title": "Layout",

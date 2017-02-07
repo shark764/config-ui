@@ -1,5 +1,6 @@
 <div ng-if="! cac.selectedContactAttribute.isNew()">
   <toggle class="status-toggle" ng-model="cac.selectedContactAttribute.active"
+    ng-disabled="cac.attributeIsInherited()"
     confirm-disable-message="{{'contactAttributes.details.disable.confirm' | translate}}"
     confirm-enable-message="{{'contactAttributes.details.enable.confirm' | translate}}"
     on-confirm="cac.updateActive()"></toggle>
@@ -10,12 +11,14 @@
       <b audit-text
         translation="value.createdby.time"
         user-id="cac.selectedContactAttribute.$original.createdBy"
+        no-username-fallback="true"
         date="cac.selectedContactAttribute.$original.created">
       </b>
       <br/>
       <b audit-text ng-if="!!cac.selectedContactAttribute.$original.updatedBy"
         translation="value.updatedby"
         user-id="cac.selectedContactAttribute.$original.updatedBy"
+        no-username-fallback="true"
         date="cac.selectedContactAttribute.$original.updated">
       </b>
     </div>
