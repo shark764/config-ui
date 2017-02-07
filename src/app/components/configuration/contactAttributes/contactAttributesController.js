@@ -9,6 +9,10 @@ angular.module('liveopsConfigPanel')
 
     vm.attributeTypes = attributeTypes;
 
+    vm.attributeIsInherited = function() {
+      return vm.selectedContactAttribute.tenantId !== Session.tenant.tenantId;
+    };
+
     vm.fetchContactAttributes = function() {
       return ContactAttribute.cachedQuery({
         tenantId: Session.tenant.tenantId

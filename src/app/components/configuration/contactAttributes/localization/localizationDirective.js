@@ -8,7 +8,8 @@ angular.module('liveopsConfigPanel')
         scope: {
           labels: '=',
           localizations: '=',
-          form: '='
+          form: '=',
+          inherited: '='
         },
         templateUrl: 'app/components/configuration/contactAttributes/localization/localization.html',
         link: function(scope) {
