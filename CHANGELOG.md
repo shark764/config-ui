@@ -6,6 +6,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 * CXV1-7653 - Fixed 403/Forbidden on call recording retrieval/playback on Recordings page
 * CXV1-7053 and CXV1-7054 - Contact Attributes and Layouts *NOTE: Not for production release. Ensure gulp/flags.js has CONTACT_MANAGEMENT set to false before making a prod release*
 * CXV1-6726 - Add billing reports menu link *NOTE: Not for production release until live access. Ensure gulp/flags.js has PLATFORM_REPORTING set to false before making a prod release*
+* Updating Flow Designer
 
 ## [4.10.4]
 * CXV1-5699 - Removed reason list creation from Groups until group has been created.    
