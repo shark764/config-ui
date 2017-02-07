@@ -11,7 +11,7 @@
 </div>
 
 <section
-  ng-if="selectedItem.url && interactionData.length > 0 && showNoResultsMsg !== true"
+  ng-if="configData.type === 'voice' && interactionData.length > 0 && showNoResultsMsg !== true"
   id="audio-content"
   layout="row"
   flex
@@ -20,7 +20,7 @@
 </section>
 
 <section
-  ng-if="selectedItem.payload && interactionData.length > 0 && showNoResultsMsg !== true"
+  ng-if="(configData.type === 'messaging' || configData.type === 'sms') && interactionData.length > 0 && showNoResultsMsg !== true"
   id="messaging-content"
   layout="row"
   flex

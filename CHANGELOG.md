@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
+* CXV1-7070 -  **IMPORTANT** this will not work, and in fact, may break the appDock, until CXV1-7419 is complete! Updated App Dock to be able to handle SMS messages, and use a cleaner method of interaction type detection
 * CXV1-7653 - Fixed 403/Forbidden on call recording retrieval/playback on Recordings page
 * CXV1-7053 and CXV1-7054 - Contact Attributes and Layouts *NOTE: Not for production release. Ensure gulp/flags.js has CONTACT_MANAGEMENT set to false before making a prod release*
 * CXV1-6726 - Add billing reports menu link *NOTE: Not for production release until live access. Ensure gulp/flags.js has PLATFORM_REPORTING set to false before making a prod release*
