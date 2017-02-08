@@ -1,13 +1,19 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('contactLayoutsController', ['contactLayoutsTableConfig', 'ContactLayout', 'attributeTypes', 'Session', '$scope', '$translate', 'loEvents', function(contactLayoutsTableConfig, ContactLayout, attributeTypes, Session, $scope, $translate, loEvents) {
+  .controller('contactLayoutsController', ['contactLayoutsTableConfig', 'ContactLayout', 'ContactAttribute', 'attributeTypes', 'Session', '$scope', '$translate', 'loEvents', function(contactLayoutsTableConfig, ContactLayout, ContactAttribute, attributeTypes, Session, $scope, $translate, loEvents) {
     var vm = this;
     $scope.forms = {};
     vm.tableConfig = contactLayoutsTableConfig;
 
     vm.fetchContactLayouts = function() {
       return ContactLayout.cachedQuery({
+        tenantId: Session.tenant.tenantId
+      });
+    };
+
+    vm.fetchAttributes = function() {
+      return ContactAttribute.cachedQuery({
         tenantId: Session.tenant.tenantId
       });
     };
@@ -45,7 +51,18 @@ angular.module('liveopsConfigPanel')
       vm.selectedContactLayout = new ContactLayout({
         tenantId: Session.tenant.tenantId,
         active: false,
-        layout: []
+        layout: [
+          {
+            label: {
+              'en-US': $translate.instant('contactLayouts.attributes.mandatoryCategory')
+            },
+            attributes: vm.fetchAttributes().$promise.then(function(attrs) {
+              return attrs.filter(function(attr) {
+                return attr.mandatory;
+              });
+            })
+          }
+        ]
       });
     });
 

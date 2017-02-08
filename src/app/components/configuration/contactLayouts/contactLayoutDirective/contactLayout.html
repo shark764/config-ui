@@ -8,11 +8,16 @@
   </button>
 </div>
 
+<p class="lo-error required-attributes" ng-if="!loading && requiredAttributes().length">
+  {{'contactLayouts.attributes.required' | translate}} {{requiredAttributes()}}
+</p>
+
 <div ng-model="model" ui-sortable="sortableListsOptions" ng-if="!loading">
   <div ng-repeat="list in model">
     ::: <input class="layout-category" type="text" ng-model="list.label['en-US']"></input>
     <i id="remove-category-label"
     class="fa fa-times remove"
+    ng-if="!hasMandatoryAttributes(list)"
     ng-click="removeCategory($index)"></i>
     <button id="add-attribute-btn" class="btn pull-right" title="Add an attribute"
       ng-click="addAttribute($index)">
@@ -23,7 +28,7 @@
             :::
             <lo-multibox name="listItem{{$index}}"
               ng-init = "onSelectCallback = onSelect(list);"
-              items="fetchAttributes()"
+              items="attributes"
               resource-name="ContactAttribute"
               selected-item="attribute"
               on-item-select="onSelectCallback"

@@ -7,9 +7,38 @@ angular.module('liveopsConfigPanel')
         restrict: 'E',
         scope: {
           model: '=',
-          form: '='
+          form: '=',
+          attributes: '='
         },
         link: function(scope, element) {
+
+          scope.requiredAttributes = function() {
+            // Attributes are strings when first receieved from the API and immediately
+            // on submit. Don't flash the error message when the attributes are strings.
+            if (typeof scope.model[0].attributes[0] === 'string') {
+              return;
+            }
+
+            return scope.attributes.filter(function(attr) {
+              return attr.mandatory;
+            }).filter(function(attr) {
+              var notFound = true;
+              if (scope.model) {
+                scope.model.forEach(function(category) {
+                  if (Array.isArray(category.attributes)) {
+                    category.attributes.forEach(function(existingAttribute) {
+                      if (existingAttribute && existingAttribute.id === attr.id) {
+                        notFound = false;
+                      }
+                    });
+                  }
+                });
+              }
+              return notFound;
+            }).map(function(attr) {
+              return attr.objectName;
+            }).join(', ');
+          };
 
           scope.sortableListsOptions = {
             cursor: 'move'
@@ -19,12 +48,6 @@ angular.module('liveopsConfigPanel')
             placeholder: 'attr-placeholder',
             connectWith: '.connectedSortable',
             cursor: 'move'
-          };
-
-          scope.fetchAttributes = function() {
-            return ContactAttribute.cachedQuery({
-              tenantId: Session.tenant.tenantId
-            });
           };
 
           scope.addCategory = function() {
@@ -57,6 +80,13 @@ angular.module('liveopsConfigPanel')
             list.attributes.splice(idx, 1);
           };
 
+          scope.hasMandatoryAttributes = function(list) {
+            return list.attributes.filter(function(attribute) {
+              if (attribute) {
+                return attribute.mandatory;
+              }
+            }).length;
+          };
 
           scope.$watch('model', function(model, oldModel) {
             // don't set the form dirty from the changes that happen when the model first loads
@@ -67,6 +97,12 @@ angular.module('liveopsConfigPanel')
               scope.form.$setDirty();
             }
           }, true);
+
+          scope.$watch(scope.requiredAttributes, function(newVal) {
+            if (newVal) {
+              scope.form.$setValidity('missingAttributes', !newVal.length);
+            }
+          });
 
           scope.$on(loEvents.tableControls.itemSelected, waitBeforeInit);
           scope.$on(loEvents.tableControls.itemCreate, waitBeforeInit);
@@ -102,8 +138,12 @@ angular.module('liveopsConfigPanel')
 
           function init() {
             if (scope.model) {
-              return scope.fetchAttributes().$promise.then(function(allAttributes) {
+              return scope.attributes.$promise.then(function(allAttributes) {
                 scope.model.forEach(function(category) {
+                  if (category.attributes.$$state) {
+                    category.attributes = category.attributes.$$state.value;
+                    return;
+                  }
                   category.attributes.forEach(function(attribute, idx) {
                     category.attributes[idx] = allAttributes.filter(function(attr) {
                       return attr.id === attribute;
