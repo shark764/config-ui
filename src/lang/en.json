@@ -1061,6 +1061,8 @@
   "contactLayouts.layout.noCategories": "Add categories with the plus button above.",
   "contactLayouts.details.enable.confirm": "This will enable this Contact Layout. Do you want to continue?",
   "contactLayouts.details.disable.confirm": "This will disable this Contact Layout. Do you want to continue?",
+  "contactLayouts.attributes.mandatoryCategory": "Mandatory Attributes",
+  "contactLayouts.attributes.required": "These attributes are required to update this layout:",
   "transferLists.table.title": "Transfer Lists",
   "transferLists.table.categoryName": "Transfer Lists",
   "transferLists.details.creating": "Creating New Transfer List",

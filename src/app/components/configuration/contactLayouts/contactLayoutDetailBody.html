@@ -16,4 +16,4 @@
   <textarea ng-model="clc.selectedContactLayout.description"></textarea>
 </div>
 
-<contact-layout model="clc.selectedContactLayout.layout" form="forms.detailsForm"></contact-layout>
+<contact-layout attributes="clc.fetchAttributes()" model="clc.selectedContactLayout.layout" form="forms.detailsForm"></contact-layout>
