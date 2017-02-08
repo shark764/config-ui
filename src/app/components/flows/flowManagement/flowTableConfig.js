@@ -1,8 +1,10 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('flowTableConfig', ['$translate', 'statuses', 'UserPermissions', 'helpDocsHostname',
-    function($translate, statuses, UserPermissions, helpDocsHostname) {
+  .service('flowTableConfig', ['$translate', 'statuses', 'UserPermissions', 'helpDocsHostname', 'Flow',
+    function($translate, statuses, UserPermissions, helpDocsHostname, Flow) {
+      var flowSvc = new Flow();
+
       return {
         'fields': [{
           'header': {
@@ -42,6 +44,8 @@ angular.module('liveopsConfigPanel')
         'showBulkActions': function() {
           return UserPermissions.hasPermission('MANAGE_ALL_FLOWS');
         },
+        'dropDownUnderCreateBtn': $translate.instant('flow.createBtn.duplicateBtn'),
+        'dropDownUnderCreateBtnHandler': flowSvc.cloneFlow,
         'showCreate': function() {
           return UserPermissions.hasPermission('MANAGE_ALL_FLOWS');
         },

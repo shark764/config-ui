@@ -25,12 +25,14 @@ angular.module('liveopsConfigPanel')
           config: '=', //Config object. See above for accepted values
           items: '=', //Source list of items to be added to the table
           searchQuery: '=', //Expose the text entered in the search bar
-          greaterOrLessThan: '=?' //Expose the greaterOrLessThan inputs
+          greaterOrLessThan: '=?', //Expose the greaterOrLessThan inputs
+          selectedItem: '=' // gives us data from the currently selected row
         },
         templateUrl: 'app/shared/directives/tableControls/tableControls.html',
         transclude: true,
         controller: function() {},
         link: function($scope) {
+
           $scope.$watch('config', function(newConfig) {
             if (!newConfig) {
               console.warn('Table-controls config is not defined. Value is: ', newConfig);

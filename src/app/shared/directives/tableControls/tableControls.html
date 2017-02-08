@@ -10,13 +10,22 @@
         <i class="fa fa-question-circle"></i>
       </a>
     </div>
-    <div class="col action-container">
+    <div
+      class="col action-container"
+      ng-class="{'with-dropdown' : config.dropDownUnderCreateBtn.length}">
       <button id="create-btn" class="btn btn-create btn-primary"
         ng-show="showCreate | invoke"
         ng-click="onCreateClick()">
-
-      {{'value.create' | translate}}
+        {{'value.create' | translate}}
       </button>
+      <span
+        ng-show="config.dropDownUnderCreateBtn.length"
+        class="dropdown-label btn btn-create btn-primary"
+        ng-init="showCreateBtnSubmenu = false"
+        title="{{config.dropDownUnderCreateBtn}}"
+        ng-click="showCreateBtnSubmenu = ! showCreateBtnSubmenu">
+          <i class="fa" ng-class="{'fa-caret-up' : showCreateBtnSubmenu, 'fa-caret-down' : ! showCreateBtnSubmenu}"></i>
+      </span>
     </div>
   </div>
 
@@ -75,6 +84,14 @@
         display-path="header.display"
         value-path="name">
       </filter-dropdown>
+
+      <button id="create-dropdown-btn"
+        ng-disabled="!selectedItem"
+        class="btn"
+        ng-show="showCreateBtnSubmenu"
+        ng-click="config.dropDownUnderCreateBtnHandler(selectedItem); showCreateBtnSubmenu = false">
+        {{config.dropDownUnderCreateBtn}}
+      </button>
     </div>
   </div>
 </div>

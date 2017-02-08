@@ -43,6 +43,34 @@ table-controls {
         padding: 0;
       }
 
+      &.with-dropdown {
+        #create-btn {
+          border-top-right-radius: 0;
+          border-bottom-right-radius: 0;
+          border-right-width: 0;
+        }
+
+        .dropdown-label {
+          &.btn.btn-create  {
+            border: 1px solid #ccc;
+            border-left-color: #fff;
+            background-color: #07487a;
+            width: 30px;
+            padding: 7px;
+            color: #fff;
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+            margin-left: 0;
+          }
+        }
+      }
+
+      #create-dropdown-btn {
+        position: absolute;
+        top: -21px;
+        right: 0;
+      }
+
       .filter-button {
         padding: 0;
       }

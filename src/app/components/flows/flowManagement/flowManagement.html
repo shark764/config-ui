@@ -2,9 +2,10 @@
   <table-controls
     config="tableConfig"
     items="fetchFlows()"
-    search-query="searchQuery">
+    search-query="searchQuery"
+    selected-item="selectedFlow">
   </table-controls>
-  
+
   <lo-resource-table
     config="tableConfig"
     items="fetchFlows()"
@@ -14,7 +15,7 @@
     <span name="activeVersion">
       {{item.activeFlow.name}}
     </span>
-  
+
     <span name="active">
       <span ng-if="item.$original.active">{{'value.enabled' | translate}}</span>
       <span ng-if="!item.$original.active" class="disabled">{{'value.disabled' | translate}}</span>
@@ -73,7 +74,7 @@
     ng-show="showBulkActions"
     items="fetchFlows()"
     show-bulk-actions="showBulkActions">
-    
+
     <ba-set-flow-status></ba-set-flow-status>
   </bulk-action-executor>
 </lo-details-panel>
