@@ -124,6 +124,10 @@ angular.module('liveopsConfigPanel.config', [])
     {
       name:'Messaging',
       value: ':messaging'
+    },
+    {
+      name: 'Work Item',
+      value: ':work-item'
     }
   ])
 
