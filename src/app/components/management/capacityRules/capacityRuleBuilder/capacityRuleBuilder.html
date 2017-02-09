@@ -26,7 +26,7 @@
   <div class="others"
        dnd-list="rules"
        dnd-drop="addRule(item, index)"
-       dnd-allowed-types="[':sms', ':messaging', ':work-offer', ':email', ':chat']">
+       dnd-allowed-types="[':sms', ':messaging', ':work-offer', ':email', ':chat', ':work-item']">
     <div class="rule"
          ng-repeat="rule in rules">
       <div class="container">
@@ -34,7 +34,7 @@
              dnd-list="rule.channels"
              dnd-horizontal-list="true"
              dnd-drop="addChannel(rule, item, index, event)"
-             dnd-allowed-types="[':sms', ':messaging', ':work-offer', ':email', ':chat']">
+             dnd-allowed-types="[':sms', ':messaging', ':work-offer', ':email', ':chat', ':work-item']">
           <p class="channel"
              ng-repeat="channel in rule.channels"
              dnd-type="channel.value"
