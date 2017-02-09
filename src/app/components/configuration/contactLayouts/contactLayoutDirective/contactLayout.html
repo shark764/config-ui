@@ -3,7 +3,7 @@
 <div class="divider-header" ng-if="!loading">
   <h4>{{'contactLayouts.layout.title' | translate}}</h4>
   <button id="add-category-btn" class="btn pull-right" title="Add a category"
-    ng-click="addCategory()">
+    ng-click="addCategory()" ng-hide="!('CONTACTS_LAYOUTS_UPDATE' | hasPermission)">
     <i class="fa fa-plus center"></i>
   </button>
 </div>
@@ -14,13 +14,13 @@
 
 <div ng-model="model" ui-sortable="sortableListsOptions" ng-if="!loading">
   <div ng-repeat="list in model">
-    ::: <input class="layout-category" type="text" ng-model="list.label['en-US']"></input>
+    ::: <input ng-disabled="!('CONTACTS_LAYOUTS_UPDATE' | hasPermission)" class="layout-category" type="text" ng-model="list.label['en-US']"></input>
     <i id="remove-category-label"
     class="fa fa-times remove"
     ng-if="!hasMandatoryAttributes(list)"
     ng-click="removeCategory($index)"></i>
     <button id="add-attribute-btn" class="btn pull-right" title="Add an attribute"
-      ng-click="addAttribute($index)">
+      ng-click="addAttribute($index)" ng-hide="!('CONTACTS_LAYOUTS_UPDATE' | hasPermission)">
       <i class="fa fa-plus center"></i>
     </button>
     <div class="connectedSortable" ui-sortable="sortableAttributesOptions" ng-model="list.attributes">
@@ -33,10 +33,15 @@
               selected-item="attribute"
               on-item-select="onSelectCallback"
               hide-new-button="true"
+              ng-hide="!('CONTACTS_LAYOUTS_UPDATE' | hasPermission)"
               idx="$index">
             </lo-multibox>
+            <span ng-hide="('CONTACTS_LAYOUTS_UPDATE' | hasPermission)">
+              {{attribute.objectName}}
+            </span>
             <i id="remove-attribute-label"
             class="fa fa-times remove"
+            ng-hide="!('CONTACTS_LAYOUTS_UPDATE' | hasPermission)"
             ng-click="removeAttribute(list, $index)"></i>
         </div>
         <div class="null empty-row" ng-show="!list.attributes.length">{{'contactLayouts.layout.emptyCategory' | translate}}</div>

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('contactAttributesTableConfig', ['statuses', 'ynStatuses', '$translate', function(statuses, ynStatuses, $translate) {
+  .service('contactAttributesTableConfig', ['statuses', 'ynStatuses', '$translate', 'UserPermissions', function(statuses, ynStatuses, $translate, UserPermissions) {
 
     return {
       'fields': [{
@@ -51,12 +51,10 @@ angular.module('liveopsConfigPanel')
       'title': $translate.instant('contactAttributes.table.title'),
       'sref': 'content.configuration.contactAttributes',
       'showCreate': function() {
-        return true;
-        // return UserPermissions.hasPermission('MANAGE_ALL_CONTACT_ATTRIBUTES');
+        return UserPermissions.hasPermission('CONTACTS_ATTRIBUTES_CREATE');
       },
       'showBulkActions': function() {
-        return true;
-        // return UserPermissions.hasPermission('MANAGE_ALL_CONTACT_ATTRIBUTES');
+        return UserPermissions.hasPermission('CONTACTS_ATTRIBUTES_UPDATE');
       }
       // 'helpLink': helpDocsHostname + '/Help/Content/Configuring%20CxEngage/Integrations/Creating_Integrations.htm'
     };

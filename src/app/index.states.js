@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .config(['$stateProvider', '$urlRouterProvider', 'appFlags',
-    function($stateProvider, $urlRouterProvider, appFlags) {
+  .config(['$stateProvider', '$urlRouterProvider',
+    function($stateProvider, $urlRouterProvider) {
 
       $urlRouterProvider.otherwise(function($injector) {
         var Session = $injector.get('Session');
@@ -164,20 +164,8 @@ angular.module('liveopsConfigPanel')
           controller: 'contactAttributesController as cac',
           reloadOnSearch: false,
           resolve: {
-            hasPermission: ['$state', '$q', '$timeout', function($state, $q, $timeout) {
-              var deferred = $q.defer();
-              $timeout(function() {
-                if (!appFlags.CONTACT_MANAGEMENT) {
-                $state.go('content.userprofile', {
-                  messageKey: 'permissions.unauthorized.message'
-                });
-                deferred.reject();
-              } else {
-                deferred.resolve();
-              }});
-              return deferred.promise;
-              // permissions not available for this feature yet
-              // return UserPermissions.resolvePermissions(PermissionGroups.viewContactAttributes);
+            hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
+              return UserPermissions.resolvePermissions(PermissionGroups.viewContactAttributes);
             }]
           }
         })
@@ -188,20 +176,8 @@ angular.module('liveopsConfigPanel')
           controller: 'contactLayoutsController as clc',
           reloadOnSearch: false,
           resolve: {
-            hasPermission: ['$state', '$q', '$timeout', function($state, $q, $timeout) {
-              var deferred = $q.defer();
-              $timeout(function() {
-                if (!appFlags.CONTACT_MANAGEMENT) {
-                $state.go('content.userprofile', {
-                  messageKey: 'permissions.unauthorized.message'
-                });
-                deferred.reject();
-              } else {
-                deferred.resolve();
-              }});
-              return deferred.promise;
-              // permissions not available for this feature yet
-              // return UserPermissions.resolvePermissions(PermissionGroups.viewContactLayouts);
+            hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
+              return UserPermissions.resolvePermissions(PermissionGroups.viewContactLayouts);
             }]
           }
         })
