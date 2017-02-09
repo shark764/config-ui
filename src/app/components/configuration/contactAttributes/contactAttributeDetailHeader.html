@@ -1,6 +1,6 @@
 <div ng-if="! cac.selectedContactAttribute.isNew()">
   <toggle class="status-toggle" ng-model="cac.selectedContactAttribute.active"
-    ng-disabled="cac.attributeIsInherited()"
+    ng-disabled="cac.attributeIsInherited() || !('CONTACTS_ATTRIBUTES_UPDATE' | hasPermission)"
     confirm-disable-message="{{'contactAttributes.details.disable.confirm' | translate}}"
     confirm-enable-message="{{'contactAttributes.details.enable.confirm' | translate}}"
     on-confirm="cac.updateActive()"></toggle>

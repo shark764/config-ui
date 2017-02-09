@@ -259,19 +259,23 @@ angular.module('liveopsConfigPanel')
         }
 
         if(appFlags.CONTACT_MANAGEMENT) {
-          items.push({
-            label: $translate.instant('navbar.configuration.contactAttributes.title'),
-            stateLink: 'content.configuration.contactAttributes',
-            id: 'contact-attributes-configuration-link',
-            order: 9
-          });
+          if (UserPermissions.hasPermissionInList(PermissionGroups.viewContactAttributes)) {
+            items.push({
+              label: $translate.instant('navbar.configuration.contactAttributes.title'),
+              stateLink: 'content.configuration.contactAttributes',
+              id: 'contact-attributes-configuration-link',
+              order: 9
+            });
+          }
 
-          items.push({
-            label: $translate.instant('navbar.configuration.contactLayouts.title'),
-            stateLink: 'content.configuration.contactLayouts',
-            id: 'contact-layouts-configuration-link',
-            order: 10
-          });
+          if (UserPermissions.hasPermissionInList(PermissionGroups.viewContactLayouts)) {
+            items.push({
+              label: $translate.instant('navbar.configuration.contactLayouts.title'),
+              stateLink: 'content.configuration.contactLayouts',
+              id: 'contact-layouts-configuration-link',
+              order: 10
+            });
+          }
         }
 
         return items;

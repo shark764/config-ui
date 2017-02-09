@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('contactLayout', ['$timeout', 'loEvents', 'ContactAttribute', 'Session', '$templateRequest', '$compile',
-    function ($timeout, loEvents, ContactAttribute, Session, $templateRequest, $compile) {
+  .directive('contactLayout', ['$timeout', 'loEvents', 'ContactAttribute', 'Session', '$templateRequest', '$compile', 'UserPermissions',
+    function ($timeout, loEvents, ContactAttribute, Session, $templateRequest, $compile, UserPermissions) {
       return {
         restrict: 'E',
         scope: {
@@ -15,7 +15,7 @@ angular.module('liveopsConfigPanel')
           scope.requiredAttributes = function() {
             // Attributes are strings when first receieved from the API and immediately
             // on submit. Don't flash the error message when the attributes are strings.
-            if (typeof scope.model[0].attributes[0] === 'string') {
+            if (scope.model[0] && typeof scope.model[0].attributes[0] === 'string') {
               return;
             }
 
@@ -41,13 +41,15 @@ angular.module('liveopsConfigPanel')
           };
 
           scope.sortableListsOptions = {
-            cursor: 'move'
+            cursor: 'move',
+            disabled: !UserPermissions.hasPermissionInList(['CONTACTS_LAYOUTS_UPDATE'])
           };
 
           scope.sortableAttributesOptions = {
             placeholder: 'attr-placeholder',
             connectWith: '.connectedSortable',
-            cursor: 'move'
+            cursor: 'move',
+            disabled: !UserPermissions.hasPermissionInList(['CONTACTS_LAYOUTS_UPDATE'])
           };
 
           scope.addCategory = function() {

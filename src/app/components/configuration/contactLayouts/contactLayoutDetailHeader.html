@@ -2,7 +2,7 @@
   <toggle class="status-toggle" ng-model="clc.selectedContactLayout.active"
     confirm-disable-message="{{'contactLayouts.details.disable.confirm' | translate}}"
     confirm-enable-message="{{'contactLayouts.details.enable.confirm' | translate}}"
-    ng-disabled="clc.selectedContactLayout.active"
+    ng-disabled="clc.selectedContactLayout.active || !('CONTACTS_LAYOUTS_UPDATE' | hasPermission)"
     on-confirm="clc.updateActive()"></toggle>
 
   <div class="info">

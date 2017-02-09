@@ -39,13 +39,13 @@
       lo-validate="cac.isTelInput()"
       ng-if="cac.selectedContactAttribute.type === 'phone'"
       ng-model="cac.selectedContactAttribute.default"
-      ng-disabled="cac.attributeIsInherited()"
+      ng-disabled="cac.attributeIsInherited() || !('CONTACTS_ATTRIBUTES_UPDATE' | hasPermission)"
       name="default"/>
     <input
       type="text"
       ng-if="cac.selectedContactAttribute.type !== 'phone'"
       ng-model="cac.selectedContactAttribute.default"
-      ng-disabled="cac.attributeIsInherited()"
+      ng-disabled="cac.attributeIsInherited() || !('CONTACTS_ATTRIBUTES_UPDATE' | hasPermission)"
       name="default"/>
   </div>
 </div>
@@ -56,7 +56,7 @@
     <toggle
       type="text"
       ng-model="cac.selectedContactAttribute.mandatory"
-      ng-disabled="cac.attributeIsInherited()"
+      ng-disabled="cac.attributeIsInherited() || !('CONTACTS_ATTRIBUTES_UPDATE' | hasPermission)"
       name="mandatory"></toggle>
   </div>
 </div>
