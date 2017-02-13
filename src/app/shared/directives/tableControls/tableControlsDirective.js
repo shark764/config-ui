@@ -17,8 +17,8 @@ angular.module('liveopsConfigPanel')
    *  * title (string): The title of the page. Also used as the key for storing the user's column preferences. Defaults to undefined
    */
 
-  .directive('tableControls', ['$rootScope', 'loEvents', 'DirtyForms', 'Session',
-    function($rootScope, loEvents, DirtyForms, Session) {
+  .directive('tableControls', ['$rootScope', 'loEvents', 'DirtyForms', 'Session', '$timeout',
+    function($rootScope, loEvents, DirtyForms, Session, $timeout) {
       return {
         restrict: 'E',
         scope: {
@@ -32,6 +32,12 @@ angular.module('liveopsConfigPanel')
         transclude: true,
         controller: function() {},
         link: function($scope) {
+
+          function setColumnPreferences () {
+            var columnPreferences = Session.columnPreferences;
+            columnPreferences[$scope.config.title] = $scope.config.fields;
+            Session.setColumnPreferences(columnPreferences);
+          }
 
           $scope.$watch('config', function(newConfig) {
             if (!newConfig) {
@@ -53,12 +59,14 @@ angular.module('liveopsConfigPanel')
             }
           });
 
-
           $scope.$on('dropdown:item:checked', function() {
-            //Save the user's preferred column config
-            var columnPreferences = Session.columnPreferences;
-            columnPreferences[$scope.config.title] = $scope.config.fields;
-            Session.setColumnPreferences(columnPreferences);
+            setColumnPreferences();
+          });
+
+          $scope.$on('dropdown:item:checkedUncheckedAll', function () {
+            $timeout(function () {
+              setColumnPreferences();
+            });
           });
 
           $scope.onCreateClick = function() {
