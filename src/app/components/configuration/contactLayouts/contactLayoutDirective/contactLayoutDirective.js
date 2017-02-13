@@ -15,7 +15,7 @@ angular.module('liveopsConfigPanel')
           scope.requiredAttributes = function() {
             // Attributes are strings when first receieved from the API and immediately
             // on submit. Don't flash the error message when the attributes are strings.
-            if (scope.model[0] && typeof scope.model[0].attributes[0] === 'string') {
+            if (scope.model && scope.model[0] && typeof scope.model[0].attributes[0] === 'string') {
               return;
             }
 
@@ -101,7 +101,7 @@ angular.module('liveopsConfigPanel')
           }, true);
 
           scope.$watch(scope.requiredAttributes, function(newVal) {
-            if (newVal) {
+            if (angular.isDefined(newVal)) {
               scope.form.$setValidity('missingAttributes', !newVal.length);
             }
           });
@@ -132,7 +132,6 @@ angular.module('liveopsConfigPanel')
                 template = angular.element(html);
                 element.append(template);
               }
-
               $compile(template)(scope);
               scope.form.$setPristine();
             });
