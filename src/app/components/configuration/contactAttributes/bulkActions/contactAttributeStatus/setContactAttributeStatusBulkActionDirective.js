@@ -5,10 +5,14 @@ angular.module('liveopsConfigPanel')
     function(ContactAttribute, Session, BulkAction, statuses) {
       return {
         restrict: 'E',
-        scope: {},
+        scope: {
+          items: '='
+        },
         require: '?^bulkActionExecutor',
         templateUrl: 'app/components/configuration/contactAttributes/bulkActions/contactAttributeStatus/setContactAttributeStatusBulkAction.html',
         link: function($scope, elem, attr, bulkActionExecutor) {
+          var ContactAttributeSvc = new ContactAttribute();
+
           $scope.bulkAction = new BulkAction();
           $scope.statuses = statuses();
 
@@ -17,14 +21,20 @@ angular.module('liveopsConfigPanel')
           }
 
           $scope.bulkAction.apply = function(contactAttribute) {
+            if (contactAttribute.hasOwnProperty('labelVal')) {
+              delete contactAttribute.labelVal;
+            }
+
             var contactAttributeCopy = new ContactAttribute();
             contactAttributeCopy.id = contactAttribute.id;
+            contactAttributeCopy.name = contactAttribute.name;
             contactAttributeCopy.tenantId = Session.tenant.tenantId;
             contactAttributeCopy.active = $scope.active;
-            contactAttributeCopy.properties = contactAttribute.properties;
+
             return contactAttributeCopy.save().then(function(contactAttributeCopy) {
               angular.copy(contactAttributeCopy, contactAttribute);
               contactAttribute.checked = true;
+              ContactAttributeSvc.renderLabelList($scope.items);
               return contactAttribute;
             });
           };

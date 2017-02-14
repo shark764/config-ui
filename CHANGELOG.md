@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
+* CXV1-7828 - Contact Attributes page: broke Label column into 2 separate columns for both Label and Language
 
 ## [4.10.5]
 * CXV1-7854 - Add skill proficiency selector to queue query builder v2, set v2 query builder as active version

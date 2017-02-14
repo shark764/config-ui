@@ -13,7 +13,8 @@ angular.module('liveopsConfigPanel')
         'header': {
           'display': $translate.instant('value.label')
         },
-        'name': '$original.label'
+        'name': 'labelVal',
+        'transclude': true
       }, {
         'header': {
           'display': $translate.instant('value.type')
