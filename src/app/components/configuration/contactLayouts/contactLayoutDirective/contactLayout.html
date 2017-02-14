@@ -34,6 +34,7 @@
               on-item-select="onSelectCallback"
               hide-new-button="true"
               ng-hide="!('CONTACTS_LAYOUTS_UPDATE' | hasPermission)"
+              filters="existingAttribute"
               idx="$index">
             </lo-multibox>
             <span ng-hide="('CONTACTS_LAYOUTS_UPDATE' | hasPermission)">

@@ -21,23 +21,10 @@ angular.module('liveopsConfigPanel')
 
             return scope.attributes.filter(function(attr) {
               return attr.mandatory;
-            }).filter(function(attr) {
-              var notFound = true;
-              if (scope.model) {
-                scope.model.forEach(function(category) {
-                  if (Array.isArray(category.attributes)) {
-                    category.attributes.forEach(function(existingAttribute) {
-                      if (existingAttribute && existingAttribute.id === attr.id) {
-                        notFound = false;
-                      }
-                    });
-                  }
-                });
-              }
-              return notFound;
-            }).map(function(attr) {
-              return attr.objectName;
-            }).join(', ');
+            }).filter(scope.existingAttribute)
+              .map(function(attr) {
+                return attr.objectName;
+              }).join(', ');
           };
 
           scope.sortableListsOptions = {
@@ -88,6 +75,22 @@ angular.module('liveopsConfigPanel')
                 return attribute.mandatory;
               }
             }).length;
+          };
+
+          scope.existingAttribute = function(attr) {
+            if (scope.model) {
+              var notFound = true;
+              scope.model.forEach(function(category) {
+                if (Array.isArray(category.attributes)) {
+                  category.attributes.forEach(function(existingAttribute) {
+                    if (existingAttribute && existingAttribute.id === attr.id) {
+                      notFound = false;
+                    }
+                  });
+                }
+              });
+              return notFound;
+            }
           };
 
           scope.$watch('model', function(model, oldModel) {
