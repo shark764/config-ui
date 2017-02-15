@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
+* CXV1-3938 - Added "All" option to filter checkbox dropdown for all "Manage" views
+* CXV1-7782 - Simply updated Soundwave to latest version after translations bug was fixed in the toolbar
 * CXV1-6456 - Enable cloning of flows
 * CXV1-7070 -  **IMPORTANT** this will not work, and in fact, may break the appDock, until CXV1-7419 is complete! Updated App Dock to be able to handle SMS messages, and use a cleaner method of interaction type detection. Need this to go on dev-config b/c it is not possible to test this locally.
 * CXV1-7653 - Fixed 403/Forbidden on call recording retrieval/playback on Recordings page
