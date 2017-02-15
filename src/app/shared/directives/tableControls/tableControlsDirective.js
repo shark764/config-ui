@@ -97,6 +97,11 @@ angular.module('liveopsConfigPanel')
                     $scope.config.fields[fieldIndex].checked = (angular.isUndefined(storedOption.checked) ? true : storedOption.checked);
                   }
                 }
+              } else {
+                if (_.has($scope, 'config.header.all')) {
+                  $scope.config.header.all = true;
+                }
+                setColumnPreferences();
               }
             }
 
