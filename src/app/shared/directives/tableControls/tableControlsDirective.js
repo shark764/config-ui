@@ -17,8 +17,8 @@ angular.module('liveopsConfigPanel')
    *  * title (string): The title of the page. Also used as the key for storing the user's column preferences. Defaults to undefined
    */
 
-  .directive('tableControls', ['$rootScope', 'loEvents', 'DirtyForms', 'Session', '$timeout',
-    function($rootScope, loEvents, DirtyForms, Session, $timeout) {
+  .directive('tableControls', ['$rootScope', 'loEvents', 'DirtyForms', 'Session', '$q',
+    function($rootScope, loEvents, DirtyForms, Session, $q) {
       return {
         restrict: 'E',
         scope: {
@@ -63,8 +63,8 @@ angular.module('liveopsConfigPanel')
             setColumnPreferences();
           });
 
-          $scope.$on('dropdown:item:checkedUncheckedAll', function () {
-            $timeout(function () {
+          $scope.$on('dropdown:item:checkedUncheckedAll', function (event, emmittedData) {
+            $q.when(emmittedData).then(function () {
               setColumnPreferences();
             });
           });
