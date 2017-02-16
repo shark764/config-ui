@@ -45,6 +45,7 @@ angular.module('liveopsConfigPanel')
               return;
             }
 
+
             $scope.showBulkActions = angular.isDefined($scope.config.showBulkActions) ? $scope.config.showBulkActions : true;
             $scope.showSearch = angular.isDefined($scope.config.showSearch) ? $scope.config.showSearch : true;
             $scope.showCreate = angular.isDefined($scope.config.showCreate) ? $scope.config.showCreate : true;
@@ -93,7 +94,7 @@ angular.module('liveopsConfigPanel')
                 //Initialize the user's preferred column configuration
                 for (var storeOptionIndex = 0; storeOptionIndex < Session.columnPreferences[$scope.config.title].length; storeOptionIndex++) {
                   var storedOption = Session.columnPreferences[$scope.config.title][storeOptionIndex];
-                  if ($scope.config.fields[fieldIndex].header.display === storedOption.header.display) {
+                  if (_.has(storedOption, 'header.display') &&  ($scope.config.fields[fieldIndex].header.display === storedOption.header.display)) {
                     $scope.config.fields[fieldIndex].checked = (angular.isUndefined(storedOption.checked) ? true : storedOption.checked);
                   }
                 }
