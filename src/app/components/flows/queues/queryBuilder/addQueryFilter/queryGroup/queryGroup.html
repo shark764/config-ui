@@ -6,6 +6,7 @@
       <type-ahead hover="true" placeholder="{{'queue.query.builder.' + group.key + '.placeholder' | translate}}"
       items="group.items" selected-item="qgc.selectedItem" nameField="name" filters="qgc.searchFilters">
       </type-ahead>
+      <proficiency-selector ng-show="qgc.selectedItem.hasProficiency" operator="qgc.condition" proficiency="qgc.proficiency"></proficiency-selector>
     </div>
 
     <button class="add btn" ng-disabled="!qgc.selectedItem.id" type="button" ng-click="qgc.addFilter(level, group.zermeloKey, type, qgc.selectedItem.id)">
@@ -16,6 +17,7 @@
   <div class="tag-wrapper clear">
     <div class="tag" ng-repeat="filter in qgc.filters track by $index">
       {{filter.getDisplay()}}
+      <span ng-show="filter.hasProficiency">({{filter.condition}} {{filter.proficiency}})</span>
       <a ng-click="qgc.removeFilter(filter)"><i class="fa fa-times"></i></a>
     </div>
   </div>

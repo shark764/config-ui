@@ -10,7 +10,7 @@ angular.module('liveopsConfigPanel')
       vm.selectedQueueVersion = null;
 
       // Specifies that we are using Zermelo v1 or v2
-      vm.VERSION_NUM = 1;
+      vm.VERSION_NUM = 2;
 
       $scope.showBasicQuery = true;
 
