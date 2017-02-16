@@ -5,17 +5,21 @@ angular.module('liveopsConfigPanel')
     var vm = this;
 
     vm.query = $scope.query;
-    vm.hasConditions = false;
+    vm.condition = '>=';
+    vm.proficiency = 1;
 
     vm.filters = [];
 
     vm.addFilter = function() {
       if ($scope.group.zermeloKey === 'SKILLS') {
-        // TODO: Allow user to specify condition
-        vm.query = ZermeloService.addFilter($scope.level, $scope.group.zermeloKey, $scope.type, vm.selectedItem.id, ['>=', 1]);
+        vm.selectedItem.condition = vm.condition;
+        vm.selectedItem.proficiency = vm.proficiency;
+        vm.query = ZermeloService.addFilter($scope.level, $scope.group.zermeloKey, $scope.type, vm.selectedItem.id, [vm.condition, vm.proficiency]);
       } else {
         vm.query = ZermeloService.addFilter($scope.level, $scope.group.zermeloKey, $scope.type, vm.selectedItem.id);
       }
+      vm.condition = '>=';
+      vm.proficiency = 1;
       vm.filters.push(vm.selectedItem);
       vm.selectedItem = null;
     };

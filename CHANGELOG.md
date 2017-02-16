@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
+* CXV1-7854 - Add skill proficiency selector to queue query builder v2, set v2 query builder as active version
 * CXV1-3938 - Added "All" option to filter checkbox dropdown for all "Manage" views
 * CXV1-7782 - Simply updated Soundwave to latest version after translations bug was fixed in the toolbar
 * CXV1-6456 - Enable cloning of flows
