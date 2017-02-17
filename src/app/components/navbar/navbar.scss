@@ -61,6 +61,10 @@ navbar {
       z-index:15;
     }
 
+    .dropdown {
+      max-height: 300px;
+    }
+
     .label-icon {
       display: table-cell;
     }
