@@ -726,6 +726,7 @@
   "bulkActions.enable.keys": "Enable/Disable API Keys",
   "bulkActions.enable.messageTemplates": "Enable/Disable Message Templates",
   "bulkActions.enable.contactAttributes": "Enable/Disable Contact Attributes",
+  "bulkActions.contactAttributes.fail": "\"{{contactAttributeName}}\" is inherited and cannot be edited.",
   "bulkActions.enable.contactLayouts": "Enable/Disable Contact Layouts",
   "user.profile.save.success": "Your details have been updated.",
   "user.profile.save.fail": "An error occurred while updating your details.",

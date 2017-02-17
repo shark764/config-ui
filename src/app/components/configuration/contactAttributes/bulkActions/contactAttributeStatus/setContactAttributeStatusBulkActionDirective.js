@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('baSetContactAttributeStatus', ['ContactAttribute', 'Session', 'BulkAction', 'statuses',
-    function(ContactAttribute, Session, BulkAction, statuses) {
+  .directive('baSetContactAttributeStatus', ['ContactAttribute', 'Session', 'BulkAction', 'Alert', 'statuses', '$translate', '$q',
+    function(ContactAttribute, Session, BulkAction, Alert, statuses, $translate, $q) {
       return {
         restrict: 'E',
         scope: {
@@ -21,13 +21,21 @@ angular.module('liveopsConfigPanel')
           }
 
           $scope.bulkAction.apply = function(contactAttribute) {
+            if (Session.tenant.tenantId !== contactAttribute.tenantId) {
+              Alert.error($translate.instant('bulkActions.contactAttributes.fail', {contactAttributeName: contactAttribute.objectName}));
+              var deferred = $q.defer();
+              deferred.reject('Cannot edit shared status of inherited contact attribute');
+              return deferred.promise;
+            }
+
+
             if (contactAttribute.hasOwnProperty('labelVal')) {
               delete contactAttribute.labelVal;
             }
 
             var contactAttributeCopy = new ContactAttribute();
             contactAttributeCopy.id = contactAttribute.id;
-            contactAttributeCopy.name = contactAttribute.name;
+            contactAttributeCopy.label = contactAttribute.label;
             contactAttributeCopy.tenantId = Session.tenant.tenantId;
             contactAttributeCopy.active = $scope.active;
 
