@@ -26,7 +26,8 @@ angular.module('liveopsConfigPanel')
           items: '=', //Source list of items to be added to the table
           searchQuery: '=', //Expose the text entered in the search bar
           greaterOrLessThan: '=?', //Expose the greaterOrLessThan inputs
-          selectedItem: '=' // gives us data from the currently selected row
+          selectedItem: '=', // gives us data from the currently selected row
+          bypassFilter: '='
         },
         templateUrl: 'app/shared/directives/tableControls/tableControls.html',
         transclude: true,
@@ -44,7 +45,6 @@ angular.module('liveopsConfigPanel')
               console.warn('Table-controls config is not defined. Value is: ', newConfig);
               return;
             }
-
 
             $scope.showBulkActions = angular.isDefined($scope.config.showBulkActions) ? $scope.config.showBulkActions : true;
             $scope.showSearch = angular.isDefined($scope.config.showSearch) ? $scope.config.showSearch : true;

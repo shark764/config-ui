@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
+* CXV1-7975 - Fix bug with Realtime Dashboard Tables Showing Up Empty
 
 ## [4.10.6]
 * Limit dropdown height for tenant select
