@@ -113,34 +113,52 @@ angular.module('liveopsConfigPanel')
         });
       }
 
+      $scope.versionOrDraftCopyModal = function (flowData, dataToCopy) {
+        flowSvc.cloneFlow(flowData, dataToCopy);
+      };
+
       $scope.create = function(dataToCopy) {
+        var sourceFlow;
+        var versionOrDraftData;
+        var newFlowData;
+        var modalTitle;
+
         // if we have an object passed to this function, then we are going to copy
         // that data
-        var isCopy = false;
-        if (dataToCopy && dataToCopy.hasOwnProperty('id')) {
-          isCopy = true;
+        if (dataToCopy) {
+          $scope.isCopy = true;
+
+          if (dataToCopy.hasOwnProperty('selectedFlowData')) {
+            sourceFlow = dataToCopy.selectedFlowData;
+          }
+
+          if (dataToCopy.hasOwnProperty('selectedFlowDataToCopy')) {
+            versionOrDraftData = dataToCopy.selectedFlowDataToCopy;
+          }
         }
 
-        // populate the modal that pops up to create the flow
-        var newFlowTitle = $translate.instant('flow.newFlow');
-        var newFlowData = {
-          name: $translate.instant('flow.untitledFlow')
-        };
-
-        // if we're copying a flow, using different text for the modal, and
-        // also extract only the props we need to create a copy
-        if (isCopy) {
-          newFlowTitle = $translate.instant('flow.copySelectedFlow');
-          newFlowData = extractPropsToCopy(dataToCopy, flowCopyPropList);
-          newFlowData.name = $translate.instant('flow.copyOfSelectedFlow') + dataToCopy.name;
+        // if we're copying a flow, use the appriate title
+        if ($scope.isCopy) {
+          // extract only the props we need to create a copy, and
+          newFlowData = extractPropsToCopy(sourceFlow, flowCopyPropList);
+          // update modal default name text to reflect that this is a copy
+          newFlowData.name = $translate.instant('flow.copyOfSelectedFlow') + sourceFlow.name;
+          newFlowData.description = sourceFlow.description || '';
+          if (versionOrDraftData) {
+            modalTitle = $translate.instant('flow.copyAFlow');
+          } else {
+            modalTitle = $translate.instant('flow.copySelectedFlow');
+          }
+        } else {
+          newFlowData = {
+            name: $translate.instant('flow.untitledFlow')
+          };
+          modalTitle = $translate.instant('flow.newFlow');
         }
-
-        newFlowData.flowTypes = flowTypes;
 
         var newScope = $scope.$new();
-
         newScope.modalBody = 'app/components/flows/flowManagement/newFlow.modal.html';
-        newScope.title = newFlowTitle;
+        newScope.title = modalTitle;
         newScope.flow = newFlowData;
 
         newScope.cancelCallback = function() {
@@ -155,38 +173,36 @@ angular.module('liveopsConfigPanel')
             type: newFlow.type
           });
 
-          // we needed flowTypes to create the modal for copying,
-          // but we can't save with it, so we're deleting it
-          if (isCopy) {
-            delete newFlowData.flowTypes;
-          }
-
           return newFlowCopy.save(function(flow){
             $document.find('modal').remove();
 
             // if it's a copy, then we need to make the initial draft a duplicate of
             // the active version of the flow we're copying
-            if (isCopy && _.has(dataToCopy, 'activeFlow.flowId') && dataToCopy.activeFlow.flowId) {
-              var activeFlowFromSource = FlowVersion.cachedGet({
-                tenantId: Session.tenant.tenantId,
-                flowId: dataToCopy.activeFlow.flowId,
-                version: dataToCopy.activeFlow.version
-              }, 'FlowVersion' + flow.id);
+            if (versionOrDraftData) {
+              saveDraft(flow, versionOrDraftData);
+            } else if ($scope.isCopy) {
+              if (_.has(sourceFlow, 'activeFlow.flowId') && sourceFlow.activeFlow.flowId) {
+                var activeFlowFromSource = FlowVersion.cachedGet({
+                  tenantId: Session.tenant.tenantId,
+                  flowId: sourceFlow.activeFlow.flowId,
+                  version: sourceFlow.activeFlow.version
+                }, 'FlowVersion' + flow.id);
 
-              activeFlowFromSource.$promise.then(function (activeFlowResponse) {
-                saveDraft(flow, activeFlowResponse.flow);
-              });
+                activeFlowFromSource.$promise.then(function (activeFlowResponse) {
+                  saveDraft(flow, activeFlowResponse.flow);
+                });
+              }
             } else {
-              // if we're creating a brand new flow, no need to pass any flow
+              // if we're creating a brand new flow no need to pass any flow
               // designer data to the new flow we just created
               saveDraft(flow, '[]');
             }
+
           });
         };
 
         var element = $compile('<modal></modal>')(newScope);
         $document.find('html > body').append(element);
-
       };
 
       $scope.saveFlow = function(){
@@ -214,7 +230,7 @@ angular.module('liveopsConfigPanel')
       });
 
       // this handles creation of flows from the "duplicate flow" button
-      // at the top of the screen
+      // at the top of the screen or the "copy" links in the version and drafts table
       $scope.$on('flowSvc:cloneFlow', function (event, data) {
         $scope.create(data);
       });

@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
+* CXV1-6456 - Implemented Updated Requirement on Flow Cloning Feature
 * CXV1-7975 - Fix bug with Realtime Dashboard Tables Showing Up Empty
 * CXV1-7908 - Don't allow inactive attributes on contact layouts.
 * Bumping Flow Designer

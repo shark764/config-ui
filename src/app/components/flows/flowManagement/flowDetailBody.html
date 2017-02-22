@@ -49,6 +49,15 @@
 </div>
 
 <div ng-if="! selectedFlow.isNew()" class="details-group">
-  <flow-versions flow="selectedFlow" on-edit-click="newDraftModal(version)"></flow-versions>
-  <flow-drafts flow="selectedFlow" drafts="drafts" ng-if="('MANAGE_ALL_FLOWS' | hasPermission)"></flow-drafts>
+  <flow-versions
+    flow="selectedFlow"
+    on-edit-click="newDraftModal(version)"
+    on-copy-click="versionOrDraftCopyModal(selectedFlow, version)">
+  </flow-versions>
+  <flow-drafts
+    flow="selectedFlow"
+    drafts="drafts"
+    on-copy-click="versionOrDraftCopyModal(selectedFlow, draft)"
+    ng-if="('MANAGE_ALL_FLOWS' | hasPermission)">
+  </flow-drafts>
 </div>

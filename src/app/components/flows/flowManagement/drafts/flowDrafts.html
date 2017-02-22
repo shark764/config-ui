@@ -34,16 +34,16 @@
 <table class="table" id="flow-details-draft-table" ng-show="drafts.length > 0">
   <thead>
     <tr>
-      <th>{{'value.name' | translate}}</th>
+      <th colspan="2">{{'value.name' | translate}}</th>
       <th>{{'value.createdOn' | translate}}</th>
-      <th ng-if="['PLATFORM_VIEW_ALL_USERS', 'PLATFORM_CREATE_USERS', 'PLATFORM_MANAGE_ALL_USERS', 'PLATFORM_MANAGE_ALL_TENANTS', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT'] | hasPermission">
+      <th colspan="2" ng-if="['PLATFORM_VIEW_ALL_USERS', 'PLATFORM_CREATE_USERS', 'PLATFORM_MANAGE_ALL_USERS', 'PLATFORM_MANAGE_ALL_TENANTS', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT'] | hasPermission">
         {{'value.createdBy' | translate}}
       </th>
-      <th></th>
     </tr>
   </thead>
   <tr ng-repeat="draft in drafts | orderBy:'created':'reverse'">
     <td><a ng-href="#/flows/editor/{{draft.flowId}}/{{draft.id}}">{{draft.name}}</a></td>
+    <td><a ng-if="('MANAGE_ALL_FLOWS' | hasPermission)" ng-click="onCopyClick({draft: draft})">{{'flow.details.copy' | translate}}</a></td>
     <td>{{draft.created | date:'medium'}}</td>
     <td ng-if="['PLATFORM_VIEW_ALL_USERS', 'PLATFORM_CREATE_USERS', 'PLATFORM_MANAGE_ALL_USERS', 'PLATFORM_MANAGE_ALL_TENANTS', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT'] | hasPermission">
       <audit-text translation="value.displayName" user-id="draft.createdBy"></audit-text>

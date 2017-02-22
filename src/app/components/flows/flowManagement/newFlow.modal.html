@@ -3,12 +3,22 @@
   <ng-form name="forms.newFlow" lo-form-submit>
     <div class="publish-body">
       <div class="input-group">
-        <label>Name</label>
+        <label>{{'value.name' | translate}}</label>
         <form-error field="forms.newFlow.name"
           error-type-required="Please enter a draft name"></form-error>
         <input type="text" ng-model="flow.name" name="name" ng-required="true"/>
       </div>
-      <div class="input-group">
+      <div
+        class="input-group"
+        ng-if="isCopy">
+        <label class="textarea-label">{{'value.description' | translate}}</label>
+        <div>
+          <textarea ng-model="flow.description"></textarea>
+        </div>
+      </div>
+      <div
+        class="input-group"
+        ng-if="!isCopy">
         <label>{{'value.type' | translate}} <span ng-if="selectedFlow.isNew()">*</span></label>
         <form-error field="forms.newFlow.type" error-type-required="{{'flow.details.type.error' | translate}}"></form-error>
         <div>
@@ -19,7 +29,7 @@
         </div>
       </div>
     </div>
-    
+
     <div class="footer">
       <input type="button" id="modal-cancel" class="btn" ng-click="cancelCallback()" value="{{'value.cancel' | translate}}"/>
       <input type="submit" id="modal-ok" class="btn btn-primary" lo-submit="okCallback(flow)" ng-disabled="forms.newFlow.$invalid">

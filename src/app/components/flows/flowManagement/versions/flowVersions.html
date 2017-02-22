@@ -41,6 +41,7 @@
       </th>
       <th></th>
       <th></th>
+      <th></th>
     </tr>
   </thead>
   <tr ng-repeat="version in getVersions() | orderBy:'created':'reverse'">
@@ -50,7 +51,8 @@
     <td ng-if="['PLATFORM_VIEW_ALL_USERS', 'PLATFORM_CREATE_USERS', 'PLATFORM_MANAGE_ALL_USERS', 'PLATFORM_MANAGE_ALL_TENANTS', 'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT'] | hasPermission">
       <audit-text translation="value.displayName" user-id="version.createdBy"></audit-text>
     </td>
-    <td><a ng-href="#/flows/viewer/{{version.flowId}}/{{version.version}}">view</a></td>
-    <td><a ng-if="('MANAGE_ALL_FLOWS' | hasPermission)" ng-click="onEditClick({version: version})">edit</a></td>
+    <td><a ng-href="#/flows/viewer/{{version.flowId}}/{{version.version}}">{{'flow.details.view' | translate}}</a></td>
+    <td><a ng-if="('MANAGE_ALL_FLOWS' | hasPermission)" ng-click="onEditClick({version: version})">{{'flow.details.edit' | translate}}</a></td>
+    <td><a ng-if="('MANAGE_ALL_FLOWS' | hasPermission)" ng-click="onCopyClick({version: version})">{{'flow.details.copy' | translate}}</a></td>
   </tr>
 </table>
