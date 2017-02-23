@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
+## [4.10.8]
+* CXV1-6456 - Fixed issue with missing description and lodash version change breaking capacity rules
 
 ## [4.10.7]
 * CXV1-6456 - Implemented Updated Requirement on Flow Cloning Feature
