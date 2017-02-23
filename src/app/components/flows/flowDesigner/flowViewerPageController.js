@@ -7,7 +7,7 @@ angular.module('liveopsConfigPanel')
       $scope.flowData = data;
       $scope.tenantSettings = tenantSettings;
 
-      var platformFlow = _.findWhere(tenantSettings, {name: 'platform-defaults-flow'}).value;
+      var platformFlow = lodash.findWhere(tenantSettings, {name: 'platform-defaults-flow'}).value;
 
       FlowResource.setPlatformFlow(platformFlow);
 
@@ -16,7 +16,7 @@ angular.module('liveopsConfigPanel')
       FlowLibrary.loadData(parsedNotations);
 
       lodash.each(FlowResource.getFlows(), function(flow){
-        var opts = _.findWhere(parsedNotations.flows, {flow: flow.id});
+        var opts = lodash.findWhere(parsedNotations.flows, {flow: flow.id});
 
         lodash.each(FlowResource.getVersions(flow.id), function(version){
           if(opts){
