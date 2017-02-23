@@ -4,6 +4,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
 * CXV1-7975 - Fix bug with Realtime Dashboard Tables Showing Up Empty
+* CXV1-7908 - Don't allow inactive attributes on contact layouts.
 
 ## [4.10.6]
 * Limit dropdown height for tenant select

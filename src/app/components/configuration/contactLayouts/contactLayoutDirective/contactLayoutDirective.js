@@ -93,6 +93,10 @@ angular.module('liveopsConfigPanel')
             }
           };
 
+          scope.inactiveAttribute = function(attr) {
+            return attr.active;
+          };
+
           scope.$watch('model', function(model, oldModel) {
             // don't set the form dirty from the changes that happen when the model first loads
             if (oldModel === undefined || !oldModel.length) {
