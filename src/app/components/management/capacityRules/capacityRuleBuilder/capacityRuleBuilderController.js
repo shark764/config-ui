@@ -1,13 +1,13 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('CapacityRuleBuilderController', ['$scope', 'capacityRuleChannels', 'jsedn',
-    function($scope, capacityRuleChannels, jsedn) {
+  .controller('CapacityRuleBuilderController', ['$scope', 'capacityRuleChannels', 'jsedn', 'lodash',
+    function($scope, capacityRuleChannels, jsedn, lodash) {
 
       $scope.channels = capacityRuleChannels;
 
       function findChannel(value){
-        return _.findWhere($scope.channels, {value: value});
+        return lodash.findWhere($scope.channels, {value: value});
       }
 
       $scope.voiceRule = {
@@ -37,7 +37,7 @@ angular.module('liveopsConfigPanel')
 
       $scope.addChannel = function(rule, channel, index, event){
         event.stopPropagation();
-        if(_.findWhere(rule.channels, {value: channel.value})){
+        if(lodash.findWhere(rule.channels, {value: channel.value})){
           return false;
         }
         else{
@@ -101,7 +101,7 @@ angular.module('liveopsConfigPanel')
             return;
           }
 
-          return _.pluck(rule.channels, 'name').join(', ') + ': ' + rule.count;
+          return lodash.pluck(rule.channels, 'name').join(', ') + ': ' + rule.count;
         })).join(($scope.quantifier === 'all' ? ' & ' : ' | '));
       };
     }

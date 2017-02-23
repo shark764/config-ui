@@ -170,7 +170,8 @@ angular.module('liveopsConfigPanel')
             tenantId: Session.tenant.tenantId,
             active: true,
             name: newFlow.name,
-            type: newFlow.type
+            type: newFlow.type,
+            description: newFlow.description || ''
           });
 
           return newFlowCopy.save(function(flow){
