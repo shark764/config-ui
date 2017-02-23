@@ -2,7 +2,7 @@
   <h3 class="header">{{title}}</h3>
   <ng-form name="forms.newDraft">
     <div class="input-group">
-      <label>Name</label>
+      <label>{{'value.name' | translate}}</label>
       <form-error field="forms.newDraft.name"
         error-type-required="Please enter a draft name"></form-error>
       <input type="text" ng-model="draft.name" name="name" ng-required="true"/>

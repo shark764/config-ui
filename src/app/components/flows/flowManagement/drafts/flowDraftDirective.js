@@ -5,7 +5,8 @@ angular.module('liveopsConfigPanel')
     return {
       scope: {
         flow: '=',
-        drafts: '='
+        drafts: '=',
+        onCopyClick: '&'
       },
       templateUrl: 'app/components/flows/flowManagement/drafts/flowDrafts.html',
       controller: 'FlowDraftsController'
