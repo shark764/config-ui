@@ -1,6 +1,6 @@
 {
   "name": "liveopsConfigPanel",
-  "version": "4.10.8",
+  "version": "4.10.9",
   "scripts": {
     "test": "gulp test"
   },

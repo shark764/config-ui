@@ -379,25 +379,11 @@ angular.module('liveopsConfigPanel')
             order: 3
           });
 
-          if (appFlags.PLATFORM_REPORTING) {
-            if (UserPermissions.hasPermission('PLATFORM_VIEW_ALL_TENANTS')) {
-              items.push({
-                label: $translate.instant('navbar.reports.bd.title'),
-                stateLink: 'content.billing',
-                stateLinkParams: {
-                  id: 'billing-reports'
-                },
-                id: 'reports-management-link',
-                order: 4
-              });
-            }
-          }
-
           items.push({
             label: $translate.instant('navbar.reports.silentMonitoring.title'),
             stateLink: 'content.reporting.silentMonitoring',
             id: 'silent-monitoring-link',
-            order: 5
+            order: 4
           });
         }
 
@@ -406,7 +392,7 @@ angular.module('liveopsConfigPanel')
             label: 'Recordings',
             stateLink: 'content.recordings',
             id: 'recording-management-link',
-            order: 6
+            order: 5
           });
         }
 
@@ -415,7 +401,7 @@ angular.module('liveopsConfigPanel')
             label: 'Custom Statistics',
             stateLink: 'content.reporting.custom-stats',
             id: 'custom-stats-link',
-            order: 7
+            order: 6
           });
         }
 
