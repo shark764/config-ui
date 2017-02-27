@@ -10,7 +10,7 @@ angular.module('liveopsConfigPanel')
       });
 
       $scope.$on(loEvents.tableControls.itemSelected, function() {
-        $scope.keyMask = true;
+        $scope.setKeyMask(true);
       });
 
       $scope.fetchKeys = function() {
@@ -80,7 +80,12 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.toggleKeyMask = function() {
-        $scope.keyMask = !$scope.keyMask;
+        $scope.setKeyMask(!$scope.keyMask);
+      };
+
+      $scope.setKeyMask = function(newMask) {
+        $scope.keyMask = newMask;
+
         if ($scope.keyMask) {
           angular.element('#key-sid').attr('type', 'password');
         } else {

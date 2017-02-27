@@ -4,6 +4,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
 * CXV1-6717 - Fixed decimal interpretation and added filtering for interaction ID
+* CXV1-7401 - Fixed API key visibility when switching between keys
 
 ## [4.10.9]
 * Remove billing reports link from Navbar
