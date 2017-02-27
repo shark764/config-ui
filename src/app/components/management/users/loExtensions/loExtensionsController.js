@@ -19,6 +19,8 @@ angular.module('liveopsConfigPanel')
         $scope.newExtension.type = 'webrtc';
         $scope.newExtension.region = GlobalRegionsList[0].twilioId;
 
+        $scope.loExtensionsForm.$setUntouched();
+
         flagFormsAsClosed();
       };
 
