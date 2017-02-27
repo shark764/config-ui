@@ -3,7 +3,7 @@
 angular.module('liveopsConfigPanel')
   .filter('greaterOrLessThanFilter', function () {
     return function(items, property, comparison, value, unit) {
-      if (!items || !comparison || parseInt(value) !== value) {
+      if (!items || !comparison || !value) {
         return items;
       } else {
         var filtered = [];

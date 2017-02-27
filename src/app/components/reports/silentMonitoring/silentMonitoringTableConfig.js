@@ -90,6 +90,8 @@ angular.module('liveopsConfigPanel')
           path: 'channelType'
         }, {
           path: 'direction'
+        },{
+          path: 'interactionId'
         }],
         greaterOrLessThan: {
           display: $translate.instant('silentMonitoring.table.filter.duration'),
