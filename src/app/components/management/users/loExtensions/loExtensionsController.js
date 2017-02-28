@@ -19,6 +19,8 @@ angular.module('liveopsConfigPanel')
         $scope.newExtension.type = 'webrtc';
         $scope.newExtension.region = GlobalRegionsList[0].twilioId;
 
+        $scope.loExtensionsForm.$setUntouched();
+
         flagFormsAsClosed();
       };
 
@@ -67,12 +69,14 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.add = function() {
-        $scope.tenantUser.activeExtension = $scope.tenantUser.extensions[0];
-        $scope.tenantUser.extensions.push($scope.newExtension);
-        return vm.save().then(function(tenantUser) {
-          vm.resetExtension();
-          return tenantUser;
-        });
+        if (!$scope.loExtensionsForm.$invalid) {
+          $scope.tenantUser.activeExtension = $scope.tenantUser.extensions[0];
+          $scope.tenantUser.extensions.push($scope.newExtension);
+          return vm.save().then(function(tenantUser) {
+            vm.resetExtension();
+            return tenantUser;
+          });
+        }
       };
 
       $scope.remove = function(extension) {
