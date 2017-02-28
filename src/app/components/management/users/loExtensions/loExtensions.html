@@ -12,7 +12,7 @@
   <form-error field="extensions"></form-error>
   <input type="hidden" name="extensions" ng-model="extensions"/>
   <div ng-show="lec.creatingExtension" class="add-extension">
-    <lo-extension-editor extension="newExtension"></lo-extension-editor>
+    <lo-extension-editor extension="newExtension" lec="lec"></lo-extension-editor>
     <div class="input-group">
       <label></label>
       <div class="submit-controls">
@@ -74,7 +74,7 @@
       </div>
 
       <ng-form name="extensions{{$index}}" separate-validation>
-        <lo-extension-editor  all-extensions="tenantUser.extensions" extension="extension" dnd-nodrag></lo-extension-editor>
+        <lo-extension-editor all-extensions="tenantUser.extensions" extension="extension" lec="lec" dnd-nodrag></lo-extension-editor>
       </form>
       <div class="input-group" dnd-nodrag>
         <label></label>

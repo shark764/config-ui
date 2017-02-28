@@ -2,7 +2,7 @@
   <label>
     <select id="extension-type-dropdown" name="type"
       ng-required="true"
-      ng-disabled="extension.provider === 'twilio'"
+      ng-disabled="lec.editingExtension !== null && extension.provider === 'twilio'"
       ng-class="{'default-selected': ! extension.type}"
       ng-model="extension.type"
       ng-change="clearValues()"
@@ -29,7 +29,7 @@
   </form-error>
   <div ng-show="extension.type == 'webrtc'" class="secondary-field-col">
     <select id="extension-provider-dropdown" name="provider"
-      ng-disabled="extension.provider === 'twilio'"
+      ng-disabled="lec.editingExtension !== null && extension.provider === 'twilio'"
       ng-required="extension.type == 'webrtc'"
       ng-class="{'default-selected': ! extension.provider}"
       ng-model="extension.provider"

@@ -7,7 +7,8 @@ angular.module('liveopsConfigPanel')
         require: '^form',
         scope: {
           extension: '=',
-          allExtensions: '='
+          allExtensions: '=',
+          lec: '='
         },
         templateUrl: 'app/components/management/users/loExtensions/loExtensionEditor.html',
         link: function($scope, element, attrs, ngFormController){
@@ -54,6 +55,10 @@ angular.module('liveopsConfigPanel')
             $scope.phoneNumber = null;
             $scope.phoneExtension = null;
             $scope.sipExtension = null;
+
+            if (angular.isDefined($scope.extension.provider)) {
+              delete $scope.extension.provider;
+            }
 
             if (!angular.isDefined($scope.extension.region)) {
               $scope.extension.region = GlobalRegionsList[0].twilioId;
