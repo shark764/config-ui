@@ -6,6 +6,7 @@
 
   .fixdisplay {
     display: -moz-inline-box;
+    display: inline-block;
   }
 
   .list-controls {
@@ -77,6 +78,7 @@
 
           ul {
             padding: 5px;
+            position: relative;
 
             li:hover {
               background-color: $accent-light;

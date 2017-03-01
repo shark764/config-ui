@@ -6,6 +6,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 * CXV1-6717 - Fixed decimal interpretation and added filtering for interaction ID
 * CXV1-7401 - Fixed API key visibility when switching between keys
 * CXV1-8020 - Fixed Extensions form to reset on cancel, disable save until form is valid, and form is no longer disabled when Twilio is selected
+* CXV1-6642 - Fixed Reasons List dropdown from getting stuck on smaller screen scroll and fixed repeat track by error when selecting multiple times in a dropdown
 
 ## [4.10.9]
 * Remove billing reports link from Navbar

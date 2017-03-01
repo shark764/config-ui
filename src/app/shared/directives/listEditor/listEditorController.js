@@ -166,10 +166,20 @@ angular.module('liveopsConfigPanel')
         $scope.dropdown = -1;
       };
 
+      $scope.dispoTracker = function(dispo) {
+        if (angular.isDefined(dispo.id)) {
+          return dispo.id;
+        } else if (angular.isDefined(dispo.reasonId)) {
+          return dispo.reasonId;
+        } else {
+          return null;
+        }
+      };
+
       $scope.selectNewDispo = function(dropdownId) {
         var listIndex = list.indexOf($scope.selectedDispo);
         var dropdownIndex = _.findIndex($scope.possibleDispos, function(item) {
-          return item.id === dropdownId;
+          return item.id === dropdownId || item.reasonId === dropdownId;
         });
 
         if ($scope.selectedDispo.name.slice(0, 8) !== 'Select a') {
@@ -177,7 +187,10 @@ angular.module('liveopsConfigPanel')
         }
 
         list[listIndex] = $scope.possibleDispos[dropdownIndex];
-        list[listIndex][$scope.type.slice(0, -1) + 'Id'] = list[listIndex].id;
+
+        if (angular.isDefined(list[listIndex].id)) {
+          list[listIndex][$scope.type.slice(0, -1) + 'Id'] = list[listIndex].id;
+        }
         list[listIndex].sortOrder = listIndex;
         list[listIndex].hierarchy = $scope.selectedDispo.hierarchy;
 
