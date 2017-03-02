@@ -33,29 +33,14 @@ angular.module('liveopsConfigPanel')
               return;
             }
 
-            var promise;
-            $scope.saving = true;
-
             if (angular.isString(selectedReasonList)) {
-              var reasonList = new ReasonList({
-                name: selectedReasonList,
-                tenantId: Session.tenant.tenantId,
-                description: '',
-                active: true,
-                shared: false
-              });
-
-              promise = reasonList.save().then(function(result){
-                return $scope.saveGroupReasonList(result);
-              }, function (response) {
-                $scope.saving = false;
-                return $q.reject(response);
-              });
+              $scope.selectedReasonList = '';
+              Alert.warning($translate.instant('reason.table.create.warning'));
+              return;
             } else {
-              promise = $scope.saveGroupReasonList(selectedReasonList);
+              $scope.saving = true;
+              return $scope.saveGroupReasonList(selectedReasonList);
             }
-
-            return promise;
           };
 
           $scope.saveGroupReasonList = function (selectedReasonList) {
