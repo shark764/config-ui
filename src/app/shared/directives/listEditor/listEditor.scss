@@ -70,15 +70,16 @@
         }
 
         .dispoDropdown {
-          background-color: white;
-          border: 1px solid #ccc;
-          right: 50%;
-          position: absolute;
+          position: relative;
           z-index: 10;
+          min-width: 250px;
 
           ul {
+            background-color: white;
+            border: 1px solid #ccc;
             padding: 5px;
-            position: relative;
+            position: absolute;
+            width: auto;
 
             li:hover {
               background-color: $accent-light;
