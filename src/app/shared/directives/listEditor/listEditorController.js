@@ -412,4 +412,8 @@ angular.module('liveopsConfigPanel')
         $timeout($scope.init);
       });
 
+      $scope.$on('reasons:submit:success', function() {
+        $timeout($scope.init);
+      });
+
     }]);

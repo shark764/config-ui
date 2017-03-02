@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('reasonListsController', ['reasonListsTableConfig', 'ReasonList', 'Reason', 'Session', '$scope', '$translate', 'loEvents', 'Modal', 'Alert', function(reasonListsTableConfig, ReasonList, Reason, Session, $scope, $translate, loEvents, Modal, Alert) {
+  .controller('reasonListsController', ['reasonListsTableConfig', 'ReasonList', 'Reason', 'Session', '$rootScope', '$scope', '$translate', 'loEvents', 'Modal', 'Alert', function(reasonListsTableConfig, ReasonList, Reason, Session, $rootScope, $scope, $translate, loEvents, Modal, Alert) {
     var vm = this;
     $scope.forms = {};
     $scope.err = false;
@@ -127,6 +127,7 @@ angular.module('liveopsConfigPanel')
         Alert.success($translate.instant('value.saveSuccess'));
         vm.duplicateError = false;
         vm.init();
+        $rootScope.$broadcast('reasons:submit:success');
       }, function(err) {
         Alert.error($translate.instant('value.saveFail'));
         $scope.forms.detailsForm.$setDirty();
