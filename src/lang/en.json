@@ -1119,6 +1119,7 @@
   "transfer.table.remove.member": "Transfer list removed!",
   "reasons.table.title": "Presence Reasons",
   "reason.table.remove.member": "Reason list removed!",
+  "reason.table.create.warning": "This is not an enabled Presence Reason List!",
   "reasons.invalid": "Please remove any reasons that have not been selected.",
   "reasons.details.creating": "Creating New Presence Reason",
   "reasons.details.select": "Select a reason",
