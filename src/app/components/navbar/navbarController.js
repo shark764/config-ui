@@ -387,15 +387,6 @@ angular.module('liveopsConfigPanel')
           });
         }
 
-        if (UserPermissions.hasPermissionInList(PermissionGroups.viewRecordings)) {
-          items.push({
-            label: 'Recordings',
-            stateLink: 'content.recordings',
-            id: 'recording-management-link',
-            order: 5
-          });
-        }
-
         if (UserPermissions.hasPermissionInList(PermissionGroups.viewCustomStats)) {
           items.push({
             label: 'Custom Statistics',
