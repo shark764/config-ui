@@ -615,22 +615,6 @@ angular.module('liveopsConfigPanel')
             }]
           }
         })
-        .state('content.recordings', {
-          url: '/recordings?id',
-          title: 'Reporting - Recordings',
-          templateUrl: 'app/components/reports/recordings/recordings.html',
-          controller: 'RecordingsController as rc',
-          reloadOnSearch: false,
-          resolve: {
-            hasPermission: ['UserPermissions', function(UserPermissions) {
-              return UserPermissions.resolvePermissions([
-                'VIEW_ALL_RECORDINGS',
-                'VIEW_MY_RECORDINGS',
-                'MANAGE_ALL_RECORDINGS',
-                'DELETE_ALL_RECORDED_FILES']);
-            }]
-          }
-        })
         .state('content.reporting.silentMonitoring', {
           url: '/silentMonitoring?id',
           title: 'Reporting - Interaction Monitoring',
