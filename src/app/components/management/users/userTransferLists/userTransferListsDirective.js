@@ -49,7 +49,12 @@ angular.module('liveopsConfigPanel')
                 return $scope.saveUserTransferList(result);
               }, function (response) {
                 $scope.saving = false;
-                return $q.reject(response);
+                if (response.status === 400) {
+                  $scope.reset();
+                  return Alert.warning($translate.instant('details.usertransfers.add.failure'));
+                } else {
+                  return $q.reject(response);
+                }
               });
             } else {
               promise = $scope.saveUserTransferList(selectedTransferList);
