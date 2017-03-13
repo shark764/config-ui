@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## Unreleased
+* CXV1-8119 - Added additional warning messages for user transfer lists and message templates
+
 ## [4.10.11]
 * CXV1-8114 - Removed Realtime Recordings Page
 
