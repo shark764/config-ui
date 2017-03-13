@@ -4,6 +4,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
 * CXV1-8119 - Added additional warning messages for user transfer lists and message templates
+* CXV1-7482 - Fixed duplicate extensions form bug
 
 ## [4.10.11]
 * CXV1-8114 - Removed Realtime Recordings Page

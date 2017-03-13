@@ -25,6 +25,7 @@ angular.module('liveopsConfigPanel')
       };
 
       vm.save = function() {
+        flagFormsAsClosed();
         $scope.tenantUser.activeExtension = $scope.tenantUser.extensions[0];
         var roleId = $scope.tenantUser.roleId;
         delete $scope.tenantUser.roleId;
@@ -56,7 +57,6 @@ angular.module('liveopsConfigPanel')
             });
 
             Alert.error($translate.instant('details.extensions.error'));
-            flagFormsAsClosed();
           }
 
           $scope.tenantUser.reset();
