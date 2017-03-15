@@ -16,7 +16,7 @@ angular.module('liveopsConfigPanel', [
     'ngLodash',
     'teljs',
     'realtime-dashboards',
-    'moment-picker',
+    'momentPicker',
     'ngFileUpload',
     'dndLists',
     'angular-momentjs',
