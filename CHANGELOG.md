@@ -3,8 +3,11 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
+
+## [4.10.12]
 * CXV1-8119 - Added additional warning messages for user transfer lists and message templates
 * CXV1-7482 - Fixed duplicate extensions form bug
+* Update to latest flow designer
 
 ## [4.10.11]
 * CXV1-8114 - Removed Realtime Recordings Page
