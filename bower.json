@@ -15,7 +15,7 @@
     "angular-cookies": "^1.6.3",
     "angular-messages": "^1.6.3",
     "angular-sanitize": "^1.6.3",
-    "angular-ui-router": "^0.4.2",
+    "angular-ui-router": "~0.2.15",
     "angular-toastr": "^2.1.1",
     "MouseWheelJS": "*",
     "teljs": "git@github.com:liveops/tel.js.git#master",
