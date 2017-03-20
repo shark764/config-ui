@@ -24,8 +24,8 @@ angular.module('liveopsConfigPanel', [
     'ui.sortable',
     'ui.codemirror'
   ])
-  .config(['$translateProvider', 'toastrConfig', '$qProvider',
-    function($translateProvider, toastrConfig, qProvider) {
+  .config(['$translateProvider', 'toastrConfig', '$qProvider', '$locationProvider',
+    function($translateProvider, toastrConfig, qProvider, $locationProvider) {
       angular.extend(toastrConfig, {
         closeButton: true,
         timeout: 10000,
@@ -41,6 +41,8 @@ angular.module('liveopsConfigPanel', [
         .preferredLanguage('en');
 
       qProvider.errorOnUnhandledRejections(false);
+
+      $locationProvider.hashPrefix('');
     }
   ])
   .run(['queryCache', '$rootScope','$state', function(queryCache, $rootScope, $state) {
