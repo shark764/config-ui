@@ -22,7 +22,8 @@ angular.module('liveopsConfigPanel', [
     'angular-momentjs',
     'agent-toolbar',
     'ui.sortable',
-    'ui.codemirror'
+    'ui.codemirror',
+    'ngAnimate'
   ])
   .config(['$translateProvider', 'toastrConfig', '$qProvider', '$locationProvider',
     function($translateProvider, toastrConfig, qProvider, $locationProvider) {
@@ -45,7 +46,7 @@ angular.module('liveopsConfigPanel', [
       $locationProvider.hashPrefix('');
     }
   ])
-  .run(['queryCache', '$rootScope','$state', function(queryCache, $rootScope, $state) {
+  .run(['queryCache', '$rootScope','$state', '$animate', function(queryCache, $rootScope, $state, $animate) {
     $rootScope.$on('$stateChangeSuccess', function() {
       queryCache.removeAll();
       $rootScope.title = $state.current.title + ' | CxEngage';
@@ -58,4 +59,5 @@ angular.module('liveopsConfigPanel', [
       console.error('State not found!');
       console.log(arguments);
     });
+    $animate.enabled(false);
   }]);
