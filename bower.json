@@ -6,7 +6,7 @@
     "angular-resource": "^1.6.3",
     "angular-route": "^1.6.3",
     "angular": "^1.6.3",
-    "font-awesome": "~4.4.0",
+    "font-awesome": "^4.4.0",
     "ng-lodash": "git@github.com:liveops/ng-lodash#0.5.2",
     "angular-translate": "^2.15.1",
     "angular-translate-loader-static-files": "^2.15.1",
@@ -34,7 +34,7 @@
     "angular-bootstrap-colorpicker": "^3.0.25",
     "angular-ui-sortable": "^0.15.0",
     "moment-timezone": "^0.5.7",
-    "angular-aria": "1.5.8",
+    "angular-aria": "1.6.3",
     "angular-animate": "^1.6.3"
   },
   "devDependencies": {
