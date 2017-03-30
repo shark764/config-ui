@@ -13,7 +13,7 @@ describe('userSkills directive', function(){
     mockTenantUsers,
     TenantUserSkill;
 
-  beforeEach(module('gulpAngular', 'liveopsConfigPanel', 'liveopsConfigPanel.mock', 
+  beforeEach(module('gulpAngular', 'liveopsConfigPanel', 'liveopsConfigPanel.mock',
       'liveopsConfigPanel.tenant.user.mock', 'liveopsConfigPanel.tenant.skill.mock', 'liveopsConfigPanel.mockutils'));
 
   beforeEach(inject(['$compile', '$rootScope', '$httpBackend', 'Session', 'apiHostname', 'mockSkills', 'mockUserSkills', 'mockTenantUsers', 'TenantUserSkill', 'tenantUserTransformer',
@@ -27,7 +27,7 @@ describe('userSkills directive', function(){
       mockUserSkills = _mockUserSkills;
       mockTenantUsers = _mockTenantUsers;
       TenantUserSkill = _TenantUserSkill;
-      
+
       tenantUserTransformer.transform(mockTenantUsers[0]);
       $scope.user = mockTenantUsers[0];
 
@@ -74,7 +74,7 @@ describe('userSkills directive', function(){
     });
 
     it('should remove the deleted item from userSkill cache on success', function() {
-      //This functionality is handled by the interceptor on TenantUserSkill
+      // This functionality is handled by the interceptor on TenantUserSkill
       isolateScope.remove(isolateScope.userSkills[0]);
       $httpBackend.flush();
       isolateScope.$digest();

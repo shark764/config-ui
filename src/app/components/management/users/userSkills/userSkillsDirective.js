@@ -127,7 +127,7 @@ angular.module('liveopsConfigPanel')
 
             userSkill.save().then(function(result){
               Alert.success($translate.instant('skill.details.update.success'));
-              
+
               // @TODO: make this change in the TeantnUserControl model
               userSkill.proficiency = newProficiency;
               userSkill.$original.proficiency = newProficiency;

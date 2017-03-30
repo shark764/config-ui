@@ -7,7 +7,7 @@ angular.module('liveopsConfigPanel')
       $scope.channels = capacityRuleChannels;
 
       function findChannel(value){
-        return lodash.findWhere($scope.channels, {value: value});
+        return lodash.find($scope.channels, {value: value});
       }
 
       $scope.voiceRule = {
@@ -37,7 +37,7 @@ angular.module('liveopsConfigPanel')
 
       $scope.addChannel = function(rule, channel, index, event){
         event.stopPropagation();
-        if(lodash.findWhere(rule.channels, {value: channel.value})){
+        if(lodash.find(rule.channels, {value: channel.value})){
           return false;
         }
         else{

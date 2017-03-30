@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('NavbarController', ['$rootScope', '$scope', '$state', 'AuthService', 'Session', 'DirtyForms', '$translate', 'UserPermissions', 'PermissionGroups', '$window', 'helpDocsHostname', 'appFlags', 'loEvents',
-    function($rootScope, $scope, $state, AuthService, Session, DirtyForms, $translate, UserPermissions, PermissionGroups, $window, helpDocsHostname, appFlags, loEvents) {
+  .controller('NavbarController', ['$rootScope', '$scope', '$state', '$location', 'AuthService', 'Session', 'DirtyForms', '$translate', 'UserPermissions', 'PermissionGroups', '$window', 'helpDocsHostname', 'appFlags', 'loEvents',
+    function($rootScope, $scope, $state, $location, AuthService, Session, DirtyForms, $translate, UserPermissions, PermissionGroups, $window, helpDocsHostname, appFlags, loEvents) {
       var vm = this;
       $scope.hovering = false;
       $scope.Session = Session;
@@ -48,7 +48,7 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.isActive = function(viewLocation) {
-        return $state.current.name !== '' ? $state.href($state.current.name).indexOf(viewLocation) === 1 : false;
+        return $state.current.name !== '' ? $location.url().indexOf(viewLocation) === 0 : false;
       };
 
       $scope.logout = function() {

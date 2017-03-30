@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
+* CXV1-8085 - Updated to angular 1.6.3 fixed breaking changes
 
 ## [4.10.12]
 * CXV1-8119 - Added additional warning messages for user transfer lists and message templates

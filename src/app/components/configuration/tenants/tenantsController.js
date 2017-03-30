@@ -97,7 +97,7 @@ angular.module('liveopsConfigPanel')
         region.$promise.then(function (regionResponse) {
           // next, return the object from the GlobalRegionsList service where the tenantId value matches
           // what we got from the region response, and then return the "display" property of that object
-          deferred.resolve(_.findWhere(GlobalRegionsList, {'awsId': regionResponse.name}).display);
+          deferred.resolve(_.find(GlobalRegionsList, {'awsId': regionResponse.name}).display);
         });
 
         return deferred.promise;
