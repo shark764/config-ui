@@ -6,6 +6,7 @@ describe('NavbarController', function() {
   var $rootScope,
     $scope,
     $state,
+    $location,
     $controller,
     $httpBackend,
     Session,
@@ -18,11 +19,12 @@ describe('NavbarController', function() {
   beforeEach(module('liveopsConfigPanel.mock'));
   beforeEach(module('liveopsConfigPanel.tenant.mock'));
 
-  beforeEach(inject(['$rootScope', '$state', '$controller', '$httpBackend', 'Session', 'apiHostname', 'mockTenants', 'loEvents',
-    function(_$rootScope, _$state, _$controller, _$httpBackend, _Session, _apiHostname, _mockTenants, _loEvents) {
+  beforeEach(inject(['$rootScope', '$state', '$location', '$controller', '$httpBackend', 'Session', 'apiHostname', 'mockTenants', 'loEvents',
+    function(_$rootScope, _$state, _$location, _$controller, _$httpBackend, _Session, _apiHostname, _mockTenants, _loEvents) {
       $rootScope = _$rootScope;
       $scope = $rootScope.$new();
       $state = _$state;
+      $location = _$location;
       $controller = _$controller;
       $httpBackend = $httpBackend;
       apiHostname = _apiHostname;
@@ -165,9 +167,9 @@ describe('NavbarController', function() {
 
     it('should return true if the current state matches the given string', function() {
       $state.current.name = 'notempty';
-      spyOn($state, 'href').and.returnValue('/mystate');
+      $location.path('/mystate');
 
-      expect($scope.isActive('mystate')).toBeTruthy();
+      expect($scope.isActive('/mystate')).toBeTruthy();
     });
 
     it('should return false if the current state does not match the given string', function() {
