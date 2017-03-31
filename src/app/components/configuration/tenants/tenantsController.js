@@ -1,9 +1,27 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('TenantsController', ['$rootScope', '$scope', 'Session', 'Tenant', 'TenantUser', 'tenantTableConfig', 'UserPermissions', 'AuthService', 'Region', '$q', 'loEvents', 'Timezone', 'PermissionGroups', 'Alert', 'GlobalRegionsList', 'Integration',
-    function ($rootScope, $scope, Session, Tenant, TenantUser, tenantTableConfig, UserPermissions, AuthService, Region, $q, loEvents, Timezone, PermissionGroups, Alert, GlobalRegionsList, Integration) {
+  .controller('TenantsController', ['$rootScope', '$scope', 'Session', 'Tenant', 'TenantUser', 'tenantTableConfig', 'UserPermissions', 'AuthService', 'Region', '$q', 'loEvents', 'Timezone', 'PermissionGroups', 'Alert', 'GlobalRegionsList', 'Integration', 'Branding',
+    function ($rootScope, $scope, Session, Tenant, TenantUser, tenantTableConfig, UserPermissions, AuthService, Region, $q, loEvents, Timezone, PermissionGroups, Alert, GlobalRegionsList, Integration, Branding) {
       var vm = this;
+
+      $scope.colorPickerOptions = {
+        // html attributes
+        placeholder: '',
+        // color
+        format: 'hex',
+        restrictToFormat: false,
+        hue: true,
+        saturation: true,
+        case: 'upper',
+        // swatch
+        swatch: true,
+        swatchPos: 'left',
+        // popup
+        round: false,
+        pos: 'bottom left',
+        inline: false,
+      };
 
       vm.loadTimezones = function () {
         $scope.timezones = Timezone.query();
@@ -50,6 +68,20 @@ angular.module('liveopsConfigPanel')
         return tenants;
       };
 
+      vm.loadBranding = function (tenantId) {
+        Branding.get({
+          tenantId: tenantId
+        }, function(responce){
+          console.log('selected tenant branding', responce);
+          $scope.brandingForm = responce;
+        }, function(error){
+          $scope.brandingForm = {};
+          if (error.status !== 404) {
+            console.log('Branding Styles Error:', error);
+          }
+        });
+      };
+
       vm.loadIntegrations = function(tenantId) {
         // tried using cachedQuery but it didn't work when selectedTenant was changed
         $scope.integrations = Integration.query({
@@ -67,13 +99,27 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.submit = function () {
-        return $scope.selectedTenant.save(null, null, function (err) {
+        $scope.selectedTenant.save(null, null, function (err) {
           if (err.data.error.attribute.parentId) {
             Alert.error(err.data.error.attribute.parentId);
           } else if (err.data.error.attribute.name) {
             Alert.error(err.data.error.attribute.name);
           }
         });
+        if ($scope.brandingForm !== {}) {
+          Branding.update({
+            tenantId: $scope.selectedTenant.id,
+            styles: $scope.brandingForm.styles
+          }, function(responce) {
+            if (responce.tenantId === Session.tenant.tenantId) {
+              $rootScope.branding = responce;
+            }
+          }, function(error) {
+            if (error.status !== 404) {
+              console.log('Branding Styles Error:', error);
+            }
+          });
+        }
       };
 
       $scope.$on(loEvents.tableControls.itemCreate, function () {
@@ -117,6 +163,7 @@ angular.module('liveopsConfigPanel')
           });
 
           vm.loadIntegrations($scope.selectedTenant.id);
+          vm.loadBranding($scope.selectedTenant.id);
         }
       });
 

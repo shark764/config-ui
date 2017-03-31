@@ -84,7 +84,7 @@
   </div>
 </div>
 
-<div ng-show="! selectedTenant.isNew()">
+<div ng-show="! selectedTenant.isNew()" class="added-padding">
   <div class="divider-header first-header">
     <h4>{{'tenant.details.parent' | translate}}</h4>
   </div>
@@ -106,4 +106,31 @@
       {{ 'value.unknown' | translate }}
     </p>
   </div>
+</div>
+
+<div disable-contents="! (['PLATFORM_MANAGE_ALL_TENANTS', 'MANAGE_TENANT', 'MANAGE_ALL_BRANDINGS'] | hasPermission)" class="added-padding">
+  <div class="divider-header first-header">
+    <h4>{{'tenant.branding.title' | translate}}</h4>
+  </div>
+
+  <div class="sub-section">
+    <div class="divider-header first-header">
+      <h4>{{'tenant.branding.siteColors' | translate}}</h4>
+    </div>
+
+    <div class="input-group">
+      <label class="textarea-label">{{'tenant.branding.siteColors.nav' | translate}}</label>
+      <div>
+        <color-picker ng-model="brandingForm.styles.navbar['background-color']" options="colorPickerOptions"></color-picker>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label class="textarea-label">{{'tenant.branding.siteColors.navText' | translate}}</label>
+      <div>
+        <color-picker ng-model="brandingForm.styles.navbarText['color']" options="colorPickerOptions"></color-picker>
+      </div>
+    </div>
+  </div>
+
 </div>

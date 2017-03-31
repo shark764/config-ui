@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('NavbarController', ['$rootScope', '$scope', '$state', '$location', 'AuthService', 'Session', 'DirtyForms', '$translate', 'UserPermissions', 'PermissionGroups', '$window', 'helpDocsHostname', 'appFlags', 'loEvents',
-    function($rootScope, $scope, $state, $location, AuthService, Session, DirtyForms, $translate, UserPermissions, PermissionGroups, $window, helpDocsHostname, appFlags, loEvents) {
+  .controller('NavbarController', ['$rootScope', '$scope', '$state', '$location', 'AuthService', 'Session', 'DirtyForms', '$translate', 'UserPermissions', 'PermissionGroups', '$window', 'helpDocsHostname', 'appFlags', 'loEvents', 'Branding',
+    function($rootScope, $scope, $state, $location, AuthService, Session, DirtyForms, $translate, UserPermissions, PermissionGroups, $window, helpDocsHostname, appFlags, loEvents, Branding) {
       var vm = this;
       $scope.hovering = false;
       $scope.Session = Session;
@@ -26,6 +26,7 @@ angular.module('liveopsConfigPanel')
                 DirtyForms.confirmIfDirty(function() {
                   Session.setTenant(tenant);
                   $scope.updateTopbarConfig();
+                  $scope.updateBranding();
                   var goTo = $state.current;
                   if($state.includes('content.realtime-dashboards-management.editor')) {
                     goTo = 'content.realtime-dashboards-management';
@@ -404,6 +405,19 @@ angular.module('liveopsConfigPanel')
         $scope.configurationDropConfig = vm.getConfigurationConfig();
         $scope.flowsDropConfig = vm.getFlowsConfig();
         $scope.reportingDropConfig = vm.getReportingConfig();
+      };
+
+      $scope.updateBranding = function() {
+        Branding.get({
+          tenantId: Session.tenant.tenantId
+        }, function(responce){
+          $rootScope.branding = responce;
+        }, function(error){
+          $rootScope.brandingForm = {};
+          if (error.status !== 404) {
+            console.log('Branding Styles Error:', error);
+          }
+        });
       };
 
       $scope.updateTopbarConfig();
