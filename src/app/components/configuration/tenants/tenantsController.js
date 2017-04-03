@@ -72,7 +72,7 @@ angular.module('liveopsConfigPanel')
         Branding.get({
           tenantId: tenantId
         }, function(responce){
-          console.log('selected tenant branding', responce);
+          console.log(responce);
           $scope.brandingForm = responce;
         }, function(error){
           $scope.brandingForm = {};
@@ -107,9 +107,25 @@ angular.module('liveopsConfigPanel')
           }
         });
         if ($scope.brandingForm !== {}) {
+          var selectedStyles = $scope.brandingForm.styles.formColors;
+          var newStyles = {};
+          // Save Form Colors for Repopulation Later
+          newStyles.formColors = selectedStyles;
+
+          // Create Custom CSS Overrides for Each Selected Color
+          if (selectedStyles.navbar) {
+            newStyles.navbar = {};
+            newStyles.navbar['background-color'] = selectedStyles.navbar;
+          }
+
+          if (selectedStyles.navbarText) {
+            newStyles.navbarText = {};
+            newStyles.navbarText.color = selectedStyles.navbarText;
+          }
+          console.log(newStyles);
           Branding.update({
             tenantId: $scope.selectedTenant.id,
-            styles: $scope.brandingForm.styles
+            styles: newStyles
           }, function(responce) {
             if (responce.tenantId === Session.tenant.tenantId) {
               $rootScope.branding = responce;
@@ -191,6 +207,20 @@ angular.module('liveopsConfigPanel')
       $scope.tableConfig = tenantTableConfig(function () {
         return $scope.tenants;
       });
+
+      $scope.resetDefaultBranding = function() {
+        Branding.update({
+          tenantId: $scope.selectedTenant.id,
+          styles: {}
+        }, function(responce){
+          if (responce.tenantId === Session.tenant.tenantId) {
+            $rootScope.branding = responce;
+          }
+          $scope.brandingForm = {};
+        }, function(errors){
+          console.log(errors);
+        });
+      };
 
       vm.loadTenants();
       vm.loadTimezones();

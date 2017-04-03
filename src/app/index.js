@@ -65,7 +65,9 @@ angular.module('liveopsConfigPanel', [
     Branding.get({
       tenantId: Session.tenant.tenantId
     }, function(responce){
-      $rootScope.branding = responce;
+      if (responce.active) {
+        $rootScope.branding = responce;
+      }
     }, function(error){
       $rootScope.brandingForm = {};
       if (error.status !== 404) {
@@ -75,22 +77,25 @@ angular.module('liveopsConfigPanel', [
 
     // Testing Only ----------------------------------
 
-    var testData = {
-      'navbar': {
-        'background-color': '#ABFFFF'
-      }
-    };
-
-    Branding.update({
-      tenantId: Session.tenant.tenantId,
-      styles: JSON.stringify(testData)
-    }, function(responce){
-      if (responce.tenantId === Session.tenant.tenantId) {
-        $rootScope.branding = responce;
-      }
-    }, function(errors){
-      console.log(errors);
-    });
+    // var testData = {
+    //   'formColors': {
+    //     'navbar': '#ABFFFF'
+    //   },
+    //   'navbar': {
+    //     'background-color': '#ABFFFF'
+    //   }
+    // };
+    //
+    // Branding.update({
+    //   tenantId: Session.tenant.tenantId,
+    //   styles: JSON.stringify(testData)
+    // }, function(responce){
+    //   if (responce.tenantId === Session.tenant.tenantId) {
+    //     $rootScope.branding = responce;
+    //   }
+    // }, function(errors){
+    //   console.log(errors);
+    // });
 
     // Testing data only ----------------------------
 

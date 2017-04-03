@@ -547,6 +547,7 @@
   "tenant.details.parent": "Parent Tenant",
   "tenant.details.setActive": "Set As Active Tenant",
   "tenant.branding.title": "Branding",
+  "tenant.branding.reset": "Reset to Default",
   "tenant.branding.siteColors": "Site Colors",
   "tenant.branding.siteColors.nav": "Navigation Bar",
   "tenant.branding.siteColors.navText": "Navigation Bar Text",

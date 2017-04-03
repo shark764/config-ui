@@ -411,7 +411,9 @@ angular.module('liveopsConfigPanel')
         Branding.get({
           tenantId: Session.tenant.tenantId
         }, function(responce){
-          $rootScope.branding = responce;
+          if (responce.active) {
+            $rootScope.branding = responce;
+          }
         }, function(error){
           $rootScope.brandingForm = {};
           if (error.status !== 404) {

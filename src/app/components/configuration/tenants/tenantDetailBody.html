@@ -113,6 +113,11 @@
     <h4>{{'tenant.branding.title' | translate}}</h4>
   </div>
 
+  <div class="input-group">
+    <label></label>
+    <input ng-click="resetDefaultBranding()" type="button" class="btn" value="{{'tenant.branding.reset' | translate}}"></input>
+  </div>
+
   <div class="sub-section">
     <div class="divider-header first-header">
       <h4>{{'tenant.branding.siteColors' | translate}}</h4>
@@ -121,14 +126,14 @@
     <div class="input-group">
       <label class="textarea-label">{{'tenant.branding.siteColors.nav' | translate}}</label>
       <div>
-        <color-picker ng-model="brandingForm.styles.navbar['background-color']" options="colorPickerOptions"></color-picker>
+        <color-picker ng-model="brandingForm.styles.formColors.navbar" options="colorPickerOptions"></color-picker>
       </div>
     </div>
 
     <div class="input-group">
       <label class="textarea-label">{{'tenant.branding.siteColors.navText' | translate}}</label>
       <div>
-        <color-picker ng-model="brandingForm.styles.navbarText['color']" options="colorPickerOptions"></color-picker>
+        <color-picker ng-model="brandingForm.styles.formColors.navbarText" options="colorPickerOptions"></color-picker>
       </div>
     </div>
   </div>
