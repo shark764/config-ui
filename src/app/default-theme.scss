@@ -8,13 +8,13 @@
   color : $main-color;
 }
 
-#topnav > ul > li:hover .label-icon {
-  color: #fff !important;
+#topnav > ul > li:hover:not(#welcome):not(#helpMenu) .label-icon {
+  color: #fff;
 }
 
-#topnav > ul > li.active .drop-label span, 
+#topnav > ul > li.active .drop-label span,
 #topnav > ul > li:hover .drop-label span,
-#topnav > ul > li.active #logo, 
+#topnav > ul > li.active #logo,
 #topnav > ul > li:hover #logo {
   box-shadow: inset 0px -5px 0px 0px $accent1;
 }
