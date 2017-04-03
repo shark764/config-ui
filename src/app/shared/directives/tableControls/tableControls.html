@@ -7,7 +7,7 @@
         ng-show="config.helpLink"
         ng-href="{{ config.helpLink }}"
         target="_blank">
-        <i class="fa fa-question-circle" ng-style="$root.branding.styles.accentColor.iconAccent"></i>
+        <i class="fa fa-question-circle"></i>
       </a>
     </div>
     <div
@@ -15,8 +15,7 @@
       ng-class="{'with-dropdown' : config.dropDownUnderCreateBtn.length}">
       <button id="create-btn" class="btn btn-create btn-primary"
         ng-show="showCreate | invoke"
-        ng-click="onCreateClick()"
-        ng-style="$root.branding.styles.primaryColor.btn">
+        ng-click="onCreateClick()">
         {{'value.create' | translate}}
       </button>
       <span
@@ -37,7 +36,7 @@
           ng-model="searchQuery"
           placeholder="{{'table.search.placeholder' | translate}}">
         </input>
-        <i class="fa fa-search lo-main-bg" ng-style="$root.branding.styles.primaryColor.btn"></i>
+        <i class="fa fa-search lo-main-bg"></i>
       </div>
     </div>
 

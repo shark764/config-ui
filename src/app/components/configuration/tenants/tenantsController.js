@@ -107,54 +107,12 @@ angular.module('liveopsConfigPanel')
           }
         });
         if ($scope.brandingForm !== {}) {
-          var selectedStyles = $scope.brandingForm.styles.formColors;
-          var newStyles = {
-            navbar: {},
-            navbarDropdown: {
-              caret: {}
-            },
-            navbarText: {},
-            primaryColor: {
-              btn: {}
-            },
-            accentColor: {
-              iconAccent: {},
-              hover: {}
-            }
-          };
-          // Save Form Colors for Form Repopulation Later
-          newStyles.formColors = selectedStyles;
-
-          // Create Custom CSS Overrides for Each Selected Color
-          if (selectedStyles.navbar) {
-            newStyles.navbar['background-color'] = selectedStyles.navbar;
-
-            newStyles.navbarDropdown.caret.color = selectedStyles.navbar;
-          }
-
-          if (selectedStyles.navbarText) {
-            newStyles.navbarText.color = selectedStyles.navbarText;
-          }
-
-          if (selectedStyles.primaryColor) {
-            newStyles.primaryColor.btn['background-color'] = selectedStyles.primaryColor;
-          }
-
-          if (selectedStyles.accentColor) {
-            newStyles.accentColor.iconAccent.color = selectedStyles.accentColor;
-          }
-
-          if (selectedStyles.accentHover) {
-            newStyles.accentColor.hover['background-color'] = selectedStyles.accentHover;
-          }
-
           Branding.update({
             tenantId: $scope.selectedTenant.id,
-            styles: newStyles
+            styles: $scope.brandingForm.styles
           }, function(responce) {
-            console.log(responce);
             if (responce.tenantId === Session.tenant.tenantId) {
-              $rootScope.branding = responce;
+              Branding.apply(responce);
             }
           }, function(error) {
             if (error.status !== 404) {
@@ -240,7 +198,7 @@ angular.module('liveopsConfigPanel')
           styles: {}
         }, function(responce){
           if (responce.tenantId === Session.tenant.tenantId) {
-            $rootScope.branding = responce;
+            Branding.apply(responce);
           }
           $scope.brandingForm = {};
         }, function(errors){
