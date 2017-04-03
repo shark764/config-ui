@@ -108,25 +108,51 @@ angular.module('liveopsConfigPanel')
         });
         if ($scope.brandingForm !== {}) {
           var selectedStyles = $scope.brandingForm.styles.formColors;
-          var newStyles = {};
-          // Save Form Colors for Repopulation Later
+          var newStyles = {
+            navbar: {},
+            navbarDropdown: {
+              caret: {}
+            },
+            navbarText: {},
+            primaryColor: {
+              btn: {}
+            },
+            accentColor: {
+              iconAccent: {},
+              hover: {}
+            }
+          };
+          // Save Form Colors for Form Repopulation Later
           newStyles.formColors = selectedStyles;
 
           // Create Custom CSS Overrides for Each Selected Color
           if (selectedStyles.navbar) {
-            newStyles.navbar = {};
             newStyles.navbar['background-color'] = selectedStyles.navbar;
+
+            newStyles.navbarDropdown.caret.color = selectedStyles.navbar;
           }
 
           if (selectedStyles.navbarText) {
-            newStyles.navbarText = {};
             newStyles.navbarText.color = selectedStyles.navbarText;
           }
-          console.log(newStyles);
+
+          if (selectedStyles.primaryColor) {
+            newStyles.primaryColor.btn['background-color'] = selectedStyles.primaryColor;
+          }
+
+          if (selectedStyles.accentColor) {
+            newStyles.accentColor.iconAccent.color = selectedStyles.accentColor;
+          }
+
+          if (selectedStyles.accentHover) {
+            newStyles.accentColor.hover['background-color'] = selectedStyles.accentHover;
+          }
+
           Branding.update({
             tenantId: $scope.selectedTenant.id,
             styles: newStyles
           }, function(responce) {
+            console.log(responce);
             if (responce.tenantId === Session.tenant.tenantId) {
               $rootScope.branding = responce;
             }
