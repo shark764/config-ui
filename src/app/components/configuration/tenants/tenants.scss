@@ -26,26 +26,3 @@
 .sub-section {
   margin-left: 10px;
 }
-
-.md-color-picker-tabs md-tabs md-tabs-wrapper {
-  background-color: transparent !important;
-}
-
-.md-color-picker-preview-input {
-  font-size: 18px !important;
-}
-
-#colorPicker {
-  md-input-container {
-    margin: 0 0 0 5px;
-  }
-  .md-color-picker-preview {
-    top: 5px;
-  }
-  .md-errors-spacer {
-    min-width: 0;
-  }
-  .md-color-picker-clear {
-    bottom: 0;
-  }
-}

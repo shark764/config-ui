@@ -24,8 +24,7 @@ angular.module('liveopsConfigPanel', [
     'ui.sortable',
     'ui.codemirror',
     'ngAnimate',
-    'color.picker',
-    'mdColorPicker'
+    'color.picker'
   ])
   .config(['$translateProvider', 'toastrConfig', '$qProvider', '$locationProvider',
     function($translateProvider, toastrConfig, qProvider, $locationProvider) {
