@@ -23,6 +23,16 @@ angular.module('liveopsConfigPanel')
         inline: false,
       };
 
+      $scope.colorPickerOptionsNew = {
+        default: '#282aa7',
+        hasBackdrop: true,
+        clickOutsideToClose: true,
+        alphaChannel: false,
+        history: false,
+        skipHide: false,
+        defaultTab: 1
+      };
+
       vm.loadTimezones = function () {
         $scope.timezones = Timezone.query();
       };

@@ -125,6 +125,17 @@
 
     <div class="input-group">
       <label class="textarea-label">{{'tenant.branding.siteColors.nav' | translate}}</label>
+      <div id="colorPicker" md-color-picker
+        md-color-history="false"
+        ng-model="valueObj"
+        random="true"
+        focus-on-open="HEX"
+        open-on-input="true">
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label class="textarea-label">{{'tenant.branding.siteColors.nav' | translate}}</label>
       <div>
         <color-picker ng-model="brandingForm.styles.navbar" options="colorPickerOptions"></color-picker>
       </div>
