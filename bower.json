@@ -22,7 +22,7 @@
     "flow-designer": "git@github.com:liveops/flow-designer.git#4.1.1",
     "angular-moment-picker": "git@github.com:liveops/angular-moment-picker.git#0.0.17",
     "liveops-config-panel-shared": "git@github.com:liveops/config-shared#1.5.15",
-    "realtime-dashboards": "git@github.com:liveops/realtime-dashboards.git#4.4.9",
+    "realtime-dashboards": "git@github.com:liveops/realtime-dashboards.git#4.5.0",
     "agent-phone-panel": "git@github.com:liveops/soundwave.git#3.0.7",
     "ng-file-upload": "~7.0.17",
     "angular-drag-and-drop-lists": "^1.4.0",
@@ -43,7 +43,8 @@
   "resolutions": {
     "codemirror": "~4.8.0",
     "jquery": ">=3.1.x",
-    "font-awesome": "^4.4.0"
+    "font-awesome": "^4.4.0",
+    "angular": "^1.6.3"
   },
   "overrides": {
     "codemirror": {
