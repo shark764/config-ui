@@ -1,10 +1,9 @@
 <div ng-if="! selectedFlow.isNew()">
-  <toggle class="status-toggle" ng-model="selectedFlow.active" 
+  <toggle class="status-toggle" ng-model="selectedFlow.active"
   confirm-disable-message="{{'flow.details.disable.confirm' | translate}}"
   confirm-enable-message="{{'flow.details.enable.confirm' | translate}}"
-  ng-disabled="! ('MANAGE_ALL_FLOWS' | hasPermission)"
+  ng-disabled="! ('MANAGE_ALL_FLOWS' | hasPermission) || getVersions().length < 1"
   on-confirm="updateActive()"></toggle>
-
   <div class="info">
     <h1>{{selectedFlow.$original.name}}</h1>
     <div class="details" ng-if="['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_USERS', 'MANAGE_ALL_USER_EXTENSIONS', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_ALL_USER_LOCATIONS', 'MANAGE_TENANT_ENROLLMENT'] | hasPermission">
