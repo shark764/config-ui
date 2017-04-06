@@ -62,6 +62,7 @@ angular.module('liveopsConfigPanel', [
     });
     $animate.enabled(false);
 
+    // --- Initialize Tenant Branding ---
     Branding.get({
       tenantId: Session.tenant.tenantId
     }, function(responce){
@@ -69,7 +70,7 @@ angular.module('liveopsConfigPanel', [
         Branding.apply(responce);
       }
     }, function(error){
-      $rootScope.brandingForm = {};
+      Branding.apply();
       if (error.status !== 404) {
         console.log('Branding Styles Error:', error);
       }

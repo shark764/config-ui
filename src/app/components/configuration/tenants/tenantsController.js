@@ -1,23 +1,20 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('TenantsController', ['$rootScope', '$scope', 'Session', 'Tenant', 'TenantUser', 'tenantTableConfig', 'UserPermissions', 'AuthService', 'Region', '$q', 'loEvents', 'Timezone', 'PermissionGroups', 'Alert', 'GlobalRegionsList', 'Integration', 'Branding',
-    function ($rootScope, $scope, Session, Tenant, TenantUser, tenantTableConfig, UserPermissions, AuthService, Region, $q, loEvents, Timezone, PermissionGroups, Alert, GlobalRegionsList, Integration, Branding) {
+  .controller('TenantsController', ['$window', '$http', '$rootScope', '$scope', 'Session', 'Tenant', 'TenantUser', 'tenantTableConfig', 'UserPermissions', 'AuthService', 'Region', '$q', 'loEvents', 'Timezone', 'PermissionGroups', 'Alert', 'GlobalRegionsList', 'Integration', 'Branding', '$translate', 'fileUpload',
+    function ($window, $http, $rootScope, $scope, Session, Tenant, TenantUser, tenantTableConfig, UserPermissions, AuthService, Region, $q, loEvents, Timezone, PermissionGroups, Alert, GlobalRegionsList, Integration, Branding, $translate, fileUpload) {
       var vm = this;
 
       $scope.colorPickerOptions = {
         // html attributes
         placeholder: '',
-        // color
         format: 'hex',
         restrictToFormat: false,
         hue: true,
         saturation: true,
         case: 'upper',
-        // swatch
         swatch: true,
         swatchPos: 'left',
-        // popup
         round: false,
         pos: 'bottom left',
         inline: false,
@@ -72,7 +69,6 @@ angular.module('liveopsConfigPanel')
         Branding.get({
           tenantId: tenantId
         }, function(responce){
-          console.log(responce);
           $scope.brandingForm = responce;
         }, function(error){
           $scope.brandingForm = {};
@@ -106,21 +102,49 @@ angular.module('liveopsConfigPanel')
             Alert.error(err.data.error.attribute.name);
           }
         });
-        if ($scope.brandingForm !== {}) {
-          Branding.update({
-            tenantId: $scope.selectedTenant.id,
-            styles: $scope.brandingForm.styles
-          }, function(responce) {
-            if (responce.tenantId === Session.tenant.tenantId) {
-              Branding.apply(responce);
-            }
-          }, function(error) {
-            if (error.status !== 404) {
-              console.log('Branding Styles Error:', error);
-            }
-          });
+
+        if ($scope.brandingForm !== {} && !angular.equals($scope.brandingForm, $scope.brandingForm.$original)) {
+          submitBranding();
         }
       };
+
+      function submitBranding() {
+        if ($scope.brandingForm.updatelogo) {
+          uploadImg('logo');
+        } else if ($scope.brandingForm.updatefavicon) {
+          uploadImg('favicon');
+        } else {
+          updateBranding();
+        }
+      }
+
+      function uploadImg(type) {
+        fileUpload.uploadImg($scope.brandingForm[type + 'Selected'], type)
+          .then(function(){
+            $scope.brandingForm['update' + type] = false;
+            submitBranding();
+          }, function(error){
+            console.log(error);
+            return Alert.error($translate.instant('tenant.branding.images.' + type + '.fileSizeError'));
+          });
+      }
+
+      function updateBranding() {
+        // Update Branding Colors and apply if on current tenant
+        Branding.update({
+          tenantId: $scope.selectedTenant.id,
+          styles: $scope.brandingForm.styles
+        }, function(responce) {
+          if (responce.tenantId === Session.tenant.tenantId) {
+            Branding.apply(responce);
+          }
+          Alert.success($translate.instant('tenant.branding.updated'));
+        }, function(error) {
+          if (error.status !== 404) {
+            console.log('Branding Styles Error:', error);
+          }
+        });
+      }
 
       $scope.$on(loEvents.tableControls.itemCreate, function () {
         $scope.create();
@@ -195,15 +219,51 @@ angular.module('liveopsConfigPanel')
       $scope.resetDefaultBranding = function() {
         Branding.update({
           tenantId: $scope.selectedTenant.id,
-          styles: {}
+          styles: {},
+          logo: '',
+          favicon: ''
         }, function(responce){
+          $scope.brandingForm = {};
           if (responce.tenantId === Session.tenant.tenantId) {
             Branding.apply(responce);
           }
-          $scope.brandingForm = {};
+          Alert.success($translate.instant('tenant.branding.resetDefault'));
         }, function(errors){
           console.log(errors);
         });
+      };
+
+      $scope.fileSelected = function(element) {
+        $scope.brandingForm[element.name + 'Selected'] = element.files[0];
+
+        // On file selection cancel, clear form and preview
+        if ($scope.brandingForm[element.name + 'Selected'] === undefined) {
+          $scope.brandingForm[element.name] = '';
+          $scope.brandingForm.logoPreview = '';
+          return;
+        }
+
+        // File Checking for size and type
+        var maxFileSize = 1000000;
+        var fileTypesAllowed = ['image/png', 'image/jpg', 'image/jpeg', 'image/gif'];
+        if (element.name === 'favicon') {
+          fileTypesAllowed.push('image/vnd.microsoft.icon');
+        }
+        if ($scope.brandingForm[element.name + 'Selected'].size > maxFileSize || fileTypesAllowed.indexOf($scope.brandingForm[element.name + 'Selected'].type) === -1) {
+          element.value = '';
+          return Alert.error($translate.instant('tenant.branding.images.logo.fileSizeError'));
+        }
+
+        // Conditional for on form submit to upload img first
+        $scope.brandingForm['update' + element.name] = true;
+
+        // Preview Image
+        var reader  = new $window.FileReader();
+        reader.addEventListener('load', function () {
+          $scope.brandingForm[element.name + 'Preview'] = reader.result;
+        }, false);
+        reader.readAsDataURL($scope.brandingForm[element.name + 'Selected']);
+
       };
 
       vm.loadTenants();
