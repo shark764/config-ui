@@ -265,6 +265,7 @@ angular.module('liveopsConfigPanel')
         reader.readAsDataURL($scope.brandingForm[element.name + 'Selected']);
 
       };
+      $scope.test = false;
 
       vm.loadTenants();
       vm.loadTimezones();

@@ -62,18 +62,39 @@ angular.module('liveopsConfigPanel', [
     });
     $animate.enabled(false);
 
-    // --- Initialize Tenant Branding ---
-    Branding.get({
-      tenantId: Session.tenant.tenantId
-    }, function(responce){
-      if (responce.active) {
-        Branding.apply(responce);
-      }
-    }, function(error){
-      Branding.apply();
-      if (error.status !== 404) {
-        console.log('Branding Styles Error:', error);
-      }
-    });
+    var defaultUrl = 'cxengage.net';
+    // --- test data --------------------------------------
+    var currentUrl = 'mitel.cxengage.net';
+    var mockBrandingData = {
+      active: true,
+      favicon: '23f10080-faaa-11e6-b856-36051d50f3bf/36f8f370-1b09-11e7-9873-1b92cd79a0c3.png',
+      logo: '23f10080-faaa-11e6-b856-36051d50f3bf/36ac3300-1b09-11e7-9873-1b92cd79a0c3.png',
+      styles: {
+        accentColor: '#2610CE',
+        accentHoverColor: '#FFD5D5',
+        navbar: '#FA1986',
+        navbarText: '#981CBD',
+        primaryColor: '#CC0A7E'
+      },
+      tenantId: '23f10080-faaa-11e6-b856-36051d50f3bf'
+    };
+    // ----------------------------------------------------
+    if (currentUrl === defaultUrl && typeof Session.tenant === 'object' && typeof Session.user === 'object') {
+      // --- Initialize Tenant Branding ---
+      Branding.get({
+        tenantId: Session.tenant.tenantId
+      }, function(responce){
+        if (responce.active) {
+          Branding.apply(responce);
+        }
+      }, function(error){
+        Branding.apply();
+        if (error.status !== 404 || error.status !== 401) {
+          console.log('Branding Styles Error:', error);
+        }
+      });
+    } else {
+      Branding.apply(mockBrandingData);
+    }
 
   }]);
