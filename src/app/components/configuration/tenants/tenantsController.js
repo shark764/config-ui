@@ -4,6 +4,7 @@ angular.module('liveopsConfigPanel')
   .controller('TenantsController', ['$window', '$http', '$rootScope', '$scope', 'Session', 'Tenant', 'TenantUser', 'tenantTableConfig', 'UserPermissions', 'AuthService', 'Region', '$q', 'loEvents', 'Timezone', 'PermissionGroups', 'Alert', 'GlobalRegionsList', 'Integration', 'Branding', '$translate', 'fileUpload',
     function ($window, $http, $rootScope, $scope, Session, Tenant, TenantUser, tenantTableConfig, UserPermissions, AuthService, Region, $q, loEvents, Timezone, PermissionGroups, Alert, GlobalRegionsList, Integration, Branding, $translate, fileUpload) {
       var vm = this;
+      $scope.forms = {};
 
       $scope.colorPickerOptions = {
         // html attributes
@@ -235,6 +236,7 @@ angular.module('liveopsConfigPanel')
 
       $scope.fileSelected = function(element) {
         $scope.brandingForm[element.name + 'Selected'] = element.files[0];
+        $scope.forms.detailsForm.$setDirty(true);
 
         // On file selection cancel, clear form and preview
         if ($scope.brandingForm[element.name + 'Selected'] === undefined) {
@@ -265,7 +267,6 @@ angular.module('liveopsConfigPanel')
         reader.readAsDataURL($scope.brandingForm[element.name + 'Selected']);
 
       };
-      $scope.test = false;
 
       vm.loadTenants();
       vm.loadTimezones();
