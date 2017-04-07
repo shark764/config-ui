@@ -127,7 +127,7 @@ angular.module('liveopsConfigPanel')
         var statCopy = new CustomStat({
           id: $scope.selectedStat.id,
           tenantId: $scope.selectedStat.tenantId,
-          active: ! $scope.selectedStat.active
+          active: !$scope.selectedStat.active
         });
 
         return statCopy.save().then(function(result){
