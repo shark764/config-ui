@@ -47,24 +47,11 @@ angular.module('liveopsConfigPanel', [
       $locationProvider.hashPrefix('');
     }
   ])
-  .run(['queryCache', '$rootScope','$state', '$animate', 'Branding', 'Session', function(queryCache, $rootScope, $state, $animate, Branding, Session) {
-    $rootScope.$on('$stateChangeSuccess', function() {
-      queryCache.removeAll();
-      $rootScope.title = $state.current.title + ' | CxEngage';
-    });
-    $rootScope.$on('$stateChangeError', function() {
-      console.error('State change error!');
-      console.log(arguments);
-    });
-    $rootScope.$on('$stateNotFound', function() {
-      console.error('State not found!');
-      console.log(arguments);
-    });
-    $animate.enabled(false);
-
-    var defaultUrl = 'cxengage.net';
-    // --- test data --------------------------------------
-    var currentUrl = 'mitel.cxengage.net';
+  .run(['queryCache', '$rootScope','$state', '$animate', 'Branding', function(queryCache, $rootScope, $state, $animate, Branding) {
+    $rootScope.productName = 'CxEngage';
+    var mitelUrl = 'mitel.cxengage.net';
+    // --- Mitel Test Styles --------------------------------------
+    var currentUrl = 'cxengage.net';
     var mockBrandingData = {
       active: true,
       favicon: '23f10080-faaa-11e6-b856-36051d50f3bf/36f8f370-1b09-11e7-9873-1b92cd79a0c3.png',
@@ -79,22 +66,28 @@ angular.module('liveopsConfigPanel', [
       tenantId: '23f10080-faaa-11e6-b856-36051d50f3bf'
     };
     // ----------------------------------------------------
-    if (currentUrl === defaultUrl && typeof Session.tenant === 'object' && typeof Session.user === 'object') {
-      // --- Initialize Tenant Branding ---
-      Branding.get({
-        tenantId: Session.tenant.tenantId
-      }, function(responce){
-        if (responce.active) {
-          Branding.apply(responce);
-        }
-      }, function(error){
-        Branding.apply();
-        if (error.status !== 404 || error.status !== 401) {
-          console.log('Branding Styles Error:', error);
-        }
-      });
-    } else {
-      Branding.apply(mockBrandingData);
-    }
 
+    $rootScope.$on('$stateChangeStart', function(e, toState) {
+      if (toState.name === 'login' || toState.name === 'forgot-password') {
+        if (currentUrl === mitelUrl) {
+          Branding.apply(mockBrandingData);
+          $rootScope.productName = 'Mitel';
+        } else {
+          Branding.apply({});
+        }
+      }
+    });
+    $rootScope.$on('$stateChangeSuccess', function() {
+      queryCache.removeAll();
+      $rootScope.title = $state.current.title + ' | ' + $rootScope.productName;
+    });
+    $rootScope.$on('$stateChangeError', function() {
+      console.error('State change error!');
+      console.log(arguments);
+    });
+    $rootScope.$on('$stateNotFound', function() {
+      console.error('State not found!');
+      console.log(arguments);
+    });
+    $animate.enabled(false);
   }]);

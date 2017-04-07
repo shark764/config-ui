@@ -414,14 +414,12 @@ angular.module('liveopsConfigPanel')
           if (responce.active) {
             Branding.apply(responce);
           }
-        }, function(error){
-          $rootScope.brandingForm = {};
-          if (error.status !== 404) {
-            console.log('Branding Styles Error:', error);
-          }
+        }, function(){
+          Branding.apply({});
         });
       };
 
+      $scope.updateBranding();
       $scope.updateTopbarConfig();
     }
   ]);
