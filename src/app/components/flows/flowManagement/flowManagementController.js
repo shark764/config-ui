@@ -168,7 +168,7 @@ angular.module('liveopsConfigPanel')
         newScope.okCallback = function(newFlow) {
           var newFlowCopy = new Flow({
             tenantId: Session.tenant.tenantId,
-            active: true,
+            active: false,
             name: newFlow.name,
             type: newFlow.type,
             description: newFlow.description || ''
