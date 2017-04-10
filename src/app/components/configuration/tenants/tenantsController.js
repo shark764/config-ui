@@ -137,7 +137,7 @@ angular.module('liveopsConfigPanel')
           styles: $scope.brandingForm.styles
         }, function(responce) {
           if (responce.tenantId === Session.tenant.tenantId) {
-            Branding.apply(responce);
+            Branding.set(responce);
           }
           Alert.success($translate.instant('tenant.branding.updated'));
         }, function(error) {
@@ -226,7 +226,7 @@ angular.module('liveopsConfigPanel')
         }, function(responce){
           $scope.brandingForm = {};
           if (responce.tenantId === Session.tenant.tenantId) {
-            Branding.apply(responce);
+            Branding.set(responce);
           }
           Alert.success($translate.instant('tenant.branding.resetDefault'));
         }, function(errors){

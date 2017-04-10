@@ -69,9 +69,9 @@ angular.module('liveopsConfigPanel', [
     $rootScope.$on('$stateChangeStart', function(e, toState) {
       if (toState.name === 'login' || toState.name === 'forgot-password') {
         if ($location.absUrl().indexOf(mitelUrl) !== -1) {
-          Branding.apply(mockBrandingData);
+          Branding.set(mockBrandingData);
         } else {
-          Branding.apply({});
+          Branding.set({});
         }
       }
     });

@@ -412,10 +412,10 @@ angular.module('liveopsConfigPanel')
           tenantId: Session.tenant.tenantId
         }, function(responce){
           if (responce.active) {
-            Branding.apply(responce);
+            Branding.set(responce);
           }
         }, function(){
-          Branding.apply({});
+          Branding.set({});
         });
       };
 
