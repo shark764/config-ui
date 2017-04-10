@@ -47,31 +47,34 @@ angular.module('liveopsConfigPanel', [
       $locationProvider.hashPrefix('');
     }
   ])
-  .run(['queryCache', '$rootScope','$state', '$animate', 'Branding', function(queryCache, $rootScope, $state, $animate, Branding) {
-    $rootScope.productName = 'CxEngage';
-    var mitelUrl = 'mitel.cxengage.net';
-    // --- Mitel Test Styles --------------------------------------
-    var currentUrl = 'cxengage.net';
+  .run(['queryCache', '$rootScope', '$state', '$animate', 'Branding', '$location', function(queryCache, $rootScope, $state, $animate, Branding, $location) {
+
+    console.log($location.absUrl());
+    // Replace with $location...
+    var currentUrl = 'mitel-config';
+
+    // --- Mitel Temp Info ---
+    var mitelUrl = 'mitel-config';
+
     var mockBrandingData = {
       active: true,
-      favicon: '23f10080-faaa-11e6-b856-36051d50f3bf/36f8f370-1b09-11e7-9873-1b92cd79a0c3.png',
-      logo: '23f10080-faaa-11e6-b856-36051d50f3bf/36ac3300-1b09-11e7-9873-1b92cd79a0c3.png',
+      favicon: '23f10080-faaa-11e6-b856-36051d50f3bf/caa3bd20-1bd2-11e7-b8ec-b883f2d63b7b.ico',
+      logo: '23f10080-faaa-11e6-b856-36051d50f3bf/757eb280-1df5-11e7-b8ec-b883f2d63b7b.png',
       styles: {
-        accentColor: '#2610CE',
-        accentHoverColor: '#FFD5D5',
-        navbar: '#FA1986',
-        navbarText: '#981CBD',
-        primaryColor: '#CC0A7E'
-      },
-      tenantId: '23f10080-faaa-11e6-b856-36051d50f3bf'
+        productName: 'Mitel',
+        accentColor: '#FF7300',
+        accentHoverColor: '#E3F3FF',
+        navbar: '#15325F',
+        navbarText: '#FFFFFF',
+        primaryColor: '#00A1F4'
+      }
     };
-    // ----------------------------------------------------
 
     $rootScope.$on('$stateChangeStart', function(e, toState) {
       if (toState.name === 'login' || toState.name === 'forgot-password') {
+        // if ($location.absUrl().indexOf(mitelUrl)) {
         if (currentUrl === mitelUrl) {
           Branding.apply(mockBrandingData);
-          $rootScope.productName = 'Mitel';
         } else {
           Branding.apply({});
         }
