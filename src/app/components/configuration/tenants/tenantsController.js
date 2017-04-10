@@ -261,7 +261,7 @@ angular.module('liveopsConfigPanel')
 
         // Preview Image
         var reader  = new $window.FileReader();
-        reader.addEventListener('load', function () {
+        reader.addEventListener('load', function() {
           $scope.brandingForm[element.name + 'Preview'] = reader.result;
         }, false);
         reader.readAsDataURL($scope.brandingForm[element.name + 'Selected']);

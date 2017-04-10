@@ -548,6 +548,7 @@
   "tenant.details.setActive": "Set As Active Tenant",
   "tenant.branding.title": "Branding",
   "tenant.branding.reset": "Reset to Default",
+  "tenant.branding.productName": "Product Name",
   "tenant.branding.images": "Images",
   "tenant.branding.images.favicon": "Favicon",
   "tenant.branding.images.logo": "Logo / Header",
