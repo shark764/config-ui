@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
+* CXV1-6501 - fixed broken enable/disable functionality, also fixed bug with drafts table not updating on save of new draft
 * CXV1-8450 - Bumped Realtime Dashboards again to add several new widgets on both interactions and resources dashboards
 * CXV1-8450 - Bumped Realtime Dashboards version for ticket that replaces two stats on interactions dashboard
 * CXV1-8085 - Updated to angular 1.6.3 fixed breaking changes
