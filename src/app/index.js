@@ -49,10 +49,6 @@ angular.module('liveopsConfigPanel', [
   ])
   .run(['queryCache', '$rootScope', '$state', '$animate', 'Branding', '$location', function(queryCache, $rootScope, $state, $animate, Branding, $location) {
 
-    console.log($location.absUrl());
-    // Replace with $location...
-    var currentUrl = 'mitel-config';
-
     // --- Mitel Temp Info ---
     var mitelUrl = 'mitel-config';
 
@@ -72,8 +68,7 @@ angular.module('liveopsConfigPanel', [
 
     $rootScope.$on('$stateChangeStart', function(e, toState) {
       if (toState.name === 'login' || toState.name === 'forgot-password') {
-        // if ($location.absUrl().indexOf(mitelUrl)) {
-        if (currentUrl === mitelUrl) {
+        if ($location.absUrl().indexOf(mitelUrl) !== -1) {
           Branding.apply(mockBrandingData);
         } else {
           Branding.apply({});
