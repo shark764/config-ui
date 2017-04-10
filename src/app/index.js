@@ -50,6 +50,9 @@ angular.module('liveopsConfigPanel', [
   .run(['queryCache', '$rootScope', '$state', '$animate', 'Branding', '$location', function(queryCache, $rootScope, $state, $animate, Branding, $location) {
 
     // --- Mitel Temp Info ---
+    // Needed to style the login and forgot password pages
+    // We do not have access to the branding data until logged in
+    // This is temporary data until we have further api support
     var mitelUrl = 'mitel-config';
 
     var mockBrandingData = {
