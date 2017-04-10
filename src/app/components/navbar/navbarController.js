@@ -410,9 +410,9 @@ angular.module('liveopsConfigPanel')
       $scope.updateBranding = function() {
         Branding.get({
           tenantId: Session.tenant.tenantId
-        }, function(responce){
-          if (responce.active) {
-            Branding.set(responce);
+        }, function(response){
+          if (response.active) {
+            Branding.set(response);
           }
         }, function(){
           Branding.set({});

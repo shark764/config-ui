@@ -69,8 +69,8 @@ angular.module('liveopsConfigPanel')
       vm.loadBranding = function (tenantId) {
         Branding.get({
           tenantId: tenantId
-        }, function(responce){
-          $scope.brandingForm = responce;
+        }, function(response){
+          $scope.brandingForm = response;
         }, function(error){
           $scope.brandingForm = {};
           if (error.status !== 404) {
@@ -135,9 +135,9 @@ angular.module('liveopsConfigPanel')
         Branding.update({
           tenantId: $scope.selectedTenant.id,
           styles: $scope.brandingForm.styles
-        }, function(responce) {
-          if (responce.tenantId === Session.tenant.tenantId) {
-            Branding.set(responce);
+        }, function(response) {
+          if (response.tenantId === Session.tenant.tenantId) {
+            Branding.set(response);
           }
           Alert.success($translate.instant('tenant.branding.updated'));
         }, function(error) {
@@ -223,10 +223,10 @@ angular.module('liveopsConfigPanel')
           styles: {},
           logo: '',
           favicon: ''
-        }, function(responce){
+        }, function(response){
           $scope.brandingForm = {};
-          if (responce.tenantId === Session.tenant.tenantId) {
-            Branding.set(responce);
+          if (response.tenantId === Session.tenant.tenantId) {
+            Branding.set(response);
           }
           Alert.success($translate.instant('tenant.branding.resetDefault'));
         }, function(errors){
