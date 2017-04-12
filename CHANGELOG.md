@@ -4,6 +4,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
 * CXV1-8474 - Fixed issue that was allowing the user to copy a flow with no active version and have the flow set to 'enabled'
+* Bumping Flow Designer
 
 ## [4.10.13]
 * CXV1-6501 - fixed broken enable/disable functionality, also fixed bug with drafts table not updating on save of new draft
