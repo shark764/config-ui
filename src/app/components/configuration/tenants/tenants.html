@@ -4,7 +4,7 @@
     items="tenants"
     search-query="searchQuery">
   </table-controls>
-  
+
   <lo-resource-table
     config="tableConfig"
     items="tenants"
@@ -29,7 +29,7 @@
   class="right-panel"
   ng-show="selectedTenant || showBulkActions"
   ng-resource="selectedTenant">
-    
+
     <ng-form
       class="details-pane"
       unsaved-changes-warning
@@ -42,7 +42,7 @@
         <div class="detail-header" ng-include="'app/components/configuration/tenants/tenantDetailHeader.html'">
         </div>
       </ng-form>
-      
+
       <div class="detail-body" ng-include="'app/components/configuration/tenants/tenantDetailBody.html'">
       </div>
 
@@ -69,7 +69,7 @@
     ng-show="showBulkActions"
     items="tenants"
     show-bulk-actions="showBulkActions">
-    
+
     <ba-set-tenant-status></ba-set-tenant-status>
   </bulk-action-executor>
 </lo-details-panel>

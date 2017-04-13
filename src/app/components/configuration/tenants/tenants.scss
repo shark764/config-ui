@@ -18,6 +18,23 @@
     text-align: left;
   }
 }
+
 .added-padding {
   padding-top:9px;
+}
+
+.sub-section {
+  margin-left: 10px;
+}
+
+.input-group .logo-preview {
+  margin-top: 15px;
+  img {
+    height: auto;
+    max-width: 250px;
+  }
+}
+
+.input-group input[type='file'] {
+  margin-top: 8px;
 }

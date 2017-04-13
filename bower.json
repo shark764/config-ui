@@ -21,7 +21,7 @@
     "teljs": "git@github.com:liveops/tel.js.git#master",
     "flow-designer": "git@github.com:liveops/flow-designer.git#4.1.2",
     "angular-moment-picker": "git@github.com:liveops/angular-moment-picker.git#0.0.17",
-    "liveops-config-panel-shared": "git@github.com:liveops/config-shared#1.5.16",
+    "liveops-config-panel-shared": "git@github.com:liveops/config-shared#1.5.17",
     "realtime-dashboards": "git@github.com:liveops/realtime-dashboards.git#4.5.2",
     "agent-phone-panel": "git@github.com:liveops/soundwave.git#3.0.7",
     "ng-file-upload": "~7.0.17",
@@ -35,7 +35,8 @@
     "angular-ui-sortable": "^0.15.0",
     "moment-timezone": "^0.5.7",
     "angular-aria": "1.6.3",
-    "angular-animate": "^1.6.3"
+    "angular-animate": "^1.6.3",
+    "angular-color-picker": "angularjs-color-picker#^3.2.1"
   },
   "devDependencies": {
     "angular-mocks": "^1.6.3"

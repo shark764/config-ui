@@ -84,7 +84,7 @@
   </div>
 </div>
 
-<div ng-show="! selectedTenant.isNew()">
+<div ng-show="! selectedTenant.isNew()" class="added-padding">
   <div class="divider-header first-header">
     <h4>{{'tenant.details.parent' | translate}}</h4>
   </div>
@@ -106,4 +106,98 @@
       {{ 'value.unknown' | translate }}
     </p>
   </div>
+</div>
+
+<div disable-contents="! (['PLATFORM_MANAGE_ALL_TENANTS', 'MANAGE_TENANT', 'MANAGE_ALL_BRANDINGS'] | hasPermission)" class="added-padding">
+  <div class="divider-header first-header">
+    <h4>{{'tenant.branding.title' | translate}}</h4>
+  </div>
+
+  <div class="input-group">
+    <label></label>
+    <input ng-click="resetDefaultBranding()" type="button" class="btn" value="{{'tenant.branding.reset' | translate}}"></input>
+  </div>
+
+  <div class="sub-section">
+    <div class="divider-header first-header">
+      <h4>{{'tenant.branding.productName' | translate}}</h4>
+    </div>
+    <div class="input-group">
+      <label></label>
+      <div>
+        <input ng-model="brandingForm.styles.productName" type="text"></input>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub-section">
+    <div class="divider-header first-header">
+      <h4>{{'tenant.branding.images' | translate}}</h4>
+    </div>
+
+    <div class="input-group">
+      <label class="textarea-label">{{'tenant.branding.images.logo' | translate}}</label>
+      <div>
+        <input name="logo" type="file" onchange="angular.element(this).scope().fileSelected(this)">
+      </div>
+      <div class="logo-preview">
+        <img ng-if="!brandingForm.logoPreview && brandingForm.logo" ng-src="{{$root.s3bucketUrl + brandingForm.logo}}" alt="Logo preview...">
+        <img ng-if="brandingForm.logoPreview" data-ng-src="{{brandingForm.logoPreview}}" alt="Logo preview...">
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label class="textarea-label">{{'tenant.branding.images.favicon' | translate}}</label>
+      <div>
+        <input name="favicon" type="file" onchange="angular.element(this).scope().fileSelected(this)">
+      </div>
+      <div class="logo-preview">
+        <img ng-if="!brandingForm.faviconPreview && brandingForm.favicon" ng-src="{{$root.s3bucketUrl + brandingForm.favicon}}" alt="Favicon preview...">
+        <img ng-if="brandingForm.faviconPreview" data-ng-src="{{brandingForm.faviconPreview}}" alt="Favicon preview...">
+      </div>
+    </div>
+  </div>
+
+  <div class="sub-section added-padding">
+    <div class="divider-header first-header">
+      <h4>{{'tenant.branding.siteColors' | translate}}</h4>
+    </div>
+
+    <div class="input-group">
+      <label class="textarea-label">{{'tenant.branding.siteColors.nav' | translate}}</label>
+      <div>
+        <color-picker ng-model="brandingForm.styles.navbar" options="colorPickerOptions"></color-picker>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label class="textarea-label">{{'tenant.branding.siteColors.navText' | translate}}</label>
+      <div>
+        <color-picker ng-model="brandingForm.styles.navbarText" options="colorPickerOptions"></color-picker>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label class="textarea-label">{{'tenant.branding.siteColors.primaryColor' | translate}}</label>
+      <div>
+        <color-picker ng-model="brandingForm.styles.primaryColor" options="colorPickerOptions"></color-picker>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label class="textarea-label">{{'tenant.branding.siteColors.accentColor' | translate}}</label>
+      <div>
+        <color-picker ng-model="brandingForm.styles.accentColor" options="colorPickerOptions"></color-picker>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label class="textarea-label">{{'tenant.branding.siteColors.accentHoverColor' | translate}}</label>
+      <div>
+        <color-picker ng-model="brandingForm.styles.accentHoverColor" options="colorPickerOptions"></color-picker>
+      </div>
+    </div>
+
+  </div>
+
 </div>

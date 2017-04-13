@@ -557,21 +557,21 @@ angular.module('liveopsConfigPanel')
         })
         .state('login', {
           url: '/login?messageKey&tenantId',
-          title: 'CxEngage Login',
+          title: 'Login',
           templateUrl: 'app/components/login/login.html',
           controller: 'LoginController',
           isPublic: true
         })
         .state('forgot-password', {
           url: '/forgot-password',
-          title: 'CxEngage Forgot Password',
+          title: 'Forgot Password',
           templateUrl: 'app/components/forgotPassword/forgotPassword.html',
           controller: 'ForgotPasswordController',
           isPublic: true
         })
         .state('reset-password', {
           url: '/reset-password?userId&token',
-          title:'CxEngage Reset Password',
+          title:'Reset Password',
           templateUrl: 'app/components/resetPassword/resetPassword.html',
           controller: 'ResetPasswordController',
           isPublic: true,
@@ -593,7 +593,7 @@ angular.module('liveopsConfigPanel')
         })
         .state('content.userprofile', {
           url: '/userprofile',
-          title:'CxEngage User Profile',
+          title:'User Profile',
           templateUrl: 'app/components/userProfile/userProfile.html',
           controller: 'UserProfileController',
           secure: true
@@ -648,7 +648,7 @@ angular.module('liveopsConfigPanel')
         })
         .state('invite-accept', {
           url: '/invite-accept?userId&tenantId&token',
-          title:'CxEngage Accept Invite',
+          title:'Accept Invite',
           templateUrl: 'app/components/inviteAccept/inviteAccept.html',
           controller: 'InviteAcceptController',
           isPublic: true,
