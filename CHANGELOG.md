@@ -5,6 +5,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## Unreleased
 * CXV1-8474 - Fixed issue that was allowing the user to copy a flow with no active version and have the flow set to 'enabled'
 * Bumping Flow Designer
+* CXV1-8599 - Bumping soundwave
 * CXV1-2085 - Added white label branding panel.
 
 ## [4.10.13]
