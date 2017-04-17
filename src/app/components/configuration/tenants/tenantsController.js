@@ -253,7 +253,7 @@ angular.module('liveopsConfigPanel')
         }
         if ($scope.brandingForm[element.name + 'Selected'].size > maxFileSize || fileTypesAllowed.indexOf($scope.brandingForm[element.name + 'Selected'].type) === -1) {
           element.value = '';
-          return Alert.error($translate.instant('tenant.branding.images.logo.fileSizeError'));
+          return Alert.error($translate.instant('tenant.branding.images.' + element.name + '.fileSizeError'));
         }
 
         // Conditional for on form submit to upload img first
