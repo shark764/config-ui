@@ -70,7 +70,7 @@ angular.module('liveopsConfigPanel', [
     };
 
     $rootScope.$on('$stateChangeStart', function(e, toState) {
-      if (toState.name === 'login' || toState.name === 'forgot-password') {
+      if (toState.name === 'login' || toState.name === 'forgot-password' || toState.name === 'invite-accept') {
         if ($location.absUrl().indexOf(mitelUrl) !== -1) {
           Branding.set(mockBrandingData);
         } else {

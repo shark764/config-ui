@@ -249,11 +249,11 @@ angular.module('liveopsConfigPanel')
         var maxFileSize = 1000000;
         var fileTypesAllowed = ['image/png', 'image/jpg', 'image/jpeg', 'image/gif'];
         if (element.name === 'favicon') {
-          fileTypesAllowed.push('image/vnd.microsoft.icon');
+          fileTypesAllowed.push('image/vnd.microsoft.icon', 'image/x-icon');
         }
         if ($scope.brandingForm[element.name + 'Selected'].size > maxFileSize || fileTypesAllowed.indexOf($scope.brandingForm[element.name + 'Selected'].type) === -1) {
           element.value = '';
-          return Alert.error($translate.instant('tenant.branding.images.logo.fileSizeError'));
+          return Alert.error($translate.instant('tenant.branding.images.' + element.name + '.fileSizeError'));
         }
 
         // Conditional for on form submit to upload img first
