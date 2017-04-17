@@ -6,6 +6,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 * CXV1-8148 - Set tenant dropdown in top nav to only display active tenants
 * CXV1-8474 - Fixed issue that was allowing the user to copy a flow with no active version and have the flow set to 'enabled'
 * Bumping Flow Designer
+* Bumping RT dashboards
 * CXV1-8599 - Bumping soundwave
 * CXV1-2085 - Added white label branding panel and bumping config-shared to match
 * CXV1-8082 - Change from sandbox to production instance for salesforce interaction lib
