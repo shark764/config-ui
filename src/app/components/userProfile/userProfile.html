@@ -38,22 +38,35 @@
           <input ng-required="true" ng-model="tenantUser.$user.lastName" name="lastName" type="text"></input>
         </div>
       </div>
-      <div>
-        <label>{{'details.password' | translate}}</label>
+      <div ng-show="resettingPassword || userForm.currentPassword.$error.api">
+        <label>{{'details.password.current' | translate}}</label>
         <div>
-          <input id="reset-password-button" type="button" class="btn"
-            ng-hide="userForm.password.$dirty || userForm.password.$error.api"
-            ng-click="userForm.password.$setDirty()"
-            value="{{'user.details.password.reset' | translate}}">
-
-          <form-error field="userForm.password"
+          <form-error field="userForm.currentPassword"
             error-type-required="{{'details.password.error' | translate}}">
           </form-error>
 
+          <input autocomplete="off" name="currentPassword" type="password"
+            ng-model="tenantUser.$user.currentPassword"
+            ng-required="userForm.currentPassword.$dirty"/>
+        </div>
+      </div>
+
+      <div ng-show="'PLATFORM_MANAGE_MY_PASSWORD' | hasPermission">
+        <label>{{'details.password.new' | translate}}</label>
+        <div>
+          <input id="reset-password-button" type="button" class="btn"
+                 ng-hide="resettingPassword || userForm.password.$error.api"
+                 ng-click="resettingPassword = true"
+                 value="{{'user.details.password.reset' | translate}}">
+
+          <form-error field="userForm.password"
+                      error-type-required="{{'details.password.error' | translate}}">
+          </form-error>
+
           <input autocomplete="off" name="password" type="password"
-            ng-model="tenantUser.$user.password"
-            ng-show="userForm.password.$dirty || userForm.password.$error.api"
-            ng-required="userForm.password.$dirty"/>
+                 ng-model="tenantUser.$user.password"
+                 ng-show="resettingPassword || userForm.password.$error.api"
+                 ng-required="userForm.password.$dirty"/>
 
           <p id="password-policy" ng-show="userForm.password.$dirty || userForm.password.$error.api"><small>{{'details.password.default.policy' | translate}}</small></p>
         </div>

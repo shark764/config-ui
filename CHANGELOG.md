@@ -8,6 +8,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 * CXV1-8599 - Bumping soundwave
 * CXV1-2085 - Added white label branding panel and bumping config-shared to match
 * CXV1-8082 - Change from sandbox to production instance for salesforce interaction lib
+* CXV1-8143 - Require current password for password update
 
 ## [4.10.13]
 * CXV1-6501 - fixed broken enable/disable functionality, also fixed bug with drafts table not updating on save of new draft
