@@ -90,17 +90,28 @@ describe('NavbarController', function() {
       expect(Session.tenant.tenantId).toBe(mockTenants[0].id);
     });
 
-    it('should switch the tenant on drop down click', function() {
+    it('should not include inactive tenants in the tenant selection dropdown', inject(function(Session) {
+      Session.tenants[0].tenantActive = false;
+      $scope.populateTenantsHandler();
+      expect($scope.tenantDropdownItems).not.toContain(jasmine.objectContaining({'label': Session.tenants[0].tenantName}));
+    }));
+
+    it('should include active tenants in the tenant selection dropdown', inject(function(Session) {
+      $scope.populateTenantsHandler();
+      expect($scope.tenantDropdownItems).toContain(jasmine.objectContaining({'label': Session.tenants[0].tenantName}));
+    }));
+
+    it('should switch the tenant on drop down click', inject(function(Session) {
       expect($scope.tenantDropdownItems).toBeDefined();
       expect($scope.tenantDropdownItems[1]).toBeDefined();
       expect($scope.tenantDropdownItems[1].onClick).toBeDefined();
 
       $scope.tenantDropdownItems[1].onClick();
       expect(Session.tenant.tenantId).toEqual(mockTenants[1].tenantId);
-    });
+    }));
 
     it('should do nothing on drop down click if selecting the current tenant', function() {
-      Session.tenant.tenantId = $scope.tenantDropdownItems[1].tenantId;
+      Session.tenant.tenantId = Session.tenants[1].tenantId;
 
       spyOn(Session, 'setTenant');
       $scope.tenantDropdownItems[1].onClick();
