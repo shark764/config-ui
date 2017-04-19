@@ -21,6 +21,6 @@ body > .ng-view {
   height: calc(100% - #{$navbar-height});
 }
 
-.content-container {
+.content-container, #table-pane {
   overflow-y: scroll;
 }
