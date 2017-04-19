@@ -13,36 +13,49 @@ angular.module('liveopsConfigPanel')
           return;
         }
 
-        if ((!Session.tenant || !Session.tenant.tenantId) && Session.tenants && Session.tenants.length) {
-          Session.setTenant(Session.tenants[0]);
+        if(Session.tenants && Session.tenants.length) {
+          // check to see find the index of the item in the Session.tenants array that
+          // matches the Session.tenant, since the Session.tenant alone doesn't have
+          // the 'tenantActive' property that we need for the check below
+          var currentSessionTenantIdx = _.findIndex(Session.tenants, function (sessionTenant) {
+            return sessionTenant.tenantId === Session.tenant.tenantId;
+          });
+
+          if (!Session.tenant || !Session.tenant.tenantId || Session.tenants[currentSessionTenantIdx].tenantActive === false) {
+            // reset to the first tenant in the list
+            Session.setTenant(Session.tenants[0]);
+          }
         }
 
         var tenantDropdownItems = [];
+
         angular.forEach(Session.tenants, function(tenant) {
-          tenantDropdownItems.push({
-            label: tenant.tenantName,
-            onClick: function() {
-              if (!Session.tenant || tenant.tenantId !== Session.tenant.tenantId) {
-                DirtyForms.confirmIfDirty(function() {
-                  Session.setTenant(tenant);
-                  $scope.updateTopbarConfig();
-                  $scope.updateBranding();
-                  var goTo = $state.current;
-                  if($state.includes('content.realtime-dashboards-management.editor')) {
-                    goTo = 'content.realtime-dashboards-management';
-                  } else if ($state.includes('content.flows.editor')){
-                    goTo = 'content.flows.flowManagement';
-                  }
-                  $state.go(goTo, {
-                    id: null
-                  }, {
-                    reload: true,
-                    inherit: false
+          if (tenant.tenantActive === true) {
+            tenantDropdownItems.push({
+              label: tenant.tenantName,
+              onClick: function() {
+                if (!Session.tenant || tenant.tenantId !== Session.tenant.tenantId) {
+                  DirtyForms.confirmIfDirty(function() {
+                    Session.setTenant(tenant);
+                    $scope.updateTopbarConfig();
+                    $scope.updateBranding();
+                    var goTo = $state.current;
+                    if($state.includes('content.realtime-dashboards-management.editor')) {
+                      goTo = 'content.realtime-dashboards-management';
+                    } else if ($state.includes('content.flows.editor')){
+                      goTo = 'content.flows.flowManagement';
+                    }
+                    $state.go(goTo, {
+                      id: null
+                    }, {
+                      reload: true,
+                      inherit: false
+                    });
                   });
-                });
+                }
               }
-            }
-          });
+            });
+          }
         });
 
         $scope.tenantDropdownItems = tenantDropdownItems;

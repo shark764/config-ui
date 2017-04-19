@@ -6,6 +6,8 @@ angular.module('liveopsConfigPanel')
       var vm = this;
       $scope.forms = {};
 
+      var TenantSvc = new Tenant();
+
       $scope.colorPickerOptions = {
         // html attributes
         placeholder: '',
@@ -210,6 +212,11 @@ angular.module('liveopsConfigPanel')
 
         return tenantCopy.save(function (result) {
           $scope.selectedTenant.$original.active = result.active;
+
+          // we need to set the session tenant's "tenantActive" property
+          // here so that the tenant dropdown knows what to include
+          TenantSvc.updateSessionTenantProps(result, 'active', 'tenantActive');
+          $rootScope.$broadcast(loEvents.session.tenants.updated);
         });
       };
 

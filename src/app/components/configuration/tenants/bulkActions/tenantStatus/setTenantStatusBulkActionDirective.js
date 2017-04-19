@@ -1,8 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('baSetTenantStatus', ['Tenant', 'BulkAction', 'statuses',
-    function(Tenant, BulkAction, statuses) {
+  .directive('baSetTenantStatus', ['$rootScope', 'Tenant', 'BulkAction', 'statuses',  'loEvents', function($rootScope, Tenant, BulkAction, statuses, loEvents) {
       return {
         restrict: 'E',
         scope: {},
@@ -11,6 +10,7 @@ angular.module('liveopsConfigPanel')
         link: function($scope, elem, attr, bulkActionExecutor) {
           $scope.bulkAction = new BulkAction();
           $scope.statuses = statuses();
+          var TenantSvc = new Tenant();
 
           if (bulkActionExecutor) {
             bulkActionExecutor.register($scope.bulkAction);
@@ -23,6 +23,8 @@ angular.module('liveopsConfigPanel')
             return tenantCopy.save().then(function(tenantCopy) {
               angular.copy(tenantCopy, tenant);
               tenant.checked = true;
+              TenantSvc.updateSessionTenantProps(tenant, 'active', 'tenantActive');
+              $rootScope.$broadcast(loEvents.session.tenants.updated);
               return tenant;
             });
           };
