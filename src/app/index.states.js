@@ -654,7 +654,9 @@ angular.module('liveopsConfigPanel')
           isPublic: true,
           resolve: {
             invitedUser: ['$stateParams', 'Session', 'User', '$q', '$state', function($stateParams, Session, User, $q, $state) {
-              Session.setToken('Token ' + $stateParams.token);
+              if ($stateParams.token !== null) {
+                Session.setToken('Token ' + $stateParams.token);
+              }
 
               var userResult = User.get({
                 id: $stateParams.userId
