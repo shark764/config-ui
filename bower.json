@@ -21,7 +21,7 @@
     "teljs": "git@github.com:liveops/tel.js.git#master",
     "flow-designer": "git@github.com:liveops/flow-designer.git#4.2.0-SNAPSHOT",
     "angular-moment-picker": "git@github.com:liveops/angular-moment-picker.git#0.0.17",
-    "liveops-config-panel-shared": "git@github.com:liveops/config-shared#1.5.24",
+    "liveops-config-panel-shared": "git@github.com:liveops/config-shared#1.5.26",
     "realtime-dashboards": "git@github.com:liveops/realtime-dashboards.git#4.5.3-SNAPSHOT",
     "agent-phone-panel": "git@github.com:liveops/soundwave.git#3.1.19",
     "ng-file-upload": "~7.0.17",
