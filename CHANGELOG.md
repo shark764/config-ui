@@ -12,6 +12,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 * CXV1-8082 - Change from sandbox to production instance for salesforce interaction lib
 * CXV1-8143 - Require current password for password update
 * CXV1-8619 - Fixed over-scroll layout break
+* CXV1-8645 - Fixed password reset and tenant accept
 
 ## [4.10.13]
 * CXV1-6501 - fixed broken enable/disable functionality, also fixed bug with drafts table not updating on save of new draft

@@ -18,7 +18,7 @@ angular.module('liveopsConfigPanel')
         };
 
         this.responseError = function(response) {
-          if (Session.token && Session.token.indexOf('Token') >= 0 && response.status === 401) {
+          if (Session.token && Session.token.indexOf('Token') >= 0 && response.status === 401 && response.config.url !== apiHostname + '/v1/tenants/null/users') {
             //If an invite token is invalid, remove the token so the invalid auth header isn't used again
             Session.setToken(null);
           }
