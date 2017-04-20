@@ -28,6 +28,10 @@ lo-resource-table {
     padding: 0;
   }
 
+  table-controls {
+    display: none;
+  }
+
   .table-error {
     color: #ff0000;
   }
@@ -333,11 +337,6 @@ div[gridster-item] {
 
 .selected-widget {
   border: 2px solid #07487a !important;
-
-  table-controls {
-    position: relative;
-    right: 20px;
-  }
 }
 
 .remove-widget {
