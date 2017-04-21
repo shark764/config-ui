@@ -141,7 +141,7 @@
         <input name="logo" type="file" onchange="angular.element(this).scope().fileSelected(this)">
       </div>
       <div class="logo-preview">
-        <img ng-if="!brandingForm.logoPreview && brandingForm.logo" ng-src="{{$root.s3bucketUrl + brandingForm.logo}}" alt="Logo preview...">
+        <img ng-if="!brandingForm.logoPreview && brandingForm.logo" ng-src="{{$root.s3BucketUrl + brandingForm.logo}}" alt="Logo preview...">
         <img ng-if="brandingForm.logoPreview" data-ng-src="{{brandingForm.logoPreview}}" alt="Logo preview...">
       </div>
     </div>
