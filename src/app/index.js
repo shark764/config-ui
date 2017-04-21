@@ -57,8 +57,8 @@ angular.module('liveopsConfigPanel', [
 
     var mockBrandingData = {
       active: true,
-      favicon: '23f10080-faaa-11e6-b856-36051d50f3bf/caa3bd20-1bd2-11e7-b8ec-b883f2d63b7b.ico',
-      logo: '23f10080-faaa-11e6-b856-36051d50f3bf/757eb280-1df5-11e7-b8ec-b883f2d63b7b.png',
+      favicon: 'assets/images/mitelFavicon.ico',
+      logo: 'assets/images/mitelLogoWhite.png',
       styles: {
         productName: 'Mitel',
         accentColor: '#FF7300',
