@@ -562,6 +562,7 @@
   "tenant.branding.siteColors.accentColor": "Accent Color",
   "tenant.branding.siteColors.accentHoverColor": "Accent Hover Color",
   "tenant.branding.updated": "Branding has been updated!",
+  "tenant.branding.resetDefault.confirm": "This will reset tenant branding to default. Do you want to continue?",
   "tenant.branding.resetDefault": "Branding has been reset to default!",
   "integration.details": "Integration",
   "integration.details.properties.accountSid": "Account SID",

@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('TenantsController', ['$window', '$http', '$rootScope', '$scope', 'Session', 'Tenant', 'TenantUser', 'tenantTableConfig', 'UserPermissions', 'AuthService', 'Region', '$q', 'loEvents', 'Timezone', 'PermissionGroups', 'Alert', 'GlobalRegionsList', 'Integration', 'Branding', '$translate', 'fileUpload',
-    function ($window, $http, $rootScope, $scope, Session, Tenant, TenantUser, tenantTableConfig, UserPermissions, AuthService, Region, $q, loEvents, Timezone, PermissionGroups, Alert, GlobalRegionsList, Integration, Branding, $translate, fileUpload) {
+  .controller('TenantsController', ['$window', '$http', '$rootScope', '$scope', 'Session', 'Tenant', 'TenantUser', 'tenantTableConfig', 'UserPermissions', 'AuthService', 'Region', '$q', 'loEvents', 'Timezone', 'PermissionGroups', 'Alert', 'GlobalRegionsList', 'Integration', 'Branding', '$translate', 'fileUpload', 'Modal',
+    function ($window, $http, $rootScope, $scope, Session, Tenant, TenantUser, tenantTableConfig, UserPermissions, AuthService, Region, $q, loEvents, Timezone, PermissionGroups, Alert, GlobalRegionsList, Integration, Branding, $translate, fileUpload, Modal) {
       var vm = this;
       $scope.forms = {};
 
@@ -225,20 +225,28 @@ angular.module('liveopsConfigPanel')
       });
 
       $scope.resetDefaultBranding = function() {
-        Branding.update({
-          tenantId: $scope.selectedTenant.id,
-          styles: {},
-          logo: '',
-          favicon: ''
-        }, function(response){
-          $scope.brandingForm = {};
-          if (response.tenantId === Session.tenant.tenantId) {
-            Branding.set(response);
+        Modal.showConfirm(
+          {
+            message: $translate.instant('tenant.branding.resetDefault.confirm'),
+            okCallback: function () {
+
+              Branding.update({
+                tenantId: $scope.selectedTenant.id,
+                styles: {},
+                logo: '',
+                favicon: ''
+              }, function(response){
+                $scope.brandingForm = {};
+                if (response.tenantId === Session.tenant.tenantId) {
+                  Branding.set(response);
+                }
+                Alert.success($translate.instant('tenant.branding.resetDefault'));
+              }, function(errors){
+                console.log(errors);
+              });
+            }
           }
-          Alert.success($translate.instant('tenant.branding.resetDefault'));
-        }, function(errors){
-          console.log(errors);
-        });
+        );
       };
 
       $scope.fileSelected = function(element) {
