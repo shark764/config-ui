@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
+
+## [4.10.14]
 * CXV1-8148 - Set tenant dropdown in top nav to only display active tenants
 * CXV1-8474 - Fixed issue that was allowing the user to copy a flow with no active version and have the flow set to 'enabled'
 * Bumping Flow Designer
