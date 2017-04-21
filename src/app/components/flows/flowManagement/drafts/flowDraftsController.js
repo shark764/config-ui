@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('FlowDraftsController', ['$scope', 'Session', 'FlowDraft', 'Alert', function($scope, Session, FlowDraft, Alert) {
+  .controller('FlowDraftsController', ['$scope', '$rootScope', 'Session', 'FlowDraft', 'Alert', function($scope, $rootScope, Session, FlowDraft, Alert) {
     $scope.fetch = function() {
       if (!$scope.flow || $scope.flow.isNew()) {
         return [];
@@ -14,11 +14,12 @@ angular.module('liveopsConfigPanel')
     };
 
     $scope.saveDraft = function() {
-      return $scope.draft.save(function() {
+      return $scope.draft.save().then(function() {
         $scope.createDraft();
         $scope.createDraftForm.$setPristine();
         $scope.createDraftForm.$setUntouched();
         $scope.createNewDraft = false;
+        $rootScope.savedFlow = $scope.flow;
       });
     };
 

@@ -4,6 +4,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
 
+## [4.10.18]
+* CXV1-8474 - fixed bug with flows not enabling and disabling correctly after coming back from flow designer
+
 ## [4.10.17]
 * no ticket - add dynamic s3BucketUrl in env.js and add fallback icon
 

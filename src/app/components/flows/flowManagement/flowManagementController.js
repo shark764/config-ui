@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('FlowManagementController', ['$rootScope', '$scope', '$state', '$document', '$compile', 'Session', '$translate', 'Flow', 'flowTableConfig', 'flowTypes', 'FlowDraft', 'FlowVersion', 'loEvents', '$q','Alert',
-    function ($rootScope, $scope, $state, $document, $compile, Session, $translate, Flow, flowTableConfig, flowTypes, FlowDraft, FlowVersion, loEvents, $q, Alert) {
+  .controller('FlowManagementController', ['$rootScope', '$scope', '$state', '$document', '$compile', '$location',  'Session', '$translate', 'Flow', 'flowTableConfig', 'flowTypes', 'FlowDraft', 'FlowVersion', 'loEvents', '$q','Alert',
+    function ($rootScope, $scope, $state, $document, $compile, $location, Session, $translate, Flow, flowTableConfig, flowTypes, FlowDraft, FlowVersion, loEvents, $q, Alert) {
       var flowSvc = new Flow();
       flowSvc.getScope($scope);
 
@@ -46,6 +46,19 @@ angular.module('liveopsConfigPanel')
         return versions;
       };
 
+      // if we are coming back to the flow management page directly
+      // from the flow designer, make sure to return the user
+      // to the last selected flow
+      if ($rootScope.savedFlow) {
+        $location.search({
+          id: $rootScope.savedFlow.id
+        });
+
+        //Broadcast the selected event with the newly selected item, and the previously selected item
+        $rootScope.$broadcast(loEvents.tableControls.itemSelected, $rootScope.savedFlow, $scope.selected);
+        $scope.selected = $rootScope.savedFlow;
+      }
+
       $scope.fetchFlows = function () {
 
         var flows = Flow.cachedQuery({
@@ -82,6 +95,8 @@ angular.module('liveopsConfigPanel')
           });
 
           return newFlow.save().then(function(draft){
+            $rootScope.savedFlow = version.flow;
+
             $document.find('modal').remove();
             $state.go('content.flows.editor', {
               flowId: draft.flowId,
@@ -106,6 +121,8 @@ angular.module('liveopsConfigPanel')
 
         var promise = initialDraft.save();
         return promise.then(function(draft){
+          $rootScope.savedFlow = responseFromFlowSave;
+
           $state.go('content.flows.editor', {
             flowId: responseFromFlowSave.id,
             draftId: draft.id
@@ -174,7 +191,9 @@ angular.module('liveopsConfigPanel')
             description: newFlow.description || ''
           });
 
-          return newFlowCopy.save(function(flow){
+          return newFlowCopy.save().then(function(flow){
+            $rootScope.savedFlow = flow;
+
             $document.find('modal').remove();
 
             // if it's a copy, then we need to make the initial draft a duplicate of
@@ -208,15 +227,25 @@ angular.module('liveopsConfigPanel')
 
       $scope.saveFlow = function(){
         return $scope.selectedFlow.save().then(function(flow){
+          $rootScope.savedFlow = flow;
+
           return flow;
         });
       };
 
-      $scope.updateActive = function(){
+      $scope.updateActive = function(overRideSelectedFlow){
+        var flowActiveStatus;
+
+        if (overRideSelectedFlow) {
+          flowActiveStatus = true;
+        } else {
+          flowActiveStatus = ! $scope.selectedFlow.active;
+        }
+
         var flowCopy = new Flow({
-          id: $scope.selectedFlow.id,
+          id: overRideSelectedFlow || $scope.selectedFlow.id,
           tenantId: $scope.selectedFlow.tenantId,
-          active: ! $scope.selectedFlow.active
+          active: flowActiveStatus
         });
 
         return flowCopy.save().then(function(result){
@@ -238,7 +267,15 @@ angular.module('liveopsConfigPanel')
 
       $scope.$watch('selectedFlow', function(newValue){
         if (newValue){
+          $q.when(newValue).then(function (flowData) {
+            if (newValue.active === false && newValue.activeVersion !== null) {
+              $scope.updateActive(flowData.id);
+              $scope.selectedFlow.active = true;
+            }
+          });
+
           $scope.getVersions();
+
           $scope.selectedFlow.reset(); //TODO: figure out why this is needed
         }
       });
@@ -247,7 +284,9 @@ angular.module('liveopsConfigPanel')
       $scope.tableConfig = flowTableConfig;
 
       $scope.submit = function(){
-        return $scope.selectedFlow.save();
+        return $scope.selectedFlow.save().then(function(flowData){
+          $rootScope.savedFlow = flowData;
+        });
       };
     }
   ]);
