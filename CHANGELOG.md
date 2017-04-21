@@ -4,6 +4,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
 
+## [4.10.16]
+* Flow designer bump from SNAPSHOT
+
 ## [4.10.15]
 * CXV1-8597 - Added Mitel Branding favicon and logo to assets
 
