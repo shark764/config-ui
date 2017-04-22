@@ -152,7 +152,7 @@
         <input name="favicon" type="file" onchange="angular.element(this).scope().fileSelected(this)">
       </div>
       <div class="logo-preview">
-        <img ng-if="!brandingForm.faviconPreview && brandingForm.favicon" ng-src="{{$root.s3bucketUrl + brandingForm.favicon}}" alt="Favicon preview...">
+        <img ng-if="!brandingForm.faviconPreview && brandingForm.favicon" ng-src="{{$root.s3BucketUrl + brandingForm.favicon}}" alt="Favicon preview...">
         <img ng-if="brandingForm.faviconPreview" data-ng-src="{{brandingForm.faviconPreview}}" alt="Favicon preview...">
       </div>
     </div>
@@ -160,7 +160,7 @@
 
   <div class="sub-section added-padding">
     <div class="divider-header first-header">
-      <h4>{{'tenant.branding.siteColors' | translate}}</h4>
+      <h4>{{'tenant.branding.siteColors' | translate}}xf</h4>
     </div>
 
     <div class="input-group">
