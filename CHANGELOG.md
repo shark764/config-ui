@@ -4,6 +4,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
 
+## [4.10.19]
+* no ticket - fix icon preview typo and take out fallback icon
+
 ## [4.10.18]
 * CXV1-8474 - fixed bug with flows not enabling and disabling correctly after coming back from flow designer
 
