@@ -6,6 +6,10 @@ angular.module('liveopsConfigPanel')
       {
         label: $translate.instant('messageTemplates.details.templateTypes.plaintext'),
         value: 'plaintext'
+      },
+      {
+        label: $translate.instant('messageTemplates.details.templateTypes.richtext'),
+        value: 'html'
       }
     ];
   }])
@@ -18,10 +22,10 @@ angular.module('liveopsConfigPanel')
       {
         label: $translate.instant('value.messaging'),
         value: 'messaging'
+      },
+      {
+        label: $translate.instant('value.email'),
+        value: 'email'
       }
-      // {
-      //   label: $translate.instant('value.email'),
-      //   value: 'email'
-      // },
     ];
   }]);

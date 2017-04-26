@@ -5,3 +5,58 @@
     margin-right: 5px;
   }
 }
+
+.input-group-width {
+  display: table;
+  max-width: 100%;
+}
+
+.ta-toolbar {
+  background-color: #F0F0F0;
+  padding: 10px 10px 5px;
+  margin-left: 0px;
+  border: 1px solid #EEE;
+
+  .btn-group {
+    margin-bottom: 5px;
+
+    button {
+      width: inherit;
+      padding: 6px 12px;
+    }
+    button.active {
+      background-color: #ebebeb;
+    }
+  }
+}
+
+.ta-editor, .white-box {
+  padding: 10px;
+  background-color: #FFF;
+  border: 1px solid #EEE;
+
+  h3 {
+    font-size: 24px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+  }
+  blockquote {
+    padding: 10px 20px;
+    margin: 0 0 20px;
+    font-size: 17.5px;
+    border-left: 5px solid #eee;
+  }
+  ol {
+    padding: 20px;
+  }
+
+  .popover-content button {
+    position: relative;
+    float: left;
+    width: inherit;
+  }
+}
+
+textarea.ta-bind {
+  width: 100%;
+}
