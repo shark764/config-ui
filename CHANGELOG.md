@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
+
+## [4.10.20]
+* CXV1-8741- fixed bug with notations bind to cursor after viewing flow
 * no ticket - Fixed build process error
 
 ## [4.10.19]
@@ -83,7 +86,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 * Updating Flow Designer
 
 ## [4.10.4]
-* CXV1-5699 - Removed reason list creation from Groups until group has been created.    
+* CXV1-5699 - Removed reason list creation from Groups until group has been created.
 * CXV1-4043 - Changed Capacity Rule version naming so that v1 will be the first version, as opposed to v0.
 * CXV1-7082 - Created Warning for trying to save integration with the same name
 
@@ -124,7 +127,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 * CXV1-7081 - removed UI for agents to make changes to their extensions on the user profile page, also removed the roleId property from the extensions edit module in order to prevent a JS bug that was occuring when agents made changes to their extensions
 * Update flow designer
 * CXV1-6781 - Enabled generic REST integrations on Integrations page
-* CXV1-6787 - Updated property on regions service to match change in config-shared as part of a ticket to add 2 new regions required for Twilio Interconnect  
+* CXV1-6787 - Updated property on regions service to match change in config-shared as part of a ticket to add 2 new regions required for Twilio Interconnect
 
 ## [4.8.8]
 * CXV1-6592 - Implement UI for Multiple Zendesk Integrations
@@ -156,7 +159,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 * CXV1-5465 - Fixed bug: Tenant names in navbar not updating on edit
 * CXV1-5469 - Fixed bug: Disabled reasons lists should not show when adding to a group
 * CXV1-5029 - Fixed bug: Dispositions List shows error in Developer Tools
-* CXV1-5605 - Fixed Firefox bug with dropdown menu appearing behind widgets  
+* CXV1-5605 - Fixed Firefox bug with dropdown menu appearing behind widgets
 * CXV1-6543 - Fixed bug: Cannot change dispatch mapping - submit button stays greyed out
 * Bumping flow designer
 * CXV1-6514 - Updated tenant create/update to select from regions API.
@@ -431,7 +434,7 @@ TOOLBAR WORK IS COMPLETE
 ## [3.1.7]
 * Updating agent-phone-panel to 1.14.7
 
-## [3.1.6]		
+## [3.1.6]
 * Hotfix - rolling back some designer related changes for QE
 
 ## [3.1.5]
