@@ -53,7 +53,7 @@ angular.module('liveopsConfigPanel', [
     // Needed to style the login and forgot password pages
     // We do not have access to the branding data until logged in
     // This is temporary data until we have further api support
-    var mitelUrl = 'mitel-config';
+    var mitelUrl = 'mitel';
 
     var mockBrandingData = {
       active: true,
