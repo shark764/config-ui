@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
+* no ticket - Fixed build process error
 
 ## [4.10.19]
 * no ticket - fix icon preview typo and take out fallback icon
