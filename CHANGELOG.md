@@ -7,6 +7,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [4.10.20]
 * CXV1-8741- fixed bug with notations bind to cursor after viewing flow
 * no ticket - Fixed build process error
+* no ticket - fix mitel branding
 
 ## [4.10.19]
 * no ticket - fix icon preview typo and take out fallback icon
