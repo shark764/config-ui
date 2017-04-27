@@ -30,9 +30,5 @@ angular.module('liveopsConfigPanel')
           }
         });
       });
-
-      $scope.$on('$destroy', function(){
-        FlowLibrary.clearData();
-      });
     }
   ]);
