@@ -415,6 +415,9 @@ angular.module('liveopsConfigPanel')
           templateUrl: 'app/components/flows/flowDesigner/flowDesignerPage.html',
           controller: 'DesignerPageController',
           reloadOnSearch: false,
+          onExit:['FlowLibrary', function(FlowLibrary){
+            FlowLibrary.clearData();
+          }],
           resolve: {
             flow: ['$stateParams', 'Session', 'Flow', '$q', function($stateParams, Session, Flow, $q) {
               var deferred = $q.defer();
@@ -477,6 +480,9 @@ angular.module('liveopsConfigPanel')
           templateUrl: 'app/components/flows/flowDesigner/flowViewerPage.html',
           controller: 'ViewerPageController',
           reloadOnSearch: false,
+          onExit:['FlowLibrary', function(FlowLibrary){
+            FlowLibrary.clearData();
+          }],
           resolve: {
             flow: ['$stateParams', 'Session', 'Flow', '$q', function($stateParams, Session, Flow, $q) {
               var deferred = $q.defer();
