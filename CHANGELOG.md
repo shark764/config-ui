@@ -4,6 +4,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
 * CXV1-8762 Email templates
+* CXV1-8232 - Fixed issue with flow copying not also copying flow inputs, outputs, and defaults, and also used the opportunity to replace the hacky $rootScope-storage of the last saved flow data with a getter and setter coming from the flow service in config-shared
 
 ## [4.10.20]
 * CXV1-8741- fixed bug with notations bind to cursor after viewing flow
