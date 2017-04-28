@@ -43,7 +43,21 @@ angular.module('liveopsConfigPanel')
       } else {
         arr.push(channel.value);
       }
+
+      // Reset to 'plaintext' if not email
+      if (!vm.onlyEmailSelected()) {
+        vm.selectedMessageTemplate.type = templateTypes[0].value;
+      }
+
       $scope.forms.detailsForm.$setDirty();
+    };
+
+    vm.onlyEmailSelected = function() {
+      return vm.selectedMessageTemplate && vm.selectedMessageTemplate.channels && vm.selectedMessageTemplate.channels.length === 1 && vm.selectedMessageTemplate.channels.indexOf('email') !== -1;
+    };
+
+    vm.isRichText = function() {
+      return vm.selectedMessageTemplate && vm.selectedMessageTemplate.type === 'html';
     };
 
     $scope.$on(loEvents.tableControls.itemCreate, function() {

@@ -1058,6 +1058,7 @@
   "keys.secret.modal.secret": "API Key Secret",
   "messageTemplates.table.title": "Message Templates",
   "messageTemplates.details.templateTypes.plaintext": "Plain Text",
+  "messageTemplates.details.templateTypes.richtext": "Rich Text",
   "messageTemplates.details.enable.confirm": "This will enable this Message Template. Do you want to continue?",
   "messageTemplates.details.disable.confirm": "This will disable this Message Template. Do you want to continue?",
   "messageTemplates.details.creating": "Creating New Message Template",

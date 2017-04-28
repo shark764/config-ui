@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
+* CXV1-8762 Email templates
 
 ## [4.10.20]
 * CXV1-8741- fixed bug with notations bind to cursor after viewing flow
