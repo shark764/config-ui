@@ -49,14 +49,16 @@ angular.module('liveopsConfigPanel')
       // if we are coming back to the flow management page directly
       // from the flow designer, make sure to return the user
       // to the last selected flow
-      if ($rootScope.savedFlow) {
+      if (flowSvc.getSavedFlow()) {
         $location.search({
-          id: $rootScope.savedFlow.id
+          id: flowSvc.getSavedFlow().id
         });
 
         //Broadcast the selected event with the newly selected item, and the previously selected item
-        $rootScope.$broadcast(loEvents.tableControls.itemSelected, $rootScope.savedFlow, $scope.selected);
-        $scope.selected = $rootScope.savedFlow;
+        $rootScope.$broadcast(loEvents.tableControls.itemSelected, flowSvc.getSavedFlow(), $scope.selected);
+
+
+        $scope.selected = flowSvc.getSavedFlow();
       }
 
       $scope.fetchFlows = function () {
@@ -95,7 +97,7 @@ angular.module('liveopsConfigPanel')
           });
 
           return newFlow.save().then(function(draft){
-            $rootScope.savedFlow = version.flow;
+            flowSvc.setSavedFlow(version.flow);
 
             $document.find('modal').remove();
             $state.go('content.flows.editor', {
@@ -112,17 +114,33 @@ angular.module('liveopsConfigPanel')
       };
 
       function saveDraft (responseFromFlowSave, dataFromActiveFlow) {
-        var initialDraft = new FlowDraft({
+        var flowDraftProps = {
           flowId: responseFromFlowSave.id,
-          flow: dataFromActiveFlow,
           tenantId: Session.tenant.tenantId,
           name: $translate.instant('flow.initialDraft')
-        });
+        };
+
+        // here is where we insert possible data from a
+        // copied draft or version
+        if (dataFromActiveFlow) {
+          if (dataFromActiveFlow.flow) {
+            flowDraftProps.flow = dataFromActiveFlow.flow;
+          }
+
+          if (dataFromActiveFlow.metadata) {
+            flowDraftProps.metadata = dataFromActiveFlow.metadata;
+          }
+        // regardless of whether we're saving a copy or a new version, we always have
+        // to specify a flow value, so setting a fallback val of '[]' here
+        } else {
+          flowDraftProps.flow = '[]';
+        }
+
+        var initialDraft = new FlowDraft(flowDraftProps);
 
         var promise = initialDraft.save();
         return promise.then(function(draft){
-          $rootScope.savedFlow = responseFromFlowSave;
-
+          flowSvc.setSavedFlow(responseFromFlowSave);
           $state.go('content.flows.editor', {
             flowId: responseFromFlowSave.id,
             draftId: draft.id
@@ -149,8 +167,8 @@ angular.module('liveopsConfigPanel')
             sourceFlow = dataToCopy.selectedFlowData;
           }
 
-          if (dataToCopy.hasOwnProperty('selectedFlowDataToCopy')) {
-            versionOrDraftData = dataToCopy.selectedFlowDataToCopy;
+          if (dataToCopy.hasOwnProperty('flow')) {
+            versionOrDraftData = dataToCopy;
           }
         }
 
@@ -192,7 +210,7 @@ angular.module('liveopsConfigPanel')
           });
 
           return newFlowCopy.save().then(function(flow){
-            $rootScope.savedFlow = flow;
+            flowSvc.setSavedFlow(flow);
 
             $document.find('modal').remove();
 
@@ -209,13 +227,13 @@ angular.module('liveopsConfigPanel')
                 }, 'FlowVersion' + flow.id);
 
                 activeFlowFromSource.$promise.then(function (activeFlowResponse) {
-                  saveDraft(flow, activeFlowResponse.flow);
+                  saveDraft(flow, activeFlowResponse);
                 });
               }
             } else {
               // if we're creating a brand new flow no need to pass any flow
               // designer data to the new flow we just created
-              saveDraft(flow, '[]');
+              saveDraft(flow);
             }
 
           });
@@ -227,7 +245,7 @@ angular.module('liveopsConfigPanel')
 
       $scope.saveFlow = function(){
         return $scope.selectedFlow.save().then(function(flow){
-          $rootScope.savedFlow = flow;
+          flowSvc.setSavedFlow(flow);
 
           return flow;
         });
@@ -285,7 +303,7 @@ angular.module('liveopsConfigPanel')
 
       $scope.submit = function(){
         return $scope.selectedFlow.save().then(function(flowData){
-          $rootScope.savedFlow = flowData;
+          flowSvc.setSavedFlow(flowData);
         });
       };
     }
