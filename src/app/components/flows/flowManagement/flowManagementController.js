@@ -286,9 +286,15 @@ angular.module('liveopsConfigPanel')
       $scope.$watch('selectedFlow', function(newValue){
         if (newValue){
           $q.when(newValue).then(function (flowData) {
-            if (newValue.active === false && newValue.activeVersion !== null) {
+            // if we are coming back from flow designer with an active version, but the flow's value
+            // is not set to active, then set it to active
+            if (flowSvc.getSavedFlow().id === $scope.selectedFlow.id && newValue.active === false && newValue.activeVersion !== null) {
               $scope.updateActive(flowData.id);
               $scope.selectedFlow.active = true;
+            } else {
+              // get rid of the saved flow value so that it doesn't mess up
+              // enabling and disabling if we deselect the new flow and then come back to it
+              flowSvc.setSavedFlow(null);
             }
           });
 
