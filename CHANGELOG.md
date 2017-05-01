@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
+
+## [4.10.21]
 * CXV1-8816 - Fixed bug that prevented flows from disabling
 * CXV1-8817 - Remove Create Version "+" button on Flow Management side panel
 * CXV1-8762 Email templates
