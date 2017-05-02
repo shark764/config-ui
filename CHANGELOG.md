@@ -4,6 +4,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
 * CXV1-8501 - Added email integration form validation
+* CXV1-8746 - Version Bump for Realtime Dashboards
 
 ## [4.10.21]
 * CXV1-8816 - Fixed bug that prevented flows from disabling
