@@ -119,27 +119,39 @@
     <!-- Incoming IMAP Server Address -->
     <div class="input-group">
       <label>{{'integration.details.properties.incomingImap' | translate}} *</label>
-      <form-error field="forms.detailsForm.incomingImap" error-type-required="{{'integration.incomingImap.error' | translate}}"></form-error>
+      <form-error
+        field="forms.detailsForm.incomingImap"
+        error-type-required="{{'integration.incomingImap.error.required' | translate}}"
+        error-type-pattern="{{'integration.incomingImap.error.pattern' | translate}}"
+      ></form-error>
       <div>
-        <input ng-required="true" type="text" ng-model="selectedIntegration.properties.imapServer" name="incomingImap"/>
+        <input ng-required="true" type="text" ng-model="selectedIntegration.properties.imapServer" name="incomingImap" ng-pattern="validation.hostAddress"/>
       </div>
     </div>
 
     <!-- SMTP Host -->
     <div class="input-group">
       <label>{{'integration.details.properties.smtpHost' | translate}} *</label>
-      <form-error field="forms.detailsForm.smtpHost" error-type-required="{{'integration.smtpHost.error' | translate}}"></form-error>
+      <form-error
+        field="forms.detailsForm.smtpHost"
+        error-type-required="{{'integration.smtpHost.error.required' | translate}}"
+        error-type-pattern="{{'integration.smtpHost.error.pattern' | translate}}"
+      ></form-error>
       <div>
-        <input ng-required="true" type="text" ng-model="selectedIntegration.properties.smtpHost" name="smtpHost"/>
+        <input ng-required="true" type="text" ng-model="selectedIntegration.properties.smtpHost" name="smtpHost" ng-pattern="validation.hostAddress"/>
       </div>
     </div>
 
     <!-- SMTP Port -->
     <div class="input-group">
       <label>{{'integration.details.properties.smtpPort' | translate}} *</label>
-      <form-error field="forms.detailsForm.smtpPort" error-type-required="{{'integration.smtpPort.error' | translate}}"></form-error>
+      <form-error
+        field="forms.detailsForm.smtpPort"
+        error-type-required="{{'integration.smtpPort.error.required' | translate}}"
+        error-type-pattern="{{'integration.smtpPort.error.pattern' | translate}}"
+      ></form-error>
       <div>
-        <input ng-required="true" type="text" ng-model="selectedIntegration.properties.smtpPort" name="smtpPort"/>
+        <input ng-required="true" type="text" ng-model="selectedIntegration.properties.smtpPort" name="smtpPort" ng-pattern="validation.port"/>
       </div>
     </div>
 

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('IntegrationsController', ['$scope', '$translate', 'Alert', 'Session', 'Integration', 'Tenant', 'Listener', 'integrationTableConfig', 'loEvents', '$q', 'GlobalRegionsList', 'Region','appFlags',
+  .controller('IntegrationsController', ['$scope', '$translate', 'Alert', 'Session', 'Integration', 'Tenant', 'Listener', 'integrationTableConfig', 'loEvents', '$q', 'GlobalRegionsList', 'Region', 'appFlags',
     function ($scope, $translate, Alert, Session, Integration, Tenant, Listener, integrationTableConfig, loEvents, $q, GlobalRegionsList, Region, appFlags) {
       var integrationSvc = new Integration();
       $scope.tempScope = $scope;
@@ -46,8 +46,8 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.smtpEncryptionTypes = [
-        'TLS',
-        'SSL'
+        'ssl/tls',
+        'starttls'
       ];
 
       $scope.twilioRegions = GlobalRegionsList;
@@ -188,5 +188,10 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.tableConfig = integrationTableConfig;
+
+      $scope.validation = {
+        hostAddress: '(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})',
+        port: '\\d{2,4}'
+      };
     }
   ]);
