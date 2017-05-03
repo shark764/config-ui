@@ -33,7 +33,7 @@
 
 <div class="input-group input-group-width" ng-if="mtc.isRichText()">
   <label class="textarea-label">{{'value.template' | translate}} *</label>
-  <text-angular ng-model="mtc.selectedMessageTemplate.template" ng-disabled="!(['MANAGE_ALL_MESSAGE_TEMPLATES'] | hasPermission)" ta-toolbar="[['bold','italics','h3','quote','underline','ol','insertImage','html']]"></textarea>
+  <text-angular ng-model="mtc.selectedMessageTemplate.template" ng-disabled="!(['MANAGE_ALL_MESSAGE_TEMPLATES'] | hasPermission)" ta-toolbar="[['bold','italics','h3','underline','ol','insertImage','html']]"></textarea>
 </div>
 
 <div class="input-group" ng-if="!mtc.isRichText()">
