@@ -5,7 +5,7 @@
 .add-exception-form  {
   margin-top: 20px;
   margin-bottom: 20px;
-  
+
   .controls {
     input, a {
       float: left;
@@ -16,4 +16,12 @@
       margin-left: 6px !important;
     }
   }
+}
+
+.details-pane .moment-picker-contents {
+  width: 100%;
+}
+
+.moment-picker {
+  display: inline-block;
 }
