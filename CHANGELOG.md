@@ -5,6 +5,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## Unreleased
 * CXV1-8879 - Fixed category creation button on transfer lists contact panel
 * CXV1-8878 - Bug fix for angular moment picker minification override
+* CXV1-8923 - Added email perms to UI
 
 ## [4.10.22]
 * CXV1-8501 - Added email integration form validation

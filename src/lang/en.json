@@ -591,6 +591,7 @@
   "integration.details.properties.rest": "REST",
   "integration.details.properties.zendesk": "Zendesk",
   "integration.details.properties.salesforce": "Salesforce",
+  "integration.details.properties.email": "Email",
   "integration.details.properties.selectAuthMethod":"Select authentication method",
   "integration.details.properties.selectAuthMethod.error":"Authentication method is required.",
   "integration.details.properties.authMethod":"Authentication Method.",
