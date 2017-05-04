@@ -2,7 +2,7 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## Unreleased
+## [4.10.22]
 * CXV1-8501 - Added email integration form validation
 * CXV1-8746 - Version Bump for Realtime Dashboards
 * CXV1-8864 - Remove blockquotes from email template rich text editor
