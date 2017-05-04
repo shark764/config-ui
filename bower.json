@@ -1,6 +1,6 @@
 {
   "name": "liveopsConfigPanel",
-  "version": "4.10.22",
+  "version": "4.10.23-SNAPSHOT",
   "dependencies": {
     "jquery": "~2.1.1",
     "angular-resource": "^1.6.3",
@@ -34,7 +34,7 @@
     "angular-bootstrap-colorpicker": "^3.0.25",
     "angular-ui-sortable": "^0.15.0",
     "moment-timezone": "^0.5.7",
-    "angular-aria": "1.6.3",
+    "angular-aria": "^1.6.3",
     "angular-animate": "^1.6.3",
     "angular-color-picker": "angularjs-color-picker#^3.2.1",
     "textAngular": "^1.5.16"
@@ -57,6 +57,12 @@
         "mode/clojure/clojure.js",
         "theme/mdn-like.css",
         "keymap/sublime.js"
+      ]
+    },
+    "angular-moment-picker": {
+      "main": [
+        "dist/angular-moment-picker.js",
+        "dist/angular-moment-picker.css"
       ]
     }
   }
