@@ -105,7 +105,7 @@
     </div>
   </div>
 
-  <div ng-if="selectedIntegration.type == 'email'">
+  <div ng-if="customTypesHideShowFields(selectedIntegration, 'email')" class="added-padding">
 
     <!-- Incoming email protocol -->
     <div class="input-group">

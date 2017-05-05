@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('IntegrationsController', ['$scope', '$translate', 'Alert', 'Session', 'Integration', 'Tenant', 'Listener', 'integrationTableConfig', 'loEvents', '$q', 'GlobalRegionsList', 'Region', 'appFlags',
-    function ($scope, $translate, Alert, Session, Integration, Tenant, Listener, integrationTableConfig, loEvents, $q, GlobalRegionsList, Region, appFlags) {
+  .controller('IntegrationsController', ['$scope', '$translate', 'Alert', 'Session', 'Integration', 'Tenant', 'Listener', 'integrationTableConfig', 'loEvents', '$q', 'GlobalRegionsList', 'Region', 'appFlags', 'UserPermissions',
+    function ($scope, $translate, Alert, Session, Integration, Tenant, Listener, integrationTableConfig, loEvents, $q, GlobalRegionsList, Region, appFlags, UserPermissions) {
       var integrationSvc = new Integration();
       $scope.tempScope = $scope;
       $scope.showDuplicateMsg = false;
@@ -24,6 +24,14 @@ angular.module('liveopsConfigPanel')
           value: 'zendesk'
         }
       ];
+
+      // Check For Email Permissions
+      if (UserPermissions.hasPermission('ARTIFACTS_CREATE_ALL')) {
+        $scope.customIntegrationTypes.push({
+          name: $translate.instant('integration.details.properties.email'),
+          value: 'email'
+        });
+      }
 
       $scope.getTypeData = function (selectedType, property) {
         if (!selectedType) {
@@ -122,6 +130,11 @@ angular.module('liveopsConfigPanel')
           }
         } else {
           $scope.selectedIntegration.properties.endpointPrefix = '';
+        }
+        if ($scope.selectedIntegration.type.value === 'email') {
+          if (angular.isUndefined($scope.selectedIntegration.properties.incomingType) || $scope.sselectedIntegration.properties.incomingType === '') {
+            $scope.selectedIntegration.properties.incomingType = 'imap';
+          }
         }
       };
 
