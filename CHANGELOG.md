@@ -3,8 +3,6 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [unreleased]
-* CXV1-8883 - Prevent queue query builder from allowing any number less than one or a decimal
-* Bumping Flow Designer
 * Email perms now under feature flag EMAIL_PERMS
 
 ## [4.10.23]

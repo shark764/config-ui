@@ -3,7 +3,7 @@
     <label>{{'queue.details.minPriority' | translate}}</label>
     <form-error field="form.minPriority" error-type-required="{{'queue.details.minPriority.error' | translate}}" error-type-min="{{'queue.details.minPriority.error.min' | translate}}" error-type-max="{{'queue.details.minPriority.error.max' | translate}}"></form-error>
     <div>
-      <input id="version-min-priority" ng-required="true" type="number" name="minPriority" ng-model="queueVersion.minPriority" min="1" max="{{queueVersion.maxPriority ? queueVersion.maxPriority : 1000}}" numbers-only></input>
+      <input id="version-min-priority" ng-required="true" type="number" name="minPriority" ng-model="queueVersion.minPriority" min="1" max="{{queueVersion.maxPriority ? queueVersion.maxPriority : 1000}}"></input>
     </div>
   </div>
 
