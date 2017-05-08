@@ -26,7 +26,7 @@ angular.module('liveopsConfigPanel')
       ];
 
       // Check For Email Permissions
-      if (UserPermissions.hasPermission('ARTIFACTS_CREATE_ALL')) {
+      if (UserPermissions.hasPermission('ARTIFACTS_CREATE_ALL') && appFlags.EMAIL_PERMS) {
         $scope.customIntegrationTypes.push({
           name: $translate.instant('integration.details.properties.email'),
           value: 'email'
