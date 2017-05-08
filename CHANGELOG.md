@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [unreleased]
+
+## [4.10.24]
 * Email perms now under feature flag EMAIL_PERMS
 
 ## [4.10.23]
