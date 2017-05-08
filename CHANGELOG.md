@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [unreleased]
+- Bumping Flow Designer
+
 ## [4.10.23]
 * CXV1-8879 - Fixed category creation button on transfer lists contact panel
 * CXV1-8878 - Bug fix for angular moment picker minification override
