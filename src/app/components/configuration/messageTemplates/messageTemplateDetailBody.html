@@ -20,7 +20,7 @@
   <label class="textarea-label">{{'value.channels' | translate}} *</label>
   <div class="lo-error" ng-if="mtc.noChannelsSelected">{{'messageTemplates.details.channelRequired' | translate}}</div>
   <div class="template-channel" ng-repeat="channel in mtc.channelTypes">
-    <div ng-if="(channel.value !== 'email') || ((channel.value === 'email') && (['ARTIFACTS_CREATE_ALL'] | hasPermission)) || !FLAG_EMAIL_PERMS">
+    <div ng-if="(channel.value !== 'email') || ((channel.value === 'email') && FLAG_EMAIL_PERMS)">
       <input type="checkbox" ng-checked="mtc.selectedMessageTemplate.channels.indexOf(channel.value) !== -1"
         ng-disabled="!(['MANAGE_ALL_MESSAGE_TEMPLATES'] | hasPermission)" ng-click="mtc.toggleCheck(channel)"></input>
         {{channel.label}}

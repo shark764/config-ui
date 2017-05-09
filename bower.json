@@ -1,6 +1,6 @@
 {
   "name": "liveopsConfigPanel",
-  "version": "4.11.0-SNAPSHOT",
+  "version": "4.10.25",
   "dependencies": {
     "jquery": "~2.1.1",
     "angular-resource": "^1.6.3",
@@ -19,7 +19,7 @@
     "angular-toastr": "^2.1.1",
     "MouseWheelJS": "*",
     "teljs": "git@github.com:liveops/tel.js.git#master",
-    "flow-designer": "git@github.com:liveops/flow-designer.git#4.3.0-SNAPSHOT",
+    "flow-designer": "git@github.com:liveops/flow-designer.git#4.2.0",
     "angular-moment-picker": "git@github.com:indrimuska/angular-moment-picker.git#0.9.11",
     "liveops-config-panel-shared": "git@github.com:liveops/config-shared#1.5.30",
     "realtime-dashboards": "git@github.com:liveops/realtime-dashboards.git#4.5.4",
