@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('IntegrationsController', ['$scope', '$translate', 'Alert', 'Session', 'Integration', 'Tenant', 'Listener', 'integrationTableConfig', 'loEvents', '$q', 'GlobalRegionsList', 'Region', 'appFlags', 'UserPermissions',
-    function ($scope, $translate, Alert, Session, Integration, Tenant, Listener, integrationTableConfig, loEvents, $q, GlobalRegionsList, Region, appFlags, UserPermissions) {
+  .controller('IntegrationsController', ['$scope', '$translate', 'Alert', 'Session', 'Integration', 'Tenant', 'Listener', 'integrationTableConfig', 'loEvents', '$q', 'GlobalRegionsList', 'Region', 'appFlags',
+    function ($scope, $translate, Alert, Session, Integration, Tenant, Listener, integrationTableConfig, loEvents, $q, GlobalRegionsList, Region, appFlags) {
       var integrationSvc = new Integration();
       $scope.tempScope = $scope;
       $scope.showDuplicateMsg = false;
@@ -25,8 +25,7 @@ angular.module('liveopsConfigPanel')
         }
       ];
 
-      // Check For Email Permissions
-      if (UserPermissions.hasPermission('ARTIFACTS_CREATE_ALL') && appFlags.EMAIL_PERMS) {
+      if (appFlags.EMAIL_PERMS) {
         $scope.customIntegrationTypes.push({
           name: $translate.instant('integration.details.properties.email'),
           value: 'email'
