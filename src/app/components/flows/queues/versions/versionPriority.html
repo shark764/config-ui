@@ -3,7 +3,7 @@
     <label>{{'queue.details.minPriority' | translate}}</label>
     <form-error field="form.minPriority" error-type-required="{{'queue.details.minPriority.error' | translate}}" error-type-min="{{'queue.details.minPriority.error.min' | translate}}" error-type-max="{{'queue.details.minPriority.error.max' | translate}}"></form-error>
     <div>
-      <input id="version-min-priority" ng-required="true" type="number" name="minPriority" ng-model="queueVersion.minPriority" min="1" max="{{queueVersion.maxPriority ? queueVersion.maxPriority : 1000}}"></input>
+      <input id="version-min-priority" ng-required="true" type="number" name="minPriority" ng-model="queueVersion.minPriority" min="1" max="{{queueVersion.maxPriority ? queueVersion.maxPriority : 1000}}" numbers-only></input>
     </div>
   </div>
 
@@ -11,7 +11,7 @@
     <label>{{'queue.details.maxPriority' | translate}}</label>
     <form-error field="form.maxPriority" error-type-required="{{'queue.details.maxPriority.error' | translate}}" error-type-min="{{'queue.details.maxPriority.error.min' | translate}}" error-type-max="{{'queue.details.maxPriority.error.max' | translate}}"></form-error>
     <div>
-      <input id="version-max-priority" ng-required="true" type="number" name="maxPriority" ng-model="queueVersion.maxPriority" min="{{queueVersion.minPriority ? queueVersion.minPriority : 1}}" max="1000"></input>
+      <input id="version-max-priority" ng-required="true" type="number" name="maxPriority" ng-model="queueVersion.maxPriority" min="{{queueVersion.minPriority ? queueVersion.minPriority : 1}}" max="1000" numbers-only></input>
     </div>
   </div>
 
@@ -19,7 +19,7 @@
     <label>{{'queue.details.priorityValue' | translate}}</label>
     <form-error field="form.priorityValue" error-type-required="{{'queue.details.priorityValue.error' | translate}}" error-type-min="{{'queue.details.priorityValue.error.min' | translate}}" error-type-max="{{'queue.details.priorityValue.error.max' | translate}}"></form-error>
     <div>
-      <input id="version-priority-value" ng-required="true" type="number" name="priorityValue" ng-model="queueVersion.priorityValue" min="1" max="1000"></input>
+      <input id="version-priority-value" ng-required="true" type="number" name="priorityValue" ng-model="queueVersion.priorityValue" min="1" max="1000" numbers-only></input>
     </div>
   </div>
 
@@ -27,7 +27,7 @@
     <label>{{'queue.details.priorityRate' | translate}}</label>
     <form-error field="form.priorityRate" error-type-required="{{'queue.details.priorityRate.error' | translate}}" error-type-min="{{'queue.details.priorityRate.error.min' | translate}}"></form-error>
     <div>
-      <input id="version-priority-rate" ng-required="true" type="number" name="priorityRate" ng-model="queueVersion.priorityRate" min="1"></input>
+      <input id="version-priority-rate" ng-required="true" type="number" name="priorityRate" ng-model="queueVersion.priorityRate" min="1" numbers-only></input>
     </div>
   </div>
 
