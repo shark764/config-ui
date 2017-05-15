@@ -150,8 +150,16 @@ angular.module('liveopsConfigPanel')
         $scope.createIntegration();
       });
 
-      $scope.$on(loEvents.tableControls.itemSelected, function () {
+      $scope.$watch('selectedIntegration', function() {
         $scope.showDuplicateMsg = false;
+
+        if ($scope.selectedIntegration && $scope.selectedIntegration.type === 'email') {
+          if ($scope.selectedIntegration.properties.smtpEncryptionType === 'TLS') {
+            $scope.selectedIntegration.properties.smtpEncryptionType = 'starttls';
+          } else if ($scope.selectedIntegration.properties.smtpEncryptionType === 'SSL') {
+            $scope.selectedIntegration.properties.smtpEncryptionType = 'ssl/tls';
+          }
+        }
       });
 
       $scope.submit = function () {
