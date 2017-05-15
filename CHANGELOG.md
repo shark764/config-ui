@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [unreleased]
+
+## [4.11.0]
+* CXV1-9207 - Fixed email integrations form bug with SMTP Encryption Types
 * CXV1-8883 - Prevent queue query builder from allowing any number less than one or a decimal
 * Bumping Flow Designer
 
