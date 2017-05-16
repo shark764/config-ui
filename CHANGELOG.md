@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [unreleased]
+* CXV1-8875 - Hide image controls in email template rich text editor
 
 ## [4.11.0]
 * CXV1-9207 - Fixed email integrations form bug with SMTP Encryption Types
