@@ -57,6 +57,14 @@
   }
 }
 
+.ta-resizer-handle-corner {
+  display: none !important;
+}
+
+.popover.fade {
+  display: none !important;
+}
+
 textarea.ta-bind {
   width: 100%;
 }
