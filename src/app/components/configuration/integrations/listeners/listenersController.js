@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('ListenersController', ['$scope', 'Session', 'Listener',
-    function($scope, Session, Listener) {
+  .controller('ListenersController', ['$scope', 'Session', 'Listener', 'Alert', '$translate',
+    function($scope, Session, Listener, Alert, $translate) {
 
       $scope.createNewListener = false;
 
@@ -56,9 +56,12 @@ angular.module('liveopsConfigPanel')
           }
         });
 
-
-        $scope.selectedListener.save().finally(function(){
+        $scope.selectedListener.save()
+        .then(function(){
+          Alert.success($translate.instant('value.saveSuccess'));
           reset();
+        }, function() {
+          Alert.error($translate.instant('value.saveFail'));
         });
       };
 
