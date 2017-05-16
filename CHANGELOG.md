@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [unreleased]
+* CXV1-9131 - Removed extra check to display header causing unwanted behavior
 * CXV1-9234 - Added email integration listener success and error alerts
 * CXV1-8875 - Hide image controls in email template rich text editor
 
