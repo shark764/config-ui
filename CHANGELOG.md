@@ -2,10 +2,11 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [unreleased]
+## [4.11.1]
 * CXV1-9131 - Removed extra check to display header causing unwanted behavior
 * CXV1-9234 - Added email integration listener success and error alerts
 * CXV1-8875 - Hide image controls in email template rich text editor
+* Updated flow-designer to 4.3.1
 
 ## [4.11.0]
 * CXV1-9207 - Fixed email integrations form bug with SMTP Encryption Types
