@@ -79,6 +79,7 @@
       </div>
 
       <filter-dropdown id="table-columns-dropdown" class="btn"
+        ng-show="showColumns"
         label="{{'table.columns.button' | translate}}"
         options="getFields()"
         display-path="header.display"
