@@ -29,7 +29,7 @@
     <div class="container" ui-view></div>
 
     <div id="config-ui-agent-toolbar" ng-show="toolbarIsVisible">
-      <agent-toolbar></agent-toolbar>
+      <agent-toolbar ng-if="toolbarIsVisible"></agent-toolbar>
     </div>
 
     <app-dock toolbar-status="toolbarIsVisible"></app-dock>

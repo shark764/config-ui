@@ -43,6 +43,16 @@ angular.module('liveopsConfigPanel')
           };
 
           function getJobId(uploadJobId) {
+            // TODO: This entire flag and condition below are serving
+            // as a stop-gap until the jobs API service is fixed. I've
+            // made a note in the 2 jobs-related UI tickets (CXV1-5650
+            // and CXV1-4845) about this
+            if (!uploadJobId) {
+              pollForUploadData(null, jobId);
+              $scope.newlyUploaded = false;
+              return false;
+            }
+
             var jobId;
             var jobList;
 
@@ -172,6 +182,10 @@ angular.module('liveopsConfigPanel')
           function pollForUploadData(jobList, jobId) {
             uploadStatus = $interval(function () {
               $scope.selectedRow.latestJobData = {};
+              if (!jobList) {
+                return false;
+              }
+
               var lastJobData = getJobData(jobId);
 
               // get the complete data from the jobId
