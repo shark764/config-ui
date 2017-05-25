@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.11.3]
+* CXV1-8523 - Fix Reasons dropdown filter on RTD
+
 ## [4.11.2]
 * CXV1-8523 - Config-UI changes for Group/Skill reporting
 
