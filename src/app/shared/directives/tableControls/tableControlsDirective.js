@@ -84,6 +84,22 @@ angular.module('liveopsConfigPanel')
             });
           };
 
+          function initAgentStates(field) {
+            if (field.name === 'groups' || field.name === 'direction' || field.name === 'skills') {
+              field.checked = false;
+            } else {
+              field.checked = true;
+            }
+          }
+
+          function initAgentDetails(field) {
+            if (field.name === 'avgResourceHoldDuration' || field.name === 'avgResourceWrapUpDuration' || field.name === 'avgTimeToAnswer' || field.name === 'avgResourceLoggedInTime') {
+              field.checked = false;
+            } else {
+              field.checked = true;
+            }
+          }
+
           $scope.getFields = function() {
             if (!$scope.config || !$scope.config.fields) {
               console.warn('tableControls config.fields is not defined. Value is: ', $scope.config.fields);
@@ -100,8 +116,15 @@ angular.module('liveopsConfigPanel')
                   }
                 }
               } else {
-                if (_.has($scope, 'config.header.all')) {
-                  $scope.config.header.all = true;
+                // set defaults for Agent States and Agent Details table, all other tables default to all checked
+                if ($scope.config.title === 'Agent States') {
+                  $scope.config.fields.forEach(initAgentStates);
+                } else if ($scope.config.title === 'Agent Details') {
+                  $scope.config.fields.forEach(initAgentDetails);
+                } else {
+                  if (_.has($scope, 'config.header.all')) {
+                    $scope.config.header.all = true;
+                  }
                 }
                 setColumnPreferences();
               }
