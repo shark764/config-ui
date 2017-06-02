@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [unreleased]
+* Updated to flow-designer 5.0.0-SNAPSHOT
+
 ## [4.11.6]
 * Updated to flow-designer 4.3.2
 
