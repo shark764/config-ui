@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.11.6]
+* Updated to flow-designer 4.3.2
+
 ## [4.11.5]
 * CXV1-8523 - Bump RTD, add default column selection for resource dashboard tables
 
