@@ -4,6 +4,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [unreleased]
 
+## [4.13.0]
+* Upgrade to flow-designer 5.0.0
+
 ## [4.12.0]
 * Added spacing to bottom of dashboards, downgraded flow designer, upgraded rtd
 
