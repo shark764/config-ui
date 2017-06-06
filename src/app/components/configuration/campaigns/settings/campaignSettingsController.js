@@ -659,6 +659,10 @@ angular.module('liveopsConfigPanel')
 
 
       function startEndIsInvalid (form, schedExep) {
+        if (!form) {
+          return false;
+        }
+
         var scheduleOrException = schedExep ? 'exception' : 'schedule';
 
         // Ensure that start time is earlier than end time
@@ -683,9 +687,12 @@ angular.module('liveopsConfigPanel')
       }
 
       function timeFieldsInvalid (currentForm) {
-        if (currentForm.startHour.$error.required || currentForm.startMinutes.$error.required || currentForm.startAmPm.$error.required || currentForm.endHour.$error.required || currentForm.endMinutes.$error.required || currentForm.endAmPm.$error.required) {
-            return true;
+        if (currentForm) {
+          if (currentForm.startHour.$error.required || currentForm.startMinutes.$error.required || currentForm.startAmPm.$error.required || currentForm.endHour.$error.required || currentForm.endMinutes.$error.required || currentForm.endAmPm.$error.required) {
+              return true;
+          }
         }
+
         return false;
       }
 

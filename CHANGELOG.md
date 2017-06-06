@@ -4,6 +4,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [unreleased]
 
+## [4.14.0-SNAPSHOT]
+* CXV1-9310 - Fixed JS console errors that were causing a ton of noise for QE and dev, bumped up soundwave, realtime-dashboards, and config-shared since they also had changes related to this work. 
+
 ## [4.13.0]
 * Upgrade to flow-designer 5.0.0
 
