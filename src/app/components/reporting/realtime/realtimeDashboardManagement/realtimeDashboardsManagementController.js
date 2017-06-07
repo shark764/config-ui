@@ -56,7 +56,7 @@ angular.module('liveopsConfigPanel')
           return dashboard;
         });
       };
-      
+
       $scope.openDashboard = function(selectedDashboardId){
         $state.go('content.realtime-dashboards-management.editor', {
           dashboardId: selectedDashboardId
@@ -85,13 +85,6 @@ angular.module('liveopsConfigPanel')
 
       $scope.$on(loEvents.tableControls.itemSelected, function(e, args) {
         $scope.selectedDashboard = args;
-      });
-
-      $scope.$watch('selectedDashboard', function(newValue){
-        if (newValue){
-          // $scope.getVersions();
-          $scope.selectedDashboard.reset(); //TODO: figure out why this is needed
-        }
       });
 
       $scope.tableConfig = realtimeDashboardsManagementTableConfig;
