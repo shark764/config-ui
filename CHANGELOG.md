@@ -2,7 +2,8 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [unreleased]
+## [4.14.1]
+* CXV1-9770 - Fixed broken field label for New Password in invite-accept page
 
 ## [4.14.0]
 * CXV1-9310 - Fixed JS error when moving from RTD to Flows
