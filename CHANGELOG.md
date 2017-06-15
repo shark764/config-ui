@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [unreleased]
+- Bumping flow designer to 5.0.1
+
 ## [4.14.1]
 * CXV1-9770 - Fixed broken field label for New Password in invite-accept page
 
