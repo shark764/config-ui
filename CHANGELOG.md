@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.18.3]
+* CXV1-10170 - Bumping soundwave so that it won't break silent monitoring, fixing issue that was keeping silent monitoring toolbar from appearing.
+
 ## [4.18.2]
 * CXV1-10170 - Bumping RTD to v4.6.1 to add new channels to filter
 
