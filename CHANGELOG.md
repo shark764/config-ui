@@ -2,17 +2,20 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.18.1]
+* Fixing version of angular-color-picker to avoid breaking changes
+
 ## [4.18.0]
-- Reverting Soundwave to v3.1.19
+* Reverting Soundwave to v3.1.19
 
 ## [4.17.0]
-- Bumping flow designer to 5.0.3
+* Bumping flow designer to 5.0.3
 
 ## [4.16.0]
-- Bumping flow designer to 5.0.2
+* Bumping flow designer to 5.0.2
 
 ## [4.15.0]
-- Bumping flow designer to 5.0.1
+* Bumping flow designer to 5.0.1
 
 ## [4.14.1]
 * CXV1-9770 - Fixed broken field label for New Password in invite-accept page
