@@ -1,6 +1,6 @@
 {
   "name": "liveopsConfigPanel",
-  "version": "4.18.0",
+  "version": "4.18.1",
   "dependencies": {
     "jquery": "~2.1.1",
     "angular-resource": "^1.6.3",
@@ -36,7 +36,7 @@
     "moment-timezone": "^0.5.7",
     "angular-aria": "^1.6.3",
     "angular-animate": "^1.6.3",
-    "angular-color-picker": "angularjs-color-picker#^3.2.1",
+    "angular-color-picker": "angularjs-color-picker#3.2.1",
     "textAngular": "^1.5.16"
   },
   "devDependencies": {
