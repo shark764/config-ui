@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.18.2]
+* CXV1-10170 - Bumping RTD to v4.6.1 to add new channels to filter
+
 ## [4.18.1]
 * Fixing version of angular-color-picker to avoid breaking changes
 
