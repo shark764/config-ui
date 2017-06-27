@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.18.0]
+- Reverting Soundwave to v3.1.19
+
 ## [4.17.0]
 - Bumping flow designer to 5.0.3
 
