@@ -1,6 +1,6 @@
 {
   "name": "liveopsConfigPanel",
-  "version": "4.18.5-SNAPSHOT",
+  "version": "4.18.5",
   "dependencies": {
     "jquery": "~2.1.1",
     "angular-resource": "^1.6.3",
@@ -22,7 +22,7 @@
     "flow-designer": "git@github.com:liveops/flow-designer.git#5.0.4",
     "angular-moment-picker": "git@github.com:indrimuska/angular-moment-picker.git#0.9.11",
     "liveops-config-panel-shared": "git@github.com:liveops/config-shared#1.5.31",
-    "realtime-dashboards": "git@github.com:liveops/realtime-dashboards.git#4.6.2-SNAPSHOT",
+    "realtime-dashboards": "git@github.com:liveops/realtime-dashboards.git#4.6.2",
     "agent-phone-panel": "git@github.com:liveops/soundwave.git#3.1.34",
     "ng-file-upload": "~7.0.17",
     "angular-drag-and-drop-lists": "^1.4.0",

@@ -2,8 +2,8 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [Unreleased]
-* Bumping realtime-dashboards to v4.6.2-SNAPSHOT
+## [4.18.5]
+* Bumping realtime-dashboards to v4.6.2
 
 ## [4.18.4]
 * Bumping flow designer to v5.0.4
