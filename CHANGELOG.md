@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.18.6]
+* Bumping flow designer to v5.1.0
+* Move notation parsing to Flow Designer
+
 ## [4.18.5]
 * Bumping realtime-dashboards to v4.6.2
 
