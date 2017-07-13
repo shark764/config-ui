@@ -2,6 +2,11 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.19.1]
+* Bumping realtime-dashboards to 4.6.3
+* Bumping config-shared to 1.5.32
+* Setting EMAIL_PERMS Flag to True
+
 ## [4.19.0]
 * Bumping flow designer to v5.2.1
 
