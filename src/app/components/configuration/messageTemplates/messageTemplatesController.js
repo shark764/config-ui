@@ -2,10 +2,9 @@
 
 angular.module('liveopsConfigPanel')
   .controller('messageTemplatesController', ['messageTemplatesTableConfig', 'MessageTemplate', 'templateTypes', 'channelTypes', 'Session', '$scope', '$translate', 'loEvents', 'appFlags',
-    function(messageTemplatesTableConfig, MessageTemplate, templateTypes, channelTypes, Session, $scope, $translate, loEvents, appFlags) {
+    function(messageTemplatesTableConfig, MessageTemplate, templateTypes, channelTypes, Session, $scope, $translate, loEvents) {
       var vm = this;
       $scope.forms = {};
-      $scope.FLAG_EMAIL_PERMS = appFlags.EMAIL_PERMS;
       vm.tableConfig = messageTemplatesTableConfig;
 
       vm.templateTypes = templateTypes;
