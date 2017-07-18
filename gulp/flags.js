@@ -23,7 +23,7 @@ module.exports = function(options) {
             API_KEYS: argv.showApiKeys || false,
             CONTACT_MANAGEMENT: argv.contactManagement || true,
             PLATFORM_REPORTING: argv.platformReporting || true,
-            EMAIL_PERMS: argv.emailPerms || true
+            EMAIL_PERMS: argv.emailPerms || false
           }
         }
       }))

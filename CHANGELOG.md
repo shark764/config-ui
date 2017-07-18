@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.19.2]
+* Setting EMAIL_PERMS Flag to False
+* Removed EMAIL_PERMS Flag check from email templates. Flag is now set for integration only.
+
 ## [4.19.1]
 * Bumping realtime-dashboards to 4.6.3
 * Bumping config-shared to 1.5.32
