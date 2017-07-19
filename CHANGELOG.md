@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.20.0]
+* Bumping Flow Designer to 5.3.0
+
 ## [4.19.2]
 * Setting EMAIL_PERMS Flag to False
 * Removed EMAIL_PERMS Flag check from email templates. Flag is now set for integration only.
