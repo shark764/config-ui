@@ -25,7 +25,8 @@ angular.module('liveopsConfigPanel', [
     'ui.codemirror',
     'ngAnimate',
     'color.picker',
-    'textAngular'
+    'textAngular',
+    'infinite-scroll'
   ])
   .config(['$translateProvider', 'toastrConfig', '$qProvider', '$locationProvider',
     function($translateProvider, toastrConfig, qProvider, $locationProvider) {
