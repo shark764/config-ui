@@ -5,7 +5,7 @@
     search-query="searchQuery">
   </table-controls>
 
-  <lo-resource-table
+  <lo-resource-table-infinite
     config="userTableConfig.getConfig()"
     items="fetchTenantUsers()"
     selected="selectedTenantUser"
@@ -23,7 +23,7 @@
       <span ng-show="item.$user.status === 'disabled'" class="disabled">{{'value.disabled' | translate}}</span>
     </div>
 
-  </lo-resource-table>
+  </lo-resource-table-infinite>
 </div>
 
 <resize-handle

@@ -1,0 +1,138 @@
+$action-container-height: 100px;
+
+lo-resource-table-infinite {
+  display: block;
+  padding: 20px;
+  padding-top: 0;
+  box-sizing: border-box;
+  vertical-align: top;
+  height: 100%;
+  overflow-y: auto;
+
+  .scrollable-table-container {
+   /* 99% height instead of 100% to account for rounding?*/
+    height: calc(99% - #{$action-container-height});
+    -webkit-box-sizing: content-box;
+  }
+
+  .table {
+    border-collapse: collapse;
+
+    th, td {
+      padding: 8px;
+    }
+
+    thead {
+      height: 48px;
+      border-top: 1px solid #dadada;
+    }
+
+    th {
+      font-weight: bold;
+      text-align: left;
+      border-right: 1px solid #dadada;
+      height: 48px;
+    }
+
+    th.filter-header {
+      overflow: visible;
+
+      a:not(:hover) {
+        color: #474747;
+      }
+
+      .filter-header-content {
+        align-items: center;
+        @include display-flex();
+        white-space: nowrap;
+      }
+
+      .filter-header-name {
+        flex: 1 auto;
+        overflow: hidden;
+      }
+
+      filter-dropdown {
+        justify-content: flex-end;
+        text-align: right;
+      }
+
+      .dropdown-label {
+        color: $grey;
+      }
+
+      .dropdown-label:hover {
+        color: $darkest-grey;
+      }
+    }
+    th:last-child {
+      border-right: none;
+    }
+
+    td {
+      border-top: 1px solid #ddd;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+
+      > a,
+      > div a {
+        color: $dark-grey;
+        display: block;
+      }
+
+      > a,
+      > div a {
+        &:hover {
+          color: $dark-grey;
+        }
+      }
+    }
+
+    td:focus {
+      outline: none;
+    }
+
+    tr:last-child td{
+      border-bottom: 1px solid #ddd;
+    }
+
+    .check-col {
+      width: 40px;
+    }
+
+    .disabled {
+      color: $grey;
+    }
+
+    .sortable-header:hover {
+      background-color: $lightest-grey;
+    }
+
+    .sort-icon {
+      color: $light-grey;
+    }
+
+    .dropdown-label {
+      display: inline-block;
+      width: auto;
+    }
+  }
+
+  .filtered {
+    color: $grey;
+    margin: 0;
+    margin-bottom: 5px;
+  }
+
+  td.null, tr:last-child td.null {
+    border-bottom: none;
+    padding: 20px;
+  }
+}
+
+.bulkCheckbox {
+  position: absolute;
+  top: 189px;
+  left: 28px;
+}

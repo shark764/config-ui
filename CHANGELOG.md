@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.22.1]
+* Changed User table to use infinite scroll + bumping shared
+
 ## [4.22.0]
 * Bumping Flow Designer to 5.3.2
 

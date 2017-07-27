@@ -1,0 +1,130 @@
+
+<!-- <p class="filtered" ng-show="items && (filtered.length != items.length)">
+  <span translate="table.filtered.status"
+    translate-value-count="{{filtered.length}}"
+    translate-value-total="{{items.length}}">
+  </span>
+  <a ng-click="clearAllFilters()">
+    {{'table.clear.link' | translate}}
+  </a>
+</p> -->
+
+<div class="scrollable-table-container" style="padding-top: 48px;">
+  <table class="table clone-header" id="items-table" >
+    <thead>
+      <tr>
+        <th id="bulk-actions-select-table-header" class="check-col"
+        ng-show="showBulkActions">
+          <input type="checkbox"
+          ng-model="checkAll"
+          ng-change="toggleAll(checkAll)" />
+        </th>
+        <th class="sortable-header"
+          ng-repeat="field in config.fields"
+          ng-if="field.checked !== false"
+          ng-class="{'filter-header': !!field.header.options}"
+          ng-click="sortTable(field)">
+
+          <i class="sort-icon fa pull-left"
+          ng-show="orderBy == field.name || orderBy == field.sortOn"
+          ng-class="{'fa-arrow-up' : reverseSortOrder, 'fa-arrow-down': ! reverseSortOrder}"></i>
+          <div ng-if="!field.header.options">
+            {{field.header.display}}
+          </div>
+          <div ng-if="!!field.header.options" class="filter-header-content">
+            <div class="filter-header-name">
+              {{field.header.display}}
+            </div>
+            <filter-dropdown id="{{field.id}}" ng-if="(field.header.options | invoke).length" show-all="true"
+            style="vertical-align:middle;text-align:right"
+            ng-click="$event.stopPropagation()"
+            options="field.header.options | invoke"
+            value-path="{{field.header.valuePath}}"
+            display-path="{{field.header.displayPath}}"
+            order-by="{{field.filterOrderBy}}"
+            all="field.header.all">
+          </filter-dropdown>
+        </div>
+      </th>
+    </tr>
+  </thead>
+</table>
+<loading ng-show="items && items.$promise && !items.$resolved"></loading>
+
+<div class="table-wrapper infiniteScroll">
+  <div>
+    <table class="table" ng-if="!items || !items.$promise || items.$resolved" id="items-table" infinite-scroll="loadMoreItems()" infinite-scroll-container='".infiniteScroll"' infinite-scroll-distance="1">
+      <tbody>
+        <tr ng-if="!filteredItems.length">
+          <td class="null" colspan="{{config.fields.length + 1}}">
+            {{'table.results.none' | translate}}
+          </td>
+        </tr>
+        <tr ng-repeat="item in renderedItems"
+        ng-init="item.$index = $index"
+        ng-class="{selected: item === selected, 'lo-highlight': item === selected}">
+
+        <td id="bulk-actions-select-table-cell" class="check-col"
+        ng-show="showBulkActions"
+        ng-click="checkItem(item)">
+
+        <input type="checkbox" ng-checked="item.checked"/>
+      </td>
+
+      <td ng-if="field.checked"
+      ng-repeat="field in config.fields"
+      ng-click="onSelectItem(item)"
+      ng-switch="!!config.sref">
+      <!-- show hyperlinked content in table cell if a value exists in config.sref -->
+      <div ng-switch-when="true">
+        <a ui-sref="{{config.sref}}(stateParam(item))" ui-sref-args="{reload: true}">
+          <lo-resource-table-cell
+          name="{{field.name}}"
+          ng-if="field.transclude"
+          item="item"
+          options="field.header.options">
+        </lo-resource-table-cell>
+
+        <span ng-if="!field.transclude"
+        title="{{parse(item, field)}}">
+        {{parse(item, field)}}
+      </span>
+    </a>
+  </div>
+
+  <!-- if a value doesn't exist in config.sref... -->
+  <div ng-switch-default ng-switch="!!field.actionLink">
+    <!-- if a value exists for field.actionLink, show content with the link specified TBD... -->
+    <span ng-switch-when="true">
+      <a ng-click="toggleToolbarVisibility(item.interactionId)">
+        <lo-resource-table-cell
+        name="{{field.linkText}}"
+        ng-if="field.transclude"
+        item="item"
+        options="field.header.options">
+      </lo-resource-table-cell>
+      {{field.linkText}}
+    </a>
+  </span>
+
+  <!-- otherwise, if no value exists for field.actionLink, then just show the unlinked version -->
+  <span ng-switch-default>
+    <lo-resource-table-cell
+    name="{{field.name}}"
+    ng-if="field.transclude"
+    item="item"
+    options="field.header.options">
+  </lo-resource-table-cell>
+
+  <span ng-if="!field.transclude"
+  title="{{parse(item, field)}}">
+  {{parse(item, field)}}
+</span>
+</span>
+</div>
+</td>
+</tr>
+</tbody>
+    </table>
+  </div>
+</div>
