@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.25.2]
+* CXV1-11056 - Prevent unnecessary calls to /users, /queues, and /flows routes on realtime dashboards
+
 ## [4.25.1]
 * CXV1-11056 - Prevent unnecessary calls to /users route on config pages
 

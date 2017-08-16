@@ -1,11 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-.controller('RealtimeDashboardsController', ['$scope', '$timeout', 'dashboard', 'queues', 'flows','users', 'dashboards', '$state', 'FullscreenService','TableMiddlewareService', '_',
-  function($scope, $timeout, dashboard, queues, flows, users, dashboards, $state, FullscreenService, TableMiddlewareService, _) {
-    $scope.queues = queues;
-    $scope.flows = flows;
-    $scope.users = users;
+.controller('RealtimeDashboardsController', ['$scope', '$timeout', 'dashboard', 'dashboards', '$state', 'FullscreenService','TableMiddlewareService', '_',
+  function($scope, $timeout, dashboard, dashboards, $state, FullscreenService, TableMiddlewareService, _) {
 
 	if (!_.isEmpty(dashboard.activeDashboard)){
     	dashboard.activeDashboard.name = dashboard.name;
