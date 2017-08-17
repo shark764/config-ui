@@ -814,34 +814,6 @@ angular.module('liveopsConfigPanel')
               });
 
               return deferred.promise;
-            }],
-            queues: ['Queue', 'Session', '$q', function(Queue, Session, $q) {
-              var deferred = $q.defer();
-              Queue.query({
-                tenantId: Session.tenant.tenantId
-              }, function(queues) {
-                deferred.resolve(queues);
-              });
-              return deferred.promise;
-            }],
-            users: ['TenantUser', 'Session', '$q', function(TenantUser, Session, $q) {
-              var deferred = $q.defer();
-              TenantUser.query({
-                tenantId: Session.tenant.tenantId
-              }, function(users) {
-                deferred.resolve(users);
-              });
-              return deferred.promise;
-            }],
-
-            flows: ['Flow', 'Session', '$q', function(Flow, Session, $q) {
-              var deferred = $q.defer();
-              Flow.query({
-                tenantId: Session.tenant.tenantId
-              }, function(flows) {
-                deferred.resolve(flows);
-              });
-              return deferred.promise;
             }]
           }
         })
