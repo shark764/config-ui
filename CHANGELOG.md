@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.25.5]
+* Bumping realtime-dashboards to fix build
+
 ## [4.25.4]
 * CXV1-11049 - Bumping soundwave to prevent unnecessary calls to /users and /queues
 
