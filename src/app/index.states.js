@@ -630,25 +630,6 @@ angular.module('liveopsConfigPanel')
           resolve: {
             hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
               return UserPermissions.resolvePermissions(PermissionGroups.viewDashboards);
-            }],
-            users: ['TenantUser', 'Session', '$q', function(TenantUser, Session, $q) {
-              var deferred = $q.defer();
-              TenantUser.query({
-                tenantId: Session.tenant.tenantId
-              }, function(users) {
-                deferred.resolve(users);
-              });
-              return deferred.promise;
-            }],
-
-            flows: ['Flow', 'Session', '$q', function(Flow, Session, $q) {
-              var deferred = $q.defer();
-              Flow.query({
-                tenantId: Session.tenant.tenantId
-              }, function(flows) {
-                deferred.resolve(flows);
-              });
-              return deferred.promise;
             }]
           }
         })

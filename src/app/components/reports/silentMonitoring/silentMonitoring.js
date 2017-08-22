@@ -1,15 +1,11 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('SilentMonitoringController', ['$scope', '$timeout', 'users', 'flows', 'silentMonitoringTableConfig', 'rtdRefreshRate', 'DashboardPollService', 'TableMiddlewareService',
-    function ($scope, $timeout, users, flows, silentMonitoringTableConfig, rtdRefreshRate, DashboardPollService, TableMiddlewareService) {
+  .controller('SilentMonitoringController', ['$scope', '$timeout', 'silentMonitoringTableConfig', 'rtdRefreshRate', 'DashboardPollService', 'TableMiddlewareService',
+    function ($scope, $timeout, silentMonitoringTableConfig, rtdRefreshRate, DashboardPollService, TableMiddlewareService) {
 
-      $scope.users = users;
-      $scope.flows = flows;
       $scope.tableConfig = silentMonitoringTableConfig;
       $scope.refreshRate = rtdRefreshRate;
-
-      TableMiddlewareService.entities = TableMiddlewareService.entities.concat($scope.users, $scope.flows);
 
       $scope.poll = function() {
         $timeout.cancel($scope.timer);
