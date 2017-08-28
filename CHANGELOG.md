@@ -2,8 +2,8 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [Unreleased]
-* Bumping Flow Designer to 5.4.4-SNAPSHOT
+## [4.25.8]
+* Bumping Flow Designer to 5.4.4
 
 ## [4.25.7]
 * CXV1-11364 - Fix silent monitoring page
