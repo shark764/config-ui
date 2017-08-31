@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.25.10]
+* Bumping Flow Designer to 5.4.6
+
 ## [4.25.9]
 * Bumping Flow Designer to 5.4.5
 
