@@ -24,7 +24,7 @@
     <div class="input-group" ng-repeat="(key, value) in propertiesSchema[integration.type]">
       <label>{{('value.' + key) | translate}} *</label>
       <form-error field="createListenerForm.properties[key]" error-type-required="{{('value.error.properties.' + key + '.required') | translate}}"></form-error>
-      <input ng-required="true" type="text" ng-model="selectedListener.properties[key]" name="key"></input>
+      <input ng-required="true" type="{{value.type}}" ng-model="selectedListener.properties[key]" name="key"></input>
     </div>
 
     <div class="flow-controls input-group">
@@ -78,7 +78,7 @@
     <div class="input-group" ng-repeat="(key, value) in propertiesSchema[integration.type]">
       <label>{{('value.' + key) | translate}} *</label>
       <form-error field="editListenerForm.properties[key]" error-type-required="{{('value.error.properties.' + key + '.required') | translate}}"></form-error>
-      <input type="text" ng-model="selectedListener.properties[key]" name="key"></input>
+      <input type="{{value.type}}" ng-model="selectedListener.properties[key]" name="key"></input>
     </div>
 
     <div class="flow-controls input-group">

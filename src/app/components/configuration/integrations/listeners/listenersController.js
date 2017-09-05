@@ -9,23 +9,23 @@ angular.module('liveopsConfigPanel')
       $scope.propertiesSchema = {
         salesforce: {
           topic: {
-            type: 'string'
+            type: 'text'
           },
           type: {
-            type: 'string'
+            type: 'text'
           }
         },
         facebook: {
           pageToken: {
-            type: 'string'
+            type: 'text'
           },
           pageId: {
-            type: 'string'
+            type: 'text'
           }
         },
         email: {
           email: {
-            type: 'string'
+            type: 'email'
           },
           password: {
             type: 'password'
