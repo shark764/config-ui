@@ -5,6 +5,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [UNRELEASED]
 * CXV1-8555 - Fixed issue with proficiency value not displaying for basic queries in details panels on queries page
 * CXV1-10669 - On integrations page, converted email listener password field to use HTML password input type, also fixed incorrect integration-specific input types.  
+* Bumping Flow Designer to 5.4.7
 
 ## [4.25.10]
 * Bumping Flow Designer to 5.4.6
