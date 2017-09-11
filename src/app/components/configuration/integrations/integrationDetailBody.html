@@ -46,7 +46,7 @@
       </div>
     </div>
 
-    <div class="divider-header" ng-if="customTypesHideShowFields(selectedIntegration, 'salesforce')">
+    <div class="divider-header" ng-if="customTypesHideShowFields(selectedIntegration, 'salesforce') || customTypesHideShowFields(selectedIntegration, 'verint')">
       <h4>{{'value.credentials' | translate}}</h4>
     </div>
   </div>
@@ -368,6 +368,57 @@
           type="text"
           ng-model="selectedIntegration.properties.interactionFieldId"
           name="interactionFieldId"/>
+      </div>
+    </div>
+  </div>
+
+  <div ng-if="customTypesHideShowFields(selectedIntegration, 'verint')" disable-contents="!('PLATFORM_MANAGE_ALL_TENANTS' | hasPermission)">
+    <div class="input-group">
+      <label>{{'integration.details.properties.verintIpPort' | translate}} *</label>
+      <form-error field="forms.detailsForm.verintIpPort" error-type-required="{{'integration.verintIpPort.error' | translate}}" ></form-error>
+      <div>
+        <input ng-required="true" type="text" ng-model="selectedIntegration.properties.sftpPort" name="verintIpPort"/>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label>{{'integration.details.properties.sftpHost' | translate}} *</label>
+      <form-error field="forms.detailsForm.sftpHost" error-type-required="{{'integration.sftpHost.error' | translate}}" ></form-error>
+      <div>
+        <input ng-required="true" type="text" ng-model="selectedIntegration.properties.sftpHost" name="sftpHost"/>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label>{{'integration.details.properties.sftpUsername' | translate}} *</label>
+      <form-error field="forms.detailsForm.sftpUsername" error-type-required="{{'integration.sftpUsername.error' | translate}}" ></form-error>
+      <div>
+        <input ng-required="true" type="text" ng-model="selectedIntegration.properties.sftpUsername" name="sftpUsername"/>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label>{{'integration.details.properties.sftpPassword' | translate}} *</label>
+      <form-error field="forms.detailsForm.sftpPassword" error-type-required="{{'integration.sftpPassword.error' | translate}}" ></form-error>
+      <div>
+        <input ng-required="true" type="password" ng-model="selectedIntegration.properties.sftpPassword" name="sftpPassword"/>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label>{{'integration.details.properties.verintOrgName' | translate}} *</label>
+      <form-error field="forms.detailsForm.verintOrgName" error-type-required="{{'integration.verintOrgName.error' | translate}}" ></form-error>
+      <div>
+        <input ng-required="true" type="text" ng-model="selectedIntegration.properties.orgName" name="verintOrgName"/>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label>{{'integration.details.properties.multiTenantSync' | translate}}</label>
+      <div>
+        <toggle ng-disabled="!('MANAGE_ALL_PROVIDERS' | hasPermission)"
+            ng-model="selectedIntegration.properties.multipleTenants"
+            name="multipleTenants"/>
       </div>
     </div>
   </div>
