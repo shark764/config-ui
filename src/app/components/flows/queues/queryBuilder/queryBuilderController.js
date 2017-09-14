@@ -69,7 +69,7 @@ angular.module('liveopsConfigPanel')
       vm.advancedQuery = ZermeloService.toEdnString(ZermeloService.getQuery());
     };
 
-    vm.getDisplay = function(group, item, advancedQuery, someEvery) {
+    vm.getDisplay = function(group, item) {
       switch(group) {
         case ':user-id':
           return vm.users.filter(function(user) {
@@ -80,11 +80,10 @@ angular.module('liveopsConfigPanel')
             return group.id === item;
           })[0].getDisplay();
         case ':skills':
-          var skill = vm.skills.filter(function(skill) {
-            return item === skill.id;
-          })[0];
-
-          return skill.name + ZermeloService.displayProficiency(skill, advancedQuery, someEvery);
+          return vm.skills.filter(function(skill) {
+            return skill.id === item;
+          })[0].name;
       }
     };
+
   }]);

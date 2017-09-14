@@ -17,7 +17,7 @@
   <div class="tag-wrapper clear">
     <div class="tag" ng-repeat="filter in qgc.filters track by $index">
       {{filter.getDisplay()}}
-      <span ng-show="filter.hasProficiency">{{qgc.displayProficiencyString(filter, type)}}</span>
+      <span ng-show="filter.hasProficiency">({{filter.condition}} {{filter.proficiency}})</span>
       <a ng-click="qgc.removeFilter(filter)"><i class="fa fa-times"></i></a>
     </div>
   </div>

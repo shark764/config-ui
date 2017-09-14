@@ -24,22 +24,6 @@ angular.module('liveopsConfigPanel')
       vm.selectedItem = null;
     };
 
-    vm.displayProficiencyString = function (skillData, type) {
-      var advancedQuery = ZermeloService.toEdnString(vm.query);
-      var someOrEvery;
-
-      switch(type) {
-        case 'all':
-          someOrEvery = 'every';
-          break;
-        case 'some':
-          someOrEvery = 'some';
-          break;
-      }
-
-      return ZermeloService.displayProficiency(skillData, advancedQuery, someOrEvery);
-    };
-
     vm.removeFilter = function(filter) {
       vm.query = ZermeloService.removeFilter($scope.level, $scope.group.zermeloKey, $scope.type, filter.id);
       _.pull(vm.filters, filter);
