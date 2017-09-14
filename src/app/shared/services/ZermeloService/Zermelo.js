@@ -29,7 +29,6 @@ angular.module('liveopsConfigPanel')
       getQuery: getQuery,
       getQueryString: getQueryString,
       addFilter: addFilter,
-      displayProficiency: displayProficiency,
       removeFilter: removeFilter,
       removeType: removeType,
       addQueryLevel: addQueryLevel,
@@ -51,53 +50,6 @@ angular.module('liveopsConfigPanel')
 
     function getQueryString() {
       return ednString;
-    }
-
-    function displayProficiency(skill, advancedQuery, someOrAllSkills) {
-      var proficiency = '';
-
-      if (advancedQuery) {
-        var parsedAdvancedQuery = jsedn.parse(advancedQuery);
-        var parsedQuery = parsedAdvancedQuery.jsEncode();
-        var skillsArray = parsedQuery[0][keywordEnum.QUERY][keywordEnum.SKILLS];
-        var skillsIdx;
-
-        // if this isn't a proper skill filter, then we have no proficiency
-        // to display, bail out now, no harm, no foul :)
-        if (!skillsArray) {
-          return proficiency;
-        }
-
-        // the location of the data we need in the query object
-        // depends on whether we're filtering for all or some of the
-        // skills, so here is how we set an index to point to the correct
-        // object as we traverse through the query
-        skillsIdx =  _.findIndex(skillsArray, function (val) {
-          return val[0] === someOrAllSkills;
-        });
-
-        // if we find nothing in the skills list using this index, bail out!
-        if (!skillsArray[skillsIdx]) {
-          return proficiency;
-        }
-
-        var skillsObject = skillsArray[skillsIdx][1];
-        // create a list of the keys for the EDN entity, since we'll need these
-        // keys to find the index of the skill whose proficiency we need
-        var parsedKeyList = _.keysIn(skillsObject);
-
-        // using the index of the current filter item, find the corresponding
-        // array containing the 2 strings that comprise the proficiency
-        // display (ex: [">=", 2]) that the user sees. Then combine the 2 strings
-        // into one (ex: ">= 2").
-        if (parsedKeyList.indexOf(skill.id) !== -1) {
-          var indexOfSkill = parsedKeyList.indexOf(skill.id);
-          var parsedValueList = _.valuesIn(skillsObject);
-          proficiency = ' (' + parsedValueList[indexOfSkill].join('') + ')';
-        }
-      }
-
-      return proficiency;
     }
 
     function addFilter(level, type, filter, itemId, condition) {
