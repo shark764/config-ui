@@ -10,7 +10,10 @@ module.exports = function(options) {
     return gulp.src(options.src + '/app/**/*.js')
       .pipe($.jshint())
       .pipe($.jshint.reporter('jshint-stylish'))
-      .pipe($.jshint.reporter('fail'))
+      // commenting the .pipe() call below b/c it's super-annoying
+      // for build to die upon linting error during dev process,
+      // but maybe someone will want it later (?)
+      //.pipe($.jshint.reporter('fail'))
       .pipe(browserSync.reload({ stream: true }))
       .pipe($.size());
   });
