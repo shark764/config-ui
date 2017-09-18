@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [UNRELEASED]
+* CXV1-10177 - Create UI for new Verint Integration
+
 ## [4.25.13]
 * Bumping Flow Designer to 5.4.8
 

@@ -1,6 +1,6 @@
 {
   "name": "liveopsConfigPanel",
-  "version": "4.25.13",
+  "version": "4.25.14-SNAPSHOT",
   "dependencies": {
     "jquery": "~2.1.1",
     "angular-resource": "^1.6.3",
@@ -21,7 +21,7 @@
     "teljs": "git@github.com:liveops/tel.js.git#master",
     "flow-designer": "git@github.com:liveops/flow-designer.git#5.4.8",
     "angular-moment-picker": "git@github.com:indrimuska/angular-moment-picker.git#0.9.11",
-    "liveops-config-panel-shared": "git@github.com:liveops/config-shared#1.5.34",
+    "liveops-config-panel-shared": "git@github.com:liveops/config-shared#1.5.35",
     "realtime-dashboards": "git@github.com:liveops/realtime-dashboards.git#4.6.5",
     "agent-phone-panel": "git@github.com:liveops/soundwave.git#3.1.38",
     "ng-file-upload": "~7.0.17",
