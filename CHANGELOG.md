@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.25.13]
+* Bumping Flow Designer to 5.4.8
+
 ## [4.25.12]
 * Revert "CXV1-8555 - Fixed issue with proficiency value not displaying for basic queries in details panels on queries page"
 
