@@ -211,6 +211,8 @@
   "details.confirm-password.error": "The password(s) entered do not match.",
   "details.password.default.policy": "Password must have at least 1 alphabetic character, 1 number, and 1 special character (! # $ % - _ = + < > .)",
   "details.externalId": "External ID",
+  "details.tenantUserId": "aliasTenantUserId",
+  "details.platformUserId": "aliasPlatformUserId",
   "details.role": "Tenant Role",
   "details.platformRole": "Platform Role",
   "details.role.placeholder": "Select Role",
