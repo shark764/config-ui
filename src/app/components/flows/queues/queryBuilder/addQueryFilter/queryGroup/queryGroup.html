@@ -9,7 +9,7 @@
       <proficiency-selector ng-show="qgc.selectedItem.hasProficiency" operator="qgc.condition" proficiency="qgc.proficiency"></proficiency-selector>
     </div>
 
-    <button class="add btn" ng-disabled="!qgc.selectedItem.id" type="button" ng-click="qgc.addFilter(level, group.zermeloKey, type, qgc.selectedItem.id)">
+    <button class="add btn" ng-disabled="!qgc.selectedItem.id" type="button" ng-click="qgc.addFilter(qgc.condition, qgc.proficiency, level, type, qgc.selectedItem.id)">
       <i class="fa fa-plus"></i>
     </button>
   </div>
@@ -17,7 +17,7 @@
   <div class="tag-wrapper clear">
     <div class="tag" ng-repeat="filter in qgc.filters track by $index">
       {{filter.getDisplay()}}
-      <span ng-show="filter.hasProficiency">({{filter.condition}} {{filter.proficiency}})</span>
+      {{qgc.displayProficiencyString(filter, type, level)}}
       <a ng-click="qgc.removeFilter(filter)"><i class="fa fa-times"></i></a>
     </div>
   </div>

@@ -4,6 +4,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [UNRELEASED]
 * CXV1-10177 - Create UI for new Verint Integration
+* CXV1-8555 - Refactor of proficiency display on Queue Query Builder to fix multiple bugs
 
 ## [4.25.13]
 * Bumping Flow Designer to 5.4.8

@@ -29,6 +29,7 @@ angular.module('liveopsConfigPanel')
       getQuery: getQuery,
       getQueryString: getQueryString,
       addFilter: addFilter,
+      displayProficiency: displayProficiency,
       removeFilter: removeFilter,
       removeType: removeType,
       addQueryLevel: addQueryLevel,
@@ -48,8 +49,59 @@ angular.module('liveopsConfigPanel')
       return query;
     }
 
-    function getQueryString() {
+    function getQueryString(isNewQuery) {
+      if (isNewQuery) {
+        return '[{:after-seconds-in-queue 0 :query {}}]';
+      }
+
       return ednString;
+    }
+
+    function displayProficiency(skill, advancedQuery, level, someOrAllSkills) {
+      var proficiency = '';
+
+      if (advancedQuery && angular.isNumber(level)) {
+        var parsedAdvancedQuery = jsedn.parse(advancedQuery);
+        var parsedQuery = parsedAdvancedQuery.jsEncode();
+        var skillsArray = parsedQuery[level][keywordEnum.QUERY][keywordEnum.SKILLS];
+        var skillsIdx;
+
+        // if this isn't a proper skill filter, then we have no proficiency
+        // to display, bail out now, no harm, no foul :)
+        if (!skillsArray) {
+          return proficiency;
+        }
+
+        // the location of the data we need in the query object
+        // depends on whether we're filtering for all or some of the
+        // skills, so here is how we set an index to point to the correct
+        // object as we traverse through the query
+        skillsIdx =  _.findIndex(skillsArray, function (skillObject) {
+          return skillObject[0] === someOrAllSkills;
+        });
+
+        // if we find nothing in the skills list using this index, bail out!
+        if (!skillsArray[skillsIdx]) {
+          return proficiency;
+        }
+
+        var skillsObject = skillsArray[skillsIdx][1];
+        // create a list of the keys for the EDN entity, since we'll need these
+        // keys to find the index of the skill whose proficiency we need
+        var parsedKeyList = _.keysIn(skillsObject);
+
+        // using the index of the current filter item, find the corresponding
+        // array containing the 2 strings that comprise the proficiency
+        // display (ex: [">=", 2]) that the user sees. Then combine the 2 strings
+        // into one (ex: ">= 2").
+        var indexOfSkill = parsedKeyList.indexOf(skill.id);
+        if (indexOfSkill !== -1) {
+          var parsedValueList = _.valuesIn(skillsObject);
+          proficiency = ' (' + parsedValueList[indexOfSkill].join('') + ')';
+        }
+      }
+
+      return proficiency;
     }
 
     function addFilter(level, type, filter, itemId, condition) {
@@ -65,8 +117,9 @@ angular.module('liveopsConfigPanel')
           }
         });
         if (!success) {
-          query.at(0).at(keywordEnum.QUERY).at(type).val.push(filterExpression);
+          query.at(level).at(keywordEnum.QUERY).at(type).val.push(filterExpression);
         }
+
         ednString = toEdnString(query);
         return query;
       }
@@ -101,8 +154,8 @@ angular.module('liveopsConfigPanel')
     function removeType(level, type) {
       type = keywordEnum[type];
       query.at(level).at(keywordEnum.QUERY).keys.forEach(function(val, idx) {
-        query.at(level).at(keywordEnum.QUERY).keys.splice(idx, 1);
-        query.at(level).at(keywordEnum.QUERY).vals.splice(idx, 1);
+        _.pullAt(query.at(level).at(keywordEnum.QUERY).keys, idx);
+        _.pullAt(query.at(level).at(keywordEnum.QUERY).vals, idx);
       });
       ednString = toEdnString(query);
       return query;
@@ -185,15 +238,16 @@ angular.module('liveopsConfigPanel')
       if (type === keywordEnum.SKILLS) {
         queryGroup.keys.forEach(function(key, index) {
           if (key._obj === itemId) {
-            queryGroup.keys.splice(index, 1);
-            queryGroup.vals.splice(index, 1);
+            _.pullAt(queryGroup.keys, index);
+            _.pullAt(queryGroup.vals, index);
           }
         });
         return;
+      } else {
+        _.remove(queryGroup.val, function(value) {
+          return value._obj === itemId;
+        });
       }
-      _.remove(queryGroup.val, function(value) {
-        return value._obj === itemId;
-      });
     }
 
     function replaceUUID(obj) {

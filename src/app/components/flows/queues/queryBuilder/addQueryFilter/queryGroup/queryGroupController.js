@@ -8,13 +8,24 @@ angular.module('liveopsConfigPanel')
     vm.condition = '>=';
     vm.proficiency = 1;
 
+    var updatedCondition;
+    var updatedProficiency;
+    var updatedId;
+    var updatedLevel;
+    var updatedType;
+
     vm.filters = [];
 
-    vm.addFilter = function() {
+    vm.addFilter = function(condition, proficiency, level, type, id) {
       if ($scope.group.zermeloKey === 'SKILLS') {
-        vm.selectedItem.condition = vm.condition;
-        vm.selectedItem.proficiency = vm.proficiency;
-        vm.query = ZermeloService.addFilter($scope.level, $scope.group.zermeloKey, $scope.type, vm.selectedItem.id, [vm.condition, vm.proficiency]);
+        // by virtue of the fact that we are changing this stuff when
+        // clicking the add button, this will trigger
+        // the proficiency display change and hydration of the scope
+        updatedCondition = condition;
+        updatedProficiency = proficiency;
+        updatedLevel = level;
+        updatedType = type;
+        updatedId = id;
       } else {
         vm.query = ZermeloService.addFilter($scope.level, $scope.group.zermeloKey, $scope.type, vm.selectedItem.id);
       }
@@ -22,6 +33,41 @@ angular.module('liveopsConfigPanel')
       vm.proficiency = 1;
       vm.filters.push(vm.selectedItem);
       vm.selectedItem = null;
+    };
+
+    vm.displayProficiencyString = function (skillData, type, level) {
+      // here is where we watch for the addition of a new skill
+      // so we can update the data used to generate the string
+      // without overwriting the wrong skill tab
+      if (
+        updatedCondition &&
+        angular.isNumber(updatedProficiency) &&
+        angular.isNumber(updatedLevel) &&
+        updatedType &&
+        updatedId
+      ) {
+        if (
+          type === updatedType &&
+          level === updatedLevel &&
+          skillData.id === updatedId
+        ) {
+          skillData.condition = updatedCondition;
+          skillData.proficiency = updatedProficiency;
+
+          vm.query = ZermeloService.addFilter(updatedLevel, $scope.group.zermeloKey, updatedType, updatedId, [skillData.condition, skillData.proficiency]);
+        }
+      }
+
+      var advancedQuery = ZermeloService.toEdnString(vm.query);
+      var someOrEvery = type;
+
+      // we are doing this to match the constant value in the service
+      // that processes these queries
+      if (type === 'all') {
+        someOrEvery = 'every';
+      }
+
+      return ZermeloService.displayProficiency(skillData, advancedQuery, level, someOrEvery);
     };
 
     vm.removeFilter = function(filter) {

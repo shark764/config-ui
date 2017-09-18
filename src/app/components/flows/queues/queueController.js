@@ -22,7 +22,7 @@ angular.module('liveopsConfigPanel')
 
       vm.getDefaultVersion = function() {
         return new QueueVersion({
-          query: ZermeloService.getQueryString(),
+          query: ZermeloService.getQueryString(true),
           tenantId: Session.tenant.tenantId,
           name: 'v1',
           maxPriority: 1000,
