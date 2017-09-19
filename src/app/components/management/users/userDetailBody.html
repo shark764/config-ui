@@ -168,21 +168,23 @@
       </div>
     </div>
 
-    <div class="input-group">
-      <label>{{'details.tenantUserId' | translate}}</label>
-      <div ng-switch="invitedUserExistsOnPlatform()">
-        <span ng-switch-when="false" name="tenantUserId" type="text">{{selectedTenantUser.aliasTenantUserId}}</span>
-        <span ng-switch-when="true" type="text"></span>
+    <span ng-if="displayVerint">
+      <div class="input-group">
+        <label>{{'details.tenantUserId' | translate}}</label>
+        <div ng-switch="invitedUserExistsOnPlatform()">
+          <span ng-switch-when="false" name="tenantUserId" type="text">{{selectedTenantUser.aliasTenantUserId}}</span>
+          <span ng-switch-when="true" type="text"></span>
+        </div>
       </div>
-    </div>
 
-    <div class="input-group">
-      <label>{{'details.platformUserId' | translate}}</label>
-      <div ng-switch="invitedUserExistsOnPlatform()">
-        <span ng-switch-when="false" name="platformUserId" type="text">{{selectedTenantUser.$user.id}}</span>
-        <span ng-switch-when="true" type="text"></span>
+      <div class="input-group">
+        <label>{{'details.platformUserId' | translate}}</label>
+        <div ng-switch="invitedUserExistsOnPlatform()">
+          <span ng-switch-when="false" name="platformUserId" type="text">{{selectedTenantUser.$user.id}}</span>
+          <span ng-switch-when="true" type="text"></span>
+        </div>
       </div>
-    </div>
+    </span>
 
   </div>
 </div>

@@ -2,10 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [UNRELEASED]
-* CXV1-10177 - Create UI for new Verint Integration
+## [4.25.14]
+* CXV1-10177 - FEATURE FLAGGED OUT: Create UI for new Verint Integration
 * CXV1-8555 - Refactor of proficiency display on Queue Query Builder to fix multiple bugs
-* CXV1-10548 - Added Platform/Tenant Alias Ids to user details for Verint Integration
+* CXV1-10548 - FEATURE FLAGGED OUT: Added Platform/Tenant Alias Ids to user details for Verint Integration
 * CXV1-11556 - Added MANAGE_ALL_USERS check for editing user data
 
 ## [4.25.13]
