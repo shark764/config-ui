@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('UsersController', ['$scope', '$translate', 'User', 'Session', 'userTableConfig', 'Alert', '$q', 'TenantUser', 'TenantRole', 'UserPermissions', 'PlatformRole', 'TenantUserGroups', 'Modal', 'loEvents', 'ResetPassword', 'appFlags',
-    function($scope, $translate, User, Session, userTableConfig, Alert, $q, TenantUser, TenantRole, UserPermissions, PlatformRole, TenantUserGroups, Modal, loEvents, ResetPassword, appFlags) {
+  .controller('UsersController', ['$scope', '$translate', 'User', 'Session', 'userTableConfig', 'Alert', '$q', 'TenantUser', 'TenantRole', 'UserPermissions', 'PlatformRole', 'TenantUserGroups', 'Modal', 'loEvents', 'ResetPassword', 'Integration',
+    function($scope, $translate, User, Session, userTableConfig, Alert, $q, TenantUser, TenantRole, UserPermissions, PlatformRole, TenantUserGroups, Modal, loEvents, ResetPassword, Integration) {
       var vm = this;
       $scope.forms = {};
       $scope.Session = Session;
@@ -19,7 +19,23 @@ angular.module('liveopsConfigPanel')
         'region'
       ];
 
-      $scope.displayVerint = appFlags.VERINT_INTEGRATION;
+      $scope.tenantIntegrations = Integration.cachedQuery({
+        tenantId: Session.tenant.tenantId
+      });
+
+      $scope.hasVerintIntegration = false;
+
+      $scope.tenantIntegrations.$promise.then(function(response) {
+        var verintIntegration = response.filter(function(integration) {
+          return integration.type === 'verint';
+        });
+
+        if (verintIntegration.length > 0) {
+          $scope.hasVerintIntegration = true;
+        } else {
+          $scope.hasVerintIntegration = false;
+        }
+      });
 
       $scope.resetPassword = function() {
         return Modal.showConfirm(
