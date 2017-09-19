@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.25.15]
+* CXV1-10548 - User details for Verint Integration will only show when Verint Integration Available
+
 ## [4.25.14]
 * CXV1-10177 - FEATURE FLAGGED OUT: Create UI for new Verint Integration
 * CXV1-8555 - Refactor of proficiency display on Queue Query Builder to fix multiple bugs

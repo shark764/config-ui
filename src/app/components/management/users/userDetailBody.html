@@ -168,8 +168,8 @@
       </div>
     </div>
 
-    <span ng-if="displayVerint">
-      <div class="input-group">
+    <span ng-if="hasVerintIntegration">
+      <div class="input-group display-only">
         <label>{{'details.tenantUserId' | translate}}</label>
         <div ng-switch="invitedUserExistsOnPlatform()">
           <span ng-switch-when="false" name="tenantUserId" type="text">{{selectedTenantUser.aliasTenantUserId}}</span>
@@ -177,7 +177,7 @@
         </div>
       </div>
 
-      <div class="input-group">
+      <div class="input-group display-only">
         <label>{{'details.platformUserId' | translate}}</label>
         <div ng-switch="invitedUserExistsOnPlatform()">
           <span ng-switch-when="false" name="platformUserId" type="text">{{selectedTenantUser.$user.id}}</span>
