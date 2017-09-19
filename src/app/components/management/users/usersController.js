@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('UsersController', ['$scope', '$translate', 'User', 'Session', 'userTableConfig', 'Alert', '$q', 'TenantUser', 'TenantRole', 'UserPermissions', 'PlatformRole', 'TenantUserGroups', 'Modal', 'loEvents', 'ResetPassword',
-    function($scope, $translate, User, Session, userTableConfig, Alert, $q, TenantUser, TenantRole, UserPermissions, PlatformRole, TenantUserGroups, Modal, loEvents, ResetPassword) {
+  .controller('UsersController', ['$scope', '$translate', 'User', 'Session', 'userTableConfig', 'Alert', '$q', 'TenantUser', 'TenantRole', 'UserPermissions', 'PlatformRole', 'TenantUserGroups', 'Modal', 'loEvents', 'ResetPassword', 'appFlags',
+    function($scope, $translate, User, Session, userTableConfig, Alert, $q, TenantUser, TenantRole, UserPermissions, PlatformRole, TenantUserGroups, Modal, loEvents, ResetPassword, appFlags) {
       var vm = this;
       $scope.forms = {};
       $scope.Session = Session;
@@ -18,6 +18,8 @@ angular.module('liveopsConfigPanel')
         'extensiondescription',
         'region'
       ];
+
+      $scope.displayVerint = appFlags.VERINT_INTEGRATION;
 
       $scope.resetPassword = function() {
         return Modal.showConfirm(
@@ -120,7 +122,7 @@ angular.module('liveopsConfigPanel')
       $scope.canSaveUser = function(tenantUser) {
         return $scope.scenario() !== 'invite:existing:user' &&
 
-          (tenantUser.$user.isNew() ||
+          ((tenantUser && tenantUser.$user.isNew()) ||
             UserPermissions.hasPermission('MANAGE_ALL_USERS') ||
             (UserPermissions.hasPermission('PLATFORM_MANAGE_USER_ACCOUNT') &&
               Session.user.id === $scope.selectedTenantUser.$user.id) ||

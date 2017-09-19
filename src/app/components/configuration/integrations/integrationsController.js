@@ -22,12 +22,15 @@ angular.module('liveopsConfigPanel')
         {
           name: $translate.instant('integration.details.properties.zendesk'),
           value: 'zendesk'
-        },
-        {
-          name: $translate.instant('integration.details.properties.verint'),
-          value: 'verint'
         }
       ];
+
+      if (appFlags.VERINT_INTEGRATION) {
+        $scope.customIntegrationTypes.push({
+          name: $translate.instant('integration.details.properties.verint'),
+          value: 'verint'
+        });
+      }
 
       if (appFlags.EMAIL_PERMS) {
         $scope.customIntegrationTypes.push({
