@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.25.16]
+* Bumping Flow Designer to 5.4.9
+
 ## [4.25.15]
 * CXV1-10548 - User details for Verint Integration will only show when Verint Integration Available
 
