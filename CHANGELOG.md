@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.25.19]
+* CXV1-11681 - Bumping config-shared in order to fix search bug
+
 ## [4.25.18]
 * Bumping Flow Designer to 5.4.11
 
