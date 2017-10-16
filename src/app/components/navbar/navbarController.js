@@ -198,12 +198,23 @@ angular.module('liveopsConfigPanel')
           });
         }
 
+        if (appFlags.IDENTITY_PROVIDERS) {
+          if (UserPermissions.hasPermissionInList(PermissionGroups.viewIdentityProviders)) {
+            items.push({
+              label: $translate.instant('navbar.configuration.tenants.identityProviders'),
+              stateLink: 'content.configuration.identityProviders',
+              id: 'identity-providers-configuration-link',
+              order: 2
+            });
+          }
+        }
+
         if (UserPermissions.hasPermissionInList(PermissionGroups.viewIntegrations)) {
           items.push({
             label: $translate.instant('navbar.configuration.integrations.title'),
             stateLink: 'content.configuration.integrations',
             id: 'integrations-configuration-link',
-            order: 2
+            order: 3
           });
         }
 
@@ -212,7 +223,7 @@ angular.module('liveopsConfigPanel')
             label: $translate.instant('navbar.configuration.lists.title'),
             stateLink: 'content.configuration.genericLists',
             id: 'lists-configuration-link',
-            order: 3
+            order: 4
           });
         }
 
@@ -221,7 +232,7 @@ angular.module('liveopsConfigPanel')
             label: $translate.instant('navbar.configuration.bh.title'),
             stateLink: 'content.configuration.hours',
             id: 'hours-configuration-link',
-            order: 4
+            order: 5
           });
         }
 
@@ -232,14 +243,14 @@ angular.module('liveopsConfigPanel')
               label: $translate.instant('navbar.configuration.campaigns.title'),
               stateLink: 'content.configuration.campaigns',
               id: 'campaigns-configuration-link',
-              order: 5
+              order: 6
             });
 
             items.push({
               label: $translate.instant('navbar.configuration.dnc.title'),
               stateLink: 'content.configuration.dnc',
               id: 'dnc-configuration-link',
-              order: 6
+              order: 7
             });
           }
         }
@@ -250,7 +261,7 @@ angular.module('liveopsConfigPanel')
             label: $translate.instant('navbar.configuration.keys.title'),
             stateLink: 'content.configuration.keys',
             id: 'key-configuration-link',
-            order: 7
+            order: 8
           });
         }
 
@@ -259,7 +270,7 @@ angular.module('liveopsConfigPanel')
             label: $translate.instant('navbar.configuration.transferLists.title'),
             stateLink: 'content.configuration.transferLists',
             id: 'transferList-configuration-link',
-            order: 8
+            order: 9
           });
         }
 
@@ -268,7 +279,7 @@ angular.module('liveopsConfigPanel')
             label: $translate.instant('navbar.configuration.messageTemplates.title'),
             stateLink: 'content.configuration.messageTemplates',
             id: 'template-configuration-link',
-            order: 8
+            order: 10
           });
         }
 
@@ -278,7 +289,7 @@ angular.module('liveopsConfigPanel')
               label: $translate.instant('navbar.configuration.contactAttributes.title'),
               stateLink: 'content.configuration.contactAttributes',
               id: 'contact-attributes-configuration-link',
-              order: 9
+              order: 11
             });
           }
 
@@ -287,7 +298,7 @@ angular.module('liveopsConfigPanel')
               label: $translate.instant('navbar.configuration.contactLayouts.title'),
               stateLink: 'content.configuration.contactLayouts',
               id: 'contact-layouts-configuration-link',
-              order: 10
+              order: 12
             });
           }
         }
