@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.25.21]
+* CXV1-11924 - JS error on Users page due undefined value in permissions check
+
 ## [4.25.20]
 * Bumping Flow Designer to 5.4.12
 
