@@ -198,15 +198,13 @@ angular.module('liveopsConfigPanel')
           });
         }
 
-        if (appFlags.IDENTITY_PROVIDERS) {
-          if (UserPermissions.hasPermissionInList(PermissionGroups.viewIdentityProviders)) {
-            items.push({
-              label: $translate.instant('navbar.configuration.tenants.identityProviders'),
-              stateLink: 'content.configuration.identityProviders',
-              id: 'identity-providers-configuration-link',
-              order: 2
-            });
-          }
+        if (UserPermissions.hasPermissionInList(PermissionGroups.viewIdentityProviders)) {
+          items.push({
+            label: $translate.instant('navbar.configuration.tenants.identityProviders'),
+            stateLink: 'content.configuration.identityProviders',
+            id: 'identity-providers-configuration-link',
+            order: 2
+          });
         }
 
         if (UserPermissions.hasPermissionInList(PermissionGroups.viewIntegrations)) {

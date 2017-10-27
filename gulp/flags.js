@@ -24,8 +24,7 @@ module.exports = function(options) {
             CONTACT_MANAGEMENT: argv.contactManagement || true,
             PLATFORM_REPORTING: argv.platformReporting || true,
             EMAIL_PERMS: argv.emailPerms || false,
-            VERINT_INTEGRATION: argv.verintIntegration || false,
-            IDENTITY_PROVIDERS: argv.identityProviders || false
+            VERINT_INTEGRATION: argv.verintIntegration || false
           }
         }
       }))
