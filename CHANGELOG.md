@@ -2,7 +2,8 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [Unreleased]
+## [4.26.2]
+* Updated to Flow Designer 5.4.13
 
 ## [4.26.1]
 * CXV1-10830 - Created Identity Management page (Feature Flags Removed)
