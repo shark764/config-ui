@@ -3,8 +3,13 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## [4.26.1]
+* CXV1-10830 - Created Identity Management page (Feature Flags Removed)
+
+## [4.26.0]
 * Updated to Flow Designer 5.4.13-SNAPSHOT
-* CXV1-10830 - Created Identity Management page
+* CXV1-10830 - Created Identity Management page (Feature Flagged)
 
 ## [4.25.21]
 * CXV1-11924 - JS error on Users page due undefined value in permissions check
