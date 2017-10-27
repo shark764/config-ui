@@ -311,6 +311,18 @@ angular.module('liveopsConfigPanel')
             }]
           }
         })
+        .state('content.configuration.identityProviders', {
+          url: '/identityProviders?id',
+          title: 'Configuration - Identity Providers',
+          templateUrl: 'app/components/configuration/identityProviders/identityProviders.html',
+          controller: 'identityProvidersController as idp',
+          reloadOnSearch: false,
+          resolve: {
+            hasPermission: ['UserPermissions', function(UserPermissions) {
+              return UserPermissions.resolvePermissions(['IDENTITY_PROVIDERS_READ']);
+            }]
+          }
+        })
         .state('content.flows', {
           abstract: true,
           url: '/flows',

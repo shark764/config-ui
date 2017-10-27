@@ -1,0 +1,175 @@
+<div class="divider-header first-header">
+  <h4>{{'details' | translate}}</h4>
+</div>
+<div
+  ng-disabled="!(manageIdentityProviders | hasPermission)"
+  id="identity-provider-details">
+  <div class="input-group">
+    <label>{{'value.name' | translate}} *</label>
+    <form-error ng-if="!idp.selectedIdentityProvider.name" field="forms.detailsForm.name"
+      error-type-required="{{'value.error.name.required' | translate}}">
+    </form-error>
+    <div>
+      <input
+      required
+      title="{{'identityProviders.details.tooltip.name' | translate}}"
+      ng-model="idp.selectedIdentityProvider.name"
+      name="name"
+      type="text"
+      ng-disabled="!(manageIdentityProviders | hasPermission)">
+    </div>
+  </div>
+
+  <div class="input-group">
+    <label class="textarea-label">{{'value.description' | translate}}</label>
+    <textarea
+      title="{{'identityProviders.details.tooltip.description' | translate}}"
+      ng-model="idp.selectedIdentityProvider.description"
+      name="description"
+      ng-disabled="!(manageIdentityProviders | hasPermission)">
+      {{idp.selectedIdentityProvider.description}}
+    </textarea>
+  </div>
+
+  <div class="input-group">
+    <label class="label">{{'value.type' | translate}} *</label>
+    <form-error
+      field="forms.detailsForm.selectedIdpConfigInfoType"
+      error-type-required="{{'identityProviders.details.selectedIdpConfigInfoType.error' | translate}}"></form-error>
+    <select
+      ng-required="idp.selectedIdentityProvider.isNew() && !idp.selectedIdentityProvider.$busy && !idp.selectedIdentityProvider.$pending"
+      ng-options="type.val as type.name for type in idp.idpConfigInfoTypes | filter:idp.onlyEditableTypes()"
+      ng-model="idp.selectedIdentityProvider.selectedIdpConfigInfoType"
+      name="selectedIdpConfigInfoType"
+      ng-change="idp.handleConfigSelectChange()">
+      <option
+        ng-disabled="true"
+        value=""
+        ng-selected="!idp.selectedIdentityProvider.selectedIdpConfigInfoType">
+          {{'identityProviders.details.idpConfigInfoTypes.choose' | translate}}
+      </option>
+    </select>
+  </div>
+
+  <div class="divider-header">
+    <h4>{{'identityProviders.details.configuration' | translate}}</h4>
+  </div>
+
+  <span
+    ng-switch="idp.selectedIdentityProvider.selectedIdpConfigInfoType"
+    ng-disable-contents="!(manageIdentityProviders | hasPermission)">
+    <!-- CASE 1: XML URL FIELD -->
+    <div
+      class="input-group"
+      ng-switch-when="url">
+      <label>{{'identityProviders.details.urlToXmlConfig' | translate}} *</label>
+      <form-error field="forms.detailsForm.idpConfigInfoTypesUrlInput"
+        error-type-required="{{'identityProviders.details.metadataUrl.error' | translate}}">
+      </form-error>
+      <div>
+        <!-- NEW IDP, LINK TO XML FILE -->
+        <input
+          ng-if="idp.selectedIdentityProvider.isNew() || idp.selectedIdentityProvider.inEditMode"
+          required
+          ng-model="idp.selectedIdentityProvider.metadataUrl"
+          name="idpConfigInfoTypesUrlInput"
+          type="text">
+
+        <!-- EXISTING IDP, UPDATE TO XML FILE -->
+        <div
+          ng-if="!idp.selectedIdentityProvider.isNew() && !idp.selectedIdentityProvider.inEditMode"
+          class="saved-url-display">
+          <div>
+            <span ng-if="idp.selectedIdentityProvider.metadataUrl">
+              {{idp.selectedIdentityProvider.metadataUrl}}
+            </span>
+
+            <span ng-if="!idp.selectedIdentityProvider.metadataUrl">
+              <em>({{'identityProviders.details.noXmlUrl' | translate}})</em>
+            </span>
+          </div>
+
+          <div
+            ng-if="(manageIdentityProviders | hasPermission)">
+            <a
+              ng-click="idp.selectedIdentityProvider.inEditMode = true">
+                {{'identityProviders.details.editXmlUrl' | translate}}
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CASE 2: XML UPLOAD FIELDS -->
+    <div
+      ng-switch-when="xml"
+      class="input-group"
+      id="xml-upload-file">
+      <label>{{'identityProviders.details.uploadXmlConfig' | translate}} *</label>
+      <form-error field="forms.detailsForm.metadataFileName"
+        error-type-required="{{'identityProviders.details.metadataFile.error' | translate}}">
+      </form-error>
+
+      <!-- NEW IDP UPLOAD XML FILE -->
+      <div>
+        <input
+          ng-if="idp.displayUploadInput(idp.selectedIdentityProvider)"
+          type="text"
+          ng-model="idp.selectedIdentityProvider.metadataFileName"
+          class="xml-file-name-input"
+          name="metadataFileName"
+          required
+          ng-disabled="!(manageIdentityProviders | hasPermission)" />
+        <input
+          ng-show="idp.displayUploadInput(idp.selectedIdentityProvider)"
+          type="file"
+          onchange="angular.element(this).scope().idp.getXmlFile()"
+          id="xml-file-input"
+          accept=".xml"
+          ng-disabled="!(manageIdentityProviders | hasPermission)" />
+        <!-- EXISTING IDP, DOWNLOAD XML FILE -->
+        <div ng-if="!idp.displayUploadInput(idp.selectedIdentityProvider)">
+          <span
+            ng-click="idp.downloadConfig(idp.selectedIdentityProvider.metadataFile, idp.selectedIdentityProvider.name)"
+            class="download-config-link">
+            {{'identityProviders.details.downloadConfig' | translate}}
+          </span>
+        </div>
+
+        <div
+          ng-if="(manageIdentityProviders | hasPermission)"
+          ng-click="idp.triggerUpload()"
+          class="btn"
+          type="button">
+          <i class="fa fa-upload" />
+        </div>
+      </div>
+    </div>
+
+    <!-- CASE 3: IDENTITY PROVIDER FIELD -->
+    <div
+      ng-switch-when="sharedIdentityProviderLinkId"
+      class="input-group">
+      <label ng-if="idp.selectedIdentityProvider.isNew() || idp.selectedIdentityProvider.inEditMode">{{'identityProviders.details.sharedAccessCode' | translate}} *</label>
+      <form-error field="forms.detailsForm.sharedIdentityProviderLinkId"
+        error-type-required="{{'identityProviders.details.sharedIdentityProviderLinkId.error' | translate}}">
+      </form-error>
+      <!-- IF IT'S A NEW IDP OR WE ARE RESETTING THE IDP -->
+      <div ng-if="idp.selectedIdentityProvider.isNew() || idp.selectedIdentityProvider.inEditMode">
+        <input
+          required
+          ng-model="idp.selectedIdentityProvider.identityProvider"
+          name="sharedIdentityProviderLinkId"
+          type="text">
+      </div>
+    </div>
+  </span>
+
+  <div
+    ng-if="!idp.selectedIdentityProvider.isNew() && idp.selectedIdentityProvider.identityProvider"
+    class="input-group shared-provider-id-bottom">
+      <label>{{'identityProviders.details.sharedIdentityProviderId' | translate}} *</label>
+      <div>{{idp.selectedIdentityProvider.identityProvider}}</div>
+  </div>
+
+</div>

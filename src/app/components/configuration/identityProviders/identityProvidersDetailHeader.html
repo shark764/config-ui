@@ -1,0 +1,45 @@
+<div ng-if="! idp.selectedIdentityProvider.isNew()">
+  <!-- TODO from spec (optional): Even better if we can say how many users on the tenant use that identity provider or only have this identity provider available. -->
+  <toggle class="status-toggle" ng-model="idp.selectedIdentityProvider.active"
+  confirm-disable-message="{{'identityProviders.details.disable.confirm' | translate}}"
+  confirm-enable-message="{{'identityProviders.details.enable.confirm' | translate}}"
+  ng-disabled="!(manageIdentityProviders | hasPermission)">
+  on-confirm="idp.updateActive()"></toggle>
+
+  <div class="info">
+    <h1 id="idp-details-type-header">
+      {{idp.selectedIdentityProvider.name}}
+    </h1>
+    <div class="details">
+      <div ng-if="manageIdentityProviders | hasPermission">
+        <b audit-text
+          translation="value.createdby.time"
+          user-id="idp.selectedIdentityProvider.$original.createdBy"
+          date="idp.selectedIdentityProvider.$original.created">
+        </b>
+        <br/>
+        <b audit-text ng-if="!!selectedIdentityProvider.$original.updatedBy"
+          translation="value.updatedby"
+          user-id="selectedIdentityProvider.$original.updatedBy"
+          date="selectedIdentityProvider.$original.updated">
+        </b>
+      </div>
+      <div ng-if="!(manageIdentityProviders | hasPermission)">
+        <b audit-text
+          translation="value.createdon.time"
+          user-id="idp.selectedIdentityProvider.createdBy"
+          date="idp.selectedIdentityProvider.$original.created">
+        </b>
+        <br/>
+        <b audit-text ng-if="!!idp.selectedIdentityProvider.$original.updated"
+          translation="value.updatedon"
+          date="idp.selectedIdentityProvider.$original.updated">
+        </b>
+      </div>
+    </div>
+  </div>
+</div>
+
+<h1 id="idp-lists-details-create-header" ng-if="idp.selectedIdentityProvider.isNew()">
+  {{'identityProviders.details.creating' | translate}}
+</h1>

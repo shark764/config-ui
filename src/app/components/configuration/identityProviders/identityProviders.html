@@ -1,0 +1,76 @@
+<div id="table-pane">
+  <table-controls
+    config="idp.tableConfig"
+    items="idp.identityProviders"
+    search-query="searchQuery">
+  </table-controls>
+
+  <lo-resource-table
+    config="idp.tableConfig"
+    items="idp.identityProviders"
+    selected="idp.selectedIdentityProvider"
+    search-query="searchQuery">
+
+    <span name="$original.active">
+      <span ng-if="item.$original.active">{{'identityProviders.table.active' | translate}}</span>
+      <span ng-if="!item.$original.active" class="disabled">{{'identityProviders.table.inactive' | translate}}</span>
+    </span>
+  </lo-resource-table>
+</div>
+
+<resize-handle
+  ng-show="idp.selectedIdentityProvider || showBulkActions"
+  id="resize-pane"
+  right-element-id="idp-details-panel"
+  left-element-id="table-pane"></resize-handle>
+
+<lo-details-panel id="idp-details-panel"
+  class="right-panel"
+  ng-show="idp.selectedIdentityProvider || showBulkActions"
+  ng-resource="idp.selectedIdentityProvider">
+
+  <ng-form unsaved-changes-warning
+  class="details-pane"
+  unsaved-changes-warning
+  name="forms.detailsForm"
+  ng-show="!showBulkActions"
+  ng-resource="idp.selectedIdentityProvider"
+  lo-form-submit lo-form-cancel lo-form-alert>
+
+    <ng-form name="forms.headerForm" separate-validation>
+      <div class="detail-header"
+        ng-include src="'app/components/configuration/identityProviders/identityProvidersDetailHeader.html'">
+      </div>
+    </ng-form>
+
+    <div class="detail-body"
+      ng-include src="'app/components/configuration/identityProviders/identityProvidersDetailBody.html'">
+    </div>
+
+    <div class="detail-controls">
+      <input
+        id="cancel-details-btn" class="btn" type="button"
+        ng-disabled="idp.selectedIdentityProvider.$busy"
+        value="{{'value.cancel' | translate}}"
+        lo-cancel />
+
+      <input
+        id="submit-details-btn"
+        lo-submit="idp.submit()"
+        lo-submit-spinner
+        lo-submit-spinner-status="idp.selectedIdentityProvider.$busy"
+        ng-disabled="forms.detailsForm.$pending || forms.detailsForm.$invalid || ! forms.detailsForm.$dirty"
+        class="btn btn-primary"
+        type="submit"
+        value="{{'value.submit' | translate}}" />
+    </div>
+  </ng-form>
+
+  <bulk-action-executor class="details-pane"
+    ng-show="showBulkActions"
+    items="idp.identityProviders"
+    show-bulk-actions="showBulkActions">
+
+    <ba-set-identity-providers-status></ba-set-identity-providers-status>
+  </bulk-action-executor>
+</lo-details-panel>
