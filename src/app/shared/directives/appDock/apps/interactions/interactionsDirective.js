@@ -69,7 +69,7 @@ angular.module('liveopsConfigPanel')
           // try to get message transcripts, which might result in a 404
           function messages() {
             var messaging = Messaging.cachedQuery({
-              tenantId: Session.tenant.tenantId,
+              tenantId: scope.config.tenantId,
               interactionId: scope.config.id
             }, 'Messaging' + scope.interactionId, true);
 
@@ -100,7 +100,7 @@ angular.module('liveopsConfigPanel')
           // try to get recordings, which also might result in a 404
           function recordings() {
             var recordings = Recording.cachedQuery({
-              tenantId: Session.tenant.tenantId,
+              tenantId: scope.config.tenantId,
               interactionId: scope.config.id
             }, 'Recording' + scope.interactionId, true);
 
