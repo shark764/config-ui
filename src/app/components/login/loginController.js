@@ -5,17 +5,36 @@ angular.module('liveopsConfigPanel')
     function($rootScope, $scope, $state, AuthService, $stateParams, $translate, Alert, TenantUser, $filter, Session, UserPermissions) {
       var self = this;
 
+      $scope.idpLoginPageLogin = AuthService.idpLogin;
+
       $scope.loginStatus = {
         $$state: {
           status: 1
         }
       };
 
+      $scope.toggleView = function () {
+        $scope.passwordView = !$scope.passwordView;
+        $scope.error = '';
+      };
+
+      function provideIdpErrorMessage (errorMessage) {
+        $scope.error = errorMessage;
+      }
+
+      AuthService.getErrorMessageFunction (provideIdpErrorMessage);
+
       $scope.login = function(alternateToken) {
+        // prevent the form from submitting if the user
+        // is on the password view and hits the enter key
+        if (!$scope.passwordView && !alternateToken) {
+          return;
+        }
+
         var alternateTokenVal = alternateToken || null;
         $scope.error = null;
 
-        $scope.loginStatus = AuthService.login($scope.username, $scope.password, alternateTokenVal)
+        $scope.loginStatus = AuthService.login($scope.username, $scope.password, alternateTokenVal, $scope)
           .then(function(response) {
             $scope.loggingIn = true;
             $rootScope.$broadcast('login:success');
