@@ -49,7 +49,8 @@ angular.module('liveopsConfigPanel', [
       $locationProvider.hashPrefix('');
     }
   ])
-  .run(['queryCache', '$rootScope', '$state', '$animate', 'Branding', '$location', function(queryCache, $rootScope, $state, $animate, Branding, $location) {
+  .run(['queryCache', '$rootScope', '$state', '$animate', 'Branding', 'AuthService', '$location', function(queryCache, $rootScope, $state, $animate, Branding, AuthService, $location) {
+
 
     // --- Mitel Temp Info ---
     // Needed to style the login and forgot password pages
@@ -77,6 +78,14 @@ angular.module('liveopsConfigPanel', [
           Branding.set(mockBrandingData);
         } else {
           Branding.set({});
+        }
+
+        // if it's an SSO login, look for specific keys in URL params
+        // and if those keys exist, immediately log in via IDP
+        if ($location.absUrl().indexOf('username') !== -1) {
+          AuthService.idpLogin('username');
+        } else if ($location.absUrl().indexOf('tenantId') !== -1) {
+          AuthService.idpLogin('tenantId');
         }
       }
     });
