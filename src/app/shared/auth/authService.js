@@ -83,10 +83,10 @@ angular.module('liveopsConfigPanel')
             break;
         }
 
-        // you can put a config object as the argument in
-        // CxEngageConfig.SdkSettings() to override the hardcoded values
-        CxEngage.initialize(CxEngageConfig.SdkSettings());
+        // First, initializing the SDK using a constant from env.js
+        CxEngage.initialize(CxEngageConfig);
 
+        // now polling for/subscribing to the auth Token
         CxEngage.authentication.getAuthInfo(
           authInfoParams,
           function () {
