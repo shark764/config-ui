@@ -11,10 +11,11 @@ angular.module('liveopsConfigPanel')
         }
       };
 
-      $scope.login = function() {
+      $scope.login = function(alternateToken) {
+        var alternateTokenVal = alternateToken || null;
         $scope.error = null;
 
-        $scope.loginStatus = AuthService.login($scope.username, $scope.password)
+        $scope.loginStatus = AuthService.login($scope.username, $scope.password, alternateTokenVal)
           .then(function(response) {
             $scope.loggingIn = true;
             $rootScope.$broadcast('login:success');
@@ -41,6 +42,10 @@ angular.module('liveopsConfigPanel')
             }
           });
       };
+
+      // providing this back to the auth service so that it can
+      // be used from within the SSO login method
+      AuthService.getLoginFunction($scope.login);
 
       this.inviteAcceptSuccess = function() {
         //Update user info in Session
