@@ -5,7 +5,6 @@ angular.module('liveopsConfigPanel', [
     'liveopsConfigPanel.shared',
     'liveopsConfigPanel.permissions',
     'liveopsConfigPanel.flags',
-    'liveOps.flowDesigner',
     'ui.router',
     'ngResource',
     'pascalprecht.translate',

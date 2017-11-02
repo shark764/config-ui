@@ -2,6 +2,7 @@
 angular.module('liveopsConfigPanel.config')
   // .constant('apiHostname', 'http://localhost:9080')
   .constant('apiHostname', 'https://dev-api.cxengagelabs.net')
+  .constant('designerHostname', 'https://dev-designer.cxengagelabs.net')
   .constant('s3BucketUrl', 'https://cxengagelabs-dev-configurator-images.s3.amazonaws.com')
   .constant('BIRST_URL', 'https://dev-birst.cxengagelabs.net')
   .constant('rtdRefreshRate', 30000)

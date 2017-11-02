@@ -427,64 +427,7 @@ angular.module('liveopsConfigPanel')
           templateUrl: 'app/components/flows/flowDesigner/flowDesignerPage.html',
           controller: 'DesignerPageController',
           reloadOnSearch: false,
-          onExit:['FlowLibrary', function(FlowLibrary){
-            FlowLibrary.clearData();
-          }],
-          resolve: {
-            flow: ['$stateParams', 'Session', 'Flow', '$q', function($stateParams, Session, Flow, $q) {
-              var deferred = $q.defer();
-              var flow;
-
-              Flow.get({
-                tenantId: Session.tenant.tenantId,
-                id: $stateParams.flowId
-              }, function(data) {
-                flow = data;
-                deferred.resolve(flow);
-              });
-
-              return deferred.promise;
-            }],
-            draft: ['$stateParams', 'FlowDraft', 'Session', '$q', function($stateParams, FlowDraft, Session, $q) {
-              var deferred = $q.defer();
-              var draft;
-
-              FlowDraft.get({
-                flowId: $stateParams.flowId,
-                id: $stateParams.draftId,
-                tenantId: Session.tenant.tenantId
-              }, function(data) {
-                draft = data;
-                deferred.resolve(draft);
-              });
-
-              return deferred.promise;
-            }],
-            notations: ['Notation', '$q', function(Notation, $q) {
-              var deferred = $q.defer();
-
-              Notation.query({}, function(results) {
-                deferred.resolve(results);
-              });
-
-              return deferred.promise;
-            }],
-            resources: ['FlowResource', '$q', function(FlowResource, $q) {
-              var deferred = $q.defer();
-
-              FlowResource.loadResources().then(function() {
-                deferred.resolve();
-              });
-
-              return deferred.promise;
-            }],
-            tenantSettings: ['Session','apiHostname', '$http', function(Session, apiHostname, $http){
-              return $http.get(apiHostname + '/v1/tenants/' + Session.tenant.tenantId + '/settings')
-                .then(function(data){
-                  return data.data.result;
-                });
-            }]
-          }
+          resolve: {}
         })
         .state('content.flows.view', {
           url: '/viewer/:flowId/:versionId',
@@ -492,86 +435,7 @@ angular.module('liveopsConfigPanel')
           templateUrl: 'app/components/flows/flowDesigner/flowViewerPage.html',
           controller: 'ViewerPageController',
           reloadOnSearch: false,
-          onExit:['FlowLibrary', function(FlowLibrary){
-            FlowLibrary.clearData();
-          }],
-          resolve: {
-            flow: ['$stateParams', 'Session', 'Flow', '$q', function($stateParams, Session, Flow, $q) {
-              var deferred = $q.defer();
-              var flow;
-
-              Flow.get({
-                tenantId: Session.tenant.tenantId,
-                id: $stateParams.flowId
-              }, function(data) {
-                flow = data;
-                deferred.resolve(flow);
-              });
-
-              return deferred.promise;
-            }],
-            data: ['$stateParams', 'FlowVersion', 'Session', '$q', function($stateParams, FlowVersion, Session, $q) {
-              var deferred = $q.defer();
-              var version;
-
-              FlowVersion.get({
-                flowId: $stateParams.flowId,
-                version: $stateParams.versionId,
-                tenantId: Session.tenant.tenantId
-              }, function(data) {
-                version = data;
-                deferred.resolve(version);
-              });
-
-              return deferred.promise;
-            }],
-            notations: ['Notation', '$q', function(Notation, $q) {
-              var deferred = $q.defer();
-
-              Notation.query({}, function(results) {
-                deferred.resolve(results);
-              });
-
-              return deferred.promise;
-            }],
-            resources: ['FlowResource', function(FlowResource) {
-              return FlowResource.loadResources();
-            }],
-            tenantSettings: ['Session','apiHostname', '$http', function(Session, apiHostname, $http){
-              return $http.get(apiHostname + '/v1/tenants/' + Session.tenant.tenantId + '/settings')
-                .then(function(data){
-                  return data.data.result;
-                });
-            }]
-          }
-        })
-        .state('content.flows.subflowEditor', {
-          url: '/subflow-editor/:subflowNotationId',
-          title:'Flows - Flow Designer',
-          templateUrl: 'app/components/flows/subflow/subflowDesignerPage.html',
-          controller: 'SubflowDesignerPageController',
-          reloadOnSearch: false,
-          resolve: {
-            subflow: ['$stateParams', '$state', '$timeout', 'SubflowCommunicationService', function($stateParams, $state, $timeout, SubflowCommunicationService) {
-              if (SubflowCommunicationService.currentFlowContext === '') {
-                $timeout(function() {
-                  $state.go('content.flows.flowManagement');
-                }, 5);
-              }
-              var subflow = SubflowCommunicationService.retrieve($stateParams.subflowNotationId);
-              if (_.isUndefined(subflow)) {
-                subflow = {
-                  id: $stateParams.subflowNotationId,
-                  graphJSON: '{"cells":[]}',
-                  parentName: SubflowCommunicationService.currentVersionContext.name,
-                  notationName: SubflowCommunicationService.currentFlowNotationName,
-                  parentVersionId: SubflowCommunicationService.currentVersionContext.version,
-                  parentFlowId: SubflowCommunicationService.currentVersionContext.flowId
-                };
-              }
-              return subflow;
-            }]
-          }
+          resolve: {}
         })
         .state('login', {
           url: '/login?messageKey&tenantId',
