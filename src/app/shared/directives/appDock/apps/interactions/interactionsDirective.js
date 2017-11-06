@@ -78,7 +78,7 @@ angular.module('liveopsConfigPanel')
                 _.map(response, function (val, key) {
                   if (val.payload.from !== 'CxEngage') {
                     var fromUser = MessagingFrom.cachedGet({
-                      tenantId: Session.tenant.tenantId,
+                      tenantId: scope.config.tenantId,
                       from: response[key].payload.from
                     });
 
