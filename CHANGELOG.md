@@ -3,10 +3,11 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
-* CXV1-10846 - Add support for Tenant specific deep linked login SSO redirect (for existing user invite and tenant re auth)
+* CXV1-10843 Modified login screen to support SSO login
 
 ## [4.26.3]
 * CXV1-11918 - Fixed issue with broken Messaging Transcripts and Audio Recordings spawned from links in Historical Reports
+* CXV1-10846 - Add support for Tenant specific deep linked login SSO redirect (for existing user invite and tenant re auth)
 
 ## [4.26.2]
 * Updated to Flow Designer 5.4.13

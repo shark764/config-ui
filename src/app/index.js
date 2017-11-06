@@ -83,9 +83,9 @@ angular.module('liveopsConfigPanel', [
         // if it's an SSO login, look for specific keys in URL params
         // and if those keys exist, immediately log in via IDP
         if ($location.absUrl().indexOf('username') !== -1) {
-          AuthService.idpLogin('username');
+          AuthService.idpLogin(AuthService.generateAuthParams('username'));
         } else if ($location.absUrl().indexOf('tenantId') !== -1) {
-          AuthService.idpLogin('tenantId');
+          AuthService.idpLogin(AuthService.generateAuthParams('tenantId'));
         }
       }
     });

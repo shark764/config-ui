@@ -66,14 +66,6 @@
             </div>
           </div>
 
-          <div class="input-group">
-            <label>{{'details.externalId' | translate}}</label>
-            <form-error field="detailsForm.externalId"></form-error>
-            <div>
-              <input ng-model="user.externalId" name="externalId" type="text"></input>
-            </div>
-          </div>
-
           <input id="submit-invite-accept" lo-submit-spinner lo-submit-spinner-status="loading"
             lo-submit="save()" ng-disabled="detailsForm.$invalid || ! detailsForm.$dirty"
             class="btn btn-primary pull-right" type="submit" value="{{'value.submit' | translate}}" />

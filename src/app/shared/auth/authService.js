@@ -1,16 +1,30 @@
 'use strict';
 angular.module('liveopsConfigPanel')
-  .service('AuthService', ['$http', '$q', 'Session', 'apiHostname', 'User', '$state', '$location', 'Token', 'CxEngageConfig',
-    function ($http, $q, Session, apiHostname, User, $state, $location, Token, CxEngageConfig) {
+  .service('AuthService', ['$http', '$q', '$translate', 'Session', 'apiHostname', 'User', '$state', '$location', 'Token', 'CxEngageConfig',
+    function ($http, $q, $translate, Session, apiHostname, User, $state, $location, Token, CxEngageConfig) {
       /*globals CxEngage */
       var self = this;
       var loginFunctionFromController;
+      var errorMessageFunctionFromController;
+      var subId;
+      var cxEngageEnabled = typeof CxEngage === 'object' &&
+      angular.isFunction(CxEngage.initialize);
+
+      // Initializing the SDK to allow for SSO
+      if (cxEngageEnabled) {
+        CxEngage.initialize(CxEngageConfig);
+      }
 
       // gets us the full functionality and dependencies
       // of the login controller, which we'll need when we're
       // triggering the entire login process w/out using the login UI
       this.getLoginFunction = function (loginFunction) {
         loginFunctionFromController = loginFunction;
+      };
+
+      // allows us to get an error message in any controller
+      this.getErrorMessageFunction = function (errorMsgFunction) {
+        errorMessageFunctionFromController = errorMsgFunction;
       };
 
       this.generateToken = function (username, password, TokenService, alternateToken) {
@@ -66,8 +80,7 @@ angular.module('liveopsConfigPanel')
         });
       };
 
-      // for SSO logins which depend on the CxEngage Javascript SDK
-      this.idpLogin = function (identifier) {
+      this.generateAuthParams = function (identifier) {
         var urlParams = $location.search();
         var authInfoParams = {};
         switch (identifier.toLowerCase()) {
@@ -83,39 +96,54 @@ angular.module('liveopsConfigPanel')
             break;
         }
 
-        // First, initializing the SDK using a constant from env.js
-        CxEngage.initialize(CxEngageConfig);
+        return authInfoParams;
+      };
+
+      // for SSO logins which depend on the CxEngage Javascript SDK
+      this.idpLogin = function (authInfoParams) {
+        if (!cxEngageEnabled) {
+          errorMessageFunctionFromController($translate.instant('login.unexpected.error'));
+          return;
+        }
 
         // now polling for/subscribing to the auth Token
         CxEngage.authentication.getAuthInfo(
           authInfoParams,
-          function () {
-            CxEngage.authentication.popIdentityPage();
-            if (CxEngage.subscribe) {
-              var subId = CxEngage.subscribe(
-                'cxengage/authentication',
-                function (authError, authTopic, authResponse) {
-                  if (authError) {
-                    // TODO: make something happen here
-                  } else {
-                    switch (authTopic) {
-                      case 'cxengage/authentication/cognito-auth-response': {
-                        if (authResponse) {
-                          CxEngage.unsubscribe(subId);
-                          loginFunctionFromController(authResponse);
-                        }
-                        break;
-                      }
-                      default: {
-                        // Do Nothing
-                        break;
-                      }
-                    }
-                  }
-                }
-              );
+          function (error) {
+            if (!error) {
+              CxEngage.authentication.popIdentityPage();
+            } else {
+              if (subId) {
+                CxEngage.unsubscribe(subId);
+              }
             }
         });
+
+        if (CxEngage.subscribe) {
+          subId = CxEngage.subscribe(
+            'cxengage/authentication',
+            function (authError, authTopic, authResponse) {
+              if (authError && errorMessageFunctionFromController) {
+                errorMessageFunctionFromController($translate.instant('login.ssoError'));
+              } else {
+                switch (authTopic) {
+                  case 'cxengage/authentication/cognito-auth-response': {
+                    if (authResponse) {
+                      CxEngage.unsubscribe(subId);
+                      loginFunctionFromController(authResponse);
+                    }
+                    break;
+                  }
+                  default: {
+                    // Do Nothing
+                    break;
+                  }
+                }
+              }
+            }
+          );
+        }
+
       };
 
       this.refreshTenants = function () {

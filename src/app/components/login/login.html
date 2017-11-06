@@ -6,30 +6,98 @@
 
     <form id="login-form" name="loginForm" ng-submit="login()" ng-show="loginStatus.$$state.status == 1 && !loggingIn">
       <img ng-src="{{$root.logo}}" height="23">
-      <div id="glass-wrapper">
+      <div
+        id="glass-wrapper"
+        ng-init="passwordView = false">
         <div class="blur-bg"></div>
-        <div class="blur-over">
+        <div
+          ng-class="{'password-field': passwordView}"
+          class="blur-over">
           <div class="lo-alert lo-error" ng-if="error">
             {{error}}
           </div>
-          <div class='input-group'>
-            <form-error field="loginForm.email"
-            error-type-required="{{'details.email.error' | translate}}"></form-error>
-            <input type="text" placeholder="{{'value.email' | translate}}" ng-model="username" ng-required="true" name="email" />
+
+          <!-- start first view (username field) -->
+          <div
+            ng-show="!passwordView"
+            class='input-group'>
+            <form-error
+              field="loginForm.username"
+              error-type-required="{{'login.username.error' | translate}}"></form-error>
+            <input
+              type="text"
+              placeholder="{{'value.username' | translate}}"
+              ng-model="username"
+              ng-required="true"
+              name="username" />
           </div>
-          <div class='input-group'>
+          <!-- end first view (username field) -->
+
+          <!-- start second view (password field) -->
+          <div
+            ng-show="passwordView"
+            class='input-group password'>
             <form-error field="loginForm.password"
             error-type-required="{{'details.password.error' | translate}}"></form-error>
-            <input type="password" placeholder="{{'value.password' | translate}}" ng-model="password" ng-required="true" name="password"/>
+            <input
+              type="password"
+              placeholder="{{'value.password' | translate}}"
+              ng-model="password"
+              ng-required="true"
+              name="password"/>
+
+              <a
+                href="#"
+                ng-click="toggleView()">
+                &laquo; {{'login.goBack' | translate}}
+              </a>
           </div>
+          <!-- start second view (password field) -->
         </div>
+        <button
+          type="button"
+          ng-show="!passwordView"
+          ng-click="toggleView()"
+          ng-disabled="!username"
+          class='btn btn-primary lo-accent-border lo-accent-bg'>
+          {{'login.next' | translate}}
+        </button>
+
+        <input
+          ng-show="passwordView === true"
+          class='btn btn-primary lo-accent-border lo-accent-bg'
+          type="submit"
+          value="{{'login.button' | translate}}"
+        />
       </div>
-
-      <input class='btn btn-primary lo-accent-border lo-accent-bg' type="submit" value="{{'login.button' | translate}}" />
-
     </form>
-    <p ng-show="loginStatus.$$state.status == 1 && !loggingIn" class="forgot-pass"><a ui-sref="forgot-password">{{'details.password.forgot' | translate}}</a></p>
-    <p ng-show="loginStatus.$$state.status == 1 && !loggingIn" class="copyright">{{'copyright' | translate}}</p>
-    <p ng-show="loginStatus.$$state.status == 1 && !loggingIn" class="copyright">{{'signup.legal' | translate}}</p>
+
+    <div
+      ng-show="passwordView === true && loginStatus.$$state.status == 1 && !loggingIn"
+      class="addl-login-options">
+      <span>
+        <p
+          class="forgot-pass">
+          <a ui-sref="forgot-password">
+            {{'details.password.forgot' | translate}}
+          </a>
+        </p>
+      </span>
+
+      <span>
+        <p>
+          <a
+            ng-click="idpLoginPageLogin({username})"
+            href="#">
+            {{'login.singleSignOn' | translate}}
+          </a>
+        </p>
+      </span>
+    </div>
+
+    <div class="legal">
+      <p ng-show="loginStatus.$$state.status == 1 && !loggingIn" class="copyright">{{'copyright' | translate}}</p>
+      <p ng-show="loginStatus.$$state.status == 1 && !loggingIn" class="copyright">{{'signup.legal' | translate}}</p>
+    </div>
   </div>
 </div>

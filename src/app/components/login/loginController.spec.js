@@ -32,6 +32,9 @@ describe('LoginController', function() {
         '$scope': $scope
       });
 
+      // prevent login before we password is entered
+      $scope.passwordView = true;
+
       $httpBackend.when('GET', apiHostname + '/v1/regions').respond({
         'result': [{
           'id': 'c98f5fc0-f91a-11e4-a64e-7f6e9992be1f',
