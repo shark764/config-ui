@@ -47,7 +47,7 @@
     </div>
 
     <div class="divider-header" ng-if="customTypesHideShowFields(selectedIntegration, 'salesforce') || customTypesHideShowFields(selectedIntegration, 'verint')">
-      <h4>{{'value.credentials' | translate}}</h4>
+      <h4>{{'integration.details.properties.sftpHeader' | translate}}</h4>
     </div>
   </div>
 
@@ -405,6 +405,10 @@
       </div>
     </div>
 
+    <div class="divider-header">
+      <h4>{{'integration.details.properties.userSyncHeader' | translate}}</h4>
+    </div>
+
     <div class="input-group">
       <label>{{'integration.details.properties.verintOrgName' | translate}} *</label>
       <form-error field="forms.detailsForm.verintOrgName" error-type-required="{{'integration.verintOrgName.error' | translate}}" ></form-error>
@@ -414,11 +418,63 @@
     </div>
 
     <div class="input-group">
-      <label>{{'integration.details.properties.multiTenantSync' | translate}}</label>
+      <label>{{'integration.details.properties.syncPlatformUserId' | translate}}</label>
       <div>
         <toggle ng-disabled="!('MANAGE_ALL_PROVIDERS' | hasPermission)"
             ng-model="selectedIntegration.properties.multipleTenants"
             name="multipleTenants"/>
+      </div>
+    </div>
+
+    <div class="divider-header">
+      <h4>{{'integration.details.properties.qmHeader' | translate}}</h4>
+    </div>
+
+    <div class="input-group">
+      <label>{{'integration.details.properties.enableCti' | translate}}</label>
+      <div>
+        <toggle
+          ng-disabled="!('MANAGE_ALL_PROVIDERS' | hasPermission)"
+          ng-model="selectedIntegration.properties.ctiEnabled"
+          name="ctiEnabled"/>
+      </div>
+    </div>
+
+    <div
+      ng-if="selectedIntegration.properties.ctiEnabled"
+      class="input-group">
+      <label>{{'integration.details.properties.ctiEndpoint' | translate}} *</label>
+      <form-error field="forms.detailsForm.ctiEndpoint" error-type-required="{{'integration.ctiEndpoint.error' | translate}}" ></form-error>
+      <div>
+        <input
+          ng-required="true"
+          type="text"
+          ng-model="selectedIntegration.properties.ctiEndpoint"
+          name="ctiEndpoint"/>
+      </div>
+    </div>
+
+    <div class="divider-header">
+      <h4>{{'integration.details.properties.wfmHeader' | translate}}</h4>
+    </div>
+
+    <div class="input-group">
+      <label>{{'integration.details.properties.enableScorecards' | translate}}</label>
+      <div>
+        <toggle
+          ng-disabled="!('MANAGE_ALL_PROVIDERS' | hasPermission)"
+          ng-model="selectedIntegration.properties.scorecardsEnabled"
+          name="scorecardsEnabled"/>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label>{{'integration.details.properties.enableHistoricalWfmData' | translate}}</label>
+      <div>
+        <toggle
+          ng-disabled="!('MANAGE_ALL_PROVIDERS' | hasPermission)"
+          ng-model="selectedIntegration.properties.historicalEnabled"
+          name="multipleTenants"/>
       </div>
     </div>
   </div>
