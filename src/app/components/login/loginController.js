@@ -1,9 +1,17 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('LoginController', ['$rootScope', '$scope', '$state', 'AuthService', '$stateParams', '$translate', 'Alert', 'TenantUser', '$filter', 'Session', 'UserPermissions',
-    function($rootScope, $scope, $state, AuthService, $stateParams, $translate, Alert, TenantUser, $filter, Session, UserPermissions) {
+  .controller('LoginController', ['$rootScope', '$scope', '$state', 'AuthService', '$stateParams', '$translate', 'Alert', 'TenantUser', '$filter', 'Session', 'UserPermissions', 'User',
+    function($rootScope, $scope, $state, AuthService, $stateParams, $translate, Alert, TenantUser, $filter, Session, UserPermissions, User) {
       var self = this;
+
+      function redirectUponLogin () {
+        if (UserPermissions.hasPermissionInList(['MANAGE_ALL_SKILLS', 'MANAGE_ALL_GROUPS'])) {
+          $state.go('content.management.users');
+        } else {
+          $state.go('content.userprofile');
+        }
+      }
 
       $scope.innerScope = {};
       $scope.isSso = Session.isSso;
@@ -44,6 +52,7 @@ angular.module('liveopsConfigPanel')
           .then(function(response) {
             $scope.innerScope.loggingIn = true;
             $rootScope.$broadcast('login:success');
+            // if a specific tenantId is being targeted in the state or url
             if ($stateParams.tenantId) {
               TenantUser.update({
                 tenantId: $stateParams.tenantId,
@@ -51,6 +60,9 @@ angular.module('liveopsConfigPanel')
                 status: 'accepted'
               }, self.inviteAcceptSuccess, self.inviteAcceptFail);
             } else if (
+              // if the user has been set to return to the last page visited
+              // upon login, for example, when the user is kicked out
+              // after a token expires
               AuthService.getResumeSession() &&
               _.has(Session, 'lastPageVisited.stateName') &&
               Session.lastPageVisited.stateName !== '' &&
@@ -58,11 +70,34 @@ angular.module('liveopsConfigPanel')
             ) {
               $state.go(Session.lastPageVisited.stateName, Session.lastPageVisited.paramsObj);
             } else {
-              if (UserPermissions.hasPermissionInList(['MANAGE_ALL_SKILLS', 'MANAGE_ALL_GROUPS'])) {
-                $state.go('content.management.users');
-              } else {
-                $state.go('content.userprofile');
-              }
+              // ...otherwise, let's just check to see if the user has
+              // set a default tenant, and if so, try to set config-ui
+              // to that tenant
+              var userData = User.cachedGet({
+                id: response.data.result.userId
+              });
+
+              userData.$promise.then(function (indivUserDataResponse) {
+                if (indivUserDataResponse.defaultTenant) {
+                  // get index of tenant with this id for the defaultTenant
+                  var defaultTenantIndex = _.findIndex(Session.tenants, function (sessionTenant) {
+                    return sessionTenant.tenantId === indivUserDataResponse.defaultTenant;
+                  });
+
+                  // if it exists for this user, set the defaultTenant to
+                  // be the defaultTenant
+                  if (defaultTenantIndex !== -1) {
+                    Session.setTenant(Session.tenants[defaultTenantIndex]);
+                  }
+                }
+
+                redirectUponLogin();
+              }, function (err) {
+                // if the call to get defaultTenant from the User fails,
+                // at least keep the login going with a redirect into config-ui
+                console.error(err);
+                redirectUponLogin();
+              });
             }
           }, function(response) {
             switch (response.status) {

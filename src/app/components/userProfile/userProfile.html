@@ -72,6 +72,23 @@
         </div>
       </div>
 
+      <div id="default-tenant">
+        <label>{{'details.defaultTenant' | translate}}</label>
+        <div>
+          <select
+            name="defaultTenant"
+            ng-model="tenantUser.$user.defaultTenant"
+            ng-options="tenant.tenantId as tenant.name for tenant in userTenantList">
+            <option
+              ng-disabled="true"
+              value=""
+              ng-selected="!tenantUser.$user.defaultTenant">
+                {{'details.noDefaultTenant' | translate}}
+            </option>
+          </select>
+        </div>
+      </div>
+
       <div class="submit-wrapper">
         <input type="submit" lo-submit="submit()" id="save-user-details-btn" class="btn btn-primary"
         ng-disabled="userForm.$invalid || ! userForm.$dirty" value="{{'value.update' | translate}}"/>

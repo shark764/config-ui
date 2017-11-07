@@ -84,7 +84,8 @@ angular.module('liveopsConfigPanel')
       this.setUser = function(user) {
         this.user = {
           id: user.id,
-          displayName: user.getDisplay()
+          displayName: user.getDisplay(),
+          defaultTenant: user.defaultTenant
         };
         this.flush();
       };

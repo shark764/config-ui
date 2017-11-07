@@ -8,7 +8,7 @@ angular.module('liveopsConfigPanel')
       var loginFunctionFromController;
       var errorMessageFunctionFromController;
       var subId;
-      var resuming = true;
+      var resuming = false;
       var cxEngageEnabled = typeof CxEngage === 'object' &&
       angular.isFunction(CxEngage.initialize);
 
@@ -160,6 +160,7 @@ angular.module('liveopsConfigPanel')
         resuming = false;
         Session.destroy();
         Session.setIsSso(savedSsoMode);
+        self.setResumeSession(false);
         localStorage.setItem('IS_SSO_OVERRIDE', Session.isSso);
         $state.go('login', {
           sso: savedSsoMode ? 'isSso' : null

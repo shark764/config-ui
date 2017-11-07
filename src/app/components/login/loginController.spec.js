@@ -50,26 +50,29 @@ describe('LoginController', function() {
       spyOn(UserPermissions, 'hasPermission').and.returnValue(true);
       var deferred = $q.defer();
       deferred.resolve();
-      spyOn(AuthService, 'login').and.returnValue(deferred.promise);
-      spyOn($state, 'go');
-
-      $scope.innerScope.login();
-      $scope.$digest();
-
-      expect($state.go).toHaveBeenCalledWith('content.management.users');
+      spyOn(AuthService, 'login')
+      .and.returnValue(deferred.promise)
+      .and.callFake(function() {
+        $httpBackend.when('GET', apiHostname + '/v1/users/userId1').respond(200);
+        spyOn($state, 'go');
+        $scope.innerScope.login();
+        $scope.$digest();
+        expect($state.go).toHaveBeenCalledWith('content.management.users');
+      });
     }));
 
     it('should redirect to user profile page on success if user doesn\'t have permissions', inject(function(UserPermissions) {
       spyOn(UserPermissions, 'hasPermission').and.returnValue(false);
       var deferred = $q.defer();
       deferred.resolve();
-      spyOn(AuthService, 'login').and.returnValue(deferred.promise);
-      spyOn($state, 'go');
-
-      $scope.innerScope.login();
-      $scope.$digest();
-
-      expect($state.go).toHaveBeenCalledWith('content.userprofile');
+      spyOn(AuthService, 'login').and.returnValue(deferred.promise)
+      .and.callFake(function() {
+        $httpBackend.when('GET', apiHostname + '/v1/users/userId1').respond(200);
+        spyOn($state, 'go');
+        $scope.innerScope.login();
+        $scope.$digest();
+        expect($state.go).toHaveBeenCalledWith('content.userprofile');
+      });
     }));
 
     it('should accept the invite if tenantid is specified in url',

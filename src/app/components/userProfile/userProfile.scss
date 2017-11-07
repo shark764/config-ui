@@ -4,6 +4,10 @@
   overflow-y: auto;
   height: 100%;
 
+  #default-tenant {
+    padding-top: 30px
+  }
+
   .mystery-man {
     color: #fff;
     background-color: #eee;
@@ -19,7 +23,7 @@
    width: 100%;
    padding-left: 200px;
   }
-  
+
   .null {
     max-width: $details-table-width;
   }
