@@ -5,6 +5,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 * CXV1-10843 Modified login screen to support SSO login
 * CXV1-11275, CXV1-11276, CXV1-11605 - Updated Verint side panel on Integrations page with new fields for (S)FTP, User Sync, QM, and WFM sections (Verint is feature-flagged out at this time)
+* Bumping Flow Designer to 5.5.0
 
 ## [4.26.3]
 * CXV1-11918 - Fixed issue with broken Messaging Transcripts and Audio Recordings spawned from links in Historical Reports
