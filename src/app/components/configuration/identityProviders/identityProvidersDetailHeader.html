@@ -3,7 +3,7 @@
   <toggle class="status-toggle" ng-model="idp.selectedIdentityProvider.active"
   confirm-disable-message="{{'identityProviders.details.disable.confirm' | translate}}"
   confirm-enable-message="{{'identityProviders.details.enable.confirm' | translate}}"
-  ng-disabled="!(manageIdentityProviders | hasPermission)">
+  ng-disabled="!(manageIdentityProviders | hasPermission)"
   on-confirm="idp.updateActive()"></toggle>
 
   <div class="info">
