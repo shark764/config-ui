@@ -7,6 +7,7 @@ angular.module('liveopsConfigPanel')
       var loginFunctionFromController;
       var errorMessageFunctionFromController;
       var subId;
+      var isSso = false;
       var cxEngageEnabled = typeof CxEngage === 'object' &&
       angular.isFunction(CxEngage.initialize);
 
@@ -14,6 +15,16 @@ angular.module('liveopsConfigPanel')
       if (cxEngageEnabled) {
         CxEngage.initialize(CxEngageConfig);
       }
+
+      this.setSso = function (isSsoBool) {
+        isSso = isSsoBool;
+      };
+
+      this.getSso = function () {
+        return isSso;
+      };
+
+
 
       // gets us the full functionality and dependencies
       // of the login controller, which we'll need when we're
@@ -105,6 +116,8 @@ angular.module('liveopsConfigPanel')
           errorMessageFunctionFromController($translate.instant('login.unexpected.error'));
           return;
         }
+
+
 
         // now polling for/subscribing to the auth Token
         CxEngage.authentication.getAuthInfo(

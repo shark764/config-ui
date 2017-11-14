@@ -1,0 +1,33 @@
+  <div id="login-wrapper" class="login-default">
+    <div ng-show="innerScope.loginStatus.$$state.status == 0 || loggingIn" >
+      <loading></loading>
+    </div>
+
+    <form id="login-form" name="loginForm" ng-submit="innerScope.login()" ng-show="innerScope.loginStatus.$$state.status == 1 && !loggingIn">
+      <img ng-src="{{$root.logo}}" height="23">
+      <div id="glass-wrapper">
+        <div class="blur-bg"></div>
+        <div class="blur-over">
+          <div class="lo-alert lo-error" ng-if="innerScope.error">
+            {{innerScope.error}}
+          </div>
+          <div class='input-group'>
+            <form-error field="loginForm.email"
+            error-type-required="{{'details.email.error' | translate}}"></form-error>
+            <input type="text" placeholder="{{'value.email' | translate}}" ng-model="innerScope.username" ng-required="true" name="email" />
+          </div>
+          <div class='input-group'>
+            <form-error field="loginForm.password"
+            error-type-required="{{'details.password.error' | translate}}"></form-error>
+            <input type="password" placeholder="{{'value.password' | translate}}" ng-model="innerScope.password" ng-required="true" name="password"/>
+          </div>
+        </div>
+      </div>
+
+      <input class='btn btn-primary lo-accent-border lo-accent-bg' type="submit" value="{{'login.button' | translate}}" />
+
+    </form>
+    <p ng-show="innerScope.loginStatus.$$state.status == 1 && !loggingIn" class="forgot-pass"><a ui-sref="forgot-password">{{'details.password.forgot' | translate}}</a></p>
+    <p ng-show="innerScope.loginStatus.$$state.status == 1 && !loggingIn" class="copyright">{{'copyright' | translate}}</p>
+    <p ng-show="innerScope.loginStatus.$$state.status == 1 && !loggingIn" class="copyright">{{'signup.legal' | translate}}</p>
+  </div>

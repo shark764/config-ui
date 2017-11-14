@@ -16,6 +16,12 @@ $form-height: 300px;
   margin-left: auto;
   margin-right: auto;
 
+  form-error {
+    & > div {
+      margin-bottom: 10px;
+    }
+  }
+
   .loading {
     color: #fff;
     opacity: 0.87;
@@ -25,18 +31,6 @@ $form-height: 300px;
     position: relative;
     width: 100%;
     height: 100%;
-  }
-
-  .password {
-    position: relative;
-    padding: 10px 0 8px;
-
-    a {
-      display: block;
-      padding-top: 5px;
-      font-size: 12px;
-      color: #fff;
-    }
   }
 
   button {
@@ -85,6 +79,58 @@ $form-height: 300px;
   .blur-over {
     padding: 20px 40px;
 
+    & > .lo-error {
+      margin-bottom: 20px;
+    }
+
+    .input-group + .input-group {
+      margin-top: 20px;
+    }
+
+    .input-group .lo-error {
+      @extend .lo-alert
+    }
+  }
+
+  .btn {
+    height: 40px;
+    width: 100%;
+  }
+
+  .btn-primary {
+    @include border-radius-complex(0, 3px, 3px, 0);
+  }
+
+  .legal {
+    padding-top: 60px;
+  }
+}
+
+#login-wrapper.login-default,
+#reset-password-page {
+  .forgot-pass {
+    margin-top: 20px;
+    text-align: center;
+
+    a {
+      color: #fff;
+      text-decoration: underline;
+    }
+  }
+}
+
+#login-wrapper.login-default {
+  .password {
+    span {
+      color: #ff0000;
+    }
+  }
+}
+
+#login-wrapper.login-sso {
+  .blur-over {
+    padding: 20px 20px;
+
     &.password-field {
       padding-bottom: 0;
     }
@@ -106,16 +152,50 @@ $form-height: 300px;
     }
   }
 
-  .btn {
-    height: 40px;
-    width: 100%;
+  .input-group {
+    padding: 0;
+    margin: 0 10px;
+
+    input {
+      margin: 0;
+    }
+
+    .lo-error {
+      margin-top: 0;
+    }
   }
 
-  .btn-primary {
-    @include border-radius-complex(0, 3px, 3px, 0);
+  .password {
+    position: relative;
+    padding: 0 0 8px;
+
+    span.back-link {
+      display: block;
+      padding-top: 5px;
+      font-size: 12px;
+      color: #fff;
+    }
   }
 
-  .legal {
-    padding-top: 60px;
+  .addl-login-options {
+    background-color: transparent;
+    background-image: none;
+    overflow: hidden;
+
+    span {
+      float:left;
+      text-align: center;
+      width: 50%;
+
+      p {
+        margin-top: 20px;
+        text-align: center;
+
+        a {
+          color: #fff;
+          text-decoration: underline;
+        }
+      }
+    }
   }
 }

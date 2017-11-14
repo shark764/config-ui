@@ -79,6 +79,11 @@ angular.module('liveopsConfigPanel', [
           Branding.set({});
         }
 
+        // determines which version of the login page to display
+        // TODO: move this to the Login service, will require
+        // more extensive QE
+        AuthService.setSso($location.absUrl().indexOf('sso') !== -1);
+
         // if it's an SSO login, look for specific keys in URL params
         // and if those keys exist, immediately log in via IDP
         if ($location.absUrl().indexOf('username') !== -1) {
