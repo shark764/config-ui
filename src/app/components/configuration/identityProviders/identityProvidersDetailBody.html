@@ -89,11 +89,14 @@
             </span>
           </div>
 
-          <div
-            ng-if="(manageIdentityProviders | hasPermission)">
-            <a
-              ng-click="idp.selectedIdentityProvider.inEditMode = true">
+          <div ng-if="(manageIdentityProviders | hasPermission)">
+            <a ng-click="idp.selectedIdentityProvider.inEditMode = true">
+              <span ng-if="!idp.selectedIdentityProvider.metadataUrl">
+                {{'identityProviders.details.addXmlUrl' | translate}}
+              </span>
+              <span ng-if="idp.selectedIdentityProvider.metadataUrl">
                 {{'identityProviders.details.editXmlUrl' | translate}}
+              </span>
             </a>
           </div>
         </div>
@@ -127,6 +130,7 @@
           id="xml-file-input"
           accept=".xml"
           ng-disabled="!(manageIdentityProviders | hasPermission)" />
+
         <!-- EXISTING IDP, DOWNLOAD XML FILE -->
         <div ng-if="!idp.displayUploadInput(idp.selectedIdentityProvider)">
           <span
@@ -144,7 +148,18 @@
           <i class="fa fa-upload" />
         </div>
       </div>
+
     </div>
+
+    <div
+      ng-switch-when="xml"
+      class="input-group"
+      ng-show="idp.displayUploadInput(idp.selectedIdentityProvider) && idp.selectedIdentityProvider.metadataFileName.length">
+    <label>&nbsp;</label>
+    <div class="clear-xml-upload-field">
+      <a ng-click="idp.clearUploadField()">{{'identityProviders.details.clearUploadField' | translate}}</a>
+    </div>
+  </div>
 
     <!-- CASE 3: IDENTITY PROVIDER FIELD -->
     <div

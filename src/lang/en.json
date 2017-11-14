@@ -716,6 +716,8 @@
   "identityProviders.details.noSharedAccessCode": "No Shared Access Code Set",
   "identityProviders.details.sharedIdentityProviderId": "Shared Identity Provider ID",
   "identityProviders.details.editXmlUrl": "edit",
+  "identityProviders.details.addXmlUrl": "add url",
+  "identityProviders.details.clearUploadField": "clear field",
   "identityProviders.bulkActions.enable.idp": "Enable/Disable Identity Providers",
   "dispatchMappings.details.interactionType": "Interaction Type",
   "dispatchMappings.details.interactionType.select": "Select Interaction Type...",

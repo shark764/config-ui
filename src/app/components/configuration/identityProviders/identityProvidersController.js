@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('identityProvidersController', ['$scope', '$rootScope', '$q', '$translate', 'Session', 'Alert', 'loEvents', 'IdentityProviders', 'identityProvidersTableConfig', 'PermissionGroups',
-    function ($scope, $rootScope, $q, $translate, Session, Alert, loEvents, IdentityProviders, identityProvidersTableConfig, PermissionGroups) {
+  .controller('identityProvidersController', ['$scope', '$rootScope', '$q', '$translate', '$timeout', 'Session', 'Alert', 'loEvents', 'IdentityProviders', 'identityProvidersTableConfig', 'PermissionGroups',
+    function ($scope, $rootScope, $q, $translate, $timeout, Session, Alert, loEvents, IdentityProviders, identityProvidersTableConfig, PermissionGroups) {
       var vm = this;
       var bypassDropdownReset = false;
       var identityProvidersSvc = new IdentityProviders();
@@ -34,6 +34,17 @@ angular.module('liveopsConfigPanel')
       };
 
       vm.handleConfigSelectChange = function () {
+        // prevent submit button from activating when "Type" dropdown
+        // selection is changed with no file or url set
+        $timeout(function () {
+          if (
+            !vm.selectedIdentityProvider.metadataUrl &&
+            (!vm.selectedIdentityProvider.metadataFile || !vm.selectedIdentityProvider.metadataFileName)
+          ) {
+            $scope.forms.detailsForm.$invalid = true;
+          }
+        });
+
         if (
           vm.selectedIdentityProvider.selectedIdpConfigInfoType === 'xml' &&
           vm.newFileUploaded === true
@@ -71,6 +82,11 @@ angular.module('liveopsConfigPanel')
           return true;
         };
       };
+
+      vm.clearUploadField = function () {
+        vm.selectedIdentityProvider.metadataFile = null;
+        vm.selectedIdentityProvider.metadataFileName = null;
+      }
 
       vm.updateActive = function () {
         var dataToCopy = {
