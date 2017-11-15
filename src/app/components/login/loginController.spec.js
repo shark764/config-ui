@@ -33,7 +33,7 @@ describe('LoginController', function() {
       });
 
       // prevent login before we password is entered
-      $scope.passwordView = true;
+      $scope.innerScope.passwordView = true;
 
       $httpBackend.when('GET', apiHostname + '/v1/regions').respond({
         'result': [{
@@ -53,7 +53,7 @@ describe('LoginController', function() {
       spyOn(AuthService, 'login').and.returnValue(deferred.promise);
       spyOn($state, 'go');
 
-      $scope.login();
+      $scope.innerScope.login();
       $scope.$digest();
 
       expect($state.go).toHaveBeenCalledWith('content.management.users');
@@ -66,7 +66,7 @@ describe('LoginController', function() {
       spyOn(AuthService, 'login').and.returnValue(deferred.promise);
       spyOn($state, 'go');
 
-      $scope.login();
+      $scope.innerScope.login();
       $scope.$digest();
 
       expect($state.go).toHaveBeenCalledWith('content.userprofile');
@@ -89,7 +89,7 @@ describe('LoginController', function() {
         spyOn(controller, 'inviteAcceptSuccess');
 
         $httpBackend.expectPUT(apiHostname + '/v1/tenants/tenant-id/users/userId1').respond(200, mockTenantUsers[0]);
-        $scope.login();
+        $scope.innerScope.login();
         $scope.$digest();
         $httpBackend.flush();
       }
@@ -105,10 +105,10 @@ describe('LoginController', function() {
         error: 'Invalid username and password.'
       });
 
-      $scope.username = 'username';
-      $scope.password = 'password';
+      $scope.innerScope.username = 'username';
+      $scope.innerScope.password = 'password';
 
-      $scope.login();
+      $scope.innerScope.login();
       $httpBackend.flush();
       expect($state.current.name).toBe('login');
     });
@@ -119,10 +119,10 @@ describe('LoginController', function() {
 
       $httpBackend.expect('POST', apiHostname + '/v1/login').respond(500);
 
-      $scope.username = 'username';
-      $scope.password = 'password';
+      $scope.innerScope.username = 'username';
+      $scope.innerScope.password = 'password';
 
-      $scope.login();
+      $scope.innerScope.login();
       $httpBackend.flush();
 
       expect($state.current.name).toBe('login');
@@ -145,7 +145,7 @@ describe('LoginController', function() {
       spyOn(controller, 'inviteAcceptSuccess');
 
       $httpBackend.expectPUT(apiHostname + '/v1/tenants/tenant-id/users/userId1').respond(200, mockTenantUsers[0]);
-      $scope.login();
+      $scope.innerScope.login();
       $scope.$digest();
       $httpBackend.flush();
 

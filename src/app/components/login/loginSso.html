@@ -1,0 +1,98 @@
+  <div id="login-wrapper" class="login-sso">
+    <div ng-show="innerScope.loginStatus.$$state.status == 0 || loggingIn" >
+      <loading></loading>
+    </div>
+    <form id="login-form" name="loginForm" ng-submit="innerScope.login()" ng-show="innerScope.loginStatus.$$state.status == 1 && !loggingIn">
+      <img ng-src="{{$root.logo}}" height="23">
+      <div
+        id="glass-wrapper"
+        ng-init="innerScope.passwordView = false">
+        <div class="blur-bg"></div>
+        <div
+          ng-class="{'password-field': innerScope.passwordView}"
+          class="blur-over">
+          <div class="lo-alert lo-error" ng-if="innerScope.error">
+            {{innerScope.error}}
+          </div>
+
+          <!-- start first view (username field) -->
+          <div
+            ng-show="!innerScope.passwordView"
+            class='input-group'>
+            <form-error
+              field="loginForm.username"
+              error-type-required="{{'login.username.error' | translate}}"></form-error>
+            <input
+              type="text"
+              placeholder="{{'value.username' | translate}}"
+              ng-model="innerScope.username"
+              ng-required="true"
+              name="username" />
+          </div>
+          <!-- end first view (username field) -->
+
+          <!-- start second view (password field) -->
+          <div
+            ng-show="innerScope.passwordView"
+            class='input-group password'>
+            <form-error field="loginForm.password"
+            error-type-required="{{'details.password.error' | translate}}"></form-error>
+            <input
+              type="password"
+              placeholder="{{'value.password' | translate}}"
+              ng-model="innerScope.password"
+              ng-required="true"
+              name="password"/>
+
+              <span
+                ng-click="innerScope.toggleView()"
+                class="back-link">
+                &laquo; {{'login.goBack' | translate}}
+              </span>
+          </div>
+          <!-- start second view (password field) -->
+        </div>
+        <button
+          type="button"
+          ng-show="!innerScope.passwordView"
+          ng-click="innerScope.toggleView()"
+          ng-disabled="!innerScope.username"
+          class='btn btn-primary lo-accent-border lo-accent-bg'>
+          {{'login.next' | translate}}
+        </button>
+
+        <input
+          ng-show="innerScope.passwordView === true"
+          class='btn btn-primary lo-accent-border lo-accent-bg'
+          type="submit"
+          value="{{'login.button' | translate}}"
+        />
+      </div>
+    </form>
+
+    <div
+      ng-show="innerScope.passwordView === true && innerScope.loginStatus.$$state.status == 1 && !loggingIn"
+      class="addl-login-options">
+      <span>
+        <p
+          class="forgot-pass">
+          <a ui-sref="forgot-password">
+            {{'details.password.forgot' | translate}}
+          </a>
+        </p>
+      </span>
+
+      <span>
+        <p>
+          <a ng-click="innerScope.idpLoginPageLogin({username: innerScope.username})">
+            {{'login.singleSignOn' | translate}}
+          </a>
+        </p>
+      </span>
+    </div>
+
+    <div class="legal">
+      <p ng-show="innerScope.loginStatus.$$state.status == 1 && !loggingIn" class="copyright">{{'copyright' | translate}}</p>
+      <p ng-show="innerScope.loginStatus.$$state.status == 1 && !loggingIn" class="copyright">{{'signup.legal' | translate}}</p>
+    </div>
+  </div>

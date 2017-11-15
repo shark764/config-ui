@@ -5,38 +5,44 @@ angular.module('liveopsConfigPanel')
     function($rootScope, $scope, $state, AuthService, $stateParams, $translate, Alert, TenantUser, $filter, Session, UserPermissions) {
       var self = this;
 
-      $scope.idpLoginPageLogin = AuthService.idpLogin;
+      $scope.innerScope = {};
+      $scope.isSso = AuthService.getSso();
+      $scope.innerScope.idpLoginPageLogin = AuthService.idpLogin;
 
-      $scope.loginStatus = {
+      $scope.innerScope.loginStatus = {
         $$state: {
           status: 1
         }
       };
 
-      $scope.toggleView = function () {
-        $scope.passwordView = !$scope.passwordView;
-        $scope.error = '';
+      $scope.innerScope.toggleView = function () {
+        $scope.innerScope.passwordView = !$scope.innerScope.passwordView;
+        $scope.innerScope.error = '';
       };
 
       function provideIdpErrorMessage (errorMessage) {
-        $scope.error = errorMessage;
+        $scope.innerScope.error = errorMessage;
       }
 
-      AuthService.getErrorMessageFunction (provideIdpErrorMessage);
+      AuthService.getErrorMessageFunction(provideIdpErrorMessage);
 
-      $scope.login = function(alternateToken) {
+      $scope.innerScope.login = function(alternateToken) {
         // prevent the form from submitting if the user
         // is on the password view and hits the enter key
-        if (!$scope.passwordView && !alternateToken) {
+        if (
+          $scope.isSso &&
+          !$scope.innerScope.passwordView &&
+          !alternateToken
+        ) {
           return;
         }
 
         var alternateTokenVal = alternateToken || null;
-        $scope.error = null;
+        $scope.innerScope.error = null;
 
-        $scope.loginStatus = AuthService.login($scope.username, $scope.password, alternateTokenVal, $scope)
+        $scope.innerScope.loginStatus = AuthService.login($scope.innerScope.username, $scope.innerScope.password, alternateTokenVal, $scope)
           .then(function(response) {
-            $scope.loggingIn = true;
+            $scope.innerScope.loggingIn = true;
             $rootScope.$broadcast('login:success');
             if ($stateParams.tenantId) {
               TenantUser.update({
@@ -54,17 +60,17 @@ angular.module('liveopsConfigPanel')
           }, function(response) {
             switch (response.status) {
               case 401:
-                $scope.error = $translate.instant('login.error');
+                $scope.innerScope.error = $translate.instant('login.error');
                 break;
               default:
-                $scope.error = $translate.instant('login.unexpected.error');
+                $scope.innerScope.error = $translate.instant('login.unexpected.error');
             }
           });
       };
 
       // providing this back to the auth service so that it can
       // be used from within the SSO login method
-      AuthService.getLoginFunction($scope.login);
+      AuthService.getLoginFunction($scope.innerScope.login);
 
       this.inviteAcceptSuccess = function() {
         //Update user info in Session
