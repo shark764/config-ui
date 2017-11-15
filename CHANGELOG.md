@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## [4.27.0]
 * CXV1-10843 Modified login screen to support SSO login
 * CXV1-11275, CXV1-11276, CXV1-11605 - Updated Verint side panel on Integrations page with new fields for (S)FTP, User Sync, QM, and WFM sections (Verint is feature-flagged out at this time)
 * Updated to support standalone flow designer
