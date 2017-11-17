@@ -50,7 +50,6 @@ angular.module('liveopsConfigPanel', [
   ])
   .run(['queryCache', '$rootScope', '$state', '$animate', 'Branding', 'AuthService', '$location', function(queryCache, $rootScope, $state, $animate, Branding, AuthService, $location) {
 
-
     // --- Mitel Temp Info ---
     // Needed to style the login and forgot password pages
     // We do not have access to the branding data until logged in
@@ -71,18 +70,17 @@ angular.module('liveopsConfigPanel', [
       }
     };
 
-    $rootScope.$on('$stateChangeStart', function(e, toState) {
+    $rootScope.$on('$stateChangeStart', function(e, toState, toParams) {
       if (toState.name === 'login' || toState.name === 'forgot-password' || toState.name === 'invite-accept') {
+
         if ($location.absUrl().indexOf(mitelUrl) !== -1) {
           Branding.set(mockBrandingData);
         } else {
           Branding.set({});
         }
 
-        // determines which version of the login page to display
-        // TODO: move this to the Login service, will require
-        // more extensive QE
-        AuthService.setSso($location.absUrl().indexOf('sso') !== -1);
+        // determine which login screen to show and to return to upon logout
+        AuthService.setSsoMode(toState.name, toParams.sso, $state, $location);
 
         // if it's an SSO login, look for specific keys in URL params
         // and if those keys exist, immediately log in via IDP
@@ -93,9 +91,12 @@ angular.module('liveopsConfigPanel', [
         }
       }
     });
-    $rootScope.$on('$stateChangeSuccess', function() {
+    $rootScope.$on('$stateChangeSuccess', function(ev, toState, toParams, from, fromParams) {
       queryCache.removeAll();
       $rootScope.title = $state.current.title + ' | ' + $rootScope.productName;
+      $state.params.sso = fromParams.sso;
+
+      AuthService.setSsoMode(toState.name, toParams.sso, $state, $location);
     });
     $rootScope.$on('$stateChangeError', function() {
       console.error('State change error!');
