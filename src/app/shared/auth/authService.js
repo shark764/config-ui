@@ -59,8 +59,10 @@ angular.module('liveopsConfigPanel')
 
         if (alternateToken) {
           newToken = alternateToken;
+          $state.params.sso = true;
         } else {
           newToken = self.generateToken(username, password, Token, alternateToken);
+          $state.params.sso = false;
         }
 
         return $q.when(newToken).then(function(tokenVal) {
@@ -156,7 +158,6 @@ angular.module('liveopsConfigPanel')
             }
           );
         }
-
       };
 
       this.refreshTenants = function () {
@@ -167,7 +168,9 @@ angular.module('liveopsConfigPanel')
 
       this.logout = function () {
         Session.destroy();
-        $state.transitionTo('login');
+        $state.transitionTo('login', {
+          sso: $state.params.sso
+        });
       };
 
       this.fetchUserInfo = function (token) {
@@ -178,6 +181,21 @@ angular.module('liveopsConfigPanel')
             Authorization: 'Token ' + token
           }
         });
+      };
+
+      // determines which version of the login page to display, as well
+      // as making sure that sso logins keep "sso" in the query string
+      // after logging out
+      this.setSsoMode = function(toStateName, isSso, stateObj, locationObj) {
+        if (toStateName === 'login') {
+          stateObj.params.sso = isSso || $location.absUrl().indexOf('sso') !== -1;
+
+          if (stateObj.params.sso) {
+            locationObj.search('sso', 'isSso');
+          } else {
+            locationObj.search('sso', null);
+          }
+        }
       };
     }
   ]);

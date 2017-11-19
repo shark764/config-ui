@@ -4,6 +4,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [4.28.1]
+* CXV1-12146 - Fixed bug where user was taken back to regular login screen after being logged in via SSO
+
 ## [4.27.0]
 * CXV1-10843 Modified login screen to support SSO login
 * CXV1-11275, CXV1-11276, CXV1-11605 - Updated Verint side panel on Integrations page with new fields for (S)FTP, User Sync, QM, and WFM sections (Verint is feature-flagged out at this time)

@@ -6,9 +6,9 @@ angular.module('liveopsConfigPanel')
       var self = this;
 
       $scope.innerScope = {};
-      $scope.isSso = AuthService.getSso();
+      $scope.isSso = $stateParams.sso;
       $scope.innerScope.idpLoginPageLogin = AuthService.idpLogin;
-
+      
       $scope.innerScope.loginStatus = {
         $$state: {
           status: 1
