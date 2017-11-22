@@ -287,6 +287,7 @@
   "user.details.creating": "Creating New User",
   "user.details.password.reset": "Reset Password",
   "user.details.password.reset.expired": "Password Reset Token Expired",
+  "user.details.login.token.expired": "Login Token Expired",
   "user.details.invitation.resend": "Resend Invitation",
   "user.details.invitation.send": "Send Invitation",
   "user.details.invitation.expire": "Cancel Invitation",

@@ -1,5 +1,5 @@
   <div id="login-wrapper" class="login-sso">
-    <div ng-show="innerScope.loginStatus.$$state.status == 0 || loggingIn" >
+    <div ng-show="innerScope.loginStatus.$$state.status == 0 || innerScope.loggingIn" >
       <loading></loading>
     </div>
     <form id="login-form" name="loginForm" ng-submit="innerScope.login()" ng-show="innerScope.loginStatus.$$state.status == 1 && !loggingIn">

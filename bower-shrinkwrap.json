@@ -1,0 +1,169 @@
+{
+  "https://github.com/EvanHahn/HumanizeDuration.js.git": {
+    "3.10.1": "74e496d281b4944dcbf5bcc08edafeab403a2e82"
+  },
+  "https://github.com/FortAwesome/Font-Awesome.git": {
+    "4.4.0": "f2cc73da12f0e6d828bc2daaa72bff457067bf39",
+    "4.7.0": "a3fe90fa5f6fac55d197f9cbd18e3f57dafb716c"
+  },
+  "https://github.com/Foxandxss/angular-toastr.git": {
+    "2.1.1": "c03374ce968196dd75dd614a4c3849ac9acc1b81"
+  },
+  "https://github.com/HubSpot/drop.git": {
+    "0.5.8": "6b64c107d48c80a65e6fdb19df0d1e0b0c1ac9f6"
+  },
+  "https://github.com/HubSpot/tether.git": {
+    "0.6.5": "783528dac760cb0023e5bd02d63c79ec54b9fc25"
+  },
+  "https://github.com/PascalPrecht/bower-angular-translate-loader-static-files.git": {
+    "2.15.1": "ffc810472148358ffdccd8ffc90f5c068cb3b310"
+  },
+  "https://github.com/PascalPrecht/bower-angular-translate-storage-cookie.git": {
+    "2.15.1": "5de633d02cebe6d1f24c3514b484bd92adec52d1"
+  },
+  "https://github.com/PascalPrecht/bower-angular-translate-storage-local.git": {
+    "2.15.1": "7b95e6498484a4908201adeb707482fc3629020e"
+  },
+  "https://github.com/PascalPrecht/bower-angular-translate.git": {
+    "2.15.1": "d16acc41aa59d77e049ad28e1d90248ec82e56b7"
+  },
+  "https://github.com/a8m/angular-filter.git": {
+    "0.5.17": "8285ffda674181667ef1ddc32b92b7d6bd6c3711"
+  },
+  "https://github.com/adobe-webplatform/Snap.svg.git": {
+    "0.4.1": "3919b7a3077dfdb4b31cc4b485d70aab4a163a44"
+  },
+  "https://github.com/angular-ui/angular-ui-router-bower.git": {
+    "0.2.18": "2b8d5241b4c631ca2aef079bb96690b213eff449"
+  },
+  "https://github.com/angular-ui/ui-codemirror.git": {
+    "0.3.0": "6ea8579ab871f60c2d6fcf5336633d23603e2bb6"
+  },
+  "https://github.com/angular-ui/ui-sortable.git": {
+    "0.15.0": "1499f88253a3bce758ff67537b73e4062b7a39c5"
+  },
+  "https://github.com/angular/bower-angular-animate.git": {
+    "1.6.3": "87af5fc872cb01800e4cba39a9e32650666626b1"
+  },
+  "https://github.com/angular/bower-angular-aria.git": {
+    "1.6.3": "d90814bd90075c76d1307d2ae0711b7396e941b6"
+  },
+  "https://github.com/angular/bower-angular-cookies.git": {
+    "1.6.3": "8c3176743e7247daa2a22281ab55c8dc48590c2e"
+  },
+  "https://github.com/angular/bower-angular-messages.git": {
+    "1.6.3": "76146a56350712c3de6838a435e36e6153736125"
+  },
+  "https://github.com/angular/bower-angular-mocks.git": {
+    "1.6.3": "bd764c56f4dd10a28715789b8806ae543de9e932"
+  },
+  "https://github.com/angular/bower-angular-resource.git": {
+    "1.6.3": "9613eab381278449df99b9e1f05c5020c94aef26"
+  },
+  "https://github.com/angular/bower-angular-route.git": {
+    "1.6.3": "f34ccdda48057100f011e64973f66f5f911ebbc4"
+  },
+  "https://github.com/angular/bower-angular-sanitize.git": {
+    "1.6.3": "2242ca0256874d39bd4d86db28a944c71d6aba5f"
+  },
+  "https://github.com/angular/bower-angular.git": {
+    "1.6.3": "40d67030765b0024618d348d78be3e30f4f8f29b"
+  },
+  "https://github.com/angular/bower-material.git": {
+    "1.0.9": "a8c93a292d7d07cb1057d3b8bf1ef85d654d7241"
+  },
+  "https://github.com/auth0/angular-jwt.git": {
+    "0.1.9": "37407f03703976f97e0a1235a157885344f70377"
+  },
+  "https://github.com/bgrins/TinyColor.git": {
+    "1.4.1": "80f7225029c428c0de0757f7d98ac15f497bee57"
+  },
+  "https://github.com/broofa/node-uuid.git": {
+    "1.4.7": "d7fe1b07d688b0fff40e8493587b949478144228"
+  },
+  "https://github.com/buberdds/angular-bootstrap-colorpicker.git": {
+    "3.0.25": "7d1089d52729d3e9eae3765417ea4d99573afb36"
+  },
+  "https://github.com/components/codemirror.git": {
+    "4.8.0": "4.8.0",
+    "5.32.0": "5.32.0"
+  },
+  "https://github.com/components/jqueryui.git": {
+    "1.12.1": "44ecf3794cc56b65954cc19737234a3119d036cc"
+  },
+  "https://github.com/danialfarid/angular-file-upload-bower.git": {
+    "7.0.17": "7.0.17"
+  },
+  "https://github.com/fraywing/textAngular.git": {
+    "1.5.16": "a4c905845164d8c20e5cf69ece742185b2a1f1ed"
+  },
+  "https://github.com/gdi2290/angular-momentjs.git": {
+    "0.2.2": "b6c3dbbd615e7fe98f2e53542f05039db98d0632"
+  },
+  "https://github.com/gf3/moment-range.git": {
+    "2.0.3": "2.0.3"
+  },
+  "https://github.com/google/material-design-icons.git": {
+    "3.0.1": "40ef0f297970f0e78bf87569f43ea90ec53d571c"
+  },
+  "https://github.com/grevory/angular-local-storage.git": {
+    "0.1.5": "ae0c28aba9050225a7e3327600307bedd0be8586"
+  },
+  "https://github.com/ianwalter/ng-dropdown.git": {
+    "1.0.6": "a4668f883df7b62ac8c617af0ea8c4b47114459b"
+  },
+  "https://github.com/ivantage/angular-ivh-treeview.git": {
+    "1.0.6": "df9095db51d0dc4b88ba82521e1a5b88e50972c0"
+  },
+  "https://github.com/jquery/jquery-dist.git": {
+    "2.1.1": "4dec426aa2a6cbabb1b064319ba7c272d594a688",
+    "2.1.4": "2.1.4",
+    "3.2.1": "3.2.1"
+  },
+  "https://github.com/l-lin/font-awesome-animation.git": {
+    "0.0.10": "78a087ad54086b934c395ac9adb838682c7844f8"
+  },
+  "https://github.com/latros/mousewheeljs.git": {
+    "master": "007f4d7b2bd2ffa5571ee9591d111327b3612148"
+  },
+  "https://github.com/lodash/lodash.git": {
+    "3.10.1": "ef20b4290cc4fe7551c82a552ea7ffa76548eec8"
+  },
+  "https://github.com/marceljuenemann/angular-drag-and-drop-lists.git": {
+    "1.4.0": "141e13919b30578ed53d079bdd269fb99b20f78f"
+  },
+  "https://github.com/moment/moment-timezone.git": {
+    "0.5.7": "d0f99d65cec675c6570694f59b5bed3f0c259b08"
+  },
+  "https://github.com/moment/moment.git": {
+    "2.19.2": "fb8ea620c3e383742430b632c9d9a8d804fdc2cd",
+    "2.9.0": "8b35bc74c0e88c1a8c58ccb90117a9edc9f6a479"
+  },
+  "https://github.com/nathanhammond/libphonenumber.git": {
+    "0.9.4": "2a118ad365590f2b899e88d2e4b3ad49f614a367"
+  },
+  "https://github.com/ng-infinite-scroll/ng-infinite-scroll-bower.git": {
+    "1.3.0": "d44e8e3f3207da5ee15e0027d253f617b9334ac8"
+  },
+  "https://github.com/ninjatronic/angular-base64.git": {
+    "2.0.5": "ded42ea8e64aac28b066d8a10b073b73aef629fe"
+  },
+  "https://github.com/petebacondarwin/angular-toArrayFilter.git": {
+    "1.0.1": "1.0.1"
+  },
+  "https://github.com/ruhley/angular-color-picker.git": {
+    "3.2.1": "5fe1a5bc7f26e881359fe62e722db7fdc2c6ba4a"
+  },
+  "https://github.com/siddii/angular-timer.git": {
+    "1.3.5": "5ffe343e0fcb0d125318fce95bdde3e79cb3e80d"
+  },
+  "https://github.com/srfrnk/ng-device-detector.git": {
+    "2.0.3": "ea3ae5e2749055ab765a7ca368bde4372d0c14c2"
+  },
+  "https://github.com/srfrnk/re-tree.git": {
+    "0.0.2": "2b89f000d48cc72de56e008dd07bc743e9434059"
+  },
+  "https://github.com/timdown/rangy-release.git": {
+    "1.3.0": "a9518d3d6142b7fe58fd47ddd6a1068f7eb52a0b"
+  }
+}

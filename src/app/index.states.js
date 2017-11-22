@@ -438,7 +438,7 @@ angular.module('liveopsConfigPanel')
           resolve: {}
         })
         .state('login', {
-          url: '/login?messageKey&tenantId&{sso:bool}',
+          url: '/login?messageKey&tenantId&sso',
           title: 'Login',
           templateUrl: 'app/components/login/login.html',
           controller: 'LoginController',
