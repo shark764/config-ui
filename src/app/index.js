@@ -25,7 +25,8 @@ angular.module('liveopsConfigPanel', [
     'ngAnimate',
     'color.picker',
     'textAngular',
-    'infinite-scroll'
+    'infinite-scroll',
+    'angular-jwt'
   ])
   .config(['$translateProvider', 'toastrConfig', '$qProvider', '$locationProvider',
     function($translateProvider, toastrConfig, qProvider, $locationProvider) {
@@ -48,7 +49,18 @@ angular.module('liveopsConfigPanel', [
       $locationProvider.hashPrefix('');
     }
   ])
-  .run(['queryCache', '$rootScope', '$state', '$animate', 'Branding', 'AuthService', '$location', function(queryCache, $rootScope, $state, $animate, Branding, AuthService, $location) {
+  .run(['queryCache', '$rootScope', '$state', '$stateParams', '$animate', 'Branding', 'AuthService', 'Session', '$location', '$window', function(queryCache, $rootScope, $state, $stateParams, $animate, Branding, AuthService, Session, $location, $window) {
+    /*global localStorage: false */
+    $window.addEventListener('beforeunload', function() {
+      Session.setLastPageVisited({
+        stateName: $state.current.name,
+        paramsObj: $state.params
+      });
+      // the only way to make sure that we don't lose track of the session when a page
+      // reloads without "sso" in the url, because without the "sso" in the URL,
+      // Session.isSso automatically gets set to false
+      localStorage.setItem('IS_SSO_OVERRIDE', Session.isSso);
+    });
 
     // --- Mitel Temp Info ---
     // Needed to style the login and forgot password pages
@@ -70,7 +82,10 @@ angular.module('liveopsConfigPanel', [
       }
     };
 
-    $rootScope.$on('$stateChangeStart', function(e, toState, toParams) {
+    $rootScope.$on('$stateChangeStart', function(e, toState) {
+      // determine which login screen to show and to return to upon logout
+      AuthService.setSsoMode(toState.name, $location);
+
       if (toState.name === 'login' || toState.name === 'forgot-password' || toState.name === 'invite-accept') {
 
         if ($location.absUrl().indexOf(mitelUrl) !== -1) {
@@ -78,9 +93,6 @@ angular.module('liveopsConfigPanel', [
         } else {
           Branding.set({});
         }
-
-        // determine which login screen to show and to return to upon logout
-        AuthService.setSsoMode(toState.name, toParams.sso, $state, $location);
 
         // if it's an SSO login, look for specific keys in URL params
         // and if those keys exist, immediately log in via IDP
@@ -92,11 +104,14 @@ angular.module('liveopsConfigPanel', [
       }
     });
     $rootScope.$on('$stateChangeSuccess', function(ev, toState, toParams, from, fromParams) {
+      Session.setLastPageVisited({
+        stateName: from.name,
+        paramsObj: fromParams
+      });
+
       queryCache.removeAll();
       $rootScope.title = $state.current.title + ' | ' + $rootScope.productName;
-      $state.params.sso = fromParams.sso;
-
-      AuthService.setSsoMode(toState.name, toParams.sso, $state, $location);
+      AuthService.setSsoMode(toState.name, $location);
     });
     $rootScope.$on('$stateChangeError', function() {
       console.error('State change error!');

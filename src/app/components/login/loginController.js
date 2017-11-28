@@ -6,9 +6,9 @@ angular.module('liveopsConfigPanel')
       var self = this;
 
       $scope.innerScope = {};
-      $scope.isSso = $stateParams.sso;
+      $scope.isSso = Session.isSso;
       $scope.innerScope.idpLoginPageLogin = AuthService.idpLogin;
-      
+
       $scope.innerScope.loginStatus = {
         $$state: {
           status: 1
@@ -50,6 +50,13 @@ angular.module('liveopsConfigPanel')
                 id: response.data.result.userId,
                 status: 'accepted'
               }, self.inviteAcceptSuccess, self.inviteAcceptFail);
+            } else if (
+              AuthService.getResumeSession() &&
+              _.has(Session, 'lastPageVisited.stateName') &&
+              Session.lastPageVisited.stateName !== '' &&
+              Session.lastPageVisited.stateName !== 'login'
+            ) {
+              $state.go(Session.lastPageVisited.stateName, Session.lastPageVisited.paramsObj);
             } else {
               if (UserPermissions.hasPermissionInList(['MANAGE_ALL_SKILLS', 'MANAGE_ALL_GROUPS'])) {
                 $state.go('content.management.users');

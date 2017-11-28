@@ -26,6 +26,8 @@ angular.module('liveopsConfigPanel')
       this.activeRegionId = null;
       this.columnPreferences = {};
       this.platformPermissions = null;
+      this.lastPageVisited = null;
+      this.isSso = false;
 
       this.set = function(user, tenants, token, platformPermissions) {
         this.token = token;
@@ -34,6 +36,22 @@ angular.module('liveopsConfigPanel')
         this.setPlatformPermissions(platformPermissions);
 
         this.flush();
+      };
+
+      this.setIsSso = function (isSso) {
+        this.isSso = isSso;
+        this.flush();
+      };
+
+      this.setLastPageVisited = function(lastPage) {
+        if (
+          lastPage &&
+          lastPage.stateName !== '' &&
+          lastPage.stateName !== 'login'
+        ) {
+          this.lastPageVisited = lastPage;
+          this.flush();
+        }
       };
 
       this.setTenants = function(tenants) {
@@ -133,7 +151,9 @@ angular.module('liveopsConfigPanel')
           token: self.token,
           user: self.user,
           tenants: self.tenants,
-          platformPermissions: self.platformPermissions
+          platformPermissions: self.platformPermissions,
+          lastPageVisited: self.lastPageVisited,
+          isSso: self.isSso
         }));
 
         localStorage.setItem(self.userPreferenceKey, JSON.stringify({
