@@ -195,6 +195,8 @@
   "dispositions": "Dispositions",
   "reasons": "Reasons",
   "details.login": "Login",
+  "details.defaultTenant": "Default tenant",
+  "details.noDefaultTenant": "Select default tenant...",
   "details.firstName": "First Name",
   "details.resendInvitation": "Resend Invitation",
   "details.firstName.error": "Please enter a first name",

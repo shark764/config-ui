@@ -4,7 +4,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 * Updated docker build to accomodate for remote designer
-* CXV1-10847 - Update experience for Re-Authentication or auth expiration, removed "^" from bower.json to avoid bugs caused by package updates and added bower-shrinkwrap to ensure that bower sub-dependencies don't change and break the build 
+* CXV1-10847 - Update experience for Re-Authentication or auth expiration, removed "^" from bower.json to avoid bugs caused by package updates and added bower-shrinkwrap to ensure that bower sub-dependencies don't change and break the build
+* CXV1-10835 - Add ability to select default tenant for a user in their user profile
 
 ## [4.28.1]
 * CXV1-12146 - Fixed bug where user was taken back to regular login screen after being logged in via SSO
