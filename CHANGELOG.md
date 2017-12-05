@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## [4.28.2]
 * Updated docker build to accomodate for remote designer
 * CXV1-10847 - Update experience for Re-Authentication or auth expiration, removed "^" from bower.json to avoid bugs caused by package updates and added bower-shrinkwrap to ensure that bower sub-dependencies don't change and break the build
 * CXV1-10835 - Add ability to select default tenant for a user in their user profile
