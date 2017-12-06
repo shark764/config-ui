@@ -116,36 +116,54 @@
 
 <div class="input-group" ng-show="selectedMedia.type === 'tts'">
   <label>{{'media.details.property.language' | translate}}</label>
-<form-error
-  field="forms.mediaForm.language"
-  error-type-required="{{'media.details.language.error' | translate}}">
-</form-error>
 
-  <select id="tts-property-language-field" type="text" name="language"
-    ng-required="selectedMedia.type === 'tts'"
-    ng-disabled="!('MANAGE_ALL_MEDIA' | hasPermission)"
-    ng-model="selectedMedia.properties.language"
-    ng-options="lang.value as lang.display for lang in twilioLangs">
-    <option value="" ng-disabled=true>
-      {{'media.details.property.language.select' | translate}}
-    </option>
-  </select>
+  <form-error
+    field="forms.mediaForm.language"
+    error-type-required="{{'media.details.language.error' | translate}}">
+  </form-error>
+
+  <div class="tts-select">
+    <select id="tts-property-language-field" type="text" name="language"
+      ng-required="selectedMedia.type === 'tts'"
+      ng-disabled="!('MANAGE_ALL_MEDIA' | hasPermission)"
+      ng-model="selectedMedia.properties.language"
+      ng-options="lang.value as lang.display for lang in twilioLangs">
+      <option value="" ng-disabled=true>
+        {{'media.details.property.language.select' | translate}}
+      </option>
+    </select>
+
+    <a class="help-indicator lo-accent-text"
+      ng-href="{{ tableConfig.helpLinkLanguages }}"
+      target="_blank">
+      <i class="fa fa-question-circle"></i>
+    </a>
+  </div>
 </div>
+
 
 <div class="input-group" ng-show="selectedMedia.type === 'tts'">
   <label>{{'media.details.property.voice' | translate}}</label>
-<form-error
-  field="forms.mediaForm.voice"
-  error-type-required="{{'media.details.voice.error' | translate}}">
-</form-error>
+  <form-error
+    field="forms.mediaForm.voice"
+    error-type-required="{{'media.details.voice.error' | translate}}">
+  </form-error>
 
-  <select id="tts-property-voice-field" type="text" name="voice"
+  <div class="tts-select">
+    <select id="tts-property-voice-field" type="text" name="voice"
     ng-required="selectedMedia.type === 'tts'"
     ng-disabled="!('MANAGE_ALL_MEDIA' | hasPermission)"
     ng-model="selectedMedia.properties.voice"
     ng-options="voice.value as voice.display for voice in twilioVoices">
-    <option value="" ng-disabled=true>
-      {{'media.details.property.voice.select' | translate}}
-    </option>
-  </select>
+      <option value="" ng-disabled=true>
+        {{'media.details.property.voice.select' | translate}}
+      </option>
+    </select>
+
+    <a class="help-indicator lo-accent-text"
+      ng-href="{{ tableConfig.helpLinkVoices }}"
+      target="_blank">
+      <i class="fa fa-question-circle"></i>
+    </a>
+  </div>
 </div>

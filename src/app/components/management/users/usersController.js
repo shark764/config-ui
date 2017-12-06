@@ -21,20 +21,30 @@ angular.module('liveopsConfigPanel')
 
       $scope.tenantIntegrations = Integration.cachedQuery({
         tenantId: Session.tenant.tenantId
-      });
+      }, 'Intergration', true);
 
       $scope.hasVerintIntegration = false;
+      $scope.hasTwilioIntegration = false;
 
       $scope.tenantIntegrations.$promise.then(function(response) {
-        var verintIntegration = response.filter(function(integration) {
-          return integration.type === 'verint';
-        });
+        // determine whether or not there are active verint and twilio extensions
+        _.forEach(response, function (integration) {
+          if (
+            !$scope.hasVerintIntegration &&
+            integration.type === 'verint'
+          ) {
+            $scope.hasVerintIntegration = true;
+          }
 
-        if (verintIntegration.length > 0) {
-          $scope.hasVerintIntegration = true;
-        } else {
-          $scope.hasVerintIntegration = false;
-        }
+          if (
+            $scope.hasTwilioIntegration === false &&
+            integration.type === 'twilio' &&
+            integration.active === true &&
+            integration.properties.webRtc === true
+          ) {
+            $scope.hasTwilioIntegration = true;
+          }
+        });
       });
 
       $scope.resetPassword = function() {
@@ -120,6 +130,8 @@ angular.module('liveopsConfigPanel')
       };
 
       vm.saveTenantUser = function saveTenantUser() {
+        delete $scope.selectedTenantUser.activeExtension;
+
         return $scope.selectedTenantUser.save({
             tenantId: Session.tenant.tenantId
           })
@@ -130,6 +142,7 @@ angular.module('liveopsConfigPanel')
               memberId: tenantUser.id,
               tenantId: Session.tenant.tenantId
             });
+            delete tenantUser.activeExtension;
 
             return tenantUser.save();
           });

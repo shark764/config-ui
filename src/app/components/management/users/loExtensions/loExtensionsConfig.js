@@ -5,10 +5,13 @@ angular.module('liveopsConfigPanel')
     return [{
       value: 'twilio',
       display: $translate.instant('twilio')
-    }, {
-      value: 'plivo',
-      display: $translate.instant('plivo')
-    }];
+    }
+    // PLIVO IS ON CODE FREEZE, SO HIDING BUT NOT DELETING YET
+    // , {
+    //   value: 'plivo',
+    //   display: $translate.instant('plivo')
+    // }
+    ];
   }])
   .service('loExtensionTypes', ['$translate', function ($translate) {
     return [{

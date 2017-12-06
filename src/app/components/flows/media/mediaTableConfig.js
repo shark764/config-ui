@@ -39,6 +39,8 @@ angular.module('liveopsConfigPanel')
       'showCreate': function() {
         return UserPermissions.hasPermission('MANAGE_ALL_MEDIA');
       },
-      'helpLink': helpDocsHostname + '/Help/Content/Managing%20Flows/Media/Adding%20Media.htm'
+      'helpLink': helpDocsHostname + '/Help/Content/Managing%20Flows/Media/Adding%20Media.htm',
+      'helpLinkLanguages': helpDocsHostname + '/Help/Content/Resources/Supported_Languages.htm',
+      'helpLinkVoices': helpDocsHostname + '/Help/Content/Resources/Supported_Languages.htm'
     };
   }]);

@@ -53,7 +53,8 @@
 
     <select name="integration"
       ng-model="selectedTenant.outboundIntegrationId"
-      ng-options="integration.id as integration.getDisplay().capitalize() for integration in integrations | telephony">
+      ng-options="integration.id as integration.getDisplay().capitalize() for integration in integrations | telephony"
+      ng-change="toggleRegionField(selectedTenant.outboundIntegrationId)">
 
       <option value="" disabled>{{'tenant.details.integration.placeholder' | translate}}</option>
     </select>
@@ -64,7 +65,9 @@
     <input ng-click="setViewOnlyTenant()" type="button" class="btn" value="{{'tenant.details.setActive' | translate}}"></input>
   </div>
 
-  <div class="input-group">
+  <div
+    class="input-group"
+    ng-show="selectedTenant.hasTwilio">
     <label class="textarea-label">{{'tenant.details.region' | translate}}</label>
     <form-error field="forms.detailsForm.region"
       error-type-required="{{'tenant.details.region.required' | translate}}">

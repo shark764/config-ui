@@ -1,14 +1,18 @@
 <div class="input-group">
   <label>
-    <select id="extension-type-dropdown" name="type"
+    <select
+      id="extension-type-dropdown"
+      name="type"
       ng-required="true"
       ng-disabled="lec.editingExtension !== null && extension.provider === 'twilio'"
       ng-class="{'default-selected': ! extension.type}"
       ng-model="extension.type"
-      ng-change="clearValues()"
-      ng-options="type.value as type.display for type in loExtensionTypes">
-      <option class="disabled" value="" ng-disabled="true">
-        {{'details.extension.type' | translate}}
+      ng-change="clearValues()">
+      <option
+        ng-repeat="type in loExtensionTypes"
+        ng-value="type.value"
+        ng-show="!(lec.creatingExtension && type.value === 'webrtc') && !type.hidden">
+        {{type.display}}
       </option>
     </select>
   </label>
@@ -28,14 +32,20 @@
     error-type-pattern="{{'details.extensions.sipformat.error' | translate}}" >
   </form-error>
   <div ng-show="extension.type == 'webrtc'" class="secondary-field-col">
-    <select id="extension-provider-dropdown" name="provider"
+    <select
+      ng-show="hasTwilioIntegration"
+      id="extension-provider-dropdown"
+      name="provider"
       ng-disabled="lec.editingExtension !== null && extension.provider === 'twilio'"
       ng-required="extension.type == 'webrtc'"
       ng-class="{'default-selected': ! extension.provider}"
       ng-model="extension.provider"
       ng-options="provider.value as provider.display for provider in loExtensionProviders"
       ng-change="clearProviderDesc(extension.provider)">
-      <option class="disabled" value="" ng-disabled="true">
+      <option
+        class="disabled"
+        value=""
+        ng-disabled="true">
         {{'details.extension.provider' | translate}}
       </option>
     </select>

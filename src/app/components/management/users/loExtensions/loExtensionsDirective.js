@@ -7,7 +7,8 @@ angular.module('liveopsConfigPanel')
         restrict: 'E',
         require: '^form',
         scope: {
-          tenantUser: '='
+          tenantUser: '=',
+          hasTwilioIntegration: '='
         },
         templateUrl: 'app/components/management/users/loExtensions/loExtensions.html',
         controller: 'loExtensionsController as lec',

@@ -206,6 +206,7 @@
 
 <div ng-if="scenario() === 'update'">
   <lo-extensions
+    has-twilio-integration="hasTwilioIntegration"
     tenant-user="selectedTenantUser"
     ng-disabled="!(
         ('MANAGE_ALL_USER_EXTENSIONS' | hasPermission) ||

@@ -78,3 +78,11 @@ lo-multibox {
   opacity: .5;
   cursor: default;
 }
+
+.tts-select {
+  .help-indicator {
+    font-size: 20px;
+    display: inline-block;
+    margin-left: 10px;
+  }
+}

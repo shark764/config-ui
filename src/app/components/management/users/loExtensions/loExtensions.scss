@@ -12,6 +12,7 @@ lo-extensions {
   }
 
   .handle {
+    cursor: move;
     color: $grey;
   }
 
@@ -48,8 +49,8 @@ lo-extensions {
         display: table-cell;
         padding: 10px 5px;
         border-top: 1px dashed $light-grey;
-        max-width: 35%;
-        width: 35%;
+        max-width: 30%;
+        width: 30%;
       }
 
       .control-col {
@@ -68,8 +69,8 @@ lo-extensions {
       }
 
       .small-col {
-        max-width: 10%;
-        width: 10%;
+        max-width: 15%;
+        width: 15%;
       }
     }
 
