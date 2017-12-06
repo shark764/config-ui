@@ -46,14 +46,17 @@ angular.module('liveopsConfigPanel')
             Session.tenants &&
             Session.tenants.length
           ) {
+            // with only the Session tenant data as a reference, get
+            // the tenant data from the /me endpoint
+            var currentMeTenant = getTenantData(Session.tenant, allTenantsResponse);
+            // here we set a globally-available flag to tell config-ui whether or
+            // not the current tenant has a CxEngageIdp (used for UI changes ATM)
+            MeSvc.setHasCxEngageIdp(currentMeTenant);
+
             angular.forEach(allTenantsResponse, function(targetTenant) {
               // with only the /me tenant data as a reference,
               // get the tenant data from the Session
               var targetSessionTenant = getTenantData(targetTenant);
-
-              // with only the Session tenant data as a reference, get
-              // the tenant data from the /me endpoint
-              var currentMeTenant = getTenantData(Session.tenant, allTenantsResponse);
 
               var isCxTenant =
                 targetSessionTenant &&
@@ -113,8 +116,6 @@ angular.module('liveopsConfigPanel')
         .then(function () {
           $scope.tenantDropdownItems = tenantDropdownItems;
         });
-
-
       };
 
       $scope.isActive = function(viewLocation) {

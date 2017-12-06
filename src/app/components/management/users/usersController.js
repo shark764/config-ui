@@ -1,9 +1,10 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('UsersController', ['$scope', '$translate', 'User', 'Session', 'userTableConfig', 'Alert', '$q', 'TenantUser', 'TenantRole', 'UserPermissions', 'PlatformRole', 'TenantUserGroups', 'Modal', 'loEvents', 'ResetPassword', 'Integration',
-    function($scope, $translate, User, Session, userTableConfig, Alert, $q, TenantUser, TenantRole, UserPermissions, PlatformRole, TenantUserGroups, Modal, loEvents, ResetPassword, Integration) {
+  .controller('UsersController', ['$scope', '$translate', 'User', 'Session', 'userTableConfig', 'Alert', '$q', 'TenantUser', 'TenantRole', 'UserPermissions', 'PlatformRole', 'TenantUserGroups', 'Modal', 'loEvents', 'ResetPassword', 'Integration', 'Me',
+    function($scope, $translate, User, Session, userTableConfig, Alert, $q, TenantUser, TenantRole, UserPermissions, PlatformRole, TenantUserGroups, Modal, loEvents, ResetPassword, Integration, Me) {
       var vm = this;
+      var MeSvc = new Me();
       $scope.forms = {};
       $scope.Session = Session;
       $scope.userTableConfig = userTableConfig;
@@ -107,6 +108,8 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.fetchTenantUsers = function() {
+        $scope.hasCxEngageIdp = MeSvc.getHasCxEngageIdp();
+
         return TenantUser.cachedQuery({
           tenantId: Session.tenant.tenantId
         });
