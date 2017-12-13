@@ -22,8 +22,9 @@ angular.module('liveopsConfigPanel')
             // upon a 401 (Unauthorized) error, check to make see whether or not
             // the the token's expiration time is up
             if (
-              response.status === 401 &&
-              jwtHelper.isTokenExpired(Session.token)
+              localStorage.getItem('TOKEN-EXPIRATION-DEBUG') ||
+              (response.status === 401 &&
+              jwtHelper.isTokenExpired(Session.token))
             ) {
               // ...and since the token expiration time has passed,
               // go back to the login screen...

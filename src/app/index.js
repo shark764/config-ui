@@ -49,7 +49,9 @@ angular.module('liveopsConfigPanel', [
       $locationProvider.hashPrefix('');
     }
   ])
-  .run(['queryCache', '$rootScope', '$state', '$stateParams', '$animate', 'Branding', 'AuthService', 'Session', '$location', '$window', function(queryCache, $rootScope, $state, $stateParams, $animate, Branding, AuthService, Session, $location, $window) {
+  .run(['queryCache', '$rootScope', '$state', '$stateParams', '$animate', 'Branding', 'AuthService', 'Session', '$location', '$window', '$timeout', function(queryCache, $rootScope, $state, $stateParams, $animate, Branding, AuthService, Session, $location, $window, $timeout) {
+    var debugTimeout;
+
     /*global localStorage: false */
     $window.addEventListener('beforeunload', function() {
       Session.setLastPageVisited({
@@ -83,6 +85,8 @@ angular.module('liveopsConfigPanel', [
     };
 
     $rootScope.$on('$stateChangeStart', function(e, toState) {
+      $timeout.cancel(debugTimeout);
+
       // determine which login screen to show and to return to upon logout
       AuthService.setSsoMode(toState.name, $location);
 
@@ -94,6 +98,16 @@ angular.module('liveopsConfigPanel', [
           Branding.set({});
         }
 
+        // for dev & qe purposes, adding &tokendebug=[number of seconds]
+        // to the login url, you will trigger the token expiration behavoir
+        // after the number of seconds specified in the parameter value
+        if ($location.absUrl().indexOf('tokendebug') !== -1) {
+          var urlParams = $location.search();
+          // this mode will have to manually removed from localStorage
+          // using browser dev tools
+          localStorage.setItem('TOKEN-EXPIRATION-DEBUG', urlParams.tokendebug);
+        }
+
         // if it's an SSO login, look for specific keys in URL params
         // and if those keys exist, immediately log in via IDP
         if ($location.absUrl().indexOf('username') !== -1) {
@@ -101,7 +115,15 @@ angular.module('liveopsConfigPanel', [
         } else if ($location.absUrl().indexOf('tenantId') !== -1) {
           AuthService.idpLogin(AuthService.generateAuthParams('tenantId'));
         }
+      } else if (localStorage.getItem('TOKEN-EXPIRATION-DEBUG')) {
+        debugTimeout = $timeout(function() {
+          // random bad API call we're using to throw a 400 error for debugging 
+          Branding.get({
+            tenantId: '6c84fb90-12c4-11e1-840d-7b25c5ee775a'
+          });
+        }, localStorage.getItem('TOKEN-EXPIRATION-DEBUG') * 1000);
       }
+
     });
     $rootScope.$on('$stateChangeSuccess', function(ev, toState, toParams, from, fromParams) {
       Session.setLastPageVisited({

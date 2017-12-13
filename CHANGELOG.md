@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+* CXV1-12432 - Create debug url parameter for spoofing token expiration
 
 ## [4.28.2]
 * Updated docker build to accomodate for remote designer
