@@ -31,6 +31,30 @@ navbar {
   }
 
   #tenant-dropdown {
+    .dropdown-wrapper {
+      .dropdown {
+        li {
+
+          &.unavailableTenant {
+            background-color: #efebeb;
+            border-bottom: 1px solid #999;
+
+            span {
+              background: none;
+              display: flex;
+              align-items: center;
+              justify-content: left;
+            }
+          }
+        }
+      }
+    }
+
+    .fa-sign-in {
+      width: 21px;
+      padding-left: 0
+    }
+
     .drop-label {
       display: table-cell;
       vertical-align: middle;

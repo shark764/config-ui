@@ -5,6 +5,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 * CXV1-12432 - Create debug url parameter for spoofing token expiration
 * CXV1-11824 - Support GVN (formerly 2600hz) in Config UI
+* CXV1-10833 - Add Re-auth to tenant switching
 
 ## [4.28.2]
 * Updated docker build to accomodate for remote designer

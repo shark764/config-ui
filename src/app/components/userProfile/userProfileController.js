@@ -3,6 +3,8 @@
 angular.module('liveopsConfigPanel')
   .controller('UserProfileController', ['$scope', '$translate', '$q', 'AuthService', 'Session', 'User', 'TenantUser', 'Token', 'Me',
     function($scope, $translate, $q, AuthService, Session, User, TenantUser, Token, Me) {
+      var MeSvc = new Me();
+
       function setDefaultTenant (defaultTenantId, tenantList) {
         if (defaultTenantId) {
           $scope.tenantUser.$user.defaultTenant = defaultTenantId;
@@ -11,7 +13,10 @@ angular.module('liveopsConfigPanel')
         }
       }
 
-      $scope.userTenantList = Me.cachedQuery();
+      $q.when(MeSvc.getActiveTenants()).then(function (response) {
+        $scope.userTenantList = response;
+      });
+
       $scope.resettingPassword = false;
 
       $scope.tenantUser = TenantUser.get({

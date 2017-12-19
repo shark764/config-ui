@@ -9,6 +9,7 @@ describe('NavbarController', function() {
     $location,
     $controller,
     $httpBackend,
+    $q,
     Session,
     loEvents,
     apiHostname,
@@ -19,14 +20,15 @@ describe('NavbarController', function() {
   beforeEach(module('liveopsConfigPanel.mock'));
   beforeEach(module('liveopsConfigPanel.tenant.mock'));
 
-  beforeEach(inject(['$rootScope', '$state', '$location', '$controller', '$httpBackend', 'Session', 'apiHostname', 'mockTenants', 'loEvents',
-    function(_$rootScope, _$state, _$location, _$controller, _$httpBackend, _Session, _apiHostname, _mockTenants, _loEvents) {
+  beforeEach(inject(['$rootScope', '$state', '$location', '$controller', '$httpBackend', '$q', 'Session', 'apiHostname', 'mockTenants', 'loEvents',
+    function(_$rootScope, _$state, _$location, _$controller, _$httpBackend, _$q, _Session, _apiHostname, _mockTenants, _loEvents) {
       $rootScope = _$rootScope;
       $scope = $rootScope.$new();
       $state = _$state;
       $location = _$location;
       $controller = _$controller;
-      $httpBackend = $httpBackend;
+      $httpBackend = _$httpBackend;
+      $q = _$q;
       apiHostname = _apiHostname;
       mockTenants = _mockTenants;
       Session = _Session;
@@ -71,7 +73,7 @@ describe('NavbarController', function() {
       Session.token = 'abc';
       Session.tenants = mockTenants;
       spyOn($state, 'go');
-      spyOn($scope, '$on');
+      spyOn($rootScope, '$on');
       $controller('NavbarController', {
         '$scope': $scope
       });
@@ -83,7 +85,7 @@ describe('NavbarController', function() {
     }));
 
     it('should attach populateTenantsHandler as a callback on tenants update event', function () {
-      expect($scope.$on).toHaveBeenCalledWith(loEvents.session.tenants.updated, $scope.populateTenantsHandler);
+      expect($rootScope.$on).toHaveBeenCalledWith(loEvents.session.tenants.updated, $scope.populateTenantsHandler);
     });
 
     it('should select the first tenant retrieved as the active tenant if no tenant is set in the Session', function() {
@@ -97,25 +99,45 @@ describe('NavbarController', function() {
     }));
 
     it('should include active tenants in the tenant selection dropdown', inject(function(Session) {
-      $scope.populateTenantsHandler();
-      expect($scope.tenantDropdownItems).toContain(jasmine.objectContaining({'label': Session.tenants[0].tenantName}));
+      //$httpBackend.when('GET', apiHostname + '/v1/me').respond(Session.tenants);
+
+      var deferred = $q.defer();
+      deferred.resolve();
+      spyOn($scope, 'populateTenantsHandler').and.returnValue(deferred.promise)
+      .and.callFake(function () {
+        expect($scope.tenantDropdownItems).toContain(jasmine.objectContaining({'label': Session.tenants[0].tenantName}));
+      });
+
+
+
     }));
 
     it('should switch the tenant on drop down click', inject(function(Session) {
-      expect($scope.tenantDropdownItems).toBeDefined();
-      expect($scope.tenantDropdownItems[1]).toBeDefined();
-      expect($scope.tenantDropdownItems[1].onClick).toBeDefined();
+      var deferred = $q.defer();
+      deferred.resolve();
+      spyOn($scope, 'populateTenantsHandler').and.returnValue(deferred.promise)
+      .and.callFake(function () {
+        expect($scope.tenantDropdownItems).toBeDefined();
+        expect($scope.tenantDropdownItems[1]).toBeDefined();
+        expect($scope.tenantDropdownItems[1].onClick).toBeDefined();
+        $scope.tenantDropdownItems[1].onClick();
+        expect(Session.tenant.tenantId).toEqual(mockTenants[1].tenantId);
+      });
 
-      $scope.tenantDropdownItems[1].onClick();
-      expect(Session.tenant.tenantId).toEqual(mockTenants[1].tenantId);
     }));
 
     it('should do nothing on drop down click if selecting the current tenant', function() {
-      Session.tenant.tenantId = Session.tenants[1].tenantId;
-
+      var deferred = $q.defer();
+      deferred.resolve();
       spyOn(Session, 'setTenant');
-      $scope.tenantDropdownItems[1].onClick();
-      expect(Session.setTenant).not.toHaveBeenCalled();
+      spyOn($scope, 'populateTenantsHandler').and.returnValue(deferred.promise)
+      .and.callFake(function () {
+        Session.tenant.tenantId = Session.tenants[1].tenantId;
+
+        $scope.tenantDropdownItems[1].onClick();
+        expect(Session.setTenant).not.toHaveBeenCalled();
+      });
+
     });
 
     it('should call $scope.logout on logout click', function() {
@@ -172,6 +194,7 @@ describe('NavbarController', function() {
       $controller('NavbarController', {
         '$scope': $scope
       });
+
 
       $scope.$digest();
     });

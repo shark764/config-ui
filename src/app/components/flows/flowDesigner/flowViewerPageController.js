@@ -3,13 +3,13 @@
 angular.module('liveopsConfigPanel')
   .controller('ViewerPageController', ['$scope', '$window', '$state', '$sce', 'Session', 'UserPermissions', 'apiHostname', 'designerHostname',
     function($scope, $window, $state, $sce, Session, UserPermissions, apiHostname, designerHostname) {
-      
+      /* globals window */
+
       $scope.designerHostname = $sce.trustAsResourceUrl(designerHostname);
 
       function ProcessMessage(event){
         switch(event.data.message){
           case 'FlowDesigner.ready':
-            console.log('Flow Designer is ready');
             event.source.postMessage({
               message: 'FlowDesigner.start',
               data: {
@@ -20,7 +20,7 @@ angular.module('liveopsConfigPanel')
                 flowId: $state.params.flowId,
                 versionId: $state.params.versionId
               }
-            }, '*')
+            }, '*');
             break;
           case 'FlowDesigner.draftPublished':
             $state.go('content.flows.editor', {
@@ -31,10 +31,10 @@ angular.module('liveopsConfigPanel')
         }
       }
 
-      window.addEventListener('message', ProcessMessage)
+      window.addEventListener('message', ProcessMessage);
 
       $scope.$on('$destroy', function(){
-        window.removeEventListener('message', ProcessMessage)
-      })
+        window.removeEventListener('message', ProcessMessage);
+      });
     }
   ]);

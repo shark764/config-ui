@@ -14,13 +14,13 @@ angular.module('liveopsConfigPanel')
         if (selectedExtension.type !== 'webrtc') {
           $scope.loExtensionTypes = angular.forEach($scope.loExtensionTypes, function (val) {
             // we are hiding webrtc when editing non-webrtc extension instead of deleting
-            // to keep $scope.loExtensionTypes as a constant value (lots of bugs otherwise)  
+            // to keep $scope.loExtensionTypes as a constant value (lots of bugs otherwise)
             if (val.value === 'webrtc') {
               val.hidden = true;
             }
           });
         }
-      }
+      };
 
       function webRtcHideShow () {
         $scope.newExtension = {};
