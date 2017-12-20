@@ -1,64 +1,120 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('NavbarController', ['$rootScope', '$scope', '$state', '$location', 'AuthService', 'Session', 'DirtyForms', '$translate', 'UserPermissions', 'PermissionGroups', '$window', 'helpDocsHostname', 'appFlags', 'loEvents', 'Branding',
-    function($rootScope, $scope, $state, $location, AuthService, Session, DirtyForms, $translate, UserPermissions, PermissionGroups, $window, helpDocsHostname, appFlags, loEvents, Branding) {
+  .controller('NavbarController', ['$rootScope', '$scope', '$state', '$location', '$q', 'AuthService', 'Session', 'DirtyForms', '$translate', 'UserPermissions', 'PermissionGroups', '$window', 'helpDocsHostname', 'appFlags', 'loEvents', 'Branding', 'Me',
+    function($rootScope, $scope, $state, $location, $q, AuthService, Session, DirtyForms, $translate, UserPermissions, PermissionGroups, $window, helpDocsHostname, appFlags, loEvents, Branding, Me) {
       var vm = this;
       $scope.hovering = false;
       $scope.Session = Session;
       $scope.hoverTracker = [];
+      var MeSvc = new Me();
+
+      // since sometimes the tenant data from the /me endpoint doesn't
+      // give us data we need, this lets us get the corresponding
+      // Session.tenant and vice-versa
+      function getTenantData (tenantObj, tenantList) {
+        if (
+          tenantObj &&
+          angular.isObject(tenantObj)
+        ) {
+          var tenants = tenantList || Session.tenants;
+          return  _.find(tenants, { tenantId: tenantObj.tenantId });
+        }
+      }
 
       $scope.populateTenantsHandler = function() {
         if (!Session.isAuthenticated()) {
           return;
         }
 
-        if(Session.tenants && Session.tenants.length) {
-          // check to see find the index of the item in the Session.tenants array that
-          // matches the Session.tenant, since the Session.tenant alone doesn't have
-          // the 'tenantActive' property that we need for the check below
-          var currentSessionTenantIdx = _.findIndex(Session.tenants, function (sessionTenant) {
-            return sessionTenant.tenantId === Session.tenant.tenantId;
-          });
+        var tenantDropdownItems = [];
+        var currentSessionTenant = _.find(Session.tenants, { tenantId: Session.tenant.tenantId });
 
-          if (!Session.tenant || !Session.tenant.tenantId || Session.tenants[currentSessionTenantIdx].tenantActive === false) {
-            // reset to the first tenant in the list
-            Session.setTenant(Session.tenants[0]);
-          }
+        if (
+          !Session.tenant ||
+          !Session.tenant.tenantId ||
+          (currentSessionTenant && currentSessionTenant.tenantActive === false)
+        ) {
+          // reset to the first tenant in the list
+          Session.setTenant(Session.tenants[0]);
         }
 
-        var tenantDropdownItems = [];
+        var allTenants = MeSvc.getActiveTenants();
+        $q.when(allTenants).then(function (allTenantsResponse) {
+          if (
+            allTenantsResponse.length > 0 &&
+            Session.tenants &&
+            Session.tenants.length
+          ) {
+            angular.forEach(allTenantsResponse, function(targetTenant) {
+              // with only the /me tenant data as a reference,
+              // get the tenant data from the Session
+              var targetSessionTenant = getTenantData(targetTenant);
 
-        angular.forEach(Session.tenants, function(tenant) {
-          if (tenant.tenantActive === true) {
-            tenantDropdownItems.push({
-              label: tenant.tenantName,
-              onClick: function() {
-                if (!Session.tenant || tenant.tenantId !== Session.tenant.tenantId) {
+              // with only the Session tenant data as a reference, get
+              // the tenant data from the /me endpoint
+              var currentMeTenant = getTenantData(Session.tenant, allTenantsResponse);
+
+              var isCxTenant =
+                targetSessionTenant &&
+                targetTenant.password !== false &&
+                (currentMeTenant && currentMeTenant.password !== false);
+
+              var className;
+              var iconClass;
+
+              if (
+                !isCxTenant ||
+                (isCxTenant && targetTenant.password === false)
+              ) {
+                className = 'unavailableTenant';
+                iconClass = 'fa fa-sign-in';
+              }
+
+              // filter out any tenants that have a tenantActive prop set to false
+              tenantDropdownItems.push({
+                label: targetTenant.name,
+                className: className,
+                iconClass: iconClass,
+                onClick: function() {
                   DirtyForms.confirmIfDirty(function() {
-                    Session.setTenant(tenant);
-                    $scope.updateTopbarConfig();
-                    $scope.updateBranding();
-                    var goTo = $state.current;
-                    if($state.includes('content.realtime-dashboards-management.editor')) {
-                      goTo = 'content.realtime-dashboards-management';
-                    } else if ($state.includes('content.flows.editor')){
-                      goTo = 'content.flows.flowManagement';
+                    // Make sure that we only switch without forcing re-auth
+                    // if we are switching from one *CxEngage* IDP to another.
+                    // (CxEngage IDP's always have a password prop set to true)
+                    if (isCxTenant) {
+                      Session.setTenant(targetSessionTenant);
+                      $scope.updateTopbarConfig();
+                      $scope.updateBranding();
+                      var goTo = $state.current;
+                      if($state.includes('content.realtime-dashboards-management.editor')) {
+                        goTo = 'content.realtime-dashboards-management';
+                      } else if ($state.includes('content.flows.editor')){
+                        goTo = 'content.flows.flowManagement';
+                      }
+                      $state.go(goTo, {
+                        id: null
+                      }, {
+                        reload: true,
+                        inherit: false
+                      });
+                    } else {
+                      AuthService.setResumeSession(true);
+                      $state.go('login', {
+                        sso: targetTenant.password === false ? 'isSso' : null
+                      });
+                      $state.params.tenantId = targetTenant.tenantId;
                     }
-                    $state.go(goTo, {
-                      id: null
-                    }, {
-                      reload: true,
-                      inherit: false
-                    });
                   });
                 }
-              }
+              });
             });
           }
+        })
+        .then(function () {
+          $scope.tenantDropdownItems = tenantDropdownItems;
         });
 
-        $scope.tenantDropdownItems = tenantDropdownItems;
+
       };
 
       $scope.isActive = function(viewLocation) {
@@ -102,7 +158,7 @@ angular.module('liveopsConfigPanel')
         }
       ];
 
-      $scope.$on(loEvents.session.tenants.updated, $scope.populateTenantsHandler);
+      $rootScope.$on(loEvents.session.tenants.updated, $scope.populateTenantsHandler);
       $scope.$on('resource:create', $scope.onCreateClick);
       $scope.$on('resource:actions', $scope.onActionsClick);
       $rootScope.$on('readAllMode', function() {

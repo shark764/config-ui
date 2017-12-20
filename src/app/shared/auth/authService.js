@@ -2,8 +2,7 @@
 angular.module('liveopsConfigPanel')
   .service('AuthService', ['$http', '$q', '$translate', 'Session', 'apiHostname', 'User', '$state', '$location', 'Token', 'CxEngageConfig', '$stateParams', '$timeout',
     function ($http, $q, $translate, Session, apiHostname, User, $state, $location, Token, CxEngageConfig, $stateParams, $timeout) {
-      /*globals CxEngage */
-      /*global localStorage: false */
+      /* globals CxEngage, localStorage */
       var self = this;
       var loginFunctionFromController;
       var errorMessageFunctionFromController;

@@ -87,14 +87,16 @@ describe('LoginController', function() {
           }
         });
 
-        spyOn(AuthService, 'login').and.returnValue(deferred.promise);
-        spyOn($state, 'go');
-        spyOn(controller, 'inviteAcceptSuccess');
+        spyOn(AuthService, 'login').and.returnValue(deferred.promise)
+        .and.callFake(function() {
+	spyOn($state, 'go');
+	spyOn(controller, 'inviteAcceptSuccess');
 
-        $httpBackend.expectPUT(apiHostname + '/v1/tenants/tenant-id/users/userId1').respond(200, mockTenantUsers[0]);
-        $scope.innerScope.login();
-        $scope.$digest();
-        $httpBackend.flush();
+	$httpBackend.expectPUT(apiHostname + '/v1/tenants/tenant-id/users/userId1').respond(200, mockTenantUsers[0]);
+	$scope.innerScope.login();
+	$scope.$digest();
+	$httpBackend.flush();
+        });
       }
     ));
   });
@@ -143,7 +145,8 @@ describe('LoginController', function() {
           }
         }
       });
-      spyOn(AuthService, 'login').and.returnValue(deferred.promise);
+      spyOn(AuthService, 'login').and.returnValue(deferred.promise)
+      .and.callFake(function() {
       spyOn($state, 'go');
       spyOn(controller, 'inviteAcceptSuccess');
 
@@ -153,6 +156,7 @@ describe('LoginController', function() {
       $httpBackend.flush();
 
       expect(controller.inviteAcceptSuccess).toHaveBeenCalled();
+      });
     }));
 
     it('should refresh the tenants list', function() {

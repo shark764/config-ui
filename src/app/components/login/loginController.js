@@ -68,7 +68,17 @@ angular.module('liveopsConfigPanel')
               Session.lastPageVisited.stateName !== '' &&
               Session.lastPageVisited.stateName !== 'login'
             ) {
-              $state.go(Session.lastPageVisited.stateName, Session.lastPageVisited.paramsObj);
+              $state.go(
+                Session.lastPageVisited.stateName,
+                Session.lastPageVisited.paramsObj
+              );
+
+              if (angular.isDefined(Session.lastPageVisited.paramsObj.tenantId)) {
+                var currentSessionTenant = _.find(Session.tenants, {
+                  tenantId: Session.lastPageVisited.paramsObj.tenantId
+                });
+                Session.setTenant(currentSessionTenant);
+              }
             } else {
               // ...otherwise, let's just check to see if the user has
               // set a default tenant, and if so, try to set config-ui

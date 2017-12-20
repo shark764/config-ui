@@ -3,7 +3,7 @@
 angular.module('liveopsConfigPanel')
   .factory('AuthInterceptor', ['$q', 'Session', 'apiHostname', '$injector',
     function($q, Session, apiHostname, $injector) {
-      /*global localStorage: false */
+      /* globals localStorage */
       var Interceptor = function() {
         this.request = function(request) {
           if (request.url.indexOf(apiHostname) >= 0 && Session.token) {

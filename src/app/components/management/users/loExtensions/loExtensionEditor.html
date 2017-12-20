@@ -52,7 +52,7 @@
   </div>
 
   <div ng-show="extension.type == 'pstn'" class="secondary-field-col"  >
-    <input id="extension-value-field" type="tel" name="telValue"
+    <input type="tel" name="telValue"
       class="phone-number-col"
       ng-disabled="ngDisabled"
       ng-required="extension.type == 'pstn'"
@@ -60,7 +60,7 @@
       ng-model="phoneNumber"
       ng-change="updateExtension()">
     </input>
-    <input id="extension-ext-field" type="text"
+    <input type="text"
       class="ext-col"
       name="phoneExtension"
       pattern="\d*"
@@ -72,7 +72,7 @@
   </div>
 
   <div ng-show="extension.type == 'sip'" class="secondary-field-col">
-      <input id="extension-value-field" type="text" name="sipValue"
+      <input type="text" name="sipValue"
       ng-disabled="ngDisabled"
       ng-required="extension.type == 'sip'"
       ng-pattern="sipPattern"
