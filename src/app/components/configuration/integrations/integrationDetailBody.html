@@ -51,6 +51,7 @@
     </div>
   </div>
 
+  <!-- TWILIO OR PLIVO -->
   <div ng-if="selectedIntegration.type == 'twilio' || selectedIntegration.type == 'plivo'" class="web-rtc-providers">
     <div ng-if="selectedIntegration.type == 'twilio'">
       <div class="input-group">
@@ -62,6 +63,7 @@
       </div>
     </div>
 
+    <!-- PLIVO -->
     <div ng-if="selectedIntegration.type == 'plivo'">
       <div class="input-group">
         <label>{{'integration.details.properties.authId' | translate}} *</label>
@@ -80,6 +82,7 @@
       </div>
     </div>
 
+    <!-- TWILIO -->
     <div ng-if="selectedIntegration.type == 'twilio'" class="input-group integrations-default-region">
       <label>{{'integration.details.properties.defaultRegion' | translate}} *</label>
       <div>
@@ -105,8 +108,8 @@
     </div>
   </div>
 
+  <!-- EMAIL -->
   <div ng-if="customTypesHideShowFields(selectedIntegration, 'email')" class="added-padding">
-
     <!-- Incoming email protocol -->
     <div class="input-group">
       <label>{{'integration.details.properties.incomingType' | translate}} *</label>
@@ -203,6 +206,7 @@
     </div>
   </div>
 
+  <!-- REST / CUSTOM INTEGRATION -->
   <div ng-if="customTypesHideShowFields(selectedIntegration, 'rest')"
     class="added-padding">
     <div class="input-group">
@@ -268,6 +272,7 @@
     </div>
   </div>
 
+  <!-- SALESFORCE -->
   <div ng-if="customTypesHideShowFields(selectedIntegration, 'salesforce')" class="salesforce">
     <div class="input-group">
       <label>{{'integration.details.properties.username' | translate}} *</label>
@@ -319,6 +324,7 @@
     </div>
   </div>
 
+  <!-- ZENDESK -->
   <div ng-if="customTypesHideShowFields(selectedIntegration, 'zendesk') && showZendesk == true" class="zendesk-fields">
     <div class="input-group">
       <label>{{'integration.details.properties.username' | translate}} *</label>
@@ -372,6 +378,7 @@
     </div>
   </div>
 
+  <!-- VERINT -->
   <div ng-if="customTypesHideShowFields(selectedIntegration, 'verint')" disable-contents="!('PLATFORM_MANAGE_ALL_TENANTS' | hasPermission)">
     <div class="input-group">
       <label>{{'integration.details.properties.verintIpPort' | translate}} *</label>
@@ -475,6 +482,29 @@
           ng-disabled="!('MANAGE_ALL_PROVIDERS' | hasPermission)"
           ng-model="selectedIntegration.properties.historicalEnabled"
           name="multipleTenants"/>
+      </div>
+    </div>
+  </div>
+
+  <!-- SERENOVA VOICE / 2600Hz -->
+  <div ng-if="customTypesHideShowFields(selectedIntegration, 'serenova-voice')" disable-contents="!('PLATFORM_MANAGE_ALL_TENANTS' | hasPermission)">
+    <div class="divider-header first-header">
+      <h4>{{'details' | translate}}</h4>
+    </div>
+
+    <div class="input-group">
+      <label>{{'integration.details.properties.accountId' | translate}} *</label>
+      <form-error field="forms.detailsForm.accountId" error-type-required="{{'integration.accountId.error' | translate}}" ></form-error>
+      <div>
+        <input ng-required="true" type="password" ng-model="selectedIntegration.properties.accountId" name="accountId"/>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label>{{'integration.details.properties.accountApiKey' | translate}} *</label>
+      <form-error field="forms.detailsForm.accountApiKey" error-type-required="{{'integration.accountApiKey.error' | translate}}" ></form-error>
+      <div>
+        <input ng-required="true" type="password" ng-model="selectedIntegration.properties.apiKey" name="accountApiKey"/>
       </div>
     </div>
   </div>

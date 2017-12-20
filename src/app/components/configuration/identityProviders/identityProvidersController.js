@@ -86,7 +86,7 @@ angular.module('liveopsConfigPanel')
       vm.clearUploadField = function () {
         vm.selectedIdentityProvider.metadataFile = null;
         vm.selectedIdentityProvider.metadataFileName = null;
-      }
+      };
 
       vm.updateActive = function () {
         var dataToCopy = {

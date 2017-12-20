@@ -4,7 +4,7 @@
     items="dispatchMappings"
     search-query="searchQuery">
   </table-controls>
-  
+
   <lo-resource-table
     config="tableConfig"
     items="dispatchMappings"
@@ -36,15 +36,14 @@
     ng-model="selectedDispatchMapping"
     ng-resource="selectedDispatchMapping"
     lo-form-submit
-    lo-form-cancel
-    lo-form-alert>
+    lo-form-cancel>
 
     <ng-form name="forms.headerForm" separate-validation>
       <div class="detail-header"
         ng-include src="'app/components/flows/dispatchMappings/dispatchMappingDetailHeader.html'">
       </div>
     </ng-form>
-    
+
     <div class="detail-body"
       ng-include src="'app/components/flows/dispatchMappings/dispatchMappingDetailBody.html'">
     </div>
@@ -63,12 +62,12 @@
       </input>
     </div>
   </ng-form>
-  
+
   <bulk-action-executor class="details-pane"
     ng-show="showBulkActions"
     items="dispatchMappings"
     show-bulk-actions="showBulkActions">
-    
+
     <ba-set-dispatch-mapping-status>
     </ba-set-dispatch-mapping-status>
   </bulk-action-executor>

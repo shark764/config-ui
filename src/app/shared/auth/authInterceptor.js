@@ -3,6 +3,7 @@
 angular.module('liveopsConfigPanel')
   .factory('AuthInterceptor', ['$q', 'Session', 'apiHostname', '$injector',
     function($q, Session, apiHostname, $injector) {
+      /*global localStorage: false */
       var Interceptor = function() {
         this.request = function(request) {
           if (request.url.indexOf(apiHostname) >= 0 && Session.token) {
@@ -21,6 +22,7 @@ angular.module('liveopsConfigPanel')
           $injector.invoke(function ($state, $stateParams, $location, $document, AuthService, jwtHelper) {
             // upon a 401 (Unauthorized) error, check to make see whether or not
             // the the token's expiration time is up
+
             if (
               localStorage.getItem('TOKEN-EXPIRATION-DEBUG') ||
               (response.status === 401 &&

@@ -23,6 +23,13 @@ angular.module('liveopsConfigPanel')
         inline: false,
       };
 
+      $scope.toggleRegionField = function (integrationId) {
+        $scope.selectedTenant.hasTwilio = _.some($scope.integrations, {
+          'id': integrationId,
+          'type': 'twilio'
+        });
+      };
+
       vm.loadTimezones = function () {
         $scope.timezones = Timezone.query();
       };
@@ -82,11 +89,15 @@ angular.module('liveopsConfigPanel')
       };
 
       vm.loadIntegrations = function(tenantId) {
-        // tried using cachedQuery but it didn't work when selectedTenant was changed
-        $scope.integrations = Integration.query({
+        $scope.integrations = Integration.cachedQuery({
           tenantId: tenantId
+        }, 'Integration', true);
+
+        $scope.integrations.$promise.then(function () {
+          $scope.toggleRegionField($scope.selectedTenant.outboundIntegrationId);
         });
       };
+
 
       $scope.create = function () {
         $scope.selectedTenant = new Tenant({
@@ -98,7 +109,10 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.submit = function () {
-        $scope.selectedTenant.save(null, null, function (err) {
+        $scope.selectedTenant.save(null, function (response) {
+          $scope.toggleRegionField(response.outboundIntegrationId);
+          Alert.success($translate.instant('tenant.save.success'));
+        }, function (err) {
           if (err.data.error.attribute.parentId) {
             Alert.error(err.data.error.attribute.parentId);
           } else if (err.data.error.attribute.name) {

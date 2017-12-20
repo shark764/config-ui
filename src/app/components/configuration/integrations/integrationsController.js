@@ -73,7 +73,14 @@ angular.module('liveopsConfigPanel')
 
       $scope.customTypesHideShowFields = function (selectedIntegration, customTypeValue) {
         if (selectedIntegration) {
-          if ((selectedIntegration.type && selectedIntegration.type.hasOwnProperty('name') && selectedIntegration.type.value === customTypeValue) || selectedIntegration.type === customTypeValue) {
+          if (
+            (
+              selectedIntegration.type &&
+              selectedIntegration.type.hasOwnProperty('name') &&
+              selectedIntegration.type.value === customTypeValue
+            ) ||
+              selectedIntegration.type === customTypeValue
+            ) {
             return true;
           } else {
             return false;
@@ -113,7 +120,11 @@ angular.module('liveopsConfigPanel')
 
       $q.when($scope.integrationList.$promise)
         .then(function (integrationData) {
-           addAuthMethodProp(integrationData);
+          // code freeze on Plivo, so removing for the time-being
+          _.remove($scope.integrationList, {
+            type: 'plivo'
+          });
+          addAuthMethodProp(integrationData);
         });
 
       $scope.fetchListeners = function (invalidate) {

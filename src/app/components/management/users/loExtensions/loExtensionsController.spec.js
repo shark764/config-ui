@@ -39,7 +39,7 @@ describe('loExtensions controller', function() {
       controller.save();
       $httpBackend.flush();
 
-      expect($scope.newExtension.type).toEqual('webrtc');
+      expect($scope.newExtension.type).toEqual('pstn');
       expect(controller.editingExtension).toBeNull();
       expect($scope.creatingExtension).toBeFalsy();
     }));

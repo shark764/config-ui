@@ -1,21 +1,22 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('loExtensionEditor', ['$rootScope', 'loExtensionProviders', 'loExtensionTypes', 'GlobalRegionsList',  function($rootScope, loExtensionProviders, loExtensionTypes, GlobalRegionsList) {
+  .directive('loExtensionEditor', ['$rootScope', 'GlobalRegionsList',  'validationPatterns', function($rootScope, GlobalRegionsList, validationPatterns) {
       return {
         restrict: 'E',
         require: '^form',
         scope: {
           extension: '=',
           allExtensions: '=',
-          lec: '='
+          lec: '=',
+          hasTwilioIntegration: '=',
+          loExtensionTypes: '=',
+          loExtensionProviders: '='
         },
         templateUrl: 'app/components/management/users/loExtensions/loExtensionEditor.html',
         link: function($scope, element, attrs, ngFormController){
           $scope.form = ngFormController;
-          $scope.loExtensionProviders = loExtensionProviders;
-          $scope.loExtensionTypes = loExtensionTypes;
-          $scope.sipPattern = '[s|S]{1}[i|I]{1}[p|P]{1}:.*';
+          $scope.sipPattern = validationPatterns.sip;
           $scope.twilioRegions = GlobalRegionsList;
 
           // grab Twilio's default description list for resetting Twilio desc later on
@@ -67,6 +68,10 @@ angular.module('liveopsConfigPanel')
             angular.forEach([
               'type', 'provider', 'telValue', 'sipValue', 'extensiondescription', 'region'
             ], function(field) {
+              if (!$scope.form[field]) {
+                return;
+              }
+
               $scope.form[field].$setPristine();
               $scope.form[field].$setUntouched();
               $scope.form[field].$setValidity('api', true);
