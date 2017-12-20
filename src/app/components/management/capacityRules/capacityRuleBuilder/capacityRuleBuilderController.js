@@ -100,8 +100,7 @@ angular.module('liveopsConfigPanel')
           if(rule.count === 0 || rule.channels.length === 0){
             return;
           }
-
-          return lodash.pluck(rule.channels, 'name').join(', ') + ': ' + rule.count;
+          return lodash.map(rule.channels, 'name').join(', ') + ': ' + rule.count;
         })).join(($scope.quantifier === 'all' ? ' & ' : ' | '));
       };
     }
