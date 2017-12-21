@@ -697,6 +697,7 @@
   "integration.accountId.error": "Please enter your account ID",
   "integration.details.properties.accountApiKey": "Account API Key",
   "integration.accountApiKey.error": "Please enter your account API key",
+  "integration.gvn.displayName": "Serenova GVN",
   "identityProviders.table.title": "Identity Providers",
   "identityProviders.table.active": "Active",
   "identityProviders.table.inactive": "Inactive",
