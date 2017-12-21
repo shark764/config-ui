@@ -379,7 +379,7 @@
   </div>
 
   <!-- VERINT -->
-  <div ng-if="customTypesHideShowFields(selectedIntegration, 'verint')" disable-contents="!('PLATFORM_MANAGE_ALL_TENANTS' | hasPermission)">
+  <div ng-if="customTypesHideShowFields(selectedIntegration, 'verint')">
     <div class="input-group">
       <label>{{'integration.details.properties.verintIpPort' | translate}} *</label>
       <form-error field="forms.detailsForm.verintIpPort" error-type-required="{{'integration.verintIpPort.error' | translate}}" ></form-error>
@@ -486,8 +486,8 @@
     </div>
   </div>
 
-  <!-- SERENOVA VOICE / 2600Hz -->
-  <div ng-if="customTypesHideShowFields(selectedIntegration, 'serenova-voice')" disable-contents="!('PLATFORM_MANAGE_ALL_TENANTS' | hasPermission)">
+  <!-- SERENOVA VOICE / Serenova GVN -->
+  <div ng-if="customTypesHideShowFields(selectedIntegration, 'serenova-voice')">
     <div class="divider-header first-header">
       <h4>{{'details' | translate}}</h4>
     </div>
