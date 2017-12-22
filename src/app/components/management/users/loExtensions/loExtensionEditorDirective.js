@@ -30,21 +30,16 @@ angular.module('liveopsConfigPanel')
           var defaultTwilioDesc = getDefaultTwilioDesc($scope.allExtensions);
 
           $scope.updateExtension = function() {
-            $scope.extension.value = $scope.phoneNumber;
-            if ($scope.phoneExtension) {
-              $scope.extension.value += 'x' + $scope.phoneExtension;
-            } else if ($scope.sipExtension) {
-              $scope.extension.value = $scope.sipExtension;
-            }
+            if ($scope.sipExtension) {
+                $scope.extension.value = $scope.sipExtension;
+              } else {
+                $scope.extension.value = $scope.phoneNumber;
+              }
           };
 
           $scope.updateDisplay = function() {
             if ($scope.extension.value){
-              if ($scope.extension.type === 'pstn' && $scope.extension.value.contains('x')) {
-                var xIndex = $scope.extension.value.indexOf('x');
-                $scope.phoneExtension = $scope.extension.value.substring(xIndex + 1, $scope.extension.value.length);
-                $scope.phoneNumber = $scope.extension.value.substring(0, xIndex);
-              } else if ($scope.extension.type === 'sip') {
+              if ($scope.extension.type === 'sip') {
                 $scope.sipExtension = $scope.extension.value;
               } else {
                 $scope.phoneNumber = $scope.extension.value;

@@ -60,15 +60,7 @@
       ng-model="phoneNumber"
       ng-change="updateExtension()">
     </input>
-    <input type="text"
-      class="ext-col"
-      name="phoneExtension"
-      pattern="\d*"
-      placeholder="{{'details.phone.extension.value' | translate}}"
-      ng-disabled="ngDisabled"
-      ng-model="phoneExtension"
-      ng-change="updateExtension()">
-    </input>
+
   </div>
 
   <div ng-show="extension.type == 'sip'" class="secondary-field-col">
