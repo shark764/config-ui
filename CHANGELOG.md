@@ -9,6 +9,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 * CXV1-10842 - Update forgot password functionality
 * CXV1-12488 Replace display text for GVN on Default Gateway dropdown on Tenant Detail panel
 * CXV1-9823  - Fixed capacity rule outdated function so it shows  current selected rules
+* CXV1-12500 - GVN (formerly 2600hz) - Account Id and Account API Key fields are disabled in qe for serenova-voice integration 
 
 ## [4.28.2]
 * Updated docker build to accomodate for remote designer
