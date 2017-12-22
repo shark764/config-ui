@@ -3,13 +3,14 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+* CXV1-12318 - Remove Inactive Tenants from /me Endpoint Response
 * CXV1-12432 - Create debug url parameter for spoofing token expiration
 * CXV1-11824 - Support GVN (formerly 2600hz) in Config UI
 * CXV1-10833 - Add Re-auth to tenant switching
 * CXV1-10842 - Update forgot password functionality
-* CXV1-12488 Replace display text for GVN on Default Gateway dropdown on Tenant Detail panel
+* CXV1-12488 - Replace display text for GVN on Default Gateway dropdown on Tenant Detail panel
 * CXV1-9823  - Fixed capacity rule outdated function so it shows  current selected rules
-* CXV1-12500 - GVN (formerly 2600hz) - Account Id and Account API Key fields are disabled in qe for serenova-voice integration 
+* CXV1-12500 - GVN (formerly 2600hz) - Account Id and Account API Key fields are disabled in qe for serenova-voice integration
 
 ## [4.28.2]
 * Updated docker build to accomodate for remote designer
