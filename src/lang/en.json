@@ -1306,5 +1306,6 @@
   "appdock.transcriptsHdr": "Messaging Transcript(s)",
   "appdock.messaging.agent": "Agent",
   "appdock.messaging.unknownUser": "(Unknown User)",
-  "appdock.messaging.fromFlow": "(from Flow)"
+  "appdock.messaging.fromFlow": "(from Flow)",
+  "loFormAlert.reservedWord" : " is a reserved word"
 }
