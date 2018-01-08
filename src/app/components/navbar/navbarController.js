@@ -26,8 +26,8 @@ angular.module('liveopsConfigPanel')
         if (!Session.isAuthenticated()) {
           return;
         }
-
         var tenantDropdownItems = [];
+
         var currentSessionTenant = _.find(Session.tenants, { tenantId: Session.tenant.tenantId });
 
         if (
@@ -39,8 +39,8 @@ angular.module('liveopsConfigPanel')
           Session.setTenant(Session.tenants[0]);
         }
 
-        var allTenants = MeSvc.getActiveTenants();
-        $q.when(allTenants).then(function (allTenantsResponse) {
+        var allTenants = Me.cachedQuery(null, 'Me', true);
+        allTenants.$promise.then(function (allTenantsResponse) {
           if (
             allTenantsResponse.length > 0 &&
             Session.tenants &&
@@ -160,6 +160,7 @@ angular.module('liveopsConfigPanel')
       ];
 
       $rootScope.$on(loEvents.session.tenants.updated, $scope.populateTenantsHandler);
+
       $scope.$on('resource:create', $scope.onCreateClick);
       $scope.$on('resource:actions', $scope.onActionsClick);
       $rootScope.$on('readAllMode', function() {
