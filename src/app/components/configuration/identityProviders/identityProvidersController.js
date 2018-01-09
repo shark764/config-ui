@@ -13,6 +13,7 @@ angular.module('liveopsConfigPanel')
       vm.idpConfigInfoTypes = identityProvidersSvc.idpConfigInfoTypes;
       vm.downloadConfig = identityProvidersSvc.downloadConfig;
       vm.newFileUploaded = false;
+      vm.disableActiveToggle = true;
 
       vm.identityProviders = IdentityProviders.cachedQuery({
         tenantId: Session.tenant.tenantId
@@ -89,6 +90,12 @@ angular.module('liveopsConfigPanel')
       };
 
       vm.updateActive = function () {
+        // an extra safeguard so that in case the disabling of the UI doesn't work
+        // we also prevent the updating here
+        if (vm.disableActiveToggle) {
+          return;
+        }
+
         var dataToCopy = {
           id: vm.selectedIdentityProvider.id,
           tenantId: Session.tenant.tenantId,
@@ -114,6 +121,21 @@ angular.module('liveopsConfigPanel')
           } else {
             bypassDropdownReset = false;
           }
+
+          // here is where we set the flag the disables the enabled/disabled toggle
+          // in the event that this is the IDP we are currently logged in with
+          var isActiveIdp = identityProvidersSvc.isActiveIdp(selectedItemResponse.id);
+          isActiveIdp.then(function (response) {
+            vm.disableActiveToggle = response;
+
+            if (vm.disableActiveToggle) {
+              // this is the popup text we show on mouseover to explain why we
+              // disabled the switch
+              vm.displayToggleMessage = $translate.instant('identityProviders.details.cannotDisable');
+            } else {
+              vm.displayToggleMessage = '';
+            }
+          });
         });
       });
 

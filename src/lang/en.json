@@ -729,6 +729,7 @@
   "identityProviders.details.addXmlUrl": "add url",
   "identityProviders.details.clearUploadField": "clear field",
   "identityProviders.bulkActions.enable.idp": "Enable/Disable Identity Providers",
+  "identityProviders.details.cannotDisable": "You are currently logged in with this identity provider, so it cannot be disabled.",
   "dispatchMappings.details.interactionType": "Interaction Type",
   "dispatchMappings.details.interactionType.select": "Select Interaction Type...",
   "dispatchMappings.details.interactionType.error": "Please select an interaction type",
