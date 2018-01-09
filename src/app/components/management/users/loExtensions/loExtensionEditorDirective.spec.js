@@ -91,13 +91,6 @@ describe('loExtensionEditor directive', function(){
   });
 
   describe('updateExtension function', function() {
-    it('should add the pstn extension to the number, if given', function() {
-      isolateScope.phoneNumber = 'mynewnumber';
-      isolateScope.phoneExtension = '1234';
-      isolateScope.updateExtension();
-      expect(isolateScope.extension.value).toEqual('mynewnumberx1234');
-    });
-
     it('should set the sip value, if given', function() {
       isolateScope.sipExtension = 'sip:user@example.com';
       isolateScope.updateExtension();
@@ -116,18 +109,6 @@ describe('loExtensionEditor directive', function(){
       expect(isolateScope.phoneNumber).toEqual('+1-506-555-5555');
       expect(isolateScope.sipExtension).toBeFalsy();
       expect(isolateScope.phoneExtension).toBeFalsy();
-    });
-
-    it('should set the $scope.phoneNumber and $scope.phoneExtension values if given a phone number with extension', function() {
-      isolateScope.extension = {
-        value: '+1-506-555-5555x1234',
-        type: 'pstn'
-      };
-
-      isolateScope.updateDisplay();
-      expect(isolateScope.phoneNumber).toEqual('+1-506-555-5555');
-      expect(isolateScope.sipExtension).toBeFalsy();
-      expect(isolateScope.phoneExtension).toEqual('1234');
     });
 
     it('should set the $scope.sipExtension value if given a sip extension', function() {

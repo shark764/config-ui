@@ -11,6 +11,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 * CXV1-12488 - Replace display text for GVN on Default Gateway dropdown on Tenant Detail panel
 * CXV1-9823  - Fixed capacity rule outdated function so it shows  current selected rules
 * CXV1-12500 - GVN (formerly 2600hz) - Account Id and Account API Key fields are disabled in qe for serenova-voice integration
+* CXV1-9513 - Remove "Ext." field from user management details panel
+
 
 ## [4.28.2]
 * Updated docker build to accomodate for remote designer
