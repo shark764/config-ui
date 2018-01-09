@@ -12,6 +12,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 * CXV1-9823  - Fixed capacity rule outdated function so it shows  current selected rules
 * CXV1-12500 - GVN (formerly 2600hz) - Account Id and Account API Key fields are disabled in qe for serenova-voice integration
 * CXV1-9513 - Remove "Ext." field from user management details panel
+* CXV1-12346 - Change name of label URL to XML Config to: Metadata URL
 
 
 ## [4.28.2]

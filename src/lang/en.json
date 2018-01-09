@@ -715,7 +715,7 @@
   "identityProviders.details.metadataFile.error": "XML file is required",
   "identityProviders.details.sharedIdentityProviderLinkId.error": "Access Code is required",
   "identityProviders.details.configuration": "Configuration",
-  "identityProviders.details.urlToXmlConfig": "URL to XML Config",
+  "identityProviders.details.urlToXmlConfig": "Metadata URL",
   "identityProviders.details.uploadXmlConfig": "Upload XML Config",
   "identityProviders.details.sharedAccessCode": "Access Code",
   "identityProviders.details.downloadConfig": "Download Current Config",
