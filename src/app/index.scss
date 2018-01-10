@@ -22,5 +22,5 @@ body > .ng-view {
 }
 
 .content-container, div#table-pane:not(.table-widget) {
-  overflow-y: scroll;
+  overflow-y: auto;
 }
