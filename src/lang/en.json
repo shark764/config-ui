@@ -578,6 +578,7 @@
   "tenant.branding.resetDefault.confirm": "This will reset tenant branding to default. Do you want to continue?",
   "tenant.branding.resetDefault": "Branding has been reset to default!",
   "tenant.save.success": "Tenant saved successfully!",
+  "tenant.save.admin" : "Tenant Admin has been updated to ",
   "integration.details": "Integration",
   "integration.details.properties.accountSid": "Account SID",
   "integration.details.properties.authId": "Auth ID",

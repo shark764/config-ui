@@ -17,7 +17,8 @@
     <label>{{'tenant.details.admin' | translate}}</label>
     <div>
       <select ng-model="selectedTenant.adminUserId"
-        ng-options="user.id as user.getDisplay() for user in users">
+        ng-options="user.id as user.getDisplay() for user in users"
+        ng-change="changeTenantAdmin()">
       </select>
       <i class="fa fa-refresh fa-spin"
         ng-hide="users.$resolved"></i>
