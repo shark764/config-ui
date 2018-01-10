@@ -113,15 +113,15 @@ angular.module('liveopsConfigPanel')
 
       $scope.changeTenantAdmin = function(){
         tenantAdminChanged = true;
-      }
+      };
 
       $scope.submit = function () {
         $scope.selectedTenant.save(null, function (response) {
           $scope.toggleRegionField(response.outboundIntegrationId);
             if (tenantAdminChanged){
               for (user in $scope.users){
-                if($scope.users[user].id == $scope.selectedTenant.adminUserId){
-                  Alert.success($translate.instant('tenant.save.admin') + $scope.users[user].$user.firstName + ' ' +$scope.users[user].$user.lastName);
+                if($scope.users[user].id === $scope.selectedTenant.adminUserId){
+                  Alert.success($translate.instant('tenant.save.admin') + $scope.users[user].$user.firstName + ' ' + $scope.users[user].$user.lastName);
                 }
               }
               tenantAdminChanged = false;

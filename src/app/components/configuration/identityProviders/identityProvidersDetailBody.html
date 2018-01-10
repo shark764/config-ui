@@ -155,13 +155,49 @@
       ng-switch-when="xml"
       class="input-group"
       ng-show="idp.displayUploadInput(idp.selectedIdentityProvider) && idp.selectedIdentityProvider.metadataFileName.length">
-    <label>&nbsp;</label>
-    <div class="clear-xml-upload-field">
-      <a ng-click="idp.clearUploadField()">{{'identityProviders.details.clearUploadField' | translate}}</a>
+      <label>&nbsp;</label>
+      <div class="clear-xml-upload-field">
+        <a ng-click="idp.clearUploadField()">{{'identityProviders.details.clearUploadField' | translate}}</a>
+      </div>
     </div>
-  </div>
 
-    <!-- CASE 3: IDENTITY PROVIDER FIELD -->
+    <!-- CASE 3: XML DIRECT INPUT FIELD -->
+    <div
+      id="xml-direct-input"
+      class="input-group"
+      ng-switch-when="xmlDirectInput">
+      <label>{{'identityProviders.details.enterXml' | translate}} *</label>
+      <form-error field="forms.detailsForm.xmlDirectInput"
+        error-type-required="{{'identityProviders.details.xmlDirectInput.error' | translate}}">
+      </form-error>
+      <div>
+        <textarea
+          ng-model="idp.selectedIdentityProvider.metadataFile"
+          ng-readonly="idp.selectedIdentityProvider.isReadonly"
+          name="xmlDirectInput"
+          ng-class="{'readonly-textarea' : idp.selectedIdentityProvider.isReadonly}"
+          required>
+          {{idp.selectedIdentityProvider.metadataFile}}
+        </textarea>
+        <div ng-switch="idp.selectedIdentityProvider.isReadonly">
+          <a
+            ng-switch-when="true"
+            ng-click="idp.setEditState()"
+            class="link">
+            {{idp.editLinkText}}
+          </a>
+
+          <a
+            ng-switch-when="false"
+            ng-click="idp.setCancelledState()"
+            class="link">
+            {{idp.editLinkText}}
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- CASE 4: IDENTITY PROVIDER FIELD -->
     <div
       ng-switch-when="sharedIdentityProviderLinkId"
       class="input-group">
