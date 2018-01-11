@@ -14,6 +14,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 * CXV1-9513 - Remove "Ext." field from user management details panel
 * CXV1-12346 - Change name of label URL to XML Config to: Metadata URL
 * CXV1-12394 - Prevented current IDP from being disabled
+* CXV1-12382 - Confirm the user with a popup message when Tenant Admin is changed
 
 ## [4.28.2]
 * Updated docker build to accomodate for remote designer

@@ -108,10 +108,26 @@ angular.module('liveopsConfigPanel')
         });
       };
 
+      var user;
+      var tenantAdminChanged = false;
+
+      $scope.changeTenantAdmin = function(){
+        tenantAdminChanged = true;
+      }
+
       $scope.submit = function () {
         $scope.selectedTenant.save(null, function (response) {
           $scope.toggleRegionField(response.outboundIntegrationId);
-          Alert.success($translate.instant('tenant.save.success'));
+            if (tenantAdminChanged){
+              for (user in $scope.users){
+                if($scope.users[user].id == $scope.selectedTenant.adminUserId){
+                  Alert.success($translate.instant('tenant.save.admin') + $scope.users[user].$user.firstName + ' ' +$scope.users[user].$user.lastName);
+                }
+              }
+              tenantAdminChanged = false;
+            }
+          Alert.success($translate.instant('tenant.save.success') );
+
         }, function (err) {
           if (err.data.error.attribute.parentId) {
             Alert.error(err.data.error.attribute.parentId);
