@@ -4,10 +4,10 @@
   },
   "https://github.com/FortAwesome/Font-Awesome.git": {
     "4.4.0": "f2cc73da12f0e6d828bc2daaa72bff457067bf39",
-    "4.7.0": "a3fe90fa5f6fac55d197f9cbd18e3f57dafb716c"
+    "4.7.0": "4.7.0"
   },
   "https://github.com/Foxandxss/angular-toastr.git": {
-    "2.1.1": "c03374ce968196dd75dd614a4c3849ac9acc1b81"
+    "2.1.1": "2.1.1"
   },
   "https://github.com/HubSpot/drop.git": {
     "0.5.8": "6b64c107d48c80a65e6fdb19df0d1e0b0c1ac9f6"
@@ -19,7 +19,7 @@
     "2.15.1": "ffc810472148358ffdccd8ffc90f5c068cb3b310"
   },
   "https://github.com/PascalPrecht/bower-angular-translate-storage-cookie.git": {
-    "2.15.1": "5de633d02cebe6d1f24c3514b484bd92adec52d1"
+    "2.15.1": "2.15.1"
   },
   "https://github.com/PascalPrecht/bower-angular-translate-storage-local.git": {
     "2.15.1": "7b95e6498484a4908201adeb707482fc3629020e"
@@ -34,7 +34,7 @@
     "0.4.1": "3919b7a3077dfdb4b31cc4b485d70aab4a163a44"
   },
   "https://github.com/angular-ui/angular-ui-router-bower.git": {
-    "0.2.18": "2b8d5241b4c631ca2aef079bb96690b213eff449"
+    "0.2.18": "0.2.18"
   },
   "https://github.com/angular-ui/ui-codemirror.git": {
     "0.3.0": "6ea8579ab871f60c2d6fcf5336633d23603e2bb6"
@@ -127,7 +127,7 @@
     "master": "007f4d7b2bd2ffa5571ee9591d111327b3612148"
   },
   "https://github.com/lodash/lodash.git": {
-    "3.10.1": "ef20b4290cc4fe7551c82a552ea7ffa76548eec8"
+    "3.10.1": "3.10.1"
   },
   "https://github.com/marceljuenemann/angular-drag-and-drop-lists.git": {
     "1.4.0": "141e13919b30578ed53d079bdd269fb99b20f78f"
