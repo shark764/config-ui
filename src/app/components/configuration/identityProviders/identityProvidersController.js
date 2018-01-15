@@ -6,6 +6,7 @@ angular.module('liveopsConfigPanel')
       var vm = this;
       var bypassDropdownReset = false;
       var identityProvidersSvc = new IdentityProviders();
+      var overrideSubmitBtnState = false;
 
       $scope.forms = {};
       $scope.manageIdentityProviders = PermissionGroups.manageIdentityProviders;
@@ -43,7 +44,19 @@ angular.module('liveopsConfigPanel')
 
         vm.selectedIdentityProvider.selectedIdpConfigInfoType = params.selectedIdpConfigInfoType || vm.selectedIdentityProvider.selectedIdpConfigInfoType;
 
-        vm.selectedIdentityProvider.metadataFile = params.metadataFile || vm.selectedIdentityProvider.metadataFile;
+        if (
+          // if there was no metadataFile saved, and we're not setting one
+          // now, then delete the metadataFile for the IDP so as not
+          // to unnecessarily retain it when switching between xml file upload
+          // and xml direct input
+          _.has(vm, 'selectedIdentityProvider.$original') &&
+          !vm.selectedIdentityProvider.$original.metadataFile &&
+          !params.metadataFile
+        ) {
+          delete vm.selectedIdentityProvider.metadataFile;
+        } else {
+          vm.selectedIdentityProvider.metadataFile = params.metadataFile || vm.selectedIdentityProvider.metadataFile;
+        }
 
         if (_.has($scope.forms.detailsForm, 'xmlDirectInput.$pristine')) {
           $scope.forms.detailsForm.xmlDirectInput.$pristine = params.isPristine || $scope.forms.detailsForm.xmlDirectInput.$pristine;
@@ -110,9 +123,9 @@ angular.module('liveopsConfigPanel')
               // user clicks "OK"
               function() {
                 vm.setXmlInputState({
-                  metadataFile: vm.selectedIdentityProvider.backupXml,
+                  metadataFile: vm.selectedIdentityProvider.$original.metadataFile ? vm.selectedIdentityProvider.backupXml : null,
                   isReadonly: true,
-                  editLinkText: $translate.instant('identityProviders.details.editXmlMarkup')
+                  editLinkText: vm.selectedIdentityProvider.$original.metadataFile ? $translate.instant('identityProviders.details.editXmlMarkup') : ''
                 });
               },
               // user clicks "Cancel"
@@ -120,8 +133,11 @@ angular.module('liveopsConfigPanel')
                 vm.setXmlInputState({
                   selectedIdpConfigInfoType: 'xmlDirectInput',
                   isReadonly: false,
-                  editLinkText: (!vm.selectedIdentityProvider.isNew() && vm.selectedIdentityProvider.$original.metadataFile) ? $translate.instant('value.cancel') : ''
+                  editLinkText: (!vm.selectedIdentityProvider.isNew() && vm.selectedIdentityProvider.$original.metadataFile) ? $translate.instant('value.cancel') : '',
+                  metadataFile: vm.selectedIdentityProvider.metadataFile
                 });
+
+                overrideSubmitBtnState = true;
               }
             );
           // if the XML direct input has not been modified or was modified
@@ -130,7 +146,8 @@ angular.module('liveopsConfigPanel')
             vm.setXmlInputState({
               isReadonly: true,
               editLinkText: $translate.instant('identityProviders.details.editXmlMarkup'),
-              isPristine: true
+              isPristine: true,
+              backupXml: undefined
             });
           }
         }
@@ -139,13 +156,17 @@ angular.module('liveopsConfigPanel')
         // selection is changed with no file or url set
         $timeout(function () {
           if (
+            !overrideSubmitBtnState &&
             !vm.selectedIdentityProvider.metadataUrl &&
-            (!vm.selectedIdentityProvider.metadataFile || !vm.selectedIdentityProvider.metadataFileName)
+            (
+              !vm.selectedIdentityProvider.metadataFile || !vm.selectedIdentityProvider.metadataFileName
+            )
           ) {
             $scope.forms.detailsForm.$invalid = true;
           }
-        });
 
+          overrideSubmitBtnState = false;
+        });
       };
 
       vm.triggerUpload = function () {
