@@ -32,6 +32,27 @@
     }
   }
 
+  #xml-direct-input {
+    label {
+      width: 100%;
+      padding: 10px 0;
+    }
+
+    label,
+    &> div {
+      display: block;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 150px;
+    }
+
+    .lo-error {
+      margin-bottom: 5px;
+    }
+  }
+
   .input-group {
     .saved-url-display {
       display: flex;
@@ -52,5 +73,20 @@
 
   .clear-xml-upload-field {
     font-size: 10px;
+  }
+
+  a.link {
+    display: inline-block;
+    padding: 7px 0 0 4px;
+    text-decoration: underline;
+    text-transform: lowercase;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  .readonly-textarea {
+    opacity: .50;
   }
 }

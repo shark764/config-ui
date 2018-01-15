@@ -34,7 +34,107 @@ angular.module('liveopsConfigPanel')
         return false;
       };
 
+      vm.setXmlInputState = function (params) {
+        vm.selectedIdentityProvider.backupXml = angular.copy(params.backupXml) || vm.selectedIdentityProvider.backupXml;
+
+        vm.selectedIdentityProvider.isReadonly = (params.isReadonly === true || params.isReadonly === false) ? params.isReadonly : vm.selectedIdentityProvider.isReadonly;
+
+        vm.editLinkText = params.editLinkText || vm.editLinkText;
+
+        vm.selectedIdentityProvider.selectedIdpConfigInfoType = params.selectedIdpConfigInfoType || vm.selectedIdentityProvider.selectedIdpConfigInfoType;
+
+        vm.selectedIdentityProvider.metadataFile = params.metadataFile || vm.selectedIdentityProvider.metadataFile;
+
+        if (_.has($scope.forms.detailsForm, 'xmlDirectInput.$pristine')) {
+          $scope.forms.detailsForm.xmlDirectInput.$pristine = params.isPristine || $scope.forms.detailsForm.xmlDirectInput.$pristine;
+        }
+      };
+
+      vm.setEditState = function () {
+        vm.setXmlInputState({
+          backupXml: vm.selectedIdentityProvider.metadataFile,
+          isReadonly: false,
+          editLinkText: $translate.instant('value.cancel')
+        });
+      };
+
+      vm.setCancelledState = function () {
+        vm.setXmlInputState({
+          metadataFile: vm.selectedIdentityProvider.backupXml,
+          isReadonly: true,
+          editLinkText: $translate.instant('identityProviders.details.editXmlMarkup')
+        });
+      };
+
       vm.handleConfigSelectChange = function () {
+        if (
+          vm.selectedIdentityProvider.selectedIdpConfigInfoType === 'xml' &&
+          vm.newFileUploaded === true
+        ) {
+          vm.selectedIdentityProvider.inEditMode = true;
+        } else {
+          vm.selectedIdentityProvider.inEditMode = false;
+        }
+
+        // the XML Direct Input configType
+        if (
+          // the xml direct input option is selected
+          vm.selectedIdentityProvider.selectedIdpConfigInfoType === 'xmlDirectInput' &&
+          (
+            // ...and it's either a new IDP, or an existing IDP
+            // with no metadataFile value
+            vm.selectedIdentityProvider.isNew() || !vm.selectedIdentityProvider.metadataFile
+          )
+        ) {
+          vm.setXmlInputState({
+            backupXml: undefined,
+            isReadonly: false,
+            editLinkText: ''
+          });
+        } else if (
+            // ...we've selected xml direct input and there
+            // is already saved data there
+            !vm.selectedIdentityProvider.isNew() &&
+            vm.selectedIdentityProvider.selectedIdpConfigInfoType === 'xmlDirectInput' &&
+            vm.selectedIdentityProvider.metadataFile
+        ) {
+          vm.setXmlInputState({
+            isReadonly: true,
+            editLinkText: $translate.instant('identityProviders.details.editXmlMarkup')
+          });
+        } else if (_.has($scope.forms.detailsForm, 'xmlDirectInput.$pristine')) {
+          if ($scope.forms.detailsForm.xmlDirectInput.$pristine !== true) {
+            // ...warn the user that they will lose their changes if
+            // the dropdown change completes
+            Alert.confirm($translate.instant('identityProviders.details.enterXmlUnsaved'),
+              // user clicks "OK"
+              function() {
+                vm.setXmlInputState({
+                  metadataFile: vm.selectedIdentityProvider.backupXml,
+                  isReadonly: true,
+                  editLinkText: $translate.instant('identityProviders.details.editXmlMarkup')
+                });
+              },
+              // user clicks "Cancel"
+              function() {
+                vm.setXmlInputState({
+                  selectedIdpConfigInfoType: 'xmlDirectInput',
+                  isReadonly: false,
+                  editLinkText: (!vm.selectedIdentityProvider.isNew() && vm.selectedIdentityProvider.$original.metadataFile) ? $translate.instant('value.cancel') : ''
+                });
+              }
+            );
+          // if the XML direct input has not been modified or was modified
+          // but someone hit 'cancel', then make sure that the textarea resets
+          } else {
+            vm.setXmlInputState({
+              isReadonly: true,
+              editLinkText: $translate.instant('identityProviders.details.editXmlMarkup'),
+              isPristine: true
+            });
+          }
+        }
+
         // prevent submit button from activating when "Type" dropdown
         // selection is changed with no file or url set
         $timeout(function () {
@@ -46,14 +146,6 @@ angular.module('liveopsConfigPanel')
           }
         });
 
-        if (
-          vm.selectedIdentityProvider.selectedIdpConfigInfoType === 'xml' &&
-          vm.newFileUploaded === true
-        ) {
-          vm.selectedIdentityProvider.inEditMode = true;
-        } else {
-          vm.selectedIdentityProvider.inEditMode = false;
-        }
       };
 
       vm.triggerUpload = function () {
@@ -135,6 +227,19 @@ angular.module('liveopsConfigPanel')
             } else {
               vm.displayToggleMessage = '';
             }
+
+            if (vm.selectedIdentityProvider.metadataFile) {
+              vm.setXmlInputState({
+                isReadonly: true,
+                editLinkText: $translate.instant('identityProviders.details.editXmlMarkup')
+              });
+            } else {
+              vm.setXmlInputState({
+                backupXml: undefined,
+                isReadonly: false,
+                editLinkText: ''
+              });
+            }
           });
         });
       });
@@ -155,18 +260,36 @@ angular.module('liveopsConfigPanel')
         identityProvidersSvc.deleteExtraneousProps($scope);
 
         return vm.selectedIdentityProvider.save()
-        .then(function () {
+        .then(function (response) {
           // make sure not to reset the config type dropdown after saving
           bypassDropdownReset = true;
           vm.newFileUploaded = false;
+
+          if (tempIdpData.selectedIdpConfigInfoType === 'xmlDirectInput') {
+            vm.setXmlInputState({
+              isReadonly: true,
+              editLinkText: $translate.instant('identityProviders.details.editXmlMarkup'),
+              metadataFile: response.metadataFile
+            });
+          }
+
           Alert.success($translate.instant('value.saveSuccess'));
         }, function (err) {
           Alert.error($translate.instant('value.saveFail'));
           $scope.showDuplicateMsg = false;
           if (err.data.error.attribute === 'name') {
+            vm.selectedIdentityProvider = tempIdpData;
             Alert.error(err.data.error.message.capitalize());
             $scope.duplicateErrorMessage = err.data.error.message.capitalize();
             $scope.showDuplicateMsg = true;
+            if (tempIdpData.selectedIdpConfigInfoType === 'xmlDirectInput') {
+              vm.selectedIdentityProvider.metadataFile = vm.selectedIdentityProvider.$original.metadataFile;
+              vm.setXmlInputState({
+                selectedIdpConfigInfoType: 'xmlDirectInput',
+                isReadonly: false,
+                editLinkText: (!vm.selectedIdentityProvider.isNew() && vm.selectedIdentityProvider.$original.metadataFile) ? $translate.instant('value.cancel') : ''
+              });
+            }
           }
         })
         .then(function () {
