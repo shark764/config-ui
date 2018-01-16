@@ -2,6 +2,7 @@ angular.module('liveopsConfigPanel')
   .service('userTableConfig', ['userStatuses','$q', 'userStates', '$translate', 'Skill', 'Group', 'TenantRole', 'Session', 'UserPermissions', 'tenantStatuses', 'queryCache', 'helpDocsHostname',
     function(userStatuses, $q, userStates, $translate, Skill, Group, TenantRole, Session, UserPermissions, tenantStatuses, queryCache, helpDocsHostname) {
 
+
      function getSkillOptions() {
         return Skill.cachedQuery({
           tenantId: Session.tenant.tenantId
