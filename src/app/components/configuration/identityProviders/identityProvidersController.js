@@ -4,7 +4,6 @@ angular.module('liveopsConfigPanel')
   .controller('identityProvidersController', ['$scope', '$rootScope', '$q', '$translate', '$timeout', 'Session', 'Alert', 'loEvents', 'IdentityProviders', 'identityProvidersTableConfig', 'PermissionGroups',
     function ($scope, $rootScope, $q, $translate, $timeout, Session, Alert, loEvents, IdentityProviders, identityProvidersTableConfig, PermissionGroups) {
       var vm = this;
-      var bypassDropdownReset = false;
       var identityProvidersSvc = new IdentityProviders();
       var overrideSubmitBtnState = false;
 
@@ -38,9 +37,13 @@ angular.module('liveopsConfigPanel')
       vm.setXmlInputState = function (params) {
         vm.selectedIdentityProvider.backupXml = angular.copy(params.backupXml) || vm.selectedIdentityProvider.backupXml;
 
-        vm.selectedIdentityProvider.isReadonly = (params.isReadonly === true || params.isReadonly === false) ? params.isReadonly : vm.selectedIdentityProvider.isReadonly;
+        vm.selectedIdentityProvider.isReadonly = params.isReadonly === true || params.isReadonly === false
+          ? params.isReadonly
+          : vm.selectedIdentityProvider.isReadonly;
 
-        vm.editLinkText = params.editLinkText || params.editLinkText === '' ? params.editLinkText : vm.editLinkText;
+        vm.editLinkText = params.editLinkText || params.editLinkText === ''
+          ? params.editLinkText
+          : vm.editLinkText;
 
         vm.selectedIdentityProvider.selectedIdpConfigInfoType = params.selectedIdpConfigInfoType || vm.selectedIdentityProvider.selectedIdpConfigInfoType;
 
@@ -55,7 +58,9 @@ angular.module('liveopsConfigPanel')
         ) {
           delete vm.selectedIdentityProvider.metadataFile;
         } else {
-          vm.selectedIdentityProvider.metadataFile = params.metadataFile || vm.selectedIdentityProvider.metadataFile;
+          vm.selectedIdentityProvider.metadataFile = params.metadataFile || params.metadataFile === ''
+            ? params.metadataFile
+            : vm.selectedIdentityProvider.metadataFile;
         }
 
         if (_.has($scope.forms.detailsForm, 'xmlDirectInput.$pristine')) {
@@ -102,7 +107,8 @@ angular.module('liveopsConfigPanel')
           vm.setXmlInputState({
             backupXml: undefined,
             isReadonly: false,
-            editLinkText: ''
+            editLinkText: '',
+            metadataFile: ''
           });
         } else if (
             // ...we've selected xml direct input and there
@@ -115,6 +121,7 @@ angular.module('liveopsConfigPanel')
             isReadonly: true,
             editLinkText: $translate.instant('identityProviders.details.editXmlMarkup')
           });
+
         } else if (_.has($scope.forms.detailsForm, 'xmlDirectInput.$pristine')) {
           if ($scope.forms.detailsForm.xmlDirectInput.$pristine !== true) {
             // ...warn the user that they will lose their changes if
@@ -122,10 +129,12 @@ angular.module('liveopsConfigPanel')
             Alert.confirm($translate.instant('identityProviders.details.enterXmlUnsaved'),
               // user clicks "OK"
               function() {
+                var hasSavedMetadataFile = _.has(vm, 'selectedIdentityProvider.$original') && vm.selectedIdentityProvider.$original.metadataFile;
+
                 vm.setXmlInputState({
-                  metadataFile: vm.selectedIdentityProvider.$original.metadataFile ? vm.selectedIdentityProvider.backupXml : null,
+                  metadataFile: hasSavedMetadataFile ? vm.selectedIdentityProvider.backupXml : null,
                   isReadonly: true,
-                  editLinkText: vm.selectedIdentityProvider.$original.metadataFile ? $translate.instant('identityProviders.details.editXmlMarkup') : ''
+                  editLinkText: hasSavedMetadataFile ? $translate.instant('identityProviders.details.editXmlMarkup') : ''
                 });
               },
               // user clicks "Cancel"
@@ -200,6 +209,9 @@ angular.module('liveopsConfigPanel')
       vm.clearUploadField = function () {
         vm.selectedIdentityProvider.metadataFile = null;
         vm.selectedIdentityProvider.metadataFileName = null;
+        if (_.has($scope.forms.detailsForm, 'xmlDirectInput.$pristine')) {
+          $scope.forms.detailsForm.metadataFileName.$pristine = true;
+        }
       };
 
       vm.updateActive = function () {
@@ -228,12 +240,7 @@ angular.module('liveopsConfigPanel')
 
       $scope.$on(loEvents.tableControls.itemSelected, function(event, selectedItem) {
         $q.when(selectedItem).then(function (selectedItemResponse) {
-          // reset the drop-down menu for config-types unless we just saved
-          if (!bypassDropdownReset) {
-            selectedItemResponse.selectedIdpConfigInfoType = null;
-          } else {
-            bypassDropdownReset = false;
-          }
+          identityProvidersSvc.setConfigType(selectedItemResponse);
 
           // here is where we set the flag the disables the enabled/disabled toggle
           // in the event that this is the IDP we are currently logged in with
@@ -282,8 +289,6 @@ angular.module('liveopsConfigPanel')
 
         return vm.selectedIdentityProvider.save()
         .then(function (response) {
-          // make sure not to reset the config type dropdown after saving
-          bypassDropdownReset = true;
           vm.newFileUploaded = false;
 
           if (tempIdpData.selectedIdpConfigInfoType === 'xmlDirectInput') {
@@ -304,8 +309,8 @@ angular.module('liveopsConfigPanel')
             $scope.duplicateErrorMessage = err.data.error.message.capitalize();
             $scope.showDuplicateMsg = true;
             if (tempIdpData.selectedIdpConfigInfoType === 'xmlDirectInput') {
-              vm.selectedIdentityProvider.metadataFile = vm.selectedIdentityProvider.$original.metadataFile;
               vm.setXmlInputState({
+                metadataFile: vm.selectedIdentityProvider.$original.metadataFile,
                 selectedIdpConfigInfoType: 'xmlDirectInput',
                 isReadonly: false,
                 editLinkText: (!vm.selectedIdentityProvider.isNew() && vm.selectedIdentityProvider.$original.metadataFile) ? $translate.instant('value.cancel') : ''
@@ -314,8 +319,8 @@ angular.module('liveopsConfigPanel')
           }
         })
         .then(function () {
-          // setting it here again to avoid the risk of jank
-          bypassDropdownReset = true;
+          // at the very end of the saving process, display the
+          // config type of the IDP you just saved
           vm.selectedIdentityProvider.selectedIdpConfigInfoType = tempIdpData.selectedIdpConfigInfoType;
         });
       };

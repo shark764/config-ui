@@ -19,6 +19,7 @@
   "multistr": true,
   "white": true,
   "validthis": true,
+  "laxbreak": true,
   "globals": {
     "joint": false,
     "Backbone": false,
