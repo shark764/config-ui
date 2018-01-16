@@ -5,11 +5,9 @@ angular.module('liveopsConfigPanel')
     function($scope, $translate, User, Session, userTableConfig, Alert, $q, TenantUser, TenantRole, UserPermissions, PlatformRole, TenantUserGroups, Modal, loEvents, ResetPassword, Integration, Me) {
       var vm = this;
       var MeSvc = new Me();
+      var newSkills = [];
       $scope.forms = {};
       $scope.Session = Session;
-      var headerElement = userTableConfig.getConfig().fields[3].header;
-      var currentSkills = headerElement.options();
-      var newSkills = [];
 
       $scope.fetchTenantUsers = function() {
         $scope.hasCxEngageIdp = MeSvc.getHasCxEngageIdp();
@@ -19,43 +17,47 @@ angular.module('liveopsConfigPanel')
         });
       };
 
-      var currentUsers = $scope.fetchTenantUsers();
-
-      currentSkills.$promise.then(function(data){
-        angular.forEach(data, function(value) {
-          newSkills.push({
-            'id' : value.id,
-            'name':value.name,
-            'active':value.active,
-            'checked':value.checked,
-            'hasProficiency':value.hasProficiency,
-            'tenantId':value.tenantId,
-            'description': ""
-          });
-        });
-      });
-
-      currentUsers.$promise.then(function(data){
+      $scope.fetchTenantUsers().$promise.then(function(data){
         var hasZeroSkill = false;
         angular.forEach(data, function(value) {
+
+          angular.forEach(value.$skills, function(VSValue) {
+              if(!_.find(newSkills, function(o) { return o.name === VSValue.name; })){
+                newSkills.push({
+                  'id' : VSValue.id,
+                  'name':VSValue.name,
+                  'active':VSValue.active,
+                  'checked':VSValue.checked,
+                  'hasProficiency':VSValue.hasProficiency,
+                  'tenantId':VSValue.tenantId,
+                  'description': ''
+                });
+              }
+           });
+
               if(value.$skills.length === 0){
                 hasZeroSkill = true;
-             }
-           });
+              }
+      });
+
            if(hasZeroSkill){
            newSkills.push({
-             'id' : '123456',
+             'id' : '00000',
              'name':'No Skill',
              'active': true,
              'checked': true,
              'hasProficiency': false,
             'tenantId':Session.tenant.tenantId,
-            'description': ""
+            'description': ''
           });
           }
-        });
+    });
 
-      userTableConfig.getConfig().fields[3].header.options = newSkills;
+        function newSkillsReturn (){
+          return newSkills;
+        }
+
+      userTableConfig.getConfig().fields[3].header.options = newSkillsReturn;
       $scope.userTableConfig = userTableConfig;
 
       var extensionFields = [

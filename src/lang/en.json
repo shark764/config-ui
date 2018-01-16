@@ -307,6 +307,7 @@
   "user.table.externalId": "ID",
   "user.table.state": "State",
   "user.table.skills": "Skills",
+  "user.table.noSkill": "No Skill",
   "user.table.groups": "Groups",
   "user.table.title": "User Management",
   "user.table.roles": "Roles",

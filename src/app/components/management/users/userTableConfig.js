@@ -1,7 +1,8 @@
+'use strict';
+
 angular.module('liveopsConfigPanel')
   .service('userTableConfig', ['userStatuses','$q', 'userStates', '$translate', 'Skill', 'Group', 'TenantRole', 'Session', 'UserPermissions', 'tenantStatuses', 'queryCache', 'helpDocsHostname',
     function(userStatuses, $q, userStates, $translate, Skill, Group, TenantRole, Session, UserPermissions, tenantStatuses, queryCache, helpDocsHostname) {
-
 
      function getSkillOptions() {
         return Skill.cachedQuery({
@@ -93,16 +94,16 @@ angular.module('liveopsConfigPanel')
           'name': 'skills',
           'id': 'user-skills-table-column',
           'resolve': function(tenantUser) {
-            if(typeof tenantUser.$original.$skills.length !== 'undefined' && tenantUser.$original.$skills.length === 0){
-              if(!_.find(tenantUser.$skills, function(o) { return o.name == 'No Skill'; })){
+            if(typeof tenantUser.$original !== 'undefined' && tenantUser.$original.$skills.length === 0){
+              if(!_.find(tenantUser.$skills, function(o) { return o.name === 'No Skill'; })){
                 tenantUser.$skills.push(
-                  {'id' : '123456',
-                   'name':'No Skill',
+                  {'id' : '00000',
+                   'name':$translate.instant('user.table.noSkills'),
                    'active': true,
                    'checked': true,
                    'hasProficiency': false,
                  'tenantId':Session.tenant.tenantId,
-                 'description': ""}
+                 'description': ''}
                );
              }
              return 0;
