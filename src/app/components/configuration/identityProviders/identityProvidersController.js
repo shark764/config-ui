@@ -40,7 +40,7 @@ angular.module('liveopsConfigPanel')
 
         vm.selectedIdentityProvider.isReadonly = (params.isReadonly === true || params.isReadonly === false) ? params.isReadonly : vm.selectedIdentityProvider.isReadonly;
 
-        vm.editLinkText = params.editLinkText || vm.editLinkText;
+        vm.editLinkText = params.editLinkText || params.editLinkText === '' ? params.editLinkText : vm.editLinkText;
 
         vm.selectedIdentityProvider.selectedIdpConfigInfoType = params.selectedIdpConfigInfoType || vm.selectedIdentityProvider.selectedIdpConfigInfoType;
 
