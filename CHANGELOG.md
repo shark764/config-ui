@@ -18,6 +18,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 * CXV1-12398 - Allow for new XML direct input field for IDP page
 * CXV1-12576 - Refactor create new/additional Salesforce Integrations
 * CXV1-12217 - Remove 2nd vertical scrollbar
+* CXV1-12395 - SSO - set "Type" dropdown to active configuration type upon selection of item in IDP list table
 
 ## [4.28.2]
 * Updated docker build to accomodate for remote designer
