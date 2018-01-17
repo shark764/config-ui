@@ -1,15 +1,16 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('userTableConfig', ['userStatuses', 'userStates', '$translate', 'Skill', 'Group', 'TenantRole', 'Session', 'UserPermissions', 'tenantStatuses', 'queryCache', 'helpDocsHostname',
-    function(userStatuses, userStates, $translate, Skill, Group, TenantRole, Session, UserPermissions, tenantStatuses, queryCache, helpDocsHostname) {
-      function getSkillOptions() {
+  .service('userTableConfig', ['userStatuses','$q', 'userStates', '$translate', 'Skill', 'Group', 'TenantRole', 'Session', 'UserPermissions', 'tenantStatuses', 'queryCache', 'helpDocsHostname',
+    function(userStatuses, $q, userStates, $translate, Skill, Group, TenantRole, Session, UserPermissions, tenantStatuses, queryCache, helpDocsHostname) {
+
+     function getSkillOptions() {
         return Skill.cachedQuery({
           tenantId: Session.tenant.tenantId
         });
-      }
+     }
 
-      function getGroupOptions() {
+    function getGroupOptions() {
         return Group.cachedQuery({
           tenantId: Session.tenant.tenantId
         });
@@ -82,23 +83,40 @@ angular.module('liveopsConfigPanel')
         };
 
         if (UserPermissions.hasPermissionInList(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_SKILLS', 'MANAGE_ALL_SKILLS', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_TENANT_ENROLLMENT'])) {
-          defaultConfig.fields.push({
-            'header': {
-              'display': $translate.instant('user.table.skills'),
-              'valuePath': 'id',
-              'displayPath': 'name',
-              'options': getSkillOptions
-            },
-            'lookup': '$skills:id',
-            'name': 'skills',
-            'id': 'user-skills-table-column',
-            'resolve': function(tenantUser) {
-              return tenantUser.$skills.length;
-            },
-            'sortOn': '$skills.length',
-            'filterOrderBy': 'name'
-          });
-        }
+        defaultConfig.fields.push({
+          'header': {
+            'display': $translate.instant('user.table.skills'),
+            'valuePath': 'id',
+            'displayPath': 'name',
+            'options': getSkillOptions
+          },
+          'lookup': '$skills:id',
+          'name': 'skills',
+          'id': 'user-skills-table-column',
+          'resolve': function(tenantUser) {
+            if(typeof tenantUser.$original !== 'undefined' && tenantUser.$original.$skills.length === 0){
+              if(!_.find(tenantUser.$skills, function(o) { return o.name === 'No Skill'; })){
+                tenantUser.$skills.push(
+                  {'id' : '00000',
+                   'name':$translate.instant('user.table.noSkills'),
+                   'active': true,
+                   'checked': true,
+                   'hasProficiency': false,
+                 'tenantId':Session.tenant.tenantId,
+                 'description': ''}
+               );
+             }
+             return 0;
+           }else {
+             return tenantUser.$skills.length;
+           }
+
+          },
+          'sortOn': '$skills.length',
+          'filterOrderBy': 'name'
+        });
+      }
+
 
         if (UserPermissions.hasPermissionInList(['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'VIEW_ALL_GROUPS', 'MANAGE_ALL_GROUPS', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_ALL_GROUP_OWNERS', 'MANAGE_TENANT_ENROLLMENT'])) {
           defaultConfig.fields.push({
