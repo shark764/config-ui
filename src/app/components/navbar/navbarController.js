@@ -65,6 +65,7 @@ angular.module('liveopsConfigPanel')
 
               var className;
               var iconClass;
+              var title;
 
               if (
                 !isCxTenant ||
@@ -72,6 +73,7 @@ angular.module('liveopsConfigPanel')
               ) {
                 className = 'unavailableTenant';
                 iconClass = 'fa fa-sign-in';
+                title = $translate.instant('title.text.explain');
               }
 
               // filter out any tenants that have a tenantActive prop set to false
@@ -79,6 +81,7 @@ angular.module('liveopsConfigPanel')
                 label: targetTenant.name,
                 className: className,
                 iconClass: iconClass,
+                title: title,
                 onClick: function() {
                   DirtyForms.confirmIfDirty(function() {
                     // Make sure that we only switch without forcing re-auth
