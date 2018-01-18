@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## [4.28.3]
 * CXV1-12318 - Remove Inactive Tenants from /me Endpoint Response
 * CXV1-12432 - Create debug url parameter for spoofing token expiration
 * CXV1-11824 - Support GVN (formerly 2600hz) in Config UI
