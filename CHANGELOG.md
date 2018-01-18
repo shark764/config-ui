@@ -4,6 +4,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [4.28.4]
+* (no ticket) - Fixed issue that might be causing build to break...
+
 ## [4.28.3]
 * CXV1-12318 - Remove Inactive Tenants from /me Endpoint Response
 * CXV1-12432 - Create debug url parameter for spoofing token expiration
