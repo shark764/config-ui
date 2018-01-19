@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+* CXV1-12604 - Fix standalone flow-designer not loading correctly in Firefox
 
 ## [4.28.4]
 * (no ticket) - Fixed issue that might be causing build to break...
