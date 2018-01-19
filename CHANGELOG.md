@@ -4,6 +4,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 * CXV1-12604 - Fix standalone flow-designer not loading correctly in Firefox
+* CXV1-12489 - sso - Provide tooltip to logout and logback in to config-ui
 
 ## [4.28.4]
 * (no ticket) - Fixed issue that might be causing build to break...
