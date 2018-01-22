@@ -99,6 +99,8 @@
   "value.version": "Version",
   "value.workItem": "Work Item",
   "value.yes": "Yes",
+  "value.more" : "More",
+  "value.less" : "Less",
   "value.select.group": "Select Group",
   "value.select.action": "Select Action",
   "value.pending": "Pending",
