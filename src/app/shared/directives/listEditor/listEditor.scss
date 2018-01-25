@@ -1,12 +1,14 @@
 .list-editor {
   border: #CCCCCC solid 1px;
   height: 100%;
-  margin: 10px auto;
+  margin-left: 10px;
   width: 95%;
 
   .fixdisplay {
     display: -moz-inline-box;
     display: inline-block;
+    max-width: 90%;
+    vertical-align: top;
   }
 
   .list-controls {
@@ -58,11 +60,16 @@
           border: 1px solid #ccc;
           margin-right: 0;
           padding: 1px 10px 1px 1px;
+
+
         }
+
+
 
         .disabledDispo {
           color: lightgrey;
           text-decoration: line-through;
+
         }
 
         .nested-disposition {
