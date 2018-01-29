@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [unreleased]
+
+## [4.28.6]
+* Release Realtime Dashboards v4.6.6
 * CXV1-12414 - Long Disposition List Name Causes Issues
 
 ## [4.28.5]
