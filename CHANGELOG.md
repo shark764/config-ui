@@ -7,6 +7,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [4.28.6]
 * Release Realtime Dashboards v4.6.6
 * CXV1-12414 - Long Disposition List Name Causes Issues
+* CXV1-11155 - Clicking on Contact Layout A Second Time Removes Items from Their Respective Fields
 
 ## [4.28.5]
 * CXV1-12604 - Fix standalone flow-designer not loading correctly in Firefox
