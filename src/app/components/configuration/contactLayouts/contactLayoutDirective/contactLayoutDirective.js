@@ -111,6 +111,7 @@ angular.module('liveopsConfigPanel')
             if (angular.isDefined(newVal)) {
               scope.form.$setValidity('missingAttributes', !newVal.length);
             }
+
           });
 
           scope.$on(loEvents.tableControls.itemSelected, waitBeforeInit);
@@ -121,7 +122,6 @@ angular.module('liveopsConfigPanel')
           init(scope.model);
 
           function waitBeforeInit() {
-            scope.loading = true;
             $timeout(function() {
               init();
               compileTemplate(true);
