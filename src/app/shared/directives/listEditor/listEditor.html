@@ -15,10 +15,7 @@
       <li ng-repeat="disposition in dispositionList track by $index" ng-class="{nested: disposition.hierarchy.length}">
 
         <div class="wrapper fixdisplay" ng-show="disposition.type !== 'category'">
-          <span ng-click="selectDisposition($index)" ng-class="{selectedDispo: disposition === selectedDispo, disabledDispo: !disposition.active && disposition.id}" ng-show="!disposition.hierarchy.length" ng-init="limit =20; moreShown = false">
-            {{disposition.name | limitTo: limit}}{{disposition.name.length > limit ? '...' : ''}}
-            <a ng-show="disposition.name.length > limit" href ng-click="limit=disposition.name.length; moreShown = true">{{'value.more' | translate}}</a></span>
-            <a ng-show="moreShown" href ng-click="limit=20; moreShown = false">{{'value.less' | translate}}</a>
+          <span ng-click="selectDisposition($index)" ng-class="{selectedDispo: disposition === selectedDispo, disabledDispo: !disposition.active && disposition.id}" ng-show="!disposition.hierarchy.length">{{disposition.name}}</span>
           <span class="nested-disposition" ng-click="selectDisposition($index)" ng-class="{selectedDispo: disposition === selectedDispo, disabledDispo: !disposition.active && disposition.id}" ng-show="disposition.hierarchy.length === 1">{{disposition.name}}</span>
           <div class="dropdown-arrow" ng-click="toggleDropdown($index)" ng-show="disposition === selectedDispo && !readOnly"><i class="fa fa-sort-desc fa-lg"></i></div>
           <div ng-show="dropdown === $index" class="dispoDropdown">

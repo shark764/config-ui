@@ -4,6 +4,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [unreleased]
 * CXV1-11155 - Clicking on Contact Layout A Second Time Removes Items from Their Respective Fields
+* CXV1-12414 - Config UI - Long Disposition List Name Causes Issues(update)
 
 ## [4.28.6]
 * Release Realtime Dashboards v4.6.6
