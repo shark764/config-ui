@@ -6,19 +6,6 @@ angular.module('liveopsConfigPanel')
 
       $scope.tableConfig = realtimeDashboardsManagementTableConfig;
 
-      $scope.fetchDashboards = function () {
-
-        var customDashboards = RealtimeDashboard.cachedQuery({
-          tenantId: Session.tenant.tenantId
-        });
-
-        _.remove(customDashboards, function (customDashboard) {
-          return customDashboard.tenantId !== Session.tenant.tenantId;
-        });
-
-        return customDashboards;
-      };
-
       $scope.create = function() {
         var newScope = $scope.$new();
 
@@ -40,7 +27,7 @@ angular.module('liveopsConfigPanel')
 
           return newDashboardCopy.save(function(dashboard){
             $document.find('modal').remove();
-            $state.go('content.realtime-dashboards-management.editor', {
+            $state.go('content.realtime-dashboards-management-editor', {
               dashboardId: dashboard.id
             });
           });
@@ -58,7 +45,7 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.openDashboard = function(selectedDashboardId){
-        $state.go('content.realtime-dashboards-management.editor', {
+        $state.go('content.realtime-dashboards-management-editor', {
           dashboardId: selectedDashboardId
         });
       };

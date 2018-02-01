@@ -92,8 +92,8 @@ angular.module('liveopsConfigPanel')
                       $scope.updateTopbarConfig();
                       $scope.updateBranding();
                       var goTo = $state.current;
-                      if($state.includes('content.realtime-dashboards-management.editor')) {
-                        goTo = 'content.realtime-dashboards-management';
+                      if($state.includes('content.realtime-dashboards-management-editor')) {
+                        goTo = 'content.custom-dashboards-management';
                       } else if ($state.includes('content.flows.editor')){
                         goTo = 'content.flows.flowManagement';
                       }
@@ -440,14 +440,14 @@ angular.module('liveopsConfigPanel')
         if (UserPermissions.hasPermissionInList(PermissionGroups.viewDashboards)) {
           items.push({
             label: $translate.instant('navbar.reports.rtd.title'),
-            stateLink: 'content.realtime-dashboards-management.viewer({dashboardId: "overview-dashboard"})',
+            stateLink: 'content.realtime-dashboards-management-viewer({dashboardId: "overview-dashboard"})',
             id: 'realtime-dashboard-link',
             order: 1
           });
 
           items.push({
             label: $translate.instant('navbar.reports.rtdCustom.title'),
-            stateLink: 'content.realtime-dashboards-management',
+            stateLink: 'content.custom-dashboards-management',
             id: 'custom-realtime-dashboard-link',
             order: 2
           });
