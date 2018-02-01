@@ -4,6 +4,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [unreleased]
 
+## [4.29.1]
+* Update Realtime Dashboards to v5.0.2
+
 ## [4.29.0]
 * Update Realtime Dashboards to v5.0.1
 * Update SDK to v4.12.0
