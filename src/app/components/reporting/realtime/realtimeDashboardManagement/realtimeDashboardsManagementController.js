@@ -6,6 +6,19 @@ angular.module('liveopsConfigPanel')
 
       $scope.tableConfig = realtimeDashboardsManagementTableConfig;
 
+      $scope.fetchDashboards = function () {
+
+        var customDashboards = RealtimeDashboard.cachedQuery({
+         tenantId: Session.tenant.tenantId
+        });
+
+        _.remove(customDashboards, function (customDashboard) {
+         return customDashboard.tenantId !== Session.tenant.tenantId;
+        });
+
+        return customDashboards;
+      };
+
       $scope.create = function() {
         var newScope = $scope.$new();
 

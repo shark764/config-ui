@@ -3,11 +3,14 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [unreleased]
-* Update Realtime Dashboards to v5.0.0
+
+## [4.29.0]
+* Update Realtime Dashboards to v5.0.1
 * Update SDK to v4.12.0
 * CXV1-12639 - Decrease Loading times for Realtime Dashboards
 * CXV1-12229 - Agents not displaying until second batch request
 * CXV1-12512 - Update time data in tables to HH:MM:SS format
+* CXV1-12769 - Display Twilio integration on User Profile page if they have an active Intergration
 * CXV1-11155 - Clicking on Contact Layout A Second Time Removes Items from Their Respective Fields
 * CXV1-12414 - Config UI - Long Disposition List Name Causes Issues(update)
 

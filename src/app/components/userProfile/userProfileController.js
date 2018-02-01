@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('UserProfileController', ['$scope', '$translate', '$q', 'AuthService', 'Session', 'User', 'TenantUser', 'Token', 'Me',
-    function($scope, $translate, $q, AuthService, Session, User, TenantUser, Token, Me) {
-      
+  .controller('UserProfileController', ['$scope', '$translate', '$q', 'AuthService', 'Session', 'User', 'TenantUser', 'Token', 'Me', 'Integration',
+    function($scope, $translate, $q, AuthService, Session, User, TenantUser, Token, Me, Integration) {
+
       function setDefaultTenant (defaultTenantId, tenantList) {
         if (defaultTenantId) {
           $scope.tenantUser.$user.defaultTenant = defaultTenantId;
@@ -11,6 +11,26 @@ angular.module('liveopsConfigPanel')
           $scope.tenantUser.$user.defaultTenant = tenantList[0].tenantId;
         }
       }
+
+      $scope.tenantIntegrations = Integration.cachedQuery({
+        tenantId: Session.tenant.tenantId
+      }, 'Intergration', true);
+
+      $scope.hasTwilioIntegration = false;
+
+      $scope.tenantIntegrations.$promise.then(function(response) {
+        // determine whether or not there are active verint and twilio extensions
+        _.forEach(response, function (integration) {
+          if (
+            $scope.hasTwilioIntegration === false &&
+            integration.type === 'twilio' &&
+            integration.active === true &&
+            integration.properties.webRtc === true
+          ) {
+            $scope.hasTwilioIntegration = true;
+          }
+        });
+      });
 
       var activeTenants = Me.cachedQuery();
       activeTenants.$promise.then(function (response) {

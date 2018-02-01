@@ -2,13 +2,13 @@
   <div id="table-pane">
     <table-controls
       config="tableConfig"
-      items="dashboards"
+      items="fetchDashboards()"
       search-query="searchQuery">
     </table-controls>
 
     <lo-resource-table
       config="tableConfig"
-      items="dashboards"
+      items="fetchDashboards()"
       selected="selectedDashboard"
       search-query="searchQuery">
     </lo-resource-table>
