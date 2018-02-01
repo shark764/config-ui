@@ -14,6 +14,11 @@ angular.module('liveopsConfigPanel')
       // Initializing the SDK to allow for SSO
       if (cxEngageEnabled) {
         CxEngage.initialize(CxEngageConfig);
+
+        if (Session.token && Session.user) {
+          CxEngage.session.setToken(Session.token);
+          CxEngage.session.setUserIdentity(Session.user.id);
+        }
       }
 
       // gets us the full functionality and dependencies
@@ -164,6 +169,7 @@ angular.module('liveopsConfigPanel')
         $state.go('login', {
           sso: savedSsoMode ? 'isSso' : null
         });
+        if (cxEngageEnabled) CxEngage.session.setToken(); //Sets their token to null
         $stateParams.sso = savedSsoMode ? 'isSso' : null;
       };
 

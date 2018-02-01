@@ -539,7 +539,7 @@ angular.module('liveopsConfigPanel')
             }]
           }
         })
-        .state('content.realtime-dashboards-management', {
+        .state('content.custom-dashboards-management', {
           url: '/realtime-dashboards?id',
           title:'Reporting - Custom Realtime Dashboards',
           templateUrl: 'app/components/reporting/realtime/realtimeDashboardManagement/realtimeDashboardsManagement.html',
@@ -556,8 +556,8 @@ angular.module('liveopsConfigPanel')
             }]
           }
         })
-        .state('content.realtime-dashboards-management.editor', {
-          url: '/editor/:dashboardId',
+        .state('content.realtime-dashboards-management-editor', {
+          url: '/realtime-dashboards/editor/:dashboardId',
           title:'Reporting - Custom Realtime Dashboards - Editor',
           templateUrl: 'app/components/reporting/realtime/realtimeDashboardEditor/realtimeDashboardsEditor.html',
           controller: 'realtimeDashboardsEditorController',
@@ -616,8 +616,8 @@ angular.module('liveopsConfigPanel')
             }]
           }
         })
-        .state('content.realtime-dashboards-management.viewer', {
-          url: '/viewer/:dashboardId',
+        .state('content.realtime-dashboards-management-viewer', {
+          url: '/realtime-dashboards/viewer/:dashboardId',
           title:'Reporting - Realtime Dashboards',
           templateUrl: 'app/components/reporting/realtime/realtimeDashboards.html',
           controller: 'RealtimeDashboardsController',
@@ -626,48 +626,36 @@ angular.module('liveopsConfigPanel')
             hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
               return UserPermissions.resolvePermissions(PermissionGroups.viewDashboards);
             }],
-            dashboard: ['$stateParams', '$state', 'RealtimeDashboardsSettings', 'RealtimeDashboard', 'Session', '$q', function($stateParams, $state, RealtimeDashboardsSettings, RealtimeDashboard, Session, $q) {
-
+            dashboard: ['$stateParams', function($stateParams) {
               delete $stateParams.id;
-
-              var deferred = $q.defer();
-
-              RealtimeDashboard.query({
-                tenantId: Session.tenant.tenantId,
-              }, function(data) {
-                var dashboards = _.filter(_.union(data, RealtimeDashboardsSettings.mockDashboards), function(dash) {
-                  return dash.id === $stateParams.dashboardId;
-                });
-
-                if (_.isEmpty(dashboards)) {
-                  dashboards = _.filter(RealtimeDashboardsSettings.mockDashboards, function(dash) {
-                    return dash.id === 'overview-dashboard';
-                  });
-                }
-
-                deferred.resolve(_.first(dashboards));
-              });
-
-              return deferred.promise;
+              return $stateParams.dashboardId || "overview-dashboard";
             }],
             dashboards: ['RealtimeDashboardsSettings', 'RealtimeDashboard', 'Session', '$q', '$translate', function(RealtimeDashboardsSettings, RealtimeDashboard, Session, $q, $translate) {
               var deferred = $q.defer();
 
-              RealtimeDashboard.query({
-                tenantId: Session.tenant.tenantId,
-              }, function(data) {
-                // Add category attribute to each dashboard so they can be grouped together in the dropdown
-                data.forEach(function(item) {
-                  item.dashboardCategory = $translate.instant('realtimeDashboards.category.custom');
+              var fetchDashboards = function(){
+                CxEngage.entities.getDashboards({excludeInactive: true}, function(error, topic, response){
+                  if (!error) {
+                    // Add category attribute to each dashboard so they can be grouped together in the dropdown
+                    response.result.forEach(function(item) {
+                      item.dashboardCategory = $translate.instant('realtimeDashboards.category.custom');
+                    });
+                    RealtimeDashboardsSettings.mockDashboards.forEach(function(item) {
+                      item.dashboardCategory = $translate.instant('realtimeDashboards.category.standard');
+                    });
+                    deferred.resolve(_.sortBy(_.union(response.result, RealtimeDashboardsSettings.mockDashboards), 'name'));
+                  }
                 });
-                RealtimeDashboardsSettings.mockDashboards.forEach(function(item) {
-                  item.dashboardCategory = $translate.instant('realtimeDashboards.category.standard');
-                });
-
-                var dashboards = _.filter(_.union(data, RealtimeDashboardsSettings.mockDashboards), function(dash) {
-                  return dash.enabled === true || dash.active === true;
-                });
-                deferred.resolve(_.sortBy(dashboards, 'name'));
+              }
+              
+              CxEngage.session.getActiveTenantId(function(error, topic, response){
+                if (response){
+                  fetchDashboards();
+                } else {
+                  CxEngage.session.setActiveTenant({tenantId: Session.tenant.tenantId, noSession:true}, function(error, topic, response){
+                    fetchDashboards();
+                  });
+                }
               });
 
               return deferred.promise;

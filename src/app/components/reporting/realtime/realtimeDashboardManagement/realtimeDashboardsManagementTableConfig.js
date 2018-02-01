@@ -13,7 +13,7 @@ angular.module('liveopsConfigPanel')
         'searchOn': ['$original.name'],
         'orderBy': '$original.name',
         'title': $translate.instant('realtimeDashboards.table.title'),
-        'sref': 'content.realtime-dashboards-management',
+        'sref': 'content.custom-dashboards-management',
         'showBulkActions': false,
         'showCreate': function() {
           return UserPermissions.hasPermissionInList(['MANAGE_ALL_REALTIME_DASHBOARDS']);
