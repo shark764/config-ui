@@ -183,7 +183,13 @@ angular.module('liveopsConfigPanel')
       $scope.submit = function () {
         // we will use this variable after saving to set the auth type select bac to what it was
         var tempSelectedAuthType = $scope.selectedIntegration.authType;
-        $scope.deleteExtraneousData($scope);
+        if($scope.selectedIntegration.type === 'salesforce') {
+          if($scope.selectedIntegration.description === null) {
+            $scope.selectedIntegration.description = '';
+          }
+        } else {
+          $scope.deleteExtraneousData($scope);
+        }
 
         return $scope.selectedIntegration.save({
           tenantId: Session.tenant.tenantId
