@@ -610,6 +610,7 @@
   "integration.details.properties.verint": "Verint",
   "integration.details.properties.zendesk": "Zendesk",
   "integration.details.properties.salesforce": "Salesforce",
+  "integration.details.properties.pushEnabled": "Activity Records",
   "integration.details.properties.email": "Email",
   "integration.details.properties.selectAuthMethod":"Select authentication method",
   "integration.details.properties.selectAuthMethod.error":"Authentication method is required.",

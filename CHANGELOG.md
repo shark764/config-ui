@@ -4,6 +4,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [unreleased]
 
+## [4.29.4]
+* CXV1-12811 - Activity record toggle in salesforce integration
+
 ## [4.29.3]
 * Update Realtime Dashboards to v5.0.3
 
