@@ -4,6 +4,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [unreleased]
 
+## [4.29.3]
+* Update Realtime Dashboards to v5.0.3
+
 ## [4.29.2]
 * Set SDK token on initial login
 

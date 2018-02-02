@@ -647,9 +647,9 @@ angular.module('liveopsConfigPanel')
                   }
                 });
               }
-              
+
               CxEngage.session.getActiveTenantId(function(error, topic, response){
-                if (response){
+                if (response && response === Session.tenant.tenantId){
                   fetchDashboards();
                 } else {
                   CxEngage.session.setActiveTenant({tenantId: Session.tenant.tenantId, noSession:true}, function(error, topic, response){
