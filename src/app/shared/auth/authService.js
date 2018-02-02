@@ -2,7 +2,7 @@
 angular.module('liveopsConfigPanel')
   .service('AuthService', ['$http', '$q', '$translate', 'Session', 'apiHostname', 'User', '$state', '$location', 'Token', 'CxEngageConfig', '$stateParams', '$timeout',
     function ($http, $q, $translate, Session, apiHostname, User, $state, $location, Token, CxEngageConfig, $stateParams, $timeout) {
-      /* globals CxEngage, localStorage */
+      /* globals localStorage */
       var self = this;
       var loginFunctionFromController;
       var errorMessageFunctionFromController;
@@ -76,6 +76,11 @@ angular.module('liveopsConfigPanel')
               firstName: response.data.result.firstName,
               lastName: response.data.result.lastName
             });
+
+            if (cxEngageEnabled) {
+              CxEngage.session.setToken(tokenVal);
+              CxEngage.session.setUserIdentity(user.id);
+            }
 
             var tenants = response.data.result.tenants;
             var platformPermissions = response.data.result.platformPermissions;
@@ -169,7 +174,9 @@ angular.module('liveopsConfigPanel')
         $state.go('login', {
           sso: savedSsoMode ? 'isSso' : null
         });
-        if (cxEngageEnabled) CxEngage.session.setToken(); //Sets their token to null
+        if (cxEngageEnabled) {
+          CxEngage.session.setToken(); // Sets their token to null
+        }
         $stateParams.sso = savedSsoMode ? 'isSso' : null;
       };
 
