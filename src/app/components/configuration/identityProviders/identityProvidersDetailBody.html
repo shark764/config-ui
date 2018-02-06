@@ -11,12 +11,12 @@
     </form-error>
     <div>
       <input
-      required
-      title="{{'identityProviders.details.tooltip.name' | translate}}"
-      ng-model="idp.selectedIdentityProvider.name"
-      name="name"
-      type="text"
-      ng-disabled="!(manageIdentityProviders | hasPermission)">
+        required
+        title="{{'identityProviders.details.tooltip.name' | translate}}"
+        ng-model="idp.selectedIdentityProvider.name"
+        name="name"
+        type="text"
+        ng-disabled="!(manageIdentityProviders | hasPermission)">
     </div>
   </div>
 
@@ -58,6 +58,22 @@
   <span
     ng-switch="idp.selectedIdentityProvider.selectedIdpConfigInfoType"
     ng-disable-contents="!(manageIdentityProviders | hasPermission)">
+    <div class="input-group" ng-switch-when="url|xml" ng-switch-when-separator="|">
+    <label>{{'identityProviders.details.emailMapping' | translate}} *</label>
+    <form-error ng-if="!idp.selectedIdentityProvider.emailMapping" field="forms.detailsForm.emailMapping"
+      error-type-required="{{'identityProviders.details.emailMapping.error' | translate}}">
+    </form-error>
+    <div>
+      <input
+        required
+        title="{{'identityProviders.details.tooltip.emailMapping' | translate}}"
+        ng-model="idp.selectedIdentityProvider.emailMapping"
+        name="emailMapping"
+        ng-disabled="!(manageIdentityProviders | hasPermission)"
+        type="text">
+    </div>
+    <br>
+  </div>
     <!-- CASE 1: XML URL FIELD -->
     <div
       class="input-group"

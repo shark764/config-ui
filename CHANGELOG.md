@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [unreleased]
+* CXV1-12761 - Added Email Mapping field to Identity Provider configuration so it can be selected for URL and XML
 
 ## [4.29.7]
 * CXV1-12811 - Salesforce toggle fix
