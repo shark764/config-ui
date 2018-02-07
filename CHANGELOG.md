@@ -4,6 +4,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [unreleased]
 
+## [4.29.6]
+* Privacy Policy update
+
 ## [4.29.5]
 * CXV1-12760 - Presence & Dispositions Deleting items causes fatal page error
 * CXV1-12414 - title property added in the disposition list  to see the whole text
