@@ -21,7 +21,7 @@
     "teljs": "git@github.com:liveops/tel.js.git#master",
     "angular-moment-picker": "git@github.com:indrimuska/angular-moment-picker.git#0.9.11",
     "liveops-config-panel-shared": "git@github.com:liveops/config-shared#1.5.52",
-    "realtime-dashboards": "git@github.com:liveops/realtime-dashboards.git#5.0.3",
+    "realtime-dashboards": "git@github.com:liveops/realtime-dashboards.git#5.0.4",
     "agent-phone-panel": "git@github.com:liveops/soundwave.git#3.1.38",
     "ng-file-upload": "7.0.17",
     "angular-drag-and-drop-lists": "1.4.0",
