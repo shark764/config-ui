@@ -321,7 +321,6 @@
         <form-error field="forms.detailsForm.pushEnabled" error-type-required="{{'integration.securityToken.pushEnabled' | translate}}" ></form-error>
         <div class="input-group sfToggle">
           <toggle
-            ng-required="true"  
             ng-disabled="!('MANAGE_ALL_PROVIDERS' | hasPermission)"
             ng-model="selectedIntegration.properties.pushEnabled"
             name="pushEnabled"/>

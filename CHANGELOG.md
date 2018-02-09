@@ -4,6 +4,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [unreleased]
 
+## [4.29.7]
+* CXV1-12811 - Salesforce toggle fix
+* Update Config Shared to v1.5.53
+
 ## [4.29.6]
 * Fix dashboards being stored in scope
 * Update Realtime Dashboards to v5.0.5
