@@ -48,6 +48,7 @@
     "describe": false,
     "jasmine": false,
     "spyOn": false,
-    "CxEngage": false
+    "CxEngage": false,
+    "window": false
   }
 }

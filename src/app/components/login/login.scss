@@ -104,6 +104,16 @@ $form-height: 300px;
   .legal {
     padding-top: 60px;
   }
+
+  .login-links {
+    text-align: center;
+
+    p {
+      display: inline-block;
+      width: 30%;
+      margin: auto;
+    }
+  }
 }
 
 #login-wrapper.login-default,

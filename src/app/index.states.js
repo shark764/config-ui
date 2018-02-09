@@ -639,11 +639,19 @@ angular.module('liveopsConfigPanel')
                     // Add category attribute to each dashboard so they can be grouped together in the dropdown
                     response.result.forEach(function(item) {
                       item.dashboardCategory = $translate.instant('realtimeDashboards.category.custom');
+                      if (!_.isEmpty(item.activeDashboard)) {
+                        item.activeDashboard.id = item.id;
+                        item.activeDashboard.name = item.name;
+                      }
                     });
                     RealtimeDashboardsSettings.mockDashboards.forEach(function(item) {
                       item.dashboardCategory = $translate.instant('realtimeDashboards.category.standard');
                     });
-                    deferred.resolve(_.sortBy(_.union(response.result, RealtimeDashboardsSettings.mockDashboards), 'name'));
+                    window.allDashboards = _.sortBy(_.union(response.result, RealtimeDashboardsSettings.mockDashboards), 'name');
+                    var allDashboardsMapped = window.allDashboards.map(function(item) {
+                      return { id: item.id, name: item.name, dashboardCategory: item.dashboardCategory };
+                    });
+                    deferred.resolve(allDashboardsMapped);
                   }
                 });
               }
