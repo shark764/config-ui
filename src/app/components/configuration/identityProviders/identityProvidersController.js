@@ -85,6 +85,7 @@ angular.module('liveopsConfigPanel')
       };
 
       vm.handleConfigSelectChange = function () {
+
         if (
           vm.selectedIdentityProvider.selectedIdpConfigInfoType === 'xml' &&
           vm.newFileUploaded === true
@@ -275,7 +276,8 @@ angular.module('liveopsConfigPanel')
       $scope.$on(loEvents.tableControls.itemCreate, function () {
         vm.selectedIdentityProvider = new IdentityProviders({
           tenantId: Session.tenant.tenantId,
-          active: false
+          active: false,
+          emailMapping: $translate.instant('identityProviders.details.emailMappingDefault')
         });
       });
 
