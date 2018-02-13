@@ -164,7 +164,7 @@ navbar {
 #welcome {
   padding: 0;
   position: absolute !important;
-  right: 50px;
+  right: 107px;
   font-size: 11px;
 
   &:hover {
@@ -197,6 +197,21 @@ navbar {
     }
   }
 
+}
+
+#privacy {
+  position: absolute !important;
+  right: 50px;
+  font-size: 14px;
+  div {
+    padding-top: 16px;
+  }
+  a {
+    color: $light-grey;
+    &:hover {
+      color: white;
+    }
+  }
 }
 
 #helpMenu {
