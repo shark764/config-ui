@@ -79,6 +79,11 @@ angular.module('liveopsConfigPanel')
         $scope.dropdown = -1;
       };
 
+      $scope.autoExpand = function($event) {
+        $event.target.style.height = $event.target.scrollHeight + "px";
+    };
+
+
       $scope.highlightText = function(event) {
         event.target.select();
       };
@@ -94,6 +99,7 @@ angular.module('liveopsConfigPanel')
         idx = list.indexOf(newCategory);
         $timeout(function() {
           document.getElementById('category-' + idx).focus();
+          document.getElementById('category-' + idx).style.height = "19px";
         }, 0);
         $scope.$watch(function() {
           return newCategory.name;
