@@ -2,8 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [unreleased]
+## [4.29.9]
 * CXV1-12414 - Config UI - Long Disposition List Name Causes Issues (update)
+* CXV1-12912 - Fix branding for privacy link
 
 ## [4.29.8]
 * CXV1-12761 - Added Email Mapping field to Identity Provider configuration so it can be selected for URL and XML
