@@ -13,7 +13,7 @@ angular.module('liveopsConfigPanel')
           header: {
             display: $translate.instant('silentMonitoring.table.agents')
           },
-          name: 'activeParticipants'
+          name: 'agents'
         }, {
           header: {
             display: $translate.instant('silentMonitoring.table.customerIdentification')
@@ -28,7 +28,7 @@ angular.module('liveopsConfigPanel')
           header: {
             'display': $translate.instant('silentMonitoring.table.flow')
           },
-          name: 'flowId'
+          name: 'flowName'
         }, {
           header: {
             'display': $translate.instant('silentMonitoring.table.channel')
