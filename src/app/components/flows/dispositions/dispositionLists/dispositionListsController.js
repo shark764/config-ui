@@ -89,11 +89,55 @@ angular.module('liveopsConfigPanel')
     };
 
     vm.submit = function() {
+      var categories = [];
+      var childrenCat = [];
+      var countCat = 0;
+      var countChild = 0;
       vm.selectedDispositionList.dispositions.forEach(function(disposition) {
         if (disposition.name === $translate.instant('dispositions.details.select')) {
           $scope.err = true;
         }
+        if (disposition.type === 'category') {
+          categories[countCat] = disposition.name;
+          countCat++;
+        }
+        if (disposition.hierarchy !== 'undefined' && _.size(disposition.hierarchy) > 0 ) {
+            childrenCat.push({ parent: disposition.hierarchy[0], pos: countChild });
+            countChild++;
+        }
       });
+      var catFound = 0;
+      var dispositionState = false;
+      for (var i = 0; i < categories.length; i++) {
+          for (var c=0; c < childrenCat.length; c++) {
+            if (categories[i] === childrenCat[c].parent) {
+               catFound++;
+            }
+          }
+          if (catFound === 0) {
+            dispositionState = true;
+          } else {
+            catFound = 0;
+          }
+      }
+      var out = 0;
+      if (dispositionState) {
+        Alert.confirm($translate.instant('dispositionList.details.category'),
+          // user clicks "OK"
+          function() {
+            return;
+          },
+          // user clicks "Cancel"
+          function() {
+            out = 1;
+          }
+        );
+      }
+
+      if (out === 1) {
+        return;
+      }
+
       if ($scope.err) {
         return;
       }

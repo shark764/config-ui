@@ -26,9 +26,8 @@
         </div>
 
         <div class="wrapper fixdisplay" ng-show="disposition.type === 'category'">
-          <textarea class="dispositionTextarea"   ng-keydown="autoExpand($event)" id="category-{{$index}}" ng-click="selectDisposition($index)" title="{{disposition.name}}" ng-focus="highlightText($event)" ng-class="{selectedDispo: disposition === selectedDispo}" ng-model="disposition.name" ng-disabled="readOnly"></textarea >
+          <textarea class="dispositionTextarea" ng-keyup="autoExpand($event)" id="category-{{$index}}" ng-click="selectDisposition($index)" title="{{disposition.name}}" ng-focus="highlightText($event)" ng-class="{selectedDispo: disposition === selectedDispo}" ng-model="disposition.name" ng-disabled="readOnly"></textarea >
         </div>
-
       </li>
     </ul>
 
