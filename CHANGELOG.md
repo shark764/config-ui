@@ -2,7 +2,13 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [4.29.9]
+## [unreleased]
+
+## [4.29.10]
+* CXV1-12924 - Interaction Monitoring displays agent IDs instead of names
+* Update Realtime Dashboards to v5.0.7
+
+## [4.29.9] ** DO NOT RELEASE - WILL BREAK REALTIME DASHBOARDS **
 * CXV1-12414 - Config UI - Long Disposition List Name Causes Issues (update)
 * CXV1-12912 - Fix branding for privacy link
 
