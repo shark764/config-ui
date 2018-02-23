@@ -3,9 +3,8 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [unreleased]
-
-## [4.29.11]
-* CXV1-12529 - Fix SSO login from being blocked by popup blockers
+* CXV1-12760 - Presence & Dispositions Deleting items causes fatal page error
+* CXV1-12414 - resolved problem with textarea height(update)
 
 ## [4.29.10]
 * CXV1-12924 - Interaction Monitoring displays agent IDs instead of names

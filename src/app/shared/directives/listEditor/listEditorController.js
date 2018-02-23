@@ -80,9 +80,13 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.autoExpand = function($event) {
+        if ($event.target.value === '') {
+          $event.target.style.height = "19px";
+        }
+        else {
         $event.target.style.height = $event.target.scrollHeight + "px";
+      }
     };
-
 
       $scope.highlightText = function(event) {
         event.target.select();
