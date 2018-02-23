@@ -119,6 +119,14 @@ angular.module('liveopsConfigPanel')
           return;
         }
 
+        // We have to open this window in the onClick handler to prevent it from being a blocked popup
+        // SDK proceeds to use this window with the name "cxengageSsoWindow"
+        var ssoWindow = window.open(
+          '',
+          'cxengageSsoWindow',
+          'width=500,height=500'
+        );
+
         // now polling for/subscribing to the auth Token
         CxEngage.authentication.getAuthInfo(
           authInfoParams,
@@ -126,6 +134,7 @@ angular.module('liveopsConfigPanel')
             if (!error) {
               CxEngage.authentication.popIdentityPage();
             } else {
+              ssoWindow.close();
               if (subId) {
                 CxEngage.unsubscribe(subId);
               }

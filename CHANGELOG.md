@@ -4,6 +4,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [unreleased]
 
+## [4.29.11]
+* CXV1-12529 - Fix SSO login from being blocked by popup blockers
+
 ## [4.29.10]
 * CXV1-12924 - Interaction Monitoring displays agent IDs instead of names
 * Update Realtime Dashboards to v5.0.7
