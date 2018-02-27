@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('LoginController', ['$rootScope', '$scope', '$state', 'AuthService', '$stateParams', '$translate', 'Alert', 'TenantUser', '$filter', 'Session', 'UserPermissions', 'User',
-    function($rootScope, $scope, $state, AuthService, $stateParams, $translate, Alert, TenantUser, $filter, Session, UserPermissions, User) {
+  .controller('LoginController', ['$rootScope', '$scope', '$state', 'AuthService', '$stateParams', '$translate', 'Alert', 'TenantUser', '$filter', 'Session', 'UserPermissions', 'User', 'Tenant', '$q', 'loEvents', 'TenantPermission',
+    function($rootScope, $scope, $state, AuthService, $stateParams, $translate, Alert, TenantUser, $filter, Session, UserPermissions, User, Tenant, $q, loEvents, TenantPermission) {
       var self = this;
 
       function redirectUponLogin () {
@@ -124,14 +124,52 @@ angular.module('liveopsConfigPanel')
       // be used from within the SSO login method
       AuthService.getLoginFunction($scope.innerScope.login);
 
-      this.inviteAcceptSuccess = function() {
+      this.inviteAcceptSuccess = function(inviteSuccessResponse) {
         //Update user info in Session
         AuthService.refreshTenants().then(function() {
+          // first check to see if the tenant we want to switch to is already
+          // in the Session...
           var newTenant = $filter('filter')(Session.tenants, {
             tenantId: $stateParams.tenantId
           }, true);
+          // ...if it IS, great, switch to that tenant
           if (newTenant.length >= 1) {
             Session.setTenant(newTenant[0]);
+          } else {
+            // ...if it is NOT in the session yet, then we need to "Frankenstein"
+            // together from 3 endpoints all of the data to get our Session data.
+            var tenantList = Tenant.cachedQuery({
+              regionId: Session.activeRegionId
+            });
+            var tenantPermissions = TenantPermission.cachedQuery({
+              tenantId: $stateParams.tenantId
+            });
+            var tenantUsers = TenantUser.cachedQuery({
+              tenantId: $stateParams.tenantId
+            }, 'TenantUser', true);
+
+            $q.all([
+              tenantPermissions.$promise,
+              tenantList.$promise,
+              tenantUsers.$promise
+            ]).then(function (response) {
+              var newTenantPermissionsList = _.pluck(response[0], 'name');
+              var newTenant = _.find(response[1], { id: $stateParams.tenantId });
+              var newTenantUser = _.find(response[2], { id: inviteSuccessResponse.id });
+
+              var newSessionTenant = {
+                tenantId: newTenant.id,
+                tenantName: newTenant.name,
+                tenantStatus: newTenantUser.status,
+                tenantActive: newTenant.active,
+                tenantClientLogLevel: newTenant.clientLogLevel,
+                tenantRoleId: newTenantUser.roleId,
+                tenantRoleName: newTenantUser.$roleName,
+                tenantPermissions: newTenantPermissionsList
+              };
+
+              $rootScope.$broadcast(loEvents.session.tenants.updated, newSessionTenant);
+            });
           }
         });
 

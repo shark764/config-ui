@@ -628,7 +628,7 @@ angular.module('liveopsConfigPanel')
             }],
             dashboard: ['$stateParams', function($stateParams) {
               delete $stateParams.id;
-              return $stateParams.dashboardId || "overview-dashboard";
+              return $stateParams.dashboardId || 'overview-dashboard';
             }],
             dashboards: ['RealtimeDashboardsSettings', 'RealtimeDashboard', 'Session', '$q', '$translate', function(RealtimeDashboardsSettings, RealtimeDashboard, Session, $q, $translate) {
               var deferred = $q.defer();
@@ -654,13 +654,13 @@ angular.module('liveopsConfigPanel')
                     deferred.resolve(allDashboardsMapped);
                   }
                 });
-              }
+              };
 
               CxEngage.session.getActiveTenantId(function(error, topic, response){
                 if (response && response === Session.tenant.tenantId){
                   fetchDashboards();
                 } else {
-                  CxEngage.session.setActiveTenant({tenantId: Session.tenant.tenantId, noSession:true}, function(error, topic, response){
+                  CxEngage.session.setActiveTenant({tenantId: Session.tenant.tenantId, noSession:true}, function(){
                     fetchDashboards();
                   });
                 }

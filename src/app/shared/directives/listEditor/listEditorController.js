@@ -81,10 +81,10 @@ angular.module('liveopsConfigPanel')
 
       $scope.autoExpand = function($event) {
         if ($event.target.value === '') {
-          $event.target.style.height = "19px";
+          $event.target.style.height = '19px';
         }
         else {
-        $event.target.style.height = $event.target.scrollHeight + "px";
+        $event.target.style.height = $event.target.scrollHeight + 'px';
       }
     };
 
@@ -103,7 +103,7 @@ angular.module('liveopsConfigPanel')
         idx = list.indexOf(newCategory);
         $timeout(function() {
           document.getElementById('category-' + idx).focus();
-          document.getElementById('category-' + idx).style.height = "19px";
+          document.getElementById('category-' + idx).style.height = '19px';
         }, 0);
         $scope.$watch(function() {
           return newCategory.name;

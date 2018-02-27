@@ -112,12 +112,10 @@ angular.module('liveopsConfigPanel', [
         // and if those keys exist, immediately log in via IDP
         if ($location.absUrl().indexOf('username') !== -1) {
           AuthService.idpLogin(AuthService.generateAuthParams('username'));
-        } else if ($location.absUrl().indexOf('tenantId') !== -1) {
-          AuthService.idpLogin(AuthService.generateAuthParams('tenantId'));
-        }
+        } 
       } else if (localStorage.getItem('TOKEN-EXPIRATION-DEBUG')) {
         debugTimeout = $timeout(function() {
-          // random bad API call we're using to throw a 400 error for debugging 
+          // random bad API call we're using to throw a 400 error for debugging
           Branding.get({
             tenantId: '6c84fb90-12c4-11e1-840d-7b25c5ee775a'
           });
