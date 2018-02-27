@@ -8,7 +8,8 @@
         </a>
       </li>
 
-      <li>
+      <li ng-class="{'forced-global-loading': forceGlobalLoading === true}">
+        <loading ng-show="forceGlobalLoading"></loading>
         <dropdown id="tenant-dropdown" items="tenantDropdownItems" label="{{Session.tenant.tenantName}}" title="{{Session.tenant.tenantName}}"></dropdown>
       </li>
 

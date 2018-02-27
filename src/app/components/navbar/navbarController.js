@@ -7,6 +7,7 @@ angular.module('liveopsConfigPanel')
       $scope.hovering = false;
       $scope.Session = Session;
       $scope.hoverTracker = [];
+      $scope.forceGlobalLoading = $rootScope.forceGlobalLoading;
       var MeSvc = new Me();
 
       var handleTenantSwitch = function (sessionTenant, isTenantFromInvite) {

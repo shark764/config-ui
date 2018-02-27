@@ -1,4 +1,4 @@
-<loading ng-show="items && items.$promise && !items.$resolved"></loading>
+<loading ng-show="items && items.$promise && !items.$resolved && forceGlobalLoading"></loading>
 
 <!-- <p class="filtered" ng-show="items && (filtered.length != items.length)">
   <span translate="table.filtered.status"
@@ -10,7 +10,7 @@
   </a>
 </p> -->
 
-<table scroll-table class="table" ng-hide="items && items.$promise && !items.$resolved" id="items-table">
+<table scroll-table class="table" ng-hide="items && items.$promise && !items.$resolved && forceGlobalLoading" id="items-table">
   <thead>
     <tr>
       <th id="bulk-actions-select-table-header" class="check-col"
@@ -50,7 +50,7 @@
     </tr>
   </thead>
 
-  <tbody>
+  <tbody  ng-class="{'forced-global-loading': forceGlobalLoading === true}">
     <tr ng-if="!filtered.length">
       <td class="null" colspan="{{config.fields.length + 1}}">
         {{'table.results.none' | translate}}

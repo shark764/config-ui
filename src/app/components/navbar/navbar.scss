@@ -20,6 +20,21 @@ navbar {
   white-space: nowrap;
   z-index: 15;
 
+  .forced-global-loading {
+    loading {
+      .loading {
+        padding-top: 18px;
+        position: absolute;
+      }
+    }
+
+    .drop-label {
+      span {
+        visibility: hidden;
+      }
+    }
+  }
+
   #logo {
     background: none;
       @include box-shadow(none);
