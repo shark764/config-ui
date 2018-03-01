@@ -4,6 +4,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [unreleased]
 
+## [4.29.13]
+* CXV1-12560 - Fixed issue with incorrect tenant being set after an existing platform user is logging into a tenant via an email invite link
+
 ## [4.29.12]
 * CXV1-12760 - Presence & Dispositions Deleting items causes fatal page error
 * CXV1-12414 - resolved problem with textarea height(update)

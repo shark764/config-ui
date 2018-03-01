@@ -38,6 +38,11 @@ angular.module('liveopsConfigPanel')
         this.flush();
       };
 
+      this.addTenant = function (tenant) {
+        self.tenants.push(tenant);
+        this.flush();
+      };
+
       this.setIsSso = function (isSso) {
         this.isSso = isSso;
         this.flush();
