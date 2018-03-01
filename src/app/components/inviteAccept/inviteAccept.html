@@ -73,6 +73,10 @@
       </div>
     </ng-form>
     <p class="copyright">{{'copyright' | translate}}</p>
-    <p class="copyright">{{'signup.legal' | translate}}</p>
+    <p class="copyright">{{'signup.legal' | translate}}
+      <a ng-href="{{legalLinkURL}}" class="legal-link" ng-click="createURL(); $event.stopPropagation();" target="_blank">
+        {{'signup.legalLinkLabel' | translate}}
+      </a>
+    </p>
   </div>
 </div>

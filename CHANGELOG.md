@@ -2,10 +2,13 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [unreleased]
+## [unreleased]+
+
+## [4.30.0]
+* CXV1-12823 -  Added Legal Disclaimer link to portal access pages
 
 ## [4.29.16]
-* CXV1-12397 - Fixed bugs related to IDP XML file uploads 
+* CXV1-12397 - Fixed bugs related to IDP XML file uploads
 
 ## [4.29.15]
 * CXV1-12560 - Fixed issue with global loading mode firing at the wrong time

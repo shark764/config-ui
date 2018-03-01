@@ -90,7 +90,7 @@ angular.module('liveopsConfigPanel', [
       // determine which login screen to show and to return to upon logout
       AuthService.setSsoMode(toState.name, $location);
 
-      if (toState.name === 'login' || toState.name === 'forgot-password' || toState.name === 'invite-accept') {
+      if (toState.name === 'login' || toState.name === 'forgot-password' || toState.name === 'invite-accept' || toState.name === 'legal') {
 
         if ($location.absUrl().indexOf(mitelUrl) !== -1) {
           Branding.set(mockBrandingData);

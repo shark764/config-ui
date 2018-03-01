@@ -22,6 +22,14 @@ $form-height: 300px;
     }
   }
 
+  .legal-link {
+    text-decoration: underline;
+    color: #ffffff;
+    &:hover {
+      color: #ffffff;
+    }
+  }
+
   .loading {
     color: #fff;
     opacity: 0.87;
