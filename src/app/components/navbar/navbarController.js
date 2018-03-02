@@ -30,6 +30,7 @@ angular.module('liveopsConfigPanel')
           if (isTenantFromInvite) {
             $timeout(function () {
               Session.addTenant(sessionTenant);
+              $rootScope.forceGlobalLoading = false;
             });
           }
         });
