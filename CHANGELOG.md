@@ -4,6 +4,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [unreleased]
 
+## [4.29.15]
+* CXV1-12560 - Fixed issue with global loading mode firing at the wrong time 
+
 ## [4.29.14]
 * CXV1-12560 - Made it so that when user is coming in via a tenant invite, the user table and the tenant drop down are in loading mode until we have fully loading all of the new tenant data
 
