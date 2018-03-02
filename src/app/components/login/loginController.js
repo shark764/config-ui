@@ -125,6 +125,8 @@ angular.module('liveopsConfigPanel')
       AuthService.getLoginFunction($scope.innerScope.login);
 
       this.inviteAcceptSuccess = function(inviteSuccessResponse) {
+        $rootScope.forceGlobalLoading = true;
+
         //Update user info in Session
         AuthService.refreshTenants().then(function() {
           // first check to see if the tenant we want to switch to is already
@@ -135,6 +137,7 @@ angular.module('liveopsConfigPanel')
           // ...if it IS, great, switch to that tenant
           if (newTenant.length >= 1) {
             Session.setTenant(newTenant[0]);
+            $rootScope.forceGlobalLoading = false;
           } else {
             // ...if it is NOT in the session yet, then we need to "Frankenstein"
             // together from 3 endpoints all of the data to get our Session data.
@@ -169,6 +172,7 @@ angular.module('liveopsConfigPanel')
               };
 
               $rootScope.$broadcast(loEvents.session.tenants.updated, newSessionTenant);
+              $rootScope.forceGlobalLoading = false;
             });
           }
         });

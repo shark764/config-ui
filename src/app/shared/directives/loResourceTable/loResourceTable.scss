@@ -9,6 +9,10 @@ lo-resource-table {
   height: 100%;
   overflow-y: auto;
 
+  .forced-global-loading {
+    opacity: 0;
+  }
+
   .scrollable-table-container {
    /* 99% height instead of 100% to account for rounding?*/
     height: calc(99% - #{$action-container-height});

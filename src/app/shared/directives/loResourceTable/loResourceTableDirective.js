@@ -62,6 +62,7 @@ angular.module('liveopsConfigPanel')
           };
         }],
         link: function($scope) {
+          $scope.forceGlobalLoading = $rootScope.forceGlobalLoading;
           var parseResourceKey = angular.noop;
           var parseStateKey = angular.noop;
 
