@@ -209,7 +209,7 @@ angular.module('liveopsConfigPanel')
 
       vm.clearUploadField = function () {
         vm.selectedIdentityProvider.metadataFile = null;
-        vm.selectedIdentityProvider.metadataFileName = null;
+        vm.selectedIdentityProvider.metadataFileName = '';
         if (_.has($scope.forms.detailsForm, 'xmlDirectInput.$pristine')) {
           $scope.forms.detailsForm.metadataFileName.$pristine = true;
         }
