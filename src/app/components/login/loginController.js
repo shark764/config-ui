@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('LoginController', ['$rootScope', '$scope', '$state', 'AuthService', '$stateParams', '$translate', 'Alert', 'TenantUser', '$filter', 'Session', 'UserPermissions', 'User', 'Tenant', '$q', 'loEvents', 'TenantPermission',
-    function($rootScope, $scope, $state, AuthService, $stateParams, $translate, Alert, TenantUser, $filter, Session, UserPermissions, User, Tenant, $q, loEvents, TenantPermission) {
+  .controller('LoginController', ['$rootScope', '$scope', '$state', 'AuthService', '$stateParams', '$translate', 'Alert', 'TenantUser', '$filter', '$location', 'legalLinkCX', 'legalLinkMitel', 'Session', 'UserPermissions', 'User', 'Tenant', '$q', 'loEvents', 'TenantPermission',
+    function($rootScope, $scope, $state, AuthService, $stateParams, $translate, Alert, TenantUser, $filter, $location, legalLinkCX, legalLinkMitel, Session, UserPermissions, User, Tenant, $q, loEvents, TenantPermission) {
       var self = this;
 
       function redirectUponLogin () {
@@ -22,6 +22,15 @@ angular.module('liveopsConfigPanel')
           status: 1
         }
       };
+
+      $scope.createURL = function () {
+        var mitelUrl = 'mitel';
+        if ($location.absUrl().indexOf(mitelUrl) !== -1) {
+          $scope.legalLinkURL = legalLinkMitel;
+        }   else {
+          $scope.legalLinkURL = legalLinkCX;
+        }
+      }
 
       $scope.innerScope.toggleView = function () {
         $scope.innerScope.passwordView = !$scope.innerScope.passwordView;

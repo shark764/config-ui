@@ -1,12 +1,21 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('InviteAcceptController', ['$scope', 'User', '$state', '$stateParams', '$translate', 'invitedUser', 'AuthService', 'TenantUser', 'Alert', 'Session', 'UserPermissions', '$q',
-    function ($scope, User, $state, $stateParams, $translate, invitedUser, AuthService, TenantUser, Alert, Session, UserPermissions, $q) {
+  .controller('InviteAcceptController', ['$scope', 'User', '$state', '$stateParams', '$translate', 'invitedUser', 'AuthService', 'TenantUser', '$location', 'legalLinkCX', 'legalLinkMitel', 'Alert', 'Session', 'UserPermissions', '$q',
+    function ($scope, User, $state, $stateParams, $translate, invitedUser, AuthService, TenantUser, $location, legalLinkCX, legalLinkMitel, Alert, Session, UserPermissions, $q) {
       $scope.user = invitedUser;
       $scope.loading = false;
 
       $scope.showSignupForm = true;
+
+      $scope.createURL = function () {
+        var mitelUrl = 'mitel';
+        if ($location.absUrl().indexOf(mitelUrl) !== -1) {
+          $scope.legalLinkURL = legalLinkMitel;
+        } else {
+          $scope.legalLinkURL = legalLinkCX;
+        }
+      };
 
       $scope.checkPassword = function() {
         var v = $scope.user.confirmPassword === $scope.user.password;
@@ -62,7 +71,7 @@ angular.module('liveopsConfigPanel')
           });
         });
       };
-      
+
       $scope.acceptFailure = function() {
         Alert.error($translate.instant('invite.accept.fail'));
         $scope.loading = false;

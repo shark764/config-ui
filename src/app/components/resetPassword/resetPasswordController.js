@@ -1,7 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('ResetPasswordController', ['$scope', '$state', '$translate', 'ResetPassword', 'Session', 'userToReset', function($scope, $state, $translate, ResetPassword, Session, userToReset) {
+  .controller('ResetPasswordController', ['$scope', '$state', '$translate', 'ResetPassword', 'Session', '$location', 'legalLinkCX', 'legalLinkMitel', 'userToReset',
+  function($scope, $state, $translate, ResetPassword, Session, $location, legalLinkCX, legalLinkMitel, userToReset) {
     $scope.resetMessage = $translate.instant('value.passwordResetMessage', {user: userToReset.getDisplay()});
 
     $scope.checkValidity = function() {
@@ -28,5 +29,14 @@ angular.module('liveopsConfigPanel')
           $scope.loading = false;
         });
     };
+
+    $scope.createURL = function () {
+      var mitelUrl = 'mitel';
+      if ($location.absUrl().indexOf(mitelUrl) !== -1) {
+        $scope.legalLinkURL = legalLinkMitel;
+      } else {
+        $scope.legalLinkURL = legalLinkCX;
+      }
+    }
 
   }]);

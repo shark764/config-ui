@@ -10,6 +10,14 @@
     margin: auto auto;
   }
 
+  .legal-link {
+    text-decoration: underline;
+    color: #ffffff;
+    &:hover {
+      color: #ffffff;
+    }
+  }
+
   .invite-padding {
     padding-left: 20px;
   }

@@ -94,6 +94,10 @@
     <div class="legal">
       <p ng-show="innerScope.loginStatus.$$state.status == 1 && !innerScope.loggingIn" class="forgot-pass"><a target="_blank" href="https://www.serenova.com/privacy">Privacy Policy</a></p>
       <p ng-show="innerScope.loginStatus.$$state.status == 1 && !loggingIn" class="copyright">{{'copyright' | translate}}</p>
-      <p ng-show="innerScope.loginStatus.$$state.status == 1 && !loggingIn" class="copyright">{{'signup.legal' | translate}}</p>
+      <p ng-show="innerScope.loginStatus.$$state.status == 1 && !innerScope.loggingIn" class="copyright">{{'signup.legal' | translate}}
+        <a ng-href="{{legalLinkURL}}" class="legal-link" ng-click="createURL(); $event.stopPropagation();" target="_blank">
+          {{'signup.legalLinkLabel' | translate}}
+        </a>
+      </p>
     </div>
   </div>
