@@ -2,10 +2,13 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [unreleased]+
+## [unreleased]
+
+## [4.30.2]
+* CXV1-11831 - Updated assigned flow doesn't display in Dispatch Mapping Management screen
 
 ## [4.30.1]
-* CXV1-12397 - IDP XML file uploads bug fix followup 
+* CXV1-12397 - IDP XML file uploads bug fix followup
 
 ## [4.30.0]
 * CXV1-12823 -  Added Legal Disclaimer link to portal access pages
