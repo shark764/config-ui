@@ -4,6 +4,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [unreleased]
 
+## [4.30.4]
+* CXV1-13177 - Added Mitel Branding for forgot password and reset password screens. Modified CSS for proper UI
+
 ## [4.30.3]
 * CXV1-12906 - Reason Lists - Squishing the Side Panel Causes UX Issues
 
