@@ -59,7 +59,7 @@ angular.module('liveopsConfigPanel')
           'header': {
             'display': 'Flow'
           },
-          'name': '$original.flow.name'
+          'name': 'flowNameVal'
         }],
         'searchOn': ['$original.name'],
         'orderBy': '$original.name',
