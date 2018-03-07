@@ -180,7 +180,8 @@ angular.module('liveopsConfigPanel')
       };
 
       vm.triggerUpload = function () {
-        document.getElementById('xml-file-input').click();
+        angular.element('#xml-file-input').val(null);
+        angular.element('#xml-file-input').click();
       };
 
       vm.getXmlFile = function () {
@@ -209,7 +210,7 @@ angular.module('liveopsConfigPanel')
 
       vm.clearUploadField = function () {
         vm.selectedIdentityProvider.metadataFile = null;
-        vm.selectedIdentityProvider.metadataFileName = '';
+        vm.selectedIdentityProvider.metadataFileName = null;
         if (_.has($scope.forms.detailsForm, 'xmlDirectInput.$pristine')) {
           $scope.forms.detailsForm.metadataFileName.$pristine = true;
         }
@@ -239,9 +240,11 @@ angular.module('liveopsConfigPanel')
         });
       };
 
-      $scope.$on(loEvents.tableControls.itemSelected, function(event, selectedItem) {
+      $scope.$on(loEvents.tableControls.itemSelected, function(event, selectedItem, prevItem) {
         $q.when(selectedItem).then(function (selectedItemResponse) {
           identityProvidersSvc.setConfigType(selectedItemResponse);
+          vm.newFileUploaded = false;
+          prevItem.inEditMode = false;
 
           // here is where we set the flag the disables the enabled/disabled toggle
           // in the event that this is the IDP we are currently logged in with

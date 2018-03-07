@@ -4,6 +4,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [unreleased]+
 
+## [4.30.1]
+* CXV1-12397 - IDP XML file uploads bug fix followup 
+
 ## [4.30.0]
 * CXV1-12823 -  Added Legal Disclaimer link to portal access pages
 
