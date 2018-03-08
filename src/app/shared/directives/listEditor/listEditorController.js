@@ -86,9 +86,7 @@ angular.module('liveopsConfigPanel')
         else {
         $event.target.style.height = $event.target.scrollHeight + 'px';
       }
-
     };
-    
 
       $scope.highlightText = function(event) {
         event.target.select();

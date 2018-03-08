@@ -1,13 +1,17 @@
 <div class="list-editor clone-header table">
 
   <div class="list-controls">
+    <div class="box-move">
     <i class="fa fa-dot-circle-o fa-2x remove" title="{{'list.editor.category.tooltip' | translate}}" ng-click="addCategory()" ng-hide="readOnly" aria-hidden="true"></i>
     <i class="fa fa-plus-square fa-2x remove" title="{{'list.editor.newList.tooltip' | translate}}" ng-click="addDispo()" ng-hide="readOnly" aria-hidden="true"></i>
     <i class="fa fa-times fa-2x remove" title="{{'list.editor.delete.tooltip' | translate}}" ng-click="remove()" ng-hide="readOnly" aria-hidden="true"></i>
-    <i class="fa fa-chevron-circle-left fa-2x remove" title="{{'list.editor.decrease.tooltip' | translate}}" ng-click="promote()" ng-hide="readOnly" aria-hidden="true"></i>
-    <i class="fa fa-chevron-circle-right fa-2x remove" title="{{'list.editor.increase.tooltip' | translate}}" ng-click="demote()" ng-hide="readOnly" aria-hidden="true"></i>
-    <i class="fa fa-chevron-circle-down fa-2x remove" title="{{'list.editor.down.tooltip' | translate}}" ng-click="moveDown()" ng-hide="readOnly" aria-hidden="true"></i>
-    <i class="fa fa-chevron-circle-up fa-2x remove" title="{{'list.editor.up.tooltip' | translate}}" ng-click="moveUp()" ng-hide="readOnly" aria-hidden="true"></i>
+  </div>
+    <div class="box-move">
+      <i class="fa fa-chevron-circle-left fa-2x remove" title="{{'list.editor.decrease.tooltip' | translate}}" ng-click="promote()" ng-hide="readOnly" aria-hidden="true"></i>
+      <i class="fa fa-chevron-circle-right fa-2x remove" title="{{'list.editor.increase.tooltip' | translate}}" ng-click="demote()" ng-hide="readOnly" aria-hidden="true"></i>
+      <i class="fa fa-chevron-circle-down fa-2x remove" title="{{'list.editor.down.tooltip' | translate}}" ng-click="moveDown()" ng-hide="readOnly" aria-hidden="true"></i>
+      <i class="fa fa-chevron-circle-up fa-2x remove" title="{{'list.editor.up.tooltip' | translate}}" ng-click="moveUp()" ng-hide="readOnly" aria-hidden="true"></i>
+    </div>
   </div>
 
   <div class="list-body">

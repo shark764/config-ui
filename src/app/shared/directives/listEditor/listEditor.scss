@@ -1,12 +1,16 @@
 
-.dispositionTextarea{
+.dispositionTextarea  {
   border: #CCCCCC solid 1px;
   resize: none;
   font-size: 15px;
   padding: 0px;
-  width: 350px;
-  min-height: 100px;
+  width: auto;
   overflow: hidden;
+}
+
+.box-move  {
+  display: inline-block;
+  text-align: center;
 }
 
 .list-editor {
@@ -24,7 +28,7 @@
 
   .list-controls {
     border-bottom: #CCCCCC solid 1px;
-    height: 48px;
+    height: 100%;
     padding: 7px 5px 5px 5px;
 
     .fa-dot-circle-o {
@@ -41,7 +45,7 @@
     }
 
     .fa-chevron-circle-left {
-      margin-left: 60px;
+      margin-left: 50px;
     }
 
     .fa-chevron-circle-right, .fa-chevron-circle-down, .fa-chevron-circle-up{
