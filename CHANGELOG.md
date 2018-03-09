@@ -4,6 +4,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [unreleased]
 
+## [4.30.3]
+* CXV1-12906 - Reason Lists - Squishing the Side Panel Causes UX Issues
+
 ## [4.30.2]
 * CXV1-11831 - Updated assigned flow doesn't display in Dispatch Mapping Management screen
 
