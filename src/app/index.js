@@ -90,7 +90,7 @@ angular.module('liveopsConfigPanel', [
       // determine which login screen to show and to return to upon logout
       AuthService.setSsoMode(toState.name, $location);
 
-      if (toState.name === 'login' || toState.name === 'forgot-password' || toState.name === 'invite-accept' || toState.name === 'legal') {
+      if (toState.name === 'login' || toState.name === 'forgot-password' || toState.name === 'invite-accept' || toState.name === 'legal' || toState.name === 'reset-password') {
 
         if ($location.absUrl().indexOf(mitelUrl) !== -1) {
           Branding.set(mockBrandingData);
@@ -112,7 +112,7 @@ angular.module('liveopsConfigPanel', [
         // and if those keys exist, immediately log in via IDP
         if ($location.absUrl().indexOf('username') !== -1) {
           AuthService.idpLogin(AuthService.generateAuthParams('username'));
-        } 
+        }
       } else if (localStorage.getItem('TOKEN-EXPIRATION-DEBUG')) {
         debugTimeout = $timeout(function() {
           // random bad API call we're using to throw a 400 error for debugging

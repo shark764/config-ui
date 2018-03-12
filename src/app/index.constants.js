@@ -8,9 +8,9 @@ angular.module('liveopsConfigPanel.config', [])
 
 .constant('uuidcacheKey', 'LIVEOPS-CACHE-KEY')
 
-.constant('legalLinkCX', 'http://legal.cxengagelabs.net/cxengage-legal/index.html')
+.constant('legalLinkCX', 'https://legal.cxengagelabs.net/cxengage-legal/index.html')
 
-.constant('legalLinkMitel', 'http://legal.cxengagelabs.net/mitel-legal/index.html')
+.constant('legalLinkMitel', 'https://legal.cxengagelabs.net/mitel-legal/index.html')
 
 .constant('_', _)
 
