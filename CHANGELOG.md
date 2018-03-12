@@ -4,6 +4,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [unreleased]
 
+## [4.30.5]
+* CXV1-12942 - Reason Lists - Changing Your Reason Multiple Times Can Result in an Empty Field that Wont Save.
+
 ## [4.30.4]
 * CXV1-13177 - Added Mitel Branding for forgot password and reset password screens. Modified CSS for proper UI
 
