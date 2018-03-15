@@ -400,6 +400,7 @@ angular.module('liveopsConfigPanel')
         }
         $scope.detailsForm.$setDirty();
         $scope.dropdown = -1;
+        $timeout($scope.init);
       };
 
       $scope.dispoCheck = function(disposition) {
