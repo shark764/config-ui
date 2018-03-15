@@ -85,6 +85,7 @@ angular.module('liveopsConfigPanel')
           okCallback: vm.submit
         });
       }
+      $scope.err = false;
       vm.submit();
     };
 
@@ -195,6 +196,7 @@ angular.module('liveopsConfigPanel')
     $scope.$watch(function() {
       return vm.selectedDispositionList;
     }, function() {
+      $scope.err = false;
       vm.duplicateError = false;
     });
 
