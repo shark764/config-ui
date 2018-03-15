@@ -727,7 +727,7 @@
   "identityProviders.details.uploadXmlConfig": "Upload XML Config",
   "identityProviders.details.enterXml": "Enter XML Markup Here",
   "identityProviders.details.enterXmlUnsaved": "Your changes have not been saved and will be lost. Are you sure you'd like to proceed without saving?",
-  "dispositionList.details.category": "The category name cannot be left blank. Click 'cancel' if you'd like to cancel making your change.",
+  "dispositionList.details.category": "The category name cannot be left blank, please add a name to continue.",
   "identityProviders.details.editXmlMarkup": "edit xml markup",
   "identityProviders.details.sharedAccessCode": "Access Code",
   "identityProviders.details.downloadConfig": "Download Current Config",

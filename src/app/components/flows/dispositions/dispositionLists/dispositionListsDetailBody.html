@@ -45,6 +45,7 @@
 
 
 <div class="input-group">
+  <div class="lo-error centered-error" ng-show="errBlank">{{'dispositionList.details.category' | translate}}</div>
   <div class="lo-error centered-error" ng-show="err">{{'dispositions.invalid' | translate}}</div>
   <list-editor ng-model="dlc.selectedDispositionList.dispositions" form="forms.detailsForm" type="dispositions" read-only="dlc.selectedDispositionList.tenantId !== Session.tenant.tenantId || !(['UPDATE_DISPOSITION_LIST'] | hasPermission)" shared="dlc.selectedDispositionList.shared"></list-editor>
 </div>
