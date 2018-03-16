@@ -86,15 +86,53 @@ angular.module('liveopsConfigPanel')
           okCallback: vm.submit
         });
       }
+      $scope.err = false;
       vm.submit();
     };
 
     vm.submit = function() {
+
+      var categories = [];
+      var childrenCat = [];
+      var countCat = 0;
+      var countChild = 0;
+
       vm.selectedReasonList.reasons.forEach(function(reason) {
         if (reason.name === $translate.instant('reasons.details.select')) {
           $scope.err = true;
         }
+        if (reason.type === 'category') {
+          categories[countCat] = reason.name;
+          countCat++;
+        }
+        if (reason.hierarchy !== 'undefined' && _.size(reason.hierarchy) > 0 ) {
+            childrenCat.push({ parent: reason.hierarchy[0], pos: countChild });
+            countChild++;
+        }
       });
+
+      var catFound = 0;
+      var reasonState = false;
+      for (var i = 0; i < categories.length; i++) {
+          for (var c = 0; c < childrenCat.length; c++) {
+            if (categories[i] === childrenCat[c].parent) {
+               catFound++;
+            }
+          }
+          if (catFound === 0) {
+            reasonState = true;
+          } else {
+            catFound = 0;
+          }
+      }
+
+
+      var out = 0;
+      if (reasonState) {
+        $scope.errBlank = true;
+        return;
+      }
+
       if ($scope.err) {
         return;
       }
@@ -124,6 +162,7 @@ angular.module('liveopsConfigPanel')
         tenantId: Session.tenant.tenantId
       }, function() {
         $scope.err = false;
+        $scope.errBlank = false;
         $scope.loading = false;
         Alert.success($translate.instant('value.saveSuccess'));
         vm.duplicateError = false;
@@ -153,6 +192,7 @@ angular.module('liveopsConfigPanel')
     $scope.$watch(function() {
       return vm.selectedReasonList;
     }, function() {
+      $scope.err = false;
       vm.duplicateError = false;
     });
 
