@@ -4,10 +4,11 @@ angular.module('liveopsConfigPanel')
   .controller('dispositionListsController', ['dispositionListsTableConfig', 'DispositionList', 'Disposition', 'Session', '$scope', '$translate', 'loEvents', 'Modal', 'Alert', function(dispositionListsTableConfig, DispositionList, Disposition, Session, $scope, $translate, loEvents, Modal, Alert) {
     var vm = this;
     $scope.forms = {};
-    $scope.err = false;
     vm.tableConfig = dispositionListsTableConfig;
 
     vm.init = function() {
+      $scope.err = false;
+      $scope.errBlank = false;
       vm.dispositionLists = {$promise: {}, $resolved: false};
       DispositionList.cachedQuery({
         tenantId: Session.tenant.tenantId
@@ -90,10 +91,12 @@ angular.module('liveopsConfigPanel')
     };
 
     vm.submit = function() {
+
       var categories = [];
       var childrenCat = [];
       var countCat = 0;
       var countChild = 0;
+
       vm.selectedDispositionList.dispositions.forEach(function(disposition) {
         if (disposition.name === $translate.instant('dispositions.details.select')) {
           $scope.err = true;
@@ -107,6 +110,7 @@ angular.module('liveopsConfigPanel')
             countChild++;
         }
       });
+
       var catFound = 0;
       var dispositionState = false;
       for (var i = 0; i < categories.length; i++) {
@@ -121,32 +125,27 @@ angular.module('liveopsConfigPanel')
             catFound = 0;
           }
       }
+
+
       var out = 0;
       if (dispositionState) {
-        Alert.confirm($translate.instant('dispositionList.details.category'),
-          // user clicks "OK"
-          function() {
-            return;
-          },
-          // user clicks "Cancel"
-          function() {
-            out = 1;
-          }
-        );
-      }
-
-      if (out === 1) {
+        $scope.errBlank = true;
         return;
       }
 
+
+
       if ($scope.err) {
+
         return;
       }
       // our list of dispositions comes back with a lot of extra info on it that we don't need and actually can't send to the API to save.
       // we can get rid of it here, and then when the promise returns, we just set the selectedDispositionList equal to the returned list.
       // since we have to remove the names from the dispositions, we show a loading spinner so the user doesn't notice the name disappear
       $scope.loading = true;
+
       var copy = vm.selectedDispositionList.dispositions.slice(0);
+
       for (var i = 0; i < copy.length; i++) {
         if (angular.isDefined(copy[i].type)) {
           copy.splice(i, 1);
@@ -160,6 +159,8 @@ angular.module('liveopsConfigPanel')
         delete copy[i].tenantId;
         delete copy[i].name;
       }
+
+
       copy.forEach(function(item, index) {
         item.sortOrder = index;
       });
@@ -168,6 +169,7 @@ angular.module('liveopsConfigPanel')
         tenantId: Session.tenant.tenantId
       }, function() {
         $scope.err = false;
+        $scope.errBlank = false;
         $scope.loading = false;
         Alert.success($translate.instant('value.saveSuccess'));
         vm.duplicateError = false;

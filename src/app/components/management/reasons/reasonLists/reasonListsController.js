@@ -4,10 +4,11 @@ angular.module('liveopsConfigPanel')
   .controller('reasonListsController', ['reasonListsTableConfig', 'ReasonList', 'Reason', 'Session', '$rootScope', '$scope', '$translate', 'loEvents', 'Modal', 'Alert', function(reasonListsTableConfig, ReasonList, Reason, Session, $rootScope, $scope, $translate, loEvents, Modal, Alert) {
     var vm = this;
     $scope.forms = {};
-    $scope.err = false;
+
     vm.tableConfig = reasonListsTableConfig;
 
     vm.init = function() {
+      $scope.err = false;
       vm.reasonLists = {$promise: {}, $resolved: false};
       ReasonList.cachedQuery({
         tenantId: Session.tenant.tenantId

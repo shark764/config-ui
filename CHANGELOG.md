@@ -4,6 +4,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [unreleased]
 
+## [4.30.7]
+* CXV1-13033 - Removed Popup and added a regular error message on top of Disposition List for empty Categories
+* CXV1-13032 - Added the centered error message, when trying to add an empty disposition in Reason List Management
+
 ## [4.30.6]
 * CXV1-12951 - Reason Lists - When an error occurs, Fixing the issue doesn't let you submit the change
 * CXV1-12949 - Reason Lists - Getting an Error Message Causes all Reasons Lists to be Unchangeable Until Page is Navigated Away From
