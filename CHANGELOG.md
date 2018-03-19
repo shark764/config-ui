@@ -4,6 +4,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [unreleased]
 
+##[4.30.9]
+* CXV1-12951 - Reason Lists - When an error occurs, Fixing the issue doesn't let you submit the change (updated)
+* CXV1-12949 - Reason Lists - Getting an Error Message Causes all Reasons Lists to be Unchangeable Until Page is Navigated Away From (updated)
+* CXV1-12942 - Reason Lists - Changing Your Reason Multiple Times Can Result in an Empty Field that Wont Save.(updated)
+
 ## [4.30.8]
 * Update Realtime Dashboards to v5.0.8
 
