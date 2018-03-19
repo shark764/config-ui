@@ -4,6 +4,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [unreleased]
 
+## [4.30.8]
+* Update Realtime Dashboards to v5.0.8
+
 ## [4.30.7]
 * CXV1-13033 - Removed Popup and added a regular error message on top of Disposition List for empty Categories
 * CXV1-13032 - Added the centered error message, when trying to add an empty disposition in Reason List Management
