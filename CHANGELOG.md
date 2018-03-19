@@ -4,6 +4,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [unreleased]
 
+##[4.30.10]
+* CXV1-12560 - Un-did selected changes to tenant invite process since these changes would best be left out until some related API work is done 
+
 ##[4.30.9]
 * CXV1-12951 - Reason Lists - When an error occurs, Fixing the issue doesn't let you submit the change (updated)
 * CXV1-12949 - Reason Lists - Getting an Error Message Causes all Reasons Lists to be Unchangeable Until Page is Navigated Away From (updated)
