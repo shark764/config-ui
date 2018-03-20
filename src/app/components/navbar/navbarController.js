@@ -1,40 +1,13 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('NavbarController', ['$rootScope', '$scope', '$state', '$location', '$q', 'AuthService', 'Session', 'DirtyForms', '$translate', 'UserPermissions', 'PermissionGroups', '$window', 'helpDocsHostname', 'appFlags', 'loEvents', 'Branding', 'Me', '$timeout',
-    function($rootScope, $scope, $state, $location, $q, AuthService, Session, DirtyForms, $translate, UserPermissions, PermissionGroups, $window, helpDocsHostname, appFlags, loEvents, Branding, Me, $timeout) {
+  .controller('NavbarController', ['$rootScope', '$scope', '$state', '$location', '$q', 'AuthService', 'Session', 'DirtyForms', '$translate', 'UserPermissions', 'PermissionGroups', '$window', 'helpDocsHostname', 'appFlags', 'loEvents', 'Branding', 'Me',
+    function($rootScope, $scope, $state, $location, $q, AuthService, Session, DirtyForms, $translate, UserPermissions, PermissionGroups, $window, helpDocsHostname, appFlags, loEvents, Branding, Me) {
       var vm = this;
       $scope.hovering = false;
       $scope.Session = Session;
       $scope.hoverTracker = [];
-      $scope.forceGlobalLoading = $rootScope.forceGlobalLoading;
       var MeSvc = new Me();
-
-      var handleTenantSwitch = function (sessionTenant, isTenantFromInvite) {
-        Session.setTenant(sessionTenant);
-        $scope.updateTopbarConfig();
-        $scope.updateBranding();
-        var goTo = $state.current;
-        if($state.includes('content.realtime-dashboards-management-editor')) {
-          goTo = 'content.custom-dashboards-management';
-        } else if ($state.includes('content.flows.editor')){
-          goTo = 'content.flows.flowManagement';
-        }
-        $state.go(goTo, {
-          id: null
-        }, {
-          reload: true,
-          inherit: false
-        })
-        .then(function () {
-          if (isTenantFromInvite) {
-            $timeout(function () {
-              Session.addTenant(sessionTenant);
-              $rootScope.forceGlobalLoading = false;
-            });
-          }
-        });
-      };
 
       // since sometimes the tenant data from the /me endpoint doesn't
       // give us data we need, this lets us get the corresponding
@@ -49,15 +22,10 @@ angular.module('liveopsConfigPanel')
         }
       }
 
-      $scope.populateTenantsHandler = function(broadcastEvent, sessionTenantFromBroadcast) {
+      $scope.populateTenantsHandler = function() {
         if (!Session.isAuthenticated()) {
           return;
         }
-
-        if (sessionTenantFromBroadcast) {
-          handleTenantSwitch(sessionTenantFromBroadcast, true);
-        }
-
         var tenantDropdownItems = [];
 
         var currentSessionTenant = _.find(Session.tenants, { tenantId: Session.tenant.tenantId });
@@ -120,7 +88,21 @@ angular.module('liveopsConfigPanel')
                     // if we are switching from one *CxEngage* IDP to another.
                     // (CxEngage IDP's always have a password prop set to true)
                     if (isCxTenant) {
-                      handleTenantSwitch(targetSessionTenant);
+                      Session.setTenant(targetSessionTenant);
+                      $scope.updateTopbarConfig();
+                      $scope.updateBranding();
+                      var goTo = $state.current;
+                      if($state.includes('content.realtime-dashboards-management-editor')) {
+                        goTo = 'content.custom-dashboards-management';
+                      } else if ($state.includes('content.flows.editor')){
+                        goTo = 'content.flows.flowManagement';
+                      }
+                      $state.go(goTo, {
+                        id: null
+                      }, {
+                        reload: true,
+                        inherit: false
+                      });
                     } else {
                       AuthService.setResumeSession(true);
                       $state.go('login', {

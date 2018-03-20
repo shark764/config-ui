@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('LoginController', ['$rootScope', '$scope', '$state', 'AuthService', '$stateParams', '$translate', 'Alert', 'TenantUser', '$filter', '$location', 'legalLinkCX', 'legalLinkMitel', 'Session', 'UserPermissions', 'User', 'Tenant', '$q', 'loEvents', 'TenantPermission',
-    function($rootScope, $scope, $state, AuthService, $stateParams, $translate, Alert, TenantUser, $filter, $location, legalLinkCX, legalLinkMitel, Session, UserPermissions, User, Tenant, $q, loEvents, TenantPermission) {
+  .controller('LoginController', ['$rootScope', '$scope', '$state', 'AuthService', '$stateParams', '$translate', 'Alert', 'TenantUser', '$filter', '$location', 'legalLinkCX', 'legalLinkMitel', 'Session', 'UserPermissions', 'User', 'Tenant', '$q', 'loEvents',
+    function($rootScope, $scope, $state, AuthService, $stateParams, $translate, Alert, TenantUser, $filter, $location, legalLinkCX, legalLinkMitel, Session, UserPermissions, User, Tenant, $q, loEvents) {
       var self = this;
 
       function redirectUponLogin () {
@@ -133,8 +133,7 @@ angular.module('liveopsConfigPanel')
       // be used from within the SSO login method
       AuthService.getLoginFunction($scope.innerScope.login);
 
-      this.inviteAcceptSuccess = function(inviteSuccessResponse) {
-        $rootScope.forceGlobalLoading = true;
+      this.inviteAcceptSuccess = function() {
 
         //Update user info in Session
         AuthService.refreshTenants().then(function() {
@@ -146,43 +145,6 @@ angular.module('liveopsConfigPanel')
           // ...if it IS, great, switch to that tenant
           if (newTenant.length >= 1) {
             Session.setTenant(newTenant[0]);
-            $rootScope.forceGlobalLoading = false;
-          } else {
-            // ...if it is NOT in the session yet, then we need to "Frankenstein"
-            // together from 3 endpoints all of the data to get our Session data.
-            var tenantList = Tenant.cachedQuery({
-              regionId: Session.activeRegionId
-            });
-            var tenantPermissions = TenantPermission.cachedQuery({
-              tenantId: $stateParams.tenantId
-            });
-            var tenantUsers = TenantUser.cachedQuery({
-              tenantId: $stateParams.tenantId
-            }, 'TenantUser', true);
-
-            $q.all([
-              tenantPermissions.$promise,
-              tenantList.$promise,
-              tenantUsers.$promise
-            ]).then(function (response) {
-              var newTenantPermissionsList = _.pluck(response[0], 'name');
-              var newTenant = _.find(response[1], { id: $stateParams.tenantId });
-              var newTenantUser = _.find(response[2], { id: inviteSuccessResponse.id });
-
-              var newSessionTenant = {
-                tenantId: newTenant.id,
-                tenantName: newTenant.name,
-                tenantStatus: newTenantUser.status,
-                tenantActive: newTenant.active,
-                tenantClientLogLevel: newTenant.clientLogLevel,
-                tenantRoleId: newTenantUser.roleId,
-                tenantRoleName: newTenantUser.$roleName,
-                tenantPermissions: newTenantPermissionsList
-              };
-
-              $rootScope.$broadcast(loEvents.session.tenants.updated, newSessionTenant);
-              $rootScope.forceGlobalLoading = false;
-            });
           }
         });
 
