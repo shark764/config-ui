@@ -119,7 +119,12 @@ angular.module('liveopsConfigPanel')
                catFound++;
             }
           }
+
           if (catFound === 0) {
+            dispositionState = true;
+          }
+
+          if (categories[i] === '') {
             dispositionState = true;
           } else {
             catFound = 0;
@@ -132,8 +137,6 @@ angular.module('liveopsConfigPanel')
         $scope.errBlank = true;
         return;
       }
-
-
 
       if ($scope.err) {
 
