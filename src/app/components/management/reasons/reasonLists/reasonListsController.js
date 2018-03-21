@@ -121,7 +121,11 @@ angular.module('liveopsConfigPanel')
           }
           if (catFound === 0) {
             reasonState = true;
-          } else {
+          }
+          if (categories[i] === '') {
+            reasonState = true;
+          }
+          else {
             catFound = 0;
           }
       }
