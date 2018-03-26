@@ -90,7 +90,12 @@ angular.module('liveopsConfigPanel')
 
       $scope.highlightText = function(event) {
         event.target.select();
+        event.target.style.height = event.target.scrollHeight + 'px';
       };
+
+      $scope.normalHeight = function(event) {
+        event.target.style.height = '19px';
+      }
 
       $scope.addCategory = function() {
         // category is given a random id, so that track by dispo.id doesn't break on categories
