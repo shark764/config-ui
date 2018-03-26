@@ -678,16 +678,20 @@ angular.module('liveopsConfigPanel')
           controller: 'ReportingController'
         })
         .state('content.reporting.custom-stats', {
-          url: '/custom-stats?id',
-          title:'Reporting - Custom Statistics',
-          templateUrl: 'app/components/reporting/customStats/customStatsManagement.html',
-          controller: 'customStatsManagementController',
-          reloadOnSearch: false,
-          resolve: {
-            hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
-              return UserPermissions.resolvePermissions(PermissionGroups.viewCustomStats);
-            }]
-          }
+          redirectTo: 'content.management.users',
+          // commenting out route info as per CXV1-13276, which specifies 
+          // this option should be hidden, and not necessarily deleted 
+                   
+          // url: '/custom-stats?id',
+          // title:'Reporting - Custom Statistics',
+          // templateUrl: 'app/components/reporting/customStats/customStatsManagement.html',
+          // controller: 'customStatsManagementController',
+          // reloadOnSearch: false,
+          // resolve: {
+          //   hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
+          //     return UserPermissions.resolvePermissions(PermissionGroups.viewCustomStats);
+          //   }]
+          // }
         })
         .state('content.reporting.custom-stats-editor', {
           url: '/custom-stats/editor/:customStatId/:draftId/?readOnly',
