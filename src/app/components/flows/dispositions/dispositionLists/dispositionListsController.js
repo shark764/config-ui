@@ -194,6 +194,14 @@ angular.module('liveopsConfigPanel')
       });
     };
 
+    $scope.cancelAction = function(){
+      $scope.err = false;
+      $scope.errBlank = false;
+      $scope.loading = false;
+      vm.duplicateError = false;
+      vm.init();
+    };
+
     vm.listIsEmpty = function() {
       var list = vm.selectedDispositionList.dispositions;
       for (var i = 0; i < list.length; i++) {

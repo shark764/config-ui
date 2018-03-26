@@ -905,6 +905,7 @@
   "list.items.required": "List needs at least one item.",
   "list.items.header": "List Item(s)",
   "list.table.title": "List Item(s)",
+  "list.editor.category.newCategory":"Enter a category name",
   "list.editor.category.tooltip":"New category header",
   "list.editor.newList.tooltip":"New list item",
   "list.editor.delete.tooltip":"Delete selected item",

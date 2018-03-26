@@ -4,6 +4,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [unreleased]
 
+##[4.30.17]
+* CXV1-12954 - Fixed issues with Presence Reasons/Disposition Lists when the "Cancel" action is triggered. Now is allowing the user to add categories and dispositions/reasons
+
 ##[4.30.16]
 * CXV1-13264 - Reason Lists - When a category has no reasons under it indented then submitted, error is incorrect for why it wasn't submitable
 
