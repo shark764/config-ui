@@ -4,6 +4,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [unreleased]
 
+##[4.31.12]
+* CXV1-13276 - Hide Custom Stat page
+
 ##[4.30.11]
 * CXV1-13265 - Reason Lists - Category can be saved without a value.
 

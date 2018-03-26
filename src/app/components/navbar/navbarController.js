@@ -471,14 +471,16 @@ angular.module('liveopsConfigPanel')
           });
         }
 
-        if (UserPermissions.hasPermissionInList(PermissionGroups.viewCustomStats)) {
-          items.push({
-            label: 'Custom Statistics',
-            stateLink: 'content.reporting.custom-stats',
-            id: 'custom-stats-link',
-            order: 6
-          });
-        }
+        // commenting this out as per CXV1-13276, which specifies 
+        // this option should be hidden, and not necessarily deleted
+        // if (UserPermissions.hasPermissionInList(PermissionGroups.viewCustomStats)) {
+        //   items.push({
+        //     label: 'Custom Statistics',
+        //     stateLink: 'content.reporting.custom-stats',
+        //     id: 'custom-stats-link',
+        //     order: 5
+        //   });
+        // }
 
         return items;
       };
