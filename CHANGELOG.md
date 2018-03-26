@@ -4,6 +4,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [unreleased]
 
+##[4.30.14]
+* Update Reason List 
+
 ##[4.30.13]
 * CXV1-13306 - Reason Lists - Category is giant text box
 * CXV1-12942 - Reason Lists - Changing Your Reason Multiple Times Can Result in an Empty Field that Wont Save.
