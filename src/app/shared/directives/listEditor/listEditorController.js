@@ -179,6 +179,7 @@ angular.module('liveopsConfigPanel')
       $scope.selectDisposition = function(index) {
         $scope.selectedDispo = $scope.dispositionList[index];
         $scope.dropdown = -1;
+
       };
 
       $scope.dispoTracker = function(dispo) {
@@ -232,6 +233,7 @@ angular.module('liveopsConfigPanel')
         $scope.selectedDispo = list[listIndex];
         $scope.dropdown = -1;
         $scope.detailsForm.$setDirty();
+        $timeout($scope.init);
       };
 
       $scope.moveDown = function () {
