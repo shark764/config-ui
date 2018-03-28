@@ -9,6 +9,8 @@ angular.module('liveopsConfigPanel')
 
     vm.init = function() {
       $scope.err = false;
+      $scope.errBlank = false;
+      $scope.errAdd = false;
       vm.reasonLists = {$promise: {}, $resolved: false};
       ReasonList.cachedQuery({
         tenantId: Session.tenant.tenantId
@@ -113,31 +115,38 @@ angular.module('liveopsConfigPanel')
 
       var catFound = 0;
       var reasonState = false;
+      var addReasonCat = false;
       for (var i = 0; i < categories.length; i++) {
-          for (var c = 0; c < childrenCat.length; c++) {
+          for (var c=0; c < childrenCat.length; c++) {
             if (categories[i] === childrenCat[c].parent) {
                catFound++;
             }
           }
+
           if (catFound === 0) {
-            reasonState = true;
+            addReasonCat = true;
           }
+
           if (categories[i] === '') {
             reasonState = true;
-          }
-          else {
+          } else {
             catFound = 0;
           }
+
       }
 
-
-      var out = 0;
       if (reasonState) {
         $scope.errBlank = true;
         return;
       }
 
+      if (addReasonCat) {
+        $scope.errAdd = true;
+        return;
+      }
+
       if ($scope.err) {
+
         return;
       }
       // our list of reasons comes back with a lot of extra info on it that we don't need and actually can't send to the API to save.

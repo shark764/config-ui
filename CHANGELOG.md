@@ -4,6 +4,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [unreleased]
 
+##[4.30.16]
+* CXV1-13264 - Reason Lists - When a category has no reasons under it indented then submitted, error is incorrect for why it wasn't submitable
+
 ##[4.30.15]
 * CXV1-13306 - Reason Lists - Category is giant text box (updated)
 * CXV1-12942 - Reason Lists - Changing Your Reason Multiple Times Can Result in an Empty Field that Wont Save.(updated)
