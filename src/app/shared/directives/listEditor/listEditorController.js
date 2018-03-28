@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-    .controller('listEditorController', ['$scope', '$timeout', '$translate', '_', 'Disposition', 'Reason', 'Session', function($scope, $timeout, $translate, _, Disposition, Reason, Session) {
+    .controller('listEditorController', ['$scope', '$timeout', '$translate', '$moment', '_', 'Disposition', 'Reason', 'Session', function($scope, $timeout, $translate, $moment, _, Disposition, Reason, Session) {
 
       // $scope.dispositionList is used all over this controller, here is the shorthand reference
       var list, i;
@@ -100,12 +100,19 @@ angular.module('liveopsConfigPanel')
       $scope.addCategory = function() {
         // category is given a random id, so that track by dispo.id doesn't break on categories
         var idx;
-        var newCategory = {name: 'Enter a category name', type:'category', id: Math.random()};
-        list.push(newCategory);
-        $scope.selectedDispo = _.last(list);
+        var newCategory =
+        {
+          name: $translate.instant('list.editor.category.newCategory'),
+          type:'category',
+          id: $moment.valueOf()
+        };
+
+        $scope.dispositionList.push(newCategory);
+        $scope.selectedDispo = _.last($scope.dispositionList);
         $scope.dropdown = -1;
         $scope.detailsForm.$setDirty();
-        idx = list.indexOf(newCategory);
+        idx = $scope.dispositionList.indexOf(newCategory);
+
         $timeout(function() {
           document.getElementById('category-' + idx).focus();
           document.getElementById('category-' + idx).style.height = '19px';
@@ -132,6 +139,7 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.demote = function() {
+        list = $scope.dispositionList;
         if(angular.isDefined($scope.selectedDispo) && angular.isDefined($scope.selectedDispo.hierarchy) && $scope.selectedDispo.hierarchy.length === 0) {
           var index = list.indexOf($scope.selectedDispo);
           for (var i = index; i >= 0; i--) {
@@ -156,6 +164,7 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.promote = function() {
+
         // IF the disposition we're promoting has other 'siblings', we'll want to move the selectedDispo to after them
         var originalIndex = list.indexOf($scope.selectedDispo);
         var nextIndex = originalIndex + 1;
@@ -193,7 +202,7 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.selectNewDispo = function(dropdownId) {
-        var listIndex = list.indexOf($scope.selectedDispo);
+        var listIndex = $scope.dispositionList.indexOf($scope.selectedDispo);
         var dropdownIndex = _.findIndex($scope.possibleDispos, function(item) {
           return item.id === dropdownId || item.reasonId === dropdownId;
         });
@@ -202,19 +211,19 @@ angular.module('liveopsConfigPanel')
           $scope.possibleDispos.push($scope.selectedDispo);
         }
 
-        list[listIndex] = $scope.possibleDispos[dropdownIndex];
+        $scope.dispositionList[listIndex] = $scope.possibleDispos[dropdownIndex];
 
-        if (angular.isDefined(list[listIndex].id)) {
-          list[listIndex][$scope.type.slice(0, -1) + 'Id'] = list[listIndex].id;
+        if (angular.isDefined($scope.dispositionList[listIndex].id)) {
+          $scope.dispositionList[listIndex][$scope.type.slice(0, -1) + 'Id'] = $scope.dispositionList[listIndex].id;
         }
-        list[listIndex].sortOrder = listIndex;
-        list[listIndex].hierarchy = $scope.selectedDispo.hierarchy;
+        $scope.dispositionList[listIndex].sortOrder = listIndex;
+        $scope.dispositionList[listIndex].hierarchy = $scope.selectedDispo.hierarchy;
 
-        delete list[listIndex].created;
-        delete list[listIndex].createdBy;
-        delete list[listIndex].updated;
-        delete list[listIndex].updatedBy;
-        delete list[listIndex].id;
+        delete $scope.dispositionList[listIndex].created;
+        delete $scope.dispositionList[listIndex].createdBy;
+        delete $scope.dispositionList[listIndex].updated;
+        delete $scope.dispositionList[listIndex].updatedBy;
+        delete $scope.dispositionList[listIndex].id;
 
         $scope.possibleDispos.splice(dropdownIndex, 1);
 
@@ -230,7 +239,7 @@ angular.module('liveopsConfigPanel')
           return 0;
         });
 
-        $scope.selectedDispo = list[listIndex];
+        $scope.selectedDispo = $scope.dispositionList[listIndex];
         $scope.dropdown = -1;
         $scope.detailsForm.$setDirty();
         $timeout($scope.init);

@@ -92,6 +92,14 @@ angular.module('liveopsConfigPanel')
       vm.submit();
     };
 
+    $scope.cancelAction = function(){
+      $scope.err = false;
+      $scope.errBlank = false;
+      $scope.loading = false;
+      vm.duplicateError = false;
+      vm.init();
+    };
+
     vm.submit = function() {
 
       var categories = [];
