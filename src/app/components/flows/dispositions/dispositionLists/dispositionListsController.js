@@ -9,6 +9,7 @@ angular.module('liveopsConfigPanel')
     vm.init = function() {
       $scope.err = false;
       $scope.errBlank = false;
+      $scope.errAdd = false;
       vm.dispositionLists = {$promise: {}, $resolved: false};
       DispositionList.cachedQuery({
         tenantId: Session.tenant.tenantId
@@ -113,6 +114,7 @@ angular.module('liveopsConfigPanel')
 
       var catFound = 0;
       var dispositionState = false;
+      var addDispositionCat = false;
       for (var i = 0; i < categories.length; i++) {
           for (var c=0; c < childrenCat.length; c++) {
             if (categories[i] === childrenCat[c].parent) {
@@ -121,7 +123,7 @@ angular.module('liveopsConfigPanel')
           }
 
           if (catFound === 0) {
-            dispositionState = true;
+            addDispositionCat = true;
           }
 
           if (categories[i] === '') {
@@ -129,12 +131,16 @@ angular.module('liveopsConfigPanel')
           } else {
             catFound = 0;
           }
+
       }
 
-
-      var out = 0;
       if (dispositionState) {
         $scope.errBlank = true;
+        return;
+      }
+
+      if (addDispositionCat) {
+        $scope.errAdd = true;
         return;
       }
 
