@@ -126,6 +126,9 @@ angular.module('liveopsConfigPanel')
           tenantName: tenant.tenantName,
           tenantPermissions: tenant.tenantPermissions
         };
+        if (CxEngage) {
+          CxEngage.session.setActiveTenant({ tenantId: tenant.tenantId, noSession: true });
+        }
         self.flush();
       };
 

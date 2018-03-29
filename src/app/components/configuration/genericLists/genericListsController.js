@@ -1,8 +1,11 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('genericListsController', ['$scope', '$filter', '$q', 'Session', 'List', 'ListType', 'genericListTableConfig', 'loEvents',
-    function ($scope, $filter, $q, Session, List, ListType, genericListTableConfig, loEvents) {
+  .controller('genericListsController', ['$scope', '$filter', '$sce', '$q', 'Session', 'List', 'ListType', 'genericListTableConfig', 'loEvents', 'genericListsHostname',
+    function ($scope, $filter,$sce, $q, Session, List, ListType, genericListTableConfig, loEvents, genericListsHostname) {
+
+      $scope.genericListsHostname = $sce.trustAsResourceUrl(genericListsHostname);
+
       var vm = this;
 
       vm.create = function () {

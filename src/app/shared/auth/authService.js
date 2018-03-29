@@ -18,6 +18,7 @@ angular.module('liveopsConfigPanel')
         if (Session.token && Session.user) {
           CxEngage.session.setToken(Session.token);
           CxEngage.session.setUserIdentity(Session.user.id);
+          CxEngage.session.setActiveTenant({ tenantId: Session.tenant.tenantId, noSession: true });
         }
       }
 
