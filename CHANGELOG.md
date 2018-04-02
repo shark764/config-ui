@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.31.1]
+* CXV1-13211 - Additional logs for initial SDK tenant set
+
 ## [4.31.0]
 * CXV1-12277 - Generic lists
 
