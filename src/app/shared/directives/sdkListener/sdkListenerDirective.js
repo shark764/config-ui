@@ -44,10 +44,10 @@ angular.module('liveopsConfigPanel')
                   response: JSON.parse(window.localStorage.getItem('LIVEOPS-PREFERENCE-KEY')).tenant
                 },'*')
               } else {
-                console.log('~~!!~~ Asking the SDK for:', event.data);
+                console.log('[SDK Listener] Asking the SDK for:', event.data);
                 CxEngage[event.data.module][event.data.command](event.data.data, function(error, topic, response) {
                   if (event.source !== undefined) {
-                    console.log('~~!!~~ SDK sending back:', error, topic, response);
+                    console.log('[SDK Listener] SDK sending back:', error, topic, response);
                     event.source.postMessage({
                       error: error,
                       topic: topic,
@@ -57,8 +57,9 @@ angular.module('liveopsConfigPanel')
                 });
               }
             } else {
-              console.log('~~!!~~ No tenant set yet. Trying again.');
-              CxEngage.session.setActiveTenant({tenantId: Session.tenant.tenantId, noSession:true}, function(){
+              console.log('[SDK Listener] No tenant set yet. Trying again. Setting to Session.tenant.tenantId:', Session.tenant.tenantId);
+              CxEngage.session.setActiveTenant({ tenantId: Session.tenant.tenantId, noSession: true }, function() {
+                console.log('[SDK Listener] SDK tenant set to:', CxEngage.session.getActiveTenantId());
                 sdkListener(event);
               });
             }
