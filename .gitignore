@@ -12,3 +12,4 @@ jenkins/
 .idea/
 $Recycle.Bin/
 src/app/flags.js
+.vscode/
