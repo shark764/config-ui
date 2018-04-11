@@ -1,10 +1,11 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('TenantsController', ['$window', '$http', '$rootScope', '$scope', 'Session', 'Tenant', 'TenantUser', 'tenantTableConfig', 'UserPermissions', 'AuthService', 'Region', '$q', 'loEvents', 'Timezone', 'PermissionGroups', 'Alert', 'GlobalRegionsList', 'Integration', 'Branding', '$translate', 'fileUpload', 'Modal',
-    function ($window, $http, $rootScope, $scope, Session, Tenant, TenantUser, tenantTableConfig, UserPermissions, AuthService, Region, $q, loEvents, Timezone, PermissionGroups, Alert, GlobalRegionsList, Integration, Branding, $translate, fileUpload, Modal) {
+  .controller('TenantsController', ['$window', '$http', '$rootScope', '$scope', 'Session', 'Tenant', 'TenantUser', 'tenantTableConfig', 'UserPermissions', 'AuthService', 'Region', '$q', 'loEvents', 'Timezone', 'PermissionGroups', 'Alert', 'GlobalRegionsList', 'Integration', 'Branding', '$translate', 'fileUpload', 'Modal', 'IdentityProviders', '$timeout',
+    function ($window, $http, $rootScope, $scope, Session, Tenant, TenantUser, tenantTableConfig, UserPermissions, AuthService, Region, $q, loEvents, Timezone, PermissionGroups, Alert, GlobalRegionsList, Integration, Branding, $translate, fileUpload, Modal, IdentityProviders, $timeout) {
       var vm = this;
       $scope.forms = {};
+      $scope.loadingIdps = false;
 
       var TenantSvc = new Tenant();
 
@@ -22,6 +23,17 @@ angular.module('liveopsConfigPanel')
         pos: 'bottom left',
         inline: false,
       };
+
+      $scope.cxEngageAuthOptions = [
+        {
+          name: $translate.instant('value.enabled'),
+          value: true
+        },
+        {
+          name: $translate.instant('value.disabled'),
+          value: false
+        }
+      ];
 
       $scope.toggleRegionField = function (integrationId) {
         $scope.selectedTenant.hasTwilio = _.some($scope.integrations, {
@@ -98,7 +110,6 @@ angular.module('liveopsConfigPanel')
         });
       };
 
-
       $scope.create = function () {
         $scope.selectedTenant = new Tenant({
           regionId: Session.activeRegionId,
@@ -115,19 +126,24 @@ angular.module('liveopsConfigPanel')
         tenantAdminChanged = true;
       };
 
-      $scope.submit = function () {
-        $scope.selectedTenant.save(null, function (response) {
-          $scope.toggleRegionField(response.outboundIntegrationId);
-            if (tenantAdminChanged){
-              for (user in $scope.users){
-                if($scope.users[user].id === $scope.selectedTenant.adminUserId){
-                  Alert.success($translate.instant('tenant.save.admin') + $scope.users[user].$user.firstName + ' ' + $scope.users[user].$user.lastName);
-                }
-              }
-              tenantAdminChanged = false;
-            }
-          Alert.success($translate.instant('tenant.save.success') );
+      $scope.submit = function () {                
+        // we were only using this list of IDP's temporarily to popuplate dropdown menu
+        delete $scope.selectedTenant.identityProviders;
 
+        $scope.selectedTenant.save(function (response) {
+          $scope.toggleRegionField(response.outboundIntegrationId);
+          if (tenantAdminChanged){
+            for (user in $scope.users){
+              if ($scope.users[user].id === $scope.selectedTenant.adminUserId){
+                Alert.success($translate.instant('tenant.save.admin') + $scope.users[user].$user.firstName + ' ' + $scope.users[user].$user.lastName);
+              }
+            }
+
+            tenantAdminChanged = false;
+          }
+          
+          updateIdentityProvidersList(response, true);
+          Alert.success($translate.instant('tenant.save.success'));
         }, function (err) {
           if (err.data.error.attribute.parentId) {
             Alert.error(err.data.error.attribute.parentId);
@@ -206,17 +222,78 @@ angular.module('liveopsConfigPanel')
         return deferred.promise;
       }
 
+      $scope.handleAllowPasswordsChange = function () {
+        $timeout(function () {
+          if (
+            !$scope.selectedTenant.allowPasswords
+          ) {
+            var idpObject = _.find($scope.selectedTenant.identityProviders, function (idp) {
+              return idp.id;
+            });
 
-      $scope.$watch('selectedTenant', function (newVal) {
-        if (newVal) {
-          // here is where we get the "user friendly" universal display name for the region
-          var result = angular.isDefined(newVal.$promise) ? newVal.$promise : newVal;
-          $q.when(result).then(function (tenantResponse) {
+            if (idpObject) {
+              $scope.selectedTenant.defaultIdentityProvider = idpObject.id
+            }
+          }
+        });
+      };
+
+      function updateIdentityProvidersList (tenantData, resetForm) {
+        $scope.loadingIdps = true;
+
+        // this flag tells us whether or not to allow the user to disable the CxEngage native IDP
+        $scope.loggedInWithCxEngageIdp = !Session.isSso;
+
+        var identityProviders = IdentityProviders.cachedQuery({
+          tenantId: tenantData.id
+        }, 'IdentityProviders', true);
+
+        identityProviders.$promise.then(function (identityProvidersResponse) {
+          var idpList = _.map(_.filter(identityProvidersResponse, function (idp) {
+            return idp.active
+          }), function (filteredIdp) {
+            return _.pick(filteredIdp, ['id', 'name']);
+          });
+
+          // add the CxEngage native IDP to the dropdown
+          idpList.unshift({
+            id: null,
+            name: $translate.instant('tenant.details.defaultCxEngageAuthentication'),
+          });
+
+          if (!tenantData.defaultIdentityProvider) {
+            tenantData.defaultIdentityProvider = idpList[0].id;
+          }
+
+          tenantData.identityProviders = idpList;
+          
+          $timeout(function () {
+            // reset the form only after the tenant data has completely loaded
+            $scope.loadingIdps = false;
+
+            if (resetForm) {
+              if (!tenantData.allowPasswords) {
+                $scope.handleAllowPasswordsChange();
+              }
+
+              $scope.forms.detailsForm.$setPristine();
+              $scope.forms.detailsForm.$setUntouched();
+            }
+          });
+        });
+      }
+
+      $scope.$watch('selectedTenant', function (selectedTenantResponse) {
+        if (selectedTenantResponse) {
+          $q.when(selectedTenantResponse).then(function (tenantResponse) {
+            // here is where we get the "user friendly" universal display name for the region
             var tenantDisplayName = getTenantRegionDisplay(tenantResponse);
 
             tenantDisplayName.then(function (displayResponse) {
               $scope.selectedTenant.$regionDisplay = displayResponse;
             });
+
+            updateIdentityProvidersList(tenantResponse);
           });
 
           vm.loadIntegrations($scope.selectedTenant.id);
@@ -247,6 +324,7 @@ angular.module('liveopsConfigPanel')
           // here so that the tenant dropdown knows what to include
           TenantSvc.updateSessionTenantProps(result, 'active', 'tenantActive');
           $rootScope.$broadcast(loEvents.session.tenants.updated);
+          updateIdentityProvidersList(result, true);
         });
       };
 
@@ -310,11 +388,24 @@ angular.module('liveopsConfigPanel')
           $scope.brandingForm[element.name + 'Preview'] = reader.result;
         }, false);
         reader.readAsDataURL($scope.brandingForm[element.name + 'Selected']);
-
       };
 
       vm.loadTenants();
       vm.loadTimezones();
       vm.loadRegions();
+
+      // remove CxEngage Default IDP from Default Identity Provider
+      // drop down list if passwords are not allowed
+      $scope.idpListFilter = function (idpObj) {
+        // providing a fallback value since there appear to be some IDP's 
+        // with a null value for the name property
+        idpObj.name = idpObj.name || $translate.instant('tenant.details.unnamedIdp') +  idpObj.id;
+        if (
+          !(!$scope.selectedTenant.allowPasswords && 
+            !idpObj.id)
+          ) {
+          return idpObj;
+        }
+      };
     }
   ]);

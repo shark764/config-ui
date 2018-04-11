@@ -38,3 +38,7 @@
 .input-group input[type='file'] {
   margin-top: 8px;
 }
+
+.input-group select option:empty {
+  display: none !important;
+}

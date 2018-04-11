@@ -61,6 +61,38 @@
     </select>
   </div>
 
+  <div class="input-group">
+    <label>{{'tenant.details.defaultCxEngageAuthentication' | translate}}</label>
+    <select 
+      name="defaultCxEngageAuthentication"
+      ng-model="selectedTenant.allowPasswords"
+      ng-change="handleAllowPasswordsChange()">
+        <option
+        ng-repeat="option in cxEngageAuthOptions"
+        ng-selected="selectedTenant.allowPasswords === option.value"
+        ng-value="option.value"
+        ng-hide="(loggedInWithCxEngageIdp || selectedTenant.identityProviders.length === 1) && !option.value">
+          {{option.name}}
+        </option>
+    </select>
+  </div>
+
+  <div 
+    class="input-group">
+    <label>{{'tenant.details.defaultIdentityProvider' | translate}}</label>
+    <div>
+      <select 
+        name="defaultIdentityProvider"
+        ng-model="selectedTenant.defaultIdentityProvider">
+        <option ng-repeat="idp in selectedTenant.identityProviders | filter:idpListFilter:selectedTenant.identityProviders" ng-value="idp.id">
+          {{idp.name}}
+        </option>
+      </select>
+      <i class="fa fa-refresh fa-spin"
+      ng-show="loadingIdps"></i>
+    </div>
+  </div>
+
   <div class="input-group" ng-if="('PLATFORM_VIEW_ALL' | hasPermission)">
     <label></label>
     <input ng-click="setViewOnlyTenant()" type="button" class="btn" value="{{'tenant.details.setActive' | translate}}"></input>
@@ -97,7 +129,6 @@
     <label class="textarea-label">{{'tenant.details.id' | translate}}</label>
     <p id="tenant-details-parent-id" class="added-padding">{{selectedTenant.parent.id}}</p>
   </div>
-
   <div class="input-group">
     <label class="textarea-label">{{'tenant.details.name' | translate}}</label>
     <p id="tenant-details-parent-name"
