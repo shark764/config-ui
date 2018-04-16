@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.41.0]
+* Add Logi Dashboards
+
 ## [4.40.2]
 * CXV1-13984 - Version bump for RTD latest version
 * CXV1-8127 - Filter duration in Interaction Monitoring does not show correctly in FireFox.

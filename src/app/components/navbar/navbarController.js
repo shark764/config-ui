@@ -454,11 +454,20 @@ angular.module('liveopsConfigPanel')
             order: 3
           });
 
+          if (appFlags.LOGI) {
+            items.push({
+              label: 'Logi Dashboards',
+              stateLink: 'content.logi',
+              id: 'logi-link',
+              order: 4
+            });
+          }
+
           items.push({
             label: $translate.instant('navbar.reports.silentMonitoring.title'),
             stateLink: 'content.reporting.silentMonitoring',
             id: 'silent-monitoring-link',
-            order: 4
+            order: 5
           });
         }
 

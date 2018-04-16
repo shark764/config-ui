@@ -1,0 +1,8 @@
+#logi-container {
+  height: 100%;
+  overflow-y: hidden;
+
+  iframe {
+    height: calc(100vh - 50px);
+  }
+}
