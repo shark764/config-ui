@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.33.0]
+* CXV1-13300 - Email Templates
+
 ## [4.32.0]
 * CXV1-10832 - Added IDP management on the Tenant Management page
 
