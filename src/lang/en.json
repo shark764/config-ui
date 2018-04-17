@@ -172,6 +172,7 @@
   "navbar.configuration.transferLists.title": "Transfer Lists",
   "navbar.configuration.contactAttributes.title": "Contact Attributes",
   "navbar.configuration.contactLayouts.title": "Contact Layouts",
+  "navbar.configuration.emailTemplates.title": "Email Templates",
   "navbar.flows.title": "Flows",
   "navbar.flows.queues.title": "Queues",
   "navbar.flows.dispositions.title": "Dispositions",

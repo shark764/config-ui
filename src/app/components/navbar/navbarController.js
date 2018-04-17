@@ -342,13 +342,22 @@ angular.module('liveopsConfigPanel')
           });
         }
 
-        if(appFlags.CONTACT_MANAGEMENT) {
+        if (UserPermissions.hasPermissionInList(PermissionGroups.accessAllEmailTemplates)) {
+          items.push({
+            label: $translate.instant('navbar.configuration.emailTemplates.title'),
+            stateLink: 'content.configuration.emailTemplates',
+            id: 'emailTemplates-configuration-link',
+            order: 11
+          });
+        }
+
+        if (appFlags.CONTACT_MANAGEMENT) {
           if (UserPermissions.hasPermissionInList(PermissionGroups.viewContactAttributes)) {
             items.push({
               label: $translate.instant('navbar.configuration.contactAttributes.title'),
               stateLink: 'content.configuration.contactAttributes',
               id: 'contact-attributes-configuration-link',
-              order: 11
+              order: 12
             });
           }
 
@@ -357,7 +366,7 @@ angular.module('liveopsConfigPanel')
               label: $translate.instant('navbar.configuration.contactLayouts.title'),
               stateLink: 'content.configuration.contactLayouts',
               id: 'contact-layouts-configuration-link',
-              order: 12
+              order: 13
             });
           }
         }
@@ -471,7 +480,7 @@ angular.module('liveopsConfigPanel')
           });
         }
 
-        // commenting this out as per CXV1-13276, which specifies 
+        // commenting this out as per CXV1-13276, which specifies
         // this option should be hidden, and not necessarily deleted
         // if (UserPermissions.hasPermissionInList(PermissionGroups.viewCustomStats)) {
         //   items.push({

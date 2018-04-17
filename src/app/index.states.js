@@ -145,6 +145,18 @@ angular.module('liveopsConfigPanel')
             }]
           }
         })
+        .state('content.configuration.emailTemplates', {
+          url: '/emailTemplates?id',
+          title: 'Configuration - Email Templates',
+          templateUrl: 'app/components/configuration/emailTemplates/emailTemplates.html',
+          controller: 'emailTemplatesController as etc',
+          reloadOnSearch: false,
+          resolve: {
+            hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
+              return UserPermissions.resolvePermissions(PermissionGroups.accessAllEmailTemplates);
+            }]
+          }
+        })
         .state('content.configuration.dnc', {
           url: '/dnc?id',
           title: 'Configuration - Do Not Contact List Management',
@@ -679,9 +691,9 @@ angular.module('liveopsConfigPanel')
         })
         .state('content.reporting.custom-stats', {
           redirectTo: 'content.management.users',
-          // commenting out route info as per CXV1-13276, which specifies 
-          // this option should be hidden, and not necessarily deleted 
-                   
+          // commenting out route info as per CXV1-13276, which specifies
+          // this option should be hidden, and not necessarily deleted
+
           // url: '/custom-stats?id',
           // title:'Reporting - Custom Statistics',
           // templateUrl: 'app/components/reporting/customStats/customStatsManagement.html',
