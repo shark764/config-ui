@@ -1,13 +1,12 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('TenantsController', ['$window', '$http', '$rootScope', '$scope', 'Session', 'Tenant', 'TenantUser', 'tenantTableConfig', 'UserPermissions', 'AuthService', 'Region', '$q', 'loEvents', 'Timezone', 'PermissionGroups', 'Alert', 'GlobalRegionsList', 'Integration', 'Branding', '$translate', 'fileUpload', 'Modal', 'IdentityProviders', '$timeout',
-    function ($window, $http, $rootScope, $scope, Session, Tenant, TenantUser, tenantTableConfig, UserPermissions, AuthService, Region, $q, loEvents, Timezone, PermissionGroups, Alert, GlobalRegionsList, Integration, Branding, $translate, fileUpload, Modal, IdentityProviders, $timeout) {
+  .controller('TenantsController', ['$window', '$http', '$rootScope', '$scope', 'Session', 'Tenant', 'TenantUser', 'tenantTableConfig', 'UserPermissions', 'AuthService', 'Region', '$q', 'loEvents', 'Timezone', 'PermissionGroups', 'Alert', 'GlobalRegionsList', 'Integration', 'Branding', '$translate', 'fileUpload', 'Modal', 'IdentityProviders', '$timeout', '$location',
+    function ($window, $http, $rootScope, $scope, Session, Tenant, TenantUser, tenantTableConfig, UserPermissions, AuthService, Region, $q, loEvents, Timezone, PermissionGroups, Alert, GlobalRegionsList, Integration, Branding, $translate, fileUpload, Modal, IdentityProviders, $timeout, $location) {
       var vm = this;
-      $scope.forms = {};
-      $scope.loadingIdps = false;
-
       var TenantSvc = new Tenant();
+      $scope.forms = {};
+      $scope.loadingIdps = true;
 
       $scope.colorPickerOptions = {
         // html attributes
@@ -78,7 +77,6 @@ angular.module('liveopsConfigPanel')
 
         return promise;
       };
-
       vm.loadUsers = function (tenants) {
         $scope.users = TenantUser.cachedQuery({
           tenantId: Session.tenant.tenantId
@@ -115,8 +113,11 @@ angular.module('liveopsConfigPanel')
           regionId: Session.activeRegionId,
           adminUserId: Session.user.id,
           parentId: Session.tenant.tenantId,
-          timezone: 'US/Eastern' //Default to US-east timezone
+          timezone: 'US/Eastern', //Default to US-east timezone
+          defaultIdentityProvider: null
         });
+        $location.search({});
+        updateIdentityProvidersList($scope.selectedTenant);
       };
 
       var user;
@@ -126,9 +127,18 @@ angular.module('liveopsConfigPanel')
         tenantAdminChanged = true;
       };
 
-      $scope.submit = function () {                
-        // we were only using this list of IDP's temporarily to popuplate dropdown menu
+      $scope.submit = function () {
         delete $scope.selectedTenant.identityProviders;
+
+        if (!$scope.selectedTenant.id) {
+          $scope.selectedTenant = _.omit($scope.selectedTenant, [
+            'defaultIdentityProvider',
+            'disableCxAuthSelect',
+            'disableSsoSelect',
+            'resourceName',
+            'allowPasswords',
+          ]);
+        }
 
         $scope.selectedTenant.save(function (response) {
           $scope.toggleRegionField(response.outboundIntegrationId);
@@ -141,7 +151,7 @@ angular.module('liveopsConfigPanel')
 
             tenantAdminChanged = false;
           }
-          
+
           updateIdentityProvidersList(response, true);
           Alert.success($translate.instant('tenant.save.success'));
         }, function (err) {
@@ -150,6 +160,7 @@ angular.module('liveopsConfigPanel')
           } else if (err.data.error.attribute.name) {
             Alert.error(err.data.error.attribute.name);
           }
+          $scope.loadingIdps = false;
         });
 
         if ($scope.brandingForm !== {} && !angular.equals($scope.brandingForm, $scope.brandingForm.$original)) {
@@ -203,6 +214,7 @@ angular.module('liveopsConfigPanel')
         if (newTenant.adminUserId === Session.user.id) {
           AuthService.refreshTenants();
         }
+        $scope.selectedTenant = newTenant;
       });
 
       function getTenantRegionDisplay(tenant) {
@@ -222,64 +234,69 @@ angular.module('liveopsConfigPanel')
         return deferred.promise;
       }
 
-      $scope.handleAllowPasswordsChange = function () {
-        $timeout(function () {
-          if (
-            !$scope.selectedTenant.allowPasswords
-          ) {
-            var idpObject = _.find($scope.selectedTenant.identityProviders, function (idp) {
-              return idp.id;
-            });
-
-            if (idpObject) {
-              $scope.selectedTenant.defaultIdentityProvider = idpObject.id
-            }
-          }
-        });
-      };
-
       function updateIdentityProvidersList (tenantData, resetForm) {
+        var identityProviders = [];
+        var idpList = [];
         $scope.loadingIdps = true;
+        tenantData.disableCxAuthSelect = true;
+        tenantData.disableSsoSelect = true;
 
         // this flag tells us whether or not to allow the user to disable the CxEngage native IDP
-        $scope.loggedInWithCxEngageIdp = !Session.isSso;
+        $scope.loggedInWithCxEngageIdp = tenantData.id === Session.tenant.tenantId && !Session.isSso;
 
-        var identityProviders = IdentityProviders.cachedQuery({
-          tenantId: tenantData.id
-        }, 'IdentityProviders', true);
+        if (tenantData.id) {
+          identityProviders = IdentityProviders.cachedQuery({
+            tenantId: tenantData.id
+          }, 'IdentityProviders', true);
 
-        identityProviders.$promise.then(function (identityProvidersResponse) {
-          var idpList = _.map(_.filter(identityProvidersResponse, function (idp) {
-            return idp.active
-          }), function (filteredIdp) {
-            return _.pick(filteredIdp, ['id', 'name']);
-          });
+          identityProviders.$promise.then(function (identityProvidersResponse) {
+            idpList = _.map(_.filter(identityProvidersResponse, function (idp) {
+              return idp.active;
+            }), function (filteredIdp) {
+              return _.pick(filteredIdp, ['id', 'name']);
+            });
 
-          // add the CxEngage native IDP to the dropdown
-          idpList.unshift({
-            id: null,
-            name: $translate.instant('tenant.details.defaultCxEngageAuthentication'),
-          });
-
-          if (!tenantData.defaultIdentityProvider) {
-            tenantData.defaultIdentityProvider = idpList[0].id;
-          }
-
-          tenantData.identityProviders = idpList;
-          
-          $timeout(function () {
-            // reset the form only after the tenant data has completely loaded
-            $scope.loadingIdps = false;
-
-            if (resetForm) {
-              if (!tenantData.allowPasswords) {
-                $scope.handleAllowPasswordsChange();
+            if (idpList.length) {
+              if (!tenantData.defaultIdentityProvider) {
+                tenantData.defaultIdentityProvider = idpList[0].id;
               }
 
-              $scope.forms.detailsForm.$setPristine();
-              $scope.forms.detailsForm.$setUntouched();
+              tenantData.identityProviders = idpList;
+              $scope.loadingIdps = false;
+              tenantData.disableCxAuthSelect = false;
+              tenantData.disableSsoSelect = false;
+            } else {
+              tenantData.identityProviders = [{
+                id: null,
+                name: $translate.instant('value.none')
+              }];
+
+              tenantData.disableSsoSelect = true;
+              tenantData.disableCxAuthSelect = true;
+              $scope.loadingIdps = false;
             }
           });
+        } else {
+          tenantData.identityProviders = [{
+            id: null,
+            name: $translate.instant('value.none')
+          }];
+
+          tenantData.defaultIdentityProvider = tenantData.identityProviders[0].id;
+          $scope.selectedTenant.allowPasswords = true;
+          $scope.selectedTenant.disableCxAuthSelect = true;
+          $scope.selectedTenant.disableSsoSelect = true;
+          $scope.loadingIdps = false;
+        }
+
+        $timeout(function () {
+          $rootScope.$broadcast(loEvents.session.tenants.updated);
+
+          // reset the form only after the tenant data has completely loaded
+          if (resetForm) {
+            $scope.forms.detailsForm.$setPristine();
+            $scope.forms.detailsForm.$setUntouched();
+          }
         });
       }
 
@@ -296,8 +313,10 @@ angular.module('liveopsConfigPanel')
             updateIdentityProvidersList(tenantResponse);
           });
 
-          vm.loadIntegrations($scope.selectedTenant.id);
-          vm.loadBranding($scope.selectedTenant.id);
+          if ($scope.selectedTenant.id) {
+            vm.loadIntegrations($scope.selectedTenant.id);
+            vm.loadBranding($scope.selectedTenant.id);
+          }
         }
       });
 
@@ -317,7 +336,7 @@ angular.module('liveopsConfigPanel')
           active: !$scope.selectedTenant.active
         });
 
-        return tenantCopy.save(function (result) {
+        return tenantCopy.save(null, function (result) {
           $scope.selectedTenant.$original.active = result.active;
 
           // we need to set the session tenant's "tenantActive" property
@@ -397,11 +416,11 @@ angular.module('liveopsConfigPanel')
       // remove CxEngage Default IDP from Default Identity Provider
       // drop down list if passwords are not allowed
       $scope.idpListFilter = function (idpObj) {
-        // providing a fallback value since there appear to be some IDP's 
+        // providing a fallback value since there appear to be some IDP's
         // with a null value for the name property
         idpObj.name = idpObj.name || $translate.instant('tenant.details.unnamedIdp') +  idpObj.id;
         if (
-          !(!$scope.selectedTenant.allowPasswords && 
+          !(!$scope.selectedTenant.allowPasswords &&
             !idpObj.id)
           ) {
           return idpObj;
