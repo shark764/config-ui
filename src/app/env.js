@@ -17,5 +17,6 @@ angular.module('liveopsConfigPanel.config')
     environment: 'dev',
     blastSqsOutput: true,
     locale: 'en-US',
-    reportingRefreshRate: 10000
+    reportingRefreshRate: 10000,
+    supervisorMode: true
   });

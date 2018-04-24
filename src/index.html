@@ -28,11 +28,10 @@
     <route-loading-indicator></route-loading-indicator>
     <div class="container" ui-view></div>
 
-    <sdk-listener></sdk-listener>
-
-    <div id="config-ui-agent-toolbar" ng-show="toolbarIsVisible">
-      <agent-toolbar></agent-toolbar>
-    </div>
+    <sdk-listener>
+      <supervisor-toolbar>
+      </supervisor-toolbar>
+    </sdk-listener>
 
     <app-dock toolbar-status="toolbarIsVisible"></app-dock>
     <!-- build:js(src) scripts/vendor.js -->
