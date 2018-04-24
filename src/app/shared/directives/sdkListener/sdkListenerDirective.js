@@ -10,24 +10,29 @@ angular.module('liveopsConfigPanel')
             if (CxEngage.session.getActiveTenantId()) {
               if (event.data.module === 'subscribe') {
                 window.cxSubscriptions[event.data.command] = CxEngage.subscribe(event.data.command, function(error, topic, response) {
-                  if (document.getElementById('secondaryIframes') === null) {
-                    CxEngage.unsubscribe(window.cxSubscriptions[event.data.command]);
-                    CxEngage.reporting.removeStatSubscription({ statId: "interactions-in-conversation-list" });
-                  }
-                    event.source.postMessage({
-                      subscription: {
-                        error: error,
-                        topic: topic,
-                        response: response
-                      }
-                    }, '*');
+                    if (location.hash !== '#/reporting/silentMonitoring') {
+                      CxEngage.unsubscribe(window.cxSubscriptions[event.data.command]);
+                      CxEngage.reporting.removeStatSubscription({ statId: "interactions-in-conversation-list" });
+                      CxEngage.authentication.logout();
+                    } else {
+                      event.source.postMessage({
+                        subscription: {
+                          error: error,
+                          topic: topic,
+                          response: response
+                        }
+                      }, '*');
+                    }
                   }
                 );
               } else if (event.data.module === 'monitorCall') {
-                CxEngage.session.startSession(function () {
-                  var iframe = document.getElementById('primaryIframe').contentWindow;
-                  iframe.postMessage({ module: 'monitorCall', data: { interactionId: event.data.data.interactionId, status: 'startingSession' }}, '*');
-                });
+                document.getElementById('supervisorToolbar').contentWindow
+                .postMessage(
+                  {subscription: {
+                    topic: 'monitorCall',
+                    response: { interactionId: event.data.data.interactionId, status: 'startingSession' }
+                  }}
+                  , '*');
               } else if (event.data.module.includes('interactions')) {
                 CxEngage.interactions[event.data.module.split('.')[1]][event.data.command](event.data.data, function(error, topic, response) {
                   event.source !== undefined &&
