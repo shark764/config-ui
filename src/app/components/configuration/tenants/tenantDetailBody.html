@@ -62,32 +62,33 @@
   </div>
 
   <div class="input-group">
-    <label>{{'tenant.details.defaultCxEngageAuthentication' | translate}}</label>
-    <select 
+    <label>{{'tenant.details.cxEngageAuthentication' | translate}}</label>
+    <select
       name="defaultCxEngageAuthentication"
       ng-model="selectedTenant.allowPasswords"
-      ng-change="handleAllowPasswordsChange()">
+      ng-disabled="selectedTenant.disableCxAuthSelect || loggedInWithCxEngageIdp">
         <option
         ng-repeat="option in cxEngageAuthOptions"
         ng-selected="selectedTenant.allowPasswords === option.value"
-        ng-value="option.value"
-        ng-hide="(loggedInWithCxEngageIdp || selectedTenant.identityProviders.length === 1) && !option.value">
+        ng-value="option.value">
           {{option.name}}
         </option>
     </select>
   </div>
 
-  <div 
+  <div
     class="input-group">
-    <label>{{'tenant.details.defaultIdentityProvider' | translate}}</label>
+    <label>{{'tenant.details.ssoIdentityProvider' | translate}}</label>
     <div>
-      <select 
+      <select
         name="defaultIdentityProvider"
-        ng-model="selectedTenant.defaultIdentityProvider">
+        ng-model="selectedTenant.defaultIdentityProvider"
+        ng-disabled="selectedTenant.disableSsoSelect">
         <option ng-repeat="idp in selectedTenant.identityProviders | filter:idpListFilter:selectedTenant.identityProviders" ng-value="idp.id">
           {{idp.name}}
         </option>
       </select>
+
       <i class="fa fa-refresh fa-spin"
       ng-show="loadingIdps"></i>
     </div>
