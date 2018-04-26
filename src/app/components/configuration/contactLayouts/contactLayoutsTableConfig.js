@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('contactLayoutsTableConfig', ['statuses', '$translate', 'UserPermissions', function(statuses, $translate, UserPermissions) {
+  .service('contactLayoutsTableConfig', ['statuses', '$translate', '$rootScope', 'UserPermissions', function(statuses, $translate, $rootScope, UserPermissions) {
 
-    return {
+    var defaultConfig = {
       'fields': [{
         'header': {
           'display': $translate.instant('value.name')
@@ -36,6 +36,8 @@ angular.module('liveopsConfigPanel')
         return UserPermissions.hasPermission('CONTACTS_LAYOUTS_CREATE');
       },
       'showBulkActions': false
-      // 'helpLink': helpDocsHostname + '/Help/Content/Configuring%20CxEngage/Integrations/Creating_Integrations.htm'
     };
+
+	      return defaultConfig;
+
   }]);

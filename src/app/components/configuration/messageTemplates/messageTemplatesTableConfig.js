@@ -3,7 +3,7 @@
 angular.module('liveopsConfigPanel')
   .service('messageTemplatesTableConfig', ['statuses', '$translate', 'UserPermissions', function(statuses, $translate, UserPermissions) {
 
-    return {
+    var defaultConfig = {
       'fields': [{
         'header': {
           'display': $translate.instant('value.name')
@@ -49,6 +49,8 @@ angular.module('liveopsConfigPanel')
       'showBulkActions': function() {
         return UserPermissions.hasPermission('MANAGE_ALL_MESSAGE_TEMPLATES');
       }
-      // 'helpLink': helpDocsHostname + '/Help/Content/Configuring%20CxEngage/Integrations/Creating_Integrations.htm'
     };
+
+    return defaultConfig;
+
   }]);

@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('tenantTableConfig', ['statuses', '$translate', 'Tenant', 'UserPermissions', 'helpDocsHostname',
-    function(statuses, $translate, Tenant, UserPermissions, helpDocsHostname) {
+  .service('tenantTableConfig', ['$rootScope', 'statuses', '$translate', 'Tenant', 'UserPermissions',
+    function($rootScope, statuses, $translate, Tenant, UserPermissions) {
       return function(getTenants) {
         return {
           'fields': [{
@@ -58,7 +58,7 @@ angular.module('liveopsConfigPanel')
           'showCreate': function() {
             return UserPermissions.hasPermissionInList(['CREATE_CHILD_TENANT']);
           },
-          'helpLink': helpDocsHostname + '/Help/Content/Configuring%20CxEngage/Creating_Tenants.htm'
+          'helpLink': $rootScope.helpURL + '/Help/Content/Configuration/Creating_Tenants.htm'
         };
       };
     }

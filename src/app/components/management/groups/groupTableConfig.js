@@ -1,14 +1,14 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('groupTableConfig', ['statuses', '$translate', 'UserPermissions', 'helpDocsHostname', 'PermissionGroups',
-    function(statuses, $translate, UserPermissions, helpDocsHostname, PermissionGroups) {
+  .service('groupTableConfig', ['statuses', '$translate', 'UserPermissions', '$rootScope', 'PermissionGroups',
+    function(statuses, $translate, UserPermissions, $rootScope, PermissionGroups) {
       var config = {
         'searchOn': ['$original.name', '$original.description'],
         'orderBy': '$original.name',
         'sref': 'content.management.groups',
         'title': $translate.instant('group.table.title'),
-        'helpLink': helpDocsHostname + '/Help/Content/Managing%20Users/Creating_Groups.htm',
+        'helpLink': $rootScope.helpURL + '/Help/Content/Managing%20Users/Creating_Groups.htm',
         'showBulkActions': function() {
           return UserPermissions.hasPermission('MANAGE_ALL_GROUPS');
         },
@@ -50,6 +50,10 @@ angular.module('liveopsConfigPanel')
         'name': '$original.active',
         'id': 'status-column-dropdown',
         'transclude': true,
+      });
+
+      $rootScope.$on( "updateHelpURL", function () {
+      	config.helpLink = $rootScope.helpURL + '/Help/Content/Managing%20Users/Creating_Groups.htm';
       });
 
       return config;

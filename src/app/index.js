@@ -49,7 +49,7 @@ angular.module('liveopsConfigPanel', [
       $locationProvider.hashPrefix('');
     }
   ])
-  .run(['queryCache', '$rootScope', '$state', '$stateParams', '$animate', 'Branding', 'AuthService', 'Session', '$location', '$window', '$timeout', function(queryCache, $rootScope, $state, $stateParams, $animate, Branding, AuthService, Session, $location, $window, $timeout) {
+  .run(['queryCache', '$rootScope', '$state', '$stateParams', '$animate', 'Branding', 'CustomDomain', 'AuthService', 'Session', '$location', '$window', '$timeout', function(queryCache, $rootScope, $state, $stateParams, $animate, Branding, CustomDomain, AuthService, Session, $location, $window, $timeout) {
     var debugTimeout;
 
     /*global localStorage: false */
@@ -86,7 +86,7 @@ angular.module('liveopsConfigPanel', [
 
     $rootScope.$on('$stateChangeStart', function(e, toState) {
       $timeout.cancel(debugTimeout);
-
+      
       // determine which login screen to show and to return to upon logout
       AuthService.setSsoMode(toState.name, $location);
 

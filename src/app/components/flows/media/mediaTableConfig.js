@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('mediaTableConfig', ['mediaTypes', '$translate', 'UserPermissions', 'helpDocsHostname', function(mediaTypes, $translate, UserPermissions, helpDocsHostname) {
-    return {
+  .service('mediaTableConfig', ['mediaTypes', '$translate', 'UserPermissions', '$rootScope', function(mediaTypes, $translate, UserPermissions, $rootScope) {
+    var defaultConfig = {
       'fields': [{
         'header': {
           'display': $translate.instant('value.name')
@@ -39,8 +39,17 @@ angular.module('liveopsConfigPanel')
       'showCreate': function() {
         return UserPermissions.hasPermission('MANAGE_ALL_MEDIA');
       },
-      'helpLink': helpDocsHostname + '/Help/Content/Managing%20Flows/Media/Adding%20Media.htm',
-      'helpLinkLanguages': helpDocsHostname + '/Help/Content/Resources/Supported_Languages.htm',
-      'helpLinkVoices': helpDocsHostname + '/Help/Content/Resources/Supported_Languages.htm'
+      'helpLink': $rootScope.helpURL + '/Help/Content/Managing%20Flows/Media/Adding%20Media.htm',
+      'helpLinkLanguages': $rootScope.helpURL + '/Help/Content/Resources/Supported_Languages.htm',
+      'helpLinkVoices': $rootScope.helpURL + '/Help/Content/Resources/Supported_Languages.htm'
     };
+
+    $rootScope.$on( "updateHelpURL", function () {
+    	defaultConfig.helpLink           = $rootScope.helpURL + '/Help/Content/Managing%20Flows/Media/Adding%20Media.htm';
+    	defaultConfig.helpLinkLanguages  = $rootScope.helpURL + '/Help/Content/Resources/Supported_Languages.htm';
+    	defaultConfig.helpLinkVoices     = $rootScope.helpURL + '/Help/Content/Resources/Supported_Languages.htm';
+    });
+
+    return defaultConfig;
+
   }]);

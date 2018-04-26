@@ -3,7 +3,7 @@
 angular.module('liveopsConfigPanel')
   .service('contactAttributesTableConfig', ['statuses', 'ynStatuses', '$translate', 'UserPermissions', function(statuses, ynStatuses, $translate, UserPermissions) {
 
-    return {
+    var defaultConfig = {
       'fields': [{
         'header': {
           'display': $translate.instant('value.attribute')
@@ -57,6 +57,7 @@ angular.module('liveopsConfigPanel')
       'showBulkActions': function() {
         return UserPermissions.hasPermission('CONTACTS_ATTRIBUTES_UPDATE');
       }
-      // 'helpLink': helpDocsHostname + '/Help/Content/Configuring%20CxEngage/Integrations/Creating_Integrations.htm'
     };
+
+    return defaultConfig;
   }]);
