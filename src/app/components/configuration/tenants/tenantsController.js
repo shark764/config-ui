@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('TenantsController', ['$window', '$http', '$rootScope', '$scope', 'Session', 'Tenant', 'TenantUser', 'tenantTableConfig', 'UserPermissions', 'AuthService', 'Region', '$q', 'loEvents', 'Timezone', 'PermissionGroups', 'Alert', 'GlobalRegionsList', 'Integration', 'Branding', '$translate', 'fileUpload', 'Modal', 'IdentityProviders', '$timeout', '$location',
-    function ($window, $http, $rootScope, $scope, Session, Tenant, TenantUser, tenantTableConfig, UserPermissions, AuthService, Region, $q, loEvents, Timezone, PermissionGroups, Alert, GlobalRegionsList, Integration, Branding, $translate, fileUpload, Modal, IdentityProviders, $timeout, $location) {
+  .controller('TenantsController', ['$window', '$http', '$rootScope', '$scope', 'Session', 'Tenant', 'TenantUser', 'tenantTableConfig', 'UserPermissions', 'AuthService', 'Region', '$q', 'loEvents', 'Timezone', 'PermissionGroups', 'Alert', 'GlobalRegionsList', 'Integration', 'Branding', '$translate', 'fileUpload', 'Modal', 'IdentityProviders', '$timeout', '$location', 'cxEngageAuthOptions', 'cxEngageAuthStates',
+    function ($window, $http, $rootScope, $scope, Session, Tenant, TenantUser, tenantTableConfig, UserPermissions, AuthService, Region, $q, loEvents, Timezone, PermissionGroups, Alert, GlobalRegionsList, Integration, Branding, $translate, fileUpload, Modal, IdentityProviders, $timeout, $location, cxEngageAuthOptions, cxEngageAuthStates) {
       var vm = this;
       var TenantSvc = new Tenant();
       $scope.forms = {};
@@ -22,17 +22,6 @@ angular.module('liveopsConfigPanel')
         pos: 'bottom left',
         inline: false,
       };
-
-      $scope.cxEngageAuthOptions = [
-        {
-          name: $translate.instant('value.enabled'),
-          value: true
-        },
-        {
-          name: $translate.instant('value.disabled'),
-          value: false
-        }
-      ];
 
       $scope.toggleRegionField = function (integrationId) {
         $scope.selectedTenant.hasTwilio = _.some($scope.integrations, {
@@ -109,14 +98,17 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.create = function () {
+        $location.search({});
+
         $scope.selectedTenant = new Tenant({
           regionId: Session.activeRegionId,
           adminUserId: Session.user.id,
           parentId: Session.tenant.tenantId,
           timezone: 'US/Eastern', //Default to US-east timezone
-          defaultIdentityProvider: null
+          defaultIdentityProvider: null,
+          cxengageIdentityProvider: cxEngageAuthStates.enabled
         });
-        $location.search({});
+
         updateIdentityProvidersList($scope.selectedTenant);
       };
 
@@ -135,8 +127,7 @@ angular.module('liveopsConfigPanel')
             'defaultIdentityProvider',
             'disableCxAuthSelect',
             'disableSsoSelect',
-            'resourceName',
-            'allowPasswords',
+            'resourceName'
           ]);
         }
 
@@ -241,6 +232,8 @@ angular.module('liveopsConfigPanel')
         tenantData.disableCxAuthSelect = true;
         tenantData.disableSsoSelect = true;
 
+        $scope.cxEngageAuthOptions = cxEngageAuthOptions();
+
         // this flag tells us whether or not to allow the user to disable the CxEngage native IDP
         $scope.loggedInWithCxEngageIdp = tenantData.id === Session.tenant.tenantId && !Session.isSso;
 
@@ -283,7 +276,7 @@ angular.module('liveopsConfigPanel')
           }];
 
           tenantData.defaultIdentityProvider = tenantData.identityProviders[0].id;
-          $scope.selectedTenant.allowPasswords = true;
+          $scope.selectedTenant.cxengageIdentityProvider = cxEngageAuthStates.enabled;
           $scope.selectedTenant.disableCxAuthSelect = true;
           $scope.selectedTenant.disableSsoSelect = true;
           $scope.loadingIdps = false;
@@ -310,7 +303,7 @@ angular.module('liveopsConfigPanel')
               $scope.selectedTenant.$regionDisplay = displayResponse;
             });
 
-            updateIdentityProvidersList(tenantResponse);
+            updateIdentityProvidersList($scope.selectedTenant);
           });
 
           if ($scope.selectedTenant.id) {
@@ -419,12 +412,8 @@ angular.module('liveopsConfigPanel')
         // providing a fallback value since there appear to be some IDP's
         // with a null value for the name property
         idpObj.name = idpObj.name || $translate.instant('tenant.details.unnamedIdp') +  idpObj.id;
-        if (
-          !(!$scope.selectedTenant.allowPasswords &&
-            !idpObj.id)
-          ) {
-          return idpObj;
-        }
+
+        return idpObj;
       };
     }
   ]);
