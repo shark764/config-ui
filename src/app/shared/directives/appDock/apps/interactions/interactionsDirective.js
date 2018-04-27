@@ -118,13 +118,15 @@ angular.module('liveopsConfigPanel')
                   scope.isLoading = false;
                   scope.showNoResultsMsg = false;
                   scope.setSelectedItem(response);
+                  scope.$emit('appDockDataLoaded');
                 });
               } else {
                 scope.showNoResultsMsg = true;
               }
-
-              scope.$emit('appDockDataLoaded');
             });
+
+            scope.isLoading = false;
+            scope.$emit('appDockDataLoaded');
           }
 
           function tenantTimezone () {

@@ -295,25 +295,12 @@ angular.module('liveopsConfigPanel')
           });
         }
 
-        // BEGIN OUTBOUND FEATURE FLAG...
-        if (appFlags.OUTBOUND_PAGES) {
-          if (UserPermissions.hasPermissionInList(PermissionGroups.viewCampaigns)) {
-            items.push({
-              label: $translate.instant('navbar.configuration.dnc.title'),
-              stateLink: 'content.configuration.dnc',
-              id: 'dnc-configuration-link',
-              order: 6
-            });
-          }
-        }
-        // ...END OUTBOUND FEATURE FLAG
-
         if (UserPermissions.hasPermissionInList(PermissionGroups.viewAppCreds)) {
           items.push({
             label: $translate.instant('navbar.configuration.keys.title'),
             stateLink: 'content.configuration.keys',
             id: 'key-configuration-link',
-            order: 7
+            order: 6
           });
         }
 
@@ -322,7 +309,7 @@ angular.module('liveopsConfigPanel')
             label: $translate.instant('navbar.configuration.transferLists.title'),
             stateLink: 'content.configuration.transferLists',
             id: 'transferList-configuration-link',
-            order: 8
+            order: 7
           });
         }
 
@@ -331,7 +318,7 @@ angular.module('liveopsConfigPanel')
             label: $translate.instant('navbar.configuration.messageTemplates.title'),
             stateLink: 'content.configuration.messageTemplates',
             id: 'template-configuration-link',
-            order: 9
+            order: 8
           });
         }
 
@@ -340,7 +327,7 @@ angular.module('liveopsConfigPanel')
             label: $translate.instant('navbar.configuration.emailTemplates.title'),
             stateLink: 'content.configuration.emailTemplates',
             id: 'emailTemplates-configuration-link',
-            order: 10
+            order: 9
           });
         }
 
@@ -350,7 +337,7 @@ angular.module('liveopsConfigPanel')
               label: $translate.instant('navbar.configuration.contactAttributes.title'),
               stateLink: 'content.configuration.contactAttributes',
               id: 'contact-attributes-configuration-link',
-              order: 11
+              order: 10
             });
           }
 
@@ -359,7 +346,7 @@ angular.module('liveopsConfigPanel')
               label: $translate.instant('navbar.configuration.contactLayouts.title'),
               stateLink: 'content.configuration.contactLayouts',
               id: 'contact-layouts-configuration-link',
-              order: 12
+              order: 11
             });
           }
         }

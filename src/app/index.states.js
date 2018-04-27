@@ -157,18 +157,6 @@ angular.module('liveopsConfigPanel')
             }]
           }
         })
-        .state('content.configuration.dnc', {
-          url: '/dnc?id',
-          title: 'Configuration - Do Not Contact List Management',
-          templateUrl: 'app/components/configuration/dncLists/dncLists.html',
-          controller: 'dncListsController as dnc',
-          reloadOnSearch: false,
-          resolve: {
-            hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
-              return UserPermissions.resolvePermissions(PermissionGroups.viewCampaigns);
-            }]
-          }
-        })
         .state('content.configuration.contactAttributes', {
           url: '/contactAttributes?id',
           title: 'Configuration - Contact Attribute Management',
@@ -243,47 +231,6 @@ angular.module('liveopsConfigPanel')
           resolve: {
             hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
               return UserPermissions.hasPermissionInList(PermissionGroups.viewBusinessHours) || UserPermissions.resolvePermissions(PermissionGroups.manageBusinessHours);
-            }]
-          }
-        })
-        // FEATURE FLAG: UNCOMMENT THIS AS WELL AS THE CAMPAIGNS ITEM IN NavbarController.js TO
-        // ACTIVATE THE CAMPAIGNS FEATURE
-        .state('content.configuration.campaigns', {
-          url: '/campaigns?id',
-          title: 'Configuration - Campaign Management',
-          templateUrl: 'app/components/configuration/campaigns/campaigns.html',
-          controller: 'campaignsController as cc',
-          reloadOnSearch: false,
-          resolve: {
-            hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
-              return UserPermissions.resolvePermissions(PermissionGroups.viewCampaigns);
-            }]
-          }
-        })
-        .state('content.configuration.campaignSettings', {
-          url: '/campaign/settings?id',
-          title: 'Configuration - Campaign Settings',
-          templateUrl: 'app/components/configuration/campaigns/settings/campaignSettings.html',
-          controller: 'campaignSettingsController as csc',
-          reloadOnSearch: false,
-          resolve: {
-            hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
-              return UserPermissions.resolvePermissions(PermissionGroups.viewCampaigns);
-            }],
-            getCampaignId: ['$stateParams', function ($stateParams) {
-              return $stateParams.id;
-            }]
-          }
-        })
-        .state('content.configuration.contacts', {
-          url: '/contacts?id',
-          title: 'Configuration - Contacts',
-          templateUrl: 'app/components/configuration/campaigns/contacts/contacts.html',
-          controller: 'contactsController as con',
-          reloadOnSearch: false,
-          resolve: {
-            hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
-              return UserPermissions.resolvePermissions(PermissionGroups.viewCampaigns);
             }]
           }
         })
