@@ -16,13 +16,15 @@ angular.module('liveopsConfigPanel')
           }
 
           $scope.bulkAction.apply = function apply(tenantUser) {
+            delete tenantUser.invitationStatus;
+
             return tenantUser.save({
               tenantId: Session.tenant.tenantId
             });
           };
 
           $scope.bulkAction.doesQualify = function doesQualify(tenantUser) {
-            return ['invited', 'pending', 'expired'].indexOf(tenantUser.status) > -1;
+            return ['invited', 'pending', 'expired'].indexOf(tenantUser.invitationStatus) !== -1;
           };
         }
       };

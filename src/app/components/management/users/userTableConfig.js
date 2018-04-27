@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('userTableConfig', ['userStatuses','$q','$rootScope', 'userStates', '$translate', 'Skill', 'Group', 'TenantRole', 'Session', 'UserPermissions', 'tenantStatuses', 'queryCache', 'CustomDomain',
-    function(userStatuses, $q, $rootScope, userStates, $translate, Skill, Group, TenantRole, Session, UserPermissions, tenantStatuses, queryCache, CustomDomain) {
+  .service('userTableConfig', ['userStatuses','$q','$rootScope', 'userStates', '$translate', 'Skill', 'Group', 'TenantRole', 'Session', 'UserPermissions', 'queryCache', 'CustomDomain',
+    function(userStatuses, $q, $rootScope, userStates, $translate, Skill, Group, TenantRole, Session, UserPermissions, queryCache, CustomDomain) {
 
       var CustomDomainSvc = new CustomDomain();
 
@@ -48,12 +48,6 @@ angular.module('liveopsConfigPanel')
               'display': $translate.instant('value.email')
             },
             'name': '$user.$original.email'
-          }, {
-            'header': {
-              'display': $translate.instant('details.externalId')
-            },
-            'name': '$user.$original.externalId',
-            'checked': false
           }],
           'orderBy': '$user.$original.lastName',
           'sref': 'content.management.users',
@@ -100,7 +94,11 @@ angular.module('liveopsConfigPanel')
           'name': 'skills',
           'id': 'user-skills-table-column',
           'resolve': function(tenantUser) {
-            if(typeof tenantUser.$original !== 'undefined' && tenantUser.$original.$skills.length === 0){
+            if (
+              _.has(tenantUser, '$original.$skills') &&
+              angular.isArray(tenantUser.$original.$skills) &&
+              tenantUser.$original.$skills.length === 0
+            ) {
               if(!_.find(tenantUser.$skills, function(o) { return o.name === 'No Skill'; })){
                 tenantUser.$skills.push(
                   {'id' : '00000',
@@ -113,7 +111,7 @@ angular.module('liveopsConfigPanel')
                );
              }
              return 0;
-           }else {
+           } else {
              return tenantUser.$skills.length;
            }
 
@@ -182,17 +180,6 @@ angular.module('liveopsConfigPanel')
           'id': 'user-status-table-column',
           'transclude': true,
           'checked': false
-        }, {
-          'header': {
-            'display': $translate.instant('value.tenantStatus'),
-            'valuePath': 'value',
-            'displayPath': 'display',
-            'options': tenantStatuses()
-          },
-          'name': '$original.status',
-          'lookup': '$original:status',
-          'id': 'tenant-status-table-column',
-          'transclude': true
         });
 
         queryCache.put('userTableConfig', defaultConfig);

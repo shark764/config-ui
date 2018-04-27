@@ -1,0 +1,20 @@
+<div class="bulk-action">
+  <div>
+    <input
+      id="set-cx-engage-auth-bulk-enable-check"
+      type="checkbox"
+      ng-model="bulkAction.checked">
+  </div>
+  <label><b>{{'bulkActions.setDefaultCxEngageAuth' | translate}}</b></label>
+  <div></div>
+</div>
+
+<div class="action-wrapper">
+  <div>
+    <select
+      ng-disabled="! bulkAction.checked"
+      ng-model="noPassword"
+      ng-options="option.value as option.display for option in cxEngageAuthOptions">
+    </select>
+  </div>
+</div>

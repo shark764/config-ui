@@ -17,6 +17,7 @@ angular.module('liveopsConfigPanel')
 
           $scope.bulkAction.apply = function apply(tenantUser) {
             tenantUser.status = 'pending';
+            delete tenantUser.invitationStatus;
 
             return tenantUser.save({
               tenantId: Session.tenant.tenantId
@@ -24,7 +25,7 @@ angular.module('liveopsConfigPanel')
           };
 
           $scope.bulkAction.doesQualify = function doesQualify(tenantUser) {
-            return tenantUser.status === 'invited';
+            return tenantUser.invitationStatus === 'invited';
           };
         }
       };

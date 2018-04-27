@@ -25,7 +25,7 @@ describe('setStatusBulkAction directive', function() {
     $scope.$digest();
     var baExecutorController = element.controller('bulkActionExecutor');
     spyOn(baExecutorController, 'register');
-    
+
     var childElement = angular.element('<ba-set-status></ba-set-status>');
     element.append(childElement);
     var childScope = $rootScope.$new();
@@ -87,7 +87,7 @@ describe('setStatusBulkAction directive', function() {
 
     expect(mockTenantUsers[0].status).toEqual('accepted');
   }));
-  
+
   describe('doesQualify function', function() {
     it('should pass if tenantUser.status is "accepted"', inject(function(TenantUser) {
       var user = new TenantUser({
@@ -105,33 +105,6 @@ describe('setStatusBulkAction directive', function() {
 
       var doesQualify = isolateScope.bulkAction.doesQualify(user);
       expect(doesQualify).toBeTruthy();
-    }));
-
-    it('should not pass if tenantUser.status is "pending"', inject(function(TenantUser) {
-      var user = new TenantUser({
-        status: 'pending'
-      });
-
-      var doesQualify = isolateScope.bulkAction.doesQualify(user);
-      expect(doesQualify).toBeFalsy();
-    }));
-    
-    it('should not pass if tenantUser.status is "expired"', inject(function(TenantUser) {
-      var user = new TenantUser({
-        status: 'expired'
-      });
-
-      var doesQualify = isolateScope.bulkAction.doesQualify(user);
-      expect(doesQualify).toBeFalsy();
-    }));
-    
-    it('should not pass if tenantUser.status is "invited"', inject(function(TenantUser) {
-      var user = new TenantUser({
-        status: 'invited'
-      });
-
-      var doesQualify = isolateScope.bulkAction.doesQualify(user);
-      expect(doesQualify).toBeFalsy();
     }));
   });
 });

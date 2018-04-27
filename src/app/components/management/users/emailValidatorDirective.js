@@ -8,12 +8,13 @@ angular.module('liveopsConfigPanel')
         link: function($scope, elem, attrs, ctrl) {
           var ngModelController = ctrl[0];
           var ngResource = $parse(attrs.ngResource)($scope);
-          
+
           ngModelController.$validators.duplicateEmail = function(modelValue) {
             var tenantUsers = $scope.fetchTenantUsers();
-            
-            for(var tenantUserIndex = 0; tenantUserIndex < tenantUsers.length; tenantUserIndex++) {
+
+            for (var tenantUserIndex = 0; tenantUserIndex < tenantUsers.length; tenantUserIndex++) {
               var tenantUser = tenantUsers[tenantUserIndex];
+
               if(tenantUser.email === modelValue) {
                 $scope.$emit('email:validator:found', tenantUser);
                 return false;
@@ -22,7 +23,7 @@ angular.module('liveopsConfigPanel')
 
             return true;
           };
-          
+
           ngModelController.$asyncValidators.duplicateEmail = function(modelValue) {
             if (ngModelController.$isEmpty(modelValue)) {
               // consider empty model valid
@@ -38,7 +39,7 @@ angular.module('liveopsConfigPanel')
                 created: true
               });
               return def.reject();
-              
+
             }, function(error) {
 
               // If the request 404s, assume the email is unique
@@ -51,7 +52,7 @@ angular.module('liveopsConfigPanel')
               ngModelController.$setValidity('api', false);
               ngModelController.$error.api = error.data.error.attribute.email;
               ngModelController.$setPristine();
-              
+
               var unbindWatch = $scope.$watch(function(){
                 return ngModelController.$dirty;
               }, function(isDirty){
@@ -60,7 +61,7 @@ angular.module('liveopsConfigPanel')
                   unbindWatch();
                 }
               });
-              
+
               return def.resolve();
             });
 

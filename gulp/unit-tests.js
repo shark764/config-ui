@@ -82,7 +82,7 @@ module.exports = function (options) {
       specFiles = [argv.specFile];
     }
 
-    runTests(true, ['progress'], specFiles, done);
+    runTests(true, ['progress'], specFiles, done, false);
   });
 
   gulp.task('test:errors', ['scripts'], function (done) {

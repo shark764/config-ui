@@ -1,0 +1,20 @@
+<div class="bulk-action">
+  <div>
+    <input
+      id="set-default-idp-provider-bulk-enable-check"
+      type="checkbox"
+      ng-model="bulkAction.checked">
+  </div>
+  <label><b>{{'bulkActions.setDefaultSsoProvider' | translate}}</b></label>
+  <div></div>
+</div>
+
+<div class="action-wrapper">
+  <div>
+    <select
+      ng-disabled="! bulkAction.checked || disableIdpSelect"
+      ng-model="defaultIdentityProvider"
+      ng-options="idp.id as idp.name for idp in identityProviderList">
+    </select>
+  </div>
+</div>
