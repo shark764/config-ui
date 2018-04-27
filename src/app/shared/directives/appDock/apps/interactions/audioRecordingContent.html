@@ -9,7 +9,7 @@
       class="md-3-line"
       ng-repeat="artifact in artifacts">
 
-      <div class="md-list-item-text" layout="column" ng-click="setSelectedItem(artifact)">
+      <div class="md-list-item-text" layout="column" ng-click="setSelectedArtifact(artifact)">
         <h3 layout-align="start">{{artifact.artifactSubType || 'appdock.custom' | translate}}</h3>
         <h2>{{artifact.name || 'appdock.recording' | translate}}</h2>
         <h4 ng-show="artifact.timestamp">{{artifact.timestamp | convertToTimezone:TimezoneValHolder.tenantTimezone:'MMM D, YYYY hh:mm:ss A'}}</h4>

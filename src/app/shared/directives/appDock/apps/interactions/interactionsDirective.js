@@ -27,6 +27,16 @@ angular.module('liveopsConfigPanel')
             scope.selectedItem = item;
           };
 
+          scope.setSelectedArtifact = function (artifact) {
+            CxEngage.entities.getArtifact({
+              interactionId: scope.config.id,
+              tenantId: scope.config.tenantId,
+              artifactId: artifact.artifactId
+            }, function(error, topic, response){
+              scope.setSelectedItem(response);
+            });
+          };
+
           // using this as a "bridge" to pass timezone val down to ng-include html
           scope.TimezoneValHolder = {};
 
@@ -117,6 +127,7 @@ angular.module('liveopsConfigPanel')
                 }, function(error, topic, response){
                   scope.isLoading = false;
                   scope.showNoResultsMsg = false;
+                  tenantTimezone();
                   scope.setSelectedItem(response);
                   scope.$emit('appDockDataLoaded');
                 });
