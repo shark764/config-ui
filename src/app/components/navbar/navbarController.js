@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('NavbarController', ['$rootScope', '$scope', '$state', '$location', '$q', 'AuthService', 'Session', 'DirtyForms', '$translate', 'UserPermissions', 'PermissionGroups', '$window', 'helpDocsHostname', 'appFlags', 'loEvents', 'Branding', 'Me',
-    function($rootScope, $scope, $state, $location, $q, AuthService, Session, DirtyForms, $translate, UserPermissions, PermissionGroups, $window, helpDocsHostname, appFlags, loEvents, Branding, Me) {
+  .controller('NavbarController', ['$rootScope', '$scope', '$state', '$location', '$q', 'AuthService', 'Session', 'DirtyForms', '$translate', 'UserPermissions', 'PermissionGroups', '$window', 'appFlags', 'loEvents', 'Branding', 'CustomDomain', 'Me',
+    function($rootScope, $scope, $state, $location, $q, AuthService, Session, DirtyForms, $translate, UserPermissions, PermissionGroups, $window, appFlags, loEvents, Branding, CustomDomain, Me) {
       var vm = this;
       $scope.hovering = false;
       $scope.Session = Session;
@@ -91,6 +91,7 @@ angular.module('liveopsConfigPanel')
                       Session.setTenant(targetSessionTenant);
                       $scope.updateTopbarConfig();
                       $scope.updateBranding();
+                      $scope.updateCustomDomain();
                       var goTo = $state.current;
                       if($state.includes('content.realtime-dashboards-management-editor')) {
                         goTo = 'content.custom-dashboards-management';
@@ -149,7 +150,7 @@ angular.module('liveopsConfigPanel')
         {
           label: $translate.instant('navbar.help.help'),
           onClick: function() {
-            var url = helpDocsHostname + '/Help/Content/Home.htm';
+            var url = $rootScope.helpURL + '/Help/Content/Home.htm';
             $window.open(url);
           }
         },
@@ -493,7 +494,12 @@ angular.module('liveopsConfigPanel')
         });
       };
 
+      $scope.updateCustomDomain = function() {
+        CustomDomain.setHelpURL(Session.tenant.tenantId);
+      };
+
       $scope.updateBranding();
       $scope.updateTopbarConfig();
+      $scope.updateCustomDomain();
     }
   ]);

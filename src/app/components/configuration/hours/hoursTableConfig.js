@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('hoursTableConfig', ['statuses', '$translate', 'UserPermissions', 'helpDocsHostname', function(statuses, $translate, UserPermissions, helpDocsHostname) {
-    return {
+  .service('hoursTableConfig', ['statuses', '$translate', 'UserPermissions', '$rootScope', function(statuses, $translate, UserPermissions, $rootScope) {
+    var defaultConfig = {
       'fields': [{
         'header': {
           'display': $translate.instant('value.name')
@@ -41,6 +41,13 @@ angular.module('liveopsConfigPanel')
       'showBulkActions': function () {
         return UserPermissions.hasPermission('MANAGE_ALL_BUSINESS_HOURS');
       },
-      'helpLink' : helpDocsHostname + '/Help/Content/Configuring%20CxEngage/Business%20Hours/Business_Hours.htm'
+      'helpLink' : $rootScope.helpURL + '/Help/Content/Configuration/Business%20Hours/Business_Hours.htm'
     };
+
+    $rootScope.$on( "updateHelpURL", function () {
+    	defaultConfig.helpLink = $rootScope.helpURL + '/Help/Content/Configuration/Business%20Hours/Business_Hours.htm';
+    });
+
+    return defaultConfig;
+
   }]);

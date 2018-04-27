@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('queueTableConfig', ['statuses', '$translate', 'UserPermissions', 'helpDocsHostname', function(statuses, $translate, UserPermissions, helpDocsHostname) {
-    return {
+  .service('queueTableConfig', ['statuses', '$translate', 'UserPermissions', '$rootScope', function(statuses, $translate, UserPermissions, $rootScope) {
+    var defaultConfig = {
       'fields': [{
         'header': {
           'display': $translate.instant('value.name')
@@ -42,6 +42,13 @@ angular.module('liveopsConfigPanel')
       'showCreate': function() {
         return UserPermissions.hasPermission('MANAGE_ALL_QUEUES');
       },
-      'helpLink': helpDocsHostname + '/Help/Content/Managing%20Flows/Create_queue.htm'
+      'helpLink': $rootScope.helpURL + '/Help/Content/Managing%20Flows/Create_queue.htm'
     };
+
+    $rootScope.$on( "updateHelpURL", function () {
+    	defaultConfig.helpLink = $rootScope.helpURL + '/Help/Content/Managing%20Flows/Create_queue.htm';
+    });
+
+    return defaultConfig;
+
   }]);

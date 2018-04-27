@@ -70,7 +70,6 @@ angular.module('liveopsConfigPanel')
         $scope.users = TenantUser.cachedQuery({
           tenantId: Session.tenant.tenantId
         });
-
         return tenants;
       };
 
@@ -86,6 +85,7 @@ angular.module('liveopsConfigPanel')
           }
         });
       };
+
 
       vm.loadIntegrations = function(tenantId) {
         $scope.integrations = Integration.cachedQuery({
@@ -344,6 +344,10 @@ angular.module('liveopsConfigPanel')
         return $scope.tenants;
       });
 
+      $rootScope.$on("updateHelpURL",function(){
+        $scope.tableConfig.helpLink = $rootScope.helpURL + '/Help/Content/Configuration/Creating_Tenants.htm';
+      });
+
       $scope.resetDefaultBranding = function() {
         Modal.showConfirm(
           {
@@ -401,6 +405,10 @@ angular.module('liveopsConfigPanel')
         }, false);
         reader.readAsDataURL($scope.brandingForm[element.name + 'Selected']);
       };
+
+      $rootScope.$on("updateHelpURL",function(){
+        $scope.tableConfig.helpLink = $rootScope.helpURL + '/Help/Content/Configuration/Creating_Tenants.htm';
+      });
 
       vm.loadTenants();
       vm.loadTimezones();

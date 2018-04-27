@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.38.0]
+* CXV1-13348 - Added functionality to change the Help Links in case a Custom Subdomain has been added to the Tenant.
+
 ## [4.37.1]
 * CXV1-12492 - Fixed a few minor bugs around switching artifacts
  

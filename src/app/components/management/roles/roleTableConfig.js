@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('roleTableConfig', ['$translate', 'UserPermissions', 'helpDocsHostname',
-    function($translate, UserPermissions, helpDocsHostname) {
-      return {
+  .service('roleTableConfig', ['$translate', 'UserPermissions', '$rootScope',
+    function($translate, UserPermissions, $rootScope) {
+      var defaultConfig = {
         'fields': [{
           'header': {
             'display': $translate.instant('value.name')
@@ -32,7 +32,14 @@ angular.module('liveopsConfigPanel')
         'showCreate': function() {
           return UserPermissions.hasPermissionInList(['PLATFORM_CREATE_TENANT_ROLES', 'MANAGE_ALL_ROLES']);
         },
-        'helpLink': helpDocsHostname + '/Help/Content/Managing%20Users/Adding_roles.htm'
+        'helpLink': $rootScope.helpURL + '/Help/Content/Managing%20Users/Adding_roles.htm'
       };
+
+      $rootScope.$on( "updateHelpURL", function () {
+      	defaultConfig.helpLink = $rootScope.helpURL + '/Help/Content/Managing%20Users/Adding_roles.htm';
+      });
+
+      return defaultConfig;
+
     }
   ]);

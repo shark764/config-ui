@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('mediaCollectionTableConfig', ['$translate', 'UserPermissions', 'helpDocsHostname', function($translate, UserPermissions, helpDocsHostname) {
-    return {
+  .service('mediaCollectionTableConfig', ['$translate', 'UserPermissions', '$rootScope', function($translate, UserPermissions, $rootScope) {
+    var defaultConfig = {
       'fields': [{
         'header': {
           'display': $translate.instant('value.name')
@@ -35,6 +35,13 @@ angular.module('liveopsConfigPanel')
       'showCreate': function() {
         return UserPermissions.hasPermission('MANAGE_ALL_MEDIA');
       },
-      'helpLink': helpDocsHostname + '/Help/Content/Managing%20Flows/Media/Creating%20Media%20Collections.htm'
+      'helpLink': $rootScope.helpURL + '/Help/Content/Managing%20Flows/Media/Creating%20Media%20Collections.htm'
     };
+
+    $rootScope.$on( "updateHelpURL", function () {
+    	defaultConfig.helpLink = $rootScope.helpURL + '/Help/Content/Managing%20Flows/Media/Creating%20Media%20Collections.htm';
+    });
+
+    return defaultConfig;
+
   }]);

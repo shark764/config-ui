@@ -1,14 +1,14 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('capacityRulesTableConfig', ['statuses', '$translate', 'UserPermissions', 'helpDocsHostname',
-    function(statuses, $translate, UserPermissions, helpDocsHostname) {
+  .service('capacityRulesTableConfig', ['statuses', '$translate', 'UserPermissions', '$rootScope',
+    function(statuses, $translate, UserPermissions, $rootScope) {
       var config = {
         'searchOn': ['$original.name'],
         'orderBy': '$original.name',
         'sref': 'content.management.capacityRules',
         'title': $translate.instant('capacityRules.table.title'),
-        'helpLink': helpDocsHostname + '/Help/Content/Managing%20Users/Capacity_Rules/Creating_Capacity_Rules.htm',
+        'helpLink': $rootScope.helpURL + '/Help/Content/Managing%20Users/Capacity_Rules/Creating_Capacity_Rules.htm',
         'showBulkActions': function() {
           return false;
         },
@@ -40,6 +40,10 @@ angular.module('liveopsConfigPanel')
         'id': 'status-column-dropdown',
         'transclude': true,
       }];
+
+      $rootScope.$on( "updateHelpURL", function () {
+      	config.helpLink = $rootScope.helpURL + '/Help/Content/Managing%20Users/Capacity_Rules/Creating_Capacity_Rules.htm';
+      });
 
       return config;
     }

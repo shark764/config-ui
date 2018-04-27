@@ -40,7 +40,7 @@ angular.module('liveopsConfigPanel')
 
         return vm.hours;
       };
-
+      
       vm.submit = function() {
         return vm.selectedHour.save({
           tenantId: Session.tenant.tenantId

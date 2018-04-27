@@ -1,10 +1,10 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('dispatchMappingTableConfig', ['statuses', 'dispatchMappingInteractionFields', 'dispatchMappingChannelTypes', '$translate', 'UserPermissions', 'helpDocsHostname',
-    function(statuses, dispatchMappingInteractionFields, dispatchMappingChannelTypes, $translate, UserPermissions, helpDocsHostname) {
+  .service('dispatchMappingTableConfig', ['statuses', 'dispatchMappingInteractionFields', 'dispatchMappingChannelTypes', '$translate', '$rootScope', 'UserPermissions',
+    function(statuses, dispatchMappingInteractionFields, dispatchMappingChannelTypes, $translate, $rootScope, UserPermissions) {
 
-      return {
+      var defaultConfig = {
         'fields': [{
           'header': {
             'display': $translate.instant('value.name')
@@ -71,7 +71,14 @@ angular.module('liveopsConfigPanel')
         'showBulkActions': function() {
           return UserPermissions.hasPermission('MAP_ALL_CONTACT_POINTS');
         },
-        'helpLink': helpDocsHostname + '/Help/Content/Managing%20Flows/Dispatch_mapping.htm'
+        'helpLink': $rootScope.helpURL + '/Help/Content/Managing%20Flows/Dispatch_mapping.htm'
       };
+
+      $rootScope.$on( "updateHelpURL", function () {
+      	defaultConfig.helpLink = $rootScope.helpURL + '/Help/Content/Managing%20Flows/Dispatch_mapping.htm';
+      });
+
+      return defaultConfig;
+
     }
   ]);

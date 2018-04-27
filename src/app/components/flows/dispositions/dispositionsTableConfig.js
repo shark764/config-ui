@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('dispositionsTableConfig', ['$translate', 'UserPermissions', 'helpDocsHostname', 'statuses', function($translate, UserPermissions, helpDocsHostname, statuses) {
+  .service('dispositionsTableConfig', ['$translate', 'UserPermissions', 'statuses', function($translate, UserPermissions, statuses) {
     return {
       'fields': [{
         'header': {

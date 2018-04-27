@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('integrationTableConfig', ['statuses', '$translate', 'UserPermissions', 'helpDocsHostname', function(statuses, $translate, UserPermissions, helpDocsHostname) {
-    return {
+  .service('integrationTableConfig', ['statuses', '$translate', 'UserPermissions', '$rootScope', function(statuses, $translate, UserPermissions, $rootScope) {
+    var defaultConfig = {
       'fields': [{
         'header': {
           'display': $translate.instant('value.type')
@@ -42,6 +42,11 @@ angular.module('liveopsConfigPanel')
       'showBulkActions': function() {
         return UserPermissions.hasPermission('MANAGE_ALL_PROVIDERS');
       },
-      'helpLink': helpDocsHostname + '/Help/Content/Configuring%20CxEngage/Integrations/Creating_Integrations.htm'
+      'helpLink': $rootScope.helpURL + '/Help/Content/Configuration/Integrations/Creating_Integrations.htm'
     };
+    $rootScope.$on( "updateHelpURL", function () {
+    	defaultConfig.helpLink = $rootScope.helpURL + '/Help/Content/Configuration/Integrations/Creating_Integrations.htm';
+    });
+
+	   return defaultConfig;
   }]);

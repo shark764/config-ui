@@ -1,10 +1,10 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('userTableConfig', ['userStatuses','$q', 'userStates', '$translate', 'Skill', 'Group', 'TenantRole', 'Session', 'UserPermissions', 'tenantStatuses', 'queryCache', 'helpDocsHostname',
-    function(userStatuses, $q, userStates, $translate, Skill, Group, TenantRole, Session, UserPermissions, tenantStatuses, queryCache, helpDocsHostname) {
+  .service('userTableConfig', ['userStatuses','$q','$rootScope', 'userStates', '$translate', 'Skill', 'Group', 'TenantRole', 'Session', 'UserPermissions', 'tenantStatuses', 'queryCache', 'CustomDomain',
+    function(userStatuses, $q, $rootScope, userStates, $translate, Skill, Group, TenantRole, Session, UserPermissions, tenantStatuses, queryCache, CustomDomain) {
 
-     function getSkillOptions() {
+      function getSkillOptions() {
         return Skill.cachedQuery({
           tenantId: Session.tenant.tenantId
         });
@@ -25,6 +25,10 @@ angular.module('liveopsConfigPanel')
       this.getConfig = function() {
         var cached = queryCache.get('userTableConfig');
         if (cached) {
+          var checkHelpURL = $rootScope.helpURL + '/Help/Content/Managing%20Users/Adding_users.htm';
+          if ( cached.helpLink !== checkHelpURL ) {
+            cached.helpLink = checkHelpURL;
+          }
           return cached;
         }
 
@@ -52,7 +56,7 @@ angular.module('liveopsConfigPanel')
           'orderBy': '$user.$original.lastName',
           'sref': 'content.management.users',
           'title': $translate.instant('user.table.title'),
-          'helpLink': helpDocsHostname + '/Help/Content/Managing%20Users/Adding_users.htm',
+          'helpLink': $rootScope.helpURL + '/Help/Content/Managing%20Users/Adding_users.htm',
           'searchOn': [{
             //Property order is significant, as it is the order that the fields get concat'd before being compared
             //So they should match the display order of "firstName lastName"
@@ -190,7 +194,13 @@ angular.module('liveopsConfigPanel')
         });
 
         queryCache.put('userTableConfig', defaultConfig);
+
+        $rootScope.$on( "updateHelpURL", function () {
+          defaultConfig.helpLink = $rootScope.helpURL + '/Help/Content/Managing%20Users/Adding_users.htm';
+        });
+
         return defaultConfig;
+
       };
     }
   ]);
