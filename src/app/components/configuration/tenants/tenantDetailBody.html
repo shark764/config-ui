@@ -65,13 +65,13 @@
     <label>{{'tenant.details.cxEngageAuthentication' | translate}}</label>
     <select
       name="defaultCxEngageAuthentication"
-      ng-model="selectedTenant.allowPasswords"
+      ng-model="selectedTenant.cxengageIdentityProvider"
       ng-disabled="selectedTenant.disableCxAuthSelect || loggedInWithCxEngageIdp">
         <option
-        ng-repeat="option in cxEngageAuthOptions"
-        ng-selected="selectedTenant.allowPasswords === option.value"
-        ng-value="option.value">
-          {{option.name}}
+          ng-repeat="option in cxEngageAuthOptions"
+          ng-selected="selectedTenant.cxengageIdentityProvider === option.value"
+          ng-value="option.value">
+          {{option.display}}
         </option>
     </select>
   </div>
@@ -84,7 +84,9 @@
         name="defaultIdentityProvider"
         ng-model="selectedTenant.defaultIdentityProvider"
         ng-disabled="selectedTenant.disableSsoSelect">
-        <option ng-repeat="idp in selectedTenant.identityProviders | filter:idpListFilter:selectedTenant.identityProviders" ng-value="idp.id">
+        <option
+          ng-repeat="idp in selectedTenant.identityProviders | filter:idpListFilter:selectedTenant.identityProviders"
+          ng-value="idp.id">
           {{idp.name}}
         </option>
       </select>

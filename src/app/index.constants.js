@@ -21,6 +21,68 @@ angular.module('liveopsConfigPanel.config', [])
   };
 })
 
+.constant('cxEngageAuthStates',
+  {
+    tenantDefault: null,
+    enabled: 'enabled',
+    disabled: 'disabled',
+    denied: 'denied'
+  }
+)
+
+.factory('cxEngageAuthOptions', ['$translate', 'cxEngageAuthStates',
+  function($translate, cxEngageAuthStates) {
+    return function(tenantDefaultVal) {
+      var defaultValName;
+      var cxAuthOptionList = [];
+
+      // if there is a tenant default CxEngage Enabled status...
+      if (tenantDefaultVal) {
+        // first off, it's it's denied, then all we need to offer is
+        // the "Denied" option in the dropdown
+        if (tenantDefaultVal === cxEngageAuthStates.denied) {
+          return [{
+            value: cxEngageAuthStates.denied,
+            display: $translate.instant('value.denied')
+          }];
+        }
+
+        // Otherwise...let's get the string representation for
+        // thge tenant's default CxEngage auth status
+        switch(tenantDefaultVal) {
+          case cxEngageAuthStates.enabled:
+            defaultValName = $translate.instant('value.enabled');
+            break;
+          case cxEngageAuthStates.disabled:
+            defaultValName = $translate.instant('value.disabled');
+            break;
+          default:
+            defaultValName = '';
+        }
+
+        // ...and now we make this the first item in the dropdown
+        cxAuthOptionList.push({
+          value: cxEngageAuthStates.tenantDefault,
+          display: $translate.instant('user.details.tenantDefault') + ': ' + defaultValName
+        });
+      }
+
+      // ...and here are the other two options, which
+      // should always be present unless Cx login is "denied"
+      cxAuthOptionList.push({
+        value: cxEngageAuthStates.enabled,
+        display: $translate.instant('value.enabled')
+      },
+      {
+        value: cxEngageAuthStates.disabled,
+        display: $translate.instant('value.disabled')
+      });
+
+      return cxAuthOptionList;
+    };
+  }
+])
+
 .factory('userStatuses', function() {
   return function() {
     return [{

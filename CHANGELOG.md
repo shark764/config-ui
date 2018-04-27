@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.35.2]
+* CXV1-10832 - Updated Tenant Management page to work with API changes.
+
 ## [4.35.1]
 * CXV1-13517 - Remove Outbound from Navbar / block navigation
 
