@@ -108,7 +108,6 @@ angular.module('liveopsConfigPanel')
             });
           }
 
-          // try to get recordings, which also might result in a 404
           function recordings() {
             CxEngage.entities.getArtifacts({
               interactionId: scope.config.id,
@@ -118,7 +117,11 @@ angular.module('liveopsConfigPanel')
                 scope.showNoResultsMsg = true;
                 scope.isLoading = false;
               }
-              scope.artifacts = response.results;
+
+              scope.artifacts = _.filter(response.results, function(item) {
+                return item.artifactType === 'audio-recording';
+              });
+
               if (scope.artifacts.length > 0) {
                 CxEngage.entities.getArtifact({
                   interactionId: scope.config.id,
