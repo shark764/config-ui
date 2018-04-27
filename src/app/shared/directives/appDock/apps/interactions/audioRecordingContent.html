@@ -1,20 +1,18 @@
 <md-sidenav
-  class="md-sidenav-left md-whiteframe-z2"
+  class="md-sidenav-left md-whiteframe-z2 voice-artifacts-list"
   md-component-id="left"
   md-is-locked-open="true">
 
   <md-list flex>
     <md-list-item
-      ng-class="{'active-item': selectedItem.id === interactionItem.id}"
+      ng-class="{'active-item': selectedItem.artifactId === artifact.artifactId}"
       class="md-3-line"
-      ng-repeat="interactionItem in interactionData">
+      ng-repeat="artifact in artifacts">
 
-      <div class="md-list-item-text" layout="column">
-        <h3
-          layout-align=" start"
-          ng-click="setSelectedItem(interactionItem)">
-            {{interactionItem.updated | convertToTimezone:TimezoneValHolder.tenantTimezone:'MMM D, YYYY hh:mm:ss A'}}
-        </h3>
+      <div class="md-list-item-text" layout="column" ng-click="setSelectedItem(artifact)">
+        <h3 layout-align="start">{{artifact.artifactSubType || 'appdock.custom' | translate}}</h3>
+        <h2>{{artifact.name || 'appdock.recording' | translate}}</h2>
+        <h4 ng-show="artifact.timestamp">{{artifact.timestamp | convertToTimezone:TimezoneValHolder.tenantTimezone:'MMM D, YYYY hh:mm:ss A'}}</h4>
       </div>
     </md-list-item>
   </md-list>
@@ -32,10 +30,7 @@
       <md-divider></md-divider>
 
       <div layout="row">
-        <md-card flex layout-fill>
-          <audio id="audio-player" controls oncontextmenu="return false;" name="recordingAudio" ng-src="{{selectedItem.url | trustUrl}}"></audio>
-        </md-card>
-
+        <audio id="audio-player" controls oncontextmenu="return false;" name="recordingAudio" ng-src="{{selectedItem.files[0].url | trustUrl}}"></audio>
       </div>
 
       <div layout="row">
@@ -44,7 +39,7 @@
         </div>
 
         <div flex="90">
-          <p>{{selectedItem.id}}</p>
+          <p>{{selectedItem.artifactId}}</p>
         </div>
       </div>
 
@@ -54,7 +49,7 @@
         </div>
 
         <div flex="90">
-          <p>{{selectedItem.updated | convertToTimezone:TimezoneValHolder.tenantTimezone:'MMM D, YYYY hh:mm:ss A'}}</p>
+          <p>{{selectedItem.created | convertToTimezone:TimezoneValHolder.tenantTimezone:'MMM D, YYYY hh:mm:ss A'}}</p>
         </div>
       </div>
     </md-content>

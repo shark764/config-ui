@@ -13,6 +13,11 @@ md-card {
   }
 }
 
+.voice-artifacts-list {
+  overflow-y: auto;
+  max-height: 270px;
+}
+
 loading {
   .loading {
     padding: {

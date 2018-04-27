@@ -1336,6 +1336,8 @@
   "appdock.messaging.agent": "Agent",
   "appdock.messaging.unknownUser": "(Unknown User)",
   "appdock.messaging.fromFlow": "(from Flow)",
+  "appdock.recording": "Recording",
+  "appdock.custom": "Custom",
   "loFormAlert.reservedWord" : " is a reserved word",
   "title.text.explain" : "Authentication is required to switch to this tenant"
 }

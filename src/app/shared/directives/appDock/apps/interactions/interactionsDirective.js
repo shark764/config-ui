@@ -16,6 +16,7 @@ angular.module('liveopsConfigPanel')
           scope.isLoading = true;
           // clearing out all interaction data as a safeguard
           scope.interactionData = null;
+          scope.artifacts = null;
           // setting this to false so that we hide the "no results"
           // messaging until we're positive that there are indeed no results
           scope.showNoResultsMsg = false;
@@ -99,15 +100,30 @@ angular.module('liveopsConfigPanel')
 
           // try to get recordings, which also might result in a 404
           function recordings() {
-            var recordings = Recording.cachedQuery({
-              tenantId: scope.config.tenantId,
-              interactionId: scope.config.id
-            }, 'Recording' + scope.interactionId, true);
+            CxEngage.entities.getArtifacts({
+              interactionId: scope.config.id,
+              tenantId: scope.config.tenantId
+            }, function(error, topic, response){
+              if (error) {
+                scope.showNoResultsMsg = true;
+                scope.isLoading = false;
+              }
+              scope.artifacts = response.results;
+              if (scope.artifacts.length > 0) {
+                CxEngage.entities.getArtifact({
+                  interactionId: scope.config.id,
+                  tenantId: scope.config.tenantId,
+                  artifactId: scope.artifacts[0].artifactId
+                }, function(error, topic, response){
+                  scope.isLoading = false;
+                  scope.showNoResultsMsg = false;
+                  scope.setSelectedItem(response);
+                });
+              } else {
+                scope.showNoResultsMsg = true;
+              }
 
-            return $q.when(recordings.$promise).then(function (response) {
-              return response;
-            }, function (err) {
-              return err;
+              scope.$emit('appDockDataLoaded');
             });
           }
 
@@ -163,9 +179,6 @@ angular.module('liveopsConfigPanel')
             var interactionData;
 
             switch(scope.config.type) {
-              case 'voice':
-                interactionData = recordings();
-                break;
               case 'messaging':
                 interactionData = messages();
                 break;
@@ -181,33 +194,37 @@ angular.module('liveopsConfigPanel')
 
           // once we've attempted to get both, set interactionData to
           // be the first response that's actually an array
-          $q.all([
-              fetchInteractionData(),
-              tenantTimezone()
-            ])
-            .then(function (interactionsResponse) {
+          if (scope.config.type !== 'voice') {
+            $q.all([
+                fetchInteractionData(),
+                tenantTimezone()
+              ])
+              .then(function (interactionsResponse) {
 
-              scope.interactionData = _.find(interactionsResponse, function (item) {
-                return angular.isArray(item);
-              });
+                scope.interactionData = _.find(interactionsResponse, function (item) {
+                  return angular.isArray(item);
+                });
 
-              // if none of the API calls got us the expected array of
-              // data, then that means there is no data for the given
-              // interaction, so show the error message
-              if (!angular.isArray(scope.interactionData) || (angular.isArray(scope.interactionData) && scope.interactionData.length < 1)) {
-                scope.showNoResultsMsg = true;
-                scope.isLoading = false;
-              } else {
-                scope.isLoading = false;
-                // otherwise, if no item has been selected yet, then automatically
-                // set the first item to display its data on load
-                if (!scope.selectedItem) {
-                  scope.setSelectedItem(scope.interactionData[0]);
+                // if none of the API calls got us the expected array of
+                // data, then that means there is no data for the given
+                // interaction, so show the error message
+                if (!angular.isArray(scope.interactionData) || (angular.isArray(scope.interactionData) && scope.interactionData.length < 1)) {
+                  scope.showNoResultsMsg = true;
+                  scope.isLoading = false;
+                } else {
+                  scope.isLoading = false;
+                  // otherwise, if no item has been selected yet, then automatically
+                  // set the first item to display its data on load
+                  if (!scope.selectedItem) {
+                    scope.setSelectedItem(scope.interactionData[0]);
+                  }
                 }
-              }
 
-              scope.$emit('appDockDataLoaded');
-            });
+                scope.$emit('appDockDataLoaded');
+              });
+          } else {
+            recordings();
+          }
         }
       };
     }
