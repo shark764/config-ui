@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.37.1]
+* CXV1-12492 - Fixed a few minor bugs around switching artifacts
+ 
 ## [4.37.0]
 * CXV1-13517 - Hide DNC from nav
 * Fixed direct navigation to campaign pages to redirect to user management
