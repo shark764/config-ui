@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.38.2]
+* Revert Silent Monitoring changes
+
 ## [4.38.1]
 * CXV1-12492 - Fixed properly filtering artifact types to only show audio-recording
 
@@ -28,7 +31,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [4.35.0]
 * CXV1-10832 - Fixed Tenant Management page SSO bug that prevented new Tenants from being created.
 
-## [4.34.0]
+## [4.34.0] <REVERTED>
 * CXV1-9940 - Silent Monitoring
 
 ## [4.33.0]
