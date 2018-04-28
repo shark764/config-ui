@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.38.3]
+* CXV1-12492 - Fixed displaying artifact subtypes
+
 ## [4.38.2]
 * Revert Silent Monitoring changes
 
