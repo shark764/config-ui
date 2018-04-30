@@ -42,6 +42,13 @@ loading {
         &.md-3-line {
           min-height: 30px;
         }
+
+        .artifact-label {
+          text-overflow: ellipsis;
+          width: 280px !important;
+          white-space: nowrap;
+          overflow: hidden;
+        }
       }
     }
   }

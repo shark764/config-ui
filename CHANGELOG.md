@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.38.4]
+* CXV1-12492 - Added ellipsis and tooltips to artifact subtypes
+* Update SDK to 6.19.6
+
 ## [4.38.3]
 * CXV1-12492 - Fixed displaying artifact subtypes
 
