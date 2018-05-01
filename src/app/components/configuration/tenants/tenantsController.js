@@ -232,8 +232,6 @@ angular.module('liveopsConfigPanel')
         tenantData.disableCxAuthSelect = true;
         tenantData.disableSsoSelect = true;
 
-        $scope.cxEngageAuthOptions = cxEngageAuthOptions();
-
         // this flag tells us whether or not to allow the user to disable the CxEngage native IDP
         $scope.loggedInWithCxEngageIdp = tenantData.id === Session.tenant.tenantId && !Session.isSso;
 
@@ -243,6 +241,8 @@ angular.module('liveopsConfigPanel')
           }, 'IdentityProviders', true);
 
           identityProviders.$promise.then(function (identityProvidersResponse) {
+            $scope.cxEngageAuthOptions = cxEngageAuthOptions(tenantData);
+
             idpList = _.map(_.filter(identityProvidersResponse, function (idp) {
               return idp.active;
             }), function (filteredIdp) {
