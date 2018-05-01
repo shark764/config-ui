@@ -75,45 +75,46 @@ angular.module('liveopsConfigPanel')
                 iconClass = 'fa fa-sign-in';
                 title = $translate.instant('title.text.explain');
               }
-
-              // filter out any tenants that have a tenantActive prop set to false
-              tenantDropdownItems.push({
-                label: targetTenant.name,
-                className: className,
-                iconClass: iconClass,
-                title: title,
-                onClick: function() {
-                  DirtyForms.confirmIfDirty(function() {
-                    // Make sure that we only switch without forcing re-auth
-                    // if we are switching from one *CxEngage* IDP to another.
-                    // (CxEngage IDP's always have a password prop set to true)
-                    if (isCxTenant) {
-                      Session.setTenant(targetSessionTenant);
-                      $scope.updateTopbarConfig();
-                      $scope.updateBranding();
-                      $scope.updateCustomDomain();
-                      var goTo = $state.current;
-                      if($state.includes('content.realtime-dashboards-management-editor')) {
-                        goTo = 'content.custom-dashboards-management';
-                      } else if ($state.includes('content.flows.editor')){
-                        goTo = 'content.flows.flowManagement';
+              if (Session.tenant.tenantId !== targetTenant.tenantId) {
+                // filter out any tenants that have a tenantActive prop set to false
+                tenantDropdownItems.push({
+                  label: targetTenant.name,
+                  className: className,
+                  iconClass: iconClass,
+                  title: title,
+                  onClick: function() {
+                    DirtyForms.confirmIfDirty(function() {
+                      // Make sure that we only switch without forcing re-auth
+                      // if we are switching from one *CxEngage* IDP to another.
+                      // (CxEngage IDP's always have a password prop set to true)
+                      if (isCxTenant) {
+                        Session.setTenant(targetSessionTenant);
+                        $scope.updateTopbarConfig();
+                        $scope.updateBranding();
+                        $scope.updateCustomDomain();
+                        var goTo = $state.current;
+                        if($state.includes('content.realtime-dashboards-management-editor')) {
+                          goTo = 'content.custom-dashboards-management';
+                        } else if ($state.includes('content.flows.editor')){
+                          goTo = 'content.flows.flowManagement';
+                        }
+                        $state.go(goTo, {
+                          id: null
+                        }, {
+                          reload: true,
+                          inherit: false
+                        });
+                      } else {
+                        AuthService.setResumeSession(true);
+                        $state.go('login', {
+                          sso: targetTenant.password === false ? 'isSso' : null
+                        });
+                        $state.params.tenantId = targetTenant.tenantId;
                       }
-                      $state.go(goTo, {
-                        id: null
-                      }, {
-                        reload: true,
-                        inherit: false
-                      });
-                    } else {
-                      AuthService.setResumeSession(true);
-                      $state.go('login', {
-                        sso: targetTenant.password === false ? 'isSso' : null
-                      });
-                      $state.params.tenantId = targetTenant.tenantId;
-                    }
-                  });
-                }
-              });
+                    });
+                  }
+                });
+              }
             });
           }
         })

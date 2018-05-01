@@ -2,6 +2,12 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.38.5]
+* CXV1-13720 - Able to login with Cx creds despite it being disabled
+* CXV1-13719 - Hide current tenant from dropdown
+* CXV1-13588 - Ability to select Denied as an Cx authentication status
+* CXV1-13586 - Only third party IDPs should be displayed
+
 ## [4.38.4]
 * CXV1-12492 - Added ellipsis and tooltips to artifact subtypes
 * Update SDK to 6.19.6
