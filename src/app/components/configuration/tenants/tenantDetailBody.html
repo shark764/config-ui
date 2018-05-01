@@ -168,6 +168,18 @@
     </div>
   </div>
 
+  <div class="sub-section" ng-show="fromAddress">
+    <div class="divider-header first-header">
+      <h4>{{'tenant.branding.customEmails' | translate}}</h4>
+    </div>
+    <div class="input-group">
+      <label>{{'tenant.branding.fromAddress' | translate}}</label>
+      <div>
+        <input value="{{fromAddress}}" type="text" ng-disabled="true"></input>
+      </div>
+    </div>
+  </div>
+
   <div class="sub-section">
     <div class="divider-header first-header">
       <h4>{{'tenant.branding.images' | translate}}</h4>

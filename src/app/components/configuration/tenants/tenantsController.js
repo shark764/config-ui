@@ -84,6 +84,14 @@ angular.module('liveopsConfigPanel')
             console.log('Branding Styles Error:', error);
           }
         });
+        CxEngage.entities.getProtectedBranding(function(error, topic, response){
+          var address = _.find(response, {'key': 'fromAddress'});
+          if (address && address.active === true) {
+            $scope.fromAddress = address.value;
+          } else {
+            $scope.fromAddress = false;
+          }
+        });
       };
 
 
