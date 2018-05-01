@@ -591,6 +591,8 @@
   "tenant.branding.updated": "Branding has been updated!",
   "tenant.branding.resetDefault.confirm": "This will reset tenant branding to default. Do you want to continue?",
   "tenant.branding.resetDefault": "Branding has been reset to default!",
+  "tenant.branding.customEmails": "Custom Emails",
+  "tenant.branding.fromAddress": "From Address",
   "tenant.save.success": "Tenant saved successfully!",
   "tenant.save.admin" : "Tenant Admin has been updated to ",
   "integration.details": "Integration",

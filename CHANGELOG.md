@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.39.0]
+* Added Protected Brandings 'from address' to tenant details panel
+
 ## [4.38.5]
 * CXV1-13720 - Able to login with Cx creds despite it being disabled
 * CXV1-13719 - Hide current tenant from dropdown
