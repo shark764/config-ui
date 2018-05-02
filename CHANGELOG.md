@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.39.1]
+* CXV1-13762: SDK bump
+
 ## [4.39.0]
 * Added Protected Brandings 'from address' to tenant details panel
 
