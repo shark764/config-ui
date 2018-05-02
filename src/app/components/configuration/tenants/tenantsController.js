@@ -85,7 +85,7 @@ angular.module('liveopsConfigPanel')
           }
         });
         CxEngage.entities.getProtectedBranding(function(error, topic, response){
-          var address = _.find(response, {'key': 'fromAddress'});
+          var address = _.find(response.result, {'key': 'fromAddress'});
           if (address && address.active === true) {
             $scope.fromAddress = address.value;
           } else {
