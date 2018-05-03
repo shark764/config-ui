@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.39.3]
+* CXV1-13707: Fixed issue whereby Tenant Details panel was not completely clearing out upon user clicking 'Cancel' button. Also fixed issue whereby submit button was not getting activated upon color picker value changing.
+
 ## [4.39.2]
 * CXV1-13844: Fixed issue with new API property breaking initial save of new tenant
 

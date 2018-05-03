@@ -61,7 +61,7 @@
     </select>
   </div>
 
-  <div class="input-group">
+  <div ng-if="displayAsyncForms()" class="input-group">
     <label>{{'tenant.details.cxEngageAuthentication' | translate}}</label>
     <select
       name="defaultCxEngageAuthentication"
@@ -76,7 +76,7 @@
     </select>
   </div>
 
-  <div
+  <div ng-if="displayAsyncForms()"
     class="input-group">
     <label>{{'tenant.details.ssoIdentityProvider' | translate}}</label>
     <div>
@@ -92,7 +92,7 @@
       </select>
 
       <i class="fa fa-refresh fa-spin"
-      ng-show="loadingIdps"></i>
+      ng-hide="idpsLoaded"></i>
     </div>
   </div>
 
@@ -208,7 +208,7 @@
     </div>
   </div>
 
-  <div class="sub-section added-padding">
+  <div ng-if="displayAsyncForms()" class="sub-section added-padding">
     <div class="divider-header first-header">
       <h4>{{'tenant.branding.siteColors' | translate}}</h4>
     </div>
@@ -216,35 +216,55 @@
     <div class="input-group">
       <label class="textarea-label">{{'tenant.branding.siteColors.nav' | translate}}</label>
       <div>
-        <color-picker ng-model="brandingForm.styles.navbar" options="colorPickerOptions"></color-picker>
+        <color-picker
+          ng-model="brandingForm.styles.navbar"
+          event-api="colorPickerEvents"
+          options="colorPickerOptions">
+        </color-picker>
       </div>
     </div>
 
     <div class="input-group">
       <label class="textarea-label">{{'tenant.branding.siteColors.navText' | translate}}</label>
       <div>
-        <color-picker ng-model="brandingForm.styles.navbarText" options="colorPickerOptions"></color-picker>
+        <color-picker
+          ng-model="brandingForm.styles.navbarText"
+          options="colorPickerOptions"
+          event-api="colorPickerEvents">
+        </color-picker>
       </div>
     </div>
 
     <div class="input-group">
       <label class="textarea-label">{{'tenant.branding.siteColors.primaryColor' | translate}}</label>
       <div>
-        <color-picker ng-model="brandingForm.styles.primaryColor" options="colorPickerOptions"></color-picker>
+        <color-picker
+          ng-model="brandingForm.styles.primaryColor"
+          options="colorPickerOptions"
+          event-api="colorPickerEvents">
+        </color-picker>
       </div>
     </div>
 
     <div class="input-group">
       <label class="textarea-label">{{'tenant.branding.siteColors.accentColor' | translate}}</label>
       <div>
-        <color-picker ng-model="brandingForm.styles.accentColor" options="colorPickerOptions"></color-picker>
+        <color-picker
+          ng-model="brandingForm.styles.accentColor"
+          options="colorPickerOptions"
+          event-api="colorPickerEvents">
+        </color-picker>
       </div>
     </div>
 
     <div class="input-group">
       <label class="textarea-label">{{'tenant.branding.siteColors.accentHoverColor' | translate}}</label>
       <div>
-        <color-picker ng-model="brandingForm.styles.accentHoverColor" options="colorPickerOptions"></color-picker>
+        <color-picker
+          ng-model="brandingForm.styles.accentHoverColor"
+          options="colorPickerOptions"
+          event-api="colorPickerEvents">
+        </color-picker>
       </div>
     </div>
   </div>
