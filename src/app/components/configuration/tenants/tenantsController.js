@@ -135,7 +135,8 @@ angular.module('liveopsConfigPanel')
             'defaultIdentityProvider',
             'disableCxAuthSelect',
             'disableSsoSelect',
-            'resourceName'
+            'resourceName',
+            'cxengageIdentityProvider'
           ]);
         }
 
