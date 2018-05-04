@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.39.2]
+* CXV1-13844: Fixed issue with new API property breaking initial save of new tenant
+
 ## [4.39.1]
 * CXV1-13762: SDK bump
 
