@@ -6,7 +6,7 @@ angular.module('liveopsConfigPanel')
       var vm = this;
       var TenantSvc = new Tenant();
       $scope.forms = {};
-      $scope.loadingIdps = true;
+      $scope.idpsLoaded = false;
 
       $scope.colorPickerOptions = {
         // html attributes
@@ -23,11 +23,25 @@ angular.module('liveopsConfigPanel')
         inline: false,
       };
 
+      $scope.colorPickerEvents = {
+        onChange: function () {
+          $scope.forms.detailsForm.$setDirty();
+        }
+      };
+
       $scope.toggleRegionField = function (integrationId) {
         $scope.selectedTenant.hasTwilio = _.some($scope.integrations, {
           'id': integrationId,
           'type': 'twilio'
         });
+      };
+
+      $scope.displayAsyncForms = function () {
+        return (
+          $scope.brandingLoaded &&
+          $scope.idpsLoaded &&
+          $scope.watchDataLoaded
+        );
       };
 
       vm.loadTimezones = function () {
@@ -74,16 +88,28 @@ angular.module('liveopsConfigPanel')
       };
 
       vm.loadBranding = function (tenantId) {
-        Branding.get({
+        $scope.brandingLoaded = false;
+        if (!tenantId) {
+          $scope.brandingForm = {};
+          $scope.brandingLoaded = true;
+          return;
+        }
+
+        var branding = Branding.cachedGet({
           tenantId: tenantId
-        }, function(response){
+        }, 'Branding', true);
+
+        branding.$promise.then(function (response) {
           $scope.brandingForm = response;
+          $scope.brandingLoaded = true;
         }, function(error){
           $scope.brandingForm = {};
           if (error.status !== 404) {
             console.log('Branding Styles Error:', error);
           }
+          $scope.brandingLoaded = true;
         });
+
         CxEngage.entities.getProtectedBranding(function(error, topic, response){
           var address = _.find(response.result, {'key': 'fromAddress'});
           if (address && address.active === true) {
@@ -96,6 +122,11 @@ angular.module('liveopsConfigPanel')
 
 
       vm.loadIntegrations = function(tenantId) {
+        if (!tenantId) {
+          $scope.integrations = [];
+          return;
+        }
+
         $scope.integrations = Integration.cachedQuery({
           tenantId: tenantId
         }, 'Integration', true);
@@ -160,7 +191,7 @@ angular.module('liveopsConfigPanel')
           } else if (err.data.error.attribute.name) {
             Alert.error(err.data.error.attribute.name);
           }
-          $scope.loadingIdps = false;
+          $scope.idpsLoaded = true;
         });
 
         if ($scope.brandingForm !== {} && !angular.equals($scope.brandingForm, $scope.brandingForm.$original)) {
@@ -237,12 +268,14 @@ angular.module('liveopsConfigPanel')
       function updateIdentityProvidersList (tenantData, resetForm) {
         var identityProviders = [];
         var idpList = [];
-        $scope.loadingIdps = true;
+        $scope.idpsLoaded = false;
         tenantData.disableCxAuthSelect = true;
         tenantData.disableSsoSelect = true;
 
         // this flag tells us whether or not to allow the user to disable the CxEngage native IDP
         $scope.loggedInWithCxEngageIdp = tenantData.id === Session.tenant.tenantId && !Session.isSso;
+
+        $scope.cxEngageAuthOptions = cxEngageAuthOptions(tenantData);
 
         if (tenantData.id) {
           identityProviders = IdentityProviders.cachedQuery({
@@ -250,8 +283,6 @@ angular.module('liveopsConfigPanel')
           }, 'IdentityProviders', true);
 
           identityProviders.$promise.then(function (identityProvidersResponse) {
-            $scope.cxEngageAuthOptions = cxEngageAuthOptions(tenantData);
-
             idpList = _.map(_.filter(identityProvidersResponse, function (idp) {
               return idp.active;
             }), function (filteredIdp) {
@@ -264,7 +295,7 @@ angular.module('liveopsConfigPanel')
               }
 
               tenantData.identityProviders = idpList;
-              $scope.loadingIdps = false;
+              $scope.idpsLoaded = true;
               tenantData.disableCxAuthSelect = false;
               tenantData.disableSsoSelect = false;
             } else {
@@ -275,7 +306,7 @@ angular.module('liveopsConfigPanel')
 
               tenantData.disableSsoSelect = true;
               tenantData.disableCxAuthSelect = true;
-              $scope.loadingIdps = false;
+              $scope.idpsLoaded = true;
             }
           });
         } else {
@@ -286,9 +317,12 @@ angular.module('liveopsConfigPanel')
 
           tenantData.defaultIdentityProvider = tenantData.identityProviders[0].id;
           $scope.selectedTenant.cxengageIdentityProvider = cxEngageAuthStates.enabled;
+
+          $scope.selectedTenant.cxengageIdentityProvider = $scope.cxEngageAuthOptions[0].value;
+
           $scope.selectedTenant.disableCxAuthSelect = true;
           $scope.selectedTenant.disableSsoSelect = true;
-          $scope.loadingIdps = false;
+          $scope.idpsLoaded = true;
         }
 
         $timeout(function () {
@@ -299,10 +333,12 @@ angular.module('liveopsConfigPanel')
             $scope.forms.detailsForm.$setPristine();
             $scope.forms.detailsForm.$setUntouched();
           }
+          $scope.idpsLoaded = true;
         });
       }
 
       $scope.$watch('selectedTenant', function (selectedTenantResponse) {
+        $scope.watchDataLoaded = false;
         if (selectedTenantResponse) {
           $q.when(selectedTenantResponse).then(function (tenantResponse) {
             // here is where we get the "user friendly" universal display name for the region
@@ -313,12 +349,14 @@ angular.module('liveopsConfigPanel')
             });
 
             updateIdentityProvidersList($scope.selectedTenant);
-          });
 
-          if ($scope.selectedTenant.id) {
             vm.loadIntegrations($scope.selectedTenant.id);
             vm.loadBranding($scope.selectedTenant.id);
-          }
+
+            $timeout(function () {
+              $scope.watchDataLoaded = true;
+            });
+          });
         }
       });
 
@@ -353,7 +391,7 @@ angular.module('liveopsConfigPanel')
         return $scope.tenants;
       });
 
-      $rootScope.$on("updateHelpURL",function(){
+      $rootScope.$on('updateHelpURL',function(){
         $scope.tableConfig.helpLink = $rootScope.helpURL + '/Help/Content/Configuration/Creating_Tenants.htm';
       });
 
@@ -415,7 +453,7 @@ angular.module('liveopsConfigPanel')
         reader.readAsDataURL($scope.brandingForm[element.name + 'Selected']);
       };
 
-      $rootScope.$on("updateHelpURL",function(){
+      $rootScope.$on('updateHelpURL',function(){
         $scope.tableConfig.helpLink = $rootScope.helpURL + '/Help/Content/Configuration/Creating_Tenants.htm';
       });
 
@@ -423,8 +461,6 @@ angular.module('liveopsConfigPanel')
       vm.loadTimezones();
       vm.loadRegions();
 
-      // remove CxEngage Default IDP from Default Identity Provider
-      // drop down list if passwords are not allowed
       $scope.idpListFilter = function (idpObj) {
         // providing a fallback value since there appear to be some IDP's
         // with a null value for the name property

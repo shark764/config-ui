@@ -49,7 +49,7 @@
       <div class="detail-controls">
         <input
           id="cancel-details-btn" class="btn" type="button"
-          ng-disabled="selectedTenant.$busy || loadingIdps"
+          ng-disabled="selectedTenant.$busy || !idpsLoaded"
           value="{{'value.cancel' | translate}}"
           lo-cancel></input>
 
@@ -57,7 +57,7 @@
           id="submit-details-btn"
           lo-submit="submit()"
           lo-submit-spinner
-          lo-submit-spinner-status="selectedTenant.$busy || loadingIdps"
+          lo-submit-spinner-status="selectedTenant.$busy || !idpsLoaded"
           ng-disabled="forms.detailsForm.$pending || forms.detailsForm.$invalid || ! forms.detailsForm.$dirty"
           class="btn btn-primary"
           type="submit"
