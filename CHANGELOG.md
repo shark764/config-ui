@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.39.6]
+* CXV1-13547 - Fixed issue with Generic Lists iFrame height not rendering properly in Firefox
+
 ## [4.39.5]
 * CXV1-13854 - Update default to "Conference" if no Artifact subtype is available
 
