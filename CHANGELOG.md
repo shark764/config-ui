@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.39.5]
+* CXV1-13854 - Update default to "Conference" if no Artifact subtype is available
+
 ## [4.39.4]
 * CXV1-12753: Trying to update a disabled Twilio integration sends incorrect payload
 
@@ -77,33 +80,33 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [4.31.0]
 * CXV1-12277 - Generic lists
 
-##[4.30.17]
+## [4.30.17]
 * CXV1-12954 - Fixed issues with Presence Reasons/Disposition Lists when the "Cancel" action is triggered. Now is allowing the user to add categories and dispositions/reasons
 
-##[4.30.16]
+## [4.30.16]
 * CXV1-13264 - Reason Lists - When a category has no reasons under it indented then submitted, error is incorrect for why it wasn't submitable
 
-##[4.30.15]
+## [4.30.15]
 * CXV1-13306 - Reason Lists - Category is giant text box (updated)
 * CXV1-12942 - Reason Lists - Changing Your Reason Multiple Times Can Result in an Empty Field that Wont Save.(updated)
 
-##[4.30.14]
+## [4.30.14]
 * Update Reason List
 
-##[4.30.13]
+## [4.30.13]
 * CXV1-13306 - Reason Lists - Category is giant text box
 * CXV1-12942 - Reason Lists - Changing Your Reason Multiple Times Can Result in an Empty Field that Wont Save.
 
-##[4.30.12]
+## [4.30.12]
 * CXV1-13276 - Hide Custom Stat page
 
-##[4.30.11]
+## [4.30.11]
 * CXV1-13265 - Reason Lists - Category can be saved without a value.
 
-##[4.30.10]
+## [4.30.10]
 * CXV1-12560 - Un-did selected changes to tenant invite process since these changes would best be left out until some related API work is done
 
-##[4.30.9]
+## [4.30.9]
 * CXV1-12951 - Reason Lists - When an error occurs, Fixing the issue doesn't let you submit the change (updated)
 * CXV1-12949 - Reason Lists - Getting an Error Message Causes all Reasons Lists to be Unchangeable Until Page is Navigated Away From (updated)
 * CXV1-12942 - Reason Lists - Changing Your Reason Multiple Times Can Result in an Empty Field that Wont Save.(updated)
