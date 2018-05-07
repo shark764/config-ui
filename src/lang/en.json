@@ -1340,6 +1340,7 @@
   "appdock.messaging.fromFlow": "(from Flow)",
   "appdock.recording": "Recording",
   "appdock.custom": "Custom",
+  "appdock.conference": "Conference",
   "loFormAlert.reservedWord" : " is a reserved word",
   "title.text.explain" : "Authentication is required to switch to this tenant"
 }
