@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.39.9]
+* CXV1-13531 - Version bump for RTD, added a small change for CSS in RTD and translation for a label.
+
 ## [4.39.8]
 * CXV1-13742 - Display a Confirmation Toast popup for Password Reset
 

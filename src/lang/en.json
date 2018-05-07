@@ -1305,6 +1305,8 @@
   "realtimeDashboards.form.aggregateFunction": "Aggregate Function",
   "realtimeDashboards.form.queueSourceSwitcher": "Queue Source Switcher",
   "realtimeDashboards.form.resourceSourceSwitcher": "Resource Source Switcher",
+  "realtimeDashboards.form.skillSourceSwitcher": "Skill Source Switcher",
+  "realtimeDashboards.form.groupSourceSwitcher": "Group Source Switcher",
   "realtimeDashboards.form.createWidget": "Create Widget",
   "realtimeDashboards.form.saveDashboard": "Save Dashboard",
   "realtimeDashboards.form.saveDashboard.success": "Dashboard saved successfully!",
