@@ -227,7 +227,7 @@ angular.module('liveopsConfigPanel')
           return $q.reject(errorResponse.data.error.attribute.active);
         })
         .then(function() {
-          $scope.handleAuthMethodSelect($scope, tempSelectedAuthType, 'true');
+          $scope.handleAuthMethodSelect($scope, tempSelectedAuthType, $scope.authMethodCopy,'true');
         });
       };
 
