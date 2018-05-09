@@ -103,7 +103,13 @@ angular.module('liveopsConfigPanel')
         return Modal.showConfirm(
           {
             message: $translate.instant('value.passwordResetConfirm', { email:$scope.selectedTenantUser.email }),
-            okCallback: ResetPassword.initiateReset.bind(null, $scope.selectedTenantUser.id)
+            okCallback: function () {
+              ResetPassword.initiateReset($scope.selectedTenantUser.id).then(function () {
+                Alert.success($translate.instant('user.details.resetpassword.success'));
+              }, function() {
+                Alert.error($translate.instant('user.details.resetpassword.fail'));
+              });
+            }
           }
         );
       };
