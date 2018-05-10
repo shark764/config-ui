@@ -308,6 +308,8 @@
   "user.details.tenantDefault": "Use Tenant Default",
   "user.details.singleSignOnIdp": "Single Sign on Identity Provider",
   "user.details.noIdps": "-- None --",
+  "user.details.resetpassword.success": "Password reset request email sent successfully",
+  "user.details.resetpassword.fail": "Unable to send password reset request email",
   "users.details.capacityRule.select": "Select a capacity rule",
   "users.details.capacityRule.inactive": "Inactive",
   "users.details.role.select": "Select a role",
