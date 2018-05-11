@@ -14,6 +14,8 @@
 
 #topnav > ul > li.active .drop-label span,
 #topnav > ul > li:hover .drop-label span,
+#topnav > ul > li.active#quality-management-nav-link,
+#topnav > ul > li:hover#quality-management-nav-link,
 #topnav > ul > li.active #logo,
 #topnav > ul > li:hover #logo {
   box-shadow: inset 0px -5px 0px 0px $accent1;

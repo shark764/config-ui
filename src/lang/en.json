@@ -193,6 +193,7 @@
   "navbar.reports.rtd.title": "Realtime Dashboards",
   "navbar.reports.rtdCustom.title": "Custom Realtime Dashboards",
   "navbar.reports.silentMonitoring.title": "Interaction Monitoring",
+  "navbar.qualityManagement.title": "Quality Management",
   "navbar.welcome": "Hello, {{displayName}}",
   "navbar.logout": "Log Out",
   "navbar.profile": "User Profile",

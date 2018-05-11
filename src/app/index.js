@@ -84,9 +84,25 @@ angular.module('liveopsConfigPanel', [
       }
     };
 
+    var locationSearch = {};
+
     $rootScope.$on('$stateChangeStart', function(e, toState) {
+      // save non sso deep link location.search so we can add it back after transition is done
+      locationSearch = $location.search();
+      if (toState.name !== 'login') {
+        if (locationSearch.username !== undefined) {
+          delete locationSearch.username;
+        }
+        if (locationSearch.tenantid !== undefined) {
+          delete locationSearch.tenantid;
+        }
+        if (locationSearch.idp !== undefined) {
+          delete locationSearch.idp;
+        }
+      }
+
       $timeout.cancel(debugTimeout);
-      
+
       // determine which login screen to show and to return to upon logout
       AuthService.setSsoMode(toState.name, $location);
 
@@ -124,6 +140,9 @@ angular.module('liveopsConfigPanel', [
 
     });
     $rootScope.$on('$stateChangeSuccess', function(ev, toState, toParams, from, fromParams) {
+      // restore all saved query string parameters back to $location.search
+      $location.search(locationSearch);
+
       Session.setLastPageVisited({
         stateName: from.name,
         paramsObj: fromParams

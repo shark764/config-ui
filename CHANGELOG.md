@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.43.0]
+* CXV1-12854 - Quality management (Telstrat iframe)
+
 ## [4.42.5]
 * CXV1-13987 - Realtime Dashboards - Disabled Queues selectable in Queues Dashboard
 
