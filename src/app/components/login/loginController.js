@@ -174,10 +174,7 @@ angular.module('liveopsConfigPanel')
       if ($stateParams.messageKey) {
         Alert.info($translate.instant($stateParams.messageKey), '', {
           closeButton: true,
-          showDuration: 0,
-          hideDuration: 0,
-          timeOut: 0,
-          extendedTimeOut: 0
+          timeout: 10000,
         });
       }
     }
