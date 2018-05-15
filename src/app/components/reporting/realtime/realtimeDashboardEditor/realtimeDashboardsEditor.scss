@@ -81,11 +81,12 @@ lo-resource-table {
 
 .subhead-wrapper {
   box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12);
+  font-size: 12px;
 }
 
 .subhead {
-  width: 50%;
-  display:inline;
+  width: auto;
+  display:inline-block;
   padding: 8px 18px;
   position: relative;
   z-index: 6;
