@@ -177,5 +177,9 @@ angular.module('liveopsConfigPanel')
           timeout: 10000,
         });
       }
+
+      $scope.updateToCurrentYear = {
+        currentYear: new Date().getFullYear()
+      };
     }
   ]);
