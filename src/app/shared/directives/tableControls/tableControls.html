@@ -62,14 +62,14 @@
         </div>
         <div class="dropdown-container">
           <div class="dropdown filter-dropdown greater-or-less-than-filters" ng-hide="! showDrop || options.length === 0">
-            <select type="number" name="comparison"
+            <select type="number" name="comparison" class="greater-or-less-than-filter"
               ng-model="greaterOrLessThan.comparison">
               <option value=">">&gt;</option>
               <option value="<">&lt;</option>
             </select>
-            <input type="number" name="value"
+            <input type="number" name="value" class="greater-or-less-than-value"
             ng-model="greaterOrLessThan.value">
-            <select type="number" name="unit"
+            <select type="number" name="unit" class="greater-or-less-than-units"
               ng-if="config.greaterOrLessThan.units"
               ng-model="greaterOrLessThan.unit"
               ng-options="unit as unit.display for unit in config.greaterOrLessThan.units">
