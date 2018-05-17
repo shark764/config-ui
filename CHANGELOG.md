@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.40.2]
+* CXV1-8127 - Filter duration in Interaction Monitoring does not show correctly in FireFox.
+
 ## [4.40.1]
 * CXV1-13528 - Fix CSS issues related to Custom Dashboards mail filters not showing properly, overlaying elements placed by user.
 
