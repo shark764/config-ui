@@ -1,6 +1,9 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
+  .config(['$translateProvider', function ($translateProvider) {
+    $translateProvider.useSanitizeValueStrategy('sanitize');
+  }])
   .controller('LoginController', ['$rootScope', '$scope', '$state', 'AuthService', '$stateParams', '$translate', 'Alert', 'TenantUser', '$filter', '$location', 'legalLinkCX', 'legalLinkMitel', 'Session', 'UserPermissions', 'User', 'Tenant', '$q', 'loEvents',
     function($rootScope, $scope, $state, AuthService, $stateParams, $translate, Alert, TenantUser, $filter, $location, legalLinkCX, legalLinkMitel, Session, UserPermissions, User, Tenant, $q, loEvents) {
       var self = this;
@@ -177,5 +180,9 @@ angular.module('liveopsConfigPanel')
           timeout: 10000,
         });
       }
+
+      $scope.updateToCurrentYear = {
+        currentYear: new Date().getFullYear()
+      };
     }
   ]);

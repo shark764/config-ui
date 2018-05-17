@@ -4,6 +4,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
 * CXV1-8127 - Filter duration in Interaction Monitoring does not show correctly in FireFox.
+* CXV1-13740 - UI - Make year on Copyright notice update automatically.
 * CXV1-13788 - Flow Management pages - "Submit" changed to "Submit Query" in Firefox.
 
 ## [4.40.1]
