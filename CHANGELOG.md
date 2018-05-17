@@ -2,7 +2,8 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## Unreleased
+## [4.40.2]
+* CXV1-13984 - Version bump for RTD latest version
 * CXV1-8127 - Filter duration in Interaction Monitoring does not show correctly in FireFox.
 * CXV1-13740 - UI - Make year on Copyright notice update automatically.
 * CXV1-13788 - Flow Management pages - "Submit" changed to "Submit Query" in Firefox.
