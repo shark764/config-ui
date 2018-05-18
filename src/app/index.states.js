@@ -445,6 +445,12 @@ angular.module('liveopsConfigPanel')
           templateUrl: 'app/components/reports/reports.html',
           controller: 'ReportsController'
         })
+        .state('content.logi', {
+          url: '/reports/logi',
+          title: 'Reporting - Logi',
+          templateUrl: 'app/components/reports/logi/logi.html',
+          controller: 'LogiController'
+        })
         .state('content.billing', {
           url: '/billing-reports?id',
           title:'Reporting - Billing Reports',
