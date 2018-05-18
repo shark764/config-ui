@@ -1,7 +1,10 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('reasonListsTableConfig', ['$translate', 'UserPermissions', 'statuses', function($translate, UserPermissions, statuses) {
+  .service('reasonListsTableConfig', ['$translate', 'UserPermissions', 'statuses', 'CustomDomain', function($translate, UserPermissions, statuses, CustomDomain) {
+
+    var CustomDomainSvc = new CustomDomain();
+
     return {
       'fields': [{
         'header': {
@@ -77,7 +80,8 @@ angular.module('liveopsConfigPanel')
       'searchOn': ['$original.name'],
       'orderBy': '$original.name',
       'title' : $translate.instant('reasonLists.table.title'),
-      'sref' : 'content.management.reasonLists',
+      'helpLink': CustomDomainSvc.getHelpURL('/Help/Content/Managing%20Users/Presence%20Reasons/Creating_Presence_Reason_Lists.htm'),
+      'sref': 'content.management.reasonLists',
       'showCreate': function () {
         return UserPermissions.hasPermission('CREATE_REASON_LIST');
       },

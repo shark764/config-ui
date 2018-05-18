@@ -10,6 +10,8 @@ angular.module('liveopsConfigPanel')
       $scope.hoverTracker = [];
       var MeSvc = new Me();
 
+      var CustomDomainSvc = new CustomDomain();
+
       // since sometimes the tenant data from the /me endpoint doesn't
       // give us data we need, this lets us get the corresponding
       // Session.tenant and vice-versa
@@ -92,7 +94,6 @@ angular.module('liveopsConfigPanel')
                         Session.setTenant(targetSessionTenant);
                         $scope.updateTopbarConfig();
                         $scope.updateBranding();
-                        $scope.updateCustomDomain();
                         var goTo = $state.current;
                         if($state.includes('content.realtime-dashboards-management-editor')) {
                           goTo = 'content.custom-dashboards-management';
@@ -152,7 +153,7 @@ angular.module('liveopsConfigPanel')
         {
           label: $translate.instant('navbar.help.help'),
           onClick: function() {
-            var url = $rootScope.helpURL + '/Help/Content/Home.htm';
+            var url = CustomDomainSvc.getHelpURL('/Help/Content/Home.htm');
             $window.open(url);
           }
         },
@@ -505,12 +506,7 @@ angular.module('liveopsConfigPanel')
         });
       };
 
-      $scope.updateCustomDomain = function() {
-        CustomDomain.setHelpURL(Session.tenant.tenantId);
-      };
-
       $scope.updateBranding();
       $scope.updateTopbarConfig();
-      $scope.updateCustomDomain();
     }
   ]);

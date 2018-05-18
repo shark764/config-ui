@@ -1,8 +1,11 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('mediaTableConfig', ['mediaTypes', '$translate', 'UserPermissions', '$rootScope', function(mediaTypes, $translate, UserPermissions, $rootScope) {
-    var defaultConfig = {
+  .service('mediaTableConfig', ['mediaTypes', '$translate', 'UserPermissions', 'CustomDomain', function(mediaTypes, $translate, UserPermissions, CustomDomain) {
+
+    var CustomDomainSvc = new CustomDomain();
+
+    return {
       'fields': [{
         'header': {
           'display': $translate.instant('value.name')
@@ -34,22 +37,13 @@ angular.module('liveopsConfigPanel')
       'searchOn': ['$original.source', '$original.name'],
       'orderBy': '$original.name',
       'title': $translate.instant('media.table.title'),
+      'helpLink': CustomDomainSvc.getHelpURL('/Help/Content/Managing%20Flows/Media/Adding%20Media.htm'),
+      'helpLinkLanguages': CustomDomainSvc.getHelpURL('/Help/Content/Resources/Supported_Languages.htm'),
+      'helpLinkVoices': CustomDomainSvc.getHelpURL('/Help/Content/Resources/Supported_Languages.htm'),
       'sref': 'content.flows.media',
       'showBulkActions': false,
       'showCreate': function() {
         return UserPermissions.hasPermission('MANAGE_ALL_MEDIA');
-      },
-      'helpLink': $rootScope.helpURL + '/Help/Content/Managing%20Flows/Media/Adding%20Media.htm',
-      'helpLinkLanguages': $rootScope.helpURL + '/Help/Content/Resources/Supported_Languages.htm',
-      'helpLinkVoices': $rootScope.helpURL + '/Help/Content/Resources/Supported_Languages.htm'
+      }
     };
-
-    $rootScope.$on( "updateHelpURL", function () {
-    	defaultConfig.helpLink           = $rootScope.helpURL + '/Help/Content/Managing%20Flows/Media/Adding%20Media.htm';
-    	defaultConfig.helpLinkLanguages  = $rootScope.helpURL + '/Help/Content/Resources/Supported_Languages.htm';
-    	defaultConfig.helpLinkVoices     = $rootScope.helpURL + '/Help/Content/Resources/Supported_Languages.htm';
-    });
-
-    return defaultConfig;
-
   }]);

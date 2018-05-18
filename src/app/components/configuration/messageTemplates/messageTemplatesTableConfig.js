@@ -1,9 +1,11 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('messageTemplatesTableConfig', ['statuses', '$translate', 'UserPermissions', function(statuses, $translate, UserPermissions) {
+  .service('messageTemplatesTableConfig', ['statuses', '$translate', 'UserPermissions', 'CustomDomain', function(statuses, $translate, UserPermissions, CustomDomain) {
 
-    var defaultConfig = {
+    var CustomDomainSvc = new CustomDomain();
+
+    return {
       'fields': [{
         'header': {
           'display': $translate.instant('value.name')
@@ -42,6 +44,7 @@ angular.module('liveopsConfigPanel')
       'searchOn': ['$original.name'],
       'orderBy': '$original.name',
       'title': $translate.instant('messageTemplates.table.title'),
+      'helpLink': CustomDomainSvc.getHelpURL('/Help/Content/Configuration/Messaging_Templates/Creating_Messaging_Templates.htm'),
       'sref': 'content.configuration.messageTemplates',
       'showCreate': function() {
         return UserPermissions.hasPermission('MANAGE_ALL_MESSAGE_TEMPLATES');
@@ -50,7 +53,4 @@ angular.module('liveopsConfigPanel')
         return UserPermissions.hasPermission('MANAGE_ALL_MESSAGE_TEMPLATES');
       }
     };
-
-    return defaultConfig;
-
   }]);

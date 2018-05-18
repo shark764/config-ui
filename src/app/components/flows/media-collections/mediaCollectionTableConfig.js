@@ -1,8 +1,11 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('mediaCollectionTableConfig', ['$translate', 'UserPermissions', '$rootScope', function($translate, UserPermissions, $rootScope) {
-    var defaultConfig = {
+  .service('mediaCollectionTableConfig', ['$translate', 'UserPermissions', 'CustomDomain', function($translate, UserPermissions, CustomDomain) {
+
+    var CustomDomainSvc = new CustomDomain();
+
+    return {
       'fields': [{
         'header': {
           'display': $translate.instant('value.name')
@@ -30,18 +33,11 @@ angular.module('liveopsConfigPanel')
       'searchOn': ['$original.name'],
       'orderBy': '$original.name',
       'title': $translate.instant('media.collections.table.title'),
+      'helpLink': CustomDomainSvc.getHelpURL('/Help/Content/Managing%20Flows/Media/Creating%20Media%20Collections.htm'),
       'sref': 'content.flows.media-collections',
       'showBulkActions': false,
       'showCreate': function() {
         return UserPermissions.hasPermission('MANAGE_ALL_MEDIA');
-      },
-      'helpLink': $rootScope.helpURL + '/Help/Content/Managing%20Flows/Media/Creating%20Media%20Collections.htm'
+      }
     };
-
-    $rootScope.$on( "updateHelpURL", function () {
-    	defaultConfig.helpLink = $rootScope.helpURL + '/Help/Content/Managing%20Flows/Media/Creating%20Media%20Collections.htm';
-    });
-
-    return defaultConfig;
-
   }]);

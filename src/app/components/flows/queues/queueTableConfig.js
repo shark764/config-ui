@@ -1,8 +1,11 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('queueTableConfig', ['statuses', '$translate', 'UserPermissions', '$rootScope', function(statuses, $translate, UserPermissions, $rootScope) {
-    var defaultConfig = {
+  .service('queueTableConfig', ['statuses', '$translate', 'UserPermissions', 'CustomDomain', function(statuses, $translate, UserPermissions, CustomDomain) {
+
+    var CustomDomainSvc = new CustomDomain();
+
+    return {
       'fields': [{
         'header': {
           'display': $translate.instant('value.name')
@@ -35,20 +38,13 @@ angular.module('liveopsConfigPanel')
       'searchOn': ['$original.name'],
       'orderBy': '$original.name',
       'title': $translate.instant('queue.table.title'),
+      'helpLink': CustomDomainSvc.getHelpURL('/Help/Content/Managing%20Flows/Create_queue.htm'),
       'sref': 'content.flows.queues',
       'showBulkActions': function() {
         return UserPermissions.hasPermission('MANAGE_ALL_QUEUES');
       },
       'showCreate': function() {
         return UserPermissions.hasPermission('MANAGE_ALL_QUEUES');
-      },
-      'helpLink': $rootScope.helpURL + '/Help/Content/Managing%20Flows/Create_queue.htm'
+      }
     };
-
-    $rootScope.$on( "updateHelpURL", function () {
-    	defaultConfig.helpLink = $rootScope.helpURL + '/Help/Content/Managing%20Flows/Create_queue.htm';
-    });
-
-    return defaultConfig;
-
   }]);

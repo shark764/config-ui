@@ -1,9 +1,11 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('contactLayoutsTableConfig', ['statuses', '$translate', '$rootScope', 'UserPermissions', function(statuses, $translate, $rootScope, UserPermissions) {
+  .service('contactLayoutsTableConfig', ['statuses', '$translate', 'UserPermissions', 'CustomDomain', function(statuses, $translate, UserPermissions, CustomDomain) {
 
-    var defaultConfig = {
+    var CustomDomainSvc = new CustomDomain();
+
+    return {
       'fields': [{
         'header': {
           'display': $translate.instant('value.name')
@@ -31,13 +33,11 @@ angular.module('liveopsConfigPanel')
       'orderBy': '$original.active',
       'reverseSort': true,
       'title': $translate.instant('contactLayouts.table.title'),
+      'helpLink': CustomDomainSvc.getHelpURL('/Help/Content/Configuration/ContactLayouts.htm'),
       'sref': 'content.configuration.contactLayouts',
       'showCreate': function() {
         return UserPermissions.hasPermission('CONTACTS_LAYOUTS_CREATE');
       },
       'showBulkActions': false
     };
-
-	      return defaultConfig;
-
   }]);
