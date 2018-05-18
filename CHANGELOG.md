@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.41.1]
+* CXV1-13931 - Tables losing columns on refresh
+
 ## [4.41.0]
 * Add Logi Dashboards
 
