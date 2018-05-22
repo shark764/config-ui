@@ -76,7 +76,7 @@ lo-resource-table {
       > a,
       > div a {
         color: $dark-grey;
-        display: block;
+        display: flex;
       }
 
       > a,
@@ -84,6 +84,13 @@ lo-resource-table {
         &:hover {
           color: $dark-grey;
         }
+      }
+
+      > div a span {
+        white-space: nowrap;
+        overflow-x: hidden;
+        text-overflow: ellipsis;
+        max-width: 100%;
       }
     }
 
