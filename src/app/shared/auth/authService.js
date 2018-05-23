@@ -213,26 +213,18 @@ angular.module('liveopsConfigPanel')
       // after logging out
       this.setSsoMode = function(toState) {
         if (toState === 'login') {
-          // If "sso" is in the URL
-          if ($location.absUrl().indexOf('sso') !== -1) {
-            // ...if it's NOT recorded as "isSso" in the Session, then make it true
-            // ...Also, note that we're not doing an exact match ('===' etc) b/c
-            // the Session data is converted to a string when taken from localStorage
-            if (Session.isSso != 'true') { // jshint ignore:line
-              Session.setIsSso(true);
-              $location.search('sso', 'isSso');
-            } else {
-              // ...otherwise, set isSso in the Session to be true
-              Session.setIsSso(true);
-            }
-          // if there is NOT an "sso" in the URL...
+          // If "sso=true" is in the URL
+          if ($location.absUrl().indexOf('sso=true') !== -1) {
+            Session.setIsSso(true);
+          // if there is NOT "sso=true" in the URL...
           } else {
             // if for whatever reason (ie: a page refresh), we cannot rely on the url to
             // properly determine the isSso value, then we can refer to a value stored in
-            // local storage to force the isSso value
-            if (localStorage.getItem('IS_SSO_OVERRIDE') == 'true') { // jshint ignore:line
+            // local storage to force the isSso value,
+            // unless otherwise specified in the URL with "sso=false"
+            if (localStorage.getItem('IS_SSO_OVERRIDE') == 'true' && $location.absUrl().indexOf('sso=false') === -1) { // jshint ignore:line
               Session.setIsSso(true);
-              $location.search('sso', 'isSso');
+              $location.search('sso', 'true');
               // ...if the "isSso" value in the Session was set to true, set the session's
               // isSso value to null and remove the sso paramter from the url
             } else if (Session.isSso == 'true') { // jshint ignore:line

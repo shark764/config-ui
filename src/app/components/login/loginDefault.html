@@ -28,8 +28,9 @@
 
     </form>
     <div class="login-links">
-      <p ng-show="innerScope.loginStatus.$$state.status == 1 && !innerScope.loggingIn" class="forgot-pass"><a ui-sref="forgot-password">{{'details.password.forgot' | translate}}</a></p>
-      <p ng-show="innerScope.loginStatus.$$state.status == 1 && !innerScope.loggingIn" class="forgot-pass"><a target="_blank" href="https://www.serenova.com/privacy">Privacy Policy</a></p>
+      <p ng-show="innerScope.loginStatus.$$state.status == 1 && !innerScope.loggingIn" class="login-link"><a ui-sref="forgot-password">{{'details.password.forgot' | translate}}</a></p>
+      <p ng-show="innerScope.loginStatus.$$state.status == 1 && !innerScope.loggingIn" class="login-link"><a ui-sref="login({sso: true})">{{'login.signInWithSso' | translate}}</a></p>
+      <p ng-show="innerScope.loginStatus.$$state.status == 1 && !innerScope.loggingIn" class="login-link"><a target="_blank" href="https://www.serenova.com/privacy">{{'privacy' | translate}}</a></p>
     </div>
     <p ng-show="innerScope.loginStatus.$$state.status == 1 && !innerScope.loggingIn" class="copyright">{{'copyright' | translate:updateToCurrentYear}}</p>
     <p ng-show="innerScope.loginStatus.$$state.status == 1 && !innerScope.loggingIn" class="copyright">{{'signup.legal' | translate}}

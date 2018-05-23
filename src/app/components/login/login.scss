@@ -122,12 +122,21 @@ $form-height: 300px;
       margin: auto;
     }
   }
+
+  .login-links-sso {
+    text-align: center;
+
+    p {
+      display: inline-block;
+      width: 40%;
+    }
+  }
 }
 
 #login-wrapper.login-default,
 .login-sso,
 #reset-password-page {
-  .forgot-pass {
+  .login-link {
     margin-top: 20px;
     text-align: center;
 
