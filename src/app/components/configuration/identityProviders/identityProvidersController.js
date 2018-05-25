@@ -13,7 +13,6 @@ angular.module('liveopsConfigPanel')
       vm.idpConfigInfoTypes = identityProvidersSvc.idpConfigInfoTypes;
       vm.downloadConfig = identityProvidersSvc.downloadConfig;
       vm.newFileUploaded = false;
-      vm.disableActiveToggle = true;
 
       vm.identityProviders = IdentityProviders.cachedQuery({
         tenantId: Session.tenant.tenantId
@@ -244,7 +243,9 @@ angular.module('liveopsConfigPanel')
         $q.when(selectedItem).then(function (selectedItemResponse) {
           identityProvidersSvc.setConfigType(selectedItemResponse);
           vm.newFileUploaded = false;
-          prevItem.inEditMode = false;
+          if (prevItem) {
+            prevItem.inEditMode = false;
+          }
 
           // here is where we set the flag the disables the enabled/disabled toggle
           // in the event that this is the IDP we are currently logged in with
