@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.42.3]
+* CXV1-13570 Fix for initial IDP toggle disabled
+
 ## [4.42.2]
 * CXV1-11557 - Presence Reasons Name Cuts Words in Half and Starts on New Line
 
