@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+
+## [4.42.1]
+* CXV1-13836 - Fix login UI for SSO
+
 ## [4.42.0]
 * CXV1-13836 - Update login UI for SSO
 
