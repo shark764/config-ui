@@ -35,11 +35,6 @@ angular.module('liveopsConfigPanel')
         }
       }
 
-      $scope.innerScope.toggleView = function () {
-        $scope.innerScope.passwordView = !$scope.innerScope.passwordView;
-        $scope.innerScope.error = '';
-      };
-
       function provideIdpErrorMessage (errorMessage) {
         $scope.innerScope.error = errorMessage;
       }
@@ -47,15 +42,6 @@ angular.module('liveopsConfigPanel')
       AuthService.getErrorMessageFunction(provideIdpErrorMessage);
 
       $scope.innerScope.login = function(alternateToken) {
-        // prevent the form from submitting if the user
-        // is on the password view and hits the enter key
-        if (
-          $scope.isSso &&
-          !$scope.innerScope.passwordView &&
-          !alternateToken
-        ) {
-          return;
-        }
 
         var alternateTokenVal = alternateToken || null;
         $scope.innerScope.error = null;
