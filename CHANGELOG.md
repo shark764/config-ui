@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.42.5]
+* CXV1-13987 - Realtime Dashboards - Disabled Queues selectable in Queues Dashboard
+
 ## [4.42.4]
 * CXV1-14010 - Fix quotes on login page
 

@@ -1317,6 +1317,7 @@
   "realtimeDashboards.form.sourceSwitcher.unique": "The title of a souce switcher must be unique.",
   "realtimeDashboards.category.custom": "Custom Dashboards",
   "realtimeDashboards.category.standard": "Standard Dashboards",
+  "realtimeDashboards.switcher.widget.allQueues": "All Queues",
   "customStat.table.title": "Custom Statistics",
   "customStat.version.title": "Versions",
   "customStat.draft.title": "Drafts",
