@@ -897,7 +897,7 @@
   "invite.accept.autologin.success": "Your invitation has been accepted!",
   "invite.accept.autologin.fail": "Sorry, there was an error while logging you in. Please enter your email and new password to log in.",
   "invite.accept.expired": "Sorry, this invitation has expired. Please contact your account administrator.",
-  "copyright": "Copyright &copy; 2015-{{currentYear}} Serenova, LLC (\"Serenova\"). All rights reserved.",
+  "copyright": "Copyright &copy; 2015-{{currentYear}} Serenova, LLC (&ldquo;Serenova&rdquo;). All rights reserved.",
   "signup.legal": "By accessing the Service, you agree to the following terms: ",
   "signup.legalLinkLabel": "Link",
   "privacy": "Privacy",
