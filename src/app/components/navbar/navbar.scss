@@ -214,6 +214,20 @@ navbar {
 
 }
 
+#quality-management-nav-link {
+  cursor: pointer;
+  font-size: 130%;
+  vertical-align: top;
+  a {
+    padding: 16px 0 !important;
+    display: inline-block;
+    color: $light-grey;
+    &:hover {
+      color: white;
+    }
+  }
+}
+
 #privacy {
   position: absolute !important;
   right: 50px;

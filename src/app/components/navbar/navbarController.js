@@ -6,6 +6,7 @@ angular.module('liveopsConfigPanel')
       var vm = this;
       $scope.hovering = false;
       $scope.Session = Session;
+      $scope.showQualityManagemant = window.location.href.toLowerCase().indexOf('qualitymanagement=true') !== -1;
       $scope.hoverTracker = [];
       var MeSvc = new Me();
 

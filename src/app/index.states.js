@@ -743,6 +743,19 @@ angular.module('liveopsConfigPanel')
               return deferred.promise;
             }]
           }
+        })
+        .state('content.qualityManagement', {
+          url: '/qualityManagement',
+          title: 'Quality Management',
+          templateUrl: 'app/components/qualityManagement/qualityManagement.html',
+          controller: 'qualityManagementController as qm',
+          reloadOnSearch: false,
+          resolve: {
+            hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
+              // TODO CXV1-12852 Permissions / Feature Flag for TelStrat page
+              return true;
+            }]
+          }
         });
     }
   ]);

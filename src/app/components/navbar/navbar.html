@@ -31,6 +31,12 @@
         <dropdown items="reportingDropConfig" collapse-icon="fa fa-caret-down" label="{{'navbar.reports.title' | translate}}" order-by="order" hovering="hovering" show-on-hover="true" hover-tracker="hoverTracker"></dropdown>
       </li>
 
+      <li ng-show="showQualityManagemant" id="quality-management-nav-link" class="drop-label" ng-class="{ active: isActive('/qualityManagement')}">
+        <a ui-sref="content.qualityManagement">
+          {{'navbar.qualityManagement.title' | translate}}
+        </a>
+      </li>
+
       <li id='welcome'>
         <dropdown id="user-settings-dropdown" items="userDropdownItems" label="{{ 'navbar.welcome' | translate:Session.user }}" title="{{Session.user.displayName}}" expand-icon="fa fa-gear" collapse-icon="fa fa-gear">
         </dropdown>
