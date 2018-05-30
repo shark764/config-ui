@@ -1,10 +1,12 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('dispatchMappingTableConfig', ['statuses', 'dispatchMappingInteractionFields', 'dispatchMappingChannelTypes', '$translate', '$rootScope', 'UserPermissions',
-    function(statuses, dispatchMappingInteractionFields, dispatchMappingChannelTypes, $translate, $rootScope, UserPermissions) {
+  .service('dispatchMappingTableConfig', ['statuses', 'dispatchMappingInteractionFields', 'dispatchMappingChannelTypes', '$translate', 'UserPermissions', 'CustomDomain',
+    function(statuses, dispatchMappingInteractionFields, dispatchMappingChannelTypes, $translate, UserPermissions, CustomDomain) {
 
-      var defaultConfig = {
+      var CustomDomainSvc = new CustomDomain();
+
+      return {
         'fields': [{
           'header': {
             'display': $translate.instant('value.name')
@@ -64,21 +66,13 @@ angular.module('liveopsConfigPanel')
         'searchOn': ['$original.name'],
         'orderBy': '$original.name',
         'title': $translate.instant('dispatchmappings.table.title'),
+        'helpLink': CustomDomainSvc.getHelpURL('/Help/Content/Managing%20Flows/Dispatch_mapping.htm'),
         'sref': 'content.flows.dispatchMappings',
         'showCreate': function() {
           return UserPermissions.hasPermission('MAP_ALL_CONTACT_POINTS');
         },
         'showBulkActions': function() {
           return UserPermissions.hasPermission('MAP_ALL_CONTACT_POINTS');
-        },
-        'helpLink': $rootScope.helpURL + '/Help/Content/Managing%20Flows/Dispatch_mapping.htm'
-      };
-
-      $rootScope.$on( "updateHelpURL", function () {
-      	defaultConfig.helpLink = $rootScope.helpURL + '/Help/Content/Managing%20Flows/Dispatch_mapping.htm';
-      });
-
-      return defaultConfig;
-
-    }
-  ]);
+        }
+    };
+  }]);

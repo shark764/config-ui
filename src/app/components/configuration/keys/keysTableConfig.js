@@ -1,7 +1,10 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('keysTableConfig', ['statuses', '$translate', 'UserPermissions', function(statuses, $translate, UserPermissions) {
+  .service('keysTableConfig', ['statuses', '$translate', 'UserPermissions', 'CustomDomain', function(statuses, $translate, UserPermissions, CustomDomain) {
+
+    var CustomDomainSvc = new CustomDomain();
+
     return {
       'fields': [{
         'header': {
@@ -35,6 +38,7 @@ angular.module('liveopsConfigPanel')
       'searchOn': ['$original.name', '$original.description', 'roleName'],
       'orderBy': '$original.name',
       'title': $translate.instant('keys.table.title'),
+      'helpLink': CustomDomainSvc.getHelpURL('/Help/Content/Configuration/API%20Key%20Management/Creating_API_Keys.htm'),
       'sref': 'content.configuration.keys',
       'showCreate': function() {
         return UserPermissions.hasPermission('MANAGE_ALL_APP_CREDENTIALS');

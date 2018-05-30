@@ -1,9 +1,11 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('tenantTableConfig', ['$rootScope', 'statuses', '$translate', 'Tenant', 'UserPermissions',
-    function($rootScope, statuses, $translate, Tenant, UserPermissions) {
-      return function(getTenants) {
+  .service('tenantTableConfig', ['statuses', '$translate', 'Tenant', 'UserPermissions', 'CustomDomain', function(statuses, $translate, Tenant, UserPermissions, CustomDomain) {
+
+    var CustomDomainSvc = new CustomDomain();
+
+    return function(getTenants) {
         return {
           'fields': [{
             'header': {
@@ -51,14 +53,14 @@ angular.module('liveopsConfigPanel')
           'searchOn': ['$original.name'],
           'orderBy': '$original.name',
           'title': $translate.instant('tenant.table.title'),
+          'helpLink': CustomDomainSvc.getHelpURL('/Help/Content/Configuration/Creating_Tenants.htm'),
           'sref': 'content.configuration.tenants',
           'showBulkActions': function() {
             return UserPermissions.hasPermissionInList(['PLATFORM_MANAGE_ALL_TENANTS']);
           },
           'showCreate': function() {
             return UserPermissions.hasPermissionInList(['CREATE_CHILD_TENANT']);
-          },
-          'helpLink': $rootScope.helpURL + '/Help/Content/Configuration/Creating_Tenants.htm'
+          }
         };
       };
     }

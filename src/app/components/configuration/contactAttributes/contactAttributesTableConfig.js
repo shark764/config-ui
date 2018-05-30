@@ -1,9 +1,11 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('contactAttributesTableConfig', ['statuses', 'ynStatuses', '$translate', 'UserPermissions', function(statuses, ynStatuses, $translate, UserPermissions) {
+  .service('contactAttributesTableConfig', ['statuses', 'ynStatuses', '$translate', 'UserPermissions', 'CustomDomain', function(statuses, ynStatuses, $translate, UserPermissions, CustomDomain) {
 
-    var defaultConfig = {
+    var CustomDomainSvc = new CustomDomain();
+
+    return {
       'fields': [{
         'header': {
           'display': $translate.instant('value.attribute')
@@ -50,6 +52,7 @@ angular.module('liveopsConfigPanel')
       'searchOn': ['$original.objectName'],
       'orderBy': '$original.objectName',
       'title': $translate.instant('contactAttributes.table.title'),
+      'helpLink': CustomDomainSvc.getHelpURL('/Help/Content/Configuration/ContactAttributes.htm'),
       'sref': 'content.configuration.contactAttributes',
       'showCreate': function() {
         return UserPermissions.hasPermission('CONTACTS_ATTRIBUTES_CREATE');
@@ -58,6 +61,4 @@ angular.module('liveopsConfigPanel')
         return UserPermissions.hasPermission('CONTACTS_ATTRIBUTES_UPDATE');
       }
     };
-
-    return defaultConfig;
   }]);

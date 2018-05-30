@@ -1,7 +1,10 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('transferListsTableConfig', ['$translate', 'UserPermissions', 'statuses', function($translate, UserPermissions, statuses) {
+  .service('transferListsTableConfig', ['$translate', 'UserPermissions', 'statuses', 'CustomDomain', function($translate, UserPermissions, statuses, CustomDomain) {
+
+    var CustomDomainSvc = new CustomDomain();
+
     return {
       'fields': [{
         'header': {
@@ -30,7 +33,8 @@ angular.module('liveopsConfigPanel')
       'searchOn': ['$original.name'],
       'orderBy': '$original.name',
       'title' : $translate.instant('transferLists.table.title'),
-      'sref' : 'content.configuration.transferLists',
+      'helpLink': CustomDomainSvc.getHelpURL('/Help/Content/Configuration/Transfer_Lists/Creating_Transfer_Lists.htm'),
+      'sref': 'content.configuration.transferLists',
       'showCreate': function () {
         return UserPermissions.hasPermission('MANAGE_ALL_TRANSFER_LISTS');
       },

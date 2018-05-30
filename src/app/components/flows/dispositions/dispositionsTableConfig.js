@@ -1,7 +1,10 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('dispositionsTableConfig', ['$translate', 'UserPermissions', 'statuses', function($translate, UserPermissions, statuses) {
+  .service('dispositionsTableConfig', ['$translate', 'UserPermissions', 'statuses', 'CustomDomain', function($translate, UserPermissions, statuses, CustomDomain) {
+
+    var CustomDomainSvc = new CustomDomain();
+
     return {
       'fields': [{
         'header': {
@@ -56,7 +59,8 @@ angular.module('liveopsConfigPanel')
       'searchOn': ['$original.name'],
       'orderBy': '$original.name',
       'title' : $translate.instant('dispositions.table.title'),
-      'sref' : 'content.flows.dispositions',
+      'helpLink': CustomDomainSvc.getHelpURL('/Help/Content/Managing%20Flows/Dispositions/Creating_Dispositions.htm'),
+      'sref': 'content.flows.dispositions',
       'showCreate': function () {
         return UserPermissions.hasPermission('CREATE_DISPOSITIONS');
       },

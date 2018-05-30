@@ -1,8 +1,11 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('hoursTableConfig', ['statuses', '$translate', 'UserPermissions', '$rootScope', function(statuses, $translate, UserPermissions, $rootScope) {
-    var defaultConfig = {
+  .service('hoursTableConfig', ['statuses', '$translate', 'UserPermissions', 'CustomDomain', function(statuses, $translate, UserPermissions, CustomDomain) {
+
+    var CustomDomainSvc = new CustomDomain();
+
+    return {
       'fields': [{
         'header': {
           'display': $translate.instant('value.name')
@@ -34,20 +37,13 @@ angular.module('liveopsConfigPanel')
       'searchOn': ['$original.name'],
       'orderBy': '$original.name',
       'title' : $translate.instant('hours.table.title'),
+      'helpLink' : CustomDomainSvc.getHelpURL('/Help/Content/Configuration/Business%20Hours/Business_Hours.htm'),
       'sref' : 'content.configuration.hours',
       'showCreate': function () {
         return UserPermissions.hasPermission('MANAGE_ALL_BUSINESS_HOURS');
       },
       'showBulkActions': function () {
         return UserPermissions.hasPermission('MANAGE_ALL_BUSINESS_HOURS');
-      },
-      'helpLink' : $rootScope.helpURL + '/Help/Content/Configuration/Business%20Hours/Business_Hours.htm'
+      }
     };
-
-    $rootScope.$on( "updateHelpURL", function () {
-    	defaultConfig.helpLink = $rootScope.helpURL + '/Help/Content/Configuration/Business%20Hours/Business_Hours.htm';
-    });
-
-    return defaultConfig;
-
   }]);

@@ -1,8 +1,11 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('integrationTableConfig', ['statuses', '$translate', 'UserPermissions', '$rootScope', function(statuses, $translate, UserPermissions, $rootScope) {
-    var defaultConfig = {
+  .service('integrationTableConfig', ['statuses', '$translate', 'UserPermissions', 'CustomDomain', function(statuses, $translate, UserPermissions, CustomDomain) {
+
+    var CustomDomainSvc = new CustomDomain();
+
+    return {
       'fields': [{
         'header': {
           'display': $translate.instant('value.type')
@@ -35,18 +38,13 @@ angular.module('liveopsConfigPanel')
       'searchOn': ['$original.type'],
       'orderBy': '$original.type',
       'title': $translate.instant('integration.table.title'),
+      'helpLink': CustomDomainSvc.getHelpURL('/Help/Content/Configuration/Integrations/Creating_Integrations.htm'),
       'sref': 'content.configuration.integrations',
       'showCreate': function() {
         return UserPermissions.hasPermission('MANAGE_ALL_PROVIDERS');
       },
       'showBulkActions': function() {
         return UserPermissions.hasPermission('MANAGE_ALL_PROVIDERS');
-      },
-      'helpLink': $rootScope.helpURL + '/Help/Content/Configuration/Integrations/Creating_Integrations.htm'
+      }
     };
-    $rootScope.$on( "updateHelpURL", function () {
-    	defaultConfig.helpLink = $rootScope.helpURL + '/Help/Content/Configuration/Integrations/Creating_Integrations.htm';
-    });
-
-	   return defaultConfig;
   }]);

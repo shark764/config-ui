@@ -1,9 +1,11 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('skillTableConfig', ['statuses', '$translate', 'UserPermissions', 'ynStatuses', '$rootScope',
-    function(statuses, $translate, UserPermissions, ynStatuses, $rootScope) {
-      var config = {
+  .service('skillTableConfig', ['statuses', '$translate', 'UserPermissions', 'ynStatuses', 'CustomDomain', function(statuses, $translate, UserPermissions, ynStatuses, CustomDomain) {
+
+      var CustomDomainSvc = new CustomDomain();
+
+      return {
         'fields': [{
           'header': {
             'display': $translate.instant('value.name')
@@ -46,21 +48,14 @@ angular.module('liveopsConfigPanel')
         }],
         'searchOn': ['$original.name', '$original.description'],
         'orderBy': '$original.name',
-        'sref': 'content.management.skills',
         'title': $translate.instant('skill.table.title'),
-        'helpLink': $rootScope.helpURL + '/Help/Content/Managing%20Users/Creating_Skills.htm',
+        'helpLink': CustomDomainSvc.getHelpURL('/Help/Content/Managing%20Users/Creating_Skills.htm'),
+        'sref': 'content.management.skills',
         'showBulkActions': function() {
           return UserPermissions.hasPermission('MANAGE_ALL_SKILLS');
         },
         'showCreate': function() {
           return UserPermissions.hasPermission('MANAGE_ALL_SKILLS');
-        },
-      };
-
-      $rootScope.$on( "updateHelpURL", function () {
-      	config.helpLink = $rootScope.helpURL + '/Help/Content/Managing%20Users/Creating_Skills.htm';
-      });
-
-      return config;
-    }
-  ]);
+        }
+    };
+  }]);

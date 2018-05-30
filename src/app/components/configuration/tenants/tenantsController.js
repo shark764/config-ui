@@ -391,10 +391,6 @@ angular.module('liveopsConfigPanel')
         return $scope.tenants;
       });
 
-      $rootScope.$on('updateHelpURL',function(){
-        $scope.tableConfig.helpLink = $rootScope.helpURL + '/Help/Content/Configuration/Creating_Tenants.htm';
-      });
-
       $scope.resetDefaultBranding = function() {
         Modal.showConfirm(
           {
@@ -452,10 +448,6 @@ angular.module('liveopsConfigPanel')
         }, false);
         reader.readAsDataURL($scope.brandingForm[element.name + 'Selected']);
       };
-
-      $rootScope.$on('updateHelpURL',function(){
-        $scope.tableConfig.helpLink = $rootScope.helpURL + '/Help/Content/Configuration/Creating_Tenants.htm';
-      });
 
       vm.loadTenants();
       vm.loadTimezones();

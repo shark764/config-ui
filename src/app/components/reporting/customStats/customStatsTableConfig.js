@@ -1,9 +1,11 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('customStatsManagementTableConfig', ['$translate', '$rootScope', 'UserPermissions',
-    function($translate, $rootScope, UserPermissions) {
-      var defaultConfig = {
+  .service('customStatsManagementTableConfig', ['$translate', 'UserPermissions', 'CustomDomain', function($translate, UserPermissions, CustomDomain) {
+
+    var CustomDomainSvc = new CustomDomain();
+
+    return {
         'fields': [{
           'header': {
             'display': $translate.instant('value.name')
@@ -24,20 +26,12 @@ angular.module('liveopsConfigPanel')
         }],
         'searchOn': ['$original.name'],
         'orderBy': '$original.name',
-        'helpLink': $rootScope.helpURL + '/Help/Content/Reporting/Realtime/Realtime_Report_Types.htm',
         'title': $translate.instant('customStat.table.title'),
+        'helpLink': CustomDomainSvc.getHelpURL('/Help/Content/Reporting/Realtime/Realtime_Report_Types.htm'),
         'sref': 'content.reporting.custom-stats',
         'showBulkActions': false,
         'showCreate': function() {
           return UserPermissions.hasPermission('CUSTOM_STATS_CREATE');
         }
-      };
-
-      $rootScope.$on( "updateHelpURL", function () {
-      	defaultConfig.helpLink = $rootScope.helpURL + '/Help/Content/Reporting/Realtime/Realtime_Report_Types.htm';
-      });
-
-      return defaultConfig;
-
-    }
-  ]);
+    };
+  }]);

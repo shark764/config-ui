@@ -1,10 +1,11 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('flowTableConfig', ['$translate', 'statuses', 'UserPermissions', '$rootScope',
-    function($translate, statuses, UserPermissions, $rootScope) {
+  .service('flowTableConfig', ['$translate', 'statuses', 'UserPermissions', 'CustomDomain', function($translate, statuses, UserPermissions, CustomDomain) {
 
-      var defaultConfig = {
+      var CustomDomainSvc = new CustomDomain();
+
+      return {
         'fields': [{
           'header': {
             'display': $translate.instant('value.name')
@@ -39,21 +40,13 @@ angular.module('liveopsConfigPanel')
         'searchOn': ['$original.name'],
         'orderBy': '$original.name',
         'title': $translate.instant('flow.table.title'),
+        'helpLink': CustomDomainSvc.getHelpURL('/Help/Content/Managing%20Flows/Flow_overview.htm'),
         'sref': 'content.flows.flowManagement',
         'showBulkActions': function() {
           return UserPermissions.hasPermission('MANAGE_ALL_FLOWS');
         },
         'showCreate': function() {
           return UserPermissions.hasPermission('MANAGE_ALL_FLOWS');
-        },
-        'helpLink': $rootScope.helpURL + '/Help/Content/Managing%20Flows/Flow_overview.htm'
-      };
-
-      $rootScope.$on( "updateHelpURL", function () {
-      	defaultConfig.helpLink = $rootScope.helpURL + '/Help/Content/Managing%20Flows/Flow_overview.htm';
-      });
-
-      return defaultConfig;
-
-    }
-  ]);
+        }
+    };
+  }]);
