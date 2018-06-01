@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.43.3]
+* CXV1-12854 - Update quality management to use new link
+
 ## [4.43.2]
 * CXV1-13836 - Fix login with sso links
 
