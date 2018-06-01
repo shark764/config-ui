@@ -86,7 +86,7 @@ angular.module('liveopsConfigPanel', [
 
     var locationSearch = {};
 
-    $rootScope.$on('$stateChangeStart', function(e, toState) {
+    $rootScope.$on('$stateChangeStart', function(e, toState, stateParams) {
       // save non sso deep link location.search so we can add it back after transition is done
       locationSearch = $location.search();
       if (toState.name !== 'login') {
@@ -99,6 +99,9 @@ angular.module('liveopsConfigPanel', [
         if (locationSearch.idp !== undefined) {
           delete locationSearch.idp;
         }
+      }
+      if (stateParams && stateParams.sso !== undefined) {
+        locationSearch.sso = stateParams.sso;
       }
 
       $timeout.cancel(debugTimeout);
