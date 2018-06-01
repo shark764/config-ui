@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.43.2]
+* CXV1-13836 - Fix login with sso links
+
 ## [4.43.1]
 * CXV1-13125 - Pages are Missing Links to Associated Docs
 
