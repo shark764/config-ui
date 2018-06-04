@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.43.5]
+* CXV1-12854 - Update to quality management URL
+
 ## [4.43.4]
 * CXV1-13931 - Remove broken column preferences / default all columns to checked
 

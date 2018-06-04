@@ -79,9 +79,3 @@ Run all suites on saucelabs (uses config at /protractor.conf.js)
 ```shell
 $ ./e2e_sauce.sh <SAUCE_USERNAME> <SAUCE_ACCESS_KEY> <SAUCE_TUNNEL>
 ```
-
-## Team ##
-* Josh Stevens (jstevens@liveops.com)
-* Samuel Stiles (sstiles@liveops.com)
-* Matthew Jones (mjones@liveops.com)
-* Nick Fitzpatrick (nfitzpatrick@liveops.com)
