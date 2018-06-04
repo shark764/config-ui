@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.43.7]
+* CXV1-14251 - Missing "Interaction Monitoring" Link to Associated Doc.
+
 ## [4.43.6]
 * CXV1-13983/CXV1-13984 - Version bump for RTD. Group/Skills filters bug fixes
 
