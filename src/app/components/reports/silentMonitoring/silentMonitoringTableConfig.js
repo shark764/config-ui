@@ -1,8 +1,11 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('silentMonitoringTableConfig', ['$translate',
-    function ($translate) {
+  .service('silentMonitoringTableConfig', ['$translate', 'CustomDomain',
+    function ($translate, CustomDomain) {
+
+      var CustomDomainSvc = new CustomDomain();
+
       return {
         fields: [{
           header: {
@@ -74,6 +77,7 @@ angular.module('liveopsConfigPanel')
           name: 'action'
         }],
         title: $translate.instant('silentMonitoring.table.title'),
+        helpLink: CustomDomainSvc.getHelpURL('/Help/Content/Monitoring/Silent%20Monitoring/Silent-monitoring.htm'),
         orderBy: 'activeParticipants',
         reverseSort: 'true',
         showBulkActions: false,
