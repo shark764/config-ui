@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.43.8]
+* CXV1-14059 - Fix for Side Panel not being resizable in IE11 when the name is too large
+
 ## [4.43.7]
 * CXV1-14251 - Missing "Interaction Monitoring" Link to Associated Doc.
 
