@@ -1,7 +1,10 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('identityProvidersTableConfig', ['statuses', '$translate', 'UserPermissions', 'PermissionGroups', function(statuses, $translate, UserPermissions, PermissionGroups) {
+  .service('identityProvidersTableConfig', ['statuses', '$translate', 'UserPermissions', 'PermissionGroups', 'CustomDomain', function(statuses, $translate, UserPermissions, PermissionGroups, CustomDomain) {
+
+    var CustomDomainSvc = new CustomDomain();
+
     return {
       'fields': [{
         'header': {
@@ -30,6 +33,7 @@ angular.module('liveopsConfigPanel')
       'searchOn': ['$original.name'],
       'orderBy': '$original.name',
       'title' : $translate.instant('identityProviders.table.title'),
+      'helpLink' : CustomDomainSvc.getHelpURL('/Help/Content/Configuration/SSO/IdentityProviders.htm'),
       'sref' : 'content.configuration.identityProviders',
       'showCreate': function () {
         return UserPermissions.hasPermissionInList(PermissionGroups.manageIdentityProviders);
