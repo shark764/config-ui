@@ -182,12 +182,12 @@ angular.module('liveopsConfigPanel')
         self.setResumeSession(false);
         localStorage.setItem('IS_SSO_OVERRIDE', Session.isSso);
         $state.go('login', {
-          sso: savedSsoMode ? 'isSso' : null
+          sso: savedSsoMode ? 'true' : null
         });
         if (cxEngageEnabled) {
           CxEngage.session.setToken(); // Sets their token to null
         }
-        $stateParams.sso = savedSsoMode ? 'isSso' : null;
+        $stateParams.sso = savedSsoMode ? 'true' : null;
       };
 
       this.fetchUserInfo = function (token) {
