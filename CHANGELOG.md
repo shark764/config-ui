@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.43.10]
+* Update SDK Listener to ignore foreign events
+
 ## [4.43.9]
 * CXV1-13838 - SDK version bump for shared parameter needed for lists
 

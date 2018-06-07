@@ -7,6 +7,9 @@ angular.module('liveopsConfigPanel')
         restrict: 'E',
         link: function () {
           var sdkListener = function(event) {
+            if(event.origin !== 'http://localhost:3000' || event.origin.includes('cxengage') || event.origin.includes('identity') ) {
+              return;
+            };
             if (CxEngage.session.getActiveTenantId()) {
               if (event.data.module === 'subscribe') {
                 window.cxSubscriptions[event.data.command] = CxEngage.subscribe(event.data.command, function(error, topic, response) {
