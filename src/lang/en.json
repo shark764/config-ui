@@ -788,6 +788,7 @@
   "dispatchmappings.table.title": "Dispatch Mapping Management",
   "dispatchMappings.inbound": "Inbound",
   "dispatchMappings.outbound": "Outbound",
+  "dispatchMappings.agentInitiated": "Agent Initiated",
   "dispatchMappings.mappingValueVoice.pattern.error": "Warning: Not a valid E. 164 formatted phone number or SIP address",
   "dispatchMappings.mappingValueVoice.pattern.error.confirm": "This is not a valid E. 164 formatted phone number or SIP address. Do you want to continue?",
   "dispatchMappings.mappingValueSms.pattern.error": "Warning: Not a valid E. 164 formatted phone number",

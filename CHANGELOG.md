@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.43.13]
+* CXV1-14191 - added value selector for agentInitiated
+
 ## [4.43.12]
 * CXV1-14212 - Missing "Identity Providers" Link to Associated Doc.
 
