@@ -109,7 +109,7 @@ angular.module('liveopsConfigPanel')
                       } else {
                         AuthService.setResumeSession(true);
                         $state.go('login', {
-                          sso: targetTenant.password === false ? 'isSso' : null
+                          sso: targetTenant.password === false ? 'true' : null
                         });
                         $state.params.tenantId = targetTenant.tenantId;
                       }

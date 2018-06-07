@@ -33,7 +33,7 @@ angular.module('liveopsConfigPanel')
               AuthService.setResumeSession(true);
               $state.go('login', {
                 messageKey: 'user.details.login.token.expired',
-                sso: Session.isSso ? 'isSso' : null
+                sso: Session.isSso ? 'true' : null
               })
               .then(function () {
                 // ...and now get rid of any modal windows as well as
