@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.43.14]
+* CXV1-14270 - Version bump for RTD. Group and Skills Source Switchers.
+
 ## [4.43.13]
 * CXV1-14191 - added value selector for agentInitiated
 
