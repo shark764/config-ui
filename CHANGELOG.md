@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.43.18]
+* CXV1-14219 - Identity Providers - Name label updates in Real time.
+
 ## [4.43.17]
 * CXV1-14015 - Fixed bug that prevented users to login if they visited Forgot Password page previous to a login attempt.
 

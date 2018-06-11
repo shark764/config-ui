@@ -8,7 +8,7 @@
 
   <div class="info">
     <h1 id="idp-details-type-header">
-      {{idp.selectedIdentityProvider.name}}
+      {{idp.selectedIdentityProvider.$original.getDisplay()}}
     </h1>
     <div class="details">
       <div ng-if="manageIdentityProviders | hasPermission">
