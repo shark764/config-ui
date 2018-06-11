@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.43.15]
+* CXV1-14218 - Identity Providers - Name field error not formatted correctly.
+
 ## [4.43.14]
 * CXV1-14270 - Version bump for RTD. Group and Skills Source Switchers.
 
