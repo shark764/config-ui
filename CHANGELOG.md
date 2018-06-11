@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.43.20]
+* CXV1-14015 - Updated function to fix Forgot Password redirection when coming from SSO to a new Tenant that requires authentication.
+
 ## [4.43.19]
 * CXV1-14218 - Identity Providers - Name field error not formatted correctly.
 
