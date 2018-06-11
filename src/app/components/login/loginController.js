@@ -63,8 +63,7 @@ angular.module('liveopsConfigPanel')
               // after a token expires
               AuthService.getResumeSession() &&
               _.has(Session, 'lastPageVisited.stateName') &&
-              Session.lastPageVisited.stateName !== '' &&
-              Session.lastPageVisited.stateName !== 'login'
+              _.findIndex(['', 'login', 'forgot-password'], Session.lastPageVisited.stateName) === -1
             ) {
               $state.go(
                 Session.lastPageVisited.stateName,
