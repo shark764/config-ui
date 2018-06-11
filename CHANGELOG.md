@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.43.16]
+* Update RTD to 5.2.7
+* Fix SDK Listener ignoring post messages
+
 ## [4.43.15]
 * CXV1-14218 - Identity Providers - Name field error not formatted correctly.
 
