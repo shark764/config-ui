@@ -45,7 +45,7 @@
   "value.enum": "Enumerated List",
   "value.email": "Email",
   "value.username": "Username",
-  "value.error.name.required": "Field &ldquo;Name&rdquo; is required.",
+  "value.error.name.required": "Name is required.",
   "value.iframe": "iFrame",
   "value.indicatesRequiredField": "* Indicates required field",
   "value.integer": "Integer",
