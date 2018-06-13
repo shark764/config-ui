@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.44.6]
+* CXV1-13509 - Add Calabrio to integrations page of Config-UI
+
 ## [4.44.5]
 * CXV1-14381 - Fixed issue caused by deep link query params not being all lower case
 
