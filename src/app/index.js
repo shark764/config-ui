@@ -127,10 +127,11 @@ angular.module('liveopsConfigPanel', [
           localStorage.setItem('TOKEN-EXPIRATION-DEBUG', urlParams.tokendebug);
         }
 
+        var urlParams = $location.search();
         // if it's an SSO login, look for specific keys in URL params
         // and if those keys exist, immediately log in via IDP
-        if ($location.absUrl().indexOf('username') !== -1) {
-          AuthService.idpLogin(AuthService.generateAuthParams('username'));
+        if (urlParams.username || urlParams.tenantId || urlParams.tenantid) {
+          AuthService.idpLogin(AuthService.generateAuthParams(urlParams));
         }
       } else if (localStorage.getItem('TOKEN-EXPIRATION-DEBUG')) {
         debugTimeout = $timeout(function() {
