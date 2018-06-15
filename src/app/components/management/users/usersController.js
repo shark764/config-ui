@@ -8,6 +8,7 @@ angular.module('liveopsConfigPanel')
       var IdpSvc = new IdentityProviders();
       var TenantUserSvc = new TenantUser ();
       var newSkills = [];
+      var idpList = [];
 
       $scope.loadingIdps = true;
       $scope.loadingIdpList = true;
@@ -25,16 +26,22 @@ angular.module('liveopsConfigPanel')
         IdpSvc.getActiveFilteredIdps(),
         $scope.tenantData
       ]).then(function (response) {
+        var tenantDefaultNameIdx;
         var tenantDefaultName = '';
-        var idpList = response[0];
+        idpList = response[0];
 
         if (idpList.length) {
           // ...let's grab the user-facing name of the TENANT's
           // default IDP to display on the first option in the dropdown
           if (response[1].defaultIdentityProvider) {
-            tenantDefaultName = ': ' + _.find(idpList, {
+            tenantDefaultNameIdx = _.findIndex(idpList, {
               id: response[1].defaultIdentityProvider
-            }).name;
+            });
+
+            // Make sure that the tenant's default IDP is available to this user
+            if (tenantDefaultNameIdx !== -1) {
+              tenantDefaultName = ': ' + idpList[tenantDefaultNameIdx].name;
+            }
           }
 
           // if we haven't done so already, insert the "Use Tenant Option"
@@ -45,6 +52,7 @@ angular.module('liveopsConfigPanel')
               name: $translate.instant('user.details.tenantDefault') + tenantDefaultName
             });
           }
+
           $scope.loadingIdpList = false;
 
         } else {
@@ -258,6 +266,7 @@ angular.module('liveopsConfigPanel')
           !tenantUserData.defaultIdentityProvider ||
           _.findIndex($scope.identityProviders, {id: tenantUserData.defaultIdentityProvider}) === -1
         ) {
+
           tenantUserData.defaultIdentityProvider = $scope.identityProviders[0].id;
         }
 

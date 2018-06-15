@@ -285,24 +285,33 @@ angular.module('liveopsConfigPanel')
 
         $scope.cxEngageAuthOptions = cxEngageAuthOptions();
 
-        // get all of the IDP's and string the data down
+        // get all of the IDP's and trim the data down
         // to the id and name properties only
-        identityProviders = IdentityProviders.cachedQuery({
-          tenantId: tenantData.id
-        }, 'IdentityProviders', true);
+        if (tenantData.id) {
+          identityProviders = IdentityProviders.cachedQuery({
+            tenantId: tenantData.id
+          }, 'IdentityProviders', true).$promise;
+        } else {
+          // placeholder promise for new Tenants
+          identityProviders = $q.defer().$promise;
+        }
 
-        identityProviders.$promise.then(function (identityProvidersResponse) {
-          idpList = _.map(_.filter(identityProvidersResponse, function (idp) {
-            return idp.active;
-          }), function (filteredIdp) {
-            return _.pick(filteredIdp, ['id', 'name']);
-          });
+        $q.when(identityProviders).then(function (identityProvidersResponse) {
+          if (angular.isArray(identityProvidersResponse)) {
+            idpList = _.map(_.filter(identityProvidersResponse, function (idp) {
+              return idp.active;
+            }), function (filteredIdp) {
+              return _.pick(filteredIdp, ['id', 'name']);
+            });
+          } else {
+            idpList = [];
+          }
 
           if (idpList.length) {
             tenantData.identityProviders = idpList;
 
             if (!tenantData.defaultIdentityProvider) {
-              $scope.selectedTenant.cxengageIdentityProvider = $scope.cxEngageAuthOption[0];
+              tenantData.cxengageIdentityProvider = $scope.cxEngageAuthOptions[0];
               tenantData.defaultIdentityProvider = idpList[0].id;
             }
 
@@ -338,7 +347,6 @@ angular.module('liveopsConfigPanel')
             $scope.forms.detailsForm.$setPristine();
             $scope.forms.detailsForm.$setUntouched();
           }
-
 
           _.merge($scope.selectedTenant, tenantData);
           $scope.idpsLoaded = true;
