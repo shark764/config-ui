@@ -325,7 +325,7 @@ angular.module('liveopsConfigPanel')
           $scope.selectedTenantUser.$user.isNew()
         ) {
           return 'invite:new:user';
-        } else if ($scope.selectedTenantUser.isNew()) {
+        } else if (angular.isFunction($scope.selectedTenantUser.isNew) && $scope.selectedTenantUser.isNew()) {
           return 'invite:existing:user';
         } else {
           return 'update';
@@ -502,7 +502,7 @@ angular.module('liveopsConfigPanel')
       function handleTenantUserSelect (tenantUserData) {
         $scope.selectedTenantUser = tenantUserData;
         $scope.loadingIdps = true;
-        if (angular.isObject(tenantUserData)) {
+        if (angular.isObject(tenantUserData) && !angular.isArray(tenantUserData)) {
           // unfortunately we need to call an individual tenantUser b/c
           // the list of tenantUsers doesn't contain all the data we need
           var tenantUserObj = TenantUser.cachedGet({

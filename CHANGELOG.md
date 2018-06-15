@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.44.2]
+* Cleaned up JS errors around the isNew function
+* Fixed an error showing around identityProviders
+
 ## [4.44.1]
 * Revert 732f236786ce558a8acc921dfdce726c4954c3c1 as agent-initiated should not
   be customer facing yet
