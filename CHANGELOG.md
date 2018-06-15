@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.44.0]
+* CXV1-10838 - Update user invitation creation/tenant invitation process for SSO
+
 ## [4.43.20]
 * CXV1-14015 - Updated function to fix Forgot Password redirection when coming from SSO to a new Tenant that requires authentication.
 

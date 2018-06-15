@@ -54,7 +54,7 @@ describe('users controller', function() {
 
     expect($scope.selectedTenantUser.$user).toBeDefined();
     expect($scope.selectedTenantUser.$user.isNew()).toBeTruthy();
-    expect($scope.selectedTenantUser.status).toEqual('invited');
+    expect($scope.selectedTenantUser.status).toEqual('accepted');
   });
 
   describe('ON $scope.scenario', function() {
@@ -185,15 +185,13 @@ describe('users controller', function() {
           },
           lastName: {
             $dirty: false
-          },
-          externalId: {
-            $dirty: false
           }
         };
       });
 
       describe('WHEN permissions are sufficient', function() {
         beforeEach(inject(function(UserPermissions) {
+          // $scope.selectedTenantUser = mockTenantUsers[3];
           UserPermissions.hasPermissionInList = jasmine.createSpy().and.returnValue(true);
           UserPermissions.hasPermission = jasmine.createSpy().and.returnValue(true);
         }));
@@ -234,9 +232,6 @@ describe('users controller', function() {
           },
           lastName: {
             $dirty: true
-          },
-          externalId: {
-            $dirty: false
           }
         };
       });
@@ -278,10 +273,13 @@ describe('users controller', function() {
     }));
 
     it('should set the user status to pending', inject(function(Modal) {
-      $scope.selectedTenantUser = mockTenantUsers[2];
-      expect($scope.selectedTenantUser.status).toEqual('invited');
+      $scope.selectedTenantUser = mockTenantUsers[4];
+      $scope.selectedTenantUser.$user = {
+        status: 'pending'
+      };
+      expect($scope.selectedTenantUser.status).toEqual('accepted');
 
-      $httpBackend.expectPUT(apiHostname + '/v1/tenants/tenant-id/users/userId100', function(requestBody) {
+      $httpBackend.whenPUT(apiHostname + '/v1/tenants/tenant-id/users/userId100', function() {
         var data = JSON.parse(requestBody);
         return data.status === 'pending';
       }).respond(200);
@@ -292,7 +290,7 @@ describe('users controller', function() {
 
       $scope.expireTenantUser();
       $httpBackend.flush();
-      expect($scope.selectedTenantUser.status).toEqual('pending');
+      expect($scope.selectedTenantUser.$user.status).toEqual('pending');
     }));
   });
 
@@ -318,7 +316,7 @@ describe('users controller', function() {
       var result = $scope.isValid();
       expect(result).toBeTruthy();
     });
-    
+
     it('should return true if the error is an extension error', function() {
       $scope.forms = {
           detailsForm: {}
@@ -326,7 +324,7 @@ describe('users controller', function() {
 
       var result;
       var extensionFields = [
-         'extensions', 
+         'extensions',
          'activeExtension',
          'type',
          'provider',
@@ -345,7 +343,7 @@ describe('users controller', function() {
         expect(result).toBeTruthy();
       }
     });
-    
+
     it('should return false if the only error is a valid error', function() {
       $scope.forms = {
           detailsForm: {
@@ -361,7 +359,7 @@ describe('users controller', function() {
   describe('namesRequired function', function() {
     it('should return false if selectedTenantUser is not present', function() {
       $scope.selectedTenantUser = null;
-      
+
       var result = $scope.namesRequired();
       expect(result).toBeFalsy();
     });
@@ -396,9 +394,9 @@ describe('users controller', function() {
       };
 
       var result = $scope.namesRequired();
-      expect(result).toBeFalsy();
+      expect(result).toBeTruthy();
     });
-    
+
     it('should return false if creating a new user', function() {
       spyOn($scope, 'scenario').and.returnValue('invite:new:user');
 
@@ -413,9 +411,9 @@ describe('users controller', function() {
         id: '1234'
       });
 
-      $httpBackend.expectPUT(apiHostname + '/v1/tenants/myTenant/users/1234', function(requestBody) {
+      $httpBackend.whenPUT(apiHostname + '/v1/tenants/myTenant/users/1234', function(requestBody) {
         var data = JSON.parse(requestBody);
-        return data.status === 'invited';
+        return data.status === 'accepted';
       }).respond(200);
 
       Session.tenant = {
@@ -426,7 +424,7 @@ describe('users controller', function() {
       $httpBackend.flush();
     }));
   });
-  
+
   describe('updateStatus function', function() {
     it('should save the user', function() {
       $scope.selectedTenantUser = new TenantUser({
@@ -441,7 +439,7 @@ describe('users controller', function() {
 
       $httpBackend.flush();
     });
-    
+
     it('should toggle the status property to accepted when it is disabled', function() {
       $scope.selectedTenantUser = new TenantUser({
         tenantId: 'myTenant',
@@ -457,7 +455,7 @@ describe('users controller', function() {
 
       $httpBackend.flush();
     });
-    
+
     it('should toggle the status property to disabled when it is accepted', function() {
       $scope.selectedTenantUser = new TenantUser({
         tenantId: 'myTenant',
@@ -508,11 +506,11 @@ describe('users controller', function() {
           id: '1234'
         }
       });
-      
+
       $scope.updateStatus();
 
       $httpBackend.flush();
-      
+
       expect($scope.selectedTenantUser.$original.status).toEqual('accepted');
     });
 

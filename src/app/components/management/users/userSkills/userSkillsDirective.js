@@ -159,7 +159,7 @@ angular.module('liveopsConfigPanel')
               'id': item.id
             }, true);
 
-            return matchingSkills.length === 0;
+            return matchingSkills && matchingSkills.length === 0;
           };
 
           $scope.onEnter = function(){

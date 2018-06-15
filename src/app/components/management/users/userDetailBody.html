@@ -61,12 +61,11 @@
     <label>{{'details.inviteNow' | translate}}</label>
     <div>
       <toggle ng-model="selectedTenantUser.status"
-        true-value="invited"
-        false-value="pending"
-        ng-init="selectedTenantUser.status = 'invited'"
+        true-value="accepted"
+        false-value="disabled"
+        ng-init="selectedTenantUser.status = 'accepted'"
         name="inviteNow">
       </toggle>
-      <help-icon id="invite-now-help" translate-value="details.inviteNow.help"></help-icon>
     </div>
   </div>
 </div>
@@ -76,60 +75,8 @@
 </div>
 
 <div class="logical-group">
-  <div ng-if="scenario() === 'update'">
-    <div class="divider-header first-header">
-      <h4>{{'details.tenantStatus' | translate}}</h4>
-    </div>
-
-    <div class="input-group">
-      <label>{{'details.inviteStatus' | translate}}</label>
-      <div>
-        <tenant-user-status ng-model="selectedTenantUser.status"></tenant-user-status>
-        <help-icon id="tenant-status-help" translate-value="details.tenantStatus.help"></help-icon>
-        <div
-          id="password-reset"
-          ng-if="hasCxEngageIdp"
-          disable-contents="(selectedTenantUser.status !== 'accepted') ||
-        (!(['PLATFORM_MANAGE_ALL_USER_PASSWORDS', 'MANAGE_ALL_USER_PASSWORDS']  | hasPermission) && (selectedTenantUser.id !== Session.user.id)) ||
-        (!(['PLATFORM_MANAGE_MY_PASSWORD']  | hasPermission) && (selectedTenantUser.id === Session.user.id))">
-          <input id="password-reset-btn" class="btn" type="button" ng-click="resetPassword()"
-            value="{{'value.passwordReset' | translate}}"></input>
-        </div>
-      </div>
-    </div>
-
-    <div class="input-group" disable-contents="! (['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_TENANT_ENROLLMENT']  | hasPermission)">
-      <label>{{'details.role' | translate}} *</label>
-      <form-error field="forms.detailsForm.roleId"
-        error-type-required="{{'details.role.error' | translate}}">
-      </form-error>
-      <div>
-        <select ng-model="selectedTenantUser.roleId" name="roleId" required
-          ng-options="role.id as role.name for role in fetchTenantRoles()"
-          ng-disabled="Session.user.id == selectedTenantUser.id">
-          <option value="" ng-disabled="true">
-            {{'users.details.role.select' | translate}}
-          </option>
-        </select>
-      </div>
-    </div>
-
-    <div ng-if="selectedTenantUser.status != 'accepted' && selectedTenantUser.status != 'disabled' &&
-      (['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_TENANT_ENROLLMENT'] | hasPermission)" class="input-group">
-      <label></label>
-      <div>
-        <input id="resend-invitation-btn" type="button" class="btn" ng-click="resend()"
-          value="{{(selectedTenantUser.status == 'pending' ? 'user.details.invitation.send' : 'user.details.invitation.resend') | translate}}">
-        <a ng-if="selectedTenantUser.status == 'invited'" id="expire-invitation-link"
-          ng-click="expireTenantUser()">
-          {{'user.details.invitation.expire' | translate}}
-        </a>
-      </div>
-    </div>
-  </div>
-
   <div disable-contents="!canSaveUser(selectedTenantUser)">
-    <div class="divider-header">
+    <div class="divider-header first-header">
       <h4>{{'details' | translate}}</h4>
     </div>
 
@@ -159,17 +106,6 @@
           ng-model="selectedTenantUser.$user.lastName">
 
         <input ng-switch-when="true" type="text"></input>
-      </input>
-      </div>
-    </div>
-
-    <div class="input-group">
-      <label>{{'details.externalId' | translate}}</label>
-      <form-error field="forms.detailsForm.externalId">
-      </form-error>
-      <div ng-switch="invitedUserExistsOnPlatform()">
-        <input ng-switch-when="false" ng-model="selectedTenantUser.$user.externalId" name="externalId" type="text"></input>
-        <input ng-switch-when="true" type="text"></input>
       </div>
     </div>
 
@@ -190,7 +126,6 @@
         </div>
       </div>
     </span>
-
   </div>
 </div>
 
@@ -207,7 +142,120 @@
   </div>
 </div>
 
-<div class="clear"></div>
+<div
+  class="input-group"
+  disable-contents="! (['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_TENANT_ENROLLMENT']  | hasPermission)"
+  ng-if="scenario() === 'update'">
+  <label>{{'details.role' | translate}} <span ng-if="Session.user.id == selectedTenantUser.id">*</span></label>
+  <form-error field="forms.detailsForm.roleId"
+    error-type-required="{{'details.role.error' | translate}}">
+  </form-error>
+  <div>
+    <select
+      ng-model="selectedTenantUser.roleId"
+      name="roleId"
+      required
+      ng-options="role.id as role.name for role in fetchTenantRoles()"
+      ng-disabled="Session.user.id == selectedTenantUser.id || scenario() === 'update'">
+      <option value="" ng-disabled="true">
+        {{'users.details.role.select' | translate}}
+      </option>
+    </select>
+  </div>
+</div>
+
+<loading ng-if="('USER_IDENTITY_PROVIDER_VIEW'| hasPermission) && ('IDENTITY_PROVIDERS_READ'| hasPermission) && !displaySsoFields()"></loading>
+
+<div
+  ng-if="('USER_IDENTITY_PROVIDER_VIEW'| hasPermission) && ('IDENTITY_PROVIDERS_READ'| hasPermission) && displaySsoFields()"
+  disable-contents="!('USER_IDENTITY_PROVIDER_UPDATE'| hasPermission)"
+  class="logical-group">
+  <div class="input-group">
+    <label>{{'users.details.CxEngageAuthentication' | translate}}</label>
+    <div>
+      <select
+        name="defaultCxEngageAuthentication"
+        ng-model="selectedTenantUser.noPassword"
+        ng-disabled="selectedTenantUser.disableCxEngageStatusSelect">
+          <option
+            ng-repeat="option in cxEngageAuthOptions"
+            ng-selected="selectedTenantUser.noPassword === option.value"
+            ng-value="option.value">
+            {{option.display}}
+          </option>
+      </select>
+    </div>
+  </div>
+
+  <div
+    ng-if="scenario() === 'update'"
+    class="input-group">
+    <label>&nbsp;</label>
+    <div>
+      <div
+        id="password-reset"
+        ng-if="setInviteButton(selectedTenantUser, resetBtn) && selectedTenantUser.status !== 'disabled'"
+        disable-contents="(
+          !(
+            ['PLATFORM_MANAGE_ALL_USER_PASSWORDS', 'MANAGE_ALL_USER_PASSWORDS']  | hasPermission
+          ) &&
+          (
+            selectedTenantUser.id !== Session.user.id
+          ) ||
+          (
+            !(
+              ['PLATFORM_MANAGE_MY_PASSWORD']| hasPermission
+            ) &&
+            (
+              selectedTenantUser.id === Session.user.id
+              )
+            )
+          )">
+        <input
+          id="password-reset-btn"
+          class="btn" type="button"
+          ng-click="resetPassword()"
+          value="{{'value.passwordReset' | translate}}"></input>
+      </div>
+
+      <div
+        ng-if="setInviteButton(selectedTenantUser, resendBtn) &&
+          selectedTenantUser.status !== 'disabled' &&
+          (
+            [
+              'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT',
+              'MANAGE_TENANT_ENROLLMENT'
+            ] | hasPermission
+          )">
+        <input id="resend-invitation-btn" type="button" class="btn" ng-click="resend()"
+          value="{{(selectedTenantUser.invitationStatus == 'pending' ? 'user.details.invitation.send' : 'user.details.invitation.resend') | translate}}">
+        <a
+          ng-show="('USER_IDENTITY_PROVIDER_UPDATE'| hasPermission) && displayExpireLink(selectedTenantUser.invitationStatus)"
+          id="expire-invitation-link"
+          ng-click="expireTenantUser()">
+          {{'user.details.invitation.expire' | translate}}
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="input-group">
+    <label>{{'user.details.singleSignOnIdp' | translate}}</label>
+    <div>
+      <select
+        name="defaultIdentityProvider"
+        ng-model="selectedTenantUser.defaultIdentityProvider"
+        ng-disabled="selectedTenantUser.disableDefaultSsoProvider">
+        <option
+          ng-repeat="option in identityProviders"
+          ng-selected="option.id === selectedTenantUser.defaultIdentityProvider"
+          ng-value="option.id">
+          {{option.name}}
+        </option>
+      </select>
+    </div>
+  </div>
+</div>
 
 <div ng-if="scenario() === 'update'">
   <lo-extensions

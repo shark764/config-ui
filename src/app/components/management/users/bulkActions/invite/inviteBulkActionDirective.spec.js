@@ -20,13 +20,13 @@ describe('baInvite directive', function() {
       isolateScope = element.isolateScope();
     }
   ]));
-  
+
   it('should register the bulkAction with bulkActionExecutor if present', inject(function($compile, $rootScope) {
     element = $compile('<bulk-action-executor></bulk-action-executor>')($scope);
     $scope.$digest();
     var baExecutorController = element.controller('bulkActionExecutor');
     spyOn(baExecutorController, 'register');
-    
+
     var childElement = angular.element('<ba-invite></ba-invite>');
     element.append(childElement);
     var childScope = $rootScope.$new();
@@ -38,21 +38,24 @@ describe('baInvite directive', function() {
 
   describe('ON apply', function() {
     it('should call tenantUser.save', function() {
-      mockTenantUsers[0].save = jasmine.createSpy('save');
-      isolateScope.bulkAction.apply(mockTenantUsers[0]);
-      expect(mockTenantUsers[0].status).toEqual('invited');
-      expect(mockTenantUsers[0].save).toHaveBeenCalled();
+      mockTenantUsers[1].save = jasmine.createSpy('save');
+      isolateScope.bulkAction.apply(mockTenantUsers[1]);
+      expect(mockTenantUsers[1].status).toEqual('invited');
+      expect(mockTenantUsers[1].save).toHaveBeenCalled();
     });
   });
 
   describe('ON doesQualify', function() {
-    it('should pass if tenantUser.status is "pending"', function() {
-      var doesQualify = isolateScope.bulkAction.doesQualify(mockTenantUsers[0]);
+    it('should pass if tenantUser.invitationStatus is "pending"', function() {
+      mockTenantUsers[1].invitationStatus = 'pending';
+
+      var doesQualify = isolateScope.bulkAction.doesQualify(mockTenantUsers[1]);
       expect(doesQualify).toBeTruthy();
     });
 
-    it('should pass if tenantUser.status is not "pending"', function() {
-      var doesQualify = isolateScope.bulkAction.doesQualify(mockTenantUsers[1]);
+    it('should pass if tenantUser.invitationStatus is not "pending"', function() {
+      mockTenantUsers[0].invitationStatus = 'invited';
+      var doesQualify = isolateScope.bulkAction.doesQualify(mockTenantUsers[0]);
       expect(doesQualify).toBeFalsy();
     });
   });

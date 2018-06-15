@@ -11,10 +11,6 @@
     selected="selectedTenantUser"
     search-query="searchQuery">
 
-    <tenant-user-status name="$original.status"
-      ng-model="item.$original.status">
-    </tenant-user-status>
-
     <user-state name="$original.state" ng-model="item.$original.state"></user-state>
 
     <div name="$original.$user.status">
@@ -57,7 +53,7 @@
       <div class="detail-controls">
         <input
           id="cancel-details-btn" class="btn" type="button"
-          ng-disabled="selectedTenantUser.$busy"
+          ng-disabled="selectedTenantUser.$busy || loadingIdps"
           value="{{'value.cancel' | translate}}"
           lo-cancel></input>
 
@@ -65,7 +61,7 @@
           id="submit-details-btn"
           lo-submit="submit()"
           lo-submit-spinner
-          lo-submit-spinner-status="selectedTenantUser.$busy || selectedTenantUser.$user.$busy"
+          lo-submit-spinner-status="selectedTenantUser.$busy || selectedTenantUser.$user.$busy || loadingIdps"
           ng-disabled="
             forms.detailsForm.$pending ||
               ! forms.detailsForm.$dirty ||
@@ -87,5 +83,11 @@
     <ba-user-skills ng-if="['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_ALL_USER_SKILLS', 'MANAGE_TENANT_ENROLLMENT'] | hasPermission" users="fetchTenantUsers()"></ba-user-skills>
     <ba-user-groups ng-if="['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_TENANT_ENROLLMENT'] | hasPermission" users="fetchTenantUsers()"></ba-user-groups>
     <ba-set-twilio-region users="fetchTenantUsers()"></ba-set-twilio-region>
+    <ba-set-cx-engage-auth
+      ng-if="['USER_IDENTITY_PROVIDER_VIEW', 'IDENTITY_PROVIDERS_READ', 'USER_IDENTITY_PROVIDER_UPDATE'] | hasPermission">
+    </ba-set-cx-engage-auth>
+    <ba-set-default-sso-provider
+      ng-if="['USER_IDENTITY_PROVIDER_VIEW', 'IDENTITY_PROVIDERS_READ', 'USER_IDENTITY_PROVIDER_UPDATE'] | hasPermission">
+    </ba-set-default-sso-provider>
   </bulk-action-executor>
 </lo-details-panel>

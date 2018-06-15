@@ -61,39 +61,40 @@
     </select>
   </div>
 
-  <div ng-if="displayAsyncForms()" class="input-group">
-    <label>{{'tenant.details.cxEngageAuthentication' | translate}}</label>
-    <select
-      name="defaultCxEngageAuthentication"
-      ng-model="selectedTenant.cxengageIdentityProvider"
-      ng-disabled="selectedTenant.disableCxAuthSelect || loggedInWithCxEngageIdp">
-        <option
-          ng-repeat="option in cxEngageAuthOptions"
-          ng-selected="selectedTenant.cxengageIdentityProvider === option.value"
-          ng-value="option.value">
-          {{option.display}}
-        </option>
-    </select>
-  </div>
+  <div
+    ng-if="displayAsyncForms() && ((['IDENTITY_PROVIDERS_READ'] | hasPermission) || (['IDENTITY_PROVIDERS_UPDATE'] | hasPermission))"
+    class="logical-group">
 
-  <div ng-if="displayAsyncForms()"
-    class="input-group">
-    <label>{{'tenant.details.ssoIdentityProvider' | translate}}</label>
-    <div>
+    <div class="input-group">
+      <label>{{'tenant.details.cxEngageAuthentication' | translate}}</label>
       <select
-        name="defaultIdentityProvider"
-        ng-model="selectedTenant.defaultIdentityProvider"
-        ng-disabled="selectedTenant.disableSsoSelect">
-        <option
-          ng-repeat="idp in selectedTenant.identityProviders | filter:idpListFilter:selectedTenant.identityProviders"
-          ng-value="idp.id">
-          {{idp.name}}
-        </option>
+        name="defaultCxEngageAuthentication"
+        ng-model="selectedTenant.cxengageIdentityProvider"
+        ng-disabled="selectedTenant.disableCxAuthSelect || loggedInWithCxEngageIdp || !(['IDENTITY_PROVIDERS_UPDATE'] | hasPermission)">
+          <option
+            ng-repeat="option in cxEngageAuthOptions"
+            ng-selected="selectedTenant.cxengageIdentityProvider === option.value"
+            ng-value="option.value">
+            {{option.display}}
+          </option>
       </select>
-
-      <i class="fa fa-refresh fa-spin"
-      ng-hide="idpsLoaded"></i>
     </div>
+
+    <div class="input-group">
+      <label>{{'tenant.details.ssoIdentityProvider' | translate}}</label>
+      <div>
+        <select
+          name="defaultIdentityProvider"
+          ng-model="selectedTenant.defaultIdentityProvider"
+          ng-disabled="selectedTenant.disableSsoSelect">
+          <option
+            ng-repeat="idp in selectedTenant.identityProviders | filter:idpListFilter:selectedTenant.identityProviders"
+            ng-selected="idp.id === selectedTenant.defaultIdentityProvider"
+            ng-value="idp.id">
+            {{idp.name}}
+          </option>
+        </select>
+      </div>
   </div>
 
   <div class="input-group" ng-if="('PLATFORM_VIEW_ALL' | hasPermission)">

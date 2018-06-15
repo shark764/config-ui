@@ -21,7 +21,13 @@ angular.module('liveopsConfigPanel.config', [])
   };
 })
 
-.constant('cxEngageAuthStates',
+.constant('userInviteStatuses', [
+  'invited',
+  'pending',
+  'expired'
+])
+
+.constant('cxEngageAuthStatesTenant',
   {
     tenantDefault: null,
     enabled: 'enabled',
@@ -30,24 +36,76 @@ angular.module('liveopsConfigPanel.config', [])
   }
 )
 
-.factory('cxEngageAuthOptions', ['$translate', 'cxEngageAuthStates',
-  function($translate, cxEngageAuthStates) {
-    return function(tenantData) {
-      var cxAuthOptionList = [{
-        value: cxEngageAuthStates.enabled,
-        display: $translate.instant('value.enabled')
-      }];
+.constant('cxEngageAuthStatesUser',
+  {
+    tenantDefault: null,
+    enabled: false,
+    disabled: true,
+    denied: 'denied'
+  }
+)
 
-      if (tenantData.defaultIdentityProvider) {
+.constant('bulkEditUserAuth', 'BULK_EDIT_USER_AUTH')
+
+.factory('cxEngageAuthOptions', ['$translate', 'cxEngageAuthStatesUser', 'cxEngageAuthStatesTenant', 'bulkEditUserAuth',
+  function($translate, cxEngageAuthStatesUser, cxEngageAuthStatesTenant, bulkEditUserAuth) {
+    return function(tenantDefaultVal) {
+      var defaultValName;
+      var cxAuthOptionList = [];
+      // if there is a tenant default CxEngage Enabled status, then use the
+      // User statuses for CxEngage enable/disable, otherwise use tenant options
+      var cxAuthAvailableOptions = angular.isDefined(tenantDefaultVal)
+        ? cxEngageAuthStatesUser
+        : cxEngageAuthStatesTenant;
+
+      cxAuthOptionList.push({
+        value: cxAuthAvailableOptions.enabled,
+        display: $translate.instant('value.enabled')
+      },
+      {
+        value: cxAuthAvailableOptions.disabled,
+        display: $translate.instant('value.disabled')
+      });
+
+      // If we have a default CxStatus value, get the string
+      // representation for the tenant's default CxEngage auth status
+      if (angular.isDefined(tenantDefaultVal)) {
+        // first off, if it's denied, then all we need to offer is
+        // the "Denied" option in the dropdown
+        if (tenantDefaultVal === cxEngageAuthStatesUser.denied) {
+          return [{
+            value: cxAuthAvailableOptions.denied,
+            display: $translate.instant('value.denied')
+          }];
+        }
+
+        // now, to assign a user-facing string value for the enabled or
+        // disabled tenant default value
+        switch(tenantDefaultVal) {
+          case cxAuthAvailableOptions.enabled:
+            defaultValName = ': ' + $translate.instant('value.enabled');
+            break;
+          case cxAuthAvailableOptions.disabled:
+            defaultValName = ': ' + $translate.instant('value.disabled');
+            break;
+          case bulkEditUserAuth:
+          default:
+            defaultValName = '';
+        }
+
+        // ...now we make this the first item in the dropdown
+        cxAuthOptionList.unshift({
+          value: cxAuthAvailableOptions.tenantDefault,
+          display: $translate.instant('user.details.tenantDefault') + defaultValName
+        });
+      } else {
+      // If we are on the Tenants page, then add the "denied" option to the drowpdown
         cxAuthOptionList.push({
-          value: cxEngageAuthStates.disabled,
-          display: $translate.instant('value.disabled')
-        },
-        {
-          value: cxEngageAuthStates.denied,
+          value: cxAuthAvailableOptions.denied,
           display: $translate.instant('value.denied')
         });
       }
+
       return cxAuthOptionList;
     };
   }
@@ -59,11 +117,8 @@ angular.module('liveopsConfigPanel.config', [])
       'display': 'Disabled',
       'value': 'disabled'
     }, {
-      'display': 'Enabled',
-      'value': 'enabled'
-    }, {
-      'display': 'Pending',
-      'value': 'pending'
+      'display': 'Accepted',
+      'value': 'accepted'
     }];
   };
 })
