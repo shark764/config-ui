@@ -107,6 +107,7 @@ angular.module('liveopsConfigPanel')
                           inherit: false
                         });
                       } else {
+                        $location.search('tenantid', targetTenant.tenantId);
                         AuthService.setResumeSession(true);
                         $state.go('login', {
                           sso: targetTenant.password === false ? 'true' : null

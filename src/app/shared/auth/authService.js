@@ -8,6 +8,7 @@ angular.module('liveopsConfigPanel')
       var errorMessageFunctionFromController;
       var subId;
       var resuming = false;
+      var tenantReAuth = false;
       var cxEngageEnabled = typeof CxEngage === 'object' &&
       angular.isFunction(CxEngage.initialize);
 
@@ -94,20 +95,15 @@ angular.module('liveopsConfigPanel')
         });
       };
 
-      this.generateAuthParams = function (identifier) {
-        var urlParams = $location.search();
+      this.generateAuthParams = function (urlParams) {
         var authInfoParams = {};
-        switch (identifier.toLowerCase()) {
-          case 'username':
-            authInfoParams = {
-              username: urlParams.username
-            };
-            break;
-          case 'tenantid':
-            authInfoParams = {
-              tenantId: urlParams.tenantId
-            };
-            break;
+        if (urlParams.username) {
+          authInfoParams.username = urlParams.username;
+        } else if (urlParams.tenantid) {
+          authInfoParams.tenantId = urlParams.tenantid;
+          if (urlParams.idp) {
+            authInfoParams.idp = urlParams.idp;
+          }
         }
 
         return authInfoParams;
@@ -139,6 +135,14 @@ angular.module('liveopsConfigPanel')
               if (subId) {
                 CxEngage.unsubscribe(subId);
               }
+
+              var urlParams = $location.search();
+              if (urlParams.tenantid) {
+                tenantReAuth = true;
+                $state.go('login', {
+                  sso: false
+                });
+              }
             }
         });
 
@@ -146,7 +150,7 @@ angular.module('liveopsConfigPanel')
           subId = CxEngage.subscribe(
             'cxengage/authentication',
             function (authError, authTopic, authResponse) {
-              if (authError && errorMessageFunctionFromController) {
+              if (authError && errorMessageFunctionFromController && !tenantReAuth) {
                 errorMessageFunctionFromController($translate.instant('login.ssoError'));
               } else {
                 switch (authTopic) {

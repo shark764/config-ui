@@ -2,6 +2,12 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.44.1]
+* Revert 732f236786ce558a8acc921dfdce726c4954c3c1 as agent-initiated should not
+  be customer facing yet
+* CXV1-12218 - Updated deep linking in Config-UI
+* Update RTD to 5.2.8
+
 ## [4.44.0]
 * CXV1-10838 - Update user invitation creation/tenant invitation process for SSO
 

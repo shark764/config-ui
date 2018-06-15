@@ -51,8 +51,5 @@ angular.module('liveopsConfigPanel.config')
     }, {
       display: $translate.instant('dispatchMappings.outbound'),
       value: 'outbound'
-    }, {
-      display: $translate.instant('dispatchMappings.agentInitiated'),
-      value: 'agent-initiated'
     }];
   }]);
