@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.44.3]
+* CXV1-10838 - Fixed bugs related to creating new users and tenants as well as loading specific users and tenants
+
 ## [4.44.2]
 * Cleaned up JS errors around the isNew function
 * Fixed an error showing around identityProviders
