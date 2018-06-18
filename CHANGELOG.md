@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.44.4]
+* CXV1-14377 - Fix issue with CxEngage Authentication on Tenants page not being reflected on the UI
+* CXV1-14381 - Fix issue with deep link not working properly when tenant-id is provided in the url
+
 ## [4.44.3]
 * CXV1-10838 - Fixed bugs related to creating new users and tenants as well as loading specific users and tenants
 

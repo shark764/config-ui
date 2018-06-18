@@ -311,7 +311,6 @@ angular.module('liveopsConfigPanel')
             tenantData.identityProviders = idpList;
 
             if (!tenantData.defaultIdentityProvider) {
-              tenantData.cxengageIdentityProvider = $scope.cxEngageAuthOptions[0];
               tenantData.defaultIdentityProvider = idpList[0].id;
             }
 
@@ -327,10 +326,6 @@ angular.module('liveopsConfigPanel')
             tenantData.disableSsoSelect = true;
             tenantData.disableCxAuthSelect = true;
           }
-
-          $scope.selectedTenant.cxengageIdentityProvider = cxEngageAuthStatesTenant.enabled;
-
-          $scope.selectedTenant.cxengageIdentityProvider = $scope.cxEngageAuthOptions[0].value;
 
           if (
             !tenantData.identityProviders.length ||
