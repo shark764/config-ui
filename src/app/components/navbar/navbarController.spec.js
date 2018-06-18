@@ -63,7 +63,7 @@ describe('NavbarController', function() {
       expect(Session.isAuthenticated()).toBeTruthy();
 
       $scope.logout();
-
+      Session.destroy(true);
       expect(Session.isAuthenticated()).toBeFalsy();
     });
   });

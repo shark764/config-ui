@@ -8,6 +8,7 @@ angular.module('liveopsConfigPanel')
       var errorMessageFunctionFromController;
       var subId;
       var resuming = false;
+      var loggingOut = false;
       var tenantReAuth = false;
       var cxEngageEnabled = typeof CxEngage === 'object' &&
       angular.isFunction(CxEngage.initialize);
@@ -184,7 +185,9 @@ angular.module('liveopsConfigPanel')
       this.logout = function () {
         var savedSsoMode = Session.isSso;
         resuming = false;
-        Session.destroy();
+        // this sets a flag which makes sure not to destroy the Session
+        // properties yet and cause JS errors upon return to the login page
+        self.setLogoutFlag();
         Session.setIsSso(savedSsoMode);
         self.setResumeSession(false);
         localStorage.setItem('IS_SSO_OVERRIDE', Session.isSso);
@@ -213,6 +216,17 @@ angular.module('liveopsConfigPanel')
 
       this.getResumeSession = function () {
         return resuming;
+      };
+
+      // this is being used to set the flag that tells the login page that
+      // that we are logging out and need to destroy the Session object
+      this.setLogoutFlag = function () {
+        loggingOut = true;
+      };
+
+      // destroy the Session object if this is true!
+      this.getLogoutFlag = function () {
+        return loggingOut;
       };
 
       // determines which version of the login page to display, as well

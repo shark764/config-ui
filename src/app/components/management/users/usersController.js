@@ -69,7 +69,7 @@ angular.module('liveopsConfigPanel')
         $scope.identityProviders = idpList;
         $scope.loadingIdpList = false;
 
-      })
+      });
 
       $scope.displaySsoFields = function () {
         return (
@@ -143,19 +143,6 @@ angular.module('liveopsConfigPanel')
         'region'
       ];
 
-      function getTenantData () {
-        var tenant = Tenant.cachedGet({
-          id: Session.tenant.tenantId,
-        });
-
-        return tenant.$promise.then(function (tenantData) {
-          return _.pick(tenantData, [
-            'cxengageIdentityProvider', // enabled, disabled, null, denied
-            'defaultIdentityProvider' // (tenant uuid)
-          ]);
-        });
-      }
-
       $scope.setInviteButton = function (tenantUserObj, btnType) {
         if (!tenantUserObj) {
           return;
@@ -192,11 +179,11 @@ angular.module('liveopsConfigPanel')
         return false;
       };
 
-      $scope.displayExpireLink = function (invitationStatus) {
+      $scope.displayExpireLink = function () {
         return $scope.selectedTenantUser.invitationStatus === 'invited';
       };
 
-      function getIdentityProviders (tenantUserData, resetForm) {
+      function getIdentityProviders (tenantUserData) {
         $scope.loadingIdps = true;
 
         // if there is no tenant data or we don't have permission,
@@ -567,7 +554,7 @@ angular.module('liveopsConfigPanel')
 
         return userCopy.save().then(function(result){
           $scope.selectedTenantUser.$original.status = result.status;
-        }, function (err) {
+        }, function () {
           Alert.error($translate.instant('user.details.statusChange.fail'));
         });
       };

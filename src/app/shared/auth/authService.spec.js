@@ -64,6 +64,7 @@ describe('AuthService', function() {
 
   it('should have a method to logout which destroys the session', function() {
     AuthService.logout();
+    Session.destroy(true);
     expect(Session.token).toBeNull();
   });
 
