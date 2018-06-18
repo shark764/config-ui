@@ -97,13 +97,13 @@ angular.module('liveopsConfigPanel')
 
       this.generateAuthParams = function (urlParams) {
         var authInfoParams = {};
-        if (urlParams.username) {
-          authInfoParams.username = urlParams.username;
-        } else if (urlParams.tenantid) {
+        if (urlParams.tenantid) {
           authInfoParams.tenantId = urlParams.tenantid;
           if (urlParams.idp) {
             authInfoParams.idp = urlParams.idp;
           }
+        } else if (urlParams.username) {
+          authInfoParams.username = urlParams.username;
         }
 
         return authInfoParams;
