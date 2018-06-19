@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.44.5]
+* CXV1-14381 - Fixed issue caused by deep link query params not being all lower case
+
 ## [4.44.4]
 * CXV1-14377 - Fix issue with CxEngage Authentication on Tenants page not being reflected on the UI
 * CXV1-14381 - Fix issue with deep link not working properly when tenant-id is provided in the url
