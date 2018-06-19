@@ -96,14 +96,17 @@ angular.module('liveopsConfigPanel')
       };
 
       this.generateAuthParams = function (urlParams) {
+        var urlParamsToLowerCase =  _.mapKeys(urlParams, function (v, k) {
+          return k.toLowerCase();
+        });
         var authInfoParams = {};
-        if (urlParams.tenantid) {
-          authInfoParams.tenantId = urlParams.tenantid;
-          if (urlParams.idp) {
-            authInfoParams.idp = urlParams.idp;
+        if (urlParamsToLowerCase.tenantid) {
+          authInfoParams.tenantId = urlParamsToLowerCase.tenantid;
+          if (urlParamsToLowerCase.idp) {
+            authInfoParams.idp = urlParamsToLowerCase.idp;
           }
-        } else if (urlParams.username) {
-          authInfoParams.username = urlParams.username;
+        } else if (urlParamsToLowerCase.username) {
+          authInfoParams.username = urlParamsToLowerCase.username;
         }
 
         return authInfoParams;
