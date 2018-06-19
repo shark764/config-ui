@@ -22,6 +22,10 @@ angular.module('liveopsConfigPanel')
         {
           name: $translate.instant('integration.details.properties.zendesk'),
           value: 'zendesk'
+        },
+        {
+          name: $translate.instant('integration.details.properties.calabrio'),
+          value: 'calabrio'
         }
       ];
 

@@ -389,6 +389,70 @@
     </div>
   </div>
 
+  <!-- CALABRIO -->
+  <div ng-if="customTypesHideShowFields(selectedIntegration, 'calabrio')" class="calabrio">
+    <div class="input-group">
+      <label>{{'integration.details.properties.username' | translate}} *</label>
+      <form-error field="forms.detailsForm.username" error-type-required="{{'integration.username.error' | translate}}" ></form-error>
+      <div>
+        <input ng-required="true" type="text" ng-model="selectedIntegration.properties.username" name="username"/>
+      </div>
+    </div>
+    <div class="input-group">
+      <label>{{'integration.details.properties.password' | translate}} *</label>
+      <form-error field="forms.detailsForm.password" error-type-required="{{'integration.password.error' | translate}}" ></form-error>
+      <div>
+        <input ng-required="true" type="password" ng-model="selectedIntegration.properties.password" name="token"/>
+      </div>
+    </div>
+    <div class="divider-header" ng-if="customTypesHideShowFields(selectedIntegration, 'calabrio')">
+      <h4>{{'integration.details.properties.qm' | translate}}</h4>
+    </div>
+    <div class="input-group">
+      <label>{{'integration.details.properties.cti' | translate}}</label>
+      <div>
+        <toggle ng-model="selectedIntegration.qm"
+          true-value="enable"
+          false-value="disabled"
+          ng-init="selectedIntegration.qm = 'disabled'"
+          name="enableCti">
+        </toggle>
+      </div>
+    </div>
+    <div ng-if="selectedIntegration.qm == 'enable'" class="calabrio">
+      <div class="input-group">
+        <label>{{'integration.details.properties.ctiEndpoint' | translate}}</label>
+        <form-error field="forms.detailsForm.ctiEndpoint" error-type-required="{{'integration.ctiEndpoint.error' | translate}}" ></form-error>
+        <div>
+          <input ng-required="true" type="text" ng-model="selectedIntegration.properties.cti" name="ctiEndpoint"/>
+        </div>
+      </div>
+    </div>
+    <div class="divider-header" ng-if="customTypesHideShowFields(selectedIntegration, 'calabrio')">
+      <h4>{{'integration.details.properties.wfm' | translate}}</h4>
+    </div>
+    <div class="input-group">
+      <label>{{'integration.details.properties.rta' | translate}}</label>
+      <div>
+        <toggle ng-model="selectedIntegration.rta"
+          true-value="enable"
+          false-value="disabled"
+          ng-init="selectedIntegration.rta = 'disabled'"
+          name="enableRta">
+        </toggle>
+      </div>
+    </div>
+    <div ng-if="selectedIntegration.rta == 'enable'" class="calabrio">
+      <div class="input-group">
+        <label>{{'integration.details.properties.rtaUrl' | translate}}</label>
+        <form-error field="forms.detailsForm.rtaUrl" error-type-required="{{'integration.rtaUrl.error' | translate}}" ></form-error>
+        <div>
+          <input ng-required="true" type="text" ng-model="selectedIntegration.properties.rta" name="rtaUrl"/>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- VERINT -->
   <div ng-if="customTypesHideShowFields(selectedIntegration, 'verint')">
     <div class="input-group">
