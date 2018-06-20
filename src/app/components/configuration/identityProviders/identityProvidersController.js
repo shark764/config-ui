@@ -307,7 +307,12 @@ angular.module('liveopsConfigPanel')
 
           Alert.success($translate.instant('value.saveSuccess'));
         }, function (err) {
-          Alert.error($translate.instant('value.saveFail'));
+          if(err.data.error.attribute) {
+            Alert.error($translate.instant('value.saveFail'));
+          } else {
+            Alert.error(err.data.error.message.capitalize());
+          }
+
           $scope.showDuplicateMsg = false;
           if (err.data.error.attribute === 'name') {
             vm.selectedIdentityProvider = tempIdpData;

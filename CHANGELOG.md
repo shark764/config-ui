@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.44.9]
+* CXV1-12962 - Display appropriate error banner while creating an IDP with the existing IDP name
+
 ## [4.44.8]
 * CXV1-9774 - Prevent JS errors upon logout from any page
 
