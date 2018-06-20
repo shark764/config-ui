@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.44.7]
+* CXV1-12852 - Permission for Quality Management
+* CXV1-14249 - Move "Hello <user name>" into dropdown so "Quailty Management" link will fit
+
 ## [4.44.6]
 * CXV1-13509 - Add Calabrio to integrations page of Config-UI
 
