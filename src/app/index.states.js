@@ -411,7 +411,7 @@ angular.module('liveopsConfigPanel')
           isPublic: true
         })
         .state('reset-password', {
-          url: '/reset-password?userId&token',
+          url: '/reset-password?userid&userId&token',
           title:'Reset Password',
           templateUrl: 'app/components/resetPassword/resetPassword.html',
           controller: 'ResetPasswordController',
@@ -419,15 +419,14 @@ angular.module('liveopsConfigPanel')
           resolve: {
             userToReset: ['$stateParams', 'Session', 'User', '$q', '$state', function($stateParams, Session, User, $q, $state) {
               Session.setToken('Token ' + $stateParams.token);
-
+              
               var userResult = User.get({
-                id: $stateParams.userId
+                id: $stateParams.userId || $stateParams.userid
               }, angular.noop, function() {
                 $state.go('login', {
                   messageKey: 'user.details.password.reset.expired'
                 });
               });
-
               return userResult.$promise;
             }]
           }
@@ -475,7 +474,7 @@ angular.module('liveopsConfigPanel')
           }
         })
         .state('invite-accept', {
-          url: '/invite-accept?userId&tenantId&token',
+          url: '/invite-accept?userid&userId&tenantId&tenantid&token',
           title:'Accept Invite',
           templateUrl: 'app/components/inviteAccept/inviteAccept.html',
           controller: 'InviteAcceptController',
@@ -487,7 +486,7 @@ angular.module('liveopsConfigPanel')
               }
 
               var userResult = User.get({
-                id: $stateParams.userId
+                id: $stateParams.userId || $stateParams.userid
               }, angular.noop, function(error) {
                 if (error.data === 'Permission denied') {
                   $state.go('login', {

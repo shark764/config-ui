@@ -175,8 +175,8 @@ angular.module('liveopsConfigPanel')
             'displayPath': 'display',
             'options': userStatuses()
           },
-          'name': '$original.$user.status',
-          'lookup': '$original:$user:status',
+          'name': '$original.status',
+          'lookup': '$original:status',
           'id': 'user-status-table-column',
           'transclude': true,
           'checked': false
