@@ -4,8 +4,8 @@ angular.module('liveopsConfigPanel')
   .config(['$translateProvider', function ($translateProvider) {
     $translateProvider.useSanitizeValueStrategy('sanitize');
   }])
-  .controller('LoginController', ['$rootScope', '$scope', '$state', 'AuthService', '$stateParams', '$translate', 'Alert', 'TenantUser', '$filter', '$location', 'legalLinkCX', 'legalLinkMitel', 'Session', 'UserPermissions', 'User', 'Tenant', '$q', 'loEvents',
-    function($rootScope, $scope, $state, AuthService, $stateParams, $translate, Alert, TenantUser, $filter, $location, legalLinkCX, legalLinkMitel, Session, UserPermissions, User, Tenant, $q, loEvents) {
+  .controller('LoginController', ['$rootScope', '$scope', '$state', 'AuthService', '$stateParams', '$translate', 'Alert', 'TenantUser', '$filter', '$location', 'legalLinkCX', 'legalLinkMitel', 'Session', 'UserPermissions', 'User',
+    function($rootScope, $scope, $state, AuthService, $stateParams, $translate, Alert, TenantUser, $filter, $location, legalLinkCX, legalLinkMitel, Session, UserPermissions, User) {
       var self = this;
 
       function redirectUponLogin () {
@@ -33,7 +33,7 @@ angular.module('liveopsConfigPanel')
         }   else {
           $scope.legalLinkURL = legalLinkCX;
         }
-      }
+      };
 
       function provideIdpErrorMessage (errorMessage) {
         $scope.innerScope.error = errorMessage;
@@ -168,6 +168,14 @@ angular.module('liveopsConfigPanel')
 
       $scope.updateToCurrentYear = {
         currentYear: new Date().getFullYear()
+      };
+
+      $scope.destroySession = function () {
+        // if we are logging out, destroy the Session after
+        // the page is 100% loaded so as not to cause JS errors
+        if (AuthService.getLogoutFlag()) {
+          Session.destroy(true);
+        }
       };
     }
   ]);

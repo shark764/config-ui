@@ -1,4 +1,7 @@
-<div id="login-page" class="lo-gradient-squares">
+<div
+  id="login-page"
+  class="lo-gradient-squares"
+  element-ready="destroySession()">
   <div
     ng-if="isSso"
     ng-include="'app/components/login/loginSso.html'">

@@ -110,7 +110,7 @@ angular.module('liveopsConfigPanel')
         this.flush();
       };
 
-      this.destroy = function() {
+      this.destroy = function(isLogoutBool) {
         this.token = null;
         this.user = null;
         this.tenant = null;
@@ -118,6 +118,9 @@ angular.module('liveopsConfigPanel')
         this.platformPermissions = null;
         this.destroyListeners();
         localStorage.removeItem(this.userSessionKey);
+        if (isLogoutBool) {
+          self.flush(isLogoutBool);
+        }
       };
 
       this.setTenant = function(tenant) {
@@ -155,11 +158,13 @@ angular.module('liveopsConfigPanel')
         }
       };
 
-      this.flush = function() {
+      // adding isLogout argument to prevent deleting properties
+      // we want to keep upon user logout
+      this.flush = function(isLogout) {
         localStorage.setItem(self.userSessionKey, JSON.stringify({
-          token: self.token,
-          user: self.user,
-          tenants: self.tenants,
+          token: isLogout ? null : self.token,
+          user: isLogout ? null : self.user,
+          tenants: isLogout ? null : self.tenants,
           platformPermissions: self.platformPermissions,
           lastPageVisited: self.lastPageVisited,
           isSso: self.isSso
@@ -168,7 +173,7 @@ angular.module('liveopsConfigPanel')
         localStorage.setItem(self.userPreferenceKey, JSON.stringify({
           lang: self.lang,
           activeRegionId: self.activeRegionId,
-          tenant: self.tenant,
+          tenant: isLogout ? null : self.tenant,
           columnPreferences: self.columnPreferences
         }));
       };

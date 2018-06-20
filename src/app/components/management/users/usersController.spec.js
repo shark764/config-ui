@@ -279,7 +279,7 @@ describe('users controller', function() {
       };
       expect($scope.selectedTenantUser.status).toEqual('accepted');
 
-      $httpBackend.whenPUT(apiHostname + '/v1/tenants/tenant-id/users/userId100', function() {
+      $httpBackend.whenPUT(apiHostname + '/v1/tenants/tenant-id/users/userId100', function(requestBody) {
         var data = JSON.parse(requestBody);
         return data.status === 'pending';
       }).respond(200);
