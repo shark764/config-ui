@@ -38,7 +38,11 @@
       </li>
 
       <li id='welcome'>
-        <dropdown id="user-settings-dropdown" items="userDropdownItems" label="{{ 'navbar.welcome' | translate:Session.user }}" title="{{Session.user.displayName}}" expand-icon="fa fa-gear" collapse-icon="fa fa-gear">
+        <dropdown id="user-settings-dropdown" items="userDropdownItems" dropdown-title="{{ 'navbar.welcome' | translate:Session.user }}" title="{{Session.user.displayName}}" expand-icon="fa fa-gear" collapse-icon="fa fa-gear">
+        </dropdown>
+      </li>
+      <li id="helpMenu">
+        <dropdown id="user-help-dropdown" items="userHelpItems" order-by="order" expand-icon="fa fa-question-circle" collapse-icon="fa fa-question-circle">
         </dropdown>
       </li>
       <li id="privacy">
@@ -46,10 +50,6 @@
           <a class="drop-label" target="_blank" href="https://www.serenova.com/privacy">Privacy</a>
         </div>
       </li>
-      <li id="helpMenu">
-        <dropdown id="user-help-dropdown" items="userHelpItems" order-by="order" expand-icon="fa fa-question-circle" collapse-icon="fa fa-question-circle">
-        </dropdown>
-      </li>
-      </ul>
+    </ul>
   </nav>
 </div>
