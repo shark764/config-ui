@@ -43,7 +43,7 @@ describe('usersTableConfig', function() {
     };
 
     spyOn(UserPermissions, 'hasPermissionInList').and.returnValue(true);
-    var length = userTableConfig.getConfig().fields[2].resolve(tenantUser);
+    var length = userTableConfig.getConfig().fields[3].resolve(tenantUser);
     expect(length).toEqual(1);
   }]));
 
@@ -53,13 +53,13 @@ describe('usersTableConfig', function() {
     };
 
     spyOn(UserPermissions, 'hasPermissionInList').and.returnValue(true);
-    var length = userTableConfig.getConfig().fields[3].resolve(tenantUser);
+    var length = userTableConfig.getConfig().fields[4].resolve(tenantUser);
     expect(length).toEqual(2);
   }]));
 
   it('should return all tenant skills if the user has permission', inject(['$httpBackend', 'UserPermissions', function($httpBackend, UserPermissions) {
     spyOn(UserPermissions, 'hasPermissionInList').and.returnValue(true);
-    var skills = userTableConfig.getConfig().fields[2].header.options();
+    var skills = userTableConfig.getConfig().fields[3].header.options();
 
     $httpBackend.flush();
 
@@ -77,12 +77,12 @@ describe('usersTableConfig', function() {
       return false;
     });
 
-    expect(userTableConfig.getConfig().fields.length).toBe(6);
+    expect(userTableConfig.getConfig().fields.length).toBe(7);
   }]));
 
   it('should return all tenant groups if the user has permission', inject(['$httpBackend', 'UserPermissions', function($httpBackend, UserPermissions) {
     spyOn(UserPermissions, 'hasPermissionInList').and.returnValue(true);
-    var groups = userTableConfig.getConfig().fields[3].header.options();
+    var groups = userTableConfig.getConfig().fields[4].header.options();
 
     $httpBackend.flush();
 
@@ -100,12 +100,12 @@ describe('usersTableConfig', function() {
       return false;
     });
 
-    expect(userTableConfig.getConfig().fields.length).toBe(6);
+    expect(userTableConfig.getConfig().fields.length).toBe(7);
   }]));
 
   it('should return all tenant roles if the user has permission', inject(['$httpBackend', 'UserPermissions', function($httpBackend, UserPermissions) {
     spyOn(UserPermissions, 'hasPermissionInList').and.returnValue(true);
-    var roles = userTableConfig.getConfig().fields[4].header.options();
+    var roles = userTableConfig.getConfig().fields[5].header.options();
 
     $httpBackend.flush();
 
@@ -123,6 +123,6 @@ describe('usersTableConfig', function() {
       return false;
     });
 
-    expect(userTableConfig.getConfig().fields.length).toBe(6);
+    expect(userTableConfig.getConfig().fields.length).toBe(7);
   }]));
 });

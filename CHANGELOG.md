@@ -4,6 +4,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [4.45.1]
 * Rebasing Hotfixes:
+* Fixed user statuses
+* Re-added externalId
+* Isolated Logi script
 * Fixed user invite issues
 * Fixed Status column in user management
 

@@ -12,14 +12,6 @@ angular.module('liveopsConfigPanel')
 
       var options = {};
 
-      $(document).ready(function () {
-        $('#logiContainer').on('load', function () {
-          $scope.dashboardReady = true;
-          $scope.$apply();
-        });
-      });
-
-
       $scope.fetch = function () {
         Logi.getToken(Session.tenant.tenantId, Session.user.displayName)
             .then(function(response) {
@@ -37,6 +29,19 @@ angular.module('liveopsConfigPanel')
             });
       };
 
-      $scope.fetch();
+      $(document).ready(function () {
+        var logiContainer = $('#logiContainer').context;
+        var script = document.createElement("script");
+        script.type = "text/javascript";
+        script.src = "https://logi.cxengagelabs.net/LogiDemo/rdTemplate/rdEmbedApi/rdEmbed.js";
+        $(logiContainer).contents().find('body').append(script);
+
+        $('#logiContainer').on('load', function () {
+          $scope.dashboardReady = true;
+          $scope.$apply();
+        });
+
+        $scope.fetch();
+      });
     }
   ]);

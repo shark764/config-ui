@@ -109,6 +109,16 @@
       </div>
     </div>
 
+    <div class="input-group">
+      <label>{{'details.externalId' | translate}}</label>
+      <form-error field="forms.detailsForm.externalId">
+      </form-error>
+      <div ng-switch="invitedUserExistsOnPlatform()">
+        <input ng-switch-when="false" ng-model="selectedTenantUser.$user.externalId" name="externalId" type="text"></input>
+        <input ng-switch-when="true" type="text"></input>
+      </div>
+    </div>
+
     <span ng-if="hasVerintIntegration">
       <div class="input-group display-only">
         <label>{{'details.tenantUserId' | translate}}</label>

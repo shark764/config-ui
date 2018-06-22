@@ -185,6 +185,9 @@ describe('users controller', function() {
           },
           lastName: {
             $dirty: false
+          },
+          externalId: {
+            $dirty: false
           }
         };
       });
@@ -232,6 +235,9 @@ describe('users controller', function() {
           },
           lastName: {
             $dirty: true
+          },
+          externalId: {
+            $dirty: false
           }
         };
       });

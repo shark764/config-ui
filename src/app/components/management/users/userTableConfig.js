@@ -48,6 +48,12 @@ angular.module('liveopsConfigPanel')
               'display': $translate.instant('value.email')
             },
             'name': '$user.$original.email'
+          }, {
+            'header': {
+              'display': $translate.instant('details.externalId')
+            },
+            'name': '$user.$original.externalId',
+            'checked': false
           }],
           'orderBy': '$user.$original.lastName',
           'sref': 'content.management.users',
