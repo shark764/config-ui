@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.45.0]
+* CXV1-14221 - The information in Agent State Table doesn't show properly using IE11 and Edge
+
 ## [4.44.9]
 * CXV1-12962 - Display appropriate error banner while creating an IDP with the existing IDP name
 
