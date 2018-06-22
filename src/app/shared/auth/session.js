@@ -28,6 +28,7 @@ angular.module('liveopsConfigPanel')
       this.platformPermissions = null;
       this.lastPageVisited = null;
       this.isSso = false;
+      this.domain = null;
 
       this.set = function(user, tenants, token, platformPermissions) {
         this.token = token;
@@ -114,6 +115,7 @@ angular.module('liveopsConfigPanel')
         this.token = null;
         this.user = null;
         this.tenant = null;
+        this.domain = null;
         this.tenants = null;
         this.platformPermissions = null;
         this.destroyListeners();

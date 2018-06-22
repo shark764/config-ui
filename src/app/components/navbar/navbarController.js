@@ -92,6 +92,7 @@ angular.module('liveopsConfigPanel')
                       // (CxEngage IDP's always have a password prop set to true)
                       if (isCxTenant) {
                         Session.setTenant(targetSessionTenant);
+                        AuthService.updateDomain(targetSessionTenant);
                         $scope.updateTopbarConfig();
                         $scope.updateBranding();
                         var goTo = $state.current;
@@ -108,6 +109,7 @@ angular.module('liveopsConfigPanel')
                         });
                       } else {
                         $location.search('tenantid', targetTenant.tenantId);
+                        Session.domain = "";
                         AuthService.setResumeSession(true);
                         $state.go('login', {
                           sso: targetTenant.password === false ? 'true' : null
