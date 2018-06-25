@@ -1,7 +1,7 @@
 'use strict';
 angular.module('liveopsConfigPanel')
-  .service('AuthService', ['$http', '$q', '$translate', 'Session', 'apiHostname', 'User', '$state', '$location', 'Token', 'CxEngageConfig', '$stateParams', '$timeout',
-    function ($http, $q, $translate, Session, apiHostname, User, $state, $location, Token, CxEngageConfig, $stateParams, $timeout) {
+  .service('AuthService', ['$http', '$q', '$translate', 'CustomDomain', 'Session', 'apiHostname', 'User', '$state', '$location', 'Token', 'CxEngageConfig', '$stateParams', '$timeout',
+    function ($http, $q, $translate, CustomDomain, Session, apiHostname, User, $state, $location, Token, CxEngageConfig, $stateParams, $timeout) {
       /* globals localStorage */
       var self = this;
       var loginFunctionFromController;
@@ -13,6 +13,18 @@ angular.module('liveopsConfigPanel')
       var cxEngageEnabled = typeof CxEngage === 'object' &&
       angular.isFunction(CxEngage.initialize);
 
+      this.updateDomain = function (tenant) {
+        CustomDomain.cachedGet({
+          tenantId: tenant.tenantId
+        }).$promise.then(function(domain){
+          if (domain && domain.value && !angular.isObject(domain.value)) {
+            Session.domain = domain;
+          } else {
+            Session.domain = "";
+          }
+        });
+      };
+
       // Initializing the SDK to allow for SSO
       if (cxEngageEnabled) {
         CxEngage.initialize(CxEngageConfig);
@@ -21,6 +33,8 @@ angular.module('liveopsConfigPanel')
           CxEngage.session.setToken(Session.token);
           CxEngage.session.setUserIdentity(Session.user.id);
           CxEngage.session.setActiveTenant({ tenantId: Session.tenant.tenantId, noSession: true });
+
+          self.updateDomain(Session.tenant);
         }
       }
 

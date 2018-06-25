@@ -93,7 +93,7 @@ angular.module('liveopsConfigPanel', [
         return k.toLowerCase();
       });
 
-      if (toState.name !== 'login') {
+      if (toState.name !== 'login' && toState.name !== 'invite-accept' && toState.name !== 'reset-password') {
         if (locationSearch.username !== undefined) {
           delete locationSearch.username;
         }
@@ -102,6 +102,9 @@ angular.module('liveopsConfigPanel', [
         }
         if (locationSearch.idp !== undefined) {
           delete locationSearch.idp;
+        }
+        if (locationSearch.token !== undefined) {
+          delete locationSearch.token;
         }
       }
       if (stateParams && stateParams.sso !== undefined) {
@@ -131,11 +134,10 @@ angular.module('liveopsConfigPanel', [
           localStorage.setItem('TOKEN-EXPIRATION-DEBUG', urlParams.tokendebug);
         }
 
-        var urlParams = $location.search();
         // if it's an SSO login, look for specific keys in URL params
         // and if those keys exist, immediately log in via IDP
-        if (urlParams.username || urlParams.tenantId || urlParams.tenantid) {
-          AuthService.idpLogin(AuthService.generateAuthParams(urlParams));
+        if ((locationSearch.username || locationSearch.tenantid) && !locationSearch.token) {
+          AuthService.idpLogin(AuthService.generateAuthParams(locationSearch));
         }
       } else if (localStorage.getItem('TOKEN-EXPIRATION-DEBUG')) {
         debugTimeout = $timeout(function() {

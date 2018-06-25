@@ -149,7 +149,7 @@ describe('invite accept controller', function() {
       spyOn(AuthService, 'login').and.returnValue(deferred.promise);
       spyOn(UserPermissions, 'hasPermissionInList').and.returnValue(true);
 
-      $stateParams.userId = 'userId2';
+      $stateParams.userid = 'userId2';
       scope.acceptSuccess();
       scope.$digest();
       expect($state.transitionTo).toHaveBeenCalledWith('content.management.users', {

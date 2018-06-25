@@ -75,7 +75,9 @@ angular.module('liveopsConfigPanel')
                   tenantId: Session.lastPageVisited.paramsObj.tenantId
                 });
                 Session.setTenant(currentSessionTenant);
+                AuthService.updateDomain(currentSessionTenant);
               }
+
             } else {
               // ...otherwise, let's just check to see if the user has
               // set a default tenant, and if so, try to set config-ui
@@ -95,6 +97,7 @@ angular.module('liveopsConfigPanel')
                   // be the defaultTenant
                   if (defaultTenantIndex !== -1) {
                     Session.setTenant(Session.tenants[defaultTenantIndex]);
+                    AuthService.updateDomain(Session.tenants[defaultTenantIndex]);
                   }
                 }
 

@@ -2,6 +2,16 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.45.1]
+* Rebasing Hotfixes:
+* Fixed Custom Domain Help Links
+* Fixed inability to change a user's role
+* Fixed user statuses
+* Re-added externalId
+* Isolated Logi script
+* Fixed user invite issues
+* Fixed Status column in user management
+
 ## [4.45.0]
 * CXV1-14221 - The information in Agent State Table doesn't show properly using IE11 and Edge
 
