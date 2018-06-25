@@ -1,6 +1,6 @@
 {
-  "name": "config-ui",
-  "version": "4.45.2",
+  "name": "liveopsConfigPanel",
+  "version": "4.46.0",
   "scripts": {
     "start": "gulp serve",
     "test": "gulp test",
