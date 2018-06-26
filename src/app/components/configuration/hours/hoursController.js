@@ -40,7 +40,7 @@ angular.module('liveopsConfigPanel')
 
         return vm.hours;
       };
-      
+
       vm.submit = function() {
         return vm.selectedHour.save({
           tenantId: Session.tenant.tenantId
@@ -116,12 +116,12 @@ angular.module('liveopsConfigPanel')
 
       vm.onIsHoursCustomChanged = function () {
         //TODO: figure out why switching between 24/7 and scheduled hours on an exsting resource will wipe the configured hours
-        if (! vm.isHoursCustom) {
-          angular.forEach(vm.dayPrefixes, function(dayPrefix) {
-            vm.selectedHour[dayPrefix.short + 'StartTimeMinutes'] = 0;
-            vm.selectedHour[dayPrefix.short + 'EndTimeMinutes'] = 0;
-          });
-        }
+        var endTimeMinutes = ! vm.isHoursCustom ? 0: 1440;
+        // Set 0 for startTime and 1440 for endTime
+        angular.forEach(vm.dayPrefixes, function(dayPrefix) {
+          vm.selectedHour[dayPrefix.short + 'StartTimeMinutes'] = 0;
+          vm.selectedHour[dayPrefix.short + 'EndTimeMinutes'] = endTimeMinutes;
+        });
       };
 
       vm.generateHoursMessage = function(day) {
