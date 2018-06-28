@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.45.3]
+* CXV1-14494 - Replace all user-facing text instances of 'CxEngage Authentication' with 'Platform Authentication'
+
 ## [4.45.2]
 * CXV1-14279 - SSO: "Cannot Read Property tenantId of null" when signing in with sso
 
