@@ -1,0 +1,9 @@
+{
+  "config": {
+    "api": "dev-api.cxengagelabs.net/v1/",
+    "env": "dev",
+    "domain": "cxengagelabs.net",
+    "region": "us-east-1",
+    "version": "1.23.8"
+  }
+}
