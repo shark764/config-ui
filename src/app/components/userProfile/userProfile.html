@@ -63,12 +63,12 @@
                       error-type-required="{{'details.password.error' | translate}}">
           </form-error>
 
-          <input autocomplete="off" name="password" type="password"
+          <input autocomplete="off" name="newPassword" type="password"
                  ng-model="tenantUser.$user.password"
-                 ng-show="resettingPassword || userForm.password.$error.api"
-                 ng-required="userForm.password.$dirty"/>
+                 ng-show="resettingPassword || userForm.newPassword.$error.api"
+                 ng-required="userForm.newPassword.$dirty"/>
 
-          <p id="password-policy" ng-show="userForm.password.$dirty || userForm.password.$error.api"><small>{{'details.password.default.policy' | translate}}</small></p>
+          <p id="password-policy" ng-show="userForm.newPassword.$dirty || userForm.newPassword.$error.api"><small>{{'details.password.default.policy' | translate}}</small></p>
         </div>
       </div>
 
