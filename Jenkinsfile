@@ -58,6 +58,7 @@ pipeline {
       }
     }
     stage ('Preview PR') {
+      when { changeRequest() }
       steps {
         sh "aws s3 rm s3://frontend-prs.cxengagelabs.net/config-ui/${pr}/ --recursive"
         sh "sed -i 's/\\\"\\/main/\\\"\\/config-ui\\/${pr}\\/main/g' dist/index.html"
