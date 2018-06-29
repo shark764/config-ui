@@ -61,11 +61,15 @@ angular.module('liveopsConfigPanel')
                   });
                 }
               } else {
-                console.log('[SDK Listener] No tenant set yet. Trying again. Setting to Session.tenant.tenantId:', Session.tenant.tenantId);
-                CxEngage.session.setActiveTenant({ tenantId: Session.tenant.tenantId, noSession: true }, function() {
-                  console.log('[SDK Listener] SDK tenant set to:', CxEngage.session.getActiveTenantId());
-                  sdkListener(event);
-                });
+
+                if(Session.tenant) {
+                  console.log('[SDK Listener] No tenant set yet. Trying again. Setting to Session.tenant.tenantId:', Session.tenant.tenantId);
+                  CxEngage.session.setActiveTenant({ tenantId: Session.tenant.tenantId, noSession: true }, function() {
+                    console.log('[SDK Listener] SDK tenant set to:', CxEngage.session.getActiveTenantId());
+                    sdkListener(event);
+                  });
+                }
+
               }
             };
           };
