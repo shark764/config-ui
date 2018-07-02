@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.46.4]
+* CXV1-9301 - Can't change media type.
+
 ## [4.46.3]
 * CXV1-14071 - Business Hours - Cannot enter Midnight as End Time.
 
