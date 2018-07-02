@@ -1371,5 +1371,7 @@
   "appdock.custom": "Custom",
   "appdock.conference": "Conference",
   "loFormAlert.reservedWord" : " is a reserved word",
-  "title.text.explain" : "Authentication is required to switch to this tenant"
+  "title.text.explain" : "Authentication is required to switch to this tenant",
+  "interactionMonitoring.confirmEnd" : "Ok to switch tenants? Your current call will end.",
+  "interactionMonitoring.switchInteraction" : "Are you sure you want to switch to another interaction?"
 }

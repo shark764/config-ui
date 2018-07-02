@@ -62,7 +62,6 @@ pipeline {
       steps {
         sh "aws s3 rm s3://frontend-prs.cxengagelabs.net/config-ui/${pr}/ --recursive"
         sh "sed -i 's/\\\"\\/main/\\\"\\/config-ui\\/${pr}\\/main/g' dist/index.html"
-        sh "mv dist/config_pr.json dist/config.json"
         sh "aws s3 sync dist/ s3://frontend-prs.cxengagelabs.net/config-ui/${pr}/ --delete"
         script {
           f.invalidate("E23K7T1ARU8K88")
@@ -86,7 +85,8 @@ pipeline {
             input message: 'Ready for QE?', submittedParameter: 'submitter'
           }
           sh "aws s3 rm s3://frontend-prs.cxengagelabs.net/config-ui/${pr}/ --recursive"
-          sh "sed -i 's/dev/qe/g' dist/config.json"
+          //TODO: currently getting CORS error from api endpoint when switching envs
+          // sh "sed -i 's/dev/qe/g' dist/app/env.js"
           sh "aws s3 sync dist/ s3://frontend-prs.cxengagelabs.net/config-ui/${pr}/ --delete"
           script {
             f.invalidate("E23K7T1ARU8K88")

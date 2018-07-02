@@ -25,8 +25,19 @@ body > .ng-view {
   overflow-y: auto;
 }
 
-#secondaryIframes {
+#secondaryIframes, #interactionMonitoringFrame {
   height: calc(100vh - 54px);
   width: 99.9%;
   border: 0;
+}
+#interactionMonitoringFrame {
+  overflow:hidden;
+}
+#supervisorToolbar {
+  height: 100px;
+  width: 200px;
+  border: 0;
+  overflow:hidden;
+  position: fixed;
+  bottom: 0px;
 }

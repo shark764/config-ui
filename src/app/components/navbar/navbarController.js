@@ -25,6 +25,25 @@ angular.module('liveopsConfigPanel')
         }
       }
 
+      function switchTenant(targetSessionTenant) {
+        Session.setTenant(targetSessionTenant);
+        AuthService.updateDomain(targetSessionTenant);
+        $scope.updateTopbarConfig();
+        $scope.updateBranding();
+        var goTo = $state.current;
+        if($state.includes('content.realtime-dashboards-management-editor')) {
+          goTo = 'content.custom-dashboards-management';
+        } else if ($state.includes('content.flows.editor')){
+          goTo = 'content.flows.flowManagement';
+        }
+        $state.go(goTo, {
+          id: null
+        }, {
+          reload: true,
+          inherit: false
+        });
+      }
+
       $scope.populateTenantsHandler = function() {
         if (!Session.isAuthenticated()) {
           return;
@@ -91,22 +110,19 @@ angular.module('liveopsConfigPanel')
                       // if we are switching from one *CxEngage* IDP to another.
                       // (CxEngage IDP's always have a password prop set to true)
                       if (isCxTenant) {
-                        Session.setTenant(targetSessionTenant);
-                        AuthService.updateDomain(targetSessionTenant);
-                        $scope.updateTopbarConfig();
-                        $scope.updateBranding();
-                        var goTo = $state.current;
-                        if($state.includes('content.realtime-dashboards-management-editor')) {
-                          goTo = 'content.custom-dashboards-management';
-                        } else if ($state.includes('content.flows.editor')){
-                          goTo = 'content.flows.flowManagement';
+
+                        var monitoredInteraction = CxEngage.session.getMonitoredInteraction();
+                        if (monitoredInteraction !== null) {
+                          var confirmedToSwitchTenants = confirm($translate.instant('interactionMonitoring.confirmEnd'));
+                          if (confirmedToSwitchTenants) {
+                            CxEngage.interactions.voice.resourceRemove({interactionId: monitoredInteraction}, function() {
+                              switchTenant(targetSessionTenant);
+                            });
+                          }
+                        } else {
+                          switchTenant(targetSessionTenant);
                         }
-                        $state.go(goTo, {
-                          id: null
-                        }, {
-                          reload: true,
-                          inherit: false
-                        });
+
                       } else {
                         $location.search('tenantid', targetTenant.tenantId);
                         Session.domain = '';

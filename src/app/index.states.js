@@ -473,6 +473,18 @@ angular.module('liveopsConfigPanel')
             }]
           }
         })
+        .state('content.reporting.interactionMonitoring', {
+          url: '/interactionMonitoring?id',
+          title: 'Reporting - Interaction Monitoring',
+          templateUrl: 'app/components/reports/interactionMonitoring/interactionMonitoring.html',
+          controller: 'InteractionMonitoringController',
+          reloadOnSearch: false,
+          resolve: {
+            hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
+              return UserPermissions.resolvePermissions(PermissionGroups.viewInteractionMonitoring);
+            }]
+          }
+        })
         .state('invite-accept', {
           url: '/invite-accept?userid&userId&tenantId&tenantid&token',
           title:'Accept Invite',

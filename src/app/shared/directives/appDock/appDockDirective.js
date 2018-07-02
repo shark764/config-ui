@@ -26,8 +26,14 @@ angular.module('liveopsConfigPanel')
               // use the calculated height of the app dock as the
               // css 'bottom' property to move the agent toolbar
               // up or down along with it
+              /**
+               * TODO: remove agent toolbar when new interaction monitoring is completed 
+               */
               var toolbarElem = angular.element('#config-ui-agent-toolbar');
-
+              var toolbarElem2 = angular.element('#supervisorToolbar');
+              toolbarElem2.css({
+                bottom: elem.$$element[0].firstChild.offsetHeight
+              });
               if (scope.toolbarStatus) {
                 toolbarElem.css({
                   bottom: elem.$$element[0].firstChild.offsetHeight
