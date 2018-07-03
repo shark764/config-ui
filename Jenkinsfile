@@ -7,7 +7,7 @@ import hipchat
 import node
 import frontend
 
-def service = 'Config-Ui'
+def service = 'Config-UI'
 def docker_tag = BUILD_TAG.toLowerCase()
 def pr = env.CHANGE_ID
 def c = new common()
@@ -142,7 +142,8 @@ pipeline {
       when { anyOf {branch 'master'; branch 'develop'; branch 'release'; branch 'hotfix'}}
       steps {
         script {
-          n.push("${service}", "${build_version}")
+          sh "aws s3 sync ./dist/ s3://cxengagelabs-jenkins/frontend/${service}/${build_version}/ --delete"
+          // n.push("${service}", "${build_version}")
         }
       }
     }
@@ -153,7 +154,7 @@ pipeline {
           f.pull("${service}", "${build_version}") // pull down version of site from s3
           f.versionFile("${build_version}") // make version file
           f.confFile("dev", "${build_version}") // make conf file
-          f.deploy("dev","config-ui") // push to s3
+          f.deploy("dev","config") // push to s3
           f.invalidate("E3MJXQEHZTM4FB") // invalidate cloudfront
           h.hipchatDeployServiceSuccess("${service}", "dev", "${build_version}", "${env.BUILD_USER}")
         }
