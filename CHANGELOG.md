@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.46.6]
+* CXV1-14514 - Changing type of an existing media to 'Media List' throws a bunch of entries in list.
+
 ## [4.46.5]
 * CXV1-14515 - Can't change a media to Audio Type when editing.
 
