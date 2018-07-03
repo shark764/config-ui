@@ -109,7 +109,7 @@ angular.module('liveopsConfigPanel')
                         });
                       } else {
                         $location.search('tenantid', targetTenant.tenantId);
-                        Session.domain = "";
+                        Session.domain = '';
                         AuthService.setResumeSession(true);
                         $state.go('login', {
                           sso: targetTenant.password === false ? 'true' : null

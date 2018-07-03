@@ -88,8 +88,13 @@ module.exports = function(options) {
       '!' + options.lang,
       '!' + options.lang + '/**'
     ])
-    .pipe($.debug())
-      .pipe(gulp.dest(options.dist + '/'));
+    /**
+       * The below pipe is usesfull for troubleshooting but 
+       * slows down the build process and clogs up the cli
+       * when not troubleshooting.
+       */
+    //.pipe($.debug())
+    .pipe(gulp.dest(options.dist + '/'));
   });
 
   gulp.task('clean', function (done) {
@@ -128,7 +133,12 @@ module.exports = function(options) {
         options.soundwaveImages + '/**',
         '!' + options.soundwaveImages + '/liveops-logo.png'
       ])
-      .pipe($.debug())
+      /**
+       * The below pipe is usesfull for troubleshooting but 
+       * slows down the build process and clogs up the cli
+       * when not troubleshooting.
+       */
+      // .pipe($.debug())
       .pipe(gulp.dest(options.dist + '/assets/images/'));
   });
 };

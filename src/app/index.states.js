@@ -750,8 +750,10 @@ angular.module('liveopsConfigPanel')
           controller: 'qualityManagementController as qm',
           reloadOnSearch: false,
           resolve: {
-            hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
-              // TODO CXV1-12852 Permissions / Feature Flag for TelStrat page
+            hasPermission: ['UserPermissions', 'PermissionGroups', function() {
+              // Add UserPermissions and PermissionGroups back into the above function params
+              // when we impliment this , remove to avoid linter errors
+              // TODO: CXV1-12852 Permissions / Feature Flag for TelStrat page
               return true;
             }]
           }

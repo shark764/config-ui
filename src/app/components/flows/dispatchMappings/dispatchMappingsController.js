@@ -59,7 +59,7 @@ angular.module('liveopsConfigPanel')
           });
           $scope.dispatchMappings = mappings;
         });
-      }
+      };
 
       vm.loadIntegrations = function() {
         $scope.integrations = Integration.cachedQuery({
@@ -86,14 +86,14 @@ angular.module('liveopsConfigPanel')
         $scope.clearPatternWarnings();
         return $scope.selectedDispatchMapping.save()
         .then(function (response) {
-          var savedDispatchMappingIdx = _.findIndex($scope.dispatchMappings, {id: response.id})
+          var savedDispatchMappingIdx = _.findIndex($scope.dispatchMappings, {id: response.id});
           if (savedDispatchMappingIdx || savedDispatchMappingIdx === 0) {
             var flows = Flow.cachedQuery({
               tenantId: Session.tenant.tenantId
             });
             return flows.$promise.then(function (flowResponse) {
               var flowName = _.find(flowResponse, function (indivFlow) {
-                return indivFlow.id === response.flowId
+                return indivFlow.id === response.flowId;
               }).name;
               $scope.dispatchMappings[savedDispatchMappingIdx].flowNameVal = flowName;
               var action = response.updated ? $translate.instant('value.saveSuccess') : $translate.instant('value.saveSuccessCreate');

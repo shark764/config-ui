@@ -21,6 +21,7 @@
   "validthis": true,
   "laxbreak": true,
   "globals": {
+    "EmbeddedReporting": true,
     "joint": false,
     "Backbone": false,
     "_": false,
@@ -30,10 +31,8 @@
     "document": false,
     "MutationObserver": false,
     "angular": false,
-    // Angular Mocks
     "inject": false,
     "module": false,
-    // JASMINE
     "KeyboardJS": false,
     "MouseWheelJS": false,
     "Offline": false,
