@@ -141,6 +141,11 @@ angular.module('liveopsConfigPanel')
                 saveMedia(model, addNew, response, form);
               });
             } else {
+              // as for uploaded file, first clear out any properties that may have been
+              // left over if the user had previously selected another media type before saving
+              if (model.type === 'audio') {
+                model.properties = {};
+              }
               saveMedia(model, addNew, null, form);
             }
           };

@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.46.5]
+* CXV1-14515 - Can't change a media to Audio Type when editing.
+
 ## [4.46.4]
 * CXV1-9301 - Can't change media type.
 
