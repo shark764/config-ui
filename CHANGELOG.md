@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.46.1]
+Fix jenkins deployments
+
 ## [4.46.0]
 CXV1-14372 - Added Workstation ID field to TenantUser service for TelStrat QM & Recording Integration
 
