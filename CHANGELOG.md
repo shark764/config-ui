@@ -2,7 +2,7 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [4.46.1]
+## [4.46.2]
 Fix jenkins deployments
 
 ## [4.46.0]
