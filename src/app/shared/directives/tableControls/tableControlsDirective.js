@@ -37,7 +37,7 @@ angular.module('liveopsConfigPanel')
           function setColumnPreferences () {
             var columnPreferences = Session.columnPreferences;
             columnPreferences[$scope.config.title] = $scope.config.fields;
-            delete columnPreferences["false"];
+            delete columnPreferences['false'];
             Session.setColumnPreferences(columnPreferences);
           }
 
@@ -112,7 +112,7 @@ angular.module('liveopsConfigPanel')
             }
 
             for (var fieldIndex = 0; fieldIndex < $scope.config.fields.length; fieldIndex++) {
-              if ($scope.config.title !== "false" && Session.columnPreferences[$scope.config.title]) {
+              if ($scope.config.title !== 'false' && Session.columnPreferences[$scope.config.title]) {
                 //Initialize the user's preferred column configuration
                 for (var storeOptionIndex = 0; storeOptionIndex < Session.columnPreferences[$scope.config.title].length; storeOptionIndex++) {
                   var storedOption = Session.columnPreferences[$scope.config.title][storeOptionIndex];

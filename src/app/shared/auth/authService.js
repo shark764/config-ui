@@ -20,7 +20,7 @@ angular.module('liveopsConfigPanel')
           if (domain && domain.value && !angular.isObject(domain.value)) {
             Session.domain = domain;
           } else {
-            Session.domain = "";
+            Session.domain = '';
           }
         });
       };

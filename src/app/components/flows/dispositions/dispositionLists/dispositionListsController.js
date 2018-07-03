@@ -155,18 +155,18 @@ angular.module('liveopsConfigPanel')
 
       var copy = vm.selectedDispositionList.dispositions.slice(0);
 
-      for (var i = 0; i < copy.length; i++) {
-        if (angular.isDefined(copy[i].type)) {
-          copy.splice(i, 1);
-          i--;
+      for (var ii = 0; ii < copy.length; ii++) {
+        if (angular.isDefined(copy[ii].type)) {
+          copy.splice(ii, 1);
+          ii--;
           continue;
         }
-        delete copy[i].active;
-        delete copy[i].description;
-        delete copy[i].externalId;
-        delete copy[i].shared;
-        delete copy[i].tenantId;
-        delete copy[i].name;
+        delete copy[ii].active;
+        delete copy[ii].description;
+        delete copy[ii].externalId;
+        delete copy[ii].shared;
+        delete copy[ii].tenantId;
+        delete copy[ii].name;
       }
 
 

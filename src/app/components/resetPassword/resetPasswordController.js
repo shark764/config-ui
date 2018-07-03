@@ -37,6 +37,6 @@ angular.module('liveopsConfigPanel')
       } else {
         $scope.legalLinkURL = legalLinkCX;
       }
-    }
+    };
 
   }]);
