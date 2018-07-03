@@ -143,7 +143,6 @@ pipeline {
       steps {
         script {
           sh "aws s3 sync ./dist/ s3://cxengagelabs-jenkins/frontend/${service}/${build_version}/ --delete"
-          // n.push("${service}", "${build_version}")
         }
       }
     }
