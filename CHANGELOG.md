@@ -12,12 +12,12 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 Fix jenkins deployments (broken)
 
 ## [4.46.0]
-CXV1-14372 - Added Workstation ID field to TenantUser service for TelStrat QM & Recording Integration
+CXV1-14372 - Added Workstation ID field to TenantUser service for TelStrat QM & Recording Integration (broken)
 
 ## [4.45.2]
-* CXV1-14279 - SSO: "Cannot Read Property tenantId of null" when signing in with sso
+* CXV1-14279 - SSO: "Cannot Read Property tenantId of null" when signing in with sso (broken)
 
-## [4.45.1]
+## [4.45.1] (broken)
 * Rebasing Hotfixes:
 * Fixed Custom Domain Help Links
 * Fixed inability to change a user's role
