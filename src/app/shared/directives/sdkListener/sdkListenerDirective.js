@@ -16,7 +16,7 @@ angular.module('liveopsConfigPanel')
                   window.cxSubscriptions[event.data.command] = CxEngage.subscribe(event.data.command, function(error, topic, response) {
                     if (document.getElementById('secondaryIframes') === null) {
                       CxEngage.unsubscribe(window.cxSubscriptions[event.data.command]);
-                      CxEngage.reporting.removeStatSubscription({ statId: "interactions-in-conversation-list" });
+                      CxEngage.reporting.removeStatSubscription({ statId: 'interactions-in-conversation-list' });
                     }
                       event.source.postMessage({
                         subscription: {
@@ -34,19 +34,19 @@ angular.module('liveopsConfigPanel')
                   });
                 } else if (event.data.module.includes('interactions')) {
                   CxEngage.interactions[event.data.module.split('.')[1]][event.data.command](event.data.data, function(error, topic, response) {
-                    event.source !== undefined &&
+                    return event.source !== undefined &&
                     event.source.postMessage({
                       error: error,
                       topic: topic,
                       response: response
-                    }, '*');
+                    },'*');
                   });
                 } else if(event.data.module === 'updateLocalStorage') {
                   event.source.postMessage({
                     error: null,
                     topic: ['updateLocalStorage'],
                     response: JSON.parse(window.localStorage.getItem('LIVEOPS-PREFERENCE-KEY')).tenant
-                  },'*')
+                  },'*');
                 } else {
                   console.log('[SDK Listener] Asking the SDK for:', event.data);
                   CxEngage[event.data.module][event.data.command](event.data.data, function(error, topic, response) {
@@ -71,7 +71,7 @@ angular.module('liveopsConfigPanel')
                 }
 
               }
-            };
+            }
           };
           window.addEventListener('message', sdkListener, false);
         }

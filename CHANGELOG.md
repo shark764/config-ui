@@ -2,8 +2,29 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [4.45.3]
+## [4.46.8]
 * CXV1-14494 - Replace all user-facing text instances of 'CxEngage Authentication' with 'Platform Authentication'
+
+## [4.46.7]
+* CXV1-14278 - Cannot update default tenant on user profile page in config UI
+
+## [4.46.6]
+* CXV1-14514 - Changing type of an existing media to 'Media List' throws a bunch of entries in list.
+
+## [4.46.5]
+* CXV1-14515 - Can't change a media to Audio Type when editing.
+
+## [4.46.4]
+* CXV1-9301 - Can't change media type.
+
+## [4.46.3]
+* CXV1-14071 - Business Hours - Cannot enter Midnight as End Time.
+
+## [4.46.2]
+Fix jenkins deployments
+
+## [4.46.0]
+CXV1-14372 - Added Workstation ID field to TenantUser service for TelStrat QM & Recording Integr
 
 ## [4.45.2]
 * CXV1-14279 - SSO: "Cannot Read Property tenantId of null" when signing in with sso

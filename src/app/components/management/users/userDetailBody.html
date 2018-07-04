@@ -119,6 +119,15 @@
       </div>
     </div>
 
+    <div class="input-group">
+      <label>{{'details.workStationId' | translate}}</label>
+      <input
+        ng-model="selectedTenantUser.workStationId"
+        name="workStationId"
+        type="text">
+      </input>
+    </div>
+
     <span ng-if="hasVerintIntegration">
       <div class="input-group display-only">
         <label>{{'details.tenantUserId' | translate}}</label>

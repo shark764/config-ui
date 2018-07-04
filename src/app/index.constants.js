@@ -89,6 +89,8 @@ angular.module('liveopsConfigPanel.config', [])
             defaultValName = ': ' + $translate.instant('value.disabled');
             break;
           case bulkEditUserAuth:
+            defaultValName = '';
+            break;
           default:
             defaultValName = '';
         }

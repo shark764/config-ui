@@ -77,7 +77,8 @@
             </form-error>
 
             <lo-time-picker name="{{dayPrefix.short}}StartTimeMinutes"
-              ng-model="hc.selectedHour[dayPrefix.short + 'StartTimeMinutes']"></lo-time-picker>
+              ng-model="hc.selectedHour[dayPrefix.short + 'StartTimeMinutes']"
+              ng-time-section-pick="StartTimeMinutes"></lo-time-picker>
           </td>
           <td>
             <form-error field="hc.forms.detailsForm[dayPrefix.short + 'EndTimeMinutes']"
@@ -85,7 +86,8 @@
             </form-error>
 
             <lo-time-picker name="{{dayPrefix.short}}EndTimeMinutes"
-              ng-model="hc.selectedHour[dayPrefix.short + 'EndTimeMinutes']"></lo-time-picker>
+              ng-model="hc.selectedHour[dayPrefix.short + 'EndTimeMinutes']"
+              ng-time-section-pick="EndTimeMinutes"></lo-time-picker>
           </td>
         </tr>
       </tbody>
