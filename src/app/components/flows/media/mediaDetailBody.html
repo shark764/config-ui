@@ -25,7 +25,7 @@
       <select name="type"
         ng-change="text = ''"
         ng-required="true"
-        ng-disabled="!selectedMedia.isNew()"
+        ng-disabled="!selectedMedia.isNew() && !('MANAGE_ALL_MEDIA' | hasPermission)"
         ng-model="selectedMedia.type"
         ng-options="type.value as type.display for type in getMediaTypes()">
         <option value="" disabled>{{'media.details.type.select' | translate}}</option>
