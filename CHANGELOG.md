@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.46.7]
+* CXV1-14278 - Cannot update default tenant on user profile page in config UI
+
 ## [4.46.6]
 * CXV1-14514 - Changing type of an existing media to 'Media List' throws a bunch of entries in list.
 
