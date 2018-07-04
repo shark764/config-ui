@@ -120,6 +120,9 @@ angular.module('liveopsConfigPanel')
             form = form || $scope.forms.mediaForm;
 
             if (model.type === 'list') {
+              // As for uploaded file, first clear out any properties that may have been
+              // left over if the user had previously selected another media type before saving
+              model.properties = {};
               // special behavior for saving media lists
               saveMediaList(model, form, addNew);
               return;

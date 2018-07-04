@@ -42,7 +42,8 @@ angular.module('liveopsConfigPanel')
             });
           }
 
-          if (!scope.list.source) {
+          // Test if sources list is undefined or isn't a valid object
+          if (!scope.list.source || typeof scope.list.source !== 'object') {
             scope.addBtnEnabled = false;
             scope.list.source = [''];
           } else {
