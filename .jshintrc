@@ -21,7 +21,10 @@
   "validthis": true,
   "laxbreak": true,
   "globals": {
+    "confirm": true,
+    "location": true,
     "EmbeddedReporting": true,
+    "Twilio": true,
     "joint": false,
     "Backbone": false,
     "_": false,
