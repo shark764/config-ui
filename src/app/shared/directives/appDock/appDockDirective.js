@@ -19,6 +19,7 @@ angular.module('liveopsConfigPanel')
           scope.apps = [];
           scope.showAppDock = false;
           scope.showApps = false;
+          scope.isLoadingAppDock = true;
 
           function resetAgentToolbarPosition() {
             // once everything has loaded and executed on the page...
@@ -73,6 +74,11 @@ angular.module('liveopsConfigPanel')
 
           scope.$on('appDockDataLoaded', function () {
             resetAgentToolbarPosition();
+          });
+
+          //Added event to know when to stop using this loading gif, as the main AppDock page would have been loaded once
+          scope.$on('appDockStopLoading', function () {
+            scope.isLoadingAppDock = false;
           });
         }
       };

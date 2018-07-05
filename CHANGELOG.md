@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.48.2]
+CXV1-13866 - Added loading GIF for AppDock and interaction view.
+
 ## [4.48.1]
 * CXV1-13716 - Navigating to a Non Existing RealTime Dashboard does not navigate to Dashboard Overview.
 
