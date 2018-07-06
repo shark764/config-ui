@@ -12,8 +12,10 @@ angular.module('liveopsConfigPanel')
         },
         link: function (scope) {
           var getRecordingUrl;
-
-          scope.isLoading = true;
+          //This event is to stop the loading gif for the main App Dock container, and moving forward using the one on the interactions directive
+          scope.$emit('appDockStopLoading');
+          scope.isLoadingAppDock = true;
+    
           // clearing out all interaction data as a safeguard
           scope.interactionData = null;
           scope.artifacts = null;
@@ -99,11 +101,14 @@ angular.module('liveopsConfigPanel')
                   }
                 })
               ).then(function () {
-                scope.isLoading = false;
+                scope.isLoadingAppDock = false;
                 return response;
-              });
+              }, function (reason){
+                scope.isLoadingAppDock = false;
+                return reason;
+              })
             }, function (err) {
-              scope.isLoading = false;
+              scope.isLoadingAppDock = false;
               return err;
             });
           }
@@ -115,7 +120,7 @@ angular.module('liveopsConfigPanel')
             }, function(error, topic, response){
               if (error) {
                 scope.showNoResultsMsg = true;
-                scope.isLoading = false;
+                scope.isLoadingAppDock = false;
               }
 
               scope.artifacts = _.filter(response.results, function(item) {
@@ -128,18 +133,17 @@ angular.module('liveopsConfigPanel')
                   tenantId: scope.config.tenantId,
                   artifactId: scope.artifacts[0].artifactId
                 }, function(error, topic, response){
-                  scope.isLoading = false;
+                  scope.isLoadingAppDock = false;
                   scope.showNoResultsMsg = false;
                   tenantTimezone();
                   scope.setSelectedItem(response);
                   scope.$emit('appDockDataLoaded');
                 });
               } else {
+                scope.isLoadingAppDock = false;
                 scope.showNoResultsMsg = true;
               }
             });
-
-            scope.isLoading = false;
             scope.$emit('appDockDataLoaded');
           }
 
@@ -176,6 +180,7 @@ angular.module('liveopsConfigPanel')
                   // with a new src url
                   audioCurrentTime = audioPlayer.currentTime;
                   scope.interactionData = recordingsResponse;
+                  scope.isLoadingAppDock = false;
 
                   // if the audio file was paused at some point after
                   // the beginning of the playback, then skip back to that point
@@ -225,10 +230,10 @@ angular.module('liveopsConfigPanel')
                 // data, then that means there is no data for the given
                 // interaction, so show the error message
                 if (!angular.isArray(scope.interactionData) || (angular.isArray(scope.interactionData) && scope.interactionData.length < 1)) {
-                  scope.showNoResultsMsg = true;
-                  scope.isLoading = false;
+                    scope.isLoadingAppDock = false;
+                    scope.showNoResultsMsg = true;
                 } else {
-                  scope.isLoading = false;
+                  scope.isLoadingAppDock = false;
                   // otherwise, if no item has been selected yet, then automatically
                   // set the first item to display its data on load
                   if (!scope.selectedItem) {
