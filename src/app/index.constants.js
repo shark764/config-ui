@@ -16,7 +16,6 @@ angular.module('liveopsConfigPanel.config', [])
 
 .factory('validationPatterns', function () {
   return {
-    e164: new RegExp(/^\+?(?:[0-9] ?){10}[0-9]$/),
     sip: new RegExp(/[s|S]{1}[i|I]{1}[p|P]{1}:.*/)
   };
 })
