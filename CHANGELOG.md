@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.48.3]
+CXV1-13691 - Resetting user password breaks config-ui
+
 ## [4.48.2]
 CXV1-13866 - Added loading GIF for AppDock and interaction view.
 
