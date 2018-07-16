@@ -32,6 +32,7 @@
       viewMedia: ['VIEW_ALL_MEDIA'],
       viewDispatchMappings: ['VIEW_ALL_CONTACT_POINTS'],
       viewDashboards: ['VIEW_ALL_REALTIME_DASHBOARDS'],
+      viewInteractionMonitoring: ['MONITOR_ALL_CALLS'],
       viewCustomStats: ['CUSTOM_STATS_READ'],
       viewAppCreds: ['MANAGE_ALL_APP_CREDENTIALS'],
       viewMessageTemplates: ['VIEW_ALL_MESSAGE_TEMPLATES'],

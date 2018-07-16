@@ -2,6 +2,30 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.48.2]
+CXV1-13866 - Added loading GIF for AppDock and interaction view.
+
+## [4.48.1]
+* CXV1-13716 - Navigating to a Non Existing RealTime Dashboard does not navigate to Dashboard Overview.
+
+## [4.48.0]
+CXV1-9940 - Interaction monitoring table (Alpha UAT)
+
+## [4.47.0]
+* CXV1-14191 - added value selector for agentInitiated
+
+## [4.46.8]
+* CXV1-14494 - Replace all user-facing text instances of 'CxEngage Authentication' with 'Platform Authentication'
+
+## [4.46.7]
+* CXV1-14278 - Cannot update default tenant on user profile page in config UI
+
+## [4.46.6]
+* CXV1-14514 - Changing type of an existing media to 'Media List' throws a bunch of entries in list.
+
+## [4.46.5]
+* CXV1-14515 - Can't change a media to Audio Type when editing.
+
 ## [4.46.4]
 * CXV1-9301 - Can't change media type.
 
@@ -12,7 +36,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 Fix jenkins deployments (broken)
 
 ## [4.46.0]
+<<<<<<< HEAD
 CXV1-14372 - Added Workstation ID field to TenantUser service for TelStrat QM & Recording Integration (broken)
+=======
+CXV1-14372 - Added Workstation ID field to TenantUser service for TelStrat QM & Recording Integr
+>>>>>>> 138b7b4a9a355c0f45481bd39b6666159b74ea78
 
 ## [4.45.2]
 * CXV1-14279 - SSO: "Cannot Read Property tenantId of null" when signing in with sso (broken)

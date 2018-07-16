@@ -1,5 +1,4 @@
-<loading ng-show="isLoading"></loading>
-
+<loading ng-show="isLoadingAppDock"></loading>
 <div layout="row" ng-if="showNoResultsMsg === true">
   <md-toolbar
     class="highlight-error"
@@ -11,7 +10,7 @@
 </div>
 
 <section
-  ng-if="configData.type === 'voice' && artifacts.length > 0 && showNoResultsMsg !== true"
+  ng-if="configData.type === 'voice' && artifacts.length > 0 && showNoResultsMsg !== true && !isLoadingAppDock"
   id="audio-content"
   layout="row"
   flex
@@ -20,7 +19,7 @@
 </section>
 
 <section
-  ng-if="(configData.type === 'messaging' || configData.type === 'sms') && interactionData.length > 0 && showNoResultsMsg !== true"
+  ng-if="(configData.type === 'messaging' || configData.type === 'sms') && interactionData.length > 0 && showNoResultsMsg !== true && !isLoadingAppDock"
   id="messaging-content"
   layout="row"
   flex
