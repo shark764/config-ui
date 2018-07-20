@@ -309,6 +309,15 @@ angular.module('liveopsConfigPanel')
             item.endpoint = item.endpoint.id;
           }
         }
+
+        // Convert string value to boolean,
+        // to avoid conflicts on expected values
+        if (item.hasOwnProperty('warmTransfer')) {
+          item.warmTransfer = (item.warmTransfer === 'true');
+        }
+        if (item.hasOwnProperty('coldTransfer')) {
+          item.coldTransfer = (item.coldTransfer === 'true');
+        }
         return item;
       });
 
