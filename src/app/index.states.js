@@ -419,7 +419,7 @@ angular.module('liveopsConfigPanel')
           resolve: {
             userToReset: ['$stateParams', 'Session', 'User', '$q', '$state', function($stateParams, Session, User, $q, $state) {
               Session.setToken('Token ' + $stateParams.token);
-              
+
               var userResult = User.get({
                 id: $stateParams.userId || $stateParams.userid
               }, angular.noop, function() {

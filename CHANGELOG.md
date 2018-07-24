@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.48.4]
+* CXV1-14632 - Telstrat - Switching from a Telstrat to a non-telstart tenant causes UI errors.
+
 ## [4.48.3]
 * CXV1-13691 - Resetting user password breaks config-ui
 * CXV1-13742 - Updated E 164 validation so it can include numbers according to standard, checked documentation.
