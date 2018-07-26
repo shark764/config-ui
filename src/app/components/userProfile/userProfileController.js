@@ -66,12 +66,13 @@ angular.module('liveopsConfigPanel')
         delete $scope.tenantUser.status; //User cannot edit their own status
         delete $scope.tenantUser.roleId; //User cannot edit their own platform roleId
 
-        var password = $scope.tenantUser.$user.newPassword;
+        // after submit, new password remains in password variable
+        var password = $scope.tenantUser.$user.password;
         return $scope.tenantUser.$user.save(function(user) {
           Session.setUser(user);
           if ($scope.userForm.newPassword.$dirty) {
             return $q.when(AuthService.generateToken(user.email, password, Token)).then(function (tokenResponse) {
-              Session.setToken(tokenResponse.token);
+              Session.setToken(tokenResponse);
               $scope.userForm.newPassword.$setPristine();
               $scope.userForm.currentPassword.$setPristine();
               $scope.resettingPassword = false;
