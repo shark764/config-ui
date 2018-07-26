@@ -149,9 +149,27 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.logout = function() {
-        AuthService.logout();
-        $state.transitionTo('login');
-        $rootScope.$broadcast('logout');
+        var monitoredInteraction = CxEngage.session.getMonitoredInteraction();
+        if (monitoredInteraction !== null) {
+          var confirmedToLogout = confirm($translate.instant('interactionMonitoring.confirmEnd.logout'));
+          if (confirmedToLogout) {
+            
+              CxEngage.interactions.voice.resourceRemove({interactionId: monitoredInteraction}, function() {
+                setTimeout(function() {
+                  AuthService.logout();
+                  $state.transitionTo('login');
+                  $rootScope.$broadcast('logout');
+                  // Reload ensure no saved state for the next session
+                  location.reload();
+                },1000);
+              });
+            
+          }
+        } else {
+          AuthService.logout();
+          $state.transitionTo('login');
+          $rootScope.$broadcast('logout');
+        }
       };
 
       $scope.userDropdownItems = [{
@@ -486,7 +504,7 @@ angular.module('liveopsConfigPanel')
 
           items.push({
             label: $translate.instant('navbar.reports.silentMonitoring.title'),
-            stateLink: 'content.reporting.silentMonitoring',
+            stateLink: 'content.reporting.interactionMonitoring',
             id: 'silent-monitoring-link',
             order: 5
           });

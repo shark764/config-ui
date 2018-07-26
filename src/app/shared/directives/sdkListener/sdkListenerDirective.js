@@ -3,6 +3,7 @@ window.cxSubscriptions = {};
 angular.module('liveopsConfigPanel')
   .directive('sdkListener', ['Session', '$translate',
     function (Session, $translate) {
+      var tenantIsSet = false;
       return {
         restrict: 'E',
         link: function () {
@@ -13,24 +14,34 @@ angular.module('liveopsConfigPanel')
                event.origin.includes('cxengagelabs')) {
               if (CxEngage.session.getActiveTenantId()) {
                 if (event.data.module === 'subscribe') {
-                  window.cxSubscriptions[event.data.command] = CxEngage.subscribe(event.data.command, function(error, topic, response) {
+                  var subscribedTenant = CxEngage.session.getActiveTenantId();
+                  window.cxSubscriptions[event.data.command + subscribedTenant] = CxEngage.subscribe(event.data.command, function(error, topic, response) {
                       if (location.hash !== '#/reporting/interactionMonitoring?alpha') {
                         CxEngage.unsubscribe(window.cxSubscriptions[event.data.command]);
                         CxEngage.reporting.removeStatSubscription({ statId: 'interactions-in-conversation-list' });
                       } else {
-                        event.source.postMessage({
-                          subscription: {
-                            error: error,
-                            topic: topic,
-                            response: response
-                          }
-                        }, '*');
+                        try {
+                          event.source.postMessage({
+                            subscription: {
+                              error: error,
+                              topic: topic,
+                              response: response
+                            }
+                          }, '*');
+                        } catch (error) {
+                          console.warn('Cannot find original requestor iframe for subscription: ' ,event.data.command + 'for tenant id ' + subscribedTenant)
+                          CxEngage.unsubscribe(window.cxSubscriptions[event.data.command + subscribedTenant]);
+                        }
                       }
                     }
                   );
                 } else if (event.data.module === 'monitorCall') {
 
-                    CxEngage.session.setActiveTenant({tenantId: CxEngage.session.getActiveTenantId()});
+                    if(!tenantIsSet) {
+                      CxEngage.session.setActiveTenant({tenantId: CxEngage.session.getActiveTenantId()});
+                      tenantIsSet = true
+                    }
+                    
                     var monitoredInteraction = CxEngage.session.getMonitoredInteraction();
                     var defaultExtensionProvider = CxEngage.session.getDefaultExtension().provider;
 
@@ -39,26 +50,32 @@ angular.module('liveopsConfigPanel')
                         .postMessage(
                           {subscription: {
                             topic: 'monitorCall',
-                            response: { interactionId: event.data.data.interactionId, status: 'startingSession', defaultExtensionProvider: defaultExtensionProvider }
+                            response: { interactionId: event.data.data.interactionId, status: 'startingSession', defaultExtensionProvider: defaultExtensionProvider, transitionCall: false }
                           }}, '*');
                     } else {
                         var confirmedToSwitchInteraction = confirm($translate.instant('interactionMonitoring.switchInteraction'));
                         if (confirmedToSwitchInteraction) {
                           CxEngage.interactions.voice.resourceRemove({interactionId: monitoredInteraction}, function() {
-                            document.getElementById('supervisorToolbar').contentWindow
-                            .postMessage(
-                              {subscription: {
-                                topic: 'monitorCall',
-                                response: { interactionId: event.data.data.interactionId, status: 'startingSession' }
-                              }}, '*');
+                              document.getElementById('supervisorToolbar').contentWindow
+                              .postMessage(
+                                {subscription: {
+                                  topic: 'monitorCall',
+                                  response: { interactionId: event.data.data.interactionId, status: 'startingSession', defaultExtensionProvider: defaultExtensionProvider, transitionCall: true }
+                                }}, '*');
                           });
+                        } else {
+                          event.source
+                          .postMessage(
+                            {
+                              topic: ['monitorCall'],
+                              response: 'cancelled'
+                            }, '*');
                         }
                     }
                 
                 } else if (event.data.module.includes('interactions')) {
                   CxEngage.interactions[event.data.module.split('.')[1]][event.data.command](event.data.data, function(error, topic, response) {
-                    return event.source !== undefined &&
-                    event.source.postMessage({
+                    return document.getElementById('supervisorToolbar').contentWindow.postMessage({
                       error: error,
                       topic: topic,
                       response: response

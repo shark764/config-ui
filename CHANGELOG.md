@@ -2,6 +2,11 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.49.0]
+* CXV1-13680 - Remove old toolbar from config-ui
+* CXV1-14659 - Silent Monitoring - Permissions are being cached
+* CXV1-14723 - Silent monitoring - Navigating to another tenant and back causes "postMessage of undefined"
+
 ## [4.48.5]
 * CXV1-13691 - Resetting user password breaks config-ui.
 
@@ -43,15 +48,15 @@ CXV1-9940 - Interaction monitoring table (Alpha UAT)
 * CXV1-14071 - Business Hours - Cannot enter Midnight as End Time.
 
 ## [4.46.2]
-Fix jenkins deployments
+Fix jenkins deployments (broken)
 
 ## [4.46.0]
-CXV1-14372 - Added Workstation ID field to TenantUser service for TelStrat QM & Recording Integr
+CXV1-14372 - Added Workstation ID field to TenantUser service for TelStrat QM & Recording Integration (broken)
 
 ## [4.45.2]
-* CXV1-14279 - SSO: "Cannot Read Property tenantId of null" when signing in with sso
+* CXV1-14279 - SSO: "Cannot Read Property tenantId of null" when signing in with sso (broken)
 
-## [4.45.1]
+## [4.45.1] (broken)
 * Rebasing Hotfixes:
 * Fixed Custom Domain Help Links
 * Fixed inability to change a user's role

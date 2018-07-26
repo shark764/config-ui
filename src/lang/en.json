@@ -1374,5 +1374,6 @@
   "loFormAlert.reservedWord" : " is a reserved word",
   "title.text.explain" : "Authentication is required to switch to this tenant",
   "interactionMonitoring.confirmEnd" : "Ok to switch tenants? Your current call will end.",
+  "interactionMonitoring.confirmEnd.logout" : "Ok to logout? Your current call will end.",
   "interactionMonitoring.switchInteraction" : "Are you sure you want to switch to another interaction?"
 }
