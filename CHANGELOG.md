@@ -2,6 +2,11 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.49.0]
+* CXV1-13680 - Remove old toolbar from config-ui
+* CXV1-14659 - Silent Monitoring - Permissions are being cached
+* CXV1-14723 - Silent monitoring - Navigating to another tenant and back causes "postMessage of undefined"
+
 ## [4.48.5]
 * CXV1-13691 - Resetting user password breaks config-ui.
 
@@ -46,11 +51,7 @@ CXV1-9940 - Interaction monitoring table (Alpha UAT)
 Fix jenkins deployments (broken)
 
 ## [4.46.0]
-<<<<<<< HEAD
 CXV1-14372 - Added Workstation ID field to TenantUser service for TelStrat QM & Recording Integration (broken)
-=======
-CXV1-14372 - Added Workstation ID field to TenantUser service for TelStrat QM & Recording Integr
->>>>>>> 138b7b4a9a355c0f45481bd39b6666159b74ea78
 
 ## [4.45.2]
 * CXV1-14279 - SSO: "Cannot Read Property tenantId of null" when signing in with sso (broken)
