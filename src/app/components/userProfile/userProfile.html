@@ -47,7 +47,7 @@
 
           <input autocomplete="off" name="currentPassword" type="password"
             ng-model="tenantUser.$user.currentPassword"
-            ng-required="userForm.currentPassword.$dirty"/>
+            ng-required="userForm.currentPassword.$dirty && userForm.currentPassword.$invalid"/>
         </div>
       </div>
 
@@ -66,7 +66,7 @@
           <input autocomplete="off" name="newPassword" type="password"
                  ng-model="tenantUser.$user.password"
                  ng-show="resettingPassword || userForm.newPassword.$error.api"
-                 ng-required="userForm.newPassword.$dirty"/>
+                 ng-required="userForm.newPassword.$dirty && userForm.currentPassword.$invalid"/>
 
           <p id="password-policy" ng-show="userForm.newPassword.$dirty || userForm.newPassword.$error.api"><small>{{'details.password.default.policy' | translate}}</small></p>
         </div>

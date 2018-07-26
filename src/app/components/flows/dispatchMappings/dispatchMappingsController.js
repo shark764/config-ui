@@ -2,35 +2,38 @@
 
 angular.module('liveopsConfigPanel')
   .controller('DispatchMappingsController', [
-    '$scope', 'Session', 'DispatchMapping', 'Flow', 'Integration', 'dispatchMappingTableConfig', 'dispatchMappingInteractionFields', 'dispatchMappingChannelTypes', 'dispatchMappingDirections', 'loEvents', 'Modal', '$translate', 'Alert', 'validationPatterns',
-    function($scope, Session, DispatchMapping, Flow, Integration, dispatchMappingTableConfig, dispatchMappingInteractionFields, dispatchMappingChannelTypes, dispatchMappingDirections, loEvents, Modal, $translate, Alert, validationPatterns) {
+    '$scope', 'Session', 'DispatchMapping', 'Flow', 'Integration', 'dispatchMappingTableConfig', 'dispatchMappingInteractionFields', 'dispatchMappingChannelTypes', 'dispatchMappingDirections', 'loEvents', 'Modal', 'phoneUtils', '$translate', 'Alert', 'validationPatterns',
+    function($scope, Session, DispatchMapping, Flow, Integration, dispatchMappingTableConfig, dispatchMappingInteractionFields, dispatchMappingChannelTypes, dispatchMappingDirections, loEvents, Modal, phoneUtils, $translate, Alert, validationPatterns) {
       var vm = this;
       $scope.mappingValPatternError = false;
-      var e164Pattern = validationPatterns.e164;
       var sipPattern = validationPatterns.sip;
 
       $scope.patternWarn = function (string) {
-        if (
-          string &&
-          string.length > 0 &&
-          $scope.selectedDispatchMapping.interactionField === 'contact-point'
-        ) {
-          if ($scope.selectedDispatchMapping.channelType === 'voice') {
+        try {
             if (
-              e164Pattern.test(string) ||
-              sipPattern.test(string)
+            string &&
+            string.length > 0 &&
+            $scope.selectedDispatchMapping.interactionField === 'contact-point'
             ) {
-              $scope.mappingVoiceValPatternError = false;
-            } else {
-              $scope.mappingVoiceValPatternError = true;
+            if ($scope.selectedDispatchMapping.channelType === 'voice') {
+                if (
+                phoneUtils.isPossibleNumber(string) ||
+                sipPattern.test(string)
+                ) {
+                $scope.mappingVoiceValPatternError = false;
+                } else {
+                $scope.mappingVoiceValPatternError = true;
+                }
+            } else if ($scope.selectedDispatchMapping.channelType === 'sms') {
+                if (phoneUtils.isPossibleNumber(string)) {
+                $scope.mappingSmsValPatternError = false;
+                } else {
+                $scope.mappingSmsValPatternError = true;
+                }
             }
-          } else if ($scope.selectedDispatchMapping.channelType === 'sms') {
-            if (e164Pattern.test(string)) {
-              $scope.mappingSmsValPatternError = false;
-            } else {
-              $scope.mappingSmsValPatternError = true;
             }
-          }
+        } catch (error) {
+            $scope.mappingVoiceValPatternError = true;
         }
       };
 
