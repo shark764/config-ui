@@ -11,6 +11,7 @@ angular.module('liveopsConfigPanel')
           config: '='
         },
         link: function (scope) {
+          scope.showNoPermissionsMsg = false;
           var getRecordingUrl;
           //This event is to stop the loading gif for the main App Dock container, and moving forward using the one on the interactions directive
           scope.$emit('appDockStopLoading');
@@ -104,6 +105,9 @@ angular.module('liveopsConfigPanel')
                 scope.isLoadingAppDock = false;
                 return response;
               }, function (reason){
+                if(reason.status === 401 || reason.status === 403){
+                  scope.showNoPermissionsMsg = true;
+                }
                 scope.isLoadingAppDock = false;
                 return reason;
               })
@@ -231,7 +235,9 @@ angular.module('liveopsConfigPanel')
                 // interaction, so show the error message
                 if (!angular.isArray(scope.interactionData) || (angular.isArray(scope.interactionData) && scope.interactionData.length < 1)) {
                     scope.isLoadingAppDock = false;
-                    scope.showNoResultsMsg = true;
+                    if(scope.showNoPermissionsMsg === false){
+                        scope.showNoResultsMsg = true;
+                    }
                 } else {
                   scope.isLoadingAppDock = false;
                   // otherwise, if no item has been selected yet, then automatically

@@ -9,8 +9,18 @@
     </md-toolbar>
 </div>
 
+<div layout="row" ng-if="showNoPermissionsMsg === true">
+    <md-toolbar
+      class="highlight-error"
+      layout-padding
+      layout-margin
+      layout-align="center center">
+        {{'appdock.messages.details.noPermissions' | translate}}
+      </md-toolbar>
+  </div>
+
 <section
-  ng-if="configData.type === 'voice' && artifacts.length > 0 && showNoResultsMsg !== true && !isLoadingAppDock"
+  ng-if="configData.type === 'voice' && artifacts.length > 0 && (showNoResultsMsg !== true && showNoPermissionsMsg !== true) && !isLoadingAppDock"
   id="audio-content"
   layout="row"
   flex
@@ -19,7 +29,7 @@
 </section>
 
 <section
-  ng-if="(configData.type === 'messaging' || configData.type === 'sms') && interactionData.length > 0 && showNoResultsMsg !== true && !isLoadingAppDock"
+  ng-if="(configData.type === 'messaging' || configData.type === 'sms') && interactionData.length > 0 && (showNoResultsMsg !== true && showNoPermissionsMsg !== true) && !isLoadingAppDock"
   id="messaging-content"
   layout="row"
   flex
