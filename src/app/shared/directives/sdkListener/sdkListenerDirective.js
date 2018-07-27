@@ -16,7 +16,7 @@ angular.module('liveopsConfigPanel')
                 if (event.data.module === 'subscribe') {
                   var subscribedTenant = CxEngage.session.getActiveTenantId();
                   window.cxSubscriptions[event.data.command + subscribedTenant] = CxEngage.subscribe(event.data.command, function(error, topic, response) {
-                      if (location.hash !== '#/reporting/interactionMonitoring?alpha') {
+                      if (location.hash !== '#/reporting/interactionMonitoring') {
                         CxEngage.unsubscribe(window.cxSubscriptions[event.data.command]);
                         CxEngage.reporting.removeStatSubscription({ statId: 'interactions-in-conversation-list' });
                       } else {
