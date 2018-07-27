@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.49.2]
+* Remove supervisor toolbar feature flag
+
 ## [4.49.1]
 * CXV1-13830 - Added insufficient privileges message for App Dock, when attempting to load Message Transcripts, and not having MESSAGING_USERS_READ permission on current role.
 
