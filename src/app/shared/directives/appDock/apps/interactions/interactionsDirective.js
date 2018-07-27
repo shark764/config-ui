@@ -16,7 +16,7 @@ angular.module('liveopsConfigPanel')
           //This event is to stop the loading gif for the main App Dock container, and moving forward using the one on the interactions directive
           scope.$emit('appDockStopLoading');
           scope.isLoadingAppDock = true;
-    
+
           // clearing out all interaction data as a safeguard
           scope.interactionData = null;
           scope.artifacts = null;
@@ -98,6 +98,8 @@ angular.module('liveopsConfigPanel')
 
                     return $q.when(fromUser.$promise).then(function (fromUserResponse) {
                       response[key].payload.userName = getUserName(fromUserResponse);
+                    }, function (error){
+                      response[key].payload.userName = response[key].payload.from;
                     });
                   }
                 })
