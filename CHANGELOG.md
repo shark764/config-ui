@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.49.3]
+* CXV1-14495 - Update the user listing page so there are two columns available for user status instead of one.
+
 ## [4.49.2]
 * Remove supervisor toolbar feature flag
 

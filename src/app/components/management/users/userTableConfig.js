@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('userTableConfig', ['userStatuses','$q','$rootScope', 'userStates', '$translate', 'Skill', 'Group', 'TenantRole', 'Session', 'UserPermissions', 'queryCache', 'CustomDomain',
-    function(userStatuses, $q, $rootScope, userStates, $translate, Skill, Group, TenantRole, Session, UserPermissions, queryCache, CustomDomain) {
+  .service('userTableConfig', ['userStatuses', 'userPlatformStatuses', '$q', '$rootScope', 'userStates', '$translate', 'Skill', 'Group', 'TenantRole', 'Session', 'UserPermissions', 'queryCache', 'CustomDomain',
+    function(userStatuses, userPlatformStatuses, $q, $rootScope, userStates, $translate, Skill, Group, TenantRole, Session, UserPermissions, queryCache, CustomDomain) {
 
       var CustomDomainSvc = new CustomDomain();
 
@@ -176,7 +176,7 @@ angular.module('liveopsConfigPanel')
           'transclude': true
         }, {
           'header': {
-            'display': $translate.instant('value.status'),
+            'display': $translate.instant('value.tenantStatus'),
             'valuePath': 'value',
             'displayPath': 'display',
             'options': userStatuses()
@@ -184,6 +184,18 @@ angular.module('liveopsConfigPanel')
           'name': '$original.status',
           'lookup': '$original:status',
           'id': 'user-status-table-column',
+          'transclude': true,
+          'checked': false
+        }, {
+          'header': {
+            'display': $translate.instant('value.platformStatus'),
+            'valuePath': 'value',
+            'displayPath': 'display',
+            'options': userPlatformStatuses()
+          },
+          'name': '$original.platformStatus',
+          'lookup': '$original:invitationStatus',
+          'id': 'user-platform-status-table-column',
           'transclude': true,
           'checked': false
         });

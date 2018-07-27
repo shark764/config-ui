@@ -14,11 +14,20 @@
     <user-state name="$original.state" ng-model="item.$original.state"></user-state>
 
     <div name="$original.status">
-      <span ng-show="item.status === 'accepted'">{{'value.accepted' | translate}}</span>
+      <span ng-show="item.status === 'accepted' || item.status === 'enabled'">{{'value.enabled' | translate}}</span>
       <span ng-show="item.status === 'expired'">{{'value.expired' | translate}}</span>
       <span ng-show="item.status === 'pending'">{{'value.pending' | translate}}</span>
       <span ng-show="item.status === 'invited'">{{'value.invited' | translate}}</span>
       <span ng-show="item.status === 'disabled'" class="disabled">{{'value.disabled' | translate}}</span>
+    </div>
+
+    <div name="$original.platformStatus">
+      <span ng-show="item.invitationStatus === 'pending'">{{'value.pendingInvite' | translate}}</span>
+      <span ng-show="item.invitationStatus === 'invited'">{{'value.invited' | translate}}</span>
+      <span ng-show="item.invitationStatus === 'expired'" class="disabled">{{'value.expiredInvitation' | translate}}</span>
+      <span ng-show="item.invitationStatus === 'enabled'">{{'value.enabled' | translate}}</span>
+      <span ng-show="item.invitationStatus === 'disabled'" class="disabled">{{'value.disabled' | translate}}</span>
+      <span ng-show="item.invitationStatus === 'sso-only'">{{'value.sso-only' | translate}}</span>
     </div>
 
   </lo-resource-table-infinite>
