@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.49.5]
+* CXV1-8657 - Added error handling around 404s on the MessagingFrom route
+
 ## [4.49.4]
 * Fixed issue with Dispatch Mappings and use of phoneUtils for E164 validation.
 
