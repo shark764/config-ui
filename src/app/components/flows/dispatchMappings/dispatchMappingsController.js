@@ -2,8 +2,8 @@
 
 angular.module('liveopsConfigPanel')
   .controller('DispatchMappingsController', [
-    '$scope', 'Session', 'DispatchMapping', 'Flow', 'Integration', 'dispatchMappingTableConfig', 'dispatchMappingInteractionFields', 'dispatchMappingChannelTypes', 'dispatchMappingDirections', 'loEvents', 'Modal', 'phoneUtils', '$translate', 'Alert', 'validationPatterns',
-    function($scope, Session, DispatchMapping, Flow, Integration, dispatchMappingTableConfig, dispatchMappingInteractionFields, dispatchMappingChannelTypes, dispatchMappingDirections, loEvents, Modal, phoneUtils, $translate, Alert, validationPatterns) {
+    '$scope', 'Session', 'DispatchMapping', 'Flow', 'Integration', 'dispatchMappingTableConfig', 'dispatchMappingInteractionFields', 'dispatchMappingChannelTypes', 'dispatchMappingDirections', 'loEvents', 'Modal', '$translate', 'Alert', 'validationPatterns',
+    function($scope, Session, DispatchMapping, Flow, Integration, dispatchMappingTableConfig, dispatchMappingInteractionFields, dispatchMappingChannelTypes, dispatchMappingDirections, loEvents, Modal, $translate, Alert, validationPatterns) {
       var vm = this;
       $scope.mappingValPatternError = false;
       var sipPattern = validationPatterns.sip;
@@ -17,7 +17,7 @@ angular.module('liveopsConfigPanel')
             ) {
             if ($scope.selectedDispatchMapping.channelType === 'voice') {
                 if (
-                phoneUtils.isPossibleNumber(string) ||
+                window.phoneUtils.isPossibleNumber(string) ||
                 sipPattern.test(string)
                 ) {
                 $scope.mappingVoiceValPatternError = false;
@@ -25,7 +25,7 @@ angular.module('liveopsConfigPanel')
                 $scope.mappingVoiceValPatternError = true;
                 }
             } else if ($scope.selectedDispatchMapping.channelType === 'sms') {
-                if (phoneUtils.isPossibleNumber(string)) {
+                if (window.phoneUtils.isPossibleNumber(string)) {
                 $scope.mappingSmsValPatternError = false;
                 } else {
                 $scope.mappingSmsValPatternError = true;
