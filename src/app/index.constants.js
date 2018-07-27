@@ -118,8 +118,32 @@ angular.module('liveopsConfigPanel.config', [])
       'display': 'Disabled',
       'value': 'disabled'
     }, {
-      'display': 'Accepted',
+      'display': 'Enabled',
       'value': 'accepted'
+    }];
+  };
+})
+
+.factory('userPlatformStatuses', function() {
+  return function() {
+    return [{
+      'display': 'Pending Invite',
+      'value': 'pending'
+    }, {
+      'display': 'Invited',
+      'value': 'invited'
+    }, {
+      'display': 'Expired Invitation',
+      'value': 'expired'
+    }, {
+      'display': 'Enabled',
+      'value': 'enabled'
+    }, {
+      'display': 'Disabled',
+      'value': 'disabled'
+    }, {
+      'display': 'SSO Only',
+      'value': 'sso-only'
     }];
   };
 })
