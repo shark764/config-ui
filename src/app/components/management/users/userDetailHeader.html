@@ -10,7 +10,7 @@
           <toggle class="status-toggle" name="status"
             ng-model="selectedTenantUser.status"
             true-value="accepted" false-value="disabled"
-            ng-disabled="Session.user.id === selectedTenantUser.id || hasRequiredProps(selectedTenantUser)"
+            ng-disabled="Session.user.id === selectedTenantUser.id || hasRequiredProps(selectedTenantUser) || selectedTenantUser.platformStatus === 'disabled'"
             confirm-disable-message="{{'user.details.disable.confirm' | translate}}"
             confirm-enable-message="{{'user.details.enable.confirm' | translate}}"
             disable-contents="! (['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_TENANT_ENROLLMENT'] | hasPermission)"

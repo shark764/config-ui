@@ -75,7 +75,7 @@
 </div>
 
 <div class="logical-group">
-  <div disable-contents="!canSaveUser(selectedTenantUser)">
+  <div disable-contents="!canSaveUser(selectedTenantUser) || selectedTenantUser.platformStatus === 'disabled'">
     <div class="divider-header first-header">
       <h4>{{'details' | translate}}</h4>
     </div>
@@ -163,7 +163,7 @@
 
 <div
   class="input-group"
-  disable-contents="! (['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_TENANT_ENROLLMENT']  | hasPermission)"
+  disable-contents="! (['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_TENANT_ENROLLMENT']  | hasPermission) || selectedTenantUser.platformStatus === 'disabled'"
   ng-if="scenario() === 'update'">
   <label>{{'details.role' | translate}} <span ng-if="Session.user.id == selectedTenantUser.id">*</span></label>
   <form-error field="forms.detailsForm.roleId"
@@ -187,7 +187,7 @@
 
 <div
   ng-if="('USER_IDENTITY_PROVIDER_VIEW'| hasPermission) && ('IDENTITY_PROVIDERS_READ'| hasPermission) && displaySsoFields()"
-  disable-contents="!('USER_IDENTITY_PROVIDER_UPDATE'| hasPermission)"
+  disable-contents="!('USER_IDENTITY_PROVIDER_UPDATE'| hasPermission) || selectedTenantUser.platformStatus === 'disabled'"
   class="logical-group">
   <div class="input-group">
     <label>{{'users.details.CxEngageAuthentication' | translate}}</label>
@@ -203,6 +203,20 @@
             {{option.display}}
           </option>
       </select>
+    </div>
+  </div>
+
+  <div
+    ng-if="scenario() === 'update'"
+    class="input-group">
+    <label>{{'details.platformStatus' | translate}}</label>
+    <div ng-switch="selectedTenantUser.invitationStatus">
+      <span ng-switch-when="pending" type="text">{{'value.pendingInvite' | translate}}</span>
+      <span ng-switch-when="invited" type="text">{{'value.invited' | translate}}</span>
+      <span ng-switch-when="expired" type="text" class="platform-status-disabled">{{'value.expiredInvitation' | translate}}</span>
+      <span ng-switch-when="enabled" type="text">{{'value.enabled' | translate}}</span>
+      <span ng-switch-when="disabled" type="text" class="platform-status-disabled">{{'value.disabled' | translate}}</span>
+      <span ng-switch-when="sso-only" type="text">{{'value.sso-only' | translate}}</span>
     </div>
   </div>
 
