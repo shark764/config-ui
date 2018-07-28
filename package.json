@@ -1,11 +1,12 @@
 {
 
   "name": "config-ui",
-  "version": "4.50.0",
+  "version": "4.50.1",
   "scripts": {
     "start": "gulp serve",
     "test": "gulp test",
-    "build": "gulp"
+    "build": "gulp",
+    "lint": "gulp lint"
   },
   "devDependencies": {
     "any-promise": "~1.3.0",

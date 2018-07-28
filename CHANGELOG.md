@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.50.1]
+* CXV1-14752 - Silent Monitoring - Cannot Read property "SilentMonitor" of undefined when using PSTN
+
 ## [4.50.0]
 * CXV1-14481 - Add data-source in  verint integraion-config-ui.
 

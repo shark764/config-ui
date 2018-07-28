@@ -169,6 +169,7 @@ angular.module('liveopsConfigPanel')
           AuthService.logout();
           $state.transitionTo('login');
           $rootScope.$broadcast('logout');
+          location.reload();
         }
       };
 
