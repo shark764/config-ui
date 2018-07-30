@@ -239,6 +239,7 @@
   "details.workStationId": "Workstation ID",
   "details.tenantUserId": "aliasTenantUserId",
   "details.platformUserId": "aliasPlatformUserId",
+  "details.platformStatus": "Platform Account Status",
   "details.role": "Tenant Role",
   "details.platformRole": "Platform Role",
   "details.role.placeholder": "Select Role",

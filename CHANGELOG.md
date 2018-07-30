@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.49.6]
+* CXV1-14496 - Update the user detail panel (View/Edit) to show the platform account status as it is defined for the list view.
+
 ## [4.49.5]
 * CXV1-8657 - Added error handling around 404s on the MessagingFrom route
 
