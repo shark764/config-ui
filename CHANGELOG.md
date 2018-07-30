@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.49.8]
+* CXV1-14393 - Cannot disable an identity provider if the IdP has disabled the application on their side.
+
 ## [4.49.7]
 * CXV1-14669 - Transfer Lists - When creating a new transfer list, submit fails due to Warn/Cold Transfer property type.
 

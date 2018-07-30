@@ -232,10 +232,37 @@ angular.module('liveopsConfigPanel')
         };
 
         var trimmedData = _.omit(dataToCopy, _.isUndefined);
+        // When disabling, no need to send metadata properties to the Identity Provider
+        // since this does not need it for this operation. Also, if it is disabled by
+        // the idP side, url to the metadata xml will fail.
+        if (!trimmedData.active) {
+          // XML data is setted on metadataFile when type is 
+          // XML file or XML Direct Input
+          delete trimmedData['metadataFile'];
+          delete trimmedData['metadataUrl'];
+        }
         var identityProviderCopy = new IdentityProviders(trimmedData);
 
         return identityProviderCopy.save().then(function (result) {
+          // If was enabled and didn't return a 400 error, then it
+          // was enabled on the idP side
           vm.selectedIdentityProvider.$original.active = result.active;
+          vm.displayToggleMessage = '';
+        }, function (err) {
+          vm.selectedIdentityProvider.active = false;
+          vm.selectedIdentityProvider.$original.active = false;
+          // API will always return a 400 error from server side
+          if (err.status === 400) {
+            // If returns a metadata attribute error, means it is disabled on idP side,
+            // so cannot be enable on CxEngage side
+            if (err.data.error.attribute === "metadata-url") {
+              vm.disableActiveToggle = true;
+            }
+            // this is the popup text we show on mouseover to explain why we
+            // disabled the switch
+            vm.displayToggleMessage = $translate.instant('identityProviders.details.cannotEnable');
+          }
+          return $q.reject($translate.instant('identityProviders.details.cannotEnable'));
         });
       };
 
