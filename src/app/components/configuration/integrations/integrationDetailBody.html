@@ -508,6 +508,19 @@
       </div>
     </div>
 
+    <div class="input-group">
+      <label>{{'integration.details.properties.dataSourceName' | translate}} *</label>
+      <form-error field="forms.detailsForm.dataSourceName" error-type-required="{{'integration.dataSourceName.error' | translate}}" ></form-error>
+      <div>
+        <input ng-required="true" type="text"
+            ng-model="selectedIntegration.properties.dataSourceName"
+            ng-disabled="!('MANAGE_ALL_PROVIDERS' | hasPermission)"
+            name="dataSourceName"
+            maxlength="50"
+            title="{{'integration.details.properties.dataSourceName.recommendation' | translate}}"/>
+      </div>
+    </div>
+
     <div class="divider-header">
       <h4>{{'integration.details.properties.qmHeader' | translate}}</h4>
     </div>
