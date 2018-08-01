@@ -377,10 +377,10 @@ angular.module('liveopsConfigPanel')
       $scope.create = function() {
         $location.search({});
         $scope.selectedTenantUser = new TenantUser({
-          status: 'accepted'
+          status: 'invited'
         });
         $scope.selectedTenantUser.$user = new User({
-          status: 'accepted'
+          status: 'invited'
         });
         getIdentityProviders($scope.selectedTenantUser);
       };
@@ -549,7 +549,7 @@ angular.module('liveopsConfigPanel')
         var userCopy = new TenantUser({
           id: $scope.selectedTenantUser.id,
           tenantId: $scope.selectedTenantUser.tenantId,
-          status: $scope.selectedTenantUser.status === 'accepted' ? 'disabled' : 'accepted'
+          status: $scope.selectedTenantUser.status === 'invited' ? 'disabled' : 'invited'
         });
 
         return userCopy.save().then(function(result){

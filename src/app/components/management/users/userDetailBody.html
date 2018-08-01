@@ -61,9 +61,9 @@
     <label>{{'details.inviteNow' | translate}}</label>
     <div>
       <toggle ng-model="selectedTenantUser.status"
-        true-value="accepted"
-        false-value="disabled"
-        ng-init="selectedTenantUser.status = 'accepted'"
+        true-value="invited"
+        false-value="pending"
+        ng-init="selectedTenantUser.status = 'invited'"
         name="inviteNow">
       </toggle>
     </div>

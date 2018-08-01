@@ -20,6 +20,7 @@ angular.module('liveopsConfigPanel', [
     'ngFileUpload',
     'dndLists',
     'angular-momentjs',
+    'agent-toolbar',
     'ui.sortable',
     'ui.codemirror',
     'ngAnimate',
