@@ -784,6 +784,7 @@
   "identityProviders.details.emailMapping.error": "Email Mapping is required",
   "identityProviders.bulkActions.enable.idp": "Enable/Disable Identity Providers",
   "identityProviders.details.cannotDisable": "You are currently logged in with this identity provider, so it cannot be disabled.",
+  "identityProviders.details.cannotEnable": "Failed to enable Identity Provider, please verify that it is configured correctly.",
   "dispatchMappings.details.interactionType": "Interaction Type",
   "dispatchMappings.details.interactionType.select": "Select Interaction Type...",
   "dispatchMappings.details.interactionType.error": "Please select an interaction type",
