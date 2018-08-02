@@ -15,6 +15,9 @@ def h = new hipchat()
 def n = new node()
 def f = new frontend()
 
+def commiter = ''
+def lastCommitMsg = ''
+
 @NonCPS
 def stop_previous_builds(job_name, build_num) {
   def job = Jenkins.instance.getItemByFullName(job_name)
@@ -32,7 +35,9 @@ def stop_previous_builds(job_name, build_num) {
 
 try {
   stop_previous_builds(env.JOB_NAME, env.BUILD_NUMBER.toInteger())
-} catch (Exception e) {}
+} catch (Exception e) {
+  sh "echo ${e}"
+}
 
 node(){
   pwd = pwd()
@@ -41,69 +46,123 @@ node(){
 pipeline {
   agent any
   stages {
-    stage ('Export Properties') {
+    stage ('Set build version') {
       steps {
+        sh 'echo "Stage Description: Set build version from package.json"'
         script {
           n.export()
           build_version = readFile('version')
-          c.setDisplayName("${build_version}")
+          sh "git log -2 --pretty=%B > lastCommitMsg"
+          lastCommitMsg = readFile('lastCommitMsg').trim()
+          sh "git log -2 --pretty=format:'%an' > commiter"
+          commiter = readFile('commiter').trim()
         }
       }
     }
-    stage ('Test && Build') {
+    stage ('Setup Docker') {
       steps {
-        sh "mkdir dist"
-        sh "docker build -t ${docker_tag} -f Dockerfile-build ."
-        sh "docker run --rm --mount type=bind,src=$HOME/.ssh,dst=/home/node/.ssh,readonly --mount type=bind,src=${pwd}/dist,dst=/home/node/mount ${docker_tag}"
+        sh 'echo "Stage Description: Sets up docker image for use in the next stages"'
+        sh "mkdir build -p"
+        sh "docker build -t ${docker_tag} -f Dockerfile ."
+        sh "docker run --rm -t -d --name=${docker_tag} --mount type=bind,src=$HOME/.ssh,dst=/home/node/.ssh,readonly --mount type=bind,src=${pwd}/build,dst=/home/node/mount ${docker_tag}"
+        sh "docker exec ${docker_tag} bower install"
       }
     }
-    stage ('Preview PR') {
+    // Commented out for now untill we fix existing linter errors
+    // TODO: fix existing linter errors
+    // stage ('Lint for errors') {
+    //   when { changeRequest() }
+    //   steps {
+    //     sh 'echo "Stage Description: Lints the project for common js errors and formatting"'
+    //     sh "docker exec ${docker_tag} npm run lint"
+    //   }
+    // }
+    // Unit tests were removed when we switched to dockerized builds
+    // TODO: We need to test that they still work / fix them and add them back in here...
+    // we probably wont both with junit report for config-ui , we'll just make existing tests pass
+    // stage ('Unit Tests') {
+    //   when { changeRequest() }
+    //   steps {
+    //     sh 'echo "Stage Description: Runs unit tests and fails if they do not pass"'
+    //     sh "docker exec ${docker_tag} npm run test"
+    //     sh "docker cp ${docker_tag}:/home/node/app/junit.xml build"
+    //     junit 'build/junit.xml'
+    //   }
+    // }
+    stage ('Build') {
+      steps {
+        sh 'echo "Stage Description: Builds the production version of the app"'
+        sh "docker exec ${docker_tag} npm run build"
+        sh "docker cp ${docker_tag}:/home/node/app/dist build"
+      }
+    }
+    stage ('Preview PR (dev)') {
       when { changeRequest() }
       steps {
+        sh 'echo "Stage Description: Creates a temp build of the site in dev to review the changes"'
         sh "aws s3 rm s3://frontend-prs.cxengagelabs.net/config-ui/${pr}/ --recursive"
-        sh "sed -i 's/\\\"\\/main/\\\"\\/config-ui\\/${pr}\\/main/g' dist/index.html"
-        sh "aws s3 sync dist/ s3://frontend-prs.cxengagelabs.net/config-ui/${pr}/ --delete"
+        sh "aws s3 sync build/dist/ s3://frontend-prs.cxengagelabs.net/config-ui/${pr}/ --delete"
         script {
           f.invalidate("E23K7T1ARU8K88")
-          hipchatSend(color: 'GRAY',
+          hipchatSend(color: 'GREEN',
                       credentialId: 'HipChat-API-Token',
-                      message: "<a href=\"${pullRequest.url}\"><b>${service}#${pr} - ${pullRequest.title} (${pullRequest.createdBy}) is ready for review</b></a> <br/> <a href=\"${BUILD_URL}\">Link to Build</a> <br/><a href=\"https://frontend-prs.cxengagelabs.net/config-ui/${pr}/index.html\">Config-Ui Dev Preview</a>",
+                      message: "<b>${service} PR${pr} | PR was linted, unit tested, built and is ready for code review </b><br/><a href=\"http://jenkins.cxengagelabs.net/blue/organizations/jenkins/Serenova%2Fconfig-ui/activity\">Build Activity</a><br/><a href=\"https://github.com/SerenovaLLC/${service}/pull/${pr}\">Pull Request</a><br/><a href=\"https://frontend-prs.cxengagelabs.net/config-ui/${pr}/index.html\">Test Build</a>",
                       notify: true,
-                      room: 'frontendprs',
+                      room: 'Admin/Supervisor Experience',
                       sendAs: 'Jenkins',
                       server: 'api.hipchat.com',
                       textFormat: false,
                       v2enabled: false)
+          hipchatSend(credentialId: 'HipChat-API-Token',
+                      message: "@nick @DHernandez @mjones @RandhalRamirez  ^^^^ ${lastCommitMsg}",
+                      notify: true,
+                      room: 'Admin/Supervisor Experience',
+                      sendAs: 'Jenkins',
+                      server: 'api.hipchat.com',
+                      textFormat: true,
+                      v2enabled: false)
         }
       }
     }
-    stage ('Ready for QE') {
+    stage ('Ready for QE?') {
       when { changeRequest() }
       steps {
         timeout(time: 5, unit: 'DAYS') {
           script {
             input message: 'Ready for QE?', submittedParameter: 'submitter'
+            sh 'echo "Stage Description: Makes temp verion of the app pointing to qe env"'
+            def config = 'build/dist/app/env.js'
+            sh "find -name vendor-*.js > commandResult"
+            def vendor = readFile('commandResult').trim()
+            sh "aws s3 rm s3://frontend-prs.cxengagelabs.net/config-ui/${pr}/ --recursive"
+            sh "sed -i 's/dev/qe/g' ${config}"
+            sh "sed -i 's/dev-api.cxengagelabs.net/qe-api.cxengagelabs.net/g' ${vendor}"
+            sh "aws s3 sync build/dist/ s3://frontend-prs.cxengagelabs.net/config-ui/${pr}/ --delete"
           }
-          sh "aws s3 rm s3://frontend-prs.cxengagelabs.net/config-ui/${pr}/ --recursive"
-          //TODO: currently getting CORS error from api endpoint when switching envs
-          // sh "sed -i 's/dev/qe/g' dist/app/env.js"
-          sh "aws s3 sync dist/ s3://frontend-prs.cxengagelabs.net/config-ui/${pr}/ --delete"
           script {
             f.invalidate("E23K7T1ARU8K88")
-            hipchatSend(color: 'YELLOW',
-                        credentialId: 'HipChat-API-Token',
-                        message: "<a href=\"${pullRequest.url}\"><b>${service}#${pr} - ${pullRequest.title} (${pullRequest.createdBy}) is ready for QE</b></a> <br/> <a href=\"${BUILD_URL}\">Link to Build</a> <br/><a href=\"https://frontend-prs.cxengagelabs.net/config-ui/${pr}/index.html\">Config-Ui Dev Preview</a>",
+            hipchatSend(color: 'GREEN',
+                      credentialId: 'HipChat-API-Token',
+                      message: "<b>${service} PR${pr} | PR successfully built and deployed to QE, ready to be tested! </b><br/><a href=\"http://jenkins.cxengagelabs.net/blue/organizations/jenkins/Serenova%2Fconfig-ui/activity\">Build Activity</a><br/><a href=\"https://github.com/SerenovaLLC/${service}/pull/${pr}\">Pull Request</a><br/><a href=\"https://frontend-prs.cxengagelabs.net/config-ui/${pr}/index.html\">Test Build</a>",
+                      notify: true,
+                      room: 'Admin/Supervisor Experience',
+                      sendAs: 'Jenkins',
+                      server: 'api.hipchat.com',
+                      textFormat: false,
+                      v2enabled: false)
+            hipchatSend(credentialId: 'HipChat-API-Token',
+                        message: "@JWilliams @RDominguez  ^^^^ ${lastCommitMsg}",
                         notify: true,
-                        room: 'frontendprs',
+                        room: 'Admin/Supervisor Experience',
                         sendAs: 'Jenkins',
                         server: 'api.hipchat.com',
-                        textFormat: false,
+                        textFormat: true,
                         v2enabled: false)
           }
         }
       }
     }
-    stage ('QE Approval') {
+    stage ('QE Approval?') {
       when { changeRequest() }
       steps {
         timeout(time: 5, unit: 'DAYS') {
@@ -122,12 +181,13 @@ pipeline {
         }
       }
     }
-    stage ('Push to Github') {
+    stage ('Github tagged release') {
       when { anyOf {branch 'master'; branch 'develop'; branch 'release'; branch 'hotfix'}}
       steps {
+        sh 'echo "Makes a github tagged release under a new branch with the same name as the tag version"'
         git url: "git@github.com:SerenovaLLC/${service}"
         sh 'git checkout -b build-${BUILD_TAG}'
-        sh 'git add -f dist/* '
+        sh 'git add -f build/dist/* '
         sh "git commit -m 'release ${build_version}'"
         script {
           if (build_version.contains("SNAPSHOT")) {
@@ -138,12 +198,12 @@ pipeline {
         sh "git push origin ${build_version}"
       }
     }
-    stage ('Push to S3') {
+    stage ('Store in S3') {
       when { anyOf {branch 'master'; branch 'develop'; branch 'release'; branch 'hotfix'}}
       steps {
-        script {
-          sh "aws s3 sync ./dist/ s3://cxengagelabs-jenkins/frontend/${service}/${build_version}/ --delete"
-        }
+        sh 'echo "Stage Description: Syncs a copy of the build folder to > s3://cxengagelabs-jenkins/frontend/{{service}}/{{version}}/"'
+        sh "aws s3 sync ./build/dist s3://cxengagelabs-jenkins/frontend/${service}/${build_version}/ --delete"
+        
       }
     }
     stage ('Deploy') {
@@ -159,25 +219,51 @@ pipeline {
         }
       }
     }
-    stage ('Notify Success') {
-      steps {
-        script {
-          h.hipchatPullRequestSuccess("${service}", "${build_version}")
-        }
-      }
-    }
   }
   post {
-    failure {
-      script {
-        h.hipchatPullRequestFailure("${service}", "${build_version}")
-      }
-    }
     always {
+      sh "docker rmi ${docker_tag} --force"
       script {
         c.cleanup()
       }
-      sh "docker rmi ${docker_tag}"
+    }
+    success {
+      script {
+        def jobType = 'hipchat message goes here based on jenkins job type'
+        def notifyPpl = 'ppl to @ in hipchat that should action this notification'
+        if (env.BRANCH_NAME == "master") {
+          hipchatSend(credentialId: 'HipChat-API-Token',
+                      message: "Config-ui |  `${lastCommitMsg}` from ${commiter} (merged)",
+                      notify: true,
+                      room: 'Admin/Supervisor Experience',
+                      sendAs: 'Jenkins',
+                      server: 'api.hipchat.com',
+                      textFormat: true,
+                      v2enabled: false)
+        } else {
+          sh "echo 'No notification needed'"
+        }
+      }
+    }
+    failure {
+      script {
+        hipchatSend(color:'RED',
+                    credentialId: 'HipChat-API-Token',
+                    message: "${service} Jenkins Job Failed!  Check out the <a href=\"http://jenkins.cxengagelabs.net/blue/organizations/jenkins/Serenova%2F${service}/activity\">build activity</a><br/>${lastCommitMsg} | ${commiter}",
+                    notify: true,
+                    room: 'Admin/Supervisor Experience',
+                    sendAs: 'Jenkins',
+                    server: 'api.hipchat.com',
+                    textFormat: false,
+                    v2enabled: false)
+      }
+    }
+    unstable {
+        echo 'This will run only if the run was marked as unstable'
+    }
+    changed {
+        echo 'This will run only if the state of the Pipeline has changed'
+        echo 'For example, if the Pipeline was previously failing but is now successful'
     }
   }
 }

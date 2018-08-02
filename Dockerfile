@@ -1,8 +1,5 @@
 FROM node:8.11.3
 
-RUN apt-get update
-RUN apt-get install -y git
-RUN git --version
 RUN mkdir /home/node/.npm-global
 ENV PATH=/home/node/.npm-global/bin:$PATH
 ENV NPM_CONFIG_PREFIX=/home/node/.npm-global
@@ -16,5 +13,5 @@ RUN usermod -u 106 node
 
 USER node
 WORKDIR /home/node/app
-RUN chmod +x "/home/node/app/resources/build.sh"
-ENTRYPOINT ["/home/node/app/resources/build.sh"]
+
+RUN npm install
