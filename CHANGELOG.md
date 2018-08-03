@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.51.0]
+* CXV1-12492 - TelStrat Artifact recording support
+
 ## [4.50.3]
 * <no ticket> - Silent Monitoring - Hide supervisor toolbar when not in use
 

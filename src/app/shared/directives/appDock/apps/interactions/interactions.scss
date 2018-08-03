@@ -28,7 +28,19 @@ loading {
   }
 }
 
+#qm-audio-player {
+  min-height: 265px;
+  width: 100%;
+}
+
+#qm-screen-player {
+  min-height: 570px;
+  width:100%
+}
+
 #audio-content {
+  overflow-y: scroll;
+
   md-sidenav {
 
     md-list {
@@ -65,6 +77,8 @@ loading {
 }
 
 #messaging-content {
+  overflow-y: scroll;
+
   md-list-item {
     padding-left: 0;
 
