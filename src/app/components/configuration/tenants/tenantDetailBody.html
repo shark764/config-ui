@@ -61,7 +61,7 @@
     </select>
   </div>
 
-  <div
+<div
     ng-if="displayAsyncForms() && ((['IDENTITY_PROVIDERS_READ'] | hasPermission) || (['IDENTITY_PROVIDERS_UPDATE'] | hasPermission))"
     class="logical-group">
 
@@ -96,32 +96,32 @@
         </select>
       </div>
   </div>
+</div>
 
-  <div class="input-group" ng-if="('PLATFORM_VIEW_ALL' | hasPermission)">
-    <label></label>
-    <input ng-click="setViewOnlyTenant()" type="button" class="btn" value="{{'tenant.details.setActive' | translate}}"></input>
-  </div>
+<div class="input-group" ng-if="('PLATFORM_VIEW_ALL' | hasPermission)">
+  <label></label>
+  <input ng-click="setViewOnlyTenant()" type="button" class="btn" value="{{'tenant.details.setActive' | translate}}"></input>
+</div>
 
-  <div
-    class="input-group"
-    ng-show="selectedTenant.hasTwilio">
-    <label class="textarea-label">{{'tenant.details.region' | translate}}</label>
-    <form-error field="forms.detailsForm.region"
-      error-type-required="{{'tenant.details.region.required' | translate}}">
-    </form-error>
-    <select name="region"
-      ng-required="true"
-      ng-model="selectedTenant.regionId"
-      ng-options="region.id as region.description for region in regions | orderBy:'description'">
+<div
+  class="input-group"
+  ng-show="selectedTenant.hasTwilio">
+  <label class="textarea-label">{{'tenant.details.region' | translate}}</label>
+  <form-error field="forms.detailsForm.region"
+    error-type-required="{{'tenant.details.region.required' | translate}}">
+  </form-error>
+  <select name="region"
+    ng-required="true"
+    ng-model="selectedTenant.regionId"
+    ng-options="region.id as region.description for region in regions | orderBy:'description'">
 
-      <option value="" disabled>{{'tenant.details.region.placeholder' | translate}}</option>
-    </select>
-  </div>
+    <option value="" disabled>{{'tenant.details.region.placeholder' | translate}}</option>
+  </select>
+</div>
 
-  <div class="input-group" ng-if="! selectedTenant.isNew()">
-    <label class="textarea-label">{{'tenant.details.id' | translate}}</label>
-    <p id="tenant-details-id" class="added-padding">{{selectedTenant.id}}</p>
-  </div>
+<div class="input-group" ng-if="! selectedTenant.isNew()">
+  <label class="textarea-label">{{'tenant.details.id' | translate}}</label>
+  <p id="tenant-details-id" class="added-padding">{{selectedTenant.id}}</p>
 </div>
 
 <div ng-show="! selectedTenant.isNew()" class="added-padding">
