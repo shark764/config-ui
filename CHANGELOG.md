@@ -2,9 +2,11 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.50.3]
+* <no ticket> - Silent Monitoring - Hide supervisor toolbar when not in use
+
 ## [4.50.2]
-* CXV1-14501 - Fixed "Invite Now" toggle. Now sending pending instead of disabled
-  and invited instead of accepted.
+* CXV1-14501 - Fixed "Invite Now" toggle. Now sending pending instead of disabled and invited instead of accepted.
 * CXV1-14856 - Set Active Tenant does not showing in tenant panel
 * CXV1-14820 - Realtime Reporting - Dashboard dropdown not populated
 
