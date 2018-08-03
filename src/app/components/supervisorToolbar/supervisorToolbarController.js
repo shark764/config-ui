@@ -13,6 +13,14 @@ angular.module('liveopsConfigPanel')
           $scope.toolbarIsVisible = false;
         }
       });
+      CxEngage.subscribe('cxengage/interactions/voice/silent-monitor-end', function(error, topic, response) {
+        if($location.path() !== '/reporting/interactionMonitoring' ) {
+          $scope.$apply(function () {
+            $scope.toolbarIsVisible = false;
+          });
+          console.warn($scope.toolbarIsVisible)
+        }
+      });
 
     }
   ]);
