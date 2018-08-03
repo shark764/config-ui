@@ -23,7 +23,7 @@
   </md-list>
 </md-sidenav>
 
-<md-content flex ng-show="selectedItem">
+<md-content flex>
   <md-card class="recording-data-card" flex>
     <md-content layout-padding layout-margin>
 
@@ -34,8 +34,16 @@
 
       <md-divider></md-divider>
 
-      <div layout="row">
+      <div layout="row" ng-if="selectedItem.artifactType === 'audio-recording'">
         <audio id="audio-player" controls oncontextmenu="return false;" name="recordingAudio" ng-src="{{selectedItem.files[0].url | trustUrl}}"></audio>
+      </div>
+
+      <div layout="row" ng-if="selectedItem.artifactType === 'qm-audio-recording'">
+        <iframe id="qm-audio-player" ng-src="{{selectedItem.url + '/' + token | trustUrl}}" seamless></iframe>
+      </div>
+
+      <div layout="row" ng-if="selectedItem.artifactType === 'qm-screen-recording'">
+        <iframe id="qm-screen-player" ng-src="{{selectedItem.url + '/' + token | trustUrl}}" seamless></iframe>
       </div>
 
       <div layout="row">

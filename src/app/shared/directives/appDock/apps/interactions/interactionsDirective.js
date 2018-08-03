@@ -16,7 +16,7 @@ angular.module('liveopsConfigPanel')
           //This event is to stop the loading gif for the main App Dock container, and moving forward using the one on the interactions directive
           scope.$emit('appDockStopLoading');
           scope.isLoadingAppDock = true;
-
+          scope.token = Session.token;
           // clearing out all interaction data as a safeguard
           scope.interactionData = null;
           scope.artifacts = null;
@@ -36,7 +36,9 @@ angular.module('liveopsConfigPanel')
               tenantId: scope.config.tenantId,
               artifactId: artifact.artifactId
             }, function(error, topic, response){
-              scope.setSelectedItem(response);
+              scope.$apply(function(){
+                scope.selectedItem = response;
+              });
             });
           };
 
@@ -130,7 +132,9 @@ angular.module('liveopsConfigPanel')
               }
 
               scope.artifacts = _.filter(response.results, function(item) {
-                return item.artifactType === 'audio-recording';
+                return item.artifactType === 'audio-recording' ||
+                       item.artifactType === 'qm-audio-recording' ||
+                       item.artifactType === 'qm-screen-recording';
               });
 
               if (scope.artifacts.length > 0) {
