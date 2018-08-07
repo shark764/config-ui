@@ -158,7 +158,9 @@ angular.module('liveopsConfigPanel')
         ) {
           // if the user has username and password set, then show the "reset" button
           if (
-            tenantUserObj.invitationStatus === 'accepted' &&
+            (tenantUserObj.invitationStatus === 'accepted' ||
+             tenantUserObj.invitationStatus === 'enabled')
+            &&
             !$scope.savedCxStatus
           ) {
             if (btnType === $scope.resetBtn) {
