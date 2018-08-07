@@ -16,7 +16,7 @@ angular.module('liveopsConfigPanel')
                 if (event.data.module === 'subscribe') {
                   var subscribedTenant = CxEngage.session.getActiveTenantId();
                   window.cxSubscriptions[event.data.command + subscribedTenant] = CxEngage.subscribe(event.data.command, function(error, topic, response) {
-                      if (location.hash.indexOf('#/reporting/interactionMonitoring') < 0) {
+                      if (location.hash.indexOf('#/reporting/interactionMonitoring?alpha') < 0) {
                         if(event.data.command === 'cxengage/reporting/batch-response') {
                           CxEngage.unsubscribe(window.cxSubscriptions[event.data.command]);
                         }
@@ -94,7 +94,7 @@ angular.module('liveopsConfigPanel')
                   event.source.postMessage({
                     error: null,
                     topic: ['updateLocalStorage'],
-                    response: JSON.parse(window.localStorage.getItem('LIVEOPS-PREFERENCE-KEY')).tenant
+                    response: {tenant: JSON.parse(window.localStorage.getItem('LIVEOPS-PREFERENCE-KEY')).tenant, agentId: CxEngage.session.getActiveUserId()}
                   },'*');
                 }
                 else if (event.data.module === 'comfirmPrompt') {
