@@ -65,6 +65,7 @@ angular.module('liveopsConfigPanel')
       $scope.submit = function() {
         delete $scope.tenantUser.status; //User cannot edit their own status
         delete $scope.tenantUser.roleId; //User cannot edit their own platform roleId
+        delete $scope.tenantUser.platformStatus; //User cannot edit their own platform status
 
         // after submit, new password remains in password variable
         var password = $scope.tenantUser.$user.password;
