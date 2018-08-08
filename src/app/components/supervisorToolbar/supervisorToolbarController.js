@@ -4,13 +4,21 @@ angular.module('liveopsConfigPanel')
   .controller('supervisorToolbarController', ['$scope', '$sce', '$location', 'config2Url',
     function ($scope, $sce, $location, config2Url) {
       $scope.supervisorToolbarHostname = $sce.trustAsResourceUrl(config2Url + '/#/supervisorToolbar');
+      $scope.supervisorToolbarIsVisible = $location.search()['alpha'];
       $scope.$watch(function(){
         return $location.path();
       }, function(value){
         if(value === '/reporting/interactionMonitoring' || CxEngage.session.getMonitoredInteraction() !== null) {
-          $scope.toolbarIsVisible = true;
+          $scope.supervisorToolbarIsVisible = true;
         } else {
-          $scope.toolbarIsVisible = false;
+          $scope.supervisorToolbarIsVisible = false;
+        }
+      });
+      CxEngage.subscribe('cxengage/interactions/voice/silent-monitor-end', function(error, topic, response) {
+        if($location.path() !== '/reporting/interactionMonitoring' ) {
+          $scope.$apply(function () {
+            $scope.supervisorToolbarIsVisible = false;
+          });
         }
       });
 
