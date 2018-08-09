@@ -374,6 +374,24 @@ angular.module('liveopsConfigPanel')
           });
         }
 
+        if (UserPermissions.hasPermissionInList(PermissionGroups.accessAllEmailTemplates)) {
+          items.push({
+            label: $translate.instant('navbar.configuration.outboundIdentifiers.title'),
+            stateLink: 'content.configuration.outboundIdentifiers',
+            id: 'outboundIdentifiers-configuration-link',
+            order: 9
+          });
+        }
+
+        if (UserPermissions.hasPermissionInList(PermissionGroups.accessAllEmailTemplates)) {
+          items.push({
+            label: $translate.instant('navbar.configuration.outboundIdentifierLists.title'),
+            stateLink: 'content.configuration.outboundIdentifierLists',
+            id: 'outboundIdentifierLists-configuration-link',
+            order: 9
+          });
+        }
+
         if (appFlags.CONTACT_MANAGEMENT) {
           if (UserPermissions.hasPermissionInList(PermissionGroups.viewContactAttributes)) {
             items.push({
