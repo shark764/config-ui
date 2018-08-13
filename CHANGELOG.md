@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.52.1]
+* CXV1-14906 - Cannot Change Extension due to platformStatus being included in payload
+
 ## [4.52.0]
 * Silent Monitoring - Re-add feature flag
 * <CXV1-12475> - add abiliity to open outbound identifier page via url
