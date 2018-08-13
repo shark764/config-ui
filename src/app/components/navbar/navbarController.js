@@ -149,29 +149,28 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.logout = function() {
-        // TODO: When old silent monitoring is removed we can uncomment out the below
-        // var monitoredInteraction = CxEngage.session.getMonitoredInteraction();
-        // if (monitoredInteraction !== null) {
-        //   var confirmedToLogout = confirm($translate.instant('interactionMonitoring.confirmEnd.logout'));
-        //   if (confirmedToLogout) {
+        var monitoredInteraction = CxEngage.session.getMonitoredInteraction();
+        if (monitoredInteraction !== null) {
+          var confirmedToLogout = confirm($translate.instant('interactionMonitoring.confirmEnd.logout'));
+          if (confirmedToLogout) {
             
-        //       CxEngage.interactions.voice.resourceRemove({interactionId: monitoredInteraction}, function() {
-        //         setTimeout(function() {
-        //           AuthService.logout();
-        //           $state.transitionTo('login');
-        //           $rootScope.$broadcast('logout');
-        //           // Reload ensure no saved state for the next session
-        //           location.reload();
-        //         },1000);
-        //       });
+              CxEngage.interactions.voice.resourceRemove({interactionId: monitoredInteraction}, function() {
+                setTimeout(function() {
+                  AuthService.logout();
+                  $state.transitionTo('login');
+                  $rootScope.$broadcast('logout');
+                  // Reload ensure no saved state for the next session
+                  location.reload();
+                },1000);
+              });
             
-        //   }
-        // } else {
+          }
+        } else {
           AuthService.logout();
           $state.transitionTo('login');
           $rootScope.$broadcast('logout');
           location.reload();
-        // }
+        }
       };
 
       $scope.userDropdownItems = [{
@@ -374,6 +373,24 @@ angular.module('liveopsConfigPanel')
           });
         }
 
+        if (UserPermissions.hasPermissionInList(PermissionGroups.accessAllEmailTemplates) && $location.search()['alpha']) {
+          items.push({
+            label: $translate.instant('navbar.configuration.outboundIdentifiers.title'),
+            stateLink: 'content.configuration.outboundIdentifiers',
+            id: 'outboundIdentifiers-configuration-link',
+            order: 9
+          });
+        }
+
+        if (UserPermissions.hasPermissionInList(PermissionGroups.accessAllEmailTemplates) && $location.search()['alpha']) {
+          items.push({
+            label: $translate.instant('navbar.configuration.outboundIdentifierLists.title'),
+            stateLink: 'content.configuration.outboundIdentifierLists',
+            id: 'outboundIdentifierLists-configuration-link',
+            order: 9
+          });
+        }
+
         if (appFlags.CONTACT_MANAGEMENT) {
           if (UserPermissions.hasPermissionInList(PermissionGroups.viewContactAttributes)) {
             items.push({
@@ -506,7 +523,7 @@ angular.module('liveopsConfigPanel')
 
           items.push({
             label: $translate.instant('navbar.reports.silentMonitoring.title'),
-            stateLink: 'content.reporting.silentMonitoring',
+            stateLink: 'content.reporting.interactionMonitoring',
             id: 'silent-monitoring-link',
             order: 5
           });

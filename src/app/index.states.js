@@ -157,6 +157,18 @@ angular.module('liveopsConfigPanel')
             }]
           }
         })
+        .state('content.configuration.outboundIdentifierLists', {
+          url: '/outboundIdentifierLists',
+          title: 'Configuration - Outbound Identifier Lists',
+          templateUrl: 'app/components/configuration/outboundIdentifierLists/outboundIdentifierLists.html',
+          controller: 'outboundIdentifierListsController as oil',
+          reloadOnSearch: false,
+          resolve: {
+            hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
+              return UserPermissions.resolvePermissions(PermissionGroups.viewOutboundIdentifiers);
+            }]
+          }
+        })
         .state('content.configuration.emailTemplates', {
           url: '/emailTemplates?id',
           title: 'Configuration - Email Templates',

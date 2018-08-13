@@ -2,6 +2,11 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.53.0]
+* <no-ticket> - Silent Monitoring - feature flag removed
+* CXV1-13352 - Outbound Identifier Lists - available throught ?alpha query param 
+* CXV1-12475 - Outbound Identifiers - available throught ?alpha query param
+
 ## [4.52.2]
 * <no-ticket> - Update Logi script
 
