@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.52.2]
+* <no-ticket> - Update Logi script
+
 ## [4.52.1]
 * CXV1-14906 - Cannot Change Extension due to platformStatus being included in payload
 
