@@ -16,7 +16,7 @@ angular.module('liveopsConfigPanel')
               var key = response.data.secureToken;
               options.applicationUrl = source;
               options.linkParams={'rdSecurekey': key, 'tenantID': Session.tenant.tenantId};
-              options.report = 'OverviewRealTimeDashboard';
+              options.report = 'Common.Bookmarks';
               options.autoSizing = 'all';
               EmbeddedReporting.create('logi-container', options);
               $scope.dashboardReady = true;
@@ -30,7 +30,7 @@ angular.module('liveopsConfigPanel')
         var logiContainer = $('#logiContainer').context;
         var script = document.createElement('script');
         script.type = 'text/javascript';
-        script.src = 'https://logi.cxengagelabs.net/LogiDemo/rdTemplate/rdEmbedApi/rdEmbed.js';
+        script.src = 'https://logi.cxengagelabs.net/CxEngage/rdTemplate/rdEmbedApi/rdEmbed.js';
         $(logiContainer).contents().find('body').append(script);
 
         $('#logiContainer').on('load', function () {
