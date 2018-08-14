@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.55.1]
+* CXV1-13830 - Updated code so it can catch errors related to users not having enough permissions, when attempting to view messaging transcripts.
+
 ## [4.55.0]
 * CXV1-14783 - Added SLA page and navbar links
 

@@ -116,6 +116,9 @@ angular.module('liveopsConfigPanel')
                 return reason;
               })
             }, function (err) {
+               if (err.status === 401 || err.status === 403) {
+                 scope.showNoPermissionsMsg = true;
+               }
               scope.isLoadingAppDock = false;
               return err;
             });
