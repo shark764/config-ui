@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.53.1]
+* <no-ticket> - SDK version bump for ilities deployments
+
 ## [4.53.0]
 * <no-ticket> - Silent Monitoring - feature flag removed
 * CXV1-13352 - Outbound Identifier Lists - available throught ?alpha query param 
