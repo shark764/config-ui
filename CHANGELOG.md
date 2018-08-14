@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.54.0]
+* CXV1-14881 - Add Twilio regions to the dropdown.
+  Update "integrations.twilio.regions" property in Zookeeper (dev|qe|staging|prod) by searching/adding path /titan/config/apps/configurator/properties/integrations.twilio.regions and adding "de1" and "ie1-tnx" to data.
+
 ## [4.53.1]
 * <no-ticket> - SDK version bump for ilities deployments
 

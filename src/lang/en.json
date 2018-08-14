@@ -146,6 +146,8 @@
   "twilioRegion.lowestLatency": "Global Low Latency",
   "twilioRegion.virginiaInterconnect": "Virginia Interconnect",
   "twilioRegion.oregonInterconnect": "Oregon Interconnect",
+  "twilioRegion.germanyInterconnect": "Germany",
+  "twilioRegion.irelandInterconnect": "Ireland Interconnect",
   "loading": "Loading",
   "api.error": "The API could not be contacted. Please reload the page to try again. If this error persists, please contact your systems administrator",
   "permissions.unauthorized.message": "Sorry, your account does not have the correct permissions to view that page.",
