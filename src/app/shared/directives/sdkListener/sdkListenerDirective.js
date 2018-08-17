@@ -39,7 +39,7 @@ angular.module('liveopsConfigPanel')
                   );
                 } else if (event.data.module === 'monitorCall') {
                   if(!tenantIsSet) {
-                    CxEngage.session.setActiveTenant({tenantId: CxEngage.session.getActiveTenantId()});
+                    CxEngage.session.setActiveTenant({tenantId: CxEngage.session.getActiveTenantId() , silentMonitoring: true});
                     tenantIsSet = true
                   }
                     var silentMonitorCall = function (event) {
