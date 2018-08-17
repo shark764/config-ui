@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.54.1]
+* CXV1-14754 - Add ability to enter a silent session when usign silent monitoring
+
 ## [4.54.0]
 * CXV1-14881 - Add Twilio regions to the dropdown.
   Update "integrations.twilio.regions" property in Zookeeper (dev|qe|staging|prod) by searching/adding path /titan/config/apps/configurator/properties/integrations.twilio.regions and adding "de1" and "ie1-tnx" to data.
