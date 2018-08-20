@@ -135,6 +135,11 @@ angular.module('liveopsConfigPanel')
                     console.log('[SDK Listener] SDK tenant set to:', CxEngage.session.getActiveTenantId());
                     sdkListener(event);
                   });
+                } else {
+                  setTimeout(function() {
+                    console.log('Session id is not yet set in angular, waiting for session to be ready.');
+                      sdkListener(event);
+                  }, 2000)
                 }
                 
               }

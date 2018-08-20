@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.54.2]
+* CXV1-14986 - Silent Monitoring - After login you cannot monitor a call until you refresh the page
+
 ## [4.54.1]
 * CXV1-14754 - Add ability to enter a silent session when usign silent monitoring
 
