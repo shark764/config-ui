@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.54.3]
+* <no-ticket> - Remove CTI section of Verint integration
+
 ## [4.54.2]
 * CXV1-14986 - Silent Monitoring - After login you cannot monitor a call until you refresh the page
 
@@ -17,7 +20,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [4.53.0]
 * <no-ticket> - Silent Monitoring - feature flag removed
-* CXV1-13352 - Outbound Identifier Lists - available throught ?alpha query param 
+* CXV1-13352 - Outbound Identifier Lists - available throught ?alpha query param
 * CXV1-12475 - Outbound Identifiers - available throught ?alpha query param
 
 ## [4.52.2]
