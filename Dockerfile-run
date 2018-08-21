@@ -1,0 +1,9 @@
+# THIS FILE IS USED BY FRONTEND-TOOLKIT
+# PLEASE DO NOT DELETE OR RENAME
+
+FROM 460140541257.dkr.ecr.us-east-1.amazonaws.com/nginx
+
+COPY dist/ /var/www
+COPY resources/wrapper.sh /opt/wrapper.sh
+
+ENTRYPOINT ["./opt/wrapper.sh"]
