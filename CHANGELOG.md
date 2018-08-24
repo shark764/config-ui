@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.55.0]
+* CXV1-14783 - Added SLA page and navbar links
+
 ## [4.54.3]
 * <no-ticket> - Remove CTI section of Verint integration
 

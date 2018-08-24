@@ -181,6 +181,18 @@ angular.module('liveopsConfigPanel')
             }]
           }
         })
+        .state('content.configuration.statistics', {
+            url: '/statistics?id',
+            title: 'Configuration - Statistics',
+            templateUrl: 'app/components/configuration/statistics/statistics.html',
+            controller: 'statisticsController as stat',
+            reloadOnSearch: false,
+            resolve: {
+              hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
+                return UserPermissions.resolvePermissions(PermissionGroups.accessAllCustomStats);
+              }]
+            }
+          })
         .state('content.configuration.contactAttributes', {
           url: '/contactAttributes?id',
           title: 'Configuration - Contact Attribute Management',
