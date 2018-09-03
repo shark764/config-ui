@@ -135,3 +135,9 @@ md-toolbar:not(.md-menu-toolbar) {
     color: white;
   }
 }
+
+md-tabs.md-dynamic-height md-tab-content.md-active {
+  overflow: auto;
+  height: 55vh;
+  max-height: fit-content;
+}
