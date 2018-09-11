@@ -16,19 +16,19 @@
       <li class="divider"></li>
 
       <li ng-show="managementDropConfig.length > 0" id="users-nav-link" ng-class="{ active: isActive('/management')}">
-        <dropdown items="managementDropConfig" collapse-icon="fa fa-caret-down" label="{{'navbar.management.title' | translate}}" order-by="order" hovering="hovering" show-on-hover="true" hover-tracker="hoverTracker"></dropdown>
+        <dropdown id="managementDropConfig" items="managementDropConfig" collapse-icon="fa fa-caret-down" label="{{'navbar.management.title' | translate}}" order-by="order" hovering="hovering" show-on-hover="true" hover-tracker="hoverTracker"></dropdown>
       </li>
 
       <li ng-show="configurationDropConfig.length > 0" id="tenants-nav-link" ng-class="{ active: isActive('/configuration')}">
-        <dropdown items="configurationDropConfig" collapse-icon="fa fa-caret-down" label="{{'navbar.configuration.title' | translate}}" order-by="order" hovering="hovering" show-on-hover="true" hover-tracker="hoverTracker"></dropdown>
+        <dropdown id="configurationDropConfig" items="configurationDropConfig" collapse-icon="fa fa-caret-down" label="{{'navbar.configuration.title' | translate}}" order-by="order" hovering="hovering" show-on-hover="true" hover-tracker="hoverTracker"></dropdown>
       </li>
 
       <li ng-show="flowsDropConfig.length > 0" id="flows-nav-link" ng-class="{ active: isActive('/flows')}">
-        <dropdown items="flowsDropConfig" collapse-icon="fa fa-caret-down" label="{{'navbar.flows.title' | translate}}" order-by="order" hovering="hovering" show-on-hover="true" hover-tracker="hoverTracker"></dropdown>
+        <dropdown id="flowsDropConfig" items="flowsDropConfig" collapse-icon="fa fa-caret-down" label="{{'navbar.flows.title' | translate}}" order-by="order" hovering="hovering" show-on-hover="true" hover-tracker="hoverTracker"></dropdown>
       </li>
 
       <li id="reporting-nav-link" ng-class="{ active: isActive('/reporting') || isActive('/realtime-dashboards')}">
-        <dropdown items="reportingDropConfig" collapse-icon="fa fa-caret-down" label="{{'navbar.reports.title' | translate}}" order-by="order" hovering="hovering" show-on-hover="true" hover-tracker="hoverTracker"></dropdown>
+        <dropdown id="reportingNavLinkConfig" items="reportingDropConfig" collapse-icon="fa fa-caret-down" label="{{'navbar.reports.title' | translate}}" order-by="order" hovering="hovering" show-on-hover="true" hover-tracker="hoverTracker"></dropdown>
       </li>
 
       <li ng-show="showQualityManagemant" id="quality-management-nav-link" class="drop-label" ng-class="{ active: isActive('/qualityManagement')}">

@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.56.1]
+* <no jira> - added ids to navbar for automation
+
 ## [4.56.0]
 * CXV1-14792/CXV1-14793 - RTD version bump for improvements in conversation table and completed table.
 
