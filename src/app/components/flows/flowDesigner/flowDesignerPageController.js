@@ -10,6 +10,7 @@ angular.module('liveopsConfigPanel')
       function ProcessMessage(event){
         switch(event.data.message){
           case 'FlowDesigner.ready':
+            event.source.focus();
             event.source.postMessage({
               message: 'FlowDesigner.start',
               data: {

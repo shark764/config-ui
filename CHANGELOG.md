@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.56.2]
+* CXV1-14899 - Cut/Copy/Paste in Flow Designer
+
 ## [4.56.1]
 * <no jira> - added ids to navbar for automation
 
