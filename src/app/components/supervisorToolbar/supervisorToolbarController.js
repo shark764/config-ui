@@ -1,9 +1,14 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('supervisorToolbarController', ['$scope', '$sce', '$location', 'config2Url',
-    function ($scope, $sce, $location, config2Url) {
+  .controller('supervisorToolbarController', ['$scope', '$rootScope', '$sce', '$location', 'config2Url',
+    function ($scope, $rootScope, $sce, $location, config2Url) {
       $scope.supervisorToolbarHostname = $sce.trustAsResourceUrl(config2Url + '/#/supervisorToolbar');
+      $rootScope.$on('$locationChangeStart', function (event, current, previous) {
+        if(previous.indexOf('reporting/interactionMonitoring') > -1 && current.indexOf('reporting/silentMonitoring') > -1) {
+          location.reload();
+        }
+      });
       $scope.$watch(function(){
         return $location.path();
       }, function(value){

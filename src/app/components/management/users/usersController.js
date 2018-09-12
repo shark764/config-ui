@@ -289,6 +289,12 @@ angular.module('liveopsConfigPanel')
             $scope.hasTwilioIntegration = true;
           }
         });
+      }, function(error) {
+        // Workaround to enable supervisors to view their extensions - due to
+        // them not having permission to GET the integration route.
+        if (error.status === 403) {
+          $scope.hasTwilioIntegration = true;
+        }
       });
 
       $scope.resetPassword = function() {
@@ -551,7 +557,7 @@ angular.module('liveopsConfigPanel')
         var userCopy = new TenantUser({
           id: $scope.selectedTenantUser.id,
           tenantId: $scope.selectedTenantUser.tenantId,
-          status: $scope.selectedTenantUser.status === 'invited' ? 'disabled' : 'invited'
+          status: $scope.selectedTenantUser.status === 'accepted' ? 'disabled' : 'accepted'
         });
 
         return userCopy.save().then(function(result){

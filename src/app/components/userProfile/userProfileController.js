@@ -30,6 +30,12 @@ angular.module('liveopsConfigPanel')
             $scope.hasTwilioIntegration = true;
           }
         });
+      }, function(error) {
+        // Workaround to enable supervisors to view their extensions - due to
+        // them not having permission to GET the integration route.
+        if (error.status === 403) {
+          $scope.hasTwilioIntegration = true;
+        }
       });
 
       var activeTenants = Me.cachedQuery();
