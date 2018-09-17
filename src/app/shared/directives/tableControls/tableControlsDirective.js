@@ -85,22 +85,6 @@ angular.module('liveopsConfigPanel')
             });
           };
 
-          function initAgentStates(field) {
-            if (field.name === 'groups' || field.name === 'direction' || field.name === 'skills') {
-              field.checked = false;
-            } else {
-              field.checked = true;
-            }
-          }
-
-          function initAgentDetails(field) {
-            if (field.name === 'avgResourceHoldDuration' || field.name === 'avgResourceWrapUpDuration' || field.name === 'avgTimeToAnswer' || field.name === 'avgResourceLoggedInTime') {
-              field.checked = false;
-            } else {
-              field.checked = true;
-            }
-          }
-
           function checkAll(field) {
             field.checked = true;
           }
@@ -110,6 +94,19 @@ angular.module('liveopsConfigPanel')
               console.warn('tableControls config.fields is not defined. Value is: ', $scope.config.fields);
               return;
             }
+
+            // Use configured columns to display for RTD Tables
+            // This preserves columns that should not be displayed by default
+            // Otherwise, all columns will be displayed
+            var useConfiguredCheckedColumnsFor = [
+              "Agent Details",
+              "Agent State",
+              "Interactions Completed",
+              "Interactions in Conversation",
+              "Interactions in Queue",
+              "Interactions in IVR",
+              "Queue Details"
+            ];
 
             for (var fieldIndex = 0; fieldIndex < $scope.config.fields.length; fieldIndex++) {
               if ($scope.config.title !== 'false' && Session.columnPreferences[$scope.config.title]) {
@@ -121,12 +118,9 @@ angular.module('liveopsConfigPanel')
                   }
                 }
               } else {
-                // set defaults for Agent States and Agent Details table, all other tables default to all checked
-                if ($scope.config.title === 'Agent States') {
-                  $scope.config.fields.forEach(initAgentStates);
-                } else if ($scope.config.title === 'Agent Details') {
-                  $scope.config.fields.forEach(initAgentDetails);
-                } else {
+                // set defaults for RTD table,
+                // all other tables default to all checked
+                if (useConfiguredCheckedColumnsFor.indexOf($scope.config.title) < 0) {
                   $scope.config.fields.forEach(checkAll);
                 }
                 setColumnPreferences();
