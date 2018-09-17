@@ -2,9 +2,12 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.56.4]
+* CXV1-14649 - RTD version bump, for 'unable to delete widgets in Custom Dashboards' error.
+
 ## [4.56.3]
-CXV1-15067 - Fixed CSS so it will show full controls and scroll to read long message transcripts in App Dock.
-CXV1-14794 - Made RTD and config-shared version bump, to show new side panel drag icon, in Custom Dashboards, RTD.
+* CXV1-15067 - Fixed CSS so it will show full controls and scroll to read long message transcripts in App Dock.
+* CXV1-14794 - Made RTD and config-shared version bump, to show new side panel drag icon, in Custom Dashboards, RTD.
 
 ## [4.56.2]
 * CXV1-14899 - Cut/Copy/Paste in Flow Designer
