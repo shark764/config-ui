@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.56.5]
+* <no-jira> - Allow supervisor to view outbound identifiers
+
 ## [4.56.4]
 * CXV1-14649 - RTD version bump, for 'unable to delete widgets in Custom Dashboards' error.
 
