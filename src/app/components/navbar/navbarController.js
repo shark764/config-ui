@@ -382,7 +382,7 @@ angular.module('liveopsConfigPanel')
           });
         }
 
-        if (UserPermissions.hasPermissionInList(PermissionGroups.accessAllEmailTemplates) && $location.search()['alpha']) {
+        if (UserPermissions.hasPermissionInList(PermissionGroups.viewOutboundIdentifiers) && $location.search()['alpha']) {
           items.push({
             label: $translate.instant('navbar.configuration.outboundIdentifiers.title'),
             stateLink: 'content.configuration.outboundIdentifiers',
@@ -391,7 +391,7 @@ angular.module('liveopsConfigPanel')
           });
         }
 
-        if (UserPermissions.hasPermissionInList(PermissionGroups.accessAllEmailTemplates) && $location.search()['alpha']) {
+        if (UserPermissions.hasPermissionInList(PermissionGroups.viewOutboundIdentifiers) && $location.search()['alpha']) {
           items.push({
             label: $translate.instant('navbar.configuration.outboundIdentifierLists.title'),
             stateLink: 'content.configuration.outboundIdentifierLists',
