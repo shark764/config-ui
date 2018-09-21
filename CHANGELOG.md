@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.56.6]
+* CXV1-14787 - RTD version bump, auto-select value format in widget creation.
+
 ## [4.56.5]
 * <no-jira> - Allow supervisor to view outbound identifiers
 
