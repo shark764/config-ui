@@ -532,8 +532,14 @@ angular.module('liveopsConfigPanel')
 
           items.push({
             label: $translate.instant('navbar.reports.silentMonitoring.title'),
-            stateLink: 'content.reporting.interactionMonitoring',
+            stateLink: 'content.reporting.silentMonitoring',
             id: 'silent-monitoring-link',
+            order: 5
+          });
+          items.push({
+            label: $translate.instant('navbar.reports.silentMonitoring.title') + ' ( BETA )',
+            stateLink: 'content.reporting.interactionMonitoring',
+            id: 'interaction-monitoring-link',
             order: 5
           });
         }

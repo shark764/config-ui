@@ -2,6 +2,14 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.57.0]
+* Downgrade SDK version for release
+* Rebasing Hotfixes:
+* BETA flag new silent monitoring
+* CXV1-15262 - Supervisors and Agents cannot view their Twilio Extension
+* CXV1-15094 - New Users cannot monitor interactions
+* CXV1-15045 - Cannot Disable Users
+
 ## [4.56.7]
 * CXV1-13733 - Update SDK to log errors to Kibana
 * <no-jira> - Remove Lumbajack as a dependency
