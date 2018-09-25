@@ -137,7 +137,7 @@ angular.module('liveopsConfigPanel')
           url: '/lists?id',
           title: 'Configuration - Lists',
           templateUrl: 'app/components/configuration/genericLists/genericLists.html',
-          controller: 'genericListsController as gc',
+          controller: 'genericListsController',
           reloadOnSearch: false,
           resolve: {
             hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
@@ -149,7 +149,19 @@ angular.module('liveopsConfigPanel')
           url: '/outboundIdentifiers',
           title: 'Configuration - Outbound Identifiers',
           templateUrl: 'app/components/configuration/outboundIdentifiers/outboundIdentifiers.html',
-          controller: 'outboundIdentifiersController as oc',
+          controller: 'outboundIdentifiersController',
+          reloadOnSearch: false,
+          resolve: {
+            hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
+              return UserPermissions.resolvePermissions(PermissionGroups.viewOutboundIdentifiers);
+            }]
+          }
+        })
+        .state('content.configuration.chatWidgets', {
+          url: '/chatWidgets',
+          title: 'Configuration - Chat Widgets',
+          templateUrl: 'app/components/configuration/chatWidgets/chatWidgets.html',
+          controller: 'chatWidgetsController',
           reloadOnSearch: false,
           resolve: {
             hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
@@ -161,7 +173,7 @@ angular.module('liveopsConfigPanel')
           url: '/outboundIdentifierLists',
           title: 'Configuration - Outbound Identifier Lists',
           templateUrl: 'app/components/configuration/outboundIdentifierLists/outboundIdentifierLists.html',
-          controller: 'outboundIdentifierListsController as oil',
+          controller: 'outboundIdentifierListsController',
           reloadOnSearch: false,
           resolve: {
             hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
@@ -173,7 +185,7 @@ angular.module('liveopsConfigPanel')
           url: '/emailTemplates?id',
           title: 'Configuration - Email Templates',
           templateUrl: 'app/components/configuration/emailTemplates/emailTemplates.html',
-          controller: 'emailTemplatesController as etc',
+          controller: 'emailTemplatesController',
           reloadOnSearch: false,
           resolve: {
             hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {

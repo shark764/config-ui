@@ -3,6 +3,10 @@
 angular.module('liveopsConfigPanel')
   .controller('outboundIdentifiersController', ['$scope', '$sce', 'config2Url',
     function ($scope, $sce, config2Url) {
-      $scope.outboundIdentifiersHostname = $sce.trustAsResourceUrl(config2Url + '/#/configuration/outboundIdentifiers');
+      if(location.hash.includes('alpha')) {
+        $scope.outboundIdentifiersHostname = $sce.trustAsResourceUrl(config2Url + '/#/configuration/outboundIdentifiers?alpha');
+      } else {
+        $scope.outboundIdentifiersHostname = $sce.trustAsResourceUrl(config2Url + '/#/configuration/outboundIdentifiers');
+      }
     }
   ]);

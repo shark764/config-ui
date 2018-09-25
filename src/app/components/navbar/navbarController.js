@@ -400,6 +400,15 @@ angular.module('liveopsConfigPanel')
           });
         }
 
+        if (UserPermissions.hasPermissionInList(PermissionGroups.accessAllEmailTemplates) && $location.search()['alpha']) {
+          items.push({
+            label: $translate.instant('navbar.configuration.chatWidgets.title'),
+            stateLink: 'content.configuration.chatWidgets',
+            id: 'chatWidgets-configuration-link',
+            order: 9
+          });
+        }
+
         if (appFlags.CONTACT_MANAGEMENT) {
           if (UserPermissions.hasPermissionInList(PermissionGroups.viewContactAttributes)) {
             items.push({
