@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.57.1]
+* Hotfix Version of RTD: 5.3.1-1
+
 ## [4.57.0]
 * Downgrade SDK version for release
 * Rebasing Hotfixes:
