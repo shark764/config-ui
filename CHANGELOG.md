@@ -2,6 +2,12 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.56.7]
+* CXV1-13733 - Update SDK to log errors to Kibana
+* <no-jira> - Remove Lumbajack as a dependency
+* <no-jira> - Adding filter for ContactPoint/Customer on Interaction in IVR/in Queue and in Conversation Table.
+* CXV1-15296 - Realtime Dashboard Tables not using configured columns for displaying.
+
 ## [4.56.6]
 * CXV1-14787 - RTD version bump, auto-select value format in widget creation.
 
