@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.59.0]
+* <no-jira> - Add roles page feature flagged
+
 ## [4.58.0]
 * CXV1-14889 - Add chat widget page feature flagged
 
