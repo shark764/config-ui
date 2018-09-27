@@ -70,6 +70,18 @@ angular.module('liveopsConfigPanel')
             }]
           }
         })
+        .state('content.management.roles2', {
+          url: '/roles2',
+          title: 'User Management - Role Management',
+          templateUrl: 'app/components/management/roles2/roles2.html',
+          controller: 'rolesController2',
+          reloadOnSearch: false,
+          resolve: {
+            hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
+              return UserPermissions.resolvePermissions(PermissionGroups.manageRoles);
+            }]
+          }
+        })
         .state('content.management.skills', {
           url: '/skills?id',
           title: 'User Management - Skill Management',

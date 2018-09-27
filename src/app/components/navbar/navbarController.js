@@ -255,6 +255,15 @@ angular.module('liveopsConfigPanel')
           });
         }
 
+        if (UserPermissions.hasPermissionInList(PermissionGroups.manageRoles) && $location.search()['alpha']) {
+          items.push({
+            label: $translate.instant('navbar.management.roles.title') + ' BETA',
+            stateLink: 'content.management.roles2',
+            id: 'role-management-link2',
+            order: 5
+          });
+        }
+
         //See TITAN2-6199 for why we do this extra check
         if (UserPermissions.hasPermissionInList(PermissionGroups.manageAllMedia) &&
           UserPermissions.hasPermissionInList(PermissionGroups.manageSkills)) {
