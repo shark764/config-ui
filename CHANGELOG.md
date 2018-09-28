@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.59.1]
+* CXV1-14786 - RTD version bump to 5.7.0, added typeahead for Statistics in Custom Dashboards
+* CXV1-15340 - Filter dropdowns not sorted alphabetically.
+
 ## [4.59.0]
 * <no-jira> - Add roles page feature flagged
 
