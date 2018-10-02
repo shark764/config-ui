@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.59.2]
+* CXV1-15151 - SDK version bump to 8.18.0, Outbound Identifiers - Specs. Custom Metrics updates to coincide with API new fixes.
+* CXV1-15407 - Cannot remove Outbound Identifier from List.
+
 ## [4.59.1]
 * CXV1-14786 - RTD version bump to 5.7.0, added typeahead for Statistics in Custom Dashboards
 * CXV1-15340 - Filter dropdowns not sorted alphabetically.
