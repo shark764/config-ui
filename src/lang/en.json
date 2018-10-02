@@ -831,6 +831,8 @@
   "dispositions.details.shared.confirm": "You have set shared to 'Yes' for this Disposition. Once a Disposition is set to shared, it cannot be changed to unshared. Do you want to continue?",
   "dispositions.readonly.warning": "This disposition is inherited and cannot be edited.",
   "dispositions.invalid": "Please remove any dispositions that have not been selected.",
+  "dispositions.shared.dispositions": "One or more dispositions have not been set for share: ",
+  "dispositions.shared.save.error": "Unable to share Disposition List. One or more dispositions have not been set for share. ",
   "dispositionLists.table.title": "Disposition List Management",
   "dispositionLists.details.creating": "Creating New Disposition List",
   "dispositionLists.details.disable.confirm": "This will disable this Disposition List. Do you want to continue?",
