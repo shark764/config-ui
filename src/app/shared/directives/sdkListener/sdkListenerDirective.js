@@ -180,7 +180,7 @@ angular.module('liveopsConfigPanel')
                           error: error,
                           topic: topic,
                           response: response,
-                          uuid: response.result.id,
+                          uuid: response && response.result && response.result.id || undefined
                         }, '*');
                       }
                     });
