@@ -383,6 +383,8 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.remove = function() {
+        //Setting list as the scope items, in cases where the user wants to remove an item after submit, it will update the variable with the current items in scope.
+        list = $scope.dispositionList;
         if (angular.isDefined($scope.selectedDispo)) {
           if(angular.isDefined($scope.selectedDispo.type)) {
             var idx = list.indexOf($scope.selectedDispo);
