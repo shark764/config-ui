@@ -28,7 +28,8 @@ angular.module('liveopsConfigPanel')
                           subscription: {
                             error: error,
                             topic: topic,
-                            response: response
+                            response: response,
+                            messageId: event.data.messageId
                           }
                         }, '*');
                       } catch (error) {
@@ -53,7 +54,8 @@ angular.module('liveopsConfigPanel')
                             .postMessage(
                               {subscription: {
                                 topic: 'monitorCall',
-                                response: { interactionId: event.data.data.interactionId, status: 'startingSession', defaultExtensionProvider: defaultExtensionProvider, transitionCall: false }
+                                response: { interactionId: event.data.data.interactionId, status: 'startingSession', defaultExtensionProvider: defaultExtensionProvider, transitionCall: false },
+                                messageId: event.data.messageId
                               }}, '*');
                         } else {
                             var confirmedToSwitchInteraction = confirm($translate.instant('interactionMonitoring.switchInteraction'));
@@ -63,7 +65,8 @@ angular.module('liveopsConfigPanel')
                                   .postMessage(
                                     {subscription: {
                                       topic: 'monitorCall',
-                                      response: { interactionId: event.data.data.interactionId, status: 'startingSession', defaultExtensionProvider: defaultExtensionProvider, transitionCall: true }
+                                      response: { interactionId: event.data.data.interactionId, status: 'startingSession', defaultExtensionProvider: defaultExtensionProvider, transitionCall: true },
+                                      messageId: event.data.messageId
                                     }}, '*');
                               });
                             } else {
@@ -71,7 +74,8 @@ angular.module('liveopsConfigPanel')
                               .postMessage(
                                 {
                                   topic: ['monitorCall'],
-                                  response: 'cancelled'
+                                  response: 'cancelled',
+                                  messageId: event.data.messageId
                                 }, '*');
                             }
                         }
@@ -87,22 +91,29 @@ angular.module('liveopsConfigPanel')
                     return document.getElementById('supervisorToolbar').contentWindow.postMessage({
                       error: error,
                       topic: topic,
-                      response: response
+                      response: response,
+                      messageId: event.data.messageId
                     },'*');
                   });
                 } else if(event.data.module === 'updateLocalStorage') {
                   event.source.postMessage({
                     error: null,
                     topic: ['updateLocalStorage'],
-                    response: {tenant: JSON.parse(window.localStorage.getItem('LIVEOPS-PREFERENCE-KEY')).tenant, agentId: CxEngage.session.getActiveUserId()}
+                    response: {tenant: JSON.parse(window.localStorage.getItem('LIVEOPS-PREFERENCE-KEY')).tenant, agentId: CxEngage.session.getActiveUserId()},
+                    messageId: event.data.messageId
                   },'*');
+                }
+                else if(event.data.module === 'setLocalStorage') {
+                  localStorage.setItem(event.data.data.key, event.data.data.value);
+                  location.reload();
                 }
                 else if (event.data.module === 'comfirmPrompt') {
                   var confirmedStatus = confirm(event.data.command);
                   event.source.postMessage({
                     error: null,
                     topic: ['comfirmPrompt'],
-                    response: confirmedStatus
+                    response: confirmedStatus,
+                    messageId: event.data.messageId
                   },'*');
                 } else if (event.data.command === 'getMonitoredInteraction') {
                   console.log('[SDK Listener] Asking the SDK for:', event.data.command);
@@ -111,7 +122,8 @@ angular.module('liveopsConfigPanel')
                     console.log('[SDK Listener] SDK sending back:', monitoredId);
                     event.source.postMessage({
                       topic: ['getMonitoredInteraction'],
-                      response: monitoredId
+                      response: monitoredId,
+                      messageId: event.data.messageId
                     }, '*');
                   }
                 } else {
@@ -170,17 +182,18 @@ angular.module('liveopsConfigPanel')
                     }
                     event.source.postMessage({
                       topic: [event.data.topic],
-                      response: response
+                      response: response,
+                      messageId: event.data.messageId
                     }, '*');
                   } else {
                     CxEngage[event.data.module][event.data.command](event.data.data, function(error, topic, response) {
                       if (event.source !== undefined) {
-                        console.log('[SDK Listener] SDK sending back:', error, topic, response);
+                        console.log('[SDK Listener] SDK sending back:', event.data.messageId , error, topic, response);
                         event.source.postMessage({
                           error: error,
                           topic: topic,
                           response: response,
-                          uuid: response && response.result && response.result.id || undefined
+                          messageId: event.data.messageId
                         }, '*');
                       }
                     });

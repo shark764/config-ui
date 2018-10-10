@@ -187,6 +187,16 @@ angular.module('liveopsConfigPanel')
         iconClass: 'fa fa-gear'
       }];
 
+      if(location.hash.includes('alpha')) {
+        $scope.userDropdownItems.push({
+          label: ' Beta Features',
+          onClick: function() {
+            $state.transitionTo('content.beta');
+          },
+          iconClass: 'fa fa-exclamation'
+        })
+      }
+
       $scope.userHelpItems = [
         {
           label: $translate.instant('navbar.help.help'),
@@ -249,20 +259,12 @@ angular.module('liveopsConfigPanel')
         if (UserPermissions.hasPermissionInList(PermissionGroups.manageRoles)) {
           items.push({
             label: $translate.instant('navbar.management.roles.title'),
-            stateLink: 'content.management.roles',
+            stateLink: localStorage.getItem('roles') === 'true'? 'content.management.roles2':'content.management.roles',
             id: 'role-management-link',
             order: 4
           });
         }
 
-        if (UserPermissions.hasPermissionInList(PermissionGroups.manageRoles) && $location.search()['alpha']) {
-          items.push({
-            label: $translate.instant('navbar.management.roles.title') + ' BETA',
-            stateLink: 'content.management.roles2',
-            id: 'role-management-link2',
-            order: 5
-          });
-        }
 
         //See TITAN2-6199 for why we do this extra check
         if (UserPermissions.hasPermissionInList(PermissionGroups.manageAllMedia) &&
@@ -548,18 +550,18 @@ angular.module('liveopsConfigPanel')
             });
           }
 
-          items.push({
-            label: $translate.instant('navbar.reports.silentMonitoring.title'),
-            stateLink: 'content.reporting.silentMonitoring',
-            id: 'silent-monitoring-link',
-            order: 5
-          });
-          items.push({
-            label: $translate.instant('navbar.reports.silentMonitoring.title') + ' ( BETA )',
-            stateLink: 'content.reporting.interactionMonitoring',
-            id: 'interaction-monitoring-link',
-            order: 5
-          });
+            items.push({
+              label: $translate.instant('navbar.reports.silentMonitoring.title'),
+              stateLink: 'content.reporting.silentMonitoring',
+              id: 'silent-monitoring-link',
+              order: 5
+            });
+            items.push({
+              label: $translate.instant('navbar.reports.silentMonitoring.title') + ' ( BETA )',
+              stateLink: 'content.reporting.interactionMonitoring',
+              id: 'interaction-monitoring-link',
+              order: 5
+            });
         }
 
         // commenting this out as per CXV1-13276, which specifies
