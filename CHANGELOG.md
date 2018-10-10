@@ -2,7 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [4.59.2]
+## [4.59.3]
+* Version bump to correct Jenkins build
+
+## [4.59.2] * Broken *
 * CXV1-15151 - SDK version bump to 8.18.0, Outbound Identifiers - Specs. Custom Metrics updates to coincide with API new fixes.
 * CXV1-15407 - Cannot remove Outbound Identifier from List.
 
