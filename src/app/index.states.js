@@ -193,6 +193,17 @@ angular.module('liveopsConfigPanel')
             }]
           }
         })
+        .state('content.beta', {
+          url: '/betaFeatures',
+          title: 'Configuration - Beta Features',
+          templateUrl: 'app/components/configuration/betaFeatures/betaFeatures.html',
+          controller: 'betaFeaturesController',
+          resolve: {
+            hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
+              return UserPermissions.resolvePermissions(PermissionGroups.readAllMode);
+            }]
+          }
+        })
         .state('content.configuration.emailTemplates', {
           url: '/emailTemplates?id',
           title: 'Configuration - Email Templates',

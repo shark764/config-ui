@@ -1,6 +1,27 @@
-# Change Log
+# Changelog
 All notable changes to this project will be documented in this file.
-This project adheres to [Semantic Versioning](http://semver.org/).
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [Alpha User Acceptance Testing]
+- Bulk actions in config 2
+- Roles (permissions)
+- Outbound Identifiers / Outbound Identifier Lists
+- Beta UAT page
+- Chat Widgets
+
+## [Beta User Acceptance Testing]
+- Interaction Monitoring
+
+## [4.60.0] - 2018-10-10
+### Added
+- Config2 beta roles page
+- Beta features page, in alpha UAT
+
+
+## [4.60.0]
+* <no-jira> - added beta features, feature flagged in alpha UAT
 
 ## [4.59.3]
 * Version bump to correct Jenkins build
