@@ -17,6 +17,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Beta User Acceptance Testing]
 - Interaction Monitoring
 
+## [4.60.1] - 2018-10-10
+### Changed
+- Bump version for SDK to 8.18.3 for serenova-js-utils dependency bump version to 1.3.1
+
 ## [4.60.0] - 2018-10-10
 ### Added
 - Config2 beta roles page
