@@ -14,6 +14,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Beta User Acceptance Testing]
 - Interaction Monitoring
 
+## [4.61.0] - 2018-10-12
+### Added
+* CXV1-15338 - Environment specific Logi script URL
+
 ## [4.60.2] - 2018-10-11
 ### Fixed
 * CXV1-12760 - Fixed issue with Disposition List that prevented users to add/delete elements after submit.

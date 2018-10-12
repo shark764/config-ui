@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('LogiController', ['$scope', 'Session', 'Logi', '$translate', 'Alert',
-    function ($scope, Session, Logi, $translate, Alert) {
+  .controller('LogiController', ['$scope', 'Session', 'Logi', '$translate', 'Alert', 'logiUrl'
+    function ($scope, Session, Logi, $translate, Alert, logiUrl) {
       $scope.birst = {};
       $scope.dashboardReady = false;
       $scope.birst.message = $translate.instant('reports.default');
@@ -30,7 +30,7 @@ angular.module('liveopsConfigPanel')
         var logiContainer = $('#logiContainer').context;
         var script = document.createElement('script');
         script.type = 'text/javascript';
-        script.src = 'https://logi.cxengagelabs.net/CxEngage/rdTemplate/rdEmbedApi/rdEmbed.js';
+        script.src = logiUrl;
         $(logiContainer).contents().find('body').append(script);
 
         $('#logiContainer').on('load', function () {
