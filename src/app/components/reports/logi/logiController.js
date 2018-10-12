@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('LogiController', ['$scope', 'Session', 'Logi', '$translate', 'Alert', 'logiUrl'
+  .controller('LogiController', ['$scope', 'Session', 'Logi', '$translate', 'Alert', 'logiUrl',
     function ($scope, Session, Logi, $translate, Alert, logiUrl) {
       $scope.birst = {};
       $scope.dashboardReady = false;
