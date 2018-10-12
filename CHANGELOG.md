@@ -14,8 +14,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Beta User Acceptance Testing]
 - Interaction Monitoring
 
+## [4.61.1] - 2018-10-12
+### Fixed
+* CXV1-15338 - Error with dependencies not loading crashing config-ui
+
 ## [4.61.0] - 2018-10-12
-### Added
+### Added - * Broken *
 * CXV1-15338 - Environment specific Logi script URL
 
 ## [4.60.2] - 2018-10-11
