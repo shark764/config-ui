@@ -159,6 +159,7 @@ angular.module('liveopsConfigPanel')
                   AuthService.logout();
                   $state.transitionTo('login');
                   $rootScope.$broadcast('logout');
+                  Session.token = null;
                   // Reload ensure no saved state for the next session
                   location.reload();
                 },1000);
@@ -169,6 +170,7 @@ angular.module('liveopsConfigPanel')
           AuthService.logout();
           $state.transitionTo('login');
           $rootScope.$broadcast('logout');
+          Session.token = null;
           location.reload();
         }
       };
