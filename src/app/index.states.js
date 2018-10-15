@@ -58,6 +58,21 @@ angular.module('liveopsConfigPanel')
             }]
           }
         })
+        .state('content.management.users2', {
+          url: '/users2',
+          title: 'User Management - Users',
+          templateUrl: 'app/components/management/users2/users.html',
+          controller: 'usersController2',
+          reloadOnSearch: false,
+          resolve: {
+            hasPermission: ['UserPermissions', 'PermissionGroups', '$q', function(UserPermissions, PermissionGroups, $q) {
+              return $q.all(
+                UserPermissions.resolvePermissions(PermissionGroups.manageUsers.concat(PermissionGroups.viewUsers)),
+                UserPermissions.resolvePermissions(PermissionGroups.manageUserSkillsAndGroups) //See TITAN2-4897 for why we do this extra check
+              );
+            }]
+          }
+        })
         .state('content.management.roles', {
           url: '/roles?id',
           title: 'User Management - Role Management',

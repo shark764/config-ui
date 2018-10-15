@@ -240,6 +240,15 @@ angular.module('liveopsConfigPanel')
           });
         }
 
+        if (UserPermissions.hasPermissionInList(PermissionGroups.viewUsers) && $location.search()['alpha']) {
+          items.push({
+          label: $translate.instant('navbar.management.users.title') + ' (Alpha UAT)',
+          stateLink: 'content.management.users2',
+          id: 'user-management-link2',
+          order: 8
+          });
+      }
+
         if (UserPermissions.hasPermissionInList(PermissionGroups.viewReasons)) {
           items.push({
             label: $translate.instant('navbar.management.reasons.title'),
@@ -398,7 +407,7 @@ angular.module('liveopsConfigPanel')
         if (UserPermissions.hasPermissionInList(PermissionGroups.viewOutboundIdentifiers) && $location.search()['alpha']) {
           items.push({
             label: $translate.instant('navbar.configuration.outboundIdentifiers.title'),
-            stateLink: 'content.configuration.outboundIdentifiers',
+            stateLink: 'content.configuration',
             id: 'outboundIdentifiers-configuration-link',
             order: 9
           });
