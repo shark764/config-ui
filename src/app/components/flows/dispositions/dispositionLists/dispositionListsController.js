@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('dispositionListsController', ['dispositionListsTableConfig', 'DispositionList', 'Disposition', 'Session', '$scope', '$translate', 'loEvents', 'Modal', 'Alert', function(dispositionListsTableConfig, DispositionList, Disposition, Session, $scope, $translate, loEvents, Modal, Alert) {
+  .controller('dispositionListsController', ['dispositionListsTableConfig', 'DispositionList', 'Disposition', 'Session', '$scope', '$translate', '$timeout', 'loEvents', 'Modal', 'Alert', function(dispositionListsTableConfig, DispositionList, Disposition, Session, $scope, $translate, $timeout, loEvents, Modal, Alert) {
     var vm = this;
     $scope.forms = {};
     vm.tableConfig = dispositionListsTableConfig;
@@ -10,6 +10,7 @@ angular.module('liveopsConfigPanel')
       $scope.err = false;
       $scope.errBlank = false;
       $scope.errAdd = false;
+      $scope.errSharedDispositions = false;
       vm.dispositionLists = {$promise: {}, $resolved: false};
       DispositionList.cachedQuery({
         tenantId: Session.tenant.tenantId
@@ -91,6 +92,30 @@ angular.module('liveopsConfigPanel')
       vm.submit();
     };
 
+    vm.checkSharedDispositions = function() {
+      $scope.errSharedDispositions = false;
+      var dispositionsNotShared = '';
+      if (vm.selectedDispositionList.shared) {
+        vm.selectedDispositionList.dispositions.forEach(function(disposition) {
+          if (disposition.shared === false) {
+            dispositionsNotShared += disposition.name+', ';
+            vm.selectedDispositionList.shared = false;
+            $scope.errSharedDispositions = true;
+          }
+        });
+         dispositionsNotShared = dispositionsNotShared !== '' ? dispositionsNotShared.slice(0,-2) : dispositionsNotShared;
+         vm.dispositionSharedErrorName = $translate.instant('dispositions.shared.dispositions') + dispositionsNotShared;
+         if ($scope.errSharedDispositions) {
+          $timeout(function() {
+            vm.dispositionSharedErrorName = '';
+            $scope.errSharedDispositions = false;
+          }, 30000);
+        }
+      }
+  
+      return;
+    };
+
     vm.submit = function() {
 
       var categories = [];
@@ -98,9 +123,20 @@ angular.module('liveopsConfigPanel')
       var countCat = 0;
       var countChild = 0;
 
+      vm.checkSharedDispositions();
+      
+      if ($scope.errSharedDispositions) {
+        Alert.error($translate.instant('dispositions.shared.save.error'));
+        vm.selectedDispositionList.shared = false;
+        $scope.errSharedDispositions = false;
+        return;
+      }
+      
       vm.selectedDispositionList.dispositions.forEach(function(disposition) {
         if (disposition.name === $translate.instant('dispositions.details.select')) {
           $scope.err = true;
+        } else {
+          $scope.err = false;
         }
         if (disposition.type === 'category') {
           categories[countCat] = disposition.name;
@@ -145,7 +181,6 @@ angular.module('liveopsConfigPanel')
       }
 
       if ($scope.err) {
-
         return;
       }
       // our list of dispositions comes back with a lot of extra info on it that we don't need and actually can't send to the API to save.
@@ -217,6 +252,8 @@ angular.module('liveopsConfigPanel')
     }, function() {
       $scope.err = false;
       vm.duplicateError = false;
+      $scope.errBlank = false;
+      $scope.errSharedDispositions = false;
     });
 
     vm.init();

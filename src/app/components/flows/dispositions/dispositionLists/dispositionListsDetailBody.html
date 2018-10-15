@@ -33,6 +33,7 @@
   <div>
     <toggle class="status-toggle" name="shared"
       ng-disabled="(! dlc.selectedDispositionList.isNew() && dlc.selectedDispositionList.$original.shared) || !('UPDATE_DISPOSITION_LIST' | hasPermission) || dlc.selectedDispositionList.tenantId !== Session.tenant.tenantId"
+      ng-click="dlc.checkSharedDispositions()"
       ng-model="dlc.selectedDispositionList.shared">
     </toggle>
   </div>
@@ -47,5 +48,6 @@
   <div class="lo-error centered-error" ng-show="errBlank">{{'dispositionList.details.category' | translate}}</div>
   <div class="lo-error centered-error" ng-show="errAdd">{{'dispositionList.details.addItem' | translate}}</div>
   <div class="lo-error centered-error" ng-show="err">{{'dispositions.invalid' | translate}}</div>
+  <div class="lo-error centered-error" ng-show="errSharedDispositions">{{dlc.dispositionSharedErrorName}}</div>
   <list-editor ng-model="dlc.selectedDispositionList.dispositions" form="forms.detailsForm" type="dispositions" read-only="dlc.selectedDispositionList.tenantId !== Session.tenant.tenantId || !(['UPDATE_DISPOSITION_LIST'] | hasPermission)" shared="dlc.selectedDispositionList.shared"></list-editor>
 </div>

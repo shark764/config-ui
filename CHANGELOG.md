@@ -14,6 +14,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Beta User Acceptance Testing]
 - Interaction Monitoring
 
+## [4.61.3] - 2018-10-12
+### Fixed
+* CXV1-14777 - Fixed bug about enabling the share option on the disposition lists, it previously did not provide any feedback to the user on the reason it failed. Now it displays an error message to the user communicating that all dispositions needs to be shared in order for a list to be shared.
+
 ## [4.61.2] - 2018-10-12
 ### Fixed
 * CXV1-15001 - Fixed issue that made the session to re-login on Firefox. Users can now logout and stay logout.
