@@ -10,9 +10,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Outbound Identifiers / Outbound Identifier Lists
 - Beta UAT page
 - Chat Widgets
+- Users Page
 
 ## [Beta User Acceptance Testing]
 - Interaction Monitoring
+
+## [4.62.0] - 2018-10-15
+### Added
+- Config 2 Users page behind alpha uat query param
 
 ## [4.61.3] - 2018-10-12
 ### Fixed
