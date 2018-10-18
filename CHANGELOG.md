@@ -11,9 +11,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Beta UAT page
 - Chat Widgets
 - Users Page
+- Skills Page
+- Groups Page
+- Data Access Contol Page
+
 
 ## [Beta User Acceptance Testing]
 - Interaction Monitoring
+
+## [4.63.0] - 2018-10-15
+### Added
+- Config 2 Skills page behind alpha uat query param
+- Config 2 Groups page behind alpha uat query param
+- Config 2 Data Access Control page behind alpha uat query param
 
 ## [4.62.0] - 2018-10-15
 ### Added

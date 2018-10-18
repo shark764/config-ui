@@ -112,8 +112,38 @@ angular.module('liveopsConfigPanel')
             }]
           }
         })
+        .state('content.management.skills2', {
+          url: '/skills2',
+          title: 'User Management - Skill Management',
+          templateUrl: 'app/components/management/skills2/skills.html',
+          controller: 'skillsController2',
+          reloadOnSearch: false,
+          resolve: {
+            hasPermission: ['UserPermissions', 'PermissionGroups', '$q', function(UserPermissions, PermissionGroups, $q) {
+              return $q.all(
+                UserPermissions.resolvePermissions(PermissionGroups.manageSkills),
+                UserPermissions.resolvePermissions(PermissionGroups.manageAllMedia) //See TITAN2-6199 for why we do this extra check
+              );
+            }]
+          }
+        })
+        .state('content.management.groups2', {
+          url: '/groups2',
+          title: 'User Management - Group Management',
+          templateUrl: 'app/components/management/groups2/groups.html',
+          controller: 'groupsController2',
+          reloadOnSearch: false,
+          resolve: {
+            hasPermission: ['UserPermissions', 'PermissionGroups', '$q', function(UserPermissions, PermissionGroups, $q) {
+              return $q.all(
+                UserPermissions.resolvePermissions(PermissionGroups.manageGroups),
+                UserPermissions.resolvePermissions(PermissionGroups.manageAllMedia)
+              );
+            }]
+          }
+        })
         .state('content.management.groups', {
-          url: '/groups?id',
+          url: '/groups2',
           title: 'User Management - Group Management',
           templateUrl: 'app/components/management/groups/groups.html',
           controller: 'GroupsController',
@@ -181,6 +211,18 @@ angular.module('liveopsConfigPanel')
           resolve: {
             hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
               return UserPermissions.resolvePermissions(PermissionGroups.viewOutboundIdentifiers);
+            }]
+          }
+        })
+        .state('content.configuration.dataAccessReports', {
+          url: '/dataAccessReports',
+          title: 'Configuration - Data Access Reports',
+          templateUrl: 'app/components/configuration/dataAccessReports/dataAccessReports.html',
+          controller: 'dataAccessReportsController',
+          reloadOnSearch: false,
+          resolve: {
+            hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
+              return UserPermissions.resolvePermissions(PermissionGroups.accessAllCustomStats);
             }]
           }
         })
