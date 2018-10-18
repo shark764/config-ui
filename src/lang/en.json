@@ -184,6 +184,7 @@
   "navbar.configuration.keys.title": "API Key Management",
   "navbar.configuration.messageTemplates.title": "Message Templates",
   "navbar.configuration.transferLists.title": "Transfer Lists",
+  "navbar.configuration.dataAccessReports.title": "Access Controlled Reports",
   "navbar.configuration.contactAttributes.title": "Contact Attributes",
   "navbar.configuration.contactLayouts.title": "Contact Layouts",
   "navbar.configuration.emailTemplates.title": "Email Templates",

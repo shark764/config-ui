@@ -247,7 +247,7 @@ angular.module('liveopsConfigPanel')
           id: 'user-management-link2',
           order: 8
           });
-      }
+        }
 
         if (UserPermissions.hasPermissionInList(PermissionGroups.viewReasons)) {
           items.push({
@@ -288,6 +288,16 @@ angular.module('liveopsConfigPanel')
           });
         }
 
+        if (UserPermissions.hasPermissionInList(PermissionGroups.manageAllMedia) &&
+          UserPermissions.hasPermissionInList(PermissionGroups.manageSkills) && 
+          $location.search()['alpha']) {
+          items.push({
+            label: $translate.instant('navbar.management.skills.title') + ' (Alpha UAT)',
+            stateLink: 'content.management.skills2',
+            id: 'skill-management-link',
+          });
+        }
+
         //See TITAN2-6199 for why we do this extra check
         if (UserPermissions.hasPermissionInList(PermissionGroups.manageAllMedia) &&
           UserPermissions.hasPermissionInList(PermissionGroups.manageGroups)) {
@@ -296,6 +306,16 @@ angular.module('liveopsConfigPanel')
             stateLink: 'content.management.groups',
             id: 'group-management-link',
             order: 6
+          });
+        }
+
+        if (UserPermissions.hasPermissionInList(PermissionGroups.manageAllMedia) &&
+             UserPermissions.hasPermissionInList(PermissionGroups.manageSkills) && 
+             $location.search()['alpha']) {
+          items.push({
+          label: $translate.instant('navbar.management.groups.title') + ' (Alpha UAT)',
+          stateLink: 'content.management.groups2',
+          id: 'group-management-link',
           });
         }
 
@@ -552,12 +572,21 @@ angular.module('liveopsConfigPanel')
             order: 3
           });
 
+          if (UserPermissions.hasPermissionInList(PermissionGroups.accessAllCustomStats) && $location.search()['alpha']) {
+            items.push({
+              label: $translate.instant('navbar.configuration.dataAccessReports.title')  + ' (Alpha UAT)',
+              stateLink: 'content.configuration.dataAccessReports',
+              id: 'dataAccessReports-configuration-link',
+              order: 4
+            });
+          }
+
           if (appFlags.LOGI) {
             items.push({
               label: 'Logi Dashboards',
               stateLink: 'content.logi',
               id: 'logi-link',
-              order: 4
+              order: 5
             });
           }
 
@@ -565,13 +594,13 @@ angular.module('liveopsConfigPanel')
               label: $translate.instant('navbar.reports.silentMonitoring.title'),
               stateLink: 'content.reporting.silentMonitoring',
               id: 'silent-monitoring-link',
-              order: 5
+              order: 6
             });
             items.push({
               label: $translate.instant('navbar.reports.silentMonitoring.title') + ' ( BETA )',
               stateLink: 'content.reporting.interactionMonitoring',
               id: 'interaction-monitoring-link',
-              order: 5
+              order: 7
             });
         }
 
