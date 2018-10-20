@@ -19,6 +19,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Beta User Acceptance Testing]
 - Interaction Monitoring
 
+## [4.63.1] - 2018-10-20
+### Fixed
+* CXV1-14558 - Added Full Agent Name for Messaging Transcript
+
 ## [4.63.0] - 2018-10-15
 ### Added
 - Config 2 Skills page behind alpha uat query param

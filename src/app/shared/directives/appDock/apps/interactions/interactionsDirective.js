@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('interactions', ['$sce', '$q', '$translate', '$interval', 'Recording', 'Messaging', 'MessagingFrom', 'Tenant', 'Session',
-    function ($sce, $q, $translate, $interval, Recording, Messaging, MessagingFrom, Tenant, Session) {
+  .directive('interactions', ['$sce', '$q', '$translate', '$interval', 'Recording', 'Messaging', 'MessagingFrom', 'TenantUser', 'Tenant', 'Session',
+    function ($sce, $q, $translate, $interval, Recording, Messaging, MessagingFrom, TenantUser, Tenant, Session) {
       return {
         restrict: 'E',
         transclude: true,
@@ -56,7 +56,7 @@ angular.module('liveopsConfigPanel')
               // this wacky logic tree basically allows for the different permutations
               // of name data we might get from the "from" API
               if (messageFromData.type === 'agent') {
-                return $translate.instant('appdock.messaging.agent');
+                  return $translate.instant('appdock.messaging.agent');
               } else {
                 if (messageFromData.firstName || messageFromData.lastName) {
                   if (messageFromData.firstName) {
@@ -99,7 +99,23 @@ angular.module('liveopsConfigPanel')
                     });
 
                     return $q.when(fromUser.$promise).then(function (fromUserResponse) {
-                      response[key].payload.userName = getUserName(fromUserResponse);
+                      var tenantId = response[key].payload.tenantId ? response[key].payload.tenantId : false;
+                      if ( tenantId && fromUserResponse.type === 'agent' ){
+                        
+                        var agentId = fromUserResponse.id;
+                        var userDetails = TenantUser.cachedGet({
+                          tenantId: tenantId,
+                          id: agentId
+                        });
+                        $q.when(userDetails.$promise).then(function (userDetailsResponse) {
+                            response[key].payload.userName = userDetailsResponse.$user.firstName+' '+userDetailsResponse.$user.lastName; 
+                        }, function (err) {
+                          console.log(err);
+                          response[key].payload.userName = response[key].payload.from;
+                        });                  
+                      } else {
+                        response[key].payload.userName = getUserName(fromUserResponse);
+                      }
                     }, function (error){
                       response[key].payload.userName = response[key].payload.from;
                     });
@@ -114,7 +130,7 @@ angular.module('liveopsConfigPanel')
                 }
                 scope.isLoadingAppDock = false;
                 return reason;
-              })
+              });
             }, function (err) {
                if (err.status === 401 || err.status === 403) {
                  scope.showNoPermissionsMsg = true;
