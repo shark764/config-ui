@@ -30,6 +30,15 @@ angular.module('liveopsConfigPanel')
       this.isSso = false;
       this.domain = null;
 
+      /*
+      This value does NOT need to be updated every time the config-ui version is
+      updated. This value represents the last version we cleared the user's
+      localStorage preferences. If this is updated, the user's preferences will
+      be cleared when they login next. We should only change this if we absolutely
+      need to.
+      */
+      this.version = "4.57.12";
+
       this.set = function(user, tenants, token, platformPermissions) {
         this.token = token;
         this.setUser(user);
@@ -148,6 +157,8 @@ angular.module('liveopsConfigPanel')
       this.restore = function() {
         angular.extend(this, JSON.parse(localStorage.getItem(this.userSessionKey)));
         angular.extend(this, JSON.parse(localStorage.getItem(this.userPreferenceKey)));
+
+        this.flush();
       };
 
       this.isAuthenticated = function() {
@@ -163,6 +174,20 @@ angular.module('liveopsConfigPanel')
       // adding isLogout argument to prevent deleting properties
       // we want to keep upon user logout
       this.flush = function(isLogout) {
+
+        var preferenceKey = JSON.parse(localStorage.getItem(self.userPreferenceKey));
+        var removePreferences = false;
+
+        if (preferenceKey && preferenceKey.appVersion) {
+          if (preferenceKey.appVersion !== self.version) {
+            removePreferences = true
+            self.columnPreferences = {};
+          }
+        } else {
+          removePreferences = true;
+          self.columnPreferences = {};
+        }
+
         localStorage.setItem(self.userSessionKey, JSON.stringify({
           token: isLogout ? null : self.token,
           user: isLogout ? null : self.user,
@@ -176,7 +201,8 @@ angular.module('liveopsConfigPanel')
           lang: self.lang,
           activeRegionId: self.activeRegionId,
           tenant: isLogout ? null : self.tenant,
-          columnPreferences: self.columnPreferences
+          appVersion: self.version,
+          columnPreferences: removePreferences ? {} : self.columnPreferences
         }));
       };
 
