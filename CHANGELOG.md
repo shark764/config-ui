@@ -19,9 +19,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Beta User Acceptance Testing]
 - Interaction Monitoring
 
-## [4.63.2] - 2018-10-24
+
+## [4.63.3] - 2018-10-24 
 ### Changed
 * Sdk version bump from 8.18.3 to 8.22.0
+
+~~[4.63.2] - 2018-10-24~~
+
+~~Changed~~
+
+~~Sdk version bump from 8.18.3 to 8.22.0~~
 
 ## [4.63.1] - 2018-10-20
 ### Fixed
