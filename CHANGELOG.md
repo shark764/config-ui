@@ -61,6 +61,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 * CXV1-14558  Added new method as some data were missing on certain message transcripts. Changed the cached loads of user's name/lastname.
 
+## [4.63.5] - 2018-10-26
+### Fixed
+* CXV1-14558  Added new method as some data were missing on certain message transcripts. Changed the cached loads of user's name/lastname.
+
 ## [4.63.4] - 2018-10-25
 ### Fixed
 * Permissions to access Statistics and Data Access Reports were not correct.
