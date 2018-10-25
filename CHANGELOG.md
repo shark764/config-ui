@@ -15,10 +15,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Groups Page
 - Data Access Contol Page
 
-
 ## [Beta User Acceptance Testing]
 - Interaction Monitoring
 
+## [4.63.4] - 2018-10-25
+### Fixed
+* Permissions to access Statistics and Data Access Reports were not correct.
 
 ## [4.63.3] - 2018-10-24 
 ### Changed
