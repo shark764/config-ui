@@ -93,16 +93,33 @@ angular.module('liveopsConfigPanel')
               return $q.all(
                 _.map(response, function (val, key) {
                   if (val.payload.from !== 'CxEngage') {
-                    var fromUser = MessagingFrom.cachedGet({
-                      tenantId: scope.config.tenantId,
-                      from: response[key].payload.from
-                    });
 
-                    return $q.when(fromUser.$promise).then(function (fromUserResponse) {
-                      response[key].payload.userName = getUserName(fromUserResponse);
-                    }, function (error){
-                      response[key].payload.userName = response[key].payload.from;
-                    });
+                      var tenantId = response[key].payload.tenantId ? response[key].payload.tenantId : false;
+                      
+                      if ( tenantId && response[key].payload.metadata !== null && response[key].payload.metadata.type === 'agent' ){
+                        
+                        var agentId = response[key].payload.from;
+
+                        var userDetails = TenantUser.cachedGet({
+                          tenantId: tenantId,
+                          id: agentId
+                        },'TenantUserCached', true);
+                        $q.when(userDetails.$promise).then(function (userDetailsResponse) {
+                            response[key].payload.userName = userDetailsResponse.$user.firstName+' '+userDetailsResponse.$user.lastName; 
+                        }, function (err) {
+                          response[key].payload.userName = response[key].payload.from;
+                        });                  
+                      } else {
+                        var fromUser = MessagingFrom.cachedGet({
+                          tenantId: scope.config.tenantId,
+                          from: response[key].payload.from
+                        });
+                        return $q.when(fromUser.$promise).then(function (fromUserResponse) {
+                          response[key].payload.userName = getUserName(fromUserResponse);
+                        }, function (error){
+                          response[key].payload.userName = response[key].payload.from;
+                        });
+                      }
                   }
                 })
               ).then(function () {
