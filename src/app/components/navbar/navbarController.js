@@ -379,7 +379,7 @@ angular.module('liveopsConfigPanel')
             });
           }
           
-        if (UserPermissions.hasPermissionInList(PermissionGroups.accessAllCustomStats) && $location.search()['alpha']) {
+        if (UserPermissions.hasPermissionInList(PermissionGroups.viewCustomStats) && $location.search()['alpha']) {
             items.push({
             label: $translate.instant('navbar.configuration.statistics.title'),
             stateLink: 'content.configuration.statistics',
@@ -572,7 +572,7 @@ angular.module('liveopsConfigPanel')
             order: 3
           });
 
-          if (UserPermissions.hasPermissionInList(PermissionGroups.accessAllCustomStats) && $location.search()['alpha']) {
+          if (UserPermissions.hasPermissionInList(PermissionGroups.viewCustomStats) && $location.search()['alpha']) {
             items.push({
               label: $translate.instant('navbar.configuration.dataAccessReports.title')  + ' (Alpha UAT)',
               stateLink: 'content.configuration.dataAccessReports',

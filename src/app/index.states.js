@@ -222,7 +222,7 @@ angular.module('liveopsConfigPanel')
           reloadOnSearch: false,
           resolve: {
             hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
-              return UserPermissions.resolvePermissions(PermissionGroups.accessAllCustomStats);
+              return UserPermissions.resolvePermissions(PermissionGroups.viewCustomStats);
             }]
           }
         })
@@ -281,7 +281,7 @@ angular.module('liveopsConfigPanel')
             reloadOnSearch: false,
             resolve: {
               hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
-                return UserPermissions.resolvePermissions(PermissionGroups.accessAllCustomStats);
+                return UserPermissions.resolvePermissions(PermissionGroups.viewCustomStats);
               }]
             }
           })
