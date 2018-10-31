@@ -18,6 +18,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Interaction Monitoring
 - Data Access Control Page
 
+## [4.63.13] - 2018-11-20
+### Changed
+- Version Bump for RTD to 5.8.0
+- CXV1-14814 - added some CSS for the new Locked Switchers in RTD
+
 ## [4.63.12] - 2018-11-14
 ### Changed
 - Bump version for SDK to 8.32.1.

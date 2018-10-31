@@ -341,10 +341,23 @@ div[gridster-item] {
   }
 }
 
+.locked-select {
+  background: lightgray;
+}
+
 .remove-widget {
   position: absolute;
   right: 7px;
   top: 5px;
+  z-index: 5;
+  font-size: 24px;
+  color: #07487a;
+}
+
+.locked-widget{
+  position: absolute;
+  right: 33px;
+  top: 6px;
   z-index: 5;
   font-size: 24px;
   color: #07487a;
