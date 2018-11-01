@@ -18,6 +18,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Beta User Acceptance Testing]
 - Interaction Monitoring
 
+## [4.63.6] - 2018-11-01
+### Changed
+* SDK version bump to 8.24.0
+
 ## [4.63.5] - 2018-11-01
 ### Fixed
 * Outbound Identifiers page was not accessible from navbar.
