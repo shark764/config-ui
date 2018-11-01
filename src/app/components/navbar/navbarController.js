@@ -427,7 +427,7 @@ angular.module('liveopsConfigPanel')
         if (UserPermissions.hasPermissionInList(PermissionGroups.viewOutboundIdentifiers) && $location.search()['alpha']) {
           items.push({
             label: $translate.instant('navbar.configuration.outboundIdentifiers.title'),
-            stateLink: 'content.configuration',
+            stateLink: 'content.configuration.outboundIdentifiers',
             id: 'outboundIdentifiers-configuration-link',
             order: 9
           });
