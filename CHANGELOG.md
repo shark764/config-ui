@@ -13,10 +13,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Users Page
 - Skills Page
 - Groups Page
-- Data Access Contol Page
+- Data Access Control Page
 
 ## [Beta User Acceptance Testing]
 - Interaction Monitoring
+
+## [4.63.5] - 2018-11-01
+### Fixed
+* Outbound Identifiers page was not accessible from navbar.
 
 ## [4.63.4] - 2018-10-25
 ### Fixed
