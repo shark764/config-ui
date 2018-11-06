@@ -18,6 +18,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Beta User Acceptance Testing]
 - Interaction Monitoring
 
+## [4.63.6] - 2018-11-06
+### Changed
+* SDK version bump to 8.27.0
+### Fixed
+- Groups url was pointing to config2 version
+
 ## [4.63.6] - 2018-11-01
 ### Changed
 * SDK version bump to 8.24.0
