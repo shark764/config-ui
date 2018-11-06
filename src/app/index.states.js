@@ -143,7 +143,7 @@ angular.module('liveopsConfigPanel')
           }
         })
         .state('content.management.groups', {
-          url: '/groups2',
+          url: '/groups',
           title: 'User Management - Group Management',
           templateUrl: 'app/components/management/groups/groups.html',
           controller: 'GroupsController',
