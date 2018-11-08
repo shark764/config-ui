@@ -572,9 +572,9 @@ angular.module('liveopsConfigPanel')
             order: 3
           });
 
-          if (UserPermissions.hasPermissionInList(PermissionGroups.viewCustomStats) && $location.search()['alpha']) {
+          if (UserPermissions.hasPermissionInList(PermissionGroups.viewCustomStats)) {
             items.push({
-              label: $translate.instant('navbar.configuration.dataAccessReports.title')  + ' (Alpha UAT)',
+              label: $translate.instant('navbar.configuration.dataAccessReports.title'),
               stateLink: 'content.configuration.dataAccessReports',
               id: 'dataAccessReports-configuration-link',
               order: 4

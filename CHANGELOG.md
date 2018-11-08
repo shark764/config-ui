@@ -13,10 +13,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Users Page
 - Skills Page
 - Groups Page
-- Data Access Control Page
 
 ## [Beta User Acceptance Testing]
 - Interaction Monitoring
+- Data Access Control Page
+
+## [4.63.9] - 2018-11-08
+### Changed
+- Moved Data access control into beta
 
 ## [4.63.8] - 2018-11-06
 ### Changed
