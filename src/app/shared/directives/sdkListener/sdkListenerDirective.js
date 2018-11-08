@@ -21,8 +21,8 @@ angular.module('liveopsConfigPanel')
                           CxEngage.unsubscribe(window.cxSubscriptions[event.data.command]);
                         }
                         CxEngage.reporting.removeStatSubscription({ statId: 'interactions-in-conversation-list' });
-                      } 
-                   
+                      }
+
                       try {
                         event.source.postMessage({
                           subscription: {
@@ -45,10 +45,10 @@ angular.module('liveopsConfigPanel')
                   }
                     var silentMonitorCall = function (event) {
 
-                      if(CxEngage.interactions.voice) {                    
+                      if(CxEngage.interactions.voice) {
                         var monitoredInteraction = CxEngage.session.getMonitoredInteraction();
                         var defaultExtensionProvider = CxEngage.session.getDefaultExtension().provider;
-    
+
                         if (monitoredInteraction === null) {
                             document.getElementById('supervisorToolbar').contentWindow
                             .postMessage(
@@ -85,7 +85,7 @@ angular.module('liveopsConfigPanel')
                     };
 
                     silentMonitorCall(event);
-                
+
                 } else if (event.data.module.includes('interactions')) {
                   CxEngage.interactions[event.data.module.split('.')[1]][event.data.command](event.data.data, function(error, topic, response) {
                     return document.getElementById('supervisorToolbar').contentWindow.postMessage({
@@ -128,7 +128,6 @@ angular.module('liveopsConfigPanel')
                   }
                 } else {
                   console.log('[SDK Listener] Asking the SDK for:', event.data);
-                  
                   if(event.data.topic === 'cxengage/entities/get-chat-widgets-response') {
                     const response = {
                       result: [
@@ -198,7 +197,6 @@ angular.module('liveopsConfigPanel')
                       }
                     });
                   }
-                  
                 }
               } else {
 
@@ -214,7 +212,7 @@ angular.module('liveopsConfigPanel')
                       sdkListener(event);
                   }, 2000)
                 }
-                
+
               }
             }
           };

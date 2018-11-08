@@ -119,6 +119,50 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [4.58.0]
 * CXV1-14889 - Add chat widget page feature flagged
 
+## [4.57.13]
+* Bump version for RTD to 5.7.9
+
+## [4.57.12]
+* <no-ticket> - Clear Session column preferences
+
+## [4.57.11]
+* Bump version for RTD to 5.7.8
+
+## [4.57.10]
+* Bump version for RTD to 5.7.7
+
+## [4.57.9]
+* Bump Session version to properly clear cache
+
+## [4.57.8]
+* Bump version for RTD to 5.7.6
+
+## [4.57.7]
+* Fixed not properly fixing localStorage when appVersion is absent
+
+## [4.57.6]
+* Bump version for RTD to 5.7.5
+* CXV1-15811 - Navigating between dashboards with tables causes tables to break.
+* CXV1-15875 - Custom dashboard tables do not seem to have bug fixes applied
+* <no-ticket> - Now storing version in our Session object - preferences will get
+  cleared when this version is changed
+
+## [4.57.5]
+* Bump version for RTD to 5.7.3
+
+## [4.57.4]
+* Version bump to fix Jenkins tag
+
+## [4.57.3]
+* Revert CXV1-14558 - Added Full Agent Name for Messaging Transcript
+* Remove Alpha Flag for SLA/Statistics page
+
+## [4.57.2]
+* Bump version for RTD to 5.7.1
+* Updated the .bowerrc to point to new registry, to avoid 502s on dependencies
+* CXV1-15827 - Realtime Dashboard Tables - Some filters reset every batch request
+* CXV1-14558 - Added Full Agent Name for Messaging Transcript
+
 ## [4.57.1]
 * Hotfix Version of RTD: 5.3.1-1
 

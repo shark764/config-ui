@@ -41,6 +41,25 @@ angular.module('liveopsConfigPanel')
             Session.setColumnPreferences(columnPreferences);
           }
 
+          function validateColumnPreferenceCache () {
+            var existing = Session.columnPreferences[$scope.config.title].map(function(field){
+              return field.name;
+            }).sort();
+            var newest = $scope.config.fields.map(function(field){
+              return field.name;
+            }).sort();
+
+            if (!_.isEqual(existing, newest)) {
+              var diffs = _.difference(existing, newest);
+              Session.columnPreferences[$scope.config.title].forEach(function(field, index, table){
+                if (_.includes(diffs, field.name)) {
+                  table.splice(index, 1);
+                  Session.flush();
+                }
+              })
+            }
+          }
+
           $scope.$watch('config', function(newConfig) {
             if (!newConfig) {
               console.warn('Table-controls config is not defined. Value is: ', newConfig);
@@ -111,6 +130,9 @@ angular.module('liveopsConfigPanel')
             for (var fieldIndex = 0; fieldIndex < $scope.config.fields.length; fieldIndex++) {
               if ($scope.config.title !== 'false' && Session.columnPreferences[$scope.config.title]) {
                 //Initialize the user's preferred column configuration
+
+                validateColumnPreferenceCache();
+
                 for (var storeOptionIndex = 0; storeOptionIndex < Session.columnPreferences[$scope.config.title].length; storeOptionIndex++) {
                   var storedOption = Session.columnPreferences[$scope.config.title][storeOptionIndex];
                   if (_.has(storedOption, 'header.display') &&  ($scope.config.fields[fieldIndex].header.display === storedOption.header.display)) {

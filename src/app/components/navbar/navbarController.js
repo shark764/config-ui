@@ -153,7 +153,7 @@ angular.module('liveopsConfigPanel')
         if (monitoredInteraction !== null) {
           var confirmedToLogout = confirm($translate.instant('interactionMonitoring.confirmEnd.logout'));
           if (confirmedToLogout) {
-            
+
               CxEngage.interactions.voice.resourceRemove({interactionId: monitoredInteraction}, function() {
                 setTimeout(function() {
                   AuthService.logout();
@@ -164,7 +164,7 @@ angular.module('liveopsConfigPanel')
                   location.reload();
                 },1000);
               });
-            
+
           }
         } else {
           AuthService.logout();
@@ -289,7 +289,7 @@ angular.module('liveopsConfigPanel')
         }
 
         if (UserPermissions.hasPermissionInList(PermissionGroups.manageAllMedia) &&
-          UserPermissions.hasPermissionInList(PermissionGroups.manageSkills) && 
+          UserPermissions.hasPermissionInList(PermissionGroups.manageSkills) &&
           $location.search()['alpha']) {
           items.push({
             label: $translate.instant('navbar.management.skills.title') + ' (Alpha UAT)',
@@ -310,7 +310,7 @@ angular.module('liveopsConfigPanel')
         }
 
         if (UserPermissions.hasPermissionInList(PermissionGroups.manageAllMedia) &&
-             UserPermissions.hasPermissionInList(PermissionGroups.manageSkills) && 
+             UserPermissions.hasPermissionInList(PermissionGroups.manageSkills) &&
              $location.search()['alpha']) {
           items.push({
           label: $translate.instant('navbar.management.groups.title') + ' (Alpha UAT)',
@@ -378,8 +378,8 @@ angular.module('liveopsConfigPanel')
               order: 5
             });
           }
-          
-        if (UserPermissions.hasPermissionInList(PermissionGroups.viewCustomStats) && $location.search()['alpha']) {
+
+        if (UserPermissions.hasPermissionInList(PermissionGroups.viewCustomStats)) {
             items.push({
             label: $translate.instant('navbar.configuration.statistics.title'),
             stateLink: 'content.configuration.statistics',
