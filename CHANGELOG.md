@@ -18,7 +18,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Interaction Monitoring
 - Data Access Control Page
 
-## [4.63.9] - 2018-11-08
+## [4.63.10] - 2018-11-12
+### Fixed
+* CXV1-14558  Fixed as some data were missing on certain message transcripts. Changed the cached loads of user's name/lastname.
+
+## [4.63.9] - 2018-11-08 * BROKEN *
 ### Changed
 - Moved Data access control into beta
 
@@ -39,6 +43,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [4.63.5] - 2018-11-01
 ### Fixed
 * Outbound Identifiers page was not accessible from navbar.
+
+## [4.63.5] - 2018-10-26
+### Fixed
+* CXV1-14558  Added new method as some data were missing on certain message transcripts. Changed the cached loads of user's name/lastname.
 
 ## [4.63.4] - 2018-10-25
 ### Fixed
