@@ -18,6 +18,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Interaction Monitoring
 - Data Access Control Page
 
+## [4.63.11] - 2018-11-13
+### Changed
+- Bump version for SDK to 8.31.1.
+
 ## [4.63.10] - 2018-11-12
 ### Fixed
 * CXV1-14558  Fixed as some data were missing on certain message transcripts. Changed the cached loads of user's name/lastname.
