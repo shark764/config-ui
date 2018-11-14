@@ -18,6 +18,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Interaction Monitoring
 - Data Access Control Page
 
+## [4.63.12] - 2018-11-14
+### Changed
+- Bump version for SDK to 8.32.1.
+
 ## [4.63.11] - 2018-11-13
 ### Changed
 - Bump version for SDK to 8.31.1.
