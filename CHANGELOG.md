@@ -18,6 +18,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Interaction Monitoring
 - Data Access Control Page
 
+## [4.63.14] - 2018-11-20
+### Fixed
+- Missing service (TenantUser) causing messages transcripts to fail trying to load the messages.
+
 ## [4.63.13] - 2018-11-20
 ### Changed
 - Version Bump for RTD to 5.8.0
