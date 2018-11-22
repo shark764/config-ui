@@ -18,6 +18,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Interaction Monitoring
 - Data Access Control Page
 
+## [4.63.15] - 2018-11-21
+### Changed
+- Bump version for SDK to 8.33.0.
+
 ## [4.63.14] - 2018-11-20
 ### Fixed
 - Missing service (TenantUser) causing messages transcripts to fail trying to load the messages.
