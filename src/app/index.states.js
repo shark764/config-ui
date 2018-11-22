@@ -728,13 +728,13 @@ angular.module('liveopsConfigPanel')
           reloadOnSearch: false,
           resolve: {
             hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
-              return UserPermissions.resolvePermissions(PermissionGroups.viewDashboards);
+              return UserPermissions.resolvePermissions(PermissionGroups.viewAssignedReports);
             }],
             dashboard: ['$stateParams', function($stateParams) {
               delete $stateParams.id;
               return $stateParams.dashboardId || 'overview-dashboard';
             }],
-            dashboards: ['RealtimeDashboardsSettings', 'RealtimeDashboard', 'Session', '$q', '$translate', function(RealtimeDashboardsSettings, RealtimeDashboard, Session, $q, $translate) {
+            dashboards: ['UserPermissions', 'RealtimeDashboardsSettings', 'RealtimeDashboard', 'Session', '$q', '$translate', function(UserPermissions, RealtimeDashboardsSettings, RealtimeDashboard, Session, $q, $translate) {
               var deferred = $q.defer();
 
               var fetchDashboards = function(){
@@ -755,7 +755,32 @@ angular.module('liveopsConfigPanel')
                     var allDashboardsMapped = window.allDashboards.map(function(item) {
                       return { id: item.id, name: item.name, dashboardCategory: item.dashboardCategory };
                     });
-                    deferred.resolve(allDashboardsMapped);
+
+                    if (!UserPermissions.hasPermission("VIEW_ALL_REALTIME_DASHBOARDS")) {
+                      CxEngage.entities.getDataAccessMember({
+                        dataAccessMemberId: Session.user.id
+                      }, function(error, topic, response){
+                        if (response.result && response.result.length) {
+                          var controlledReports = _.filter(response.result, function(report){
+                            return report.reportType === "realtime";
+                          });
+
+                          var assignedDashboards = [];
+
+                          _.forEach(controlledReports, function(report){
+                            assignedDashboards.push(report.realtimeReportName);
+                          });
+
+                          var filteredDashboards = _.filter(allDashboardsMapped, function(dashboard){
+                            return _.includes(assignedDashboards, dashboard.name);
+                          });
+                        }
+
+                        deferred.resolve(filteredDashboards);
+                      });
+                    } else {
+                      deferred.resolve(allDashboardsMapped);
+                    }
                   }
                 });
               };
