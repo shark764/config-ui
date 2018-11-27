@@ -17,6 +17,15 @@ angular.module('liveopsConfigPanel')
       }
     });
 
+    if (!$scope.dashboard) {
+      var targetId = dashboards[0].id;
+      _.forEach(window.allDashboards, function(dash) {
+        if (dash.id === targetId) {
+          $scope.dashboard = dash.activeDashboard ? dash.activeDashboard : dash;
+        }
+      });
+    }
+
     $scope.dashboards = dashboards;
   }
 ]);

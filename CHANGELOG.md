@@ -18,6 +18,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Interaction Monitoring
 - Data Access Control Page
 
+## [4.64.0] - 2018-11-22
+### Added
+- CXV1-14816 - Realtime Dashboard Permissions Updates for access controlled supervisor
+
 ## [4.63.15] - 2018-11-21
 ### Changed
 - Bump version for SDK to 8.33.0.
@@ -73,7 +77,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 * Permissions to access Statistics and Data Access Reports were not correct.
 
-## [4.63.3] - 2018-10-24 
+## [4.63.3] - 2018-10-24
 ### Changed
 * Sdk version bump from 8.18.3 to 8.22.0
 
