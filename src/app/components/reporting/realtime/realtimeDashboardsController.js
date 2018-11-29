@@ -17,7 +17,7 @@ angular.module('liveopsConfigPanel')
       }
     });
 
-    if (!$scope.dashboard) {
+    if (!$scope.dashboard && dashboards) {
       var targetId = dashboards[0].id;
       _.forEach(window.allDashboards, function(dash) {
         if (dash.id === targetId) {

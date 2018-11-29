@@ -140,7 +140,7 @@
       <div class="input-group display-only">
         <label>{{'details.platformUserId' | translate}}</label>
         <div ng-switch="invitedUserExistsOnPlatform()">
-          <span ng-switch-when="false" name="platformUserId" type="text">{{selectedTenantUser.$user.id}}</span>
+          <span ng-switch-when="false" name="platformUserId" type="text">{{selectedTenantUser.aliasPlatformUserId}}</span>
           <span ng-switch-when="true" type="text"></span>
         </div>
       </div>
