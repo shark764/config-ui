@@ -1,6 +1,6 @@
 {
   "name": "liveopsConfigPanel",
-  "version": "4.64.0",
+  "version": "4.64.1",
   "dependencies": {
     "jquery": "2.1.4",
     "angular-resource": "1.6.3",
@@ -21,7 +21,7 @@
     "teljs": "git@github.com:SerenovaLLC/tel.js.git#master",
     "angular-moment-picker": "git@github.com:indrimuska/angular-moment-picker.git#0.9.11",
     "liveops-config-panel-shared": "git@github.com:SerenovaLLC/config-shared#1.9.0",
-    "realtime-dashboards": "git@github.com:SerenovaLLC/realtime-dashboards.git#5.8.0",
+    "realtime-dashboards": "git@github.com:SerenovaLLC/realtime-dashboards.git#5.9.1",
     "agent-phone-panel": "git@github.com:SerenovaLLC/soundwave.git#3.1.38",
     "ng-file-upload": "7.0.17",
     "angular-drag-and-drop-lists": "1.4.0",

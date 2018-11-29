@@ -18,6 +18,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Interaction Monitoring
 - Data Access Control Page
 
+## [4.64.1] - 2018-11-29
+## Changed
+- Bump version for RTD to 5.9.1
+- CXV1-15315 - Platform alias showing user-id
+
 ## [4.64.0] - 2018-11-22
 ### Added
 - CXV1-14816 - Realtime Dashboard Permissions Updates for access controlled supervisor
