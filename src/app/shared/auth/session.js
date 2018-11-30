@@ -37,7 +37,7 @@ angular.module('liveopsConfigPanel')
       be cleared when they login next. We should only change this if we absolutely
       need to.
       */
-      this.version = "4.57.12";
+      this.version = "4.64.2";
 
       this.set = function(user, tenants, token, platformPermissions) {
         this.token = token;

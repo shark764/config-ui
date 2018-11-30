@@ -18,6 +18,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Interaction Monitoring
 - Data Access Control Page
 
+## [4.64.2] - 2018-11-30
+## Changed
+- Bump version for RTD to 5.9.2
+- Updated the tableControlsDirective to utilize the new preferenceKey in table definitions
+
 ## [4.64.1] - 2018-11-29
 ## Changed
 - Bump version for RTD to 5.9.1
