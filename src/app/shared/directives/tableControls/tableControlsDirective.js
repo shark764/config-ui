@@ -35,14 +35,16 @@ angular.module('liveopsConfigPanel')
         link: function($scope) {
 
           function setColumnPreferences () {
+            var preferenceKey = $scope.config.preferenceKey ? $scope.config.preferenceKey : $scope.config.title;
             var columnPreferences = Session.columnPreferences;
-            columnPreferences[$scope.config.title] = $scope.config.fields;
+
+            columnPreferences[preferenceKey] = $scope.config.fields;
             delete columnPreferences['false'];
             Session.setColumnPreferences(columnPreferences);
           }
 
-          function validateColumnPreferenceCache () {
-            var existing = Session.columnPreferences[$scope.config.title].map(function(field){
+          function validateColumnPreferenceCache (preferenceKey) {
+            var existing = Session.columnPreferences[preferenceKey].map(function(field){
               return field.name;
             }).sort();
             var newest = $scope.config.fields.map(function(field){
@@ -51,7 +53,7 @@ angular.module('liveopsConfigPanel')
 
             if (!_.isEqual(existing, newest)) {
               var diffs = _.difference(existing, newest);
-              Session.columnPreferences[$scope.config.title].forEach(function(field, index, table){
+              Session.columnPreferences[preferenceKey].forEach(function(field, index, table){
                 if (_.includes(diffs, field.name)) {
                   table.splice(index, 1);
                   Session.flush();
@@ -104,47 +106,39 @@ angular.module('liveopsConfigPanel')
             });
           };
 
-          function checkAll(field) {
-            field.checked = true;
-          }
-
           $scope.getFields = function() {
             if (!$scope.config || !$scope.config.fields) {
               console.warn('tableControls config.fields is not defined. Value is: ', $scope.config.fields);
               return;
             }
 
-            // Use configured columns to display for RTD Tables
-            // This preserves columns that should not be displayed by default
-            // Otherwise, all columns will be displayed
-            var useConfiguredCheckedColumnsFor = [
-              "Agent Details",
-              "Agent State",
-              "Interactions Completed",
-              "Interactions in Conversation",
-              "Interactions in Queue",
-              "Interactions in IVR",
-              "Queue Details"
-            ];
+            var preferenceKey = $scope.config.preferenceKey ? $scope.config.preferenceKey : $scope.config.title;
 
             for (var fieldIndex = 0; fieldIndex < $scope.config.fields.length; fieldIndex++) {
-              if ($scope.config.title !== 'false' && Session.columnPreferences[$scope.config.title]) {
+
+              //If for whatever reason options get added without a checked property
+              //add it and default it to true.
+              if ($scope.config.fields[fieldIndex].header && $scope.config.fields[fieldIndex].header.options) {
+                _.forEach($scope.config.fields[fieldIndex].header.options, function(option){
+                  if (!_.has(option, 'checked')) {
+                    option.checked = true;
+                  }
+                });
+              }
+
+              if (preferenceKey !== 'false' && Session.columnPreferences[preferenceKey]) {
                 //Initialize the user's preferred column configuration
 
-                validateColumnPreferenceCache();
+                validateColumnPreferenceCache(preferenceKey);
 
-                for (var storeOptionIndex = 0; storeOptionIndex < Session.columnPreferences[$scope.config.title].length; storeOptionIndex++) {
-                  var storedOption = Session.columnPreferences[$scope.config.title][storeOptionIndex];
+                for (var storeOptionIndex = 0; storeOptionIndex < Session.columnPreferences[preferenceKey].length; storeOptionIndex++) {
+                  var storedOption = Session.columnPreferences[preferenceKey][storeOptionIndex];
                   if (_.has(storedOption, 'header.display') &&  ($scope.config.fields[fieldIndex].header.display === storedOption.header.display)) {
                     $scope.config.fields[fieldIndex].checked = (angular.isUndefined(storedOption.checked) ? true : storedOption.checked);
                   }
                 }
               } else {
-                // set defaults for RTD table,
-                // all other tables default to all checked
-                if (useConfiguredCheckedColumnsFor.indexOf($scope.config.title) < 0) {
-                  $scope.config.fields.forEach(checkAll);
-                }
+                console.log("asdf", $scope.config);
                 setColumnPreferences();
               }
             }
