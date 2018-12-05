@@ -18,6 +18,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Interaction Monitoring
 - Data Access Control Page
 
+## [4.64.3] - 2018-12-05
+## Changed
+- Bump version for RTD to 5.9.3
+
 ## [4.64.2] - 2018-11-30
 ## Changed
 - Bump version for RTD to 5.9.2
