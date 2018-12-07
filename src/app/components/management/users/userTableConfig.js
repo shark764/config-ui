@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('userTableConfig', ['userStatuses', 'userPlatformStatuses', '$q', '$rootScope', 'userStates', '$translate', 'Skill', 'Group', 'TenantRole', 'Session', 'UserPermissions', 'queryCache', 'CustomDomain',
-    function(userStatuses, userPlatformStatuses, $q, $rootScope, userStates, $translate, Skill, Group, TenantRole, Session, UserPermissions, queryCache, CustomDomain) {
+  .service('userTableConfig', ['userStatuses', 'userPlatformStatuses', '$q', '$rootScope', 'userStates', '$translate', 'Skill', 'Group', 'Session', 'UserPermissions', 'queryCache', 'CustomDomain',
+    function(userStatuses, userPlatformStatuses, $q, $rootScope, userStates, $translate, Skill, Group, Session, UserPermissions, queryCache, CustomDomain) {
 
       var CustomDomainSvc = new CustomDomain();
 
@@ -10,16 +10,10 @@ angular.module('liveopsConfigPanel')
         return Skill.cachedQuery({
           tenantId: Session.tenant.tenantId
         });
-     }
-
-    function getGroupOptions() {
-        return Group.cachedQuery({
-          tenantId: Session.tenant.tenantId
-        });
       }
 
-      function getRoleOptions() {
-        return TenantRole.cachedQuery({
+      function getGroupOptions() {
+        return Group.cachedQuery({
           tenantId: Session.tenant.tenantId
         });
       }
@@ -153,7 +147,7 @@ angular.module('liveopsConfigPanel')
               'display': $translate.instant('user.table.roles'),
               'valuePath': 'id',
               'displayPath': 'name',
-              'options': getRoleOptions
+              'options': []
             },
             'name': '$original.$roleName',
             'id': 'user-roles-table-column',

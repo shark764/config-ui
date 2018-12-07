@@ -17,9 +17,16 @@ angular.module('liveopsConfigPanel')
       $scope.resetBtn = 'reset';
       $scope.resendBtn = 'resend';
       $scope.identityProviders = [];
+      $scope.roleData = [];
 
       $scope.tenantData = Tenant.cachedGet({
         id: Session.tenant.tenantId,
+      });
+
+      TenantRole.cachedQuery({
+        tenantId: Session.tenant.tenantId
+      }).$promise.then(function(roles){
+        $scope.roleData = _.uniq(roles, 'id');
       });
 
       $q.all([
@@ -129,7 +136,12 @@ angular.module('liveopsConfigPanel')
         return newSkills;
       }
 
+      function newRolesReturn() {
+        return $scope.roleData;
+      }
+
       userTableConfig.getConfig().fields[3].header.options = newSkillsReturn;
+      userTableConfig.getConfig().fields[5].header.options = newRolesReturn;
       $scope.userTableConfig = userTableConfig;
 
       var extensionFields = [
@@ -373,9 +385,7 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.fetchTenantRoles = function() {
-        return TenantRole.cachedQuery({
-          tenantId: Session.tenant.tenantId
-        });
+        return $scope.roleData;
       };
 
       $scope.fetchPlatformRoles = function() {

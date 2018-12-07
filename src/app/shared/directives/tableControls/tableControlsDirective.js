@@ -138,7 +138,6 @@ angular.module('liveopsConfigPanel')
                   }
                 }
               } else {
-                console.log("asdf", $scope.config);
                 setColumnPreferences();
               }
             }
