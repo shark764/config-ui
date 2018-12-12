@@ -37,7 +37,7 @@ angular.module('liveopsConfigPanel')
       be cleared when they login next. We should only change this if we absolutely
       need to.
       */
-      this.version = "4.64.2";
+      this.version = "4.64.6";
 
       this.set = function(user, tenants, token, platformPermissions) {
         this.token = token;
@@ -187,6 +187,16 @@ angular.module('liveopsConfigPanel')
           removePreferences = true;
           self.columnPreferences = {};
         }
+
+        var excludedFields = ["channelType", "direction"];
+
+        Object.keys(self.columnPreferences).forEach(function (key) {
+          _.forEach(self.columnPreferences[key], function(field){
+            if (field.header && field.header.options && !_.includes(excludedFields, field.name)) {
+              field.header.options = [];
+            }
+          });
+        });
 
         localStorage.setItem(self.userSessionKey, JSON.stringify({
           token: isLogout ? null : self.token,

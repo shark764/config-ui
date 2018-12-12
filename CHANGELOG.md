@@ -18,6 +18,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Interaction Monitoring
 - Data Access Control Page
 
+## [4.64.6] - 2018-12-11
+## Changed
+- Bump version for RTD to 5.9.4
+### Fixed
+- no-ticket - Remove localStorage entries with options metadata stored
+
 ## [4.64.5] - 2018-12-06
 ## Fixed
 - CXV1-16291 - Fix Access Controlled Supervisor appearing multiple times
