@@ -111,10 +111,17 @@ angular.module('liveopsConfigPanel')
               console.warn('tableControls config.fields is not defined. Value is: ', $scope.config.fields);
               return;
             }
-
+            
             var preferenceKey = $scope.config.preferenceKey ? $scope.config.preferenceKey : $scope.config.title;
+            
 
             for (var fieldIndex = 0; fieldIndex < $scope.config.fields.length; fieldIndex++) {
+
+              //If the field itself for whatever reason doesn't have a checked value
+              //AND it's an old table (ie; title is false) add it and default it to true
+              if ($scope.config.title === false && !_.has($scope.config.fields[fieldIndex], 'checked')) {
+                $scope.config.fields[fieldIndex].checked = true; 
+              }
 
               //If for whatever reason options get added without a checked property
               //add it and default it to true.
