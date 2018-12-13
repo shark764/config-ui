@@ -573,7 +573,7 @@ angular.module('liveopsConfigPanel')
           controller: 'ReportsController'
         })
         .state('content.logi', {
-          url: '/reports/logi',
+          url: '/reports/cxengage',
           title: 'Reporting - Logi',
           templateUrl: 'app/components/reports/logi/logi.html',
           controller: 'LogiController'
