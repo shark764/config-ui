@@ -1321,6 +1321,8 @@
   "reports.provisioning": "Your historical reporting space is being upgraded. Please wait.",
   "reports.error": "Error. Please try again later.",
   "reports.serverError": "The server encountered an internal error and was not able to complete your request. Please try again later. If this issue persists please contact your account administrator.",
+  "reports.analytics.standard": "Standard Reports",
+  "reports.analytics.advanced": "Advanced Reports",
   "realtimeDashboards.table.title": "Custom Realtime Dashboards",
   "realtimeDashboards.details.disable.confirm": "This will disable this dashboard. Do you want to continue?",
   "realtimeDashboards.details.enable.confirm": "This will enable this dashboard. Do you want to continue?",

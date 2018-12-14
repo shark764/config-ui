@@ -1,8 +1,41 @@
-#logi-container {
+#outer, #container {
+  position: relative;
+}
+
+#logiContainer, #ssmContainer {
   height: 100%;
-  overflow-y: hidden;
+  width: 100%;
 
   iframe {
-    height: calc(100vh - 50px);
+    width: 100%;
   }
+}
+
+#analyticTabs {
+  width: auto;
+  height: 50px;
+  z-index: 1000;
+  background-color: #172C42;
+  position: absolute;
+  right: 0;
+  color: white;
+}
+
+.tab-option {
+  font-size: 20px;
+  height: 100%;
+  width: auto;
+  padding: 10px;
+  display: inline-flex;
+  align-items: center;
+  background-color: #172C42;
+
+  &:hover {
+    cursor: pointer;
+    background-color: #244465;
+  }
+}
+
+.tab-selected {
+  box-shadow: inset 0px -5px 0px 0px #3b6c9f;
 }

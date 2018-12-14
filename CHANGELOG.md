@@ -18,6 +18,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Interaction Monitoring
 - Data Access Control Page
 
+## [4.65.0] - 2018-12-13
+## Added
+- CXV1-16364 - Add tabs on Logi page to switch between standard and advanced reports
+
 ## [4.64.7] - 2018-12-12
 ## Changed
 - Bump version for SDK to 8.35.0
