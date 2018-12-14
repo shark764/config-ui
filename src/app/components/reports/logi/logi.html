@@ -1,5 +1,5 @@
 <div id="outer">
-    <div id="analyticTabs" ng-hide="!iframeLoaded">
+    <div id="analyticTabs" ng-show="iframeLoaded">
         <div 
             id="toggleLogi" 
             ng-click="toggleAnalytics = false" 
@@ -12,7 +12,7 @@
             ng-class="{'tab-selected' : toggleAnalytics}">{{'reports.analytics.advanced' | translate}}</div>
     </div>
     <div id="container">
-        <div id="logiContainer" ng-hide="toggleAnalytics" />
-        <div id="ssmContainer" ng-show="toggleAnalytics" />
+        <div id="logiContainer" ng-show="!toggleAnalytics"></div>
+        <div id="ssmContainer" ng-show="toggleAnalytics"></div>
     </div>
 </div>
