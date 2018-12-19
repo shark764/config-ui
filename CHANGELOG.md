@@ -18,6 +18,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Interaction Monitoring
 - Data Access Control Page
 
+## [4.65.2] - 2018-12-19
+## Changed
+- SDK version bump to 8.36.0
+
 ## [4.65.1] - 2018-12-14
 ## Fixed
 - CXV1-16364 - Fix SSM page not displaying, and z-index of profile dropdown
