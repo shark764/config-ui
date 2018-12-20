@@ -282,4 +282,8 @@ navbar {
   }
 
   .dropdown { right: 0; }
+
+  .dropdown-container {
+    z-index: 20;
+  }
 }
