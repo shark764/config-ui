@@ -185,6 +185,9 @@ angular.module('liveopsConfigPanel')
                       messageId: event.data.messageId
                     }, '*');
                   } else {
+                    console.log('event.data.module', event.data.module);
+                    console.log('event.data.command', event.data.command);
+                    
                     CxEngage[event.data.module][event.data.command](event.data.data, function(error, topic, response) {
                       if (event.source !== undefined) {
                         console.log('[SDK Listener] SDK sending back:', event.data.messageId , error, topic, response);

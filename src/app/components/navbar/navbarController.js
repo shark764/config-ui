@@ -258,6 +258,14 @@ angular.module('liveopsConfigPanel')
           });
         }
 
+        if (UserPermissions.hasPermissionInList(PermissionGroups.viewReasons) && $location.search()['alpha']) {
+          items.push({
+            label: $translate.instant('navbar.management.reasons.title') + ' (Alpha UAT)',
+            stateLink: 'content.management.reasons2',
+            id: 'reasons-management-link2'
+          });
+        }
+
         if (UserPermissions.hasPermissionInList(PermissionGroups.viewReasonLists)) {
           items.push({
             label: $translate.instant('navbar.management.reasons.lists.title'),
