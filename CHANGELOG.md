@@ -16,6 +16,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Roles (permissions)
 - Outbound Identifiers / Outbound Identifier Lists
 
+## [4.67.0] - 2019-01-23
+### Added
+- CXV1-16502 - Presence Reasons page links.
+
 ## [4.66.6] - 2019-01-23
 ## Changed
 - SDK version bump to 8.39.0.
