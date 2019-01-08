@@ -18,6 +18,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Interaction Monitoring
 - Data Access Control Page
 
+## [4.65.4] - 2019-01-07
+## Changed
+- SDK version bump to 8.37.1
+
 ## [4.65.3] - 2018-12-20
 ## Changed
 - CXV1-16364 - Minor CSS fix for navbar dropdown menus
