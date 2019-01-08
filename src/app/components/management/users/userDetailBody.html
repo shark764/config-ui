@@ -80,7 +80,7 @@
       <h4>{{'details' | translate}}</h4>
     </div>
 
-    <div class="input-group">
+    <div class="input-group" ng-if="scenario() === 'update'">
       <label>{{'details.firstName' | translate}} <span ng-show="namesRequired()">*</span></label>
       <form-error field="forms.detailsForm.firstName"
         error-type-required="{{'details.firstName.error' | translate}}"></form-error>
@@ -94,7 +94,7 @@
       </div>
     </div>
 
-    <div class="input-group">
+    <div class="input-group" ng-if="scenario() === 'update'">
       <label>{{'details.lastName' | translate}} <span ng-show="namesRequired()">*</span></label>
 
       <form-error field="forms.detailsForm.lastName"
@@ -109,7 +109,7 @@
       </div>
     </div>
 
-    <div class="input-group">
+    <div class="input-group" ng-if="scenario() === 'update'">
       <label>{{'details.externalId' | translate}}</label>
       <form-error field="forms.detailsForm.externalId">
       </form-error>
