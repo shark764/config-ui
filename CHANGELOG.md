@@ -6,17 +6,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Alpha User Acceptance Testing]
 - Bulk actions in config 2
-- Roles (permissions)
-- Outbound Identifiers / Outbound Identifier Lists
-- Beta UAT page
 - Chat Widgets
-- Users Page
-- Skills Page
-- Groups Page
 
 ## [Beta User Acceptance Testing]
 - Interaction Monitoring
-- Data Access Control Page
+- Users Page
+- Skills Page
+- Groups Page
+- Roles (permissions)
+- Outbound Identifiers / Outbound Identifier Lists
+
+## [4.66.0] - 2019-01-09
+## Changed
+- Made beta pages links point to new config 2 pages if localstorage key says its there
 
 ## [4.65.4] - 2019-01-07
 ## Changed

@@ -10,7 +10,7 @@ angular.module('liveopsConfigPanel')
 
       function redirectUponLogin () {
         if (UserPermissions.hasPermissionInList(['MANAGE_ALL_SKILLS', 'MANAGE_ALL_GROUPS'])) {
-          $state.go('content.management.users');
+          $state.go(localStorage.getItem('users') === 'true'? 'content.management.users2':'content.management.users');
         } else {
           $state.go('content.userprofile');
         }
