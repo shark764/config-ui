@@ -16,6 +16,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Roles (permissions)
 - Outbound Identifiers / Outbound Identifier Lists
 
+## [4.66.2] - 2019-01-15
+### Fixed
+- Version bump to build a version including new config-shared , send externalId as null for user api requests
+
 ## [4.66.1] - 2019-01-10
 ### Fixed
 - CXV1-16611 - Users page now is sending null when externalId is empty.
