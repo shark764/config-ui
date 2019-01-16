@@ -16,6 +16,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Roles (permissions)
 - Outbound Identifiers / Outbound Identifier Lists
 
+## [4.66.3] - 2019-01-16
+## Changed
+- SDK version bump to 8.37.2
+- Config-Shared version bump to 1.9.0 due to errors not solved with 1.9.1 version.
+
 ## [4.66.2] - 2019-01-15
 ### Fixed
 - Version bump to build a version including new config-shared , send externalId as null for user api requests
