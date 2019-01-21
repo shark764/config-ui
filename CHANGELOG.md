@@ -16,6 +16,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Roles (permissions)
 - Outbound Identifiers / Outbound Identifier Lists
 
+## [4.66.4] - 2019-01-21
+## Changed
+- SDK version bump to 8.38.2.
+
 ## [4.66.3] - 2019-01-16
 ## Changed
 - SDK version bump to 8.37.2
