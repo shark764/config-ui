@@ -17,6 +17,7 @@
       accessAllCustomStats: ['CUSTOM_STATS_READ', 'CUSTOM_STATS_CREATE', 'CUSTOM_STATS_UPDATE'],
       viewGroupMembers: ['PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT', 'MANAGE_ALL_GROUP_USERS', 'MANAGE_TENANT_ENROLLMENT'],
       manageIdentityProviders: ['IDENTITY_PROVIDERS_CREATE', 'IDENTITY_PROVIDERS_UPDATE', 'IDENTITY_PROVIDERS_DELETE'],
+      monitorAllCalls: ['MONITOR_ALL_CALLS'],
 
       viewTenants: ['PLATFORM_VIEW_ALL_TENANTS', 'MANAGE_TENANT'],
       viewIntegrations: ['VIEW_ALL_PROVIDERS'],
@@ -33,7 +34,7 @@
       viewDispatchMappings: ['VIEW_ALL_CONTACT_POINTS'],
       viewDashboards: ['VIEW_ALL_REALTIME_DASHBOARDS'],
       viewAssignedReports: ['VIEW_ALL_REALTIME_DASHBOARDS', 'ASSIGNED_REPORTS_READ'],
-      viewInteractionMonitoring: ['MONITOR_ALL_CALLS'],
+      viewInteractionMonitoring: ['VIEW_ALL_MONITORED_CALLS'],
       viewCustomStats: ['CUSTOM_STATS_READ'],
       viewAppCreds: ['MANAGE_ALL_APP_CREDENTIALS'],
       viewMessageTemplates: ['VIEW_ALL_MESSAGE_TEMPLATES'],

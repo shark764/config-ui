@@ -1,81 +1,80 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .service('silentMonitoringTableConfig', ['$translate', 'CustomDomain',
-    function ($translate, CustomDomain) {
-
+  .service('silentMonitoringTableConfig', ['$translate', 'CustomDomain', 'UserPermissions', 'PermissionGroups',
+    function ($translate, CustomDomain, UserPermissions, PermissionGroups) {
       var CustomDomainSvc = new CustomDomain();
 
       return {
         fields: [{
-          header: {
-            display: $translate.instant('silentMonitoring.table.interactionId')
-          },
-          name: 'interactionId'
-        }, {
-          header: {
-            display: $translate.instant('silentMonitoring.table.agents')
-          },
-          name: 'agents'
-        }, {
-          header: {
-            display: $translate.instant('silentMonitoring.table.customerIdentification')
-          },
-          name: 'customer'
-        }, {
-          header: {
-            display: $translate.instant('silentMonitoring.table.contactPoint')
-          },
-          name: 'contactPoint',
-        }, {
-          header: {
-            'display': $translate.instant('silentMonitoring.table.flow')
-          },
-          name: 'flowName'
-        }, {
-          header: {
-            'display': $translate.instant('silentMonitoring.table.channel')
-          },
-          name: 'channelType',
-          checked: false
-        }, {
-          header: {
-            display: $translate.instant('silentMonitoring.table.direction')
-          },
-          name: 'direction'
-        }, {
-          header: {
-            display: $translate.instant('silentMonitoring.table.presenceState')
-          },
-          name: 'state',
-          checked: false
-        }, {
-          header: {
-            display: $translate.instant('silentMonitoring.table.startDate')
-          },
-          name: 'conversationStartTimestamp | date:"mediumDate"',
-          sortOn: 'conversationStartTimestamp',
-          checked: false
-        }, {
-          header: {
-            display: $translate.instant('silentMonitoring.table.startTime')
-          },
-          name: 'conversationStartTimestamp | date:"mediumTime"',
-          sortOn: 'conversationStartTimestamp'
-        }, {
-          header: {
-            display: $translate.instant('silentMonitoring.table.currentStateDuration')
-          },
-          name: 'currentStateDuration | date:"HH:mm:ss": "UTC"',
-          sortOn: 'currentStateDuration'
-        }, {
-          header: {
-            display: 'Actions'
-          },
-          linkText: 'Monitor Call',
-          actionLink: true,
-          name: 'action'
-        }],
+            header: {
+              display: $translate.instant('silentMonitoring.table.interactionId')
+            },
+            name: 'interactionId'
+          }, {
+            header: {
+              display: $translate.instant('silentMonitoring.table.agents')
+            },
+            name: 'agents'
+          }, {
+            header: {
+              display: $translate.instant('silentMonitoring.table.customerIdentification')
+            },
+            name: 'customer'
+          }, {
+            header: {
+              display: $translate.instant('silentMonitoring.table.contactPoint')
+            },
+            name: 'contactPoint',
+          }, {
+            header: {
+              'display': $translate.instant('silentMonitoring.table.flow')
+            },
+            name: 'flowName'
+          }, {
+            header: {
+              'display': $translate.instant('silentMonitoring.table.channel')
+            },
+            name: 'channelType',
+            checked: false
+          }, {
+            header: {
+              display: $translate.instant('silentMonitoring.table.direction')
+            },
+            name: 'direction'
+          }, {
+            header: {
+              display: $translate.instant('silentMonitoring.table.presenceState')
+            },
+            name: 'state',
+            checked: false
+          }, {
+            header: {
+              display: $translate.instant('silentMonitoring.table.startDate')
+            },
+            name: 'conversationStartTimestamp | date:"mediumDate"',
+            sortOn: 'conversationStartTimestamp',
+            checked: false
+          }, {
+            header: {
+              display: $translate.instant('silentMonitoring.table.startTime')
+            },
+            name: 'conversationStartTimestamp | date:"mediumTime"',
+            sortOn: 'conversationStartTimestamp'
+          }, {
+            header: {
+              display: $translate.instant('silentMonitoring.table.currentStateDuration')
+            },
+            name: 'currentStateDuration | date:"HH:mm:ss": "UTC"',
+            sortOn: 'currentStateDuration'
+          }, {
+            header: {
+              display: 'Actions'
+            },
+            linkText: 'Monitor Call',
+            actionLink: UserPermissions.hasPermissionInList(PermissionGroups.monitorAllCalls),
+            name: 'action'
+          }],
         title: $translate.instant('silentMonitoring.table.title'),
         helpLink: CustomDomainSvc.getHelpURL('/Help/Content/Monitoring/Silent%20Monitoring/Silent-monitoring.htm'),
         orderBy: 'activeParticipants',

@@ -560,22 +560,23 @@ angular.module('liveopsConfigPanel')
               order: 5
             });
           }
+        }
 
-            items.push({
-              label: $translate.instant('navbar.reports.silentMonitoring.title'),
-              stateLink: 'content.reporting.silentMonitoring',
-              id: 'silent-monitoring-link',
-              order: 6
-            });
-            if(localStorage.getItem('interactionMonitoring') === 'true') {
-              items.push({
-                label: $translate.instant('navbar.reports.interactionMonitoring.title'),
-                stateLink: 'content.reporting.interactionMonitoring',
-                id: 'interaction-monitoring-link',
-                order: 7
-              });
-            }
-
+        if (UserPermissions.hasPermissionInList(PermissionGroups.viewInteractionMonitoring)) {
+          items.push({
+            label: $translate.instant('navbar.reports.silentMonitoring.title'),
+            stateLink: 'content.reporting.silentMonitoring',
+            id: 'silent-monitoring-link',
+            order: 6
+          });
+        }
+        if(localStorage.getItem('interactionMonitoring') === 'true' && UserPermissions.hasPermissionInList(PermissionGroups.viewInteractionMonitoring)) {
+          items.push({
+            label: $translate.instant('navbar.reports.interactionMonitoring.title'),
+            stateLink: 'content.reporting.interactionMonitoring',
+            id: 'interaction-monitoring-link',
+            order: 7
+          });
         }
 
         // commenting this out as per CXV1-13276, which specifies
