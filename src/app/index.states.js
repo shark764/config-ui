@@ -350,6 +350,18 @@ angular.module('liveopsConfigPanel')
             }]
           }
         })
+        .state('content.management.reasonLists2', {
+          url: '/reasonLists2',
+          title: 'User Management - Presence Reasons Lists',
+          templateUrl: 'app/components/management/reasons/reasonLists2/reasonLists.html',
+          controller: 'reasonListsController2',
+          reloadOnSearch: false,
+          resolve: {
+            hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
+              return UserPermissions.resolvePermissions(PermissionGroups.viewReasonLists);
+            }]
+          }
+        })
         .state('content.configuration.integrations', {
           url: '/integrations?id',
           title: 'Configuration - Integration Management',
