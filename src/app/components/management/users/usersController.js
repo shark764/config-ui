@@ -458,15 +458,28 @@ angular.module('liveopsConfigPanel')
           $scope.selectedTenantUser.$user.email = $scope.selectedTenantUser.email;
         }
 
-        var userSave = $scope.canSaveUser($scope.selectedTenantUser) ?
-          $scope.selectedTenantUser.$user.save :
-          $q.when;
+        // Set externalId value to null if is not set
+        // since is the default in API
+        if (
+          !(
+            angular.isFunction($scope.selectedTenantUser.isNew) &&
+            $scope.selectedTenantUser.isNew()
+          ) &&
+          !$scope.selectedTenantUser.$user.externalId
+        ) {
+          $scope.selectedTenantUser.$user.externalId = null;
+        }
 
-        var tenantUserSave = vm.canSaveTenantUser($scope.selectedTenantUser) ?
-          vm.saveTenantUser :
-          $q.when;
+        var userSave = $scope.canSaveUser($scope.selectedTenantUser)
+          ? $scope.selectedTenantUser.$user.save
+          : $q.when;
 
-        return userSave.call($scope.selectedTenantUser.$user)
+        var tenantUserSave = vm.canSaveTenantUser($scope.selectedTenantUser)
+          ? vm.saveTenantUser
+          : $q.when;
+
+        return userSave
+          .call($scope.selectedTenantUser.$user)
           .then(tenantUserSave);
       };
 

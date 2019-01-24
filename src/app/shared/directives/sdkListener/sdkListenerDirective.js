@@ -107,6 +107,16 @@ angular.module('liveopsConfigPanel')
                   localStorage.setItem(event.data.data.key, event.data.data.value);
                   location.reload();
                 }
+                else if (event.data.module === 'setBetaFeatures') {
+                  Object.keys(event.data.data).forEach(function (feature) {
+                    if (event.data.data[feature]) {
+                      localStorage.setItem(feature, 'true');
+                    } else {
+                      localStorage.removeItem(feature);
+                    }
+                  })
+                  location.reload();
+                }
                 else if (event.data.module === 'comfirmPrompt') {
                   var confirmedStatus = confirm(event.data.command);
                   event.source.postMessage({
@@ -185,9 +195,6 @@ angular.module('liveopsConfigPanel')
                       messageId: event.data.messageId
                     }, '*');
                   } else {
-                    console.log('event.data.module', event.data.module);
-                    console.log('event.data.command', event.data.command);
-                    
                     CxEngage[event.data.module][event.data.command](event.data.data, function(error, topic, response) {
                       if (event.source !== undefined) {
                         console.log('[SDK Listener] SDK sending back:', event.data.messageId , error, topic, response);

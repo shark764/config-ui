@@ -603,18 +603,18 @@ angular.module('liveopsConfigPanel')
         })
         .state('content.reporting.silentMonitoring', {
           url: '/silentMonitoring?id',
-          title: 'Reporting - Interaction Monitoring',
+          title: 'Reporting - Silent Monitoring',
           templateUrl: 'app/components/reports/silentMonitoring/silentMonitoring.html',
           controller: 'SilentMonitoringController as ic',
           reloadOnSearch: false,
           resolve: {
             hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
-              return UserPermissions.resolvePermissions(PermissionGroups.viewDashboards);
+              return UserPermissions.resolvePermissions(PermissionGroups.viewInteractionMonitoring);
             }]
           }
         })
         .state('content.reporting.interactionMonitoring', {
-          url: '/interactionMonitoring?id',
+          url: '/interactionMonitoring',
           title: 'Reporting - Interaction Monitoring',
           templateUrl: 'app/components/reports/interactionMonitoring/interactionMonitoring.html',
           controller: 'InteractionMonitoringController',

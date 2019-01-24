@@ -189,7 +189,6 @@ angular.module('liveopsConfigPanel')
         iconClass: 'fa fa-gear'
       }];
 
-      if(location.hash.includes('alpha')) {
         $scope.userDropdownItems.push({
           label: ' Beta Features',
           onClick: function() {
@@ -197,7 +196,6 @@ angular.module('liveopsConfigPanel')
           },
           iconClass: 'fa fa-exclamation'
         })
-      }
 
       $scope.userHelpItems = [
         {
@@ -234,18 +232,9 @@ angular.module('liveopsConfigPanel')
           UserPermissions.hasPermissionInList(PermissionGroups.manageUsers)) {
           items.push({
             label: $translate.instant('navbar.management.users.title'),
-            stateLink: 'content.management.users',
+            stateLink: localStorage.getItem('users') === 'true'? 'content.management.users2':'content.management.users',
             id: 'user-management-link',
             order: 1
-          });
-        }
-
-        if (UserPermissions.hasPermissionInList(PermissionGroups.viewUsers) && $location.search()['alpha']) {
-          items.push({
-          label: $translate.instant('navbar.management.users.title') + ' (Alpha UAT)',
-          stateLink: 'content.management.users2',
-          id: 'user-management-link2',
-          order: 8
           });
         }
 
@@ -260,7 +249,7 @@ angular.module('liveopsConfigPanel')
 
         if (UserPermissions.hasPermissionInList(PermissionGroups.viewReasons) && $location.search()['alpha']) {
           items.push({
-            label: $translate.instant('navbar.management.reasons.title') + ' (Alpha UAT)',
+            label: $translate.instant('navbar.management.reasons.title') +  ' (Alpha UAT)  ',
             stateLink: 'content.management.reasons2',
             id: 'reasons-management-link2'
           });
@@ -290,19 +279,9 @@ angular.module('liveopsConfigPanel')
           UserPermissions.hasPermissionInList(PermissionGroups.manageSkills)) {
           items.push({
             label: $translate.instant('navbar.management.skills.title'),
-            stateLink: 'content.management.skills',
+            stateLink: localStorage.getItem('skills') === 'true'? 'content.management.skills2':'content.management.skills',
             id: 'skill-management-link',
             order: 5
-          });
-        }
-
-        if (UserPermissions.hasPermissionInList(PermissionGroups.manageAllMedia) &&
-          UserPermissions.hasPermissionInList(PermissionGroups.manageSkills) &&
-          $location.search()['alpha']) {
-          items.push({
-            label: $translate.instant('navbar.management.skills.title') + ' (Alpha UAT)',
-            stateLink: 'content.management.skills2',
-            id: 'skill-management-link',
           });
         }
 
@@ -311,19 +290,9 @@ angular.module('liveopsConfigPanel')
           UserPermissions.hasPermissionInList(PermissionGroups.manageGroups)) {
           items.push({
             label: $translate.instant('navbar.management.groups.title'),
-            stateLink: 'content.management.groups',
+            stateLink: localStorage.getItem('groups') === 'true'? 'content.management.groups2':'content.management.groups',
             id: 'group-management-link',
             order: 6
-          });
-        }
-
-        if (UserPermissions.hasPermissionInList(PermissionGroups.manageAllMedia) &&
-             UserPermissions.hasPermissionInList(PermissionGroups.manageSkills) &&
-             $location.search()['alpha']) {
-          items.push({
-          label: $translate.instant('navbar.management.groups.title') + ' (Alpha UAT)',
-          stateLink: 'content.management.groups2',
-          id: 'group-management-link',
           });
         }
 
@@ -431,8 +400,7 @@ angular.module('liveopsConfigPanel')
             order: 10
           });
         }
-
-        if (UserPermissions.hasPermissionInList(PermissionGroups.viewOutboundIdentifiers) && $location.search()['alpha']) {
+        if (UserPermissions.hasPermissionInList(PermissionGroups.viewOutboundIdentifiers) && localStorage.getItem('outboundIdentifiers') === 'true') {
           items.push({
             label: $translate.instant('navbar.configuration.outboundIdentifiers.title'),
             stateLink: 'content.configuration.outboundIdentifiers',
@@ -441,7 +409,7 @@ angular.module('liveopsConfigPanel')
           });
         }
 
-        if (UserPermissions.hasPermissionInList(PermissionGroups.viewOutboundIdentifiers) && $location.search()['alpha']) {
+        if (UserPermissions.hasPermissionInList(PermissionGroups.viewOutboundIdentifiers) && localStorage.getItem('outboundIdentifierLists') === 'true') {
           items.push({
             label: $translate.instant('navbar.configuration.outboundIdentifierLists.title'),
             stateLink: 'content.configuration.outboundIdentifierLists',
@@ -600,19 +568,23 @@ angular.module('liveopsConfigPanel')
               order: 5
             });
           }
+        }
 
-            items.push({
-              label: $translate.instant('navbar.reports.silentMonitoring.title'),
-              stateLink: 'content.reporting.silentMonitoring',
-              id: 'silent-monitoring-link',
-              order: 6
-            });
-            items.push({
-              label: $translate.instant('navbar.reports.silentMonitoring.title') + ' ( BETA )',
-              stateLink: 'content.reporting.interactionMonitoring',
-              id: 'interaction-monitoring-link',
-              order: 7
-            });
+        if (UserPermissions.hasPermissionInList(PermissionGroups.viewInteractionMonitoring)) {
+          items.push({
+            label: $translate.instant('navbar.reports.silentMonitoring.title'),
+            stateLink: 'content.reporting.silentMonitoring',
+            id: 'silent-monitoring-link',
+            order: 6
+          });
+        }
+        if(localStorage.getItem('interactionMonitoring') === 'true' && UserPermissions.hasPermissionInList(PermissionGroups.viewInteractionMonitoring)) {
+          items.push({
+            label: $translate.instant('navbar.reports.interactionMonitoring.title'),
+            stateLink: 'content.reporting.interactionMonitoring',
+            id: 'interaction-monitoring-link',
+            order: 7
+          });
         }
 
         // commenting this out as per CXV1-13276, which specifies

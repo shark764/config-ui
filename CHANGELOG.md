@@ -5,18 +5,59 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Alpha User Acceptance Testing]
-- Bulk actions in config 2
-- Roles (permissions)
-- Outbound Identifiers / Outbound Identifier Lists
-- Beta UAT page
+- Bulk actions in Config 2
 - Chat Widgets
-- Users Page
-- Skills Page
-- Groups Page
 
 ## [Beta User Acceptance Testing]
 - Interaction Monitoring
-- Data Access Control Page
+- Users Page
+- Skills Page
+- Groups Page
+- Roles (permissions)
+- Outbound Identifiers / Outbound Identifier Lists
+
+## [4.67.1] - 2019-01-23
+### Added
+- CXV1-16502 - Presence Reasons page links.
+
+## [4.66.6] - 2019-01-23
+## Changed
+- SDK version bump to 8.39.0.
+- Config-Shared version bump to 1.9.3.
+
+## [4.66.5] - 2019-01-21
+### Added
+- Added setBetaFeatures check in sdkListener to save betaFeatures in localstorage
+
+## [4.66.4] - 2019-01-21
+## Changed
+- SDK version bump to 8.38.2.
+
+## [4.66.3] - 2019-01-16
+## Changed
+- SDK version bump to 8.37.2
+- Config-Shared version bump to 1.9.0 due to errors not solved with 1.9.1 version.
+
+## [4.66.2] - 2019-01-15
+### Fixed
+- Version bump to build a version including new config-shared , send externalId as null for user api requests
+
+## [4.66.1] - 2019-01-10
+### Fixed
+- CXV1-16611 - Users page now is sending null when externalId is empty.
+- Platform details are not shown on creating user.
+
+## [4.66.0] - 2019-01-09
+## Changed
+- Made beta pages links point to new config 2 pages if localstorage key says its there
+
+## [4.65.4] - 2019-01-07
+## Changed
+- SDK version bump to 8.37.1
+
+## [4.65.3] - 2018-12-20
+## Changed
+- CXV1-16364 - Minor CSS fix for navbar dropdown menus
 
 ## [4.65.2] - 2018-12-19
 ## Changed
