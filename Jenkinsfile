@@ -136,6 +136,7 @@ pipeline {
             def vendor = readFile('commandResult').trim()
             sh "aws s3 rm s3://frontend-prs.cxengagelabs.net/config-ui/${pr}/ --recursive"
             sh "sed -i 's/dev/qe/g' ${config}"
+            sh "chmod 644 ${vendor}"
             sh "sed -i 's/dev-api.cxengagelabs.net/qe-api.cxengagelabs.net/g' ${vendor}"
             sh "aws s3 sync build/dist/ s3://frontend-prs.cxengagelabs.net/config-ui/${pr}/ --delete"
           }
