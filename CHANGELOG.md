@@ -19,7 +19,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Roles (permissions)
 - Outbound Identifiers / Outbound Identifier Lists
 
-## [4.68.0] - 2019-01-25
+## [4.68.1] - 2019-01-25
+### Fixed
+- Fixed broken flow management state
+
+## [4.68.0] - 2019-01-25 (Broken , Flow managment would not load)
 ### Added
 - Flows config2 into aplha.
 - Queues config2 into aplha.
