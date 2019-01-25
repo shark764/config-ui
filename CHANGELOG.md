@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Alpha User Acceptance Testing]
 - Bulk actions in Config 2
+- Presence Reasons
+- Flows
+- Queues
 - Chat Widgets
 
 ## [Beta User Acceptance Testing]
@@ -15,6 +18,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Groups Page
 - Roles (permissions)
 - Outbound Identifiers / Outbound Identifier Lists
+
+## [4.68.0] - 2019-01-25
+### Added
+- Flows config2 into aplha.
+- Queues config2 into aplha.
+### Changed
+- iframe src on config-2 pages changed to ng-src
 
 ## [4.67.1] - 2019-01-23
 ### Added

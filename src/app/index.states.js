@@ -429,11 +429,11 @@ angular.module('liveopsConfigPanel')
           templateUrl: 'app/components/flows/flows.html',
           controller: 'FlowsController'
         })
-        .state('content.flows.flowManagement', {
-          url: '/management?id',
+        .state('content.flows.flowManagement2', {
+          url: '/flows2',
           title: 'Flows - Flow Management',
-          templateUrl: 'app/components/flows/flowManagement/flowManagement.html',
-          controller: 'FlowManagementController',
+          templateUrl: 'app/components/flows2/flows2.html',
+          controller: 'flowsController2',
           reloadOnSearch: false,
           resolve: {
             hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
@@ -446,6 +446,18 @@ angular.module('liveopsConfigPanel')
           title: 'Flows - Queue Management',
           templateUrl: 'app/components/flows/queues/queues.html',
           controller: 'QueueController as qc',
+          reloadOnSearch: false,
+          resolve: {
+            hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
+              return UserPermissions.resolvePermissions(PermissionGroups.viewQueues);
+            }]
+          }
+        })
+        .state('content.flows.queues2', {
+          url: '/queues2',
+          title: 'Flows - Queue Management',
+          templateUrl: 'app/components/configuration/queues2/queues2.html',
+          controller: 'queuesController2 as qc',
           reloadOnSearch: false,
           resolve: {
             hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
