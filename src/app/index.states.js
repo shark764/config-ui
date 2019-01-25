@@ -429,6 +429,18 @@ angular.module('liveopsConfigPanel')
           templateUrl: 'app/components/flows/flows.html',
           controller: 'FlowsController'
         })
+        .state('content.flows.flowManagement', {
+          url: '/management?id',
+          title: 'Flows - Flow Management',
+          templateUrl: 'app/components/flows/flowManagement/flowManagement.html',
+          controller: 'FlowManagementController',
+          reloadOnSearch: false,
+          resolve: {
+            hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
+              return UserPermissions.resolvePermissions(PermissionGroups.viewFlows);
+            }]
+          }
+        })
         .state('content.flows.flowManagement2', {
           url: '/flows2',
           title: 'Flows - Flow Management',
