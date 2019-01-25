@@ -461,6 +461,14 @@ angular.module('liveopsConfigPanel')
             order: 1
           });
         }
+        if (UserPermissions.hasPermissionInList(PermissionGroups.viewFlows) && $location.search()['alpha']) {
+          items.push({
+            label: $translate.instant('navbar.flows.title') + ' (Alpha)',
+            stateLink: 'content.flows.flowManagement2',
+            id: 'flow-management-link',
+            order: 1
+          });
+        }
 
         if (UserPermissions.hasPermissionInList(PermissionGroups.viewDispositions)) {
           items.push({
@@ -484,6 +492,14 @@ angular.module('liveopsConfigPanel')
           items.push({
             label: $translate.instant('navbar.flows.queues.title'),
             stateLink: 'content.flows.queues',
+            id: 'queue-management-link',
+            order: 4
+          });
+        }
+        if (UserPermissions.hasPermissionInList(PermissionGroups.viewQueues) && $location.search()['alpha']) {
+          items.push({
+            label: $translate.instant('navbar.flows.queues.title') + ' (Alpha)',
+            stateLink: 'content.flows.queues2',
             id: 'queue-management-link',
             order: 4
           });
