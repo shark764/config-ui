@@ -19,6 +19,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Roles (permissions)
 - Outbound Identifiers / Outbound Identifier Lists
 
+## [4.68.2] - 2019-01-29
+### Changed
+- Realtime Dashboards version bump to 5.9.10
+
 ## [4.68.1] - 2019-01-25
 ### Fixed
 - Fixed broken flow management state
