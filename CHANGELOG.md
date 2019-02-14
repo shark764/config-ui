@@ -7,7 +7,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Alpha User Acceptance Testing]
 - Bulk actions in Config 2
 - Presence Reasons
-- Flows
 - Queues
 - Chat Widgets
 - Transfer Lists
@@ -19,6 +18,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Groups Page
 - Roles (permissions)
 - Outbound Identifiers / Outbound Identifier Lists
+- Flows
+
+## [4.71.0] - 2019-02-19
+### Added
+- CXV1-16890, CXV1-16891 - New FlowDesigner message cases to redirect from Config-UI2
+### Changed
+- Making Flows page Beta Feature
 
 ## [4.70.1] - 2019-02-19
 ### Added

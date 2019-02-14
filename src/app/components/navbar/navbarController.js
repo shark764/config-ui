@@ -1,73 +1,105 @@
 'use strict';
 
-angular.module('liveopsConfigPanel')
-  .controller('NavbarController', ['$rootScope', '$scope', '$state', '$location', '$q', 'AuthService', 'Session', 'DirtyForms', '$translate', 'UserPermissions', 'PermissionGroups', '$window', 'appFlags', 'loEvents', 'Branding', 'CustomDomain', 'Me',
-    function($rootScope, $scope, $state, $location, $q, AuthService, Session, DirtyForms, $translate, UserPermissions, PermissionGroups, $window, appFlags, loEvents, Branding, CustomDomain, Me) {
-      var vm = this;
-      $scope.hovering = false;
-      $scope.Session = Session;
-      $scope.showQualityManagemant = UserPermissions.hasPermissionInList(PermissionGroups.viewQualityManagement);
-      $scope.hoverTracker = [];
-      var MeSvc = new Me();
+angular.module('liveopsConfigPanel').controller('NavbarController', [
+  '$rootScope',
+  '$scope',
+  '$state',
+  '$location',
+  '$q',
+  'AuthService',
+  'Session',
+  'DirtyForms',
+  '$translate',
+  'UserPermissions',
+  'PermissionGroups',
+  '$window',
+  'appFlags',
+  'loEvents',
+  'Branding',
+  'CustomDomain',
+  'Me',
+  function(
+    $rootScope,
+    $scope,
+    $state,
+    $location,
+    $q,
+    AuthService,
+    Session,
+    DirtyForms,
+    $translate,
+    UserPermissions,
+    PermissionGroups,
+    $window,
+    appFlags,
+    loEvents,
+    Branding,
+    CustomDomain,
+    Me
+  ) {
+    var vm = this;
+    $scope.hovering = false;
+    $scope.Session = Session;
+    $scope.showQualityManagemant = UserPermissions.hasPermissionInList(PermissionGroups.viewQualityManagement);
+    $scope.hoverTracker = [];
+    var MeSvc = new Me();
 
-      var CustomDomainSvc = new CustomDomain();
+    var CustomDomainSvc = new CustomDomain();
 
-      // since sometimes the tenant data from the /me endpoint doesn't
-      // give us data we need, this lets us get the corresponding
-      // Session.tenant and vice-versa
-      function getTenantData (tenantObj, tenantList) {
-        if (
-          tenantObj &&
-          angular.isObject(tenantObj)
-        ) {
-          var tenants = tenantList || Session.tenants;
-          return  _.find(tenants, { tenantId: tenantObj.tenantId });
-        }
+    // since sometimes the tenant data from the /me endpoint doesn't
+    // give us data we need, this lets us get the corresponding
+    // Session.tenant and vice-versa
+    function getTenantData(tenantObj, tenantList) {
+      if (tenantObj && angular.isObject(tenantObj)) {
+        var tenants = tenantList || Session.tenants;
+        return _.find(tenants, { tenantId: tenantObj.tenantId });
       }
+    }
 
-      function switchTenant(targetSessionTenant) {
-        Session.setTenant(targetSessionTenant);
-        AuthService.updateDomain(targetSessionTenant);
-        $scope.updateTopbarConfig();
-        $scope.updateBranding();
-        var goTo = $state.current;
-        if($state.includes('content.realtime-dashboards-management-editor')) {
-          goTo = 'content.custom-dashboards-management';
-        } else if ($state.includes('content.flows.editor')){
-          goTo = 'content.flows.flowManagement';
-        }
-        $state.go(goTo, {
+    function switchTenant(targetSessionTenant) {
+      Session.setTenant(targetSessionTenant);
+      AuthService.updateDomain(targetSessionTenant);
+      $scope.updateTopbarConfig();
+      $scope.updateBranding();
+      var goTo = $state.current;
+      if ($state.includes('content.realtime-dashboards-management-editor')) {
+        goTo = 'content.custom-dashboards-management';
+      } else if ($state.includes('content.flows.editor')) {
+        goTo = 'content.flows.flowManagement';
+      }
+      $state.go(
+        goTo,
+        {
           id: null
-        }, {
+        },
+        {
           reload: true,
           inherit: false
-        });
+        }
+      );
+    }
+
+    $scope.populateTenantsHandler = function() {
+      if (!Session.isAuthenticated()) {
+        return;
+      }
+      var tenantDropdownItems = [];
+
+      var currentSessionTenant = _.find(Session.tenants, { tenantId: Session.tenant.tenantId });
+
+      if (
+        !Session.tenant ||
+        !Session.tenant.tenantId ||
+        (currentSessionTenant && currentSessionTenant.tenantActive === false)
+      ) {
+        // reset to the first tenant in the list
+        Session.setTenant(Session.tenants[0]);
       }
 
-      $scope.populateTenantsHandler = function() {
-        if (!Session.isAuthenticated()) {
-          return;
-        }
-        var tenantDropdownItems = [];
-
-        var currentSessionTenant = _.find(Session.tenants, { tenantId: Session.tenant.tenantId });
-
-        if (
-          !Session.tenant ||
-          !Session.tenant.tenantId ||
-          (currentSessionTenant && currentSessionTenant.tenantActive === false)
-        ) {
-          // reset to the first tenant in the list
-          Session.setTenant(Session.tenants[0]);
-        }
-
-        var allTenants = Me.cachedQuery(null, 'Me', true);
-        allTenants.$promise.then(function (allTenantsResponse) {
-          if (
-            allTenantsResponse.length > 0 &&
-            Session.tenants &&
-            Session.tenants.length
-          ) {
+      var allTenants = Me.cachedQuery(null, 'Me', true);
+      allTenants.$promise
+        .then(function(allTenantsResponse) {
+          if (allTenantsResponse.length > 0 && Session.tenants && Session.tenants.length) {
             // with only the Session tenant data as a reference, get
             // the tenant data from the /me endpoint
             var currentMeTenant = getTenantData(Session.tenant, allTenantsResponse);
@@ -89,10 +121,7 @@ angular.module('liveopsConfigPanel')
               var iconClass;
               var title;
 
-              if (
-                !isCxTenant ||
-                (isCxTenant && targetTenant.password === false)
-              ) {
+              if (!isCxTenant || (isCxTenant && targetTenant.password === false)) {
                 className = 'unavailableTenant';
                 iconClass = 'fa fa-sign-in';
                 title = $translate.instant('title.text.explain');
@@ -110,19 +139,22 @@ angular.module('liveopsConfigPanel')
                       // if we are switching from one *CxEngage* IDP to another.
                       // (CxEngage IDP's always have a password prop set to true)
                       if (isCxTenant) {
-
                         var monitoredInteraction = CxEngage.session.getMonitoredInteraction();
                         if (monitoredInteraction !== null) {
-                          var confirmedToSwitchTenants = confirm($translate.instant('interactionMonitoring.confirmEnd'));
+                          var confirmedToSwitchTenants = confirm(
+                            $translate.instant('interactionMonitoring.confirmEnd')
+                          );
                           if (confirmedToSwitchTenants) {
-                            CxEngage.interactions.voice.resourceRemove({interactionId: monitoredInteraction}, function() {
-                              switchTenant(targetSessionTenant);
-                            });
+                            CxEngage.interactions.voice.resourceRemove(
+                              { interactionId: monitoredInteraction },
+                              function() {
+                                switchTenant(targetSessionTenant);
+                              }
+                            );
                           }
                         } else {
                           switchTenant(targetSessionTenant);
                         }
-
                       } else {
                         $location.search('tenantid', targetTenant.tenantId);
                         Session.domain = '';
@@ -139,522 +171,543 @@ angular.module('liveopsConfigPanel')
             });
           }
         })
-        .then(function () {
+        .then(function() {
           $scope.tenantDropdownItems = tenantDropdownItems;
         });
-      };
+    };
 
-      $scope.isActive = function(viewLocation) {
-        return $state.current.name !== '' ? $location.url().indexOf(viewLocation) === 0 : false;
-      };
+    $scope.isActive = function(viewLocation) {
+      return $state.current.name !== '' ? $location.url().indexOf(viewLocation) === 0 : false;
+    };
 
-      $scope.logout = function() {
-        var monitoredInteraction = CxEngage.session.getMonitoredInteraction();
-        if (monitoredInteraction !== null) {
-          var confirmedToLogout = confirm($translate.instant('interactionMonitoring.confirmEnd.logout'));
-          if (confirmedToLogout) {
-
-              CxEngage.interactions.voice.resourceRemove({interactionId: monitoredInteraction}, function() {
-                setTimeout(function() {
-                  AuthService.logout();
-                  $state.transitionTo('login');
-                  $rootScope.$broadcast('logout');
-                  Session.token = null;
-                  // Reload ensure no saved state for the next session
-                  location.reload();
-                },1000);
-              });
-
-          }
-        } else {
-          AuthService.logout();
-          $state.transitionTo('login');
-          $rootScope.$broadcast('logout');
-          Session.token = null;
-          location.reload();
+    $scope.logout = function() {
+      var monitoredInteraction = CxEngage.session.getMonitoredInteraction();
+      if (monitoredInteraction !== null) {
+        var confirmedToLogout = confirm($translate.instant('interactionMonitoring.confirmEnd.logout'));
+        if (confirmedToLogout) {
+          CxEngage.interactions.voice.resourceRemove({ interactionId: monitoredInteraction }, function() {
+            setTimeout(function() {
+              AuthService.logout();
+              $state.transitionTo('login');
+              $rootScope.$broadcast('logout');
+              Session.token = null;
+              // Reload ensure no saved state for the next session
+              location.reload();
+            }, 1000);
+          });
         }
-      };
+      } else {
+        AuthService.logout();
+        $state.transitionTo('login');
+        $rootScope.$broadcast('logout');
+        Session.token = null;
+        location.reload();
+      }
+    };
 
-      $scope.userDropdownItems = [{
+    $scope.userDropdownItems = [
+      {
         label: $translate.instant('navbar.logout'),
         onClick: function() {
           $scope.logout();
         },
         iconClass: 'fa fa-sign-out'
-      }, {
+      },
+      {
         label: $translate.instant('navbar.profile'),
         onClick: function() {
           $state.transitionTo('content.userprofile');
         },
         iconClass: 'fa fa-gear'
-      }];
+      }
+    ];
 
-        $scope.userDropdownItems.push({
-          label: ' Beta Features',
-          onClick: function() {
-            $state.transitionTo('content.beta');
+    $scope.userDropdownItems.push({
+      label: ' Beta Features',
+      onClick: function() {
+        $state.transitionTo('content.beta');
+      },
+      iconClass: 'fa fa-exclamation'
+    });
+
+    $scope.userHelpItems = [
+      {
+        label: $translate.instant('navbar.help.help'),
+        onClick: function() {
+          var url = CustomDomainSvc.getHelpURL('/Help/Content/Home.htm');
+          $window.open(url);
+        }
+      },
+      {
+        label: $translate.instant('navbar.help.api'),
+        onClick: function() {
+          var url = 'https://api-docs.cxengage.net/';
+          $window.open(url);
+        }
+      }
+    ];
+
+    $rootScope.$on(loEvents.session.tenants.updated, $scope.populateTenantsHandler);
+
+    $scope.$on('resource:create', $scope.onCreateClick);
+    $scope.$on('resource:actions', $scope.onActionsClick);
+    $rootScope.$on('readAllMode', function() {
+      $scope.updateTopbarConfig();
+    });
+
+    $scope.populateTenantsHandler();
+
+    vm.getManagementConfig = function() {
+      var items = [];
+
+      //Note: see TITAN2-5445 for why VIEW_ALL_USERS permission on its own is not sufficient
+      if (
+        (UserPermissions.hasPermissionInList(PermissionGroups.viewUsers) &&
+          UserPermissions.hasPermissionInList(PermissionGroups.manageUserSkillsAndGroups)) ||
+        UserPermissions.hasPermissionInList(PermissionGroups.manageUsers)
+      ) {
+        items.push({
+          label: $translate.instant('navbar.management.users.title'),
+          stateLink:
+            localStorage.getItem('users') === 'true' ? 'content.management.users2' : 'content.management.users',
+          id: 'user-management-link',
+          order: 1
+        });
+      }
+
+      if (UserPermissions.hasPermissionInList(PermissionGroups.viewReasons)) {
+        items.push({
+          label: $translate.instant('navbar.management.reasons.title'),
+          stateLink: 'content.management.reasons',
+          id: 'reasons-management-link',
+          order: 2
+        });
+      }
+
+      if (UserPermissions.hasPermissionInList(PermissionGroups.viewReasons) && $location.search()['alpha']) {
+        items.push({
+          label: $translate.instant('navbar.management.reasons.title') + ' (Alpha UAT)  ',
+          stateLink: 'content.management.reasons2',
+          id: 'reasons-management-link2'
+        });
+      }
+
+      if (UserPermissions.hasPermissionInList(PermissionGroups.viewReasonLists)) {
+        items.push({
+          label: $translate.instant('navbar.management.reasons.lists.title'),
+          stateLink: 'content.management.reasonLists',
+          id: 'reason-lists-management-link',
+          order: 3
+        });
+      }
+
+      if (UserPermissions.hasPermissionInList(PermissionGroups.manageRoles)) {
+        items.push({
+          label: $translate.instant('navbar.management.roles.title'),
+          stateLink:
+            localStorage.getItem('roles') === 'true' ? 'content.management.roles2' : 'content.management.roles',
+          id: 'role-management-link',
+          order: 4
+        });
+      }
+
+      //See TITAN2-6199 for why we do this extra check
+      if (
+        UserPermissions.hasPermissionInList(PermissionGroups.manageAllMedia) &&
+        UserPermissions.hasPermissionInList(PermissionGroups.manageSkills)
+      ) {
+        items.push({
+          label: $translate.instant('navbar.management.skills.title'),
+          stateLink:
+            localStorage.getItem('skills') === 'true' ? 'content.management.skills2' : 'content.management.skills',
+          id: 'skill-management-link',
+          order: 5
+        });
+      }
+
+      //See TITAN2-6199 for why we do this extra check
+      if (
+        UserPermissions.hasPermissionInList(PermissionGroups.manageAllMedia) &&
+        UserPermissions.hasPermissionInList(PermissionGroups.manageGroups)
+      ) {
+        items.push({
+          label: $translate.instant('navbar.management.groups.title'),
+          stateLink:
+            localStorage.getItem('groups') === 'true' ? 'content.management.groups2' : 'content.management.groups',
+          id: 'group-management-link',
+          order: 6
+        });
+      }
+
+      if (UserPermissions.hasPermissionInList(PermissionGroups.manageCapacityRules)) {
+        items.push({
+          label: $translate.instant('navbar.management.capacityRules.title'),
+          stateLink: 'content.management.capacityRules',
+          id: 'capacity-rules-management-link',
+          order: 7
+        });
+      }
+
+      if (UserPermissions.hasPermissionInList(PermissionGroups.viewReasonLists) && $location.search()['alpha']) {
+        items.push({
+          label: $translate.instant('navbar.management.reasons.lists.title') + ' (Alpha UAT)  ',
+          stateLink: 'content.management.reasonLists2',
+          id: 'reason-lists-management-link2'
+        });
+      }
+
+      return items;
+    };
+
+    vm.getConfigurationConfig = function() {
+      var items = [];
+
+      if (UserPermissions.hasPermissionInList(PermissionGroups.viewTenants)) {
+        items.push({
+          label: $translate.instant('navbar.configuration.tenants.title'),
+          stateLink: 'content.configuration.tenants',
+          id: 'tenants-configuration-link',
+          order: 1
+        });
+      }
+
+      if (UserPermissions.hasPermissionInList(PermissionGroups.viewIdentityProviders)) {
+        items.push({
+          label: $translate.instant('navbar.configuration.tenants.identityProviders'),
+          stateLink: 'content.configuration.identityProviders',
+          id: 'identity-providers-configuration-link',
+          order: 2
+        });
+      }
+
+      if (UserPermissions.hasPermissionInList(PermissionGroups.viewIntegrations)) {
+        items.push({
+          label: $translate.instant('navbar.configuration.integrations.title'),
+          stateLink: 'content.configuration.integrations',
+          id: 'integrations-configuration-link',
+          order: 3
+        });
+      }
+
+      if (UserPermissions.hasPermissionInList(PermissionGroups.accessAllLists)) {
+        items.push({
+          label: $translate.instant('navbar.configuration.lists.title'),
+          stateLink: 'content.configuration.genericLists',
+          id: 'lists-configuration-link',
+          order: 4
+        });
+      }
+
+      if (
+        UserPermissions.hasPermissionInList(PermissionGroups.viewBusinessHours) ||
+        UserPermissions.hasPermissionInList(PermissionGroups.manageBusinessHours)
+      ) {
+        items.push({
+          label: $translate.instant('navbar.configuration.bh.title'),
+          stateLink: 'content.configuration.hours',
+          id: 'hours-configuration-link',
+          order: 5
+        });
+      }
+
+      if (UserPermissions.hasPermissionInList(PermissionGroups.viewCustomStats)) {
+        items.push({
+          label: $translate.instant('navbar.configuration.statistics.title'),
+          stateLink: 'content.configuration.statistics',
+          id: 'statistics-configuration-link',
+          order: 6
+        });
+      }
+
+      if (UserPermissions.hasPermissionInList(PermissionGroups.viewAppCreds)) {
+        items.push({
+          label: $translate.instant('navbar.configuration.keys.title'),
+          stateLink: 'content.configuration.keys',
+          id: 'key-configuration-link',
+          order: 7
+        });
+      }
+
+      if (UserPermissions.hasPermission('VIEW_ALL_TRANSFER_LISTS')) {
+        items.push({
+          label: $translate.instant('navbar.configuration.transferLists.title'),
+          stateLink: 'content.configuration.transferLists',
+          id: 'transferList-configuration-link',
+          order: 8
+        });
+      }
+
+      if (UserPermissions.hasPermission('VIEW_ALL_TRANSFER_LISTS') && $location.search()['alpha']) {
+        items.push({
+          label: $translate.instant('navbar.configuration.transferLists.title') + ' (alpha)',
+          stateLink: 'content.configuration.transferLists2',
+          id: 'transferList-configuration-link',
+          order: 16
+        });
+      }
+
+      if (UserPermissions.hasPermissionInList(PermissionGroups.viewMessageTemplates)) {
+        items.push({
+          label: $translate.instant('navbar.configuration.messageTemplates.title'),
+          stateLink: 'content.configuration.messageTemplates',
+          id: 'template-configuration-link',
+          order: 9
+        });
+      }
+
+      if (UserPermissions.hasPermissionInList(PermissionGroups.accessAllEmailTemplates)) {
+        items.push({
+          label: $translate.instant('navbar.configuration.emailTemplates.title'),
+          stateLink: 'content.configuration.emailTemplates',
+          id: 'emailTemplates-configuration-link',
+          order: 10
+        });
+      }
+      if (
+        UserPermissions.hasPermissionInList(PermissionGroups.viewOutboundIdentifiers) &&
+        localStorage.getItem('outboundIdentifiers') === 'true'
+      ) {
+        items.push({
+          label: $translate.instant('navbar.configuration.outboundIdentifiers.title'),
+          stateLink: 'content.configuration.outboundIdentifiers',
+          id: 'outboundIdentifiers-configuration-link',
+          order: 11
+        });
+      }
+
+      if (
+        UserPermissions.hasPermissionInList(PermissionGroups.viewOutboundIdentifiers) &&
+        localStorage.getItem('outboundIdentifierLists') === 'true'
+      ) {
+        items.push({
+          label: $translate.instant('navbar.configuration.outboundIdentifierLists.title'),
+          stateLink: 'content.configuration.outboundIdentifierLists',
+          id: 'outboundIdentifierLists-configuration-link',
+          order: 12
+        });
+      }
+
+      if (
+        UserPermissions.hasPermissionInList(PermissionGroups.accessAllEmailTemplates) &&
+        $location.search()['alpha']
+      ) {
+        items.push({
+          label: $translate.instant('navbar.configuration.chatWidgets.title'),
+          stateLink: 'content.configuration.chatWidgets',
+          id: 'chatWidgets-configuration-link',
+          order: 13
+        });
+      }
+
+      if (appFlags.CONTACT_MANAGEMENT) {
+        if (UserPermissions.hasPermissionInList(PermissionGroups.viewContactAttributes)) {
+          items.push({
+            label: $translate.instant('navbar.configuration.contactAttributes.title'),
+            stateLink: 'content.configuration.contactAttributes',
+            id: 'contact-attributes-configuration-link',
+            order: 14
+          });
+        }
+
+        if (UserPermissions.hasPermissionInList(PermissionGroups.viewContactLayouts)) {
+          items.push({
+            label: $translate.instant('navbar.configuration.contactLayouts.title'),
+            stateLink: 'content.configuration.contactLayouts',
+            id: 'contact-layouts-configuration-link',
+            order: 15
+          });
+        }
+      }
+
+      return items;
+    };
+
+    vm.getFlowsConfig = function() {
+      var items = [];
+
+      if (UserPermissions.hasPermissionInList(PermissionGroups.viewFlows)) {
+        items.push({
+          label: $translate.instant('navbar.flows.title'),
+          stateLink:
+            localStorage.getItem('flows') === 'true' ? 'content.flows.flowManagement2' : 'content.flows.flowManagement',
+          id: 'flow-management-link',
+          order: 1
+        });
+      }
+
+      if (UserPermissions.hasPermissionInList(PermissionGroups.viewDispositions)) {
+        items.push({
+          label: $translate.instant('navbar.flows.dispositions.title'),
+          stateLink: 'content.flows.dispositions',
+          id: 'dispositions-flows-link',
+          order: 2
+        });
+      }
+
+      if (UserPermissions.hasPermissionInList(PermissionGroups.viewDispositions)) {
+        items.push({
+          label: $translate.instant('navbar.flows.dispositions.lists.title'),
+          stateLink: 'content.flows.dispositionLists',
+          id: 'disposition-lists-flows-link',
+          order: 3
+        });
+      }
+
+      if (UserPermissions.hasPermissionInList(PermissionGroups.viewQueues)) {
+        items.push({
+          label: $translate.instant('navbar.flows.queues.title'),
+          stateLink: 'content.flows.queues',
+          id: 'queue-management-link',
+          order: 4
+        });
+      }
+      if (UserPermissions.hasPermissionInList(PermissionGroups.viewQueues) && $location.search()['alpha']) {
+        items.push({
+          label: $translate.instant('navbar.flows.queues.title') + ' (Alpha)',
+          stateLink: 'content.flows.queues2',
+          id: 'queue-management-link',
+          order: 4
+        });
+      }
+
+      if (UserPermissions.hasPermissionInList(PermissionGroups.viewMedia)) {
+        items.push({
+          label: $translate.instant('navbar.flows.media.title'),
+          stateLink: 'content.flows.media',
+          id: 'media-management-link',
+          order: 5
+        });
+
+        // removing this for now as per product, since we are not
+        // ready to handle Media Collections on the flow side yet
+        // items.push({
+        //   label: $translate.instant('navbar.flows.mediacollections.title'),
+        //   stateLink: 'content.flows.media-collections',
+        //   id: 'media-collection-management-link',
+        //   order: 6
+        // });
+      }
+
+      if (UserPermissions.hasPermissionInList(PermissionGroups.viewDispatchMappings)) {
+        items.push({
+          label: $translate.instant('navbar.flows.dispatchmappings.title'),
+          stateLink: 'content.flows.dispatchMappings',
+          id: 'dispatch-mappings-configuration-link',
+          order: 7
+        });
+      }
+
+      return items;
+    };
+
+    vm.getReportingConfig = function() {
+      var items = [];
+
+      if (UserPermissions.hasPermissionInList(PermissionGroups.viewAssignedReports)) {
+        items.push({
+          label: $translate.instant('navbar.reports.rtd.title'),
+          stateLink: 'content.realtime-dashboards-management-viewer({dashboardId: "overview-dashboard"})',
+          id: 'realtime-dashboard-link',
+          order: 1
+        });
+
+        // Grouping historical dashboards with realtime for now. Need to find out why there's no historical dashboards permissions
+        items.push({
+          label: $translate.instant('navbar.reports.hd.title'),
+          stateLink: 'content.reports',
+          stateLinkParams: {
+            id: 'historical-dashboards'
           },
-          iconClass: 'fa fa-exclamation'
-        })
+          id: 'reports-management-link',
+          order: 3
+        });
+      }
 
-      $scope.userHelpItems = [
-        {
-          label: $translate.instant('navbar.help.help'),
-          onClick: function() {
-            var url = CustomDomainSvc.getHelpURL('/Help/Content/Home.htm');
-            $window.open(url);
-          }
-        },
-        {
-          label: $translate.instant('navbar.help.api'),
-          onClick: function() {
-            var url = 'https://api-docs.cxengage.net/';
-            $window.open(url);
-          }
-        }
-      ];
-
-      $rootScope.$on(loEvents.session.tenants.updated, $scope.populateTenantsHandler);
-
-      $scope.$on('resource:create', $scope.onCreateClick);
-      $scope.$on('resource:actions', $scope.onActionsClick);
-      $rootScope.$on('readAllMode', function() {
-        $scope.updateTopbarConfig();
-      });
-
-      $scope.populateTenantsHandler();
-
-      vm.getManagementConfig = function() {
-        var items = [];
-
-        //Note: see TITAN2-5445 for why VIEW_ALL_USERS permission on its own is not sufficient
-        if ((UserPermissions.hasPermissionInList(PermissionGroups.viewUsers) && UserPermissions.hasPermissionInList(PermissionGroups.manageUserSkillsAndGroups)) ||
-          UserPermissions.hasPermissionInList(PermissionGroups.manageUsers)) {
-          items.push({
-            label: $translate.instant('navbar.management.users.title'),
-            stateLink: localStorage.getItem('users') === 'true'? 'content.management.users2':'content.management.users',
-            id: 'user-management-link',
-            order: 1
-          });
-        }
-
-        if (UserPermissions.hasPermissionInList(PermissionGroups.viewReasons)) {
-          items.push({
-            label: $translate.instant('navbar.management.reasons.title'),
-            stateLink: 'content.management.reasons',
-            id: 'reasons-management-link',
-            order: 2
-          });
-        }
-
-        if (UserPermissions.hasPermissionInList(PermissionGroups.viewReasons) && $location.search()['alpha']) {
-          items.push({
-            label: $translate.instant('navbar.management.reasons.title') +  ' (Alpha UAT)  ',
-            stateLink: 'content.management.reasons2',
-            id: 'reasons-management-link2'
-          });
-        }
-
-        if (UserPermissions.hasPermissionInList(PermissionGroups.viewReasonLists)) {
-          items.push({
-            label: $translate.instant('navbar.management.reasons.lists.title'),
-            stateLink: 'content.management.reasonLists',
-            id: 'reason-lists-management-link',
-            order: 3
-          });
-        }
-
-        if (UserPermissions.hasPermissionInList(PermissionGroups.manageRoles)) {
-          items.push({
-            label: $translate.instant('navbar.management.roles.title'),
-            stateLink: localStorage.getItem('roles') === 'true'? 'content.management.roles2':'content.management.roles',
-            id: 'role-management-link',
-            order: 4
-          });
-        }
-
-
-        //See TITAN2-6199 for why we do this extra check
-        if (UserPermissions.hasPermissionInList(PermissionGroups.manageAllMedia) &&
-          UserPermissions.hasPermissionInList(PermissionGroups.manageSkills)) {
-          items.push({
-            label: $translate.instant('navbar.management.skills.title'),
-            stateLink: localStorage.getItem('skills') === 'true'? 'content.management.skills2':'content.management.skills',
-            id: 'skill-management-link',
-            order: 5
-          });
-        }
-
-        //See TITAN2-6199 for why we do this extra check
-        if (UserPermissions.hasPermissionInList(PermissionGroups.manageAllMedia) &&
-          UserPermissions.hasPermissionInList(PermissionGroups.manageGroups)) {
-          items.push({
-            label: $translate.instant('navbar.management.groups.title'),
-            stateLink: localStorage.getItem('groups') === 'true'? 'content.management.groups2':'content.management.groups',
-            id: 'group-management-link',
-            order: 6
-          });
-        }
-
-        if (UserPermissions.hasPermissionInList(PermissionGroups.manageCapacityRules)) {
-          items.push({
-            label: $translate.instant('navbar.management.capacityRules.title'),
-            stateLink: 'content.management.capacityRules',
-            id: 'capacity-rules-management-link',
-            order: 7
-          });
-        }
-
-        if (UserPermissions.hasPermissionInList(PermissionGroups.viewReasonLists) && $location.search()['alpha']) {
-          items.push({
-            label: $translate.instant('navbar.management.reasons.lists.title') +  ' (Alpha UAT)  ',
-            stateLink: 'content.management.reasonLists2',
-            id: 'reason-lists-management-link2'
-          });
-        }
-
-        return items;
-      };
-
-      vm.getConfigurationConfig = function() {
-        var items = [];
-
-        if (UserPermissions.hasPermissionInList(PermissionGroups.viewTenants)) {
-          items.push({
-            label: $translate.instant('navbar.configuration.tenants.title'),
-            stateLink: 'content.configuration.tenants',
-            id: 'tenants-configuration-link',
-            order: 1
-          });
-        }
-
-        if (UserPermissions.hasPermissionInList(PermissionGroups.viewIdentityProviders)) {
-          items.push({
-            label: $translate.instant('navbar.configuration.tenants.identityProviders'),
-            stateLink: 'content.configuration.identityProviders',
-            id: 'identity-providers-configuration-link',
-            order: 2
-          });
-        }
-
-        if (UserPermissions.hasPermissionInList(PermissionGroups.viewIntegrations)) {
-          items.push({
-            label: $translate.instant('navbar.configuration.integrations.title'),
-            stateLink: 'content.configuration.integrations',
-            id: 'integrations-configuration-link',
-            order: 3
-          });
-        }
-
-        if (UserPermissions.hasPermissionInList(PermissionGroups.accessAllLists)) {
-          items.push({
-            label: $translate.instant('navbar.configuration.lists.title'),
-            stateLink: 'content.configuration.genericLists',
-            id: 'lists-configuration-link',
-            order: 4
-          });
-        }
-
-        if (UserPermissions.hasPermissionInList(PermissionGroups.viewBusinessHours) || UserPermissions.hasPermissionInList(PermissionGroups.manageBusinessHours)) {
-            items.push({
-              label: $translate.instant('navbar.configuration.bh.title'),
-              stateLink: 'content.configuration.hours',
-              id: 'hours-configuration-link',
-              order: 5
-            });
-          }
+      if (UserPermissions.hasPermissionInList(PermissionGroups.viewDashboards)) {
+        items.push({
+          label: $translate.instant('navbar.reports.rtdCustom.title'),
+          stateLink: 'content.custom-dashboards-management',
+          id: 'custom-realtime-dashboard-link',
+          order: 2
+        });
 
         if (UserPermissions.hasPermissionInList(PermissionGroups.viewCustomStats)) {
-            items.push({
-            label: $translate.instant('navbar.configuration.statistics.title'),
-            stateLink: 'content.configuration.statistics',
-            id: 'statistics-configuration-link',
-            order: 6
-            });
-        }
-
-        if (UserPermissions.hasPermissionInList(PermissionGroups.viewAppCreds)) {
           items.push({
-            label: $translate.instant('navbar.configuration.keys.title'),
-            stateLink: 'content.configuration.keys',
-            id: 'key-configuration-link',
-            order: 7
-          });
-        }
-
-        if (UserPermissions.hasPermission('VIEW_ALL_TRANSFER_LISTS')) {
-          items.push({
-            label: $translate.instant('navbar.configuration.transferLists.title'),
-            stateLink: 'content.configuration.transferLists',
-            id: 'transferList-configuration-link',
-            order: 8
-          });
-        }
-
-        if (UserPermissions.hasPermission('VIEW_ALL_TRANSFER_LISTS') && $location.search()['alpha']) {
-          items.push({
-            label: $translate.instant('navbar.configuration.transferLists.title') + ' (alpha)',
-            stateLink: 'content.configuration.transferLists2',
-            id: 'transferList-configuration-link',
-            order: 16
-          });
-        }
-
-
-        if (UserPermissions.hasPermissionInList(PermissionGroups.viewMessageTemplates)) {
-          items.push({
-            label: $translate.instant('navbar.configuration.messageTemplates.title'),
-            stateLink: 'content.configuration.messageTemplates',
-            id: 'template-configuration-link',
-            order: 9
-          });
-        }
-
-        if (UserPermissions.hasPermissionInList(PermissionGroups.accessAllEmailTemplates)) {
-          items.push({
-            label: $translate.instant('navbar.configuration.emailTemplates.title'),
-            stateLink: 'content.configuration.emailTemplates',
-            id: 'emailTemplates-configuration-link',
-            order: 10
-          });
-        }
-        if (UserPermissions.hasPermissionInList(PermissionGroups.viewOutboundIdentifiers) && localStorage.getItem('outboundIdentifiers') === 'true') {
-          items.push({
-            label: $translate.instant('navbar.configuration.outboundIdentifiers.title'),
-            stateLink: 'content.configuration.outboundIdentifiers',
-            id: 'outboundIdentifiers-configuration-link',
-            order: 11
-          });
-        }
-
-        if (UserPermissions.hasPermissionInList(PermissionGroups.viewOutboundIdentifiers) && localStorage.getItem('outboundIdentifierLists') === 'true') {
-          items.push({
-            label: $translate.instant('navbar.configuration.outboundIdentifierLists.title'),
-            stateLink: 'content.configuration.outboundIdentifierLists',
-            id: 'outboundIdentifierLists-configuration-link',
-            order: 12
-          });
-        }
-
-        if (UserPermissions.hasPermissionInList(PermissionGroups.accessAllEmailTemplates) && $location.search()['alpha']) {
-          items.push({
-            label: $translate.instant('navbar.configuration.chatWidgets.title'),
-            stateLink: 'content.configuration.chatWidgets',
-            id: 'chatWidgets-configuration-link',
-            order: 13
-          });
-        }
-
-        if (appFlags.CONTACT_MANAGEMENT) {
-          if (UserPermissions.hasPermissionInList(PermissionGroups.viewContactAttributes)) {
-            items.push({
-              label: $translate.instant('navbar.configuration.contactAttributes.title'),
-              stateLink: 'content.configuration.contactAttributes',
-              id: 'contact-attributes-configuration-link',
-              order: 14
-            });
-          }
-
-          if (UserPermissions.hasPermissionInList(PermissionGroups.viewContactLayouts)) {
-            items.push({
-              label: $translate.instant('navbar.configuration.contactLayouts.title'),
-              stateLink: 'content.configuration.contactLayouts',
-              id: 'contact-layouts-configuration-link',
-              order: 15
-            });
-          }
-        }
-
-        return items;
-      };
-
-      vm.getFlowsConfig = function() {
-        var items = [];
-
-        if (UserPermissions.hasPermissionInList(PermissionGroups.viewFlows)) {
-          items.push({
-            label: $translate.instant('navbar.flows.title'),
-            stateLink: 'content.flows.flowManagement',
-            id: 'flow-management-link',
-            order: 1
-          });
-        }
-        if (UserPermissions.hasPermissionInList(PermissionGroups.viewFlows) && $location.search()['alpha']) {
-          items.push({
-            label: $translate.instant('navbar.flows.title') + ' (Alpha)',
-            stateLink: 'content.flows.flowManagement2',
-            id: 'flow-management-link',
-            order: 1
-          });
-        }
-
-        if (UserPermissions.hasPermissionInList(PermissionGroups.viewDispositions)) {
-          items.push({
-            label: $translate.instant('navbar.flows.dispositions.title'),
-            stateLink: 'content.flows.dispositions',
-            id: 'dispositions-flows-link',
-            order: 2
-          });
-        }
-
-        if (UserPermissions.hasPermissionInList(PermissionGroups.viewDispositions)) {
-          items.push({
-            label: $translate.instant('navbar.flows.dispositions.lists.title'),
-            stateLink: 'content.flows.dispositionLists',
-            id: 'disposition-lists-flows-link',
-            order: 3
-          });
-        }
-
-        if (UserPermissions.hasPermissionInList(PermissionGroups.viewQueues)) {
-          items.push({
-            label: $translate.instant('navbar.flows.queues.title'),
-            stateLink: 'content.flows.queues',
-            id: 'queue-management-link',
-            order: 4
-          });
-        }
-        if (UserPermissions.hasPermissionInList(PermissionGroups.viewQueues) && $location.search()['alpha']) {
-          items.push({
-            label: $translate.instant('navbar.flows.queues.title') + ' (Alpha)',
-            stateLink: 'content.flows.queues2',
-            id: 'queue-management-link',
+            label: $translate.instant('navbar.configuration.dataAccessReports.title'),
+            stateLink: 'content.configuration.dataAccessReports',
+            id: 'dataAccessReports-configuration-link',
             order: 4
           });
         }
 
-        if (UserPermissions.hasPermissionInList(PermissionGroups.viewMedia)) {
+        if (appFlags.LOGI) {
           items.push({
-            label: $translate.instant('navbar.flows.media.title'),
-            stateLink: 'content.flows.media',
-            id: 'media-management-link',
+            label: 'Logi Dashboards',
+            stateLink: 'content.logi',
+            id: 'logi-link',
             order: 5
           });
-
-          // removing this for now as per product, since we are not
-          // ready to handle Media Collections on the flow side yet
-          // items.push({
-          //   label: $translate.instant('navbar.flows.mediacollections.title'),
-          //   stateLink: 'content.flows.media-collections',
-          //   id: 'media-collection-management-link',
-          //   order: 6
-          // });
         }
+      }
 
-        if (UserPermissions.hasPermissionInList(PermissionGroups.viewDispatchMappings)) {
-          items.push({
-            label: $translate.instant('navbar.flows.dispatchmappings.title'),
-            stateLink: 'content.flows.dispatchMappings',
-            id: 'dispatch-mappings-configuration-link',
-            order: 7
-          });
-        }
+      if (UserPermissions.hasPermissionInList(PermissionGroups.viewInteractionMonitoring)) {
+        items.push({
+          label: $translate.instant('navbar.reports.silentMonitoring.title'),
+          stateLink: 'content.reporting.silentMonitoring',
+          id: 'silent-monitoring-link',
+          order: 6
+        });
+      }
+      if (
+        localStorage.getItem('interactionMonitoring') === 'true' &&
+        UserPermissions.hasPermissionInList(PermissionGroups.viewInteractionMonitoring)
+      ) {
+        items.push({
+          label: $translate.instant('navbar.reports.interactionMonitoring.title'),
+          stateLink: 'content.reporting.interactionMonitoring',
+          id: 'interaction-monitoring-link',
+          order: 7
+        });
+      }
 
-        return items;
-      };
+      // commenting this out as per CXV1-13276, which specifies
+      // this option should be hidden, and not necessarily deleted
+      // if (UserPermissions.hasPermissionInList(PermissionGroups.viewCustomStats)) {
+      //   items.push({
+      //     label: 'Custom Statistics',
+      //     stateLink: 'content.reporting.custom-stats',
+      //     id: 'custom-stats-link',
+      //     order: 5
+      //   });
+      // }
 
-      vm.getReportingConfig = function() {
-        var items = [];
+      return items;
+    };
 
-        if (UserPermissions.hasPermissionInList(PermissionGroups.viewAssignedReports)) {
-          items.push({
-            label: $translate.instant('navbar.reports.rtd.title'),
-            stateLink: 'content.realtime-dashboards-management-viewer({dashboardId: "overview-dashboard"})',
-            id: 'realtime-dashboard-link',
-            order: 1
-          });
+    $scope.updateTopbarConfig = function() {
+      $scope.managementDropConfig = vm.getManagementConfig();
+      $scope.configurationDropConfig = vm.getConfigurationConfig();
+      $scope.flowsDropConfig = vm.getFlowsConfig();
+      $scope.reportingDropConfig = vm.getReportingConfig();
+    };
 
-          // Grouping historical dashboards with realtime for now. Need to find out why there's no historical dashboards permissions
-          items.push({
-            label: $translate.instant('navbar.reports.hd.title'),
-            stateLink: 'content.reports',
-            stateLinkParams: {
-              id: 'historical-dashboards'
-            },
-            id: 'reports-management-link',
-            order: 3
-          });
-        }
-
-        if (UserPermissions.hasPermissionInList(PermissionGroups.viewDashboards)) {
-
-          items.push({
-            label: $translate.instant('navbar.reports.rtdCustom.title'),
-            stateLink: 'content.custom-dashboards-management',
-            id: 'custom-realtime-dashboard-link',
-            order: 2
-          });
-
-          if (UserPermissions.hasPermissionInList(PermissionGroups.viewCustomStats)) {
-            items.push({
-              label: $translate.instant('navbar.configuration.dataAccessReports.title'),
-              stateLink: 'content.configuration.dataAccessReports',
-              id: 'dataAccessReports-configuration-link',
-              order: 4
-            });
-          }
-
-          if (appFlags.LOGI) {
-            items.push({
-              label: 'Logi Dashboards',
-              stateLink: 'content.logi',
-              id: 'logi-link',
-              order: 5
-            });
-          }
-        }
-
-        if (UserPermissions.hasPermissionInList(PermissionGroups.viewInteractionMonitoring)) {
-          items.push({
-            label: $translate.instant('navbar.reports.silentMonitoring.title'),
-            stateLink: 'content.reporting.silentMonitoring',
-            id: 'silent-monitoring-link',
-            order: 6
-          });
-        }
-        if(localStorage.getItem('interactionMonitoring') === 'true' && UserPermissions.hasPermissionInList(PermissionGroups.viewInteractionMonitoring)) {
-          items.push({
-            label: $translate.instant('navbar.reports.interactionMonitoring.title'),
-            stateLink: 'content.reporting.interactionMonitoring',
-            id: 'interaction-monitoring-link',
-            order: 7
-          });
-        }
-
-        // commenting this out as per CXV1-13276, which specifies
-        // this option should be hidden, and not necessarily deleted
-        // if (UserPermissions.hasPermissionInList(PermissionGroups.viewCustomStats)) {
-        //   items.push({
-        //     label: 'Custom Statistics',
-        //     stateLink: 'content.reporting.custom-stats',
-        //     id: 'custom-stats-link',
-        //     order: 5
-        //   });
-        // }
-
-        return items;
-      };
-
-      $scope.updateTopbarConfig = function() {
-        $scope.managementDropConfig = vm.getManagementConfig();
-        $scope.configurationDropConfig = vm.getConfigurationConfig();
-        $scope.flowsDropConfig = vm.getFlowsConfig();
-        $scope.reportingDropConfig = vm.getReportingConfig();
-      };
-
-      $scope.updateBranding = function() {
-        Branding.get({
+    $scope.updateBranding = function() {
+      Branding.get(
+        {
           tenantId: Session.tenant.tenantId
-        }, function(response){
+        },
+        function(response) {
           if (response.active) {
             Branding.set(response);
           }
-        }, function(){
+        },
+        function() {
           Branding.set({});
-        });
-      };
+        }
+      );
+    };
 
-      $scope.updateBranding();
-      $scope.updateTopbarConfig();
-    }
-  ]);
+    $scope.updateBranding();
+    $scope.updateTopbarConfig();
+  }
+]);
