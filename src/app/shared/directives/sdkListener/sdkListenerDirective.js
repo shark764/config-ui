@@ -8,10 +8,11 @@ angular.module('liveopsConfigPanel')
         restrict: 'E',
         link: function () {
           var sdkListener = function(event) {
-            if(event.origin.includes('localhost') ||
+            if(event.origin.indexOf('logi') === -1 &&
+               (event.origin.includes('localhost') ||
                event.origin.includes('cxengage') ||
                event.origin.includes('identity') ||
-               event.origin.includes('cxengagelabs')) {
+               event.origin.includes('cxengagelabs'))) {
               if (CxEngage.session.getActiveTenantId()) {
                 if (event.data.module === 'subscribe') {
                   var subscribedTenant = CxEngage.session.getActiveTenantId();
