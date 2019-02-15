@@ -19,6 +19,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Roles (permissions)
 - Outbound Identifiers / Outbound Identifier Lists
 
+## [4.69.1] - 2019-02-15
+### Fixed
+- force logi to logout to be able to switch tenants
+
 ## [4.69.0] - 2019-02-05
 ### Changed
 - SDK version bump to 8.42.1
