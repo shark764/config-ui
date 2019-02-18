@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Flows
 - Queues
 - Chat Widgets
+- Transfer Lists
 
 ## [Beta User Acceptance Testing]
 - Interaction Monitoring
@@ -18,6 +19,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Groups Page
 - Roles (permissions)
 - Outbound Identifiers / Outbound Identifier Lists
+
+## [4.70.0] - 2019-02-18
+### Added
+- transfer lists page into alpha
+### Changed 
+- sdk version bump to 8.50.0
 
 ## [4.69.1] - 2019-02-15
 ### Fixed
