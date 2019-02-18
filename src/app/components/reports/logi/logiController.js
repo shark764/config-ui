@@ -20,8 +20,6 @@ angular.module('liveopsConfigPanel')
           clearInterval(loadedCheck);
           EmbeddedReporting.get('logiContainer').iframe.addEventListener('load', function(){
             $scope.iframeLoaded = true;    
-                $scope.dashboardReady = true;
-                $scope.$apply();
       
                 // parse out just the domain with no subdomain
                 var domainOnly;
@@ -33,7 +31,7 @@ angular.module('liveopsConfigPanel')
                   domainOnly = $window.location.hostname;
                 }
                 document.domain = domainOnly;
-              });
+          });
         }
       }, 200);
 

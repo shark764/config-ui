@@ -196,17 +196,31 @@ angular.module('liveopsConfigPanel')
                       messageId: event.data.messageId
                     }, '*');
                   } else {
-                    CxEngage[event.data.module][event.data.command](event.data.data, function(error, topic, response) {
-                      if (event.source !== undefined) {
-                        console.log('[SDK Listener] SDK sending back:', event.data.messageId , error, topic, response);
-                        event.source.postMessage({
-                          error: error,
-                          topic: topic,
-                          response: response,
-                          messageId: event.data.messageId
-                        }, '*');
-                      }
-                    });
+                    if(CxEngage[event.data.module][event.data.command] === undefined) {
+                      CxEngage.api[event.data.crudAction]({path: event.data.path, body: event.data.data, customTopic: event.data.topic}, function(error, topic, response) {
+                        if (event.source !== undefined) {
+                          console.log('[SDK Listener] SDK sending back:', event.data.messageId , error, topic, response);
+                          event.source.postMessage({
+                            error: error,
+                            topic: topic,
+                            response: response,
+                            messageId: event.data.messageId
+                          }, '*');
+                        }
+                      });
+                    } else {
+                      CxEngage[event.data.module][event.data.command](event.data.data, function(error, topic, response) {
+                        if (event.source !== undefined) {
+                          console.log('[SDK Listener] SDK sending back:', event.data.messageId , error, topic, response);
+                          event.source.postMessage({
+                            error: error,
+                            topic: topic,
+                            response: response,
+                            messageId: event.data.messageId
+                          }, '*');
+                        }
+                      });
+                    }
                   }
                 }
               } else {
