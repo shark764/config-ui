@@ -27,39 +27,22 @@ angular.module('liveopsConfigPanel')
       });
     };
 
-    service.cycleLogiAuth = function(tenantId, username) {
+    service.getLogiBaseUrl = function(tenantId) {
       return $http({
         method: 'GET',
         url: apiHostname + '/v1/tenants/' + tenantId + '/reporting-token/logi',
         params: {
-          timezone: timezone,
-          username: username
+          secureKeyRequest: false
         }
       });
     };
-
-    service.cycleSsmAuth = function(tenantId, username) {
+    service.getSsmBaseUrl = function(tenantId) {
       return $http({
         method: 'GET',
         url: apiHostname + '/v1/tenants/' + tenantId + '/reporting-token/CxEngageSSM',
         params: {
-          timezone: timezone,
-          username: username
+          secureKeyRequest: false
         }
-      });
-    };
-    
-    service.logoutLogi = function(logiBaseUrl, EmbeddedReporting) {
-      return $http({
-        method: 'GET',
-        url: logiBaseUrl + '/rdProcess.aspx?rdProcess=tasks&rdTaskID=Logout',
-      });
-    };
-
-    service.logoutSSM = function (ssmBaseUrl, EmbeddedReporting) {
-      return $http({
-        method: 'GET',
-        url: ssmBaseUrl + '/rdProcess.aspx?rdProcess=tasks&rdTaskID=Logout',
       });
     };
 
