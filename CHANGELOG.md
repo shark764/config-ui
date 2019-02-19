@@ -20,6 +20,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Outbound Identifiers / Outbound Identifier Lists
 - Flows
 
+## [4.71.1] - 2019-02-19
+### Fixed
+- CXV1-16597 - Fixed Logi iframe auto height issues
+- CXV1-15841 - Fixed reporting artifact link for app dock and logi pages
+- CXV1-15505 - Can now switch tenants and users while using logi reports
+
 ## [4.71.0] - 2019-02-19
 ### Added
 - CXV1-16890, CXV1-16891 - New FlowDesigner message cases to redirect from Config-UI2
