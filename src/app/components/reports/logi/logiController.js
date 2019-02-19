@@ -20,7 +20,7 @@ angular.module('liveopsConfigPanel')
           clearInterval(loadedCheck);
           EmbeddedReporting.get('logiContainer').iframe.addEventListener('load', function(){
             $scope.iframeLoaded = true;    
-      
+                console.warn('Updating documents domain for logi logout process');
                 // parse out just the domain with no subdomain
                 var domainOnly;
                 // if there is a domain suffix, split it up to grab the domain only
