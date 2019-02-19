@@ -5,11 +5,16 @@ angular.module('liveopsConfigPanel')
     function ($scope, $window, Session, Logi, $translate, Alert, logiUrl) {
       $scope.iframeLoaded = false;
       $scope.toggleAnalytics = false;
+
+      console.warn('LogiUrl: ', logiUrl)
       
       var logiCheck = setInterval(function(){
         if (window.EmbeddedReporting) {
+          console.warn('Embedded Reporting module is ready.');
           clearInterval(logiCheck);
           $scope.fetch();
+        } else {
+          console.warn('Embedded Reporting module is not ready checking again in 200ms.');
         }
       }, 200);
 
@@ -19,61 +24,39 @@ angular.module('liveopsConfigPanel')
             EmbeddedReporting.get('logiContainer').iframe) {
           clearInterval(loadedCheck);
           EmbeddedReporting.get('logiContainer').iframe.addEventListener('load', function(){
-            $scope.iframeLoaded = true;    
-                console.warn('Updating documents domain for logi logout process');
-                // parse out just the domain with no subdomain
-                var domainOnly;
-                // if there is a domain suffix, split it up to grab the domain only
-                if ($window.location.hostname.split('.').length > 2) {
-                  domainOnly = $window.location.hostname.split('.').slice(1).join('.');
-                } else {
-                  // otherwise (as in the case of 'localhost', just get the hostname)
-                  domainOnly = $window.location.hostname;
-                }
-                document.domain = domainOnly;
+            console.warn('logiContainer iframe has finished loading');
+            $scope.iframeLoaded = true;
           });
         }
       }, 200);
 
       $scope.fetch = function () {
 
-        Logi.cycleLogiAuth(Session.tenant.tenantId, Session.user.displayName)
-          .then(function(response) {
-            Logi.logoutLogi(response.data.logiBaseUrl)
-            .then(function(response) {
-              Logi.getLogiToken(Session.tenant.tenantId, Session.user.displayName)
-              .then(function(response) {
-                EmbeddedReporting.create('logiContainer', {
-                  applicationUrl: response.data.logiBaseUrl,
-                  linkParams: {'rdSecurekey': response.data.secureToken, 'tenantID': Session.tenant.tenantId},
-                  report: 'Common.Bookmarks',
-                  autoSizing: 'all',
-                });
-              });
-            })
-          })
-          .catch(function(err) {
-            Alert.error(err);
+        Logi.getLogiToken(Session.tenant.tenantId, Session.user.displayName)
+        .then(function(response) {
+          EmbeddedReporting.create('logiContainer', {
+            applicationUrl: response.data.logiBaseUrl,
+            linkParams: {'rdSecurekey': response.data.secureToken, 'tenantID': Session.tenant.tenantId},
+            report: 'Common.Bookmarks',
+            autoSizing: 'all',
           });
+        })
+        .catch(function(err) {
+          Alert.error(err);
+        });
 
-        Logi.cycleSsmAuth(Session.tenant.tenantId, Session.user.displayName)
-          .then(function(response) {
-            Logi.logoutSSM(response.data.logiBaseUrl)
-            .then(function(response) {
-              Logi.getSsmToken(Session.tenant.tenantId, Session.user.displayName)
-              .then(function(response) {
-                EmbeddedReporting.create('ssmContainer', {
-                  applicationUrl: response.data.logiBaseUrl,
-                  linkParams: {'rdSecurekey': response.data.secureToken, 'tenantID': Session.tenant.tenantId},
-                  report: 'InfoGo.goHome',
-                  autoSizing: 'all',
-                });
-              });
-            })
-          })
-          .catch(function(err) {
-            Alert.error(err);
+        Logi.getSsmToken(Session.tenant.tenantId, Session.user.displayName)
+        .then(function(response) {
+          EmbeddedReporting.create('ssmContainer', {
+            applicationUrl: response.data.logiBaseUrl,
+            linkParams: {'rdSecurekey': response.data.secureToken, 'tenantID': Session.tenant.tenantId},
+            report: 'InfoGo.goHome',
+            autoSizing: 'all',
           });
+        })
+        .catch(function(err) {
+          Alert.error(err);
+        });
 
       };
 
@@ -82,6 +65,37 @@ angular.module('liveopsConfigPanel')
         var script = document.createElement('script');
         script.type = 'text/javascript';
         script.src = logiUrl;
+
+        /**
+         * Append two hidden iframes to the page to force logi to logout
+         */
+        Logi.getLogiBaseUrl(Session.tenant.tenantId)
+        .then(function(response) {
+          console.warn('Logi base url', response.data.logiBaseUrl);
+          var logiIframe = document.createElement('iframe');
+          logiIframe.style.display = "none";
+          logiIframe.id = "logiLogoutIframe"
+          logiIframe.src = response.data.logiBaseUrl + '/rdProcess.aspx?rdProcess=tasks&rdTaskID=Logout';
+          document.body.appendChild(logiIframe);
+        })
+        .catch(function(err) {
+          Alert.error(err);
+        });
+        
+
+        Logi.getSsmBaseUrl(Session.tenant.tenantId)
+        .then(function(response) {
+          console.warn('Ssm base url', response.data.logiBaseUrl);
+          var ssmIframe = document.createElement('iframe');
+          ssmIframe.style.display = "none";
+          ssmIframe.id = "ssmLogoutIframe"
+          ssmIframe.src = response.data.logiBaseUrl + '/rdProcess.aspx?rdProcess=tasks&rdTaskID=Logout';
+          document.body.appendChild(ssmIframe);
+        })
+        .catch(function(err) {
+          Alert.error(err);
+        });
+
 
         $(logiContainer).contents().find('body').append(script);
 
