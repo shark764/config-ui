@@ -104,7 +104,7 @@ module.exports = function(options) {
   gulp.task('vendor-scripts', ['html'], function(){
     return gulp.src(options.dist + '/scripts/vendor-*.js')
       .pipe($.ngAnnotate())
-      .pipe($.uglify())
+      // .pipe($.uglify())
       .pipe(gulp.dest(options.dist + '/scripts/'))
   });
 
@@ -117,7 +117,7 @@ module.exports = function(options) {
   gulp.task('app-scripts', ['html', 'vendor-scripts'], function(){
     return gulp.src(options.dist + '/scripts/app-*.js')
       .pipe($.ngAnnotate())
-      .pipe($.uglify())
+      // .pipe($.uglify())
       .pipe(gulp.dest(options.dist + '/scripts/'))
       .pipe($.size({ title: options.dist + '/', showFiles: true }))
   });

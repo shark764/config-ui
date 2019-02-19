@@ -20,6 +20,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Roles (permissions)
 - Outbound Identifiers / Outbound Identifier Lists
 
+## [4.70.1] - 2019-02-19
+### Added
+- Console log for logi troubleshooting
+
 ## [4.70.0] - 2019-02-18
 ### Added
 - transfer lists page into alpha
