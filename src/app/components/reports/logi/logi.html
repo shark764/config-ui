@@ -4,12 +4,12 @@
             id="toggleLogi" 
             ng-click="toggleAnalytics = false" 
             class="tab-option"
-            ng-class="{'tab-selected' : !toggleAnalytics}">{{'reports.analytics.standard' | translate}}</div>
+            ng-class="{'tab-selected' : toggleAnalytics}">{{'reports.analytics.standard' | translate}}</div>
         <div 
             id="toggleSSM" 
             ng-click="toggleAnalytics = true" 
             class="tab-option"
-            ng-class="{'tab-selected' : toggleAnalytics}">{{'reports.analytics.advanced' | translate}}</div>
+            ng-class="{'tab-selected' : !toggleAnalytics}">{{'reports.analytics.advanced' | translate}}</div>
     </div>
     <div id="container">
         <div id="logiContainer" ng-show="!toggleAnalytics"></div>

@@ -8,10 +8,10 @@ md-card {
 .recording-data-card {
   background-color: $content-bgcolor;
   margin-right: 0px;
+}
 
-  audio {
-    background-color: #F9F9F9;
-  }
+#loading-audio {
+  margin-right: 5px;
 }
 
 .voice-artifacts-list {
