@@ -20,6 +20,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Outbound Identifiers / Outbound Identifier Lists
 - Flows
 
+## [4.71.2] - 2019-02-26
+### Changed
+- Realtime Dashboards version bump to 5.9.11
+### Fixed
+- CXV1-14383 - Audio files buffer full recording now
+- Switched logi main page to be ssm
+
 ## [4.71.1] - 2019-02-19
 ### Fixed
 - CXV1-16597 - Fixed Logi iframe auto height issues
