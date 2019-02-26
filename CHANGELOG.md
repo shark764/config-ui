@@ -20,6 +20,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Outbound Identifiers / Outbound Identifier Lists
 - Flows
 
+## [4.71.3] - 2019-02-26
+### Fixed
+- logi report links now reflect proper report
+
 ## [4.71.2] - 2019-02-26
 ### Changed
 - Realtime Dashboards version bump to 5.9.11
