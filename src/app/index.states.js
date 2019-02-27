@@ -561,6 +561,18 @@ angular.module('liveopsConfigPanel')
             }]
           }
         })
+        .state('content.flows.dispatchMappings2', {
+          url: '/dispatchMappings2',
+          title: 'Flows - Dispatch Mapping Management',
+          templateUrl: 'app/components/flows/dispatchMappings2/dispatchMappings.html',
+          controller: 'dispatchMappingsController2',
+          reloadOnSearch: false,
+          resolve: {
+            hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
+              return UserPermissions.resolvePermissions(PermissionGroups.viewDispatchMappings);
+            }]
+          }
+        })
         .state('content.flows.versions', {
           url: '/versions?id',
           title: 'Flows - Flow Versions Management',

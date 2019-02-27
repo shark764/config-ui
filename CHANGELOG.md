@@ -20,6 +20,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Outbound Identifiers / Outbound Identifier Lists
 - Flows
 
+## [4.72.0] - 2019-02-27
+### Added
+- CXV1-16883 - Dispatch Mappings alpha links
+
 ## [4.71.3] - 2019-02-26
 ### Fixed
 - logi report links now reflect proper report

@@ -597,6 +597,14 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
         });
       }
 
+      if (UserPermissions.hasPermissionInList(PermissionGroups.viewDispatchMappings) && $location.search()['alpha']) {
+        items.push({
+          label: $translate.instant('navbar.flows.dispatchmappings.title') + ' (Alpha)',
+          stateLink: 'content.flows.dispatchMappings2',
+          id: 'dispatch-mappings-configuration-link'
+        });
+      }
+
       return items;
     };
 
