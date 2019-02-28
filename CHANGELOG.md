@@ -20,6 +20,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Outbound Identifiers / Outbound Identifier Lists
 - Flows
 
+## [4.72.1] - 2019-02-28
+### Changed
+- CXV1-15981 - RTD version bump to 5.9.12
+
 ## [4.72.0] - 2019-02-27
 ### Added
 - CXV1-16883 - Dispatch Mappings alpha links
