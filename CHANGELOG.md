@@ -20,6 +20,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Outbound Identifiers / Outbound Identifier Lists
 - Flows
 
+## [4.72.3] - 2019-03-12
+### Changed
+- CXV1-16902 - SDK version bump to 8.50.3
+
+
 ## [4.72.2] - 2019-03-08
 ### Changed
 - CXV1-16902 - SDK version bump to 8.50.2
