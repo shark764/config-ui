@@ -4,7 +4,8 @@ angular.module('liveopsConfigPanel').directive('sdkListener', [
   'Session',
   '$translate',
   '$state',
-  function(Session, $translate, $state) {
+  'apiHostname',
+  function(Session, $translate, $state, apiHostname) {
     var tenantIsSet = false;
     return {
       restrict: 'E',
@@ -156,6 +157,7 @@ angular.module('liveopsConfigPanel').directive('sdkListener', [
                       tenant: JSON.parse(window.localStorage.getItem('LIVEOPS-PREFERENCE-KEY')).tenant,
                       agentId: CxEngage.session.getActiveUserId(),
                       token: CxEngage.dumpState().authentication.token,
+                      baseUrl: apiHostname
                     },
                     messageId: event.data.messageId
                   },

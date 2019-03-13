@@ -20,6 +20,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Outbound Identifiers / Outbound Identifier Lists
 - Flows
 
+## [4.73.1] - 2019-03-13
+### Changed
+- updated sdk listener to pass base url on updateLocalStorage call
+
 ## [4.73.0] - 2019-03-13
 ### Changed
 - Bulk actions require permision and now use an api instead of localstorage
