@@ -4,13 +4,25 @@ angular.module('liveopsConfigPanel')
   .config(['$translateProvider', function ($translateProvider) {
     $translateProvider.useSanitizeValueStrategy('sanitize');
   }])
-  .controller('LoginController', ['$rootScope', '$scope', '$state', 'AuthService', '$stateParams', '$translate', 'Alert', 'TenantUser', '$filter', '$location', 'legalLinkCX', 'legalLinkMitel', 'Session', 'UserPermissions', 'User',
-    function($rootScope, $scope, $state, AuthService, $stateParams, $translate, Alert, TenantUser, $filter, $location, legalLinkCX, legalLinkMitel, Session, UserPermissions, User) {
+  .controller('LoginController', ['$rootScope','$http','apiHostname', '$scope', '$state', 'AuthService', '$stateParams', '$translate', 'Alert', 'TenantUser', '$filter', '$location', 'legalLinkCX', 'legalLinkMitel', 'Session', 'UserPermissions', 'User',
+    function($rootScope,$http,apiHostname, $scope, $state, AuthService, $stateParams, $translate, Alert, TenantUser, $filter, $location, legalLinkCX, legalLinkMitel, Session, UserPermissions, User) {
       var self = this;
 
       function redirectUponLogin () {
         if (UserPermissions.hasPermissionInList(['MANAGE_ALL_SKILLS', 'MANAGE_ALL_GROUPS'])) {
-          $state.go(localStorage.getItem('users') === 'true'? 'content.management.users2':'content.management.users');
+          $http({
+            method: 'GET',
+            url: apiHostname + '/v1/tenants/' + Session.tenant.tenantId + '/settings/betaFeatures/value',
+            headers: {
+              Authorization: 'Token ' + Session.token
+            }
+          }).then(function(data){
+            if(data.data.result.users) {
+              $state.go('content.management.users2');
+            } else {
+              $state.go('content.management.users');
+            }
+          });          
         } else {
           $state.go('content.userprofile');
         }

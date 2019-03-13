@@ -20,6 +20,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Outbound Identifiers / Outbound Identifier Lists
 - Flows
 
+## [4.73.0] - 2019-03-13
+### Changed
+- Bulk actions require permision and now use an api instead of localstorage
+
 ## [4.72.3] - 2019-03-12
 ### Changed
 - CXV1-16902 - SDK version bump to 8.50.3
