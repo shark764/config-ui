@@ -20,6 +20,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Outbound Identifiers / Outbound Identifier Lists
 - Flows
 
+## [4.73.2] - 2019-03-14
+### Changed
+- CXV1-16902 - SDK version bump to 8.50.4
+
 ## [4.73.1] - 2019-03-13
 ### Changed
 - updated sdk listener to pass base url on updateLocalStorage call
