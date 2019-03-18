@@ -610,17 +610,9 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
         if (UserPermissions.hasPermissionInList(PermissionGroups.viewDispatchMappings)) {
           items.push({
             label: $translate.instant('navbar.flows.dispatchmappings.title'),
-            stateLink: 'content.flows.dispatchMappings',
+            stateLink: Session.betaFeatures.dispatchMappings ?  'content.flows.dispatchMappings2' : 'content.flows.dispatchMappings',
             id: 'dispatch-mappings-configuration-link',
             order: 7
-          });
-        }
-  
-        if (UserPermissions.hasPermissionInList(PermissionGroups.viewDispatchMappings) && $location.search()['alpha']) {
-          items.push({
-            label: $translate.instant('navbar.flows.dispatchmappings.title') + ' (Alpha)',
-            stateLink: 'content.flows.dispatchMappings2',
-            id: 'dispatch-mappings-configuration-link'
           });
         }
   
