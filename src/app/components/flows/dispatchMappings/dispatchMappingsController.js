@@ -46,7 +46,8 @@ angular.module('liveopsConfigPanel')
         $scope.selectedDispatchMapping = new DispatchMapping({
           tenantId: Session.tenant.tenantId,
           channelType: 'voice',
-          active: true
+          active: true,
+          version: null
         });
       };
 
@@ -87,6 +88,15 @@ angular.module('liveopsConfigPanel')
 
       function saveDispatchMapping () {
         $scope.clearPatternWarnings();
+
+        // We want to use flow active version in case previous flow
+        // was changed, we have to make sure not wrong version is used
+        if ($scope.selectedDispatchMapping.$original !== undefined
+            && $scope.selectedDispatchMapping.flowId !== $scope.selectedDispatchMapping.$original.flowId) {
+              $scope.selectedDispatchMapping.version = null;
+              $scope.selectedDispatchMapping.$original.version = null;
+        }
+
         return $scope.selectedDispatchMapping.save()
         .then(function (response) {
           var savedDispatchMappingIdx = _.findIndex($scope.dispatchMappings, {id: response.id});
