@@ -670,21 +670,28 @@ angular.module('liveopsConfigPanel').config([
             'PermissionGroups',
             function(UserPermissions, PermissionGroups) {
               return UserPermissions.resolvePermissions(PermissionGroups.viewDispositions);
-            }
-          ]
-        }
-      })
-      .state('content.flows.dispositionLists', {
-        url: '/dispositionLists?id',
-        title: 'Flows - Disposition List Management',
-        templateUrl: 'app/components/flows/dispositions/dispositionLists/dispositionLists.html',
-        controller: 'dispositionListsController as dlc',
-        reloadOnSearch: false,
-        resolve: {
-          hasPermission: [
-            'UserPermissions',
-            'PermissionGroups',
-            function(UserPermissions, PermissionGroups) {
+            }]
+          }
+        })
+        .state('content.flows.dispositions2', {
+          url: '/dispositions2',
+          title: 'Flows - Disposition Management',
+          templateUrl: '/app/components/configuration/dispositions2/dispositions2.html',
+          controller: 'dispositionsController2',
+          resolve: {
+            hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
+              return UserPermissions.resolvePermissions(PermissionGroups.viewDispositions);
+            }]
+          }
+        })
+        .state('content.flows.dispositionLists', {
+          url: '/dispositionLists?id',
+          title: 'Flows - Disposition List Management',
+          templateUrl: 'app/components/flows/dispositions/dispositionLists/dispositionLists.html',
+          controller: 'dispositionListsController as dlc',
+          reloadOnSearch: false,
+          resolve: {
+            hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
               return UserPermissions.resolvePermissions(PermissionGroups.viewDispositionLists);
             }
           ]
