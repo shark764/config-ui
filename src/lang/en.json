@@ -1395,7 +1395,6 @@
   "appdock.recording": "Recording",
   "appdock.custom": "Custom",
   "appdock.conference": "Conference",
-  "appdock.loadingAudio": "Loading audio file...",
   "loFormAlert.reservedWord" : " is a reserved word",
   "title.text.explain" : "Authentication is required to switch to this tenant",
   "interactionMonitoring.confirmEnd" : "Ok to switch tenants? Your current call will end.",

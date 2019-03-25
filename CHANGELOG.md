@@ -20,6 +20,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Dispatch Mappings
 - Flows
 
+## [4.73.5] - 2019-03-25
+### Fixed
+- revert audio recording changes , do not download whole file before playback ability
+
 ## [4.73.4] - 2019-03-20
 ### Fixed
 - CXV1-17476 - Dispatch mapping form now sends null when flow is changed in order to use active version.

@@ -35,11 +35,7 @@
       <md-divider></md-divider>
 
       <div layout="row" ng-if="selectedItem.artifactType === 'audio-recording'">
-        <p ng-show="hidePlayer">
-          <i class="fa fa-refresh fa-spin"></i>
-          <span id="loading-audio">{{'appdock.loadingAudio' | translate}}</span>
-        </p>
-        <audio ng-hide="hidePlayer" id="audio-player" controls preload="auto" oncontextmenu="return false;" name="recordingAudio"></audio>
+        <audio id="audio-player" controls oncontextmenu="return false;" name="recordingAudio" ng-src="{{selectedItem.files[0].url | trustUrl}}"></audio>
       </div>
 
       <div layout="row" ng-if="selectedItem.artifactType === 'qm-audio-recording'">
