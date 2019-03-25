@@ -20,7 +20,6 @@ angular.module('liveopsConfigPanel')
           // clearing out all interaction data as a safeguard
           scope.interactionData = null;
           scope.artifacts = null;
-          scope.hidePlayer = true;
           // setting this to false so that we hide the "no results"
           // messaging until we're positive that there are indeed no results
           scope.showNoResultsMsg = false;
@@ -28,20 +27,7 @@ angular.module('liveopsConfigPanel')
           scope.configData = scope.config;
 
           scope.setSelectedItem = function (item) {
-            scope.hidePlayer = true;
             scope.selectedItem = item;
-
-            var getSound = new XMLHttpRequest();
-            getSound.open("GET", item.files[0].url, true);
-            getSound.responseType = "blob";
-            getSound.onload = function () {
-              scope.hidePlayer = false;
-
-               var url = URL.createObjectURL(getSound.response);
-              var el = document.getElementById('audio-player');
-              el.src = url;
-            }
-            getSound.send();
           };
 
           scope.setSelectedArtifact = function (artifact) {
