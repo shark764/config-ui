@@ -50,13 +50,6 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
 
     var CustomDomainSvc = new CustomDomain();
 
-    function isTenantSetForReadAllMode() {
-      // Controls whether the active tenant in session is not one
-      // of the active tenants for user in Session
-      // If it's a different tenant, we hide React alpha and beta pages
-      return _.find(Session.tenants, { tenantId: Session.tenant.tenantId }) === undefined;
-    }
-
     // since sometimes the tenant data from the /me endpoint doesn't
     // give us data we need, this lets us get the corresponding
     // Session.tenant and vice-versa
@@ -216,38 +209,32 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
       }
     };
 
-    function getUserDropdownItems() {
-      var items = [
-        {
-          label: $translate.instant('navbar.logout'),
-          onClick: function() {
-            $scope.logout();
-          },
-          iconClass: 'fa fa-sign-out'
+    $scope.userDropdownItems = [
+      {
+        label: $translate.instant('navbar.logout'),
+        onClick: function() {
+          $scope.logout();
         },
-        {
-          label: $translate.instant('navbar.profile'),
-          onClick: function() {
-            $state.transitionTo('content.userprofile');
-          },
-          iconClass: 'fa fa-gear'
-        }
-      ];
-
-      if (UserPermissions.hasPermissionInList(PermissionGroups.betaFeatures) && !isTenantSetForReadAllMode()) {
-        items.push({
-          label: ' Beta Features',
-          onClick: function() {
-            $state.transitionTo('content.beta');
-          },
-          iconClass: 'fa fa-exclamation'
-        });
+        iconClass: 'fa fa-sign-out'
+      },
+      {
+        label: $translate.instant('navbar.profile'),
+        onClick: function() {
+          $state.transitionTo('content.userprofile');
+        },
+        iconClass: 'fa fa-gear'
       }
-
-      return items;
+    ];
+    
+    if(UserPermissions.hasPermissionInList(PermissionGroups.betaFeatures)) {
+      $scope.userDropdownItems.push({
+        label: ' Beta Features',
+        onClick: function() {
+          $state.transitionTo('content.beta');
+        },
+        iconClass: 'fa fa-exclamation'
+      });
     }
-
-    $scope.userDropdownItems = getUserDropdownItems();
 
     $scope.userHelpItems = [
       {
@@ -287,11 +274,11 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
     }).then(function(data) {
       Session.betaFeatures = data.data.result;
       $scope.checkedForBetaFeatures = true;
+      
 
       vm.getManagementConfig = function() {
         var items = [];
-        var isActiveExternalTenant = isTenantSetForReadAllMode();
-
+  
         //Note: see TITAN2-5445 for why VIEW_ALL_USERS permission on its own is not sufficient
         if (
           (UserPermissions.hasPermissionInList(PermissionGroups.viewUsers) &&
@@ -301,14 +288,12 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
           items.push({
             label: $translate.instant('navbar.management.users.title'),
             stateLink:
-              Session.betaFeatures.users && !isActiveExternalTenant
-                ? 'content.management.users2'
-                : 'content.management.users',
+            Session.betaFeatures.users ?  'content.management.users2' : 'content.management.users',
             id: 'user-management-link',
             order: 1
           });
         }
-
+  
         if (UserPermissions.hasPermissionInList(PermissionGroups.viewReasons)) {
           items.push({
             label: $translate.instant('navbar.management.reasons.title'),
@@ -317,19 +302,15 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
             order: 2
           });
         }
-
-        if (
-          UserPermissions.hasPermissionInList(PermissionGroups.viewReasons) &&
-          $location.search()['alpha'] &&
-          !isActiveExternalTenant
-        ) {
+  
+        if (UserPermissions.hasPermissionInList(PermissionGroups.viewReasons) && $location.search()['alpha']) {
           items.push({
             label: $translate.instant('navbar.management.reasons.title') + ' (Alpha UAT)  ',
             stateLink: 'content.management.reasons2',
             id: 'reasons-management-link2'
           });
         }
-
+  
         if (UserPermissions.hasPermissionInList(PermissionGroups.viewReasonLists)) {
           items.push({
             label: $translate.instant('navbar.management.reasons.lists.title'),
@@ -338,19 +319,17 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
             order: 3
           });
         }
-
+  
         if (UserPermissions.hasPermissionInList(PermissionGroups.manageRoles)) {
           items.push({
             label: $translate.instant('navbar.management.roles.title'),
             stateLink:
-              Session.betaFeatures.roles && !isActiveExternalTenant
-                ? 'content.management.roles2'
-                : 'content.management.roles',
+              Session.betaFeatures.roles ? 'content.management.roles2' : 'content.management.roles',
             id: 'role-management-link',
             order: 4
           });
         }
-
+  
         //See TITAN2-6199 for why we do this extra check
         if (
           UserPermissions.hasPermissionInList(PermissionGroups.manageAllMedia) &&
@@ -359,14 +338,12 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
           items.push({
             label: $translate.instant('navbar.management.skills.title'),
             stateLink:
-              Session.betaFeatures.skills && !isActiveExternalTenant
-                ? 'content.management.skills2'
-                : 'content.management.skills',
+            Session.betaFeatures.skills? 'content.management.skills2' : 'content.management.skills',
             id: 'skill-management-link',
             order: 5
           });
         }
-
+  
         //See TITAN2-6199 for why we do this extra check
         if (
           UserPermissions.hasPermissionInList(PermissionGroups.manageAllMedia) &&
@@ -375,14 +352,12 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
           items.push({
             label: $translate.instant('navbar.management.groups.title'),
             stateLink:
-              Session.betaFeatures.groups && !isActiveExternalTenant
-                ? 'content.management.groups2'
-                : 'content.management.groups',
+            Session.betaFeatures.groups ? 'content.management.groups2' : 'content.management.groups',
             id: 'group-management-link',
             order: 6
           });
         }
-
+  
         if (UserPermissions.hasPermissionInList(PermissionGroups.manageCapacityRules)) {
           items.push({
             label: $translate.instant('navbar.management.capacityRules.title'),
@@ -391,26 +366,21 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
             order: 7
           });
         }
-
-        if (
-          UserPermissions.hasPermissionInList(PermissionGroups.viewReasonLists) &&
-          $location.search()['alpha'] &&
-          !isActiveExternalTenant
-        ) {
+  
+        if (UserPermissions.hasPermissionInList(PermissionGroups.viewReasonLists) && $location.search()['alpha']) {
           items.push({
             label: $translate.instant('navbar.management.reasons.lists.title') + ' (Alpha UAT)  ',
             stateLink: 'content.management.reasonLists2',
             id: 'reason-lists-management-link2'
           });
         }
-
+  
         return items;
       };
-
+  
       vm.getConfigurationConfig = function() {
         var items = [];
-        var isActiveExternalTenant = isTenantSetForReadAllMode();
-
+  
         if (UserPermissions.hasPermissionInList(PermissionGroups.viewTenants)) {
           items.push({
             label: $translate.instant('navbar.configuration.tenants.title'),
@@ -419,7 +389,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
             order: 1
           });
         }
-
+  
         if (UserPermissions.hasPermissionInList(PermissionGroups.viewIdentityProviders)) {
           items.push({
             label: $translate.instant('navbar.configuration.tenants.identityProviders'),
@@ -428,7 +398,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
             order: 2
           });
         }
-
+  
         if (UserPermissions.hasPermissionInList(PermissionGroups.viewIntegrations)) {
           items.push({
             label: $translate.instant('navbar.configuration.integrations.title'),
@@ -437,8 +407,8 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
             order: 3
           });
         }
-
-        if (UserPermissions.hasPermissionInList(PermissionGroups.accessAllLists) && !isActiveExternalTenant) {
+  
+        if (UserPermissions.hasPermissionInList(PermissionGroups.accessAllLists)) {
           items.push({
             label: $translate.instant('navbar.configuration.lists.title'),
             stateLink: 'content.configuration.genericLists',
@@ -446,7 +416,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
             order: 4
           });
         }
-
+  
         if (
           UserPermissions.hasPermissionInList(PermissionGroups.viewBusinessHours) ||
           UserPermissions.hasPermissionInList(PermissionGroups.manageBusinessHours)
@@ -458,8 +428,8 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
             order: 5
           });
         }
-
-        if (UserPermissions.hasPermissionInList(PermissionGroups.viewCustomStats) && !isActiveExternalTenant) {
+  
+        if (UserPermissions.hasPermissionInList(PermissionGroups.viewCustomStats)) {
           items.push({
             label: $translate.instant('navbar.configuration.statistics.title'),
             stateLink: 'content.configuration.statistics',
@@ -467,7 +437,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
             order: 6
           });
         }
-
+  
         if (UserPermissions.hasPermissionInList(PermissionGroups.viewAppCreds)) {
           items.push({
             label: $translate.instant('navbar.configuration.keys.title'),
@@ -476,7 +446,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
             order: 7
           });
         }
-
+  
         if (UserPermissions.hasPermission('VIEW_ALL_TRANSFER_LISTS')) {
           items.push({
             label: $translate.instant('navbar.configuration.transferLists.title'),
@@ -485,12 +455,8 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
             order: 8
           });
         }
-
-        if (
-          UserPermissions.hasPermission('VIEW_ALL_TRANSFER_LISTS') &&
-          $location.search()['alpha'] &&
-          !isActiveExternalTenant
-        ) {
+  
+        if (UserPermissions.hasPermission('VIEW_ALL_TRANSFER_LISTS') && $location.search()['alpha']) {
           items.push({
             label: $translate.instant('navbar.configuration.transferLists.title') + ' (alpha)',
             stateLink: 'content.configuration.transferLists2',
@@ -498,7 +464,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
             order: 16
           });
         }
-
+  
         if (UserPermissions.hasPermissionInList(PermissionGroups.viewMessageTemplates)) {
           items.push({
             label: $translate.instant('navbar.configuration.messageTemplates.title'),
@@ -507,8 +473,8 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
             order: 9
           });
         }
-
-        if (UserPermissions.hasPermissionInList(PermissionGroups.accessAllEmailTemplates && !isActiveExternalTenant)) {
+  
+        if (UserPermissions.hasPermissionInList(PermissionGroups.accessAllEmailTemplates)) {
           items.push({
             label: $translate.instant('navbar.configuration.emailTemplates.title'),
             stateLink: 'content.configuration.emailTemplates',
@@ -518,8 +484,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
         }
         if (
           UserPermissions.hasPermissionInList(PermissionGroups.viewOutboundIdentifiers) &&
-          Session.betaFeatures.outboundIdentifiers &&
-          !isActiveExternalTenant
+          Session.betaFeatures.outboundIdentifiers
         ) {
           items.push({
             label: $translate.instant('navbar.configuration.outboundIdentifiers.title'),
@@ -528,11 +493,10 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
             order: 11
           });
         }
-
+  
         if (
           UserPermissions.hasPermissionInList(PermissionGroups.viewOutboundIdentifiers) &&
-          Session.betaFeatures.outboundIdentifierLists &&
-          !isActiveExternalTenant
+          Session.betaFeatures.outboundIdentifierLists
         ) {
           items.push({
             label: $translate.instant('navbar.configuration.outboundIdentifierLists.title'),
@@ -541,11 +505,10 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
             order: 12
           });
         }
-
+  
         if (
           UserPermissions.hasPermissionInList(PermissionGroups.accessAllEmailTemplates) &&
-          $location.search()['alpha'] &&
-          !isActiveExternalTenant
+          $location.search()['alpha']
         ) {
           items.push({
             label: $translate.instant('navbar.configuration.chatWidgets.title'),
@@ -554,7 +517,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
             order: 13
           });
         }
-
+  
         if (appFlags.CONTACT_MANAGEMENT) {
           if (UserPermissions.hasPermissionInList(PermissionGroups.viewContactAttributes)) {
             items.push({
@@ -564,7 +527,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
               order: 14
             });
           }
-
+  
           if (UserPermissions.hasPermissionInList(PermissionGroups.viewContactLayouts)) {
             items.push({
               label: $translate.instant('navbar.configuration.contactLayouts.title'),
@@ -574,26 +537,23 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
             });
           }
         }
-
+  
         return items;
       };
-
+  
       vm.getFlowsConfig = function() {
         var items = [];
-        var isActiveExternalTenant = isTenantSetForReadAllMode();
-
+  
         if (UserPermissions.hasPermissionInList(PermissionGroups.viewFlows)) {
           items.push({
             label: $translate.instant('navbar.flows.title'),
             stateLink:
-              Session.betaFeatures.flows && !isActiveExternalTenant
-                ? 'content.flows.flowManagement2'
-                : 'content.flows.flowManagement',
+            Session.betaFeatures.flows? 'content.flows.flowManagement2' : 'content.flows.flowManagement',
             id: 'flow-management-link',
             order: 1
           });
         }
-
+  
         if (UserPermissions.hasPermissionInList(PermissionGroups.viewDispositions)) {
           items.push({
             label: $translate.instant('navbar.flows.dispositions.title'),
@@ -602,7 +562,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
             order: 2
           });
         }
-
+  
         if (UserPermissions.hasPermissionInList(PermissionGroups.viewDispositions)) {
           items.push({
             label: $translate.instant('navbar.flows.dispositions.lists.title'),
@@ -611,7 +571,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
             order: 3
           });
         }
-
+  
         if (UserPermissions.hasPermissionInList(PermissionGroups.viewQueues)) {
           items.push({
             label: $translate.instant('navbar.flows.queues.title'),
@@ -620,11 +580,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
             order: 4
           });
         }
-        if (
-          UserPermissions.hasPermissionInList(PermissionGroups.viewQueues) &&
-          $location.search()['alpha'] &&
-          !isActiveExternalTenant
-        ) {
+        if (UserPermissions.hasPermissionInList(PermissionGroups.viewQueues) && $location.search()['alpha']) {
           items.push({
             label: $translate.instant('navbar.flows.queues.title') + ' (Alpha)',
             stateLink: 'content.flows.queues2',
@@ -632,7 +588,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
             order: 4
           });
         }
-
+  
         if (UserPermissions.hasPermissionInList(PermissionGroups.viewMedia)) {
           items.push({
             label: $translate.instant('navbar.flows.media.title'),
@@ -640,7 +596,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
             id: 'media-management-link',
             order: 5
           });
-
+  
           // removing this for now as per product, since we are not
           // ready to handle Media Collections on the flow side yet
           // items.push({
@@ -650,26 +606,22 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
           //   order: 6
           // });
         }
-
+  
         if (UserPermissions.hasPermissionInList(PermissionGroups.viewDispatchMappings)) {
           items.push({
             label: $translate.instant('navbar.flows.dispatchmappings.title'),
-            stateLink:
-              Session.betaFeatures.dispatchMappings && !isActiveExternalTenant
-                ? 'content.flows.dispatchMappings2'
-                : 'content.flows.dispatchMappings',
+            stateLink: Session.betaFeatures.dispatchMappings ?  'content.flows.dispatchMappings2' : 'content.flows.dispatchMappings',
             id: 'dispatch-mappings-configuration-link',
             order: 7
           });
         }
-
+  
         return items;
       };
-
+  
       vm.getReportingConfig = function() {
         var items = [];
-        var isActiveExternalTenant = isTenantSetForReadAllMode();
-
+  
         if (UserPermissions.hasPermissionInList(PermissionGroups.viewAssignedReports)) {
           items.push({
             label: $translate.instant('navbar.reports.rtd.title'),
@@ -677,7 +629,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
             id: 'realtime-dashboard-link',
             order: 1
           });
-
+  
           // Grouping historical dashboards with realtime for now. Need to find out why there's no historical dashboards permissions
           items.push({
             label: $translate.instant('navbar.reports.hd.title'),
@@ -689,7 +641,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
             order: 3
           });
         }
-
+  
         if (UserPermissions.hasPermissionInList(PermissionGroups.viewDashboards)) {
           items.push({
             label: $translate.instant('navbar.reports.rtdCustom.title'),
@@ -697,8 +649,8 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
             id: 'custom-realtime-dashboard-link',
             order: 2
           });
-
-          if (UserPermissions.hasPermissionInList(PermissionGroups.viewCustomStats) && !isActiveExternalTenant) {
+  
+          if (UserPermissions.hasPermissionInList(PermissionGroups.viewCustomStats)) {
             items.push({
               label: $translate.instant('navbar.configuration.dataAccessReports.title'),
               stateLink: 'content.configuration.dataAccessReports',
@@ -706,7 +658,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
               order: 4
             });
           }
-
+  
           if (appFlags.LOGI) {
             items.push({
               label: 'Logi Dashboards',
@@ -716,7 +668,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
             });
           }
         }
-
+  
         if (UserPermissions.hasPermissionInList(PermissionGroups.viewInteractionMonitoring)) {
           items.push({
             label: $translate.instant('navbar.reports.silentMonitoring.title'),
@@ -726,8 +678,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
           });
         }
         if (
-          UserPermissions.hasPermissionInList(PermissionGroups.viewInteractionMonitoring) &&
-          !isActiveExternalTenant
+          UserPermissions.hasPermissionInList(PermissionGroups.viewInteractionMonitoring)
         ) {
           items.push({
             label: $translate.instant('navbar.reports.interactionMonitoring.title'),
@@ -736,7 +687,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
             order: 7
           });
         }
-
+  
         // commenting this out as per CXV1-13276, which specifies
         // this option should be hidden, and not necessarily deleted
         // if (UserPermissions.hasPermissionInList(PermissionGroups.viewCustomStats)) {
@@ -747,18 +698,17 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
         //     order: 5
         //   });
         // }
-
+  
         return items;
       };
-
+  
       $scope.updateTopbarConfig = function() {
         $scope.managementDropConfig = vm.getManagementConfig();
         $scope.configurationDropConfig = vm.getConfigurationConfig();
         $scope.flowsDropConfig = vm.getFlowsConfig();
         $scope.reportingDropConfig = vm.getReportingConfig();
-        $scope.userDropdownItems = getUserDropdownItems();
       };
-
+      
       $scope.updateBranding = function() {
         Branding.get(
           {
@@ -776,9 +726,13 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
           }
         );
       };
-
+  
       $scope.updateBranding();
       $scope.updateTopbarConfig();
+
+
+      
     });
+
   }
 ]);
