@@ -20,9 +20,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Dispatch Mappings
 - Flows
 
+## [4.73.5-develop]
+## Unreleased
+### Fixed
+- Alpha and Beta pages made in React are hidden when a tenant is set as active.
+### Changed
+- CXV1-16902 - SDK version bump to 8.51.1.
+
 ## [4.73.5] - 2019-03-25
 ### Fixed
-- revert audio recording changes , do not download whole file before playback ability
+- Revert audio recording changes , do not download whole file before playback ability
 
 ## [4.73.4] - 2019-03-20
 ### Fixed
