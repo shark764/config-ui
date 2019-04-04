@@ -164,12 +164,6 @@ angular.module('liveopsConfigPanel')
                   scope.isLoadingAppDock = false;
                   scope.showNoResultsMsg = false;
                   tenantTimezone();
-                  var storedSessionData = localStorage.getItem('LIVEOPS-SESSION-KEY');
-                  var token;
-                  if(storedSessionData) {
-                    token = JSON.parse(storedSessionData).token;
-                    response.files[0].url += ('?Authorization=Token%20' + token);
-                  }
                   
                   scope.setSelectedItem(response);
                   scope.$emit('appDockDataLoaded');
