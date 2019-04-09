@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Queues
 - Chat Widgets
 - Transfer Lists
+- SLA
 
 ## [Beta User Acceptance Testing]
 - Users Page
@@ -19,6 +20,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Outbound Identifiers / Outbound Identifier Lists
 - Dispatch Mappings
 - Flows
+
+## [4.74.0-develop]
+## Unreleased
+### Changed
+- CXV1-16852 - Default SLA can be set to a Tenant on Tenants page.
+- CXV1-17683 - Default SLA can be set to Queue versions on Queues page.
+### Added
+- CXV1-16853 - New SLA page has been added to menu.
 
 ## [4.73.6-develop]
 ## Unreleased

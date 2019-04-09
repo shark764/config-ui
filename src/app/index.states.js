@@ -285,6 +285,18 @@ angular.module('liveopsConfigPanel')
               }]
             }
           })
+        .state('content.configuration.slas', {
+            url: '/slas',
+            title: 'Configuration - SLA',
+            templateUrl: 'app/components/configuration/slas/slas.html',
+            controller: 'slasController as slas',
+            reloadOnSearch: false,
+            resolve: {
+              hasPermission: ['UserPermissions', 'PermissionGroups', function(UserPermissions, PermissionGroups) {
+                return UserPermissions.resolvePermissions(PermissionGroups.viewCustomStats);
+              }]
+            }
+          })
         .state('content.configuration.contactAttributes', {
           url: '/contactAttributes?id',
           title: 'Configuration - Contact Attribute Management',
