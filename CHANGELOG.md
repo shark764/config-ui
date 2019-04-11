@@ -20,6 +20,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Dispatch Mappings
 - Flows
 
+## [4.73.6-develop]
+## Unreleased
+### Fixed
+- CXV1-17406 - After publishing a new version, the user is returned to the flows2 page, if that is active in the active Tenant's beta settings.
+
 ## [4.73.5-develop]
 ## Unreleased
 ### Fixed
