@@ -151,6 +151,8 @@
   "loading": "Loading",
   "api.error": "The API could not be contacted. Please reload the page to try again. If this error persists, please contact your systems administrator",
   "permissions.unauthorized.message": "Sorry, your account does not have the correct permissions to view that page.",
+  "permissions.betaFeatures.disabled.message": "You have been redirected to the original version of this page.",
+  "permissions.betaFeatures.enabled.message": "You have been redirected to the beta version of this page.",
   "login.button": "Login",
   "login.next": "Next",
   "login.singleSignOn": "Single Sign-On",
