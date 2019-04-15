@@ -21,6 +21,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Dispatch Mappings
 - Flows
 
+## [4.74.1-develop]
+## Unreleased
+### Fixed
+- CXV1-16852 - Default SLA is just required when updating a Tenant.
+
 ## [4.74.0-develop]
 ## Unreleased
 ### Changed
