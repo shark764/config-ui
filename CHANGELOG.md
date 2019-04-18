@@ -21,11 +21,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Dispatch Mappings
 - Flows
 
-## [4.74.2-develop]
-## Unreleased
-### Fixed
-- CXV1-17543 - Switching between tenants is redirecting to correct betaFeatures or original pages.
-
 ## [4.74.1-develop]
 ## Unreleased
 ### Fixed

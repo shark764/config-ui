@@ -46,7 +46,6 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
     $scope.Session = Session;
     $scope.showQualityManagemant = UserPermissions.hasPermissionInList(PermissionGroups.viewQualityManagement);
     $scope.hoverTracker = [];
-    $scope.betaFeaturesByTenant = [];
     var MeSvc = new Me();
 
     var CustomDomainSvc = new CustomDomain();
@@ -68,91 +67,27 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
       }
     }
 
-    function redirectToOnTenantSwitched() {
+    function switchTenant(targetSessionTenant) {
+      Session.setTenant(targetSessionTenant);
+      AuthService.updateDomain(targetSessionTenant);
+      $scope.updateTopbarConfig();
+      $scope.updateBranding();
       var goTo = $state.current;
-      var messageKey = '';
       if ($state.includes('content.realtime-dashboards-management-editor')) {
         goTo = 'content.custom-dashboards-management';
       } else if ($state.includes('content.flows.editor')) {
         goTo = 'content.flows.flowManagement';
-      } else if (
-        $state.includes('content.flows.dispatchMappings') ||
-        $state.includes('content.flows.dispatchMappings2')
-      ) {
-        goTo = $scope.betaFeaturesByTenant[Session.tenant.tenantId].dispatchMappings
-          ? 'content.flows.dispatchMappings2'
-          : 'content.flows.dispatchMappings';
-        messageKey = $scope.betaFeaturesByTenant[Session.tenant.tenantId].dispatchMappings
-          ? 'permissions.betaFeatures.enabled.message'
-          : 'permissions.betaFeatures.disabled.message';
-      } else if ($state.includes('content.flows.flowManagement') || $state.includes('content.flows.flowManagement2')) {
-        goTo = $scope.betaFeaturesByTenant[Session.tenant.tenantId].flows
-          ? 'content.flows.flowManagement2'
-          : 'content.flows.flowManagement';
-        messageKey = $scope.betaFeaturesByTenant[Session.tenant.tenantId].flows
-          ? 'permissions.betaFeatures.enabled.message'
-          : 'permissions.betaFeatures.disabled.message';
-      } else if ($state.includes('content.management.groups') || $state.includes('content.management.groups2')) {
-        goTo = $scope.betaFeaturesByTenant[Session.tenant.tenantId].groups
-          ? 'content.management.groups2'
-          : 'content.management.groups';
-        messageKey = $scope.betaFeaturesByTenant[Session.tenant.tenantId].groups
-          ? 'permissions.betaFeatures.enabled.message'
-          : 'permissions.betaFeatures.disabled.message';
-      } else if ($state.includes('content.management.roles') || $state.includes('content.management.roles2')) {
-        goTo = $scope.betaFeaturesByTenant[Session.tenant.tenantId].roles
-          ? 'content.management.roles2'
-          : 'content.management.roles';
-        messageKey = $scope.betaFeaturesByTenant[Session.tenant.tenantId].roles
-          ? 'permissions.betaFeatures.enabled.message'
-          : 'permissions.betaFeatures.disabled.message';
-      } else if ($state.includes('content.management.skills') || $state.includes('content.management.skills2')) {
-        goTo = $scope.betaFeaturesByTenant[Session.tenant.tenantId].skills
-          ? 'content.management.skills2'
-          : 'content.management.skills';
-        messageKey = $scope.betaFeaturesByTenant[Session.tenant.tenantId].skills
-          ? 'permissions.betaFeatures.enabled.message'
-          : 'permissions.betaFeatures.disabled.message';
-      } else if ($state.includes('content.management.users') || $state.includes('content.management.users2')) {
-        goTo = $scope.betaFeaturesByTenant[Session.tenant.tenantId].users
-          ? 'content.management.users2'
-          : 'content.management.users';
-        messageKey = $scope.betaFeaturesByTenant[Session.tenant.tenantId].users
-          ? 'permissions.betaFeatures.enabled.message'
-          : 'permissions.betaFeatures.disabled.message';
-      } else if (
-        ($state.includes('content.configuration.outboundIdentifierLists') &&
-          !$scope.betaFeaturesByTenant[Session.tenant.tenantId].outboundIdentifierLists) ||
-        ($state.includes('content.configuration.outboundIdentifiers') &&
-          !$scope.betaFeaturesByTenant[Session.tenant.tenantId].outboundIdentifiers)
-      ) {
-        goTo = $scope.betaFeaturesByTenant[Session.tenant.tenantId].users
-          ? 'content.management.users2'
-          : 'content.management.users';
-        messageKey = 'permissions.unauthorized.message';
       }
       $state.go(
         goTo,
         {
-          id: null,
-          messageKey: messageKey
+          id: null
         },
         {
           reload: true,
           inherit: false
         }
       );
-    }
-
-    function switchTenant(targetSessionTenant) {
-      Session.setTenant(targetSessionTenant);
-      AuthService.updateDomain(targetSessionTenant);
-      $scope.updateTopbarConfig();
-      $scope.updateBranding();
-
-      // Redirect user to correct page, based on
-      // betaFeatures available for each tenant
-      redirectToOnTenantSwitched();
     }
 
     $scope.populateTenantsHandler = function() {
@@ -343,518 +278,520 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
 
     $scope.populateTenantsHandler();
     Session.betaFeatures = {};
-    for (var i = 0, len = Session.tenants.length; i < len; i++) {
-      $http({
-        method: 'GET',
-        url: apiHostname + '/v1/tenants/' + Session.tenants[i].tenantId + '/settings/betaFeatures/value',
-        headers: {
-          Authorization: 'Token ' + Session.token
+    $http({
+      method: 'GET',
+      url: apiHostname + '/v1/tenants/' + Session.tenant.tenantId + '/settings/betaFeatures/value',
+      headers: {
+        Authorization: 'Token ' + Session.token
+      }
+    }).then(function(data) {
+      Session.betaFeatures = data.data.result;
+      $scope.checkedForBetaFeatures = true;
+
+      vm.getManagementConfig = function() {
+        var items = [];
+        var isActiveExternalTenant = isTenantSetForReadAllMode();
+
+        //Note: see TITAN2-5445 for why VIEW_ALL_USERS permission on its own is not sufficient
+        if (
+          (UserPermissions.hasPermissionInList(PermissionGroups.viewUsers) &&
+            UserPermissions.hasPermissionInList(PermissionGroups.manageUserSkillsAndGroups)) ||
+          UserPermissions.hasPermissionInList(PermissionGroups.manageUsers)
+        ) {
+          items.push({
+            label: $translate.instant('navbar.management.users.title'),
+            stateLink:
+              Session.betaFeatures.users && !isActiveExternalTenant
+                ? 'content.management.users2'
+                : 'content.management.users',
+            id: 'user-management-link',
+            order: 1
+          });
         }
-      }).then(function(data) {
-        // We need to store all betaFeatures preferences for all active tenants
-        // So when changing to another tenant, we can redirect user to correct pages
-        $scope.betaFeaturesByTenant[Session.tenants[i].tenantId] = data.data.result;
 
-        // We just reload all menu for the current tenant
-        if (Session.tenants[i].tenantId === Session.tenant.tenantId) {
-          Session.betaFeatures = data.data.result;
-          $scope.checkedForBetaFeatures = true;
-
-          vm.getManagementConfig = function() {
-            var items = [];
-            var isActiveExternalTenant = isTenantSetForReadAllMode();
-
-            //Note: see TITAN2-5445 for why VIEW_ALL_USERS permission on its own is not sufficient
-            if (
-              (UserPermissions.hasPermissionInList(PermissionGroups.viewUsers) &&
-                UserPermissions.hasPermissionInList(PermissionGroups.manageUserSkillsAndGroups)) ||
-              UserPermissions.hasPermissionInList(PermissionGroups.manageUsers)
-            ) {
-              items.push({
-                label: $translate.instant('navbar.management.users.title'),
-                stateLink:
-                  Session.betaFeatures.users && !isActiveExternalTenant
-                    ? 'content.management.users2'
-                    : 'content.management.users',
-                id: 'user-management-link',
-                order: 1
-              });
-            }
-
-            if (UserPermissions.hasPermissionInList(PermissionGroups.viewReasons)) {
-              items.push({
-                label: $translate.instant('navbar.management.reasons.title'),
-                stateLink: 'content.management.reasons',
-                id: 'reasons-management-link',
-                order: 2
-              });
-            }
-
-            if (
-              UserPermissions.hasPermissionInList(PermissionGroups.viewReasons) &&
-              $location.search()['alpha'] &&
-              !isActiveExternalTenant
-            ) {
-              items.push({
-                label: $translate.instant('navbar.management.reasons.title') + ' (Alpha UAT)  ',
-                stateLink: 'content.management.reasons2',
-                id: 'reasons-management-link2'
-              });
-            }
-
-            if (UserPermissions.hasPermissionInList(PermissionGroups.viewReasonLists)) {
-              items.push({
-                label: $translate.instant('navbar.management.reasons.lists.title'),
-                stateLink: 'content.management.reasonLists',
-                id: 'reason-lists-management-link',
-                order: 3
-              });
-            }
-
-            if (UserPermissions.hasPermissionInList(PermissionGroups.manageRoles)) {
-              items.push({
-                label: $translate.instant('navbar.management.roles.title'),
-                stateLink:
-                  Session.betaFeatures.roles && !isActiveExternalTenant
-                    ? 'content.management.roles2'
-                    : 'content.management.roles',
-                id: 'role-management-link',
-                order: 4
-              });
-            }
-
-            //See TITAN2-6199 for why we do this extra check
-            if (
-              UserPermissions.hasPermissionInList(PermissionGroups.manageAllMedia) &&
-              UserPermissions.hasPermissionInList(PermissionGroups.manageSkills)
-            ) {
-              items.push({
-                label: $translate.instant('navbar.management.skills.title'),
-                stateLink:
-                  Session.betaFeatures.skills && !isActiveExternalTenant
-                    ? 'content.management.skills2'
-                    : 'content.management.skills',
-                id: 'skill-management-link',
-                order: 5
-              });
-            }
-
-            //See TITAN2-6199 for why we do this extra check
-            if (
-              UserPermissions.hasPermissionInList(PermissionGroups.manageAllMedia) &&
-              UserPermissions.hasPermissionInList(PermissionGroups.manageGroups)
-            ) {
-              items.push({
-                label: $translate.instant('navbar.management.groups.title'),
-                stateLink:
-                  Session.betaFeatures.groups && !isActiveExternalTenant
-                    ? 'content.management.groups2'
-                    : 'content.management.groups',
-                id: 'group-management-link',
-                order: 6
-              });
-            }
-
-            if (UserPermissions.hasPermissionInList(PermissionGroups.manageCapacityRules)) {
-              items.push({
-                label: $translate.instant('navbar.management.capacityRules.title'),
-                stateLink: 'content.management.capacityRules',
-                id: 'capacity-rules-management-link',
-                order: 7
-              });
-            }
-
-            if (
-              UserPermissions.hasPermissionInList(PermissionGroups.viewReasonLists) &&
-              $location.search()['alpha'] &&
-              !isActiveExternalTenant
-            ) {
-              items.push({
-                label: $translate.instant('navbar.management.reasons.lists.title') + ' (Alpha UAT)  ',
-                stateLink: 'content.management.reasonLists2',
-                id: 'reason-lists-management-link2'
-              });
-            }
-
-            return items;
-          };
-
-          vm.getConfigurationConfig = function() {
-            var items = [];
-            var isActiveExternalTenant = isTenantSetForReadAllMode();
-
-            if (UserPermissions.hasPermissionInList(PermissionGroups.viewTenants)) {
-              items.push({
-                label: $translate.instant('navbar.configuration.tenants.title'),
-                stateLink: 'content.configuration.tenants',
-                id: 'tenants-configuration-link',
-                order: 1
-              });
-            }
-
-            if (UserPermissions.hasPermissionInList(PermissionGroups.viewIdentityProviders)) {
-              items.push({
-                label: $translate.instant('navbar.configuration.tenants.identityProviders'),
-                stateLink: 'content.configuration.identityProviders',
-                id: 'identity-providers-configuration-link',
-                order: 2
-              });
-            }
-
-            if (UserPermissions.hasPermissionInList(PermissionGroups.viewIntegrations)) {
-              items.push({
-                label: $translate.instant('navbar.configuration.integrations.title'),
-                stateLink: 'content.configuration.integrations',
-                id: 'integrations-configuration-link',
-                order: 3
-              });
-            }
-
-            if (UserPermissions.hasPermissionInList(PermissionGroups.accessAllLists) && !isActiveExternalTenant) {
-              items.push({
-                label: $translate.instant('navbar.configuration.lists.title'),
-                stateLink: 'content.configuration.genericLists',
-                id: 'lists-configuration-link',
-                order: 4
-              });
-            }
-
-            if (
-              UserPermissions.hasPermissionInList(PermissionGroups.viewBusinessHours) ||
-              UserPermissions.hasPermissionInList(PermissionGroups.manageBusinessHours)
-            ) {
-              items.push({
-                label: $translate.instant('navbar.configuration.bh.title'),
-                stateLink: 'content.configuration.hours',
-                id: 'hours-configuration-link',
-                order: 5
-              });
-            }
-
-            if (UserPermissions.hasPermissionInList(PermissionGroups.viewCustomStats) && !isActiveExternalTenant) {
-              items.push({
-                label: $translate.instant('navbar.configuration.slas.title'),
-                stateLink: 'content.configuration.slas',
-                id: 'slas-configuration-link',
-                order: 6
-              });
-            }
-
-            if (UserPermissions.hasPermissionInList(PermissionGroups.viewAppCreds)) {
-              items.push({
-                label: $translate.instant('navbar.configuration.keys.title'),
-                stateLink: 'content.configuration.keys',
-                id: 'key-configuration-link',
-                order: 7
-              });
-            }
-
-            if (UserPermissions.hasPermission('VIEW_ALL_TRANSFER_LISTS')) {
-              items.push({
-                label: $translate.instant('navbar.configuration.transferLists.title'),
-                stateLink: 'content.configuration.transferLists',
-                id: 'transferList-configuration-link',
-                order: 8
-              });
-            }
-
-            if (
-              UserPermissions.hasPermission('VIEW_ALL_TRANSFER_LISTS') &&
-              $location.search()['alpha'] &&
-              !isActiveExternalTenant
-            ) {
-              items.push({
-                label: $translate.instant('navbar.configuration.transferLists.title') + ' (alpha)',
-                stateLink: 'content.configuration.transferLists2',
-                id: 'transferList-configuration-link',
-                order: 16
-              });
-            }
-
-            if (UserPermissions.hasPermissionInList(PermissionGroups.viewMessageTemplates)) {
-              items.push({
-                label: $translate.instant('navbar.configuration.messageTemplates.title'),
-                stateLink: 'content.configuration.messageTemplates',
-                id: 'template-configuration-link',
-                order: 9
-              });
-            }
-
-            if (
-              UserPermissions.hasPermissionInList(PermissionGroups.accessAllEmailTemplates && !isActiveExternalTenant)
-            ) {
-              items.push({
-                label: $translate.instant('navbar.configuration.emailTemplates.title'),
-                stateLink: 'content.configuration.emailTemplates',
-                id: 'emailTemplates-configuration-link',
-                order: 10
-              });
-            }
-            if (
-              UserPermissions.hasPermissionInList(PermissionGroups.viewOutboundIdentifiers) &&
-              Session.betaFeatures.outboundIdentifiers &&
-              !isActiveExternalTenant
-            ) {
-              items.push({
-                label: $translate.instant('navbar.configuration.outboundIdentifiers.title'),
-                stateLink: 'content.configuration.outboundIdentifiers',
-                id: 'outboundIdentifiers-configuration-link',
-                order: 11
-              });
-            }
-
-            if (
-              UserPermissions.hasPermissionInList(PermissionGroups.viewOutboundIdentifiers) &&
-              Session.betaFeatures.outboundIdentifierLists &&
-              !isActiveExternalTenant
-            ) {
-              items.push({
-                label: $translate.instant('navbar.configuration.outboundIdentifierLists.title'),
-                stateLink: 'content.configuration.outboundIdentifierLists',
-                id: 'outboundIdentifierLists-configuration-link',
-                order: 12
-              });
-            }
-
-            if (
-              UserPermissions.hasPermissionInList(PermissionGroups.accessAllEmailTemplates) &&
-              $location.search()['alpha'] &&
-              !isActiveExternalTenant
-            ) {
-              items.push({
-                label: $translate.instant('navbar.configuration.chatWidgets.title'),
-                stateLink: 'content.configuration.chatWidgets',
-                id: 'chatWidgets-configuration-link',
-                order: 13
-              });
-            }
-
-            if (appFlags.CONTACT_MANAGEMENT) {
-              if (UserPermissions.hasPermissionInList(PermissionGroups.viewContactAttributes)) {
-                items.push({
-                  label: $translate.instant('navbar.configuration.contactAttributes.title'),
-                  stateLink: 'content.configuration.contactAttributes',
-                  id: 'contact-attributes-configuration-link',
-                  order: 14
-                });
-              }
-
-              if (UserPermissions.hasPermissionInList(PermissionGroups.viewContactLayouts)) {
-                items.push({
-                  label: $translate.instant('navbar.configuration.contactLayouts.title'),
-                  stateLink: 'content.configuration.contactLayouts',
-                  id: 'contact-layouts-configuration-link',
-                  order: 15
-                });
-              }
-            }
-
-            return items;
-          };
-
-          vm.getFlowsConfig = function() {
-            var items = [];
-            var isActiveExternalTenant = isTenantSetForReadAllMode();
-
-            if (UserPermissions.hasPermissionInList(PermissionGroups.viewFlows)) {
-              items.push({
-                label: $translate.instant('navbar.flows.title'),
-                stateLink:
-                  Session.betaFeatures.flows && !isActiveExternalTenant
-                    ? 'content.flows.flowManagement2'
-                    : 'content.flows.flowManagement',
-                id: 'flow-management-link',
-                order: 1
-              });
-            }
-
-            if (UserPermissions.hasPermissionInList(PermissionGroups.viewDispositions)) {
-              items.push({
-                label: $translate.instant('navbar.flows.dispositions.title'),
-                stateLink: 'content.flows.dispositions',
-                id: 'dispositions-flows-link',
-                order: 2
-              });
-            }
-
-            if (UserPermissions.hasPermissionInList(PermissionGroups.viewDispositions)) {
-              items.push({
-                label: $translate.instant('navbar.flows.dispositions.lists.title'),
-                stateLink: 'content.flows.dispositionLists',
-                id: 'disposition-lists-flows-link',
-                order: 3
-              });
-            }
-
-            if (UserPermissions.hasPermissionInList(PermissionGroups.viewQueues)) {
-              items.push({
-                label: $translate.instant('navbar.flows.queues.title'),
-                stateLink: 'content.flows.queues',
-                id: 'queue-management-link',
-                order: 4
-              });
-            }
-            if (
-              UserPermissions.hasPermissionInList(PermissionGroups.viewQueues) &&
-              $location.search()['alpha'] &&
-              !isActiveExternalTenant
-            ) {
-              items.push({
-                label: $translate.instant('navbar.flows.queues.title') + ' (Alpha)',
-                stateLink: 'content.flows.queues2',
-                id: 'queue-management-link',
-                order: 4
-              });
-            }
-
-            if (UserPermissions.hasPermissionInList(PermissionGroups.viewMedia)) {
-              items.push({
-                label: $translate.instant('navbar.flows.media.title'),
-                stateLink: 'content.flows.media',
-                id: 'media-management-link',
-                order: 5
-              });
-
-              // removing this for now as per product, since we are not
-              // ready to handle Media Collections on the flow side yet
-              // items.push({
-              //   label: $translate.instant('navbar.flows.mediacollections.title'),
-              //   stateLink: 'content.flows.media-collections',
-              //   id: 'media-collection-management-link',
-              //   order: 6
-              // });
-            }
-
-            if (UserPermissions.hasPermissionInList(PermissionGroups.viewDispatchMappings)) {
-              items.push({
-                label: $translate.instant('navbar.flows.dispatchmappings.title'),
-                stateLink:
-                  Session.betaFeatures.dispatchMappings && !isActiveExternalTenant
-                    ? 'content.flows.dispatchMappings2'
-                    : 'content.flows.dispatchMappings',
-                id: 'dispatch-mappings-configuration-link',
-                order: 7
-              });
-            }
-
-            return items;
-          };
-
-          vm.getReportingConfig = function() {
-            var items = [];
-            var isActiveExternalTenant = isTenantSetForReadAllMode();
-
-            if (UserPermissions.hasPermissionInList(PermissionGroups.viewAssignedReports)) {
-              items.push({
-                label: $translate.instant('navbar.reports.rtd.title'),
-                stateLink: 'content.realtime-dashboards-management-viewer({dashboardId: "overview-dashboard"})',
-                id: 'realtime-dashboard-link',
-                order: 1
-              });
-
-              // Grouping historical dashboards with realtime for now. Need to find out why there's no historical dashboards permissions
-              items.push({
-                label: $translate.instant('navbar.reports.hd.title'),
-                stateLink: 'content.reports',
-                stateLinkParams: {
-                  id: 'historical-dashboards'
-                },
-                id: 'reports-management-link',
-                order: 3
-              });
-            }
-
-            if (UserPermissions.hasPermissionInList(PermissionGroups.viewDashboards)) {
-              items.push({
-                label: $translate.instant('navbar.reports.rtdCustom.title'),
-                stateLink: 'content.custom-dashboards-management',
-                id: 'custom-realtime-dashboard-link',
-                order: 2
-              });
-
-              if (UserPermissions.hasPermissionInList(PermissionGroups.viewCustomStats) && !isActiveExternalTenant) {
-                items.push({
-                  label: $translate.instant('navbar.configuration.dataAccessReports.title'),
-                  stateLink: 'content.configuration.dataAccessReports',
-                  id: 'dataAccessReports-configuration-link',
-                  order: 4
-                });
-              }
-
-              if (appFlags.LOGI) {
-                items.push({
-                  label: 'Logi Dashboards',
-                  stateLink: 'content.logi',
-                  id: 'logi-link',
-                  order: 5
-                });
-              }
-            }
-
-            if (UserPermissions.hasPermissionInList(PermissionGroups.viewInteractionMonitoring)) {
-              items.push({
-                label: $translate.instant('navbar.reports.silentMonitoring.title'),
-                stateLink: 'content.reporting.silentMonitoring',
-                id: 'silent-monitoring-link',
-                order: 6
-              });
-            }
-            if (
-              UserPermissions.hasPermissionInList(PermissionGroups.viewInteractionMonitoring) &&
-              !isActiveExternalTenant
-            ) {
-              items.push({
-                label: $translate.instant('navbar.reports.interactionMonitoring.title'),
-                stateLink: 'content.reporting.interactionMonitoring',
-                id: 'interaction-monitoring-link',
-                order: 7
-              });
-            }
-
-            // commenting this out as per CXV1-13276, which specifies
-            // this option should be hidden, and not necessarily deleted
-            // if (UserPermissions.hasPermissionInList(PermissionGroups.viewCustomStats)) {
-            //   items.push({
-            //     label: 'Custom Statistics',
-            //     stateLink: 'content.reporting.custom-stats',
-            //     id: 'custom-stats-link',
-            //     order: 5
-            //   });
-            // }
-
-            return items;
-          };
-
-          $scope.updateTopbarConfig = function() {
-            $scope.managementDropConfig = vm.getManagementConfig();
-            $scope.configurationDropConfig = vm.getConfigurationConfig();
-            $scope.flowsDropConfig = vm.getFlowsConfig();
-            $scope.reportingDropConfig = vm.getReportingConfig();
-            $scope.userDropdownItems = getUserDropdownItems();
-          };
-
-          $scope.updateBranding = function() {
-            Branding.get(
-              {
-                tenantId: Session.tenant.tenantId
-              },
-              function(response) {
-                if (response.active) {
-                  Branding.set(response);
-                  $scope.brandingIsSet = true;
-                }
-              },
-              function() {
-                Branding.set({});
-                $scope.brandingIsSet = true;
-              }
-            );
-          };
-
-          $scope.updateBranding();
-          $scope.updateTopbarConfig();
+        if (UserPermissions.hasPermissionInList(PermissionGroups.viewReasons)) {
+          items.push({
+            label: $translate.instant('navbar.management.reasons.title'),
+            stateLink: 'content.management.reasons',
+            id: 'reasons-management-link',
+            order: 2
+          });
         }
-      });
-    }
+
+        if (
+          UserPermissions.hasPermissionInList(PermissionGroups.viewReasons) &&
+          $location.search()['alpha'] &&
+          !isActiveExternalTenant
+        ) {
+          items.push({
+            label: $translate.instant('navbar.management.reasons.title') + ' (Alpha UAT)  ',
+            stateLink: 'content.management.reasons2',
+            id: 'reasons-management-link2'
+          });
+        }
+
+        if (UserPermissions.hasPermissionInList(PermissionGroups.viewReasonLists)) {
+          items.push({
+            label: $translate.instant('navbar.management.reasons.lists.title'),
+            stateLink: 'content.management.reasonLists',
+            id: 'reason-lists-management-link',
+            order: 3
+          });
+        }
+
+        if (UserPermissions.hasPermissionInList(PermissionGroups.manageRoles)) {
+          items.push({
+            label: $translate.instant('navbar.management.roles.title'),
+            stateLink:
+              Session.betaFeatures.roles && !isActiveExternalTenant
+                ? 'content.management.roles2'
+                : 'content.management.roles',
+            id: 'role-management-link',
+            order: 4
+          });
+        }
+
+        //See TITAN2-6199 for why we do this extra check
+        if (
+          UserPermissions.hasPermissionInList(PermissionGroups.manageAllMedia) &&
+          UserPermissions.hasPermissionInList(PermissionGroups.manageSkills)
+        ) {
+          items.push({
+            label: $translate.instant('navbar.management.skills.title'),
+            stateLink:
+              Session.betaFeatures.skills && !isActiveExternalTenant
+                ? 'content.management.skills2'
+                : 'content.management.skills',
+            id: 'skill-management-link',
+            order: 5
+          });
+        }
+
+        //See TITAN2-6199 for why we do this extra check
+        if (
+          UserPermissions.hasPermissionInList(PermissionGroups.manageAllMedia) &&
+          UserPermissions.hasPermissionInList(PermissionGroups.manageGroups)
+        ) {
+          items.push({
+            label: $translate.instant('navbar.management.groups.title'),
+            stateLink:
+              Session.betaFeatures.groups && !isActiveExternalTenant
+                ? 'content.management.groups2'
+                : 'content.management.groups',
+            id: 'group-management-link',
+            order: 6
+          });
+        }
+
+        if (UserPermissions.hasPermissionInList(PermissionGroups.manageCapacityRules)) {
+          items.push({
+            label: $translate.instant('navbar.management.capacityRules.title'),
+            stateLink: 'content.management.capacityRules',
+            id: 'capacity-rules-management-link',
+            order: 7
+          });
+        }
+
+        if (
+          UserPermissions.hasPermissionInList(PermissionGroups.viewReasonLists) &&
+          $location.search()['alpha'] &&
+          !isActiveExternalTenant
+        ) {
+          items.push({
+            label: $translate.instant('navbar.management.reasons.lists.title') + ' (Alpha UAT)  ',
+            stateLink: 'content.management.reasonLists2',
+            id: 'reason-lists-management-link2'
+          });
+        }
+
+        return items;
+      };
+
+      vm.getConfigurationConfig = function() {
+        var items = [];
+        var isActiveExternalTenant = isTenantSetForReadAllMode();
+
+        if (UserPermissions.hasPermissionInList(PermissionGroups.viewTenants)) {
+          items.push({
+            label: $translate.instant('navbar.configuration.tenants.title'),
+            stateLink: 'content.configuration.tenants',
+            id: 'tenants-configuration-link',
+            order: 1
+          });
+        }
+
+        if (UserPermissions.hasPermissionInList(PermissionGroups.viewIdentityProviders)) {
+          items.push({
+            label: $translate.instant('navbar.configuration.tenants.identityProviders'),
+            stateLink: 'content.configuration.identityProviders',
+            id: 'identity-providers-configuration-link',
+            order: 2
+          });
+        }
+
+        if (UserPermissions.hasPermissionInList(PermissionGroups.viewIntegrations)) {
+          items.push({
+            label: $translate.instant('navbar.configuration.integrations.title'),
+            stateLink: 'content.configuration.integrations',
+            id: 'integrations-configuration-link',
+            order: 3
+          });
+        }
+
+        if (UserPermissions.hasPermissionInList(PermissionGroups.accessAllLists) && !isActiveExternalTenant) {
+          items.push({
+            label: $translate.instant('navbar.configuration.lists.title'),
+            stateLink: 'content.configuration.genericLists',
+            id: 'lists-configuration-link',
+            order: 4
+          });
+        }
+
+        if (
+          UserPermissions.hasPermissionInList(PermissionGroups.viewBusinessHours) ||
+          UserPermissions.hasPermissionInList(PermissionGroups.manageBusinessHours)
+        ) {
+          items.push({
+            label: $translate.instant('navbar.configuration.bh.title'),
+            stateLink: 'content.configuration.hours',
+            id: 'hours-configuration-link',
+            order: 5
+          });
+        }
+
+        if (UserPermissions.hasPermissionInList(PermissionGroups.viewCustomStats) && !isActiveExternalTenant) {
+          items.push({
+            label: $translate.instant('navbar.configuration.statistics.title'),
+            stateLink: 'content.configuration.statistics',
+            id: 'statistics-configuration-link',
+            order: 6
+          });
+        }
+
+        if (
+          UserPermissions.hasPermissionInList(PermissionGroups.viewCustomStats) &&
+          $location.search()['alpha'] &&
+          !isActiveExternalTenant
+        ) {
+          items.push({
+            label: $translate.instant('navbar.configuration.slas.title') + ' (alpha)',
+            stateLink: 'content.configuration.slas',
+            id: 'slas-configuration-link',
+            order: 16
+          });
+        }
+
+        if (UserPermissions.hasPermissionInList(PermissionGroups.viewAppCreds)) {
+          items.push({
+            label: $translate.instant('navbar.configuration.keys.title'),
+            stateLink: 'content.configuration.keys',
+            id: 'key-configuration-link',
+            order: 7
+          });
+        }
+
+        if (UserPermissions.hasPermission('VIEW_ALL_TRANSFER_LISTS')) {
+          items.push({
+            label: $translate.instant('navbar.configuration.transferLists.title'),
+            stateLink: 'content.configuration.transferLists',
+            id: 'transferList-configuration-link',
+            order: 8
+          });
+        }
+
+        if (
+          UserPermissions.hasPermission('VIEW_ALL_TRANSFER_LISTS') &&
+          $location.search()['alpha'] &&
+          !isActiveExternalTenant
+        ) {
+          items.push({
+            label: $translate.instant('navbar.configuration.transferLists.title') + ' (alpha)',
+            stateLink: 'content.configuration.transferLists2',
+            id: 'transferList-configuration-link',
+            order: 16
+          });
+        }
+
+        if (UserPermissions.hasPermissionInList(PermissionGroups.viewMessageTemplates)) {
+          items.push({
+            label: $translate.instant('navbar.configuration.messageTemplates.title'),
+            stateLink: 'content.configuration.messageTemplates',
+            id: 'template-configuration-link',
+            order: 9
+          });
+        }
+
+        if (UserPermissions.hasPermissionInList(PermissionGroups.accessAllEmailTemplates && !isActiveExternalTenant)) {
+          items.push({
+            label: $translate.instant('navbar.configuration.emailTemplates.title'),
+            stateLink: 'content.configuration.emailTemplates',
+            id: 'emailTemplates-configuration-link',
+            order: 10
+          });
+        }
+        if (
+          UserPermissions.hasPermissionInList(PermissionGroups.viewOutboundIdentifiers) &&
+          Session.betaFeatures.outboundIdentifiers &&
+          !isActiveExternalTenant
+        ) {
+          items.push({
+            label: $translate.instant('navbar.configuration.outboundIdentifiers.title'),
+            stateLink: 'content.configuration.outboundIdentifiers',
+            id: 'outboundIdentifiers-configuration-link',
+            order: 11
+          });
+        }
+
+        if (
+          UserPermissions.hasPermissionInList(PermissionGroups.viewOutboundIdentifiers) &&
+          Session.betaFeatures.outboundIdentifierLists &&
+          !isActiveExternalTenant
+        ) {
+          items.push({
+            label: $translate.instant('navbar.configuration.outboundIdentifierLists.title'),
+            stateLink: 'content.configuration.outboundIdentifierLists',
+            id: 'outboundIdentifierLists-configuration-link',
+            order: 12
+          });
+        }
+
+        if (
+          UserPermissions.hasPermissionInList(PermissionGroups.accessAllEmailTemplates) &&
+          $location.search()['alpha'] &&
+          !isActiveExternalTenant
+        ) {
+          items.push({
+            label: $translate.instant('navbar.configuration.chatWidgets.title'),
+            stateLink: 'content.configuration.chatWidgets',
+            id: 'chatWidgets-configuration-link',
+            order: 13
+          });
+        }
+
+        if (appFlags.CONTACT_MANAGEMENT) {
+          if (UserPermissions.hasPermissionInList(PermissionGroups.viewContactAttributes)) {
+            items.push({
+              label: $translate.instant('navbar.configuration.contactAttributes.title'),
+              stateLink: 'content.configuration.contactAttributes',
+              id: 'contact-attributes-configuration-link',
+              order: 14
+            });
+          }
+
+          if (UserPermissions.hasPermissionInList(PermissionGroups.viewContactLayouts)) {
+            items.push({
+              label: $translate.instant('navbar.configuration.contactLayouts.title'),
+              stateLink: 'content.configuration.contactLayouts',
+              id: 'contact-layouts-configuration-link',
+              order: 15
+            });
+          }
+        }
+
+        return items;
+      };
+
+      vm.getFlowsConfig = function() {
+        var items = [];
+        var isActiveExternalTenant = isTenantSetForReadAllMode();
+
+        if (UserPermissions.hasPermissionInList(PermissionGroups.viewFlows)) {
+          items.push({
+            label: $translate.instant('navbar.flows.title'),
+            stateLink:
+              Session.betaFeatures.flows && !isActiveExternalTenant
+                ? 'content.flows.flowManagement2'
+                : 'content.flows.flowManagement',
+            id: 'flow-management-link',
+            order: 1
+          });
+        }
+
+        if (UserPermissions.hasPermissionInList(PermissionGroups.viewDispositions)) {
+          items.push({
+            label: $translate.instant('navbar.flows.dispositions.title'),
+            stateLink: 'content.flows.dispositions',
+            id: 'dispositions-flows-link',
+            order: 2
+          });
+        }
+
+        if (UserPermissions.hasPermissionInList(PermissionGroups.viewDispositions)) {
+          items.push({
+            label: $translate.instant('navbar.flows.dispositions.lists.title'),
+            stateLink: 'content.flows.dispositionLists',
+            id: 'disposition-lists-flows-link',
+            order: 3
+          });
+        }
+
+        if (UserPermissions.hasPermissionInList(PermissionGroups.viewQueues)) {
+          items.push({
+            label: $translate.instant('navbar.flows.queues.title'),
+            stateLink: 'content.flows.queues',
+            id: 'queue-management-link',
+            order: 4
+          });
+        }
+        if (
+          UserPermissions.hasPermissionInList(PermissionGroups.viewQueues) &&
+          $location.search()['alpha'] &&
+          !isActiveExternalTenant
+        ) {
+          items.push({
+            label: $translate.instant('navbar.flows.queues.title') + ' (Alpha)',
+            stateLink: 'content.flows.queues2',
+            id: 'queue-management-link',
+            order: 4
+          });
+        }
+
+        if (UserPermissions.hasPermissionInList(PermissionGroups.viewMedia)) {
+          items.push({
+            label: $translate.instant('navbar.flows.media.title'),
+            stateLink: 'content.flows.media',
+            id: 'media-management-link',
+            order: 5
+          });
+
+          // removing this for now as per product, since we are not
+          // ready to handle Media Collections on the flow side yet
+          // items.push({
+          //   label: $translate.instant('navbar.flows.mediacollections.title'),
+          //   stateLink: 'content.flows.media-collections',
+          //   id: 'media-collection-management-link',
+          //   order: 6
+          // });
+        }
+
+        if (UserPermissions.hasPermissionInList(PermissionGroups.viewDispatchMappings)) {
+          items.push({
+            label: $translate.instant('navbar.flows.dispatchmappings.title'),
+            stateLink:
+              Session.betaFeatures.dispatchMappings && !isActiveExternalTenant
+                ? 'content.flows.dispatchMappings2'
+                : 'content.flows.dispatchMappings',
+            id: 'dispatch-mappings-configuration-link',
+            order: 7
+          });
+        }
+
+        return items;
+      };
+
+      vm.getReportingConfig = function() {
+        var items = [];
+        var isActiveExternalTenant = isTenantSetForReadAllMode();
+
+        if (UserPermissions.hasPermissionInList(PermissionGroups.viewAssignedReports)) {
+          items.push({
+            label: $translate.instant('navbar.reports.rtd.title'),
+            stateLink: 'content.realtime-dashboards-management-viewer({dashboardId: "overview-dashboard"})',
+            id: 'realtime-dashboard-link',
+            order: 1
+          });
+
+          // Grouping historical dashboards with realtime for now. Need to find out why there's no historical dashboards permissions
+          items.push({
+            label: $translate.instant('navbar.reports.hd.title'),
+            stateLink: 'content.reports',
+            stateLinkParams: {
+              id: 'historical-dashboards'
+            },
+            id: 'reports-management-link',
+            order: 3
+          });
+        }
+
+        if (UserPermissions.hasPermissionInList(PermissionGroups.viewDashboards)) {
+          items.push({
+            label: $translate.instant('navbar.reports.rtdCustom.title'),
+            stateLink: 'content.custom-dashboards-management',
+            id: 'custom-realtime-dashboard-link',
+            order: 2
+          });
+
+          if (UserPermissions.hasPermissionInList(PermissionGroups.viewCustomStats) && !isActiveExternalTenant) {
+            items.push({
+              label: $translate.instant('navbar.configuration.dataAccessReports.title'),
+              stateLink: 'content.configuration.dataAccessReports',
+              id: 'dataAccessReports-configuration-link',
+              order: 4
+            });
+          }
+
+          if (appFlags.LOGI) {
+            items.push({
+              label: 'Logi Dashboards',
+              stateLink: 'content.logi',
+              id: 'logi-link',
+              order: 5
+            });
+          }
+        }
+
+        if (UserPermissions.hasPermissionInList(PermissionGroups.viewInteractionMonitoring)) {
+          items.push({
+            label: $translate.instant('navbar.reports.silentMonitoring.title'),
+            stateLink: 'content.reporting.silentMonitoring',
+            id: 'silent-monitoring-link',
+            order: 6
+          });
+        }
+        if (
+          UserPermissions.hasPermissionInList(PermissionGroups.viewInteractionMonitoring) &&
+          !isActiveExternalTenant
+        ) {
+          items.push({
+            label: $translate.instant('navbar.reports.interactionMonitoring.title'),
+            stateLink: 'content.reporting.interactionMonitoring',
+            id: 'interaction-monitoring-link',
+            order: 7
+          });
+        }
+
+        // commenting this out as per CXV1-13276, which specifies
+        // this option should be hidden, and not necessarily deleted
+        // if (UserPermissions.hasPermissionInList(PermissionGroups.viewCustomStats)) {
+        //   items.push({
+        //     label: 'Custom Statistics',
+        //     stateLink: 'content.reporting.custom-stats',
+        //     id: 'custom-stats-link',
+        //     order: 5
+        //   });
+        // }
+
+        return items;
+      };
+
+      $scope.updateTopbarConfig = function() {
+        $scope.managementDropConfig = vm.getManagementConfig();
+        $scope.configurationDropConfig = vm.getConfigurationConfig();
+        $scope.flowsDropConfig = vm.getFlowsConfig();
+        $scope.reportingDropConfig = vm.getReportingConfig();
+        $scope.userDropdownItems = getUserDropdownItems();
+      };
+
+      $scope.updateBranding = function() {
+        Branding.get(
+          {
+            tenantId: Session.tenant.tenantId
+          },
+          function(response) {
+            if (response.active) {
+              Branding.set(response);
+              $scope.brandingIsSet = true;
+            }
+          },
+          function() {
+            Branding.set({});
+            $scope.brandingIsSet = true;
+          }
+        );
+      };
+
+      $scope.updateBranding();
+      $scope.updateTopbarConfig();
+    });
   }
 ]);
