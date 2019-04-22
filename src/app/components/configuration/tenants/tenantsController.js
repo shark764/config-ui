@@ -3,6 +3,7 @@
 angular.module('liveopsConfigPanel').controller('TenantsController', [
   '$window',
   '$http',
+  'apiHostname',
   '$rootScope',
   '$scope',
   'Session',
@@ -31,6 +32,7 @@ angular.module('liveopsConfigPanel').controller('TenantsController', [
   function(
     $window,
     $http,
+    apiHostname,
     $rootScope,
     $scope,
     Session,
@@ -103,8 +105,18 @@ angular.module('liveopsConfigPanel').controller('TenantsController', [
     };
 
     vm.loadSlas = function() {
-      CxEngage.entities.getSlas(function(error, topic, response) {
-        $scope.slas = _.filter(response.result, function(sla) {
+      // SDK function uses tenantId setted in the SDK session,
+      // but this function to load SLAs is called sometimes before
+      // the tenant is setted.
+      // Session gets tenant active first, so we change to http service request
+      $http({
+        method: 'GET',
+        url: apiHostname + '/v1/tenants/' + Session.tenant.tenantId + '/slas',
+        headers: {
+          Authorization: 'Token ' + Session.token
+        }
+      }).then(function(response) {
+        $scope.slas = _.filter(response.data.result, function(sla) {
           return sla.active && sla.activeVersion;
         });
       });

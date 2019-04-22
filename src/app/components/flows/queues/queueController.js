@@ -14,6 +14,8 @@ angular.module('liveopsConfigPanel').controller('QueueController', [
   'loEvents',
   'ZermeloService',
   '$q',
+  '$http',
+  'apiHostname',
   function(
     $rootScope,
     $scope,
@@ -27,7 +29,9 @@ angular.module('liveopsConfigPanel').controller('QueueController', [
     $translate,
     loEvents,
     ZermeloService,
-    $q
+    $q,
+    $http,
+    apiHostname
   ) {
     var vm = this;
     vm.Session = Session;
@@ -49,9 +53,19 @@ angular.module('liveopsConfigPanel').controller('QueueController', [
     };
 
     vm.loadSlas = function() {
-      CxEngage.entities.getSlas(function(error, topic, response) {
+      // SDK function uses tenantId setted in the SDK session,
+      // but this function to load SLAs is called sometimes before
+      // the tenant is setted.
+      // Session gets tenant active first, so we change to http service request
+      $http({
+        method: 'GET',
+        url: apiHostname + '/v1/tenants/' + Session.tenant.tenantId + '/slas',
+        headers: {
+          Authorization: 'Token ' + Session.token
+        }
+      }).then(function(response) {
         var slas = _.sortBy(
-          _.filter(response.result, function(sla) {
+          _.filter(response.data.result, function(sla) {
             return sla.active && sla.activeVersion;
           }),
           'name'

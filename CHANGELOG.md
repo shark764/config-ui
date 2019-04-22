@@ -21,6 +21,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Dispatch Mappings
 - Flows
 
+## [4.74.2-develop]
+## Unreleased
+### Fixed
+- CXV1-17543 - Switching between tenants is redirecting to correct betaFeatures or original pages.
+- CXV1-17980 - Retrieving SLAs in Tenants page is no longer missing tenantId in the request.
+- CXV1-17983 - Retrieving SLAs in Queues page is no longer missing tenantId in the request.
+### Changed
+- CXV1-17970 - Statistics link has changed to new SLA page when "?alpha" parameter is added to URL.
+- SDK version bump to 8.52.2.
+
 ## [4.74.1-develop]
 ## Unreleased
 ### Fixed
