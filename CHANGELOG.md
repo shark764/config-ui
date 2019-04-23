@@ -21,6 +21,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Dispatch Mappings
 - Flows
 
+## [4.74.3-develop]
+## Unreleased
+### Fixed
+- Bumping version to fix "Github tagged release" stage in jenkins pipeline.
+
 ## [4.74.2-develop]
 ## Unreleased
 ### Fixed
