@@ -21,6 +21,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Dispatch Mappings
 - Flows
 
+## [4.74.4-develop]
+## Unreleased
+### Changed
+- CXV1-14833 - SDK version bump to 8.53.0.
+
 ## [4.74.3-develop]
 ## Unreleased
 ### Fixed
