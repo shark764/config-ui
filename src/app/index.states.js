@@ -358,22 +358,6 @@ angular.module('liveopsConfigPanel').config([
           ]
         }
       })
-      .state('content.configuration.statistics', {
-        url: '/statistics?id',
-        title: 'Configuration - Statistics',
-        templateUrl: 'app/components/configuration/statistics/statistics.html',
-        controller: 'statisticsController as stat',
-        reloadOnSearch: false,
-        resolve: {
-          hasPermission: [
-            'UserPermissions',
-            'PermissionGroups',
-            function(UserPermissions, PermissionGroups) {
-              return UserPermissions.resolvePermissions(PermissionGroups.viewCustomStats);
-            }
-          ]
-        }
-      })
       .state('content.configuration.slas', {
         url: '/slas',
         title: 'Configuration - SLA',

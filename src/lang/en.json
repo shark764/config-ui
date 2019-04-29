@@ -536,6 +536,8 @@
   "queue.query.add.escalation.level": "Add level {{level}} search query",
   "queue.details.sla.header": "Service Level Agreement",
   "queue.details.sla": "Queue SLA",
+  "queue.details.sla.warning": "An updated Queue SLA will only take effect for upcoming interactions.",
+  "queue.details.sla.interactions.warning": "Interactions already completed or in queue won't be impacted by this change.",
   "media.details": "Media",
   "media.details.source.error": "Please enter a source",
   "media.details.type.error": "Please enter a type",
