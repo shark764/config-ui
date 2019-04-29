@@ -164,6 +164,7 @@ angular.module('liveopsConfigPanel')
                   scope.isLoadingAppDock = false;
                   scope.showNoResultsMsg = false;
                   tenantTimezone();
+                  
                   scope.setSelectedItem(response);
                   scope.$emit('appDockDataLoaded');
                 });

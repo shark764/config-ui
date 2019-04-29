@@ -24,8 +24,12 @@ angular.module('liveopsConfigPanel')
             }, '*');
             break;
           case 'FlowDesigner.versionPublished':
-            $state.go('content.flows.flowManagement', {}, {reload: true});
-            break;
+            if (Session.betaFeatures.flows) {
+              $state.go('content.flows.flowManagement2', {}, {reload: true});
+            } else {
+              $state.go('content.flows.flowManagement', {}, {reload: true});
+            }
+          break;
         }
       }
 

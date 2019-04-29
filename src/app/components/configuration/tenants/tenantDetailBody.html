@@ -147,6 +147,28 @@
   </div>
 </div>
 
+<!-- Default SLA -->
+<div ng-if="!selectedTenant.isNew()" class="added-padding">
+  <div class="divider-header first-header">
+    <h4>{{'tenant.details.sla.header' | translate}}</h4>
+  </div>
+
+  <div class="input-group">
+    <label>{{'tenant.details.sla' | translate}} *</label>
+
+    <form-error field="forms.detailsForm.defaultSlaId"
+      error-type-required="{{'tenant.details.sla.required' | translate}}">
+    </form-error>
+    <select name="defaultSlaId"
+      ng-required="true"
+      ng-model="selectedTenant.defaultSlaId"
+      ng-options="sla.id as sla.name for sla in slas | orderBy:'name'">
+
+      <option value="" disabled>{{'tenant.details.sla.placeholder' | translate}}</option>
+    </select>
+  </div>
+</div>
+
 <div disable-contents="! (['PLATFORM_MANAGE_ALL_TENANTS', 'MANAGE_TENANT', 'MANAGE_ALL_BRANDINGS'] | hasPermission)" class="added-padding">
   <div class="divider-header first-header">
     <h4>{{'tenant.branding.title' | translate}}</h4>

@@ -10,4 +10,21 @@
   </div>
 
   <version-priority queue-version="qc.selectedQueueVersion"></version-priority>
+
+  <!-- Default SLA -->
+  <div class="divider-header">
+    <h4>{{'queue.details.sla.header' | translate}}</h4>
+  </div>
+
+  <div class="input-group">
+    <label>{{'queue.details.sla' | translate}}</label>
+    <select name="slaId"
+      ng-model="qc.selectedQueueVersion.slaId"
+      ng-options="sla.id as sla.name for sla in qc.slas">
+
+      <option value="" disabled>{{'tenant.details.sla.placeholder' | translate}}</option>
+    </select>
+    <div class="lo-error" >{{'queue.details.sla.warning' | translate}}</div>
+    <div class="lo-error" >{{'queue.details.sla.interactions.warning' | translate}}</div>
+  </div>
 </div>

@@ -20,9 +20,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Dispatch Mappings
 - Flows
 
+## [4.74.0] - 2019-04-29
+### Added
+- CXV1-16853 - New SLA page has been added to menu.
+- CXV1-18075 - Adding message for Queues page warning about using SLA for interactions.
+### Changed
+- CXV1-14833 - SDK version bump to 8.53.0.
+- CXV1-17970 - Statistics link has changed to new SLA page when "?alpha" parameter is added to URL.
+- CXV1-16852 - Default SLA can be set to a Tenant on Tenants page.
+- CXV1-17683 - Default SLA can be set to Queue versions on Queues page.
+- CXV1-16902 - SDK version bump to 8.51.1.
+### Fixed
+- Bumping version to fix "Github tagged release" stage in jenkins pipeline.
+- CXV1-17543 - Switching between tenants is redirecting to correct betaFeatures or original pages.
+- CXV1-17980 - Retrieving SLAs in Tenants page is no longer missing tenantId in the request.
+- CXV1-17983 - Retrieving SLAs in Queues page is no longer missing tenantId in the request.
+- CXV1-16852 - Default SLA is just required when updating a Tenant.
+- CXV1-17406 - After publishing a new version, the user is returned to the flows2 page, if that is active in the active Tenant's beta settings.
+- Alpha and Beta pages made in React are hidden when a tenant is set as active.
+
 ## [4.73.5] - 2019-03-25
 ### Fixed
-- revert audio recording changes , do not download whole file before playback ability
+- Revert audio recording changes , do not download whole file before playback ability
 
 ## [4.73.4] - 2019-03-20
 ### Fixed

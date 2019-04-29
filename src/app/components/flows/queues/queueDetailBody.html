@@ -54,6 +54,24 @@
   </div>
 
   <version-priority queue-version="qc.initialVersion"></version-priority>
+
+  <!-- Default SLA -->
+  <div class="divider-header">
+    <h4>{{'queue.details.sla.header' | translate}}</h4>
+  </div>
+
+  <div class="input-group">
+    <label>{{'queue.details.sla' | translate}}</label>
+    <select name="slaId"
+      ng-model="qc.initialVersion.slaId"
+      ng-options="sla.id as sla.name for sla in qc.slas | orderBy:'name'">
+
+      <option value="" disabled>{{'tenant.details.sla.placeholder' | translate}}</option>
+    </select>
+    <div class="lo-error" >{{'queue.details.sla.warning' | translate}}</div>
+    <div class="lo-error" >{{'queue.details.sla.interactions.warning' | translate}}</div>
+  </div>
+
 </div>
 
 <!-- OLD VERSIONS -->
@@ -135,11 +153,18 @@
                 <textarea id="advanced-query-field" ng-disabled="true" type="text" ng-model="query" name="query"></textarea>
               </div>
 
-
             </readonly-query>
 
-
             <version-priority queue-version="version" ng-disabled="true"></version-priority>
+
+            <!-- Default SLA -->
+            <div style="padding-top: 10px;" class="input-group advanced-query-readonly">
+              <label class="textarea-label disabled">Queue SLA</label>
+              <div>
+                <input type="text" ng-disabled="true" ng-value="version.slaName"></input>
+              </div>
+            </div>
+
           </div>
           <a id="create-version-copy-btn"
             class="btn pull-right copy-version-btn"
