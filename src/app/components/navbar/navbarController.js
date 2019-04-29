@@ -538,12 +538,8 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
 
               if (UserPermissions.hasPermissionInList(PermissionGroups.viewCustomStats) && !isActiveExternalTenant) {
                 items.push({
-                  label:
-                    $translate.instant('navbar.configuration.slas.title') +
-                    ($location.search()['alpha'] ? ' (alpha)' : ''),
-                  stateLink: $location.search()['alpha']
-                    ? 'content.configuration.slas'
-                    : 'content.configuration.statistics',
+                  label: $translate.instant('navbar.configuration.slas.title'),
+                  stateLink: 'content.configuration.slas',
                   id: 'slas-configuration-link',
                   order: 6
                 });
