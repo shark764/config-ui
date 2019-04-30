@@ -1,6 +1,10 @@
 {
   "name": "config-ui",
+<<<<<<< HEAD
   "version": "4.78.3-develop",
+=======
+  "version": "4.74.1",
+>>>>>>> CXV1-18075 - SLA - Message needed under Service Level Agreement on the Queues page.
   "scripts": {
     "start": "gulp serve",
     "test": "gulp test",
