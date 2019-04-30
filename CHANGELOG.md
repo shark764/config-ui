@@ -20,6 +20,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Dispatch Mappings
 - Flows
 
+## [4.74.1] - 2019-04-30
+### Fixed
+- CXV1-18075 - Removing extra warning message on Queue page for SLA setting.
+
 ## [4.74.0] - 2019-04-29
 ### Added
 - CXV1-16853 - New SLA page has been added to menu.
