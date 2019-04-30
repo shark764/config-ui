@@ -21,6 +21,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Dispatch Mappings
 - Flows
 
+## [4.74.5-develop]
+### Fixed
+- Transfer Lists - When Creating a new contact (Queue) disabled queues show in the "Endpoint" drop down
+
 ## [4.74.4-develop]
 ## Unreleased
 ### Changed
