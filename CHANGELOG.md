@@ -90,6 +90,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Transfer Lists - When Creating a new contact (Queue) disabled queues show in the "Endpoint" drop down
 
+## [4.74.2] - 2019-05-02
+### Fixed
+- CXV1-18126 - Disabling SLA field on tenants page when selected is not current one on Session.
+
 ## [4.74.1] - 2019-04-30
 ### Fixed
 - CXV1-18075 - Removing extra warning message on Queue page for SLA setting.

@@ -104,6 +104,23 @@ angular.module('liveopsConfigPanel').controller('TenantsController', [
       $scope.regions = Region.query();
     };
 
+    vm.setSelectedTenantSla = function() {
+      $scope.selectedTenant.disableSla = $scope.selectedTenant.id !== Session.tenant.tenantId;
+      if ($scope.selectedTenant.disableSla) {
+        $http({
+          method: 'GET',
+          url: apiHostname + '/v1/tenants/' + $scope.selectedTenant.id + '/slas/' + $scope.selectedTenant.defaultSlaId,
+          headers: {
+            Authorization: 'Token ' + Session.token
+          }
+        }).then(function(response) {
+          $scope.slas = [response.data.result];
+        });
+      } else {
+        $scope.slas = $scope.currentTenantSlas;
+      }
+    };
+
     vm.loadSlas = function() {
       // SDK function uses tenantId setted in the SDK session,
       // but this function to load SLAs is called sometimes before
@@ -119,6 +136,8 @@ angular.module('liveopsConfigPanel').controller('TenantsController', [
         $scope.slas = _.filter(response.data.result, function(sla) {
           return sla.active && sla.activeVersion;
         });
+        // Variable used as backup for fetched SLAs
+        $scope.currentTenantSlas = $scope.slas;
       });
     };
 
@@ -245,6 +264,7 @@ angular.module('liveopsConfigPanel').controller('TenantsController', [
           'defaultIdentityProvider',
           'disableCxAuthSelect',
           'disableSsoSelect',
+          'disableSla',
           'resourceName',
           'cxengageIdentityProvider'
         ]);
@@ -460,6 +480,10 @@ angular.module('liveopsConfigPanel').controller('TenantsController', [
           tenantDisplayName.then(function(displayResponse) {
             $scope.selectedTenant.$regionDisplay = displayResponse;
           });
+
+          // We call this function to enable/disable SLA field if
+          // current tenant is the selected tenant
+          vm.setSelectedTenantSla();
 
           updateIdentityProvidersList(tenantResponse);
 

@@ -162,7 +162,8 @@
     <select name="defaultSlaId"
       ng-required="true"
       ng-model="selectedTenant.defaultSlaId"
-      ng-options="sla.id as sla.name for sla in slas | orderBy:'name'">
+      ng-options="sla.id as sla.name for sla in slas | orderBy:'name'"
+      ng-disabled="selectedTenant.disableSla">
 
       <option value="" disabled>{{'tenant.details.sla.placeholder' | translate}}</option>
     </select>
