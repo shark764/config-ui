@@ -21,6 +21,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Dispatch Mappings
 - Flows
 
+## [4.74.7-develop] - 2019-05-02
+### Changed
+- CXV1-13201 - added message for soft deleted records on Historical Reports
+
 ## [4.74.5-develop]
 ### Fixed
 - Transfer Lists - When Creating a new contact (Queue) disabled queues show in the "Endpoint" drop down
