@@ -10,7 +10,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Queues
 - Chat Widgets
 - Transfer Lists
-- SLA
 
 ## [Beta User Acceptance Testing]
 - Users Page
@@ -20,6 +19,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Outbound Identifiers / Outbound Identifier Lists
 - Dispatch Mappings
 - Flows
+- Logi reportings
+
+## [4.75.0-develop] - 2019-05-08
+### Added
+- CXV1-17687 - Adding initial spinning wheel when loading Logi Reports iframes.
+- Adding Logi links to navbar for Standard Reports and Advanced Reports.
+### Changed
+- Replacing old Statistics page with new SLA page. || Removing alpha flag.
 
 ## [4.74.7-develop] - 2019-05-02
 ### Changed

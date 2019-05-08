@@ -785,15 +785,6 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
                     order: 4
                   });
                 }
-
-                if (appFlags.LOGI) {
-                  items.push({
-                    label: 'Logi Dashboards',
-                    stateLink: 'content.logi',
-                    id: 'logi-link',
-                    order: 5
-                  });
-                }
               }
 
               if (UserPermissions.hasPermissionInList(PermissionGroups.viewInteractionMonitoring)) {
@@ -813,6 +804,34 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
                   stateLink: 'content.reporting.interactionMonitoring',
                   id: 'interaction-monitoring-link',
                   order: 7
+                });
+              }
+
+              // //////////////////////////////////////////
+              // LOGI Reports
+              // //////////////////////////////////////////
+              if (
+                UserPermissions.hasPermissionInList(PermissionGroups.viewConfigReportingBI) &&
+                Session.betaFeatures.logiStandard &&
+                !isActiveExternalTenant
+              ) {
+                items.push({
+                  label: '(Beta) ' + $translate.instant('navbar.reports.logi.standard.title'),
+                  stateLink: 'content.reporting.logiStandard',
+                  id: 'logi-standard-reports-link',
+                  order: 8
+                });
+              }
+              if (
+                UserPermissions.hasPermissionInList(PermissionGroups.viewConfigReportingBI) &&
+                Session.betaFeatures.logiAdvanced &&
+                !isActiveExternalTenant
+              ) {
+                items.push({
+                  label: '(Beta) ' + $translate.instant('navbar.reports.logi.advanced.title'),
+                  stateLink: 'content.reporting.logiAdvanced',
+                  id: 'logi-advanced-reports-link',
+                  order: 9
                 });
               }
 
