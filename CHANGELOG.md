@@ -21,6 +21,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Flows
 - Logi reportings
 
+## [4.75.2-develop] - 2019-05-15
+### Changed
+- CXV1-17408 - Added a new case in the sdk listener to update specific key in localStorage.
+
 ## [4.75.1-develop] - 2019-05-15
 ### Fixed
 - CXV1-11155 - Clicking on Contact Layout A Second Time Removes Items from Their Respective Fields

@@ -163,6 +163,16 @@ angular.module('liveopsConfigPanel').directive('sdkListener', [
                   },
                   '*'
                 );
+              } else if (event.data.module === 'updateKeyLocalStorage') {
+                localStorage.setItem(event.data.data.key, event.data.data.value);
+                event.source.postMessage(
+                  {
+                    topic: ['updateKeyLocalStorage'],
+                    response: 'updated',
+                    messageId: event.data.messageId
+                  },
+                  '*'
+                );
               } else if (event.data.module === 'setLocalStorage') {
                 localStorage.setItem(event.data.data.key, event.data.data.value);
                 location.reload();
