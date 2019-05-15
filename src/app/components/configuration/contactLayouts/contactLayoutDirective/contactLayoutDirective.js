@@ -97,15 +97,7 @@ angular.module('liveopsConfigPanel')
             return attr.active;
           };
 
-          scope.$watch('model', function(model, oldModel) {
-            // don't set the form dirty from the changes that happen when the model first loads
-            if (oldModel === undefined || !oldModel.length) {
-              return;
-            }
-            if (typeof oldModel[0].attributes[0] !== 'string') {
-              scope.form.$setDirty();
-            }
-          }, true);
+        
 
           scope.$watch(scope.requiredAttributes, function(newVal) {
             if (angular.isDefined(newVal)) {
