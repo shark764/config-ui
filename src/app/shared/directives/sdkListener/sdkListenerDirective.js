@@ -2,10 +2,11 @@
 window.cxSubscriptions = {};
 angular.module('liveopsConfigPanel').directive('sdkListener', [
   'Session',
+  '$rootScope',
   '$translate',
   '$state',
   'apiHostname',
-  function(Session, $translate, $state, apiHostname) {
+  function(Session, $rootScope, $translate, $state, apiHostname) {
     var tenantIsSet = false;
     return {
       restrict: 'E',
@@ -165,6 +166,9 @@ angular.module('liveopsConfigPanel').directive('sdkListener', [
                 );
               } else if (event.data.module === 'updateKeyLocalStorage') {
                 localStorage.setItem(event.data.data.key, event.data.data.value);
+                if (event.data.data.key === 'LIVEOPS-PREFERENCE-KEY') {
+                  $rootScope.$emit('tenant.update.externalChanges', JSON.parse(event.data.data.value).tenant);
+                }
                 event.source.postMessage(
                   {
                     topic: ['updateKeyLocalStorage'],
