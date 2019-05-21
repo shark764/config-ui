@@ -131,6 +131,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
           : 'content.management.users';
         messageKey = 'permissions.unauthorized.message';
       }
+
       $state.go(
         goTo,
         {
@@ -149,6 +150,10 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
       AuthService.updateDomain(targetSessionTenant);
       $scope.updateTopbarConfig();
       $scope.updateBranding();
+
+      // Removing impersonate tenant data from sessionStorage
+      // when switching between tenants
+      sessionStorage.removeItem('LOGI-TENANT-IMPERSONATE');
 
       // Redirect user to correct page, based on
       // betaFeatures available for each tenant
@@ -263,6 +268,9 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
         if (confirmedToLogout) {
           CxEngage.interactions.voice.resourceRemove({ interactionId: monitoredInteraction }, function() {
             setTimeout(function() {
+              // Removing from current session key used for logi reports,
+              // this will be removed automatically also if browser tab is closed
+              sessionStorage.removeItem('LOGI-TENANT-IMPERSONATE');
               AuthService.logout();
               $state.transitionTo('login');
               $rootScope.$broadcast('logout');
@@ -273,6 +281,9 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
           });
         }
       } else {
+        // Removing from current session key used for logi reports,
+        // this will be removed automatically also if browser tab is closed
+        sessionStorage.removeItem('LOGI-TENANT-IMPERSONATE');
         AuthService.logout();
         $state.transitionTo('login');
         $rootScope.$broadcast('logout');
@@ -340,6 +351,10 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
     });
     $scope.checkedForBetaFeatures = false;
     $scope.brandingIsSet = false;
+
+    $rootScope.$on(loEvents.session.tenants.updated, function() {
+      $scope.updateTopbarConfig();
+    });
 
     $scope.populateTenantsHandler();
     Session.betaFeatures = {};

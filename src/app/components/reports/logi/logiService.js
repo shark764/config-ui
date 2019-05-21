@@ -1,28 +1,37 @@
 'use strict';
 
-angular.module('liveopsConfigPanel')
-  .service('Logi', ['$http', '$moment', 'apiHostname', function($http, $moment, apiHostname) {
+angular.module('liveopsConfigPanel').service('Logi', [
+  '$http',
+  '$moment',
+  'apiHostname',
+  function($http, $moment, apiHostname) {
     var service = {};
     var timezone = $moment.tz.guess();
 
-    service.getLogiToken = function(tenantId, username) {
+    service.getLogiToken = function(tenantId, tenantName, username, impersonate) {
       return $http({
         method: 'GET',
         url: apiHostname + '/v1/tenants/' + tenantId + '/reporting-token/logi',
         params: {
           timezone: timezone,
-          username: username
+          username: username,
+          tenantId: tenantId,
+          tenantName: tenantName,
+          impersonate: impersonate
         }
       });
     };
 
-    service.getSsmToken = function (tenantId, username) {
+    service.getSsmToken = function(tenantId, tenantName, username, impersonate) {
       return $http({
         method: 'GET',
         url: apiHostname + '/v1/tenants/' + tenantId + '/reporting-token/CxEngageSSM',
         params: {
           timezone: timezone,
-          username: username
+          username: username,
+          tenantId: tenantId,
+          tenantName: tenantName,
+          impersonate: impersonate
         }
       });
     };
@@ -47,4 +56,5 @@ angular.module('liveopsConfigPanel')
     };
 
     return service;
-  }]);
+  }
+]);

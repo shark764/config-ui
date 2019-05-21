@@ -169,6 +169,19 @@
   </div>
 </div>
 
+<!-- Reporting Impersonating -->
+<div ng-if="!selectedGroup.isNew() && ['PLATFORM_VIEW_ALL', 'PLATFORM_MANAGE_ALL_TENANTS', 'CONFIG_REPORTING_BI_VIEW'] | hasPermission" class="added-padding">
+  <div class="divider-header first-header">
+    <h4>{{'tenant.details.reporting.header' | translate}}</h4>
+  </div>
+
+  <div class="input-group">
+    <label></label>
+    <input ng-click="setTenantAsImpersonated()" type="button" class="btn btn-primary" value="{{'tenant.details.reporting.setAsImpersonated' | translate}}"></input>
+    <div class="lo-error" >{{'tenant.details.reporting.impersonate.warning' | translate}}</div>
+  </div>
+</div>
+
 <div disable-contents="! (['PLATFORM_MANAGE_ALL_TENANTS', 'MANAGE_TENANT', 'MANAGE_ALL_BRANDINGS'] | hasPermission)" class="added-padding">
   <div class="divider-header first-header">
     <h4>{{'tenant.branding.title' | translate}}</h4>
