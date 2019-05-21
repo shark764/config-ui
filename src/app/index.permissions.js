@@ -64,7 +64,7 @@
     viewMedia: ['VIEW_ALL_MEDIA'],
     viewDispatchMappings: ['VIEW_ALL_CONTACT_POINTS'],
     viewDashboards: ['VIEW_ALL_REALTIME_DASHBOARDS'],
-    viewConfigReportingBI: ['VIEW_ALL_REALTIME_DASHBOARDS', 'CONFIG_REPORTING_BI_VIEW'],
+    viewConfigReportingBI: ['CONFIG_REPORTING_BI_VIEW'],
     viewAssignedReports: ['VIEW_ALL_REALTIME_DASHBOARDS', 'ASSIGNED_REPORTS_READ'],
     viewInteractionMonitoring: ['VIEW_ALL_MONITORED_CALLS'],
     viewCustomStats: ['CUSTOM_STATS_READ'],

@@ -480,6 +480,22 @@ angular.module('liveopsConfigPanel').controller('TenantsController', [
         tenantPermissions: PermissionGroups.readAllMode
       });
       $rootScope.$emit('readAllMode');
+
+      // Removing impersonate tenant data from sessionStorage
+      // when setting tenant as active
+      sessionStorage.removeItem('LOGI-TENANT-IMPERSONATE');
+    };
+
+    $scope.setTenantAsImpersonated = function() {
+      sessionStorage.setItem(
+        'LOGI-TENANT-IMPERSONATE',
+        JSON.stringify({
+          tenantId: $scope.selectedTenant.id,
+          tenantName: $scope.selectedTenant.name
+        })
+      );
+      $rootScope.$emit('impersonatingTenant');
+      Alert.info($translate.instant('tenant.details.reporting.impersonated'));
     };
 
     $scope.updateActive = function() {
