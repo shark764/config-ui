@@ -21,6 +21,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Flows
 - Logi reportings
 
+## [4.76.1-develop] - 2019-05-23
+## FIxed
+
+- CXV1-17551 - Update spelling on Config UI error messaging
+
 ## [4.76.0-develop] - 2019-05-21
 ### Added
 - CXV1-18329 - Adding impersonate ability to tenants page to impersonate any tenant on Logi reports.

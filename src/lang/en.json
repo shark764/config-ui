@@ -162,7 +162,7 @@
   "login.ssoError": "There was an error signing you in. Are you sure you entered the correct username?",
   "login.username.error": "Please enter a username.",
   "login.error": "Invalid username or password.",
-  "login.unexpected.error": "An unexpected error occured. Please try again. If this error persists, please contact support.",
+  "login.unexpected.error": "An unexpected error occurred. Please try again. If this error persists, please contact support.",
   "session.tenants.none": "No tenants available",
   "navbar.management.title": "User Management",
   "navbar.management.users.title": "Users",
