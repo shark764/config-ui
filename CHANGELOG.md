@@ -21,9 +21,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Flows
 - Logi reportings
 
-## [4.76.1-develop] - 2019-05-23
-## FIxed
+## [4.76.2-develop] - 2019-05-24
+## Fixed
+- CXV1-18335 - Parameter tenantName for Logi was changed to tenantname.
+### Changed
+- SDK version bump to 8.54.5.
 
+## [4.76.1-develop] - 2019-05-23
+## Fixed
 - CXV1-17551 - Update spelling on Config UI error messaging
 
 ## [4.76.0-develop] - 2019-05-21

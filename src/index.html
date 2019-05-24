@@ -1,17 +1,17 @@
-<!doctype html>
+<!DOCTYPE html>
 <html ng-app="liveopsConfigPanel">
   <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8" />
     <title ng-bind="title"></title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width">
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width" />
 
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-    <link rel="icon" ng-href="{{$root.favicon16}}" sizes="16x16" />
-    <link rel="icon" ng-href="{{$root.favicon32}}" sizes="32x32" />
+    <link rel="icon" ng-href="{{ $root.favicon16 }}" sizes="16x16" />
+    <link rel="icon" ng-href="{{ $root.favicon32 }}" sizes="32x32" />
 
     <!-- build:css({.tmp/serve,src}) styles/vendor.css -->
-    <link rel="stylesheet" href="app/vendor.css">
+    <link rel="stylesheet" href="app/vendor.css" />
     <!-- bower:css -->
     <!-- run `gulp inject` to automatically populate bower styles dependencies -->
     <!-- endbower -->
@@ -24,13 +24,11 @@
     <!-- endbuild -->
   </head>
   <body>
-
     <route-loading-indicator></route-loading-indicator>
     <div class="container" ui-view></div>
 
     <sdk-listener>
-      <supervisor-toolbar ng-show="supervisorToolbarIsVisible">
-      </supervisor-toolbar>
+      <supervisor-toolbar ng-show="supervisorToolbarIsVisible"> </supervisor-toolbar>
     </sdk-listener>
 
     <div id="config-ui-agent-toolbar" ng-show="toolbarIsVisible">
@@ -58,7 +56,7 @@
     <!-- endinject -->
     <!-- endbuild -->
     <script type="text/javascript" src="app/env.js"></script>
-    <script src="https://sdk.cxengage.net/js/agent/8.54.3/main.js" type="text/javascript"></script>
+    <script src="https://sdk.cxengage.net/js/agent/8.54.5/main.js" type="text/javascript"></script>
 
     <!-- <script type='text/javascript'>
     var BugHerdConfig = {"feedback":{"tab_position":"bottom-left"}};
