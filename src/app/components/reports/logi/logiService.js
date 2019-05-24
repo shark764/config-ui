@@ -16,7 +16,7 @@ angular.module('liveopsConfigPanel').service('Logi', [
           timezone: timezone,
           username: username,
           tenantId: tenantId,
-          tenantName: tenantName,
+          tenantname: tenantName,
           impersonate: impersonate
         }
       });
@@ -30,7 +30,7 @@ angular.module('liveopsConfigPanel').service('Logi', [
           timezone: timezone,
           username: username,
           tenantId: tenantId,
-          tenantName: tenantName,
+          tenantname: tenantName,
           impersonate: impersonate
         }
       });
