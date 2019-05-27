@@ -21,6 +21,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Flows
 - Logi reportings
 
+## [4.76.3-develop] - 2019-05-27
+## Changed
+- CXV1-18335 - Parameter tenantname for Logi was changed back to tenantName.
+
 ## [4.76.2-develop] - 2019-05-24
 ## Fixed
 - CXV1-18335 - Parameter tenantName for Logi was changed to tenantname.
