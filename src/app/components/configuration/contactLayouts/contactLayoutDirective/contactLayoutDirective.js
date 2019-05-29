@@ -145,9 +145,11 @@ angular.module('liveopsConfigPanel')
                     return;
                   }
                   category.attributes.forEach(function(attribute, idx) {
-                    category.attributes[idx] = allAttributes.filter(function(attr) {
-                      return attr.id === attribute;
-                    })[0];
+                    
+                      category.attributes[idx] = allAttributes.filter(function(attr) {
+                        return attr.id === (typeof attribute === 'string'? attribute : attribute.id);
+                      })[0];
+                   
                   });
                 });
                 scope.loading = false;
