@@ -21,6 +21,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Flows
 - Logi reportings
 
+## [4.77.1-develop] - 2019-05-29
+## Fixed
+- CXV1-11155 - Clicking on Contact Layout A Second Time Removes Items from Their Respective Fields
+
 ## [4.77.0-develop] - 2019-05-28
 ## Added
 - CXV1-16884 - Added dispositions page to config-2
