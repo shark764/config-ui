@@ -153,7 +153,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
 
       // Removing impersonate tenant data from sessionStorage
       // when switching between tenants
-      sessionStorage.removeItem('LOGI-TENANT-IMPERSONATE');
+      sessionStorage.removeItem('LOGI-USER-IMPERSONATE');
 
       // Redirect user to correct page, based on
       // betaFeatures available for each tenant
@@ -270,7 +270,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
             setTimeout(function() {
               // Removing from current session key used for logi reports,
               // this will be removed automatically also if browser tab is closed
-              sessionStorage.removeItem('LOGI-TENANT-IMPERSONATE');
+              sessionStorage.removeItem('LOGI-USER-IMPERSONATE');
               AuthService.logout();
               $state.transitionTo('login');
               $rootScope.$broadcast('logout');
@@ -283,7 +283,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
       } else {
         // Removing from current session key used for logi reports,
         // this will be removed automatically also if browser tab is closed
-        sessionStorage.removeItem('LOGI-TENANT-IMPERSONATE');
+        sessionStorage.removeItem('LOGI-USER-IMPERSONATE');
         AuthService.logout();
         $state.transitionTo('login');
         $rootScope.$broadcast('logout');

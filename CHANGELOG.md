@@ -21,6 +21,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Flows
 - Logi reportings
 
+## [4.78.0-develop] - 2019-06-04
+### Added
+- CXV1-18258 - Add method to impersonate a CxEngage Reporting user and launch into new BI reporting experience.
+
 ## [4.77.1-develop] - 2019-05-29
 ## Fixed
 - CXV1-11155 - Clicking on Contact Layout A Second Time Removes Items from Their Respective Fields

@@ -11,11 +11,6 @@ angular.module('liveopsConfigPanel').controller('LogiStandardController', [
   function($scope, $window, Session, Logi, $translate, Alert, logiUrl) {
     $scope.iframeLoaded = false;
 
-    $scope.isTenantImpersonated = sessionStorage.getItem('LOGI-TENANT-IMPERSONATE') !== null;
-    $scope.preferredTenantReporting = $scope.isTenantImpersonated
-      ? JSON.parse(sessionStorage.getItem('LOGI-TENANT-IMPERSONATE'))
-      : Session.tenant;
-
     console.warn('LogiUrl: ', logiUrl);
 
     var logiCheck = setInterval(function() {
@@ -58,16 +53,11 @@ angular.module('liveopsConfigPanel').controller('LogiStandardController', [
     }, 200);
 
     $scope.fetch = function() {
-      Logi.getLogiToken(
-        $scope.preferredTenantReporting.tenantId,
-        $scope.preferredTenantReporting.tenantName,
-        Session.user.displayName,
-        $scope.isTenantImpersonated
-      )
+      Logi.getLogiToken(Session.tenant.tenantId, Session.tenant.tenantName, Session.user.displayName)
         .then(function(response) {
           EmbeddedReporting.create('logiContainer', {
             applicationUrl: response.data.logiBaseUrl,
-            linkParams: { rdSecurekey: response.data.secureToken, tenantID: $scope.preferredTenantReporting.tenantId },
+            linkParams: { rdSecurekey: response.data.secureToken, tenantID: Session.tenant.tenantId },
             report: 'Common.Bookmarks',
             autoSizing: 'width'
           });
@@ -86,7 +76,7 @@ angular.module('liveopsConfigPanel').controller('LogiStandardController', [
       /**
        * Append two hidden iframes to the page to force logi to logout
        */
-      Logi.getLogiBaseUrl($scope.preferredTenantReporting.tenantId)
+      Logi.getLogiBaseUrl(Session.tenant.tenantId)
         .then(function(response) {
           console.warn('Logi base url', response.data.logiBaseUrl);
           var logiIframe = document.createElement('iframe');
