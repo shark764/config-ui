@@ -309,3 +309,27 @@
   <user-transfer-lists user="selectedTenantUser"></user-transfer-lists>
   <user-message-templates user="selectedTenantUser"></user-message-templates>
 </div>
+
+<!-- Reporting Impersonating -->
+<div ng-if="scenario() === 'update' && (
+      (!isTenantSetForReadAllMode() && (
+        ('PLATFORM_IMPERSONATE_REPORTING_USERS'| hasPermission) ||
+        (
+          ('IMPERSONATE_REPORTING_USERS'| hasPermission) && ('VIEW_ALL_USERS'| hasPermission)
+        )
+      )) ||
+      (isTenantSetForReadAllMode() &&
+        ('PLATFORM_IMPERSONATE_REPORTING_USERS'| hasPermission) && ('PLATFORM_VIEW_ALL_TENANTS'| hasPermission) && ('PLATFORM_VIEW_ALL_USERS'| hasPermission) && ('PLATFORM_CONFIG_USERS_VIEW'| hasPermission)
+      )
+    )"
+    class="added-padding">
+  <div class="divider-header first-header">
+    <h4>{{'user.details.reporting.header' | translate}}</h4>
+  </div>
+
+  <div class="input-group">
+    <label></label>
+    <input ng-click="setUserAsImpersonated()" type="button" class="btn btn-primary impersonate-user-btn" value="{{'user.details.reporting.setAsImpersonated' | translate}}"></input>
+    <div class="lo-error" >{{'user.details.reporting.impersonate.warning' | translate}}</div>
+  </div>
+</div>

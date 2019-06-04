@@ -156,6 +156,7 @@ angular.module('liveopsConfigPanel').directive('sdkListener', [
                     topic: ['updateLocalStorage'],
                     response: {
                       tenant: JSON.parse(window.localStorage.getItem('LIVEOPS-PREFERENCE-KEY')).tenant,
+                      tenants: JSON.parse(window.localStorage.getItem('LIVEOPS-SESSION-KEY')).tenants,
                       agentId: CxEngage.session.getActiveUserId(),
                       token: CxEngage.dumpState().authentication.token,
                       baseUrl: apiHostname
@@ -180,6 +181,28 @@ angular.module('liveopsConfigPanel').directive('sdkListener', [
               } else if (event.data.module === 'setLocalStorage') {
                 localStorage.setItem(event.data.data.key, event.data.data.value);
                 location.reload();
+              } else if (event.data.module.includes('Logi.impersonateTenantUser')) {
+                sessionStorage.setItem(
+                  'LOGI-USER-IMPERSONATE',
+                  JSON.stringify({
+                    id: event.data.data.id,
+                    displayName: event.data.data.displayName
+                  })
+                );
+
+                $rootScope.$emit('impersonatingTenantUser');
+
+                $state.go(
+                  'content.reporting.logiAdvanced',
+                  {
+                    id: null,
+                    messageKey: 'user.details.reporting.impersonated'
+                  },
+                  {
+                    reload: true,
+                    inherit: false
+                  }
+                );
               } else if (event.data.module === 'setBetaFeatures') {
                 location.reload();
               } else if (event.data.module === 'comfirmPrompt') {
