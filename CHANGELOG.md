@@ -21,6 +21,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Flows
 - Logi reportings
 
+## [4.78.1-develop] - 2019-06-06
+## Fixed
+- CXV1-16675 - Can now see Last Modified by in Queue Management
+
 ## [4.78.0-develop] - 2019-06-04
 ### Added
 - CXV1-18258 - Add method to impersonate a CxEngage Reporting user and launch into new BI reporting experience.
