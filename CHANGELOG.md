@@ -21,6 +21,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Flows
 - Logi reportings
 
+## [4.78.2-develop] - 2019-06-06
+## Fixed
+- CXV1-18393 - Shared Roles are NOT read only in Config 1 on Child Tenants.
+
 ## [4.78.1-develop] - 2019-06-06
 ## Fixed
 - CXV1-16675 - Can now see Last Modified by in Queue Management
