@@ -1358,6 +1358,38 @@ angular.module('liveopsConfigPanel').config([
             }
           ]
         }
+      })
+      .state('content.support', {
+        abstract: true,
+        url: '/support-tool',
+        title: 'Support Tool',
+        templateUrl: 'app/components/supportTool/supportTool.html',
+        controller: 'SupportToolController',
+        resolve: {
+          hasPermission: [
+            'UserPermissions',
+            'PermissionGroups',
+            function(UserPermissions, PermissionGroups) {
+              return UserPermissions.resolvePermissions(PermissionGroups.viewConfigSupport);
+            }
+          ]
+        }
+      })
+      .state('content.support.debug', {
+        url: '/debugger',
+        title: 'Flow Debugger',
+        templateUrl: '/app/components/supportTool/flowDebugger/flowDebuggerPage.html',
+        controller: 'DebuggerPageController',
+        reloadOnSearch: false,
+        resolve: {
+          hasPermission: [
+            'UserPermissions',
+            'PermissionGroups',
+            function(UserPermissions, PermissionGroups) {
+              return UserPermissions.resolvePermissions(PermissionGroups.viewConfigDebugTool);
+            }
+          ]
+        }
       });
   }
 ]);

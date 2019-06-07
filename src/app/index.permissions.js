@@ -97,6 +97,11 @@
       'MANAGE_ALL_LISTS',
       'VIEW_ALL_TRANSFER_LISTS',
       'IDENTITY_PROVIDERS_READ'
-    ]
-  });
+    ],
+
+    viewConfigSupport: ['PLATFORM_CONFIG_SUPPORT_TOOLS_VIEW'],
+    viewConfigDebugTool: ['PLATFORM_CONFIG_SUPPORT_DEBUG_TOOL_VIEW'],
+    viewDebugTool: ['PLATFORM_FLOW_DEBUG_TOOL_VIEW']
+
+    });
 })();

@@ -1,6 +1,6 @@
 {
   "name": "liveopsConfigPanel",
-  "version": "4.78.3-develop",
+  "version": "4.78.4-develop",
   "dependencies": {
     "jquery": "2.1.4",
     "angular-resource": "1.6.3",
