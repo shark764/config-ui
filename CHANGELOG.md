@@ -21,6 +21,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Flows
 - Logi reportings
 
+## [4.78.3-develop] - 2019-06-07
+### Changed
+- Removing Logi conditions for impersonate user for testing purpose.
+
 ## [4.78.2-develop] - 2019-06-06
 ## Fixed
 - CXV1-18393 - Shared Roles are NOT read only in Config 1 on Child Tenants.

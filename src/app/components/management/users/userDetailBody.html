@@ -311,7 +311,7 @@
 </div>
 
 <!-- Reporting Impersonating -->
-<div ng-if="scenario() === 'update' && (
+<!-- <div ng-if="scenario() === 'update' && (
       (!isTenantSetForReadAllMode() && (
         ('PLATFORM_IMPERSONATE_REPORTING_USERS'| hasPermission) ||
         (
@@ -322,7 +322,8 @@
         ('PLATFORM_IMPERSONATE_REPORTING_USERS'| hasPermission) && ('PLATFORM_VIEW_ALL_TENANTS'| hasPermission) && ('PLATFORM_VIEW_ALL_USERS'| hasPermission) && ('PLATFORM_CONFIG_USERS_VIEW'| hasPermission)
       )
     )"
-    class="added-padding">
+    class="added-padding"> -->
+<div ng-if="scenario() === 'update'" class="added-padding">
   <div class="divider-header first-header">
     <h4>{{'user.details.reporting.header' | translate}}</h4>
   </div>
