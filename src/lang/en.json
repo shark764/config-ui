@@ -219,6 +219,8 @@
   "navbar.invites": "Invites",
   "navbar.create": "Create",
   "navbar.actions": "Actions",
+  "navbar.support.title": "Support Tool",
+  "navbar.support.debug": "Platform Flow Debug Tool",
   "details": "Details",
   "dispositions": "Dispositions",
   "reasons": "Reasons",

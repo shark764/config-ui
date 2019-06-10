@@ -45,6 +45,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
     $scope.hovering = false;
     $scope.Session = Session;
     $scope.showQualityManagemant = UserPermissions.hasPermissionInList(PermissionGroups.viewQualityManagement);
+    $scope.showSupportTool = UserPermissions.hasPermissionInList(PermissionGroups.viewConfigSupport);
     $scope.hoverTracker = [];
     $scope.betaFeaturesByTenant = [];
     var MeSvc = new Me();
@@ -864,11 +865,27 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
               return items;
             };
 
+            vm.getSupportConfig = function() {
+              var items = [];
+
+              if (UserPermissions.hasPermissionInList(PermissionGroups.viewConfigDebugTool)) {
+                items.push({
+                  label: $translate.instant('navbar.support.debug'),
+                  stateLink: 'content.support.debug',
+                  id: 'flow-debugger-link',
+                  order: 1
+                });
+              }
+
+              return items;
+            }
+
             $scope.updateTopbarConfig = function() {
               $scope.managementDropConfig = vm.getManagementConfig();
               $scope.configurationDropConfig = vm.getConfigurationConfig();
               $scope.flowsDropConfig = vm.getFlowsConfig();
               $scope.reportingDropConfig = vm.getReportingConfig();
+              $scope.supportDropConfig = vm.getSupportConfig();
               $scope.userDropdownItems = getUserDropdownItems();
             };
 

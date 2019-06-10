@@ -21,6 +21,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Flows
 - Logi reportings
 
+## [4.78.4-develop] - 2019-06-07 
+### Added 
+- CXV1-18160 - Create new Config UI navigation and pages for Platform Support Tools.
+
 ## [4.78.3-develop] - 2019-06-07
 ### Changed
 - Removing Logi conditions for impersonate user for testing purpose.

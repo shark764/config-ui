@@ -31,6 +31,10 @@
         <dropdown id="reportingNavLinkConfig" items="reportingDropConfig" collapse-icon="fa fa-caret-down" label="{{'navbar.reports.title' | translate}}" order-by="order" hovering="hovering" show-on-hover="true" hover-tracker="hoverTracker"></dropdown>
       </li>
 
+      <li ng-show="showSupportTool" ng-class="{ active: isActive('/support-tool') }">
+        <dropdown id="supportDropConfig" items="supportDropConfig" collapse-icon="fa fa-caret-down" label="{{'navbar.support.title' | translate}}" order-by="order" hovering="hovering" show-on-hover="true" hover-tracker="hoverTracker"></dropdown>
+      </li>
+
       <li ng-show="showQualityManagemant" id="quality-management-nav-link" class="drop-label" ng-class="{ active: isActive('/qualityManagement')}">
         <a ui-sref="content.qualityManagement">
           {{'navbar.qualityManagement.title' | translate}}
