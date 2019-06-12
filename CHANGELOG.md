@@ -21,7 +21,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Flows
 - Logi reportings
 
-## [0.78.7-develop] - 2019-06-12
+## [4.78.8-develop] - 2019-06-12
+### Changed
+- CXV1-18604 - Non-platform admin users are able to add permissions to a shared role in Config-ui when on a child tenant.
+
+## [4.78.7-develop] - 2019-06-12
 ### Changed
 - SDK version bump to 8.54.6.
 
