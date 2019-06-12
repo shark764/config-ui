@@ -21,6 +21,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Flows
 - Logi reportings
 
+## [0.78.7-develop] - 2019-06-12
+### Changed
+- SDK version bump to 8.54.6.
+
 ## [4.78.6-develop] - 2019-06-12
 ## Fixed
 - CXV1-18258 - Adding missing permission to read all mode to be able to impersonate a user.
