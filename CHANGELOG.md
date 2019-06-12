@@ -21,6 +21,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Flows
 - Logi reportings
 
+## [4.78.6-develop] - 2019-06-12
+## Fixed
+- CXV1-18258 - Adding missing permission to read all mode to be able to impersonate a user.
+
 ## [4.78.5-develop] - 2019-06-11
 ## Fixed
 - CXV1-18258 - Adding impersonating user conditions back to users page.
