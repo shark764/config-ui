@@ -21,6 +21,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Flows
 - Logi reportings
 
+## [4.78.5-develop] - 2019-06-11
+## Fixed
+- CXV1-18258 - Adding impersonating user conditions back to users page.
+- Fixing issue with navbar dissapearing when setting any tenant as active.
+
 ## [4.78.4-develop] - 2019-06-07 
 ### Added 
 - CXV1-18160 - Create new Config UI navigation and pages for Platform Support Tools.
