@@ -91,7 +91,8 @@ angular.module('liveopsConfigPanel')
               id: response.data.result.userId,
               email: response.data.result.username,
               firstName: response.data.result.firstName,
-              lastName: response.data.result.lastName
+              lastName: response.data.result.lastName,
+              platformRoleName: response.data.result.platformRoleName,
             });
 
             if (cxEngageEnabled) {

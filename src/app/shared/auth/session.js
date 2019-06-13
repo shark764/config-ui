@@ -103,7 +103,8 @@ angular.module('liveopsConfigPanel').service('Session', [
       this.user = {
         id: user.id,
         displayName: user.getDisplay(),
-        defaultTenant: user.defaultTenant
+        defaultTenant: user.defaultTenant,
+        platformRoleName: user.platformRoleName,
       };
       this.flush();
     };
