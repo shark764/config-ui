@@ -26,6 +26,9 @@ var Navbar = function() {
   this.mediaLink = element(by.id('media-management-link'));
   this.dispatchMappingsLink = element(by.id('dispatch-mappings-configuration-link'));
 
+  // Flow Debugger Page links
+  this.flowDebuggerLink = element(by.id('flow-debugger-link'));
+
   this.userManagementNavDropdown = element(by.css('#users-nav-link > dropdown'));
   this.downArrow = 'nav-dropdown-down-arrow';
 };

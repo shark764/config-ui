@@ -1,4 +1,4 @@
-<div class="lo-alert lo-alert-info" ng-show="! selectedTenantRole.isNew() && selectedTenantRole.type != 'custom' && (['PLATFORM_CREATE_TENANT_ROLES', 'MANAGE_ALL_ROLES'] | hasPermission)">
+<div class="lo-alert lo-alert-info" ng-show="(! selectedTenantRole.isNew() && selectedTenantRole.type != 'custom' && (['PLATFORM_CREATE_TENANT_ROLES', 'MANAGE_ALL_ROLES'] | hasPermission)) || selectedTenantRole.tenantId !== Session.tenant.tenantId">
   {{'role.readonly.warning' | translate}}
 </div>
 
@@ -6,7 +6,7 @@
   <h4>{{'details' | translate}}</h4>
 </div>
 
-<div disable-contents="selectedTenantRole.type == 'system' || !(['PLATFORM_CREATE_TENANT_ROLES', 'MANAGE_ALL_ROLES'] | hasPermission)">
+<div disable-contents="selectedTenantRole.tenantId !== Session.tenant.tenantId || selectedTenantRole.type == 'system' || !(['PLATFORM_CREATE_TENANT_ROLES', 'MANAGE_ALL_ROLES'] | hasPermission)">
   <div class="input-group">
     <label>{{'value.name' | translate}} *</label>
     <form-error field="forms.detailsForm.name"

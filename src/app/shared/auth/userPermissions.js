@@ -1,7 +1,11 @@
 'use strict';
 
-angular.module('liveopsConfigPanel')
-  .service('UserPermissions', ['Session', '$state', '$q', '$timeout', function(Session, $state, $q, $timeout) {
+angular.module('liveopsConfigPanel').service('UserPermissions', [
+  'Session',
+  '$state',
+  '$q',
+  '$timeout',
+  function(Session, $state, $q, $timeout) {
     var self = this;
 
     this.hasPermission = function(permissionKey) {
@@ -52,4 +56,5 @@ angular.module('liveopsConfigPanel')
 
       return deferred.promise;
     };
-  }]);
+  }
+]);

@@ -6,8 +6,7 @@
     </b>
  </h4>
 </div>
-
-<ng-form class="instant-add" ng-show="role.type != 'system' && (['PLATFORM_CREATE_TENANT_ROLES', 'MANAGE_ALL_ROLES'] | hasPermission)" id="addPermission" name="addPermission">
+<ng-form class="instant-add" ng-show="(role.type != 'system' && (['PLATFORM_CREATE_TENANT_ROLES', 'MANAGE_ALL_ROLES'] | hasPermission) && Session.tenant.tenantId == role.tenantId)" id="addPermission" name="addPermission">
   <type-ahead hover="true"
     placeholder="{{'role.details.permission.placeholder' | translate}}"
     items="filtered"
@@ -26,14 +25,14 @@
     <tr>
       <th>{{'value.name' | translate}}</th>
       <th>{{'value.description' | translate}}</th>
-      <th ng-if="role.type != 'system' && (['PLATFORM_CREATE_TENANT_ROLES', 'MANAGE_ALL_ROLES'] | hasPermission)" style="width: 30px;"></th>
+      <th ng-if="(role.type != 'system' && (['PLATFORM_CREATE_TENANT_ROLES', 'MANAGE_ALL_ROLES'] | hasPermission) && Session.tenant.tenantId == role.tenantId)" style="width: 30px;"></th>
     </tr>
   </thead>
   <tbody>
     <tr ng-repeat="permission in rolePermissions">
       <td>{{permission.name}}</td>
       <td>{{permission.description}}</td>
-      <td ng-if="role.type != 'system' && (['PLATFORM_CREATE_TENANT_ROLES', 'MANAGE_ALL_ROLES'] | hasPermission)"><a class="remove" title="{{'role.permissions.remove.alt' | translate}}" ng-click="remove(permission)"><i class="fa fa-times"></i></a></td>
+      <td ng-if="(role.type != 'system' && (['PLATFORM_CREATE_TENANT_ROLES', 'MANAGE_ALL_ROLES'] | hasPermission) && Session.tenant.tenantId == role.tenantId)"><a class="remove" title="{{'role.permissions.remove.alt' | translate}}" ng-click="remove(permission)"><i class="fa fa-times"></i></a></td>
     </tr>
   </tbody>
 </table>

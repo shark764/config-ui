@@ -3,6 +3,8 @@ angular.module('liveopsConfigPanel.config')
   // .constant('apiHostname', 'http://localhost:9080')
   .constant('apiHostname', 'https://dev-api.cxengagelabs.net')
   .constant('designerHostname', 'https://dev-designer.cxengagelabs.net')
+  // https://dev-debugger.cxengagelabs.net is not a thing yet
+  .constant('debuggerHostname', 'https://dev-debugger.cxengagelabs.net')
   .constant('config2Url', 'https://dev-config2.cxengagelabs.net')
   .constant('qualityManagementUrl', 'https://dev-cxqm-web.cxengagelabs.net/Engage')
   .constant('s3BucketUrl', 'https://cxengagelabs-dev-configurator-images.s3.amazonaws.com')

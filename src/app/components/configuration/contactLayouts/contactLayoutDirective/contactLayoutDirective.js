@@ -97,15 +97,7 @@ angular.module('liveopsConfigPanel')
             return attr.active;
           };
 
-          scope.$watch('model', function(model, oldModel) {
-            // don't set the form dirty from the changes that happen when the model first loads
-            if (oldModel === undefined || !oldModel.length) {
-              return;
-            }
-            if (typeof oldModel[0].attributes[0] !== 'string') {
-              scope.form.$setDirty();
-            }
-          }, true);
+        
 
           scope.$watch(scope.requiredAttributes, function(newVal) {
             if (angular.isDefined(newVal)) {
@@ -153,9 +145,11 @@ angular.module('liveopsConfigPanel')
                     return;
                   }
                   category.attributes.forEach(function(attribute, idx) {
-                    category.attributes[idx] = allAttributes.filter(function(attr) {
-                      return attr.id === attribute;
-                    })[0];
+                    
+                      category.attributes[idx] = allAttributes.filter(function(attr) {
+                        return attr.id === (typeof attribute === 'string'? attribute : attribute.id);
+                      })[0];
+                   
                   });
                 });
                 scope.loading = false;

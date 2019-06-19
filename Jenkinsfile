@@ -186,7 +186,7 @@ pipeline {
       when { anyOf {branch 'master'; branch 'develop'; branch 'release'; branch 'hotfix'}}
       steps {
         sh 'echo "Makes a github tagged release under a new branch with the same name as the tag version"'
-        git url: "git@github.com:SerenovaLLC/${service}"
+        git url: "git@github.com:SerenovaLLC/${service}", branch: "${BRANCH_NAME}"
         sh 'git checkout -b build-${BUILD_TAG}'
         sh 'git add -f build/dist/* '
         sh "git commit -m 'release ${build_version}'"
@@ -204,7 +204,7 @@ pipeline {
       steps {
         sh 'echo "Stage Description: Syncs a copy of the build folder to > s3://cxengagelabs-jenkins/frontend/{{service}}/{{version}}/"'
         sh "aws s3 sync ./build/dist s3://cxengagelabs-jenkins/frontend/${service}/${build_version}/ --delete"
-        
+
       }
     }
     stage ('Deploy') {

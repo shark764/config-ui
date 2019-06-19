@@ -34,16 +34,20 @@
 
       <md-divider></md-divider>
 
-      <div layout="row" ng-if="selectedItem.artifactType === 'audio-recording'">
+      <div layout="row" ng-if="selectedItem.artifactType === 'audio-recording' && !selectedItem.softDeleted">
         <audio id="audio-player" controls oncontextmenu="return false;" name="recordingAudio" ng-src="{{selectedItem.files[0].url | trustUrl}}"></audio>
       </div>
 
-      <div layout="row" ng-if="selectedItem.artifactType === 'qm-audio-recording'">
+      <div layout="row" ng-if="selectedItem.artifactType === 'qm-audio-recording' && !selectedItem.softDeleted">
         <iframe id="qm-audio-player" ng-src="{{selectedItem.url + '/' + token | trustUrl}}" seamless></iframe>
       </div>
 
-      <div layout="row" ng-if="selectedItem.artifactType === 'qm-screen-recording'">
+      <div layout="row" ng-if="selectedItem.artifactType === 'qm-screen-recording' && !selectedItem.softDeleted">
         <iframe id="qm-screen-player" ng-src="{{selectedItem.url + '/' + token | trustUrl}}" seamless></iframe>
+      </div>
+
+      <div layout="row" ng-if="selectedItem.softDeleted">
+        <p class="big-notice">The recording file was deleted by an Administrator</p>
       </div>
 
       <div layout="row">
