@@ -192,7 +192,7 @@
         name-field="endpoint"
         placeholder="{{'transferLists.contact.details.selectFlow' | translate}}"></type-ahead>
       <type-ahead
-        items="tlc.fetchQueues()"
+        items="tlc.activeQueues"
         ng-show="tlc.selectedContact.contactType === 'queue'"
         selected-item="tlc.selectedContact.endpoint"
         name-field="endpoint"

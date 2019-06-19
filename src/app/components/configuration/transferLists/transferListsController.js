@@ -180,6 +180,11 @@ angular.module('liveopsConfigPanel')
       });
     };
 
+    vm.activeQueues = Queue.cachedQuery({
+      tenantId: Session.tenant.tenantId,
+      active: true
+    });
+
     vm.removeContact = function (indexToDelete) {
       _.remove(vm.selectedTransferList.endpoints, {
         tempIdx: indexToDelete

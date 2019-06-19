@@ -11,6 +11,7 @@ angular.module('liveopsConfigPanel')
         templateUrl: 'app/components/management/roles/rolePermissions/rolePermissions.html',
         link: function($scope) {
           $scope.rolePermissions = [];
+          $scope.Session = Session,
 
           $scope.save = function() {
             if (!$scope.selectedPermission || !$scope.selectedPermission.id) {

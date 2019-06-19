@@ -68,8 +68,10 @@ angular.module('liveopsConfigPanel').config([
             '$q',
             function(UserPermissions, PermissionGroups, $q) {
               return $q.all(
-                UserPermissions.resolvePermissions(PermissionGroups.manageUsers.concat(PermissionGroups.viewUsers)),
-                UserPermissions.resolvePermissions(PermissionGroups.manageUserSkillsAndGroups) //See TITAN2-4897 for why we do this extra check
+                UserPermissions.resolvePermissions(
+                  PermissionGroups.viewUsers.concat(PermissionGroups.manageUserSkillsAndGroups)
+                ),
+                UserPermissions.resolvePermissions(PermissionGroups.manageUsers) //See TITAN2-4897 for why we do this extra check
               );
             }
           ]
@@ -88,8 +90,10 @@ angular.module('liveopsConfigPanel').config([
             '$q',
             function(UserPermissions, PermissionGroups, $q) {
               return $q.all(
-                UserPermissions.resolvePermissions(PermissionGroups.manageUsers.concat(PermissionGroups.viewUsers)),
-                UserPermissions.resolvePermissions(PermissionGroups.manageUserSkillsAndGroups) //See TITAN2-4897 for why we do this extra check
+                UserPermissions.resolvePermissions(
+                  PermissionGroups.viewUsers.concat(PermissionGroups.manageUserSkillsAndGroups)
+                ),
+                UserPermissions.resolvePermissions(PermissionGroups.manageUsers) //See TITAN2-4897 for why we do this extra check
               );
             }
           ]
@@ -674,6 +678,21 @@ angular.module('liveopsConfigPanel').config([
           ]
         }
       })
+      .state('content.flows.dispositions2', {
+        url: '/dispositions2',
+        title: 'Flows - Disposition Management',
+        templateUrl: '/app/components/configuration/dispositions2/dispositions2.html',
+        controller: 'dispositionsController2',
+        resolve: {
+          hasPermission: [
+            'UserPermissions',
+            'PermissionGroups',
+            function(UserPermissions, PermissionGroups) {
+              return UserPermissions.resolvePermissions(PermissionGroups.viewDispositions);
+            }
+          ]
+        }
+      })
       .state('content.flows.dispositionLists', {
         url: '/dispositionLists?id',
         title: 'Flows - Disposition List Management',
@@ -836,12 +855,42 @@ angular.module('liveopsConfigPanel').config([
         templateUrl: 'app/components/reports/reports.html',
         controller: 'ReportsController'
       })
-      .state('content.logi', {
-        url: '/reports/cxengage',
-        title: 'Reporting - Logi',
-        templateUrl: 'app/components/reports/logi/logi.html',
-        controller: 'LogiController'
-      })
+
+      // Logi standard and advanced reports
+      // will be released until Q3
+
+      // .state('content.reporting.logiStandard', {
+      //   url: '/cxengage-standard',
+      //   title: 'Reporting - Logi - Standard Reports',
+      //   templateUrl: 'app/components/reports/logi/standard/logi_standard.html',
+      //   controller: 'LogiStandardController',
+      //   reloadOnSearch: false,
+      //   resolve: {
+      //     hasPermission: [
+      //       'UserPermissions',
+      //       'PermissionGroups',
+      //       function(UserPermissions, PermissionGroups) {
+      //         return UserPermissions.resolvePermissions(PermissionGroups.viewConfigReportingBI);
+      //       }
+      //     ]
+      //   }
+      // })
+      // .state('content.reporting.logiAdvanced', {
+      //   url: '/cxengage-advanced',
+      //   title: 'Reporting - Logi - Advanced Reports',
+      //   templateUrl: 'app/components/reports/logi/advanced/logi_advanced.html',
+      //   controller: 'LogiAdvancedController',
+      //   reloadOnSearch: false,
+      //   resolve: {
+      //     hasPermission: [
+      //       'UserPermissions',
+      //       'PermissionGroups',
+      //       function(UserPermissions, PermissionGroups) {
+      //         return UserPermissions.resolvePermissions(PermissionGroups.viewConfigReportingBI);
+      //       }
+      //     ]
+      //   }
+      // })
       .state('content.billing', {
         url: '/billing-reports?id',
         title: 'Reporting - Billing Reports',
@@ -1322,6 +1371,38 @@ angular.module('liveopsConfigPanel').config([
               // when we impliment this , remove to avoid linter errors
               // TODO: CXV1-12852 Permissions / Feature Flag for TelStrat page
               return true;
+            }
+          ]
+        }
+      })
+      .state('content.support', {
+        abstract: true,
+        url: '/support-tool',
+        title: 'Support Tool',
+        templateUrl: 'app/components/supportTool/supportTool.html',
+        controller: 'SupportToolController',
+        resolve: {
+          hasPermission: [
+            'UserPermissions',
+            'PermissionGroups',
+            function(UserPermissions, PermissionGroups) {
+              return UserPermissions.resolvePermissions(PermissionGroups.viewConfigSupport);
+            }
+          ]
+        }
+      })
+      .state('content.support.debug', {
+        url: '/debugger',
+        title: 'Flow Debugger',
+        templateUrl: '/app/components/supportTool/flowDebugger/flowDebuggerPage.html',
+        controller: 'DebuggerPageController',
+        reloadOnSearch: false,
+        resolve: {
+          hasPermission: [
+            'UserPermissions',
+            'PermissionGroups',
+            function(UserPermissions, PermissionGroups) {
+              return UserPermissions.resolvePermissions(PermissionGroups.viewConfigDebugTool);
             }
           ]
         }
