@@ -23,18 +23,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [4.75.0] - 2019-06-19
 ### Added
 - CXV1-18160 - Create new Config UI navigation and pages for Platform Support Tools.
-- CXV1-18258 - Add method to impersonate a CxEngage Reporting user and launch into new BI reporting experience.
 - CXV1-16884 - Added dispositions page to config-2
-- CXV1-18329 - Adding impersonate ability to tenants page to impersonate any tenant on Logi reports.
-- CXV1-17687 - Adding initial spinning wheel when loading Logi Reports iframes.
-- Adding Logi links to navbar for Standard Reports and Advanced Reports.
 - CXV1-16853 - New SLA page has been added to menu.
 ### Changed
+- CXV1-18604 - Platform admins shouldn't be able to add permissions on a role when on a child tenant.
 - CXV1-18604 - Non-platform admin users are able to add permissions to a shared role in Config-ui when on a child tenant.
 - SDK version bump to 8.54.6.
-- Removing Logi conditions for impersonate user for testing purpose.
-- CXV1-18335 - Parameter tenantname for Logi was changed back to tenantName.
-- CXV1-18335 - Adding tenant name to Logi session token request.
 - CXV1-17408 - Added a new case in the sdk listener to update specific key in localStorage.
 - Replacing old Statistics page with new SLA page. || Removing alpha flag.
 - CXV1-13201 - added message for soft deleted records on Historical Reports
@@ -42,15 +36,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - CXV1-16852 - Default SLA can be set to a Tenant on Tenants page.
 - CXV1-17683 - Default SLA can be set to Queue versions on Queues page.
 ## Fixed
-- CXV1-18258 - Adding missing permission to read all mode to be able to impersonate a user.
-- CXV1-18258 - Adding impersonating user conditions back to users page.
 - Fixing issue with navbar dissapearing when setting any tenant as active.
 - CXV1-18393 - Shared Roles are NOT read only in Config 1 on Child Tenants.
 - CXV1-16675 - Can now see Last Modified by in Queue Management
 - CXV1-11155 - Clicking on Contact Layout A Second Time Removes Items from Their Respective Fields
-- CXV1-18335 - Parameter tenantName for Logi was changed to tenantname.
 - CXV1-17551 - Update spelling on Config UI error messaging
-- CXV1-18296 - Switching between tenants logout and login with new session data in Logi.
 - CXV1-11155 - Clicking on Contact Layout A Second Time Removes Items from Their Respective Fields
 - Transfer Lists - When Creating a new contact (Queue) disabled queues show in the "Endpoint" drop down
 - Bumping version to fix "Github tagged release" stage in jenkins pipeline.
