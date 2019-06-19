@@ -21,6 +21,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Flows
 - Logi reportings
 
+## [4.78.10-develop] - 2019-06-19
+- Fixing github tag not created on previous develop version.
+
 ## [4.78.9-develop] - 2019-06-18
 - CXV1-18604 - Platform admins shouldn't be able to add permissions on a role when on a child tenant.
 
