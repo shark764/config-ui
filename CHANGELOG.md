@@ -20,19 +20,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Dispatch Mappings
 - Flows
 
-## [4.75.0] - 2019-06-19
+## [4.75.1] - 2019-06-19
 ### Added
 - CXV1-18160 - Create new Config UI navigation and pages for Platform Support Tools.
 - CXV1-16884 - Added dispositions page to config-2
 - CXV1-16853 - New SLA page has been added to menu.
 ### Changed
-- CXV1-18604 - Platform admins shouldn't be able to add permissions on a role when on a child tenant.
-- CXV1-18604 - Non-platform admin users are able to add permissions to a shared role in Config-ui when on a child tenant.
 - SDK version bump to 8.54.6.
 - CXV1-17408 - Added a new case in the sdk listener to update specific key in localStorage.
 - Replacing old Statistics page with new SLA page. || Removing alpha flag.
-- CXV1-13201 - added message for soft deleted records on Historical Reports
-- CXV1-17970 - Statistics link has changed to new SLA page when "?alpha" parameter is added to URL.
 - CXV1-16852 - Default SLA can be set to a Tenant on Tenants page.
 - CXV1-17683 - Default SLA can be set to Queue versions on Queues page.
 ## Fixed
@@ -41,8 +37,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - CXV1-16675 - Can now see Last Modified by in Queue Management
 - CXV1-11155 - Clicking on Contact Layout A Second Time Removes Items from Their Respective Fields
 - CXV1-17551 - Update spelling on Config UI error messaging
-- CXV1-11155 - Clicking on Contact Layout A Second Time Removes Items from Their Respective Fields
-- Transfer Lists - When Creating a new contact (Queue) disabled queues show in the "Endpoint" drop down
+- CXV1-16442 - Transfer Lists - When Creating a new contact (Queue) disabled queues show in the "Endpoint" drop down
 - Bumping version to fix "Github tagged release" stage in jenkins pipeline.
 - CXV1-17543 - Switching between tenants is redirecting to correct betaFeatures or original pages.
 - CXV1-17980 - Retrieving SLAs in Tenants page is no longer missing tenantId in the request.
