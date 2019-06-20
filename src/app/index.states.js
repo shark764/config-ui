@@ -858,6 +858,12 @@ angular.module('liveopsConfigPanel').config([
 
       // Logi standard and advanced reports
       // will be released until Q3
+      .state('content.logi', {
+        url: '/reports/cxengage',
+        title: 'Reporting - Logi',
+        templateUrl: 'app/components/reports/logi/logi.html',
+        controller: 'LogiController'
+      })
 
       // .state('content.reporting.logiStandard', {
       //   url: '/cxengage-standard',

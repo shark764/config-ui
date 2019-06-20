@@ -20,7 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Dispatch Mappings
 - Flows
 
-## [4.75.1] - 2019-06-19
+## [4.75.2] - 2019-06-20
 ### Added
 - CXV1-18160 - Create new Config UI navigation and pages for Platform Support Tools.
 - CXV1-16884 - Added dispositions page to config-2
