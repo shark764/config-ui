@@ -855,48 +855,39 @@ angular.module('liveopsConfigPanel').config([
         templateUrl: 'app/components/reports/reports.html',
         controller: 'ReportsController'
       })
-
       // Logi standard and advanced reports
-      // will be released until Q3
-      .state('content.logi', {
-        url: '/reports/cxengage',
-        title: 'Reporting - Logi',
-        templateUrl: 'app/components/reports/logi/logi.html',
-        controller: 'LogiController'
+      .state('content.reporting.logiStandard', {
+        url: '/cxengage-standard',
+        title: 'Reporting - Logi - Standard Reports',
+        templateUrl: 'app/components/reports/logi/standard/logi_standard.html',
+        controller: 'LogiStandardController',
+        reloadOnSearch: false,
+        resolve: {
+          hasPermission: [
+            'UserPermissions',
+            'PermissionGroups',
+            function(UserPermissions, PermissionGroups) {
+              return UserPermissions.resolvePermissions(PermissionGroups.viewConfigReportingBI);
+            }
+          ]
+        }
       })
-
-      // .state('content.reporting.logiStandard', {
-      //   url: '/cxengage-standard',
-      //   title: 'Reporting - Logi - Standard Reports',
-      //   templateUrl: 'app/components/reports/logi/standard/logi_standard.html',
-      //   controller: 'LogiStandardController',
-      //   reloadOnSearch: false,
-      //   resolve: {
-      //     hasPermission: [
-      //       'UserPermissions',
-      //       'PermissionGroups',
-      //       function(UserPermissions, PermissionGroups) {
-      //         return UserPermissions.resolvePermissions(PermissionGroups.viewConfigReportingBI);
-      //       }
-      //     ]
-      //   }
-      // })
-      // .state('content.reporting.logiAdvanced', {
-      //   url: '/cxengage-advanced',
-      //   title: 'Reporting - Logi - Advanced Reports',
-      //   templateUrl: 'app/components/reports/logi/advanced/logi_advanced.html',
-      //   controller: 'LogiAdvancedController',
-      //   reloadOnSearch: false,
-      //   resolve: {
-      //     hasPermission: [
-      //       'UserPermissions',
-      //       'PermissionGroups',
-      //       function(UserPermissions, PermissionGroups) {
-      //         return UserPermissions.resolvePermissions(PermissionGroups.viewConfigReportingBI);
-      //       }
-      //     ]
-      //   }
-      // })
+      .state('content.reporting.logiAdvanced', {
+        url: '/cxengage-advanced',
+        title: 'Reporting - Logi - Advanced Reports',
+        templateUrl: 'app/components/reports/logi/advanced/logi_advanced.html',
+        controller: 'LogiAdvancedController',
+        reloadOnSearch: false,
+        resolve: {
+          hasPermission: [
+            'UserPermissions',
+            'PermissionGroups',
+            function(UserPermissions, PermissionGroups) {
+              return UserPermissions.resolvePermissions(PermissionGroups.viewConfigReportingBI);
+            }
+          ]
+        }
+      })
       .state('content.billing', {
         url: '/billing-reports?id',
         title: 'Reporting - Billing Reports',
