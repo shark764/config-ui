@@ -310,12 +310,8 @@
   <user-message-templates user="selectedTenantUser"></user-message-templates>
 </div>
 
-<!--
-  Impersonating user for Logi reports
-  will be released on Q3 -->
-
 <!-- Reporting Impersonating -->
-<!-- <div ng-if="scenario() === 'update' && (
+<div ng-if="scenario() === 'update' && (
       (!isTenantSetForReadAllMode() && (
         ('PLATFORM_IMPERSONATE_REPORTING_USERS'| hasPermission) ||
         (
@@ -336,4 +332,4 @@
     <input ng-click="setUserAsImpersonated()" type="button" class="btn btn-primary impersonate-user-btn" value="{{'user.details.reporting.setAsImpersonated' | translate}}"></input>
     <div class="lo-error" >{{'user.details.reporting.impersonate.warning' | translate}}</div>
   </div>
-</div> -->
+</div>

@@ -8,31 +8,30 @@ angular.module('liveopsConfigPanel').service('Logi', [
     var service = {};
     var timezone = $moment.tz.guess();
 
-    service.getLogiToken = function(tenantId, /* tenantName, */ username) {
+    service.getLogiToken = function(tenantId, tenantName, username) {
       return $http({
         method: 'GET',
         url: apiHostname + '/v1/tenants/' + tenantId + '/reporting-token/logi',
         params: {
           timezone: timezone,
-          username: username
-          // tenantId: tenantId,
-          // tenantName: tenantName
+          username: username,
+          tenantId: tenantId,
+          tenantName: tenantName
         }
       });
     };
 
-    service.getSsmToken = function(tenantId, /* tenantName, userId, */ username /* userPermissions, impersonate */) {
+    service.getSsmToken = function(tenantId, tenantName, userId, username, impersonate) {
       return $http({
         method: 'GET',
         url: apiHostname + '/v1/tenants/' + tenantId + '/reporting-token/CxEngageSSM',
         params: {
           timezone: timezone,
-          // tenantId: tenantId,
-          // tenantName: tenantName,
-          // userId: userId,
-          username: username
-          // userPermissions: userPermissions,
-          // impersonate: impersonate
+          tenantId: tenantId,
+          tenantName: tenantName,
+          userId: userId,
+          username: username,
+          impersonate: impersonate
         }
       });
     };

@@ -797,33 +797,32 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
 
       // //////////////////////////////////////////
       // LOGI Reports
-      // Logi standard and advanced reports will be
-      // released on Q3
+      // Logi standard and advanced reports
       // //////////////////////////////////////////
-      // if (
-      //   UserPermissions.hasPermissionInList(PermissionGroups.viewConfigReportingBI) &&
-      //   Session.betaFeatures.logiStandard &&
-      //   !isActiveExternalTenant
-      // ) {
-      //   items.push({
-      //     label: '(Beta) ' + $translate.instant('navbar.reports.logi.standard.title'),
-      //     stateLink: 'content.reporting.logiStandard',
-      //     id: 'logi-standard-reports-link',
-      //     order: 8
-      //   });
-      // }
-      // if (
-      //   UserPermissions.hasPermissionInList(PermissionGroups.viewConfigReportingBI) &&
-      //   Session.betaFeatures.logiAdvanced &&
-      //   !isActiveExternalTenant
-      // ) {
-      //   items.push({
-      //     label: '(Beta) ' + $translate.instant('navbar.reports.logi.advanced.title'),
-      //     stateLink: 'content.reporting.logiAdvanced',
-      //     id: 'logi-advanced-reports-link',
-      //     order: 9
-      //   });
-      // }
+      if (
+        UserPermissions.hasPermissionInList(PermissionGroups.viewConfigReportingBI) &&
+        Session.betaFeatures.logiStandard &&
+        !isActiveExternalTenant
+      ) {
+        items.push({
+          label: '(Beta) ' + $translate.instant('navbar.reports.logi.standard.title'),
+          stateLink: 'content.reporting.logiStandard',
+          id: 'logi-standard-reports-link',
+          order: 8
+        });
+      }
+      if (
+        UserPermissions.hasPermissionInList(PermissionGroups.viewConfigReportingBI) &&
+        Session.betaFeatures.logiAdvanced &&
+        !isActiveExternalTenant
+      ) {
+        items.push({
+          label: '(Beta) ' + $translate.instant('navbar.reports.logi.advanced.title'),
+          stateLink: 'content.reporting.logiAdvanced',
+          id: 'logi-advanced-reports-link',
+          order: 9
+        });
+      }
 
       // commenting this out as per CXV1-13276, which specifies
       // this option should be hidden, and not necessarily deleted
