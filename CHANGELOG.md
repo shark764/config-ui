@@ -21,6 +21,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Flows
 - Logi reportings
 
+## [4.78.11-develop] - 2019-07-01
+### Fixed
+- CXV1-18788 - Tenant Role showing disabled roles in Config 1 and incorrect value in Config 2 on Users page.
+### Changed
+- SDK version bump to 8.55.0.
+
 ## [4.78.10-develop] - 2019-06-19
 - Fixing github tag not created on previous develop version.
 

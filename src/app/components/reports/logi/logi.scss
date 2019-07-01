@@ -1,10 +1,8 @@
-#outer,
-#container {
+#outer, #container {
   position: relative;
 }
 
-#logiContainer,
-#ssmContainer {
+#logiContainer, #ssmContainer {
   height: 100%;
   width: 100%;
 
@@ -17,7 +15,7 @@
   width: auto;
   height: 50px;
   z-index: 10;
-  background-color: #172c42;
+  background-color: #172C42;
   position: absolute;
   right: 0;
   color: white;
@@ -30,7 +28,7 @@
   padding: 10px;
   display: inline-flex;
   align-items: center;
-  background-color: #172c42;
+  background-color: #172C42;
 
   &:hover {
     cursor: pointer;

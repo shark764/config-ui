@@ -13,44 +13,16 @@ angular.module('liveopsConfigPanel').controller('LogiAdvancedController', [
   'TenantPermission',
   function($scope, $window, Session, Logi, $translate, Alert, logiUrl, TenantUser, TenantRole, TenantPermission) {
     $scope.iframeLoaded = false;
-    $scope.userPermissions = [];
 
     $scope.isUserImpersonated = sessionStorage.getItem('LOGI-USER-IMPERSONATE') !== null;
     $scope.tenantUserReporting = $scope.isUserImpersonated
       ? JSON.parse(sessionStorage.getItem('LOGI-USER-IMPERSONATE'))
       : Session.user;
 
-    // We get permissions for user selected in Users page,
-    // Or User in Session, to reach permissions, first we get
-    // User data, then its role, finally permissions to send to API
-    TenantUser.cachedGet({ tenantId: Session.tenant.tenantId, id: $scope.tenantUserReporting.id })
-      .$promise.then(function(userResponse) {
-        TenantRole.cachedGet({ id: userResponse.roleId, tenantId: Session.tenant.tenantId })
-          .$promise.then(function(roleResponse) {
-            TenantPermission.cachedQuery({ tenantId: Session.tenant.tenantId }).$promise.then(function(
-              permissionsResponse
-            ) {
-              var userPermissions = [];
-              _.forEach(permissionsResponse, function(permission, i) {
-                if (roleResponse.permissions.indexOf(permission.id) !== -1) {
-                  userPermissions.push(permission.name);
-                }
-              });
-              $scope.userPermissions = userPermissions;
-            });
-          })
-          .catch(function(error) {
-            console.error(error);
-          });
-      })
-      .catch(function(error) {
-        console.error(error);
-      });
-
     console.warn('LogiUrl: ', logiUrl);
 
     var logiCheck = setInterval(function() {
-      if (window.EmbeddedReporting && $scope.userPermissions.length > 0) {
+      if (window.EmbeddedReporting) {
         console.warn('Embedded Reporting module is ready.');
         clearInterval(logiCheck);
         $scope.fetch();
@@ -96,7 +68,6 @@ angular.module('liveopsConfigPanel').controller('LogiAdvancedController', [
         Session.tenant.tenantName,
         $scope.tenantUserReporting.id,
         $scope.tenantUserReporting.displayName,
-        JSON.stringify($scope.userPermissions),
         $scope.isUserImpersonated
       )
         .then(function(response) {
