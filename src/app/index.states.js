@@ -855,6 +855,7 @@ angular.module('liveopsConfigPanel').config([
         templateUrl: 'app/components/reports/reports.html',
         controller: 'ReportsController'
       })
+      // Logi standard and advanced reports
       .state('content.reporting.logiStandard', {
         url: '/cxengage-standard',
         title: 'Reporting - Logi - Standard Reports',

@@ -797,6 +797,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
 
       // //////////////////////////////////////////
       // LOGI Reports
+      // Logi standard and advanced reports
       // //////////////////////////////////////////
       if (
         UserPermissions.hasPermissionInList(PermissionGroups.viewConfigReportingBI) &&

@@ -21,7 +21,7 @@ angular.module('liveopsConfigPanel').service('Logi', [
       });
     };
 
-    service.getSsmToken = function(tenantId, tenantName, userId, username, userPermissions, impersonate) {
+    service.getSsmToken = function(tenantId, tenantName, userId, username, impersonate) {
       return $http({
         method: 'GET',
         url: apiHostname + '/v1/tenants/' + tenantId + '/reporting-token/CxEngageSSM',
@@ -31,7 +31,6 @@ angular.module('liveopsConfigPanel').service('Logi', [
           tenantName: tenantName,
           userId: userId,
           username: username,
-          userPermissions: userPermissions,
           impersonate: impersonate
         }
       });
