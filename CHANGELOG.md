@@ -21,7 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Flows
 - Logi reportings
 
-## [4.75.3] - 2019-06-24
+## [4.75.4] - 2019-07-04
 ### Added
 - CXV1-17687 - Adding initial spinning wheel when loading Logi Reports iframes.
 - Adding Logi links to navbar for Standard Reports and Advanced Reports.
@@ -31,7 +31,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - CXV1-16884 - Added dispositions page to config-2
 - CXV1-16853 - New SLA page has been added to menu.
 ### Changed
-- SDK version bump to 8.54.6.
+- SDK version bump to 8.55.0.
+- CXV1-18604 - Non-platform admin users are able to add permissions to a shared role in Config-ui when on a child tenant.
 - Removing user permissions parameter from Logi token request.
 - CXV1-18335 - Adding tenant name to Logi session token request.
 - CXV1-17408 - Added a new case in the sdk listener to update specific key in localStorage.
@@ -39,6 +40,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - CXV1-16852 - Default SLA can be set to a Tenant on Tenants page.
 - CXV1-17683 - Default SLA can be set to Queue versions on Queues page.
 ## Fixed
+- CXV1-18788 - Tenant Role showing disabled roles in Config 1 and incorrect value in Config 2 on Users page.
 - CXV1-18296 - Switching between tenants logout and login with new session data in Logi.
 - Adding missing permission to read all mode to be able to impersonate a user.
 - Fixing issue with navbar dissapearing when setting any tenant as active.

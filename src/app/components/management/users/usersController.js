@@ -460,7 +460,9 @@ angular.module('liveopsConfigPanel').controller('UsersController', [
     };
 
     $scope.fetchTenantRoles = function() {
-      return $scope.roleData;
+      return _.filter($scope.roleData, function(role) {
+        return role.active;
+      });
     };
 
     $scope.fetchPlatformRoles = function() {
