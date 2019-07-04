@@ -251,6 +251,19 @@ angular.module('liveopsConfigPanel').config([
           ]
         }
       })
+      .state('content.configuration.tenants2', {
+        url: '/tenants2',
+        title: 'Configuration - Tenant Management',
+        templateUrl: 'app/components/configuration/tenants2/tenants2.html',
+        controller: 'TenantsController2',
+        reloadOnSearch: false,
+        resolve: {
+          hasPermission: ['UserPermissions', 'PermissionGroups',  function(UserPermissions, PermissionGroups) {
+              return UserPermissions.resolvePermissions(PermissionGroups.viewTenants);
+            }
+          ]
+        }
+      })
       .state('content.configuration.genericLists', {
         url: '/lists?id',
         title: 'Configuration - Lists',
