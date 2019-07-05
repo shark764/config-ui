@@ -643,6 +643,22 @@ angular.module('liveopsConfigPanel').config([
           ]
         }
       })
+      .state('content.flows.flowDebugger', {
+        url: '/flowDebugger',
+        title: 'Flows - Debug Logs',
+        templateUrl: 'app/components/flows/flowDebugger/flowdebugger.html',
+        controller: 'flowDebuggerController',
+        reloadOnSearch: false,
+        resolve: {
+          hasPermission: [
+            'UserPermissions',
+            'PermissionGroups',
+            function(UserPermissions, PermissionGroups) {
+              return UserPermissions.resolvePermissions(PermissionGroups.viewFlows);
+            }
+          ]
+        }
+      })
       .state('content.flows.queues', {
         url: '/queues?id',
         title: 'Flows - Queue Management',
