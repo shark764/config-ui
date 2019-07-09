@@ -22,6 +22,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Flows
 - Logi reportings
 
+## [4.81.2-develop] - 2019-08-13
+### Fixed
+- <no-jira> - Using correct permissions for Agent State Monitoring feature.
+
 ## [4.81.1-develop] - 2019-08-09
 ### Fixed
 - CXV1-19185 - Update WebRTC Region Support
