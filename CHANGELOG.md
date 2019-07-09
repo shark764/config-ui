@@ -21,6 +21,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Flows
 - Logi reportings
 
+## [4.79.0] - 2019-07-05
+## Added
+- CXV1-18407 - Added tenants page to config-2
+
 ## [4.78.11-develop] - 2019-07-01
 ### Fixed
 - CXV1-18788 - Tenant Role showing disabled roles in Config 1 and incorrect value in Config 2 on Users page.
