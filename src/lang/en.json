@@ -210,6 +210,7 @@
   "navbar.reports.rtdCustom.title": "Custom Realtime Dashboards",
   "navbar.reports.silentMonitoring.title": "Silent Monitoring",
   "navbar.reports.interactionMonitoring.title": "Interaction Monitoring",
+  "navbar.reports.agentStateMonitoring.title": "Agent State Monitoring",
   "navbar.reports.logi.standard.title": "Standard Reports",
   "navbar.reports.logi.advanced.title": "Advanced Reports",
   "navbar.qualityManagement.title": "Quality Management",

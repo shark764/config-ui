@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Queues
 - Chat Widgets
 - Transfer Lists
+- Agent State Monitoring
 
 ## [Beta User Acceptance Testing]
 - Users Page
@@ -20,6 +21,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Dispatch Mappings
 - Flows
 - Logi reportings
+
+## [4.81.0-develop] - 2019-07-18
+### Added
+- CXV1-18905 - Main Agent State Monitoring Table.
 
 ## [4.80.2-develop] - 2019-07-18
 ### Fixed

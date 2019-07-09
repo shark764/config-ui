@@ -25,29 +25,36 @@ angular.module('liveopsConfigPanel').directive('sdkListener', [
                 window.cxSubscriptions[event.data.command + subscribedTenant] = CxEngage.subscribe(
                   event.data.command,
                   function(error, topic, response) {
-                    if (location.hash.indexOf('#/reporting/interactionMonitoring') < 0) {
+                    if (
+                      location.hash.indexOf('#/reporting/interactionMonitoring') < 0 &&
+                      location.hash.indexOf('#/reporting/agentStateMonitoring') < 0
+                    ) {
                       if (event.data.command === 'cxengage/reporting/batch-response') {
                         CxEngage.unsubscribe(window.cxSubscriptions[event.data.command]);
                       }
-                      CxEngage.reporting.removeStatSubscription({ statId: 'interactions-in-conversation-list' });
+                      CxEngage.reporting.bulkRemoveStatSubscription({
+                        statIds: ['resource-capacity', 'resource-state-list', 'interactions-in-conversation-list']
+                      });
                     }
 
                     try {
-                      event.source.postMessage(
-                        {
-                          subscription: {
-                            error: error,
-                            topic: topic,
-                            response: response,
-                            messageId: event.data.messageId
-                          }
-                        },
-                        '*'
-                      );
+                      if (event.source !== undefined) {
+                        event.source.postMessage(
+                          {
+                            subscription: {
+                              error: error,
+                              topic: topic,
+                              response: response,
+                              messageId: event.data.messageId
+                            }
+                          },
+                          '*'
+                        );
+                      }
                     } catch (error) {
                       console.warn(
                         'Cannot find original requestor iframe for subscription: ',
-                        event.data.command + 'for tenant id ' + subscribedTenant
+                        event.data.command + ' for tenant id ' + subscribedTenant
                       );
                       CxEngage.unsubscribe(window.cxSubscriptions[event.data.command + subscribedTenant]);
                     }
