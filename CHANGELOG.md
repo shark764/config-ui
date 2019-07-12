@@ -21,6 +21,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Flows
 - Logi reportings
 
+## [4.75.5] - 2019-07-04
+- Change for Flow Debugger Template URL
+
 ## [4.75.4] - 2019-07-04
 ### Added
 - CXV1-17687 - Adding initial spinning wheel when loading Logi Reports iframes.

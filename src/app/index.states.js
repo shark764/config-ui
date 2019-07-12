@@ -1391,7 +1391,7 @@ angular.module('liveopsConfigPanel').config([
       .state('content.support.debug', {
         url: '/debugger',
         title: 'Flow Debugger',
-        templateUrl: '/app/components/supportTool/flowDebugger/flowDebuggerPage.html',
+        templateUrl: 'app/components/supportTool/flowDebugger/flowDebuggerPage.html',
         controller: 'DebuggerPageController',
         reloadOnSearch: false,
         resolve: {
