@@ -21,6 +21,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Flows
 - Logi reportings
 
+## [4.79.1] - 2019-07-15
+## Fixed
+- CXV1-19004 - Logi uses non hard coded url for initial load
+
 ## [4.79.0] - 2019-07-05
 ## Added
 - CXV1-18407 - Added tenants page to config-2
