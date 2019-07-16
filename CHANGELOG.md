@@ -21,6 +21,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Flows
 - Logi reportings
 
+## [4.80.0-develop] -  2019-07-05
+###  Added
+- CXV1-18732 - Add flows debug page to configUI-2
+
 ## [4.79.1] - 2019-07-15
 ## Fixed
 - CXV1-19004 - Logi uses non hard coded url for initial load
