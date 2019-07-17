@@ -93,6 +93,7 @@ angular.module('liveopsConfigPanel').config([
                 UserPermissions.resolvePermissions(
                   PermissionGroups.viewUsers.concat(PermissionGroups.manageUserSkillsAndGroups)
                 ),
+                UserPermissions.resolvePermissions(PermissionGroups.viewUsers.concat(PermissionGroups.viewUsersConfig)),
                 UserPermissions.resolvePermissions(PermissionGroups.manageUsers) //See TITAN2-4897 for why we do this extra check
               );
             }
@@ -258,7 +259,10 @@ angular.module('liveopsConfigPanel').config([
         controller: 'TenantsController2',
         reloadOnSearch: false,
         resolve: {
-          hasPermission: ['UserPermissions', 'PermissionGroups',  function(UserPermissions, PermissionGroups) {
+          hasPermission: [
+            'UserPermissions',
+            'PermissionGroups',
+            function(UserPermissions, PermissionGroups) {
               return UserPermissions.resolvePermissions(PermissionGroups.viewTenants);
             }
           ]
