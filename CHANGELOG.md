@@ -21,6 +21,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Flows
 - Logi reportings
 
+## [4.80.2-develop] - 2019-07-18
+### Fixed
+- Adding PLATFORM_VIEW_ALL_USERS permission to allow platform view only to see users page.
+
 ## [4.80.1-develop] - 2019-07-17
 ### Changed
 - CXV1-19058 - Allow Plateform View Only user to see a list of users for the Set As Active Tenant.
