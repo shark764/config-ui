@@ -800,6 +800,19 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
         });
       }
 
+      if (
+        UserPermissions.hasPermissionInList(PermissionGroups.viewAgentStateMonitoring) &&
+        $location.search()['alpha'] &&
+        !isActiveExternalTenant
+      ) {
+        items.push({
+          label: $translate.instant('navbar.reports.agentStateMonitoring.title') + ' (Alpha)',
+          stateLink: 'content.reporting.agentStateMonitoring',
+          id: 'agent-state-monitoring-link',
+          order: 8
+        });
+      }
+
       // //////////////////////////////////////////
       // LOGI Reports
       // Logi standard and advanced reports
@@ -813,7 +826,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
           label: '(Beta) ' + $translate.instant('navbar.reports.logi.standard.title'),
           stateLink: 'content.reporting.logiStandard',
           id: 'logi-standard-reports-link',
-          order: 8
+          order: 9
         });
       }
       if (
@@ -825,7 +838,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
           label: '(Beta) ' + $translate.instant('navbar.reports.logi.advanced.title'),
           stateLink: 'content.reporting.logiAdvanced',
           id: 'logi-advanced-reports-link',
-          order: 9
+          order: 10
         });
       }
 

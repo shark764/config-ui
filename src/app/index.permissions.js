@@ -68,6 +68,7 @@
     viewConfigReportingBI: ['CONFIG_REPORTING_BI_VIEW'],
     viewAssignedReports: ['VIEW_ALL_REALTIME_DASHBOARDS', 'ASSIGNED_REPORTS_READ'],
     viewInteractionMonitoring: ['VIEW_ALL_MONITORED_CALLS'],
+    viewAgentStateMonitoring: ['AGENT_STATE_UPDATE'],
     viewCustomStats: ['CUSTOM_STATS_READ'],
     viewAppCreds: ['MANAGE_ALL_APP_CREDENTIALS'],
     viewMessageTemplates: ['VIEW_ALL_MESSAGE_TEMPLATES'],
