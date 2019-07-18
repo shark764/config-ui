@@ -1,5 +1,6 @@
 'use strict';
-angular.module('liveopsConfigPanel.config')
+angular
+  .module('liveopsConfigPanel.config')
   // .constant('apiHostname', 'http://localhost:9080')
   .constant('apiHostname', 'https://dev-api.cxengagelabs.net')
   .constant('designerHostname', 'https://dev-designer.cxengagelabs.net')
@@ -8,7 +9,6 @@ angular.module('liveopsConfigPanel.config')
   .constant('config2Url', 'https://dev-config2.cxengagelabs.net')
   .constant('qualityManagementUrl', 'https://dev-cxqm-web.cxengagelabs.net/Engage')
   .constant('s3BucketUrl', 'https://cxengagelabs-dev-configurator-images.s3.amazonaws.com')
-  .constant('logiUrl', 'https://logi-dev.cxengagelabs.net/CxEngage/rdTemplate/rdEmbedApi/rdEmbed.js')
   .constant('BIRST_URL', 'https://dev-birst.cxengagelabs.net')
   .constant('rtdRefreshRate', 30000)
   .constant('SSO_PASSWORD', 'JO4IIiv0vuzyhoYoyWpbip0QquoCQyGh')

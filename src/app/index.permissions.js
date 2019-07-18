@@ -10,7 +10,8 @@
       'MANAGE_ALL_USER_LOCATIONS',
       'MANAGE_TENANT_ENROLLMENT'
     ],
-    viewUsers: ['VIEW_ALL_USERS'],
+    viewUsers: ['VIEW_ALL_USERS', 'PLATFORM_VIEW_ALL_USERS'],
+    viewUsersConfig: ['CONFIG_USERS_VIEW', 'PLATFORM_CONFIG_USERS_VIEW'],
     manageUserSkillsAndGroups: ['MANAGE_ALL_GROUPS', 'MANAGE_ALL_SKILLS'],
     manageRoles: [
       'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT',
