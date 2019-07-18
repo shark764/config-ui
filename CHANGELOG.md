@@ -21,7 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Flows
 - Logi reportings
 
-## [4.75.7] - 2019-07-18
+## [4.75.8] - 2019-07-18
 ### Added
 - CXV1-17687 - Adding initial spinning wheel when loading Logi Reports iframes.
 - Adding Logi links to navbar for Standard Reports and Advanced Reports.

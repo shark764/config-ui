@@ -372,12 +372,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
         items.push({
           label: $translate.instant('navbar.management.users.title'),
           stateLink:
-            Session.betaFeatures.users &&
-            !isActiveExternalTenant &&
-            ((UserPermissions.hasPermissionInList(PermissionGroups.viewUsers) &&
-              (UserPermissions.hasPermissionInList(PermissionGroups.manageUserSkillsAndGroups) ||
-                UserPermissions.hasPermissionInList(PermissionGroups.viewUsersConfig))) ||
-              UserPermissions.hasPermissionInList(PermissionGroups.manageUsers))
+            Session.betaFeatures.users && !isActiveExternalTenant
               ? 'content.management.users2'
               : 'content.management.users',
           id: 'user-management-link',
