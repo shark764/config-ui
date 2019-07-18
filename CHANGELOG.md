@@ -21,7 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Flows
 - Logi reportings
 
-## [4.75.6] - 2019-07-18
+## [4.75.7] - 2019-07-18
 ### Added
 - CXV1-17687 - Adding initial spinning wheel when loading Logi Reports iframes.
 - Adding Logi links to navbar for Standard Reports and Advanced Reports.
@@ -41,6 +41,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - CXV1-16852 - Default SLA can be set to a Tenant on Tenants page.
 - CXV1-17683 - Default SLA can be set to Queue versions on Queues page.
 ## Fixed
+- Fixing conditions for Users page link in menu.
 - Adding PLATFORM_VIEW_ALL_USERS permission to allow platform view only to see users page.
 - CXV1-19004 - Logi uses non hard coded url for initial load
 - CXV1-18788 - Tenant Role showing disabled roles in Config 1 and incorrect value in Config 2 on Users page.
