@@ -365,7 +365,8 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
       //Note: see TITAN2-5445 for why VIEW_ALL_USERS permission on its own is not sufficient
       if (
         (UserPermissions.hasPermissionInList(PermissionGroups.viewUsers) &&
-          UserPermissions.hasPermissionInList(PermissionGroups.manageUserSkillsAndGroups)) ||
+          (UserPermissions.hasPermissionInList(PermissionGroups.manageUserSkillsAndGroups) ||
+            UserPermissions.hasPermissionInList(PermissionGroups.viewUsersConfig))) ||
         UserPermissions.hasPermissionInList(PermissionGroups.manageUsers)
       ) {
         items.push({
