@@ -21,6 +21,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Flows
 - Logi reportings
 
+## [4.75.9] - 2019-07-21
+- Update to permissions for users page
+- Update to data sent to config 2 on local storage update.
+
 ## [4.75.8] - 2019-07-18
 ### Added
 - CXV1-17687 - Adding initial spinning wheel when loading Logi Reports iframes.

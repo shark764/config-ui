@@ -157,6 +157,7 @@ angular.module('liveopsConfigPanel').directive('sdkListener', [
                     response: {
                       tenant: JSON.parse(window.localStorage.getItem('LIVEOPS-PREFERENCE-KEY')).tenant,
                       tenants: JSON.parse(window.localStorage.getItem('LIVEOPS-SESSION-KEY')).tenants,
+                      platformPermissions: JSON.parse(window.localStorage.getItem('LIVEOPS-SESSION-KEY')).platformPermissions,
                       agentId: CxEngage.session.getActiveUserId(),
                       token: CxEngage.dumpState().authentication.token,
                       baseUrl: apiHostname
