@@ -72,7 +72,7 @@ angular.module('liveopsConfigPanel').config([
                   PermissionGroups.viewUsers.concat(PermissionGroups.manageUserSkillsAndGroups)
                 ),
                 UserPermissions.resolvePermissions(PermissionGroups.viewUsers.concat(PermissionGroups.viewUsersConfig)),
-                UserPermissions.resolvePermissions(PermissionGroups.manageUsers) //See TITAN2-4897 for why we do this extra check
+                UserPermissions.resolvePermissions(PermissionGroups.manageUsers.concat(['PLATFORM_CONFIG_USERS_VIEW'])) //See TITAN2-4897 for why we do this extra check
               );
             }
           ]
@@ -95,7 +95,7 @@ angular.module('liveopsConfigPanel').config([
                   PermissionGroups.viewUsers.concat(PermissionGroups.manageUserSkillsAndGroups)
                 ),
                 UserPermissions.resolvePermissions(PermissionGroups.viewUsers.concat(PermissionGroups.viewUsersConfig)),
-                UserPermissions.resolvePermissions(PermissionGroups.manageUsers) //See TITAN2-4897 for why we do this extra check
+                UserPermissions.resolvePermissions(PermissionGroups.manageUsers.concat(['PLATFORM_CONFIG_USERS_VIEW'])) //See TITAN2-4897 for why we do this extra check
               );
             }
           ]
