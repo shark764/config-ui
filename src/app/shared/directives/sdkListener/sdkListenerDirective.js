@@ -4,9 +4,10 @@ angular.module('liveopsConfigPanel').directive('sdkListener', [
   'Session',
   '$rootScope',
   '$translate',
+  '$window',
   '$state',
   'apiHostname',
-  function(Session, $rootScope, $translate, $state, apiHostname) {
+  function(Session, $rootScope, $translate, $window, $state, apiHostname) {
     var tenantIsSet = false;
     return {
       restrict: 'E',
@@ -14,10 +15,11 @@ angular.module('liveopsConfigPanel').directive('sdkListener', [
         var sdkListener = function(event) {
           if (
             event.origin.indexOf('logi') === -1 &&
-            (event.origin.includes('localhost') ||
-              event.origin.includes('cxengage') ||
-              event.origin.includes('identity') ||
-              event.origin.includes('cxengagelabs'))
+            event.origin.indexOf('birst') === -1 &&
+            (event.origin.indexOf('localhost') > -1 ||
+              event.origin.indexOf('cxengage') > -1 ||
+              event.origin.indexOf('identity') > -1 ||
+              event.origin.indexOf('cxengagelabs') > -1)
           ) {
             if (CxEngage.session.getActiveTenantId()) {
               if (event.data.module === 'subscribe') {
@@ -345,6 +347,20 @@ angular.module('liveopsConfigPanel').directive('sdkListener', [
                   sdkListener(event);
                 }, 2000);
               }
+            }
+          }
+          else if (
+            event.origin.indexOf('birst') > -1 &&
+            (event.origin.indexOf('localhost') > -1 ||
+              event.origin.indexOf('cxengage') > -1 ||
+              event.origin.indexOf('identity') > -1 ||
+              event.origin.indexOf('cxengagelabs') > -1)
+          ) {
+            console.log(event.data);
+            console.log($window.addApp);
+            if (event.data && event.data.id && event.data.type && event.data.tenantId)
+            {
+              $window.addApp(event.data)
             }
           }
         };

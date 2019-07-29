@@ -21,6 +21,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Flows
 - Logi reportings
 
+## [4.75.9-1] - 2019-07-29
+- CXV1-18978 - Update Config UI messages and recordings to be compatible with Chrome 76 (Upcoming BETA)
+
 ## [4.75.9] - 2019-07-21
 - Update to permissions for users page
 - Update to data sent to config 2 on local storage update.
