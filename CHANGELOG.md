@@ -22,7 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Flows
 - Logi reportings
 
-## [4.81.1-develop]
+## [4.81.1-develop] - 2019-08-09
 ### Fixed
 - CXV1-19185 - Update WebRTC Region Support
 
