@@ -11,6 +11,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Chat Widgets
 - Transfer Lists
 - Agent State Monitoring
+- Business Hours
+- API Keys
+- Flow Debugger
 
 ## [Beta User Acceptance Testing]
 - Users Page
@@ -21,6 +24,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Dispatch Mappings
 - Flows
 - Logi reportings
+
+## [4.81.6-develop] - 2019-08-28
+### Changed
+- SDK version bump to 8.61.1.
+### Fixed
+- <no-jira> - Fixing permissions used for Agent State Monitoring.
 
 ## [4.81.5-develop] - 2019-08-22
 ### Fixed
