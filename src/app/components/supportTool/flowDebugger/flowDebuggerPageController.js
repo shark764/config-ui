@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('DebuggerPageController', ['$scope', '$window', '$state', '$sce', 'Session', 'UserPermissions', 'PermissionGroups', 'apiHostname', 'debuggerHostname',
-    function($scope, $window, $state, $sce, Session, UserPermissions, PermissionGroups, apiHostname, debuggerHostname) {
+  .controller('DebuggerPageController', ['$scope', '$window', '$state', '$sce', 'Session', 'UserPermissions', 'PermissionGroups', 'apiHostname', 'debuggerHostname', 'designerHostname',
+    function($scope, $window, $state, $sce, Session, UserPermissions, PermissionGroups, apiHostname, debuggerHostname, designerHostname) {
       /* globals window */
 
       $scope.debuggerHostname = $sce.trustAsResourceUrl(debuggerHostname);
@@ -15,7 +15,8 @@ angular.module('liveopsConfigPanel')
             message: 'FlowDebugger.start',
             data: {
               apiToken: Session.token,
-              apiHostname: apiHostname
+              apiHostname: apiHostname,
+              designerHostname: designerHostname,
             }
           }, '*');
           break;
