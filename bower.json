@@ -61,7 +61,10 @@
       ]
     },
     "angular-moment-picker": {
-      "main": ["dist/angular-moment-picker.js", "dist/angular-moment-picker.css"]
+      "main": [
+        "dist/angular-moment-picker.js",
+        "dist/angular-moment-picker.css"
+      ]
     }
   }
 }
