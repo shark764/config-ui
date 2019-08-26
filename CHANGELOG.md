@@ -22,9 +22,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Flows
 - Logi reportings
 
+## [4.81.5-develop] - 2019-08-22
+### Fixed
+- CXV1-19694 - Update Config UI to send Flow Debugger designerHostname constant
+
 ## [4.81.4-develop] - 2019-08-23
 ### Fixed
 - CXV1-19185 - Fixed a typo mistake in the translation file: "Sigapore" -> "Singapore"
+
 
 ## [4.81.3-develop] - 2019-08-21
 ### Fixed

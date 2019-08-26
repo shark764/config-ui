@@ -4,7 +4,7 @@ angular
   // .constant('apiHostname', 'http://localhost:9080')
   .constant('apiHostname', 'https://dev-api.cxengagelabs.net')
   .constant('designerHostname', 'https://dev-designer.cxengagelabs.net')
-  // https://dev-debugger.cxengagelabs.net is not a thing yet
+  // .constant('debuggerHostname', 'http://localhost:4200')
   .constant('debuggerHostname', 'https://dev-debugger.cxengagelabs.net')
   .constant('config2Url', 'https://dev-config2.cxengagelabs.net')
   .constant('qualityManagementUrl', 'https://dev-cxqm-web.cxengagelabs.net/Engage')
