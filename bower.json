@@ -1,6 +1,6 @@
 {
   "name": "liveopsConfigPanel",
-  "version": "4.81.4-develop",
+  "version": "4.81.6-develop",
   "dependencies": {
     "jquery": "2.1.4",
     "angular-resource": "1.6.3",
@@ -61,10 +61,7 @@
       ]
     },
     "angular-moment-picker": {
-      "main": [
-        "dist/angular-moment-picker.js",
-        "dist/angular-moment-picker.css"
-      ]
+      "main": ["dist/angular-moment-picker.js", "dist/angular-moment-picker.css"]
     }
   }
 }

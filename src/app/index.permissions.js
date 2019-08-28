@@ -68,7 +68,7 @@
     viewConfigReportingBI: ['CONFIG_REPORTING_BI_VIEW'],
     viewAssignedReports: ['VIEW_ALL_REALTIME_DASHBOARDS', 'ASSIGNED_REPORTS_READ'],
     viewInteractionMonitoring: ['VIEW_ALL_MONITORED_CALLS'],
-    viewAgentStateMonitoring: ['MANAGE_ALL_USER_STATE', 'VIEW_ALL_USERS_DIRECTION', 'MANAGE_ALL_USERS_DIRECTION'],
+    viewAgentStateMonitoring: ['MANAGE_ALL_USER_STATE', 'MANAGE_ALL_USERS_DIRECTION'],
     viewCustomStats: ['CUSTOM_STATS_READ'],
     viewAppCreds: ['MANAGE_ALL_APP_CREDENTIALS'],
     viewMessageTemplates: ['VIEW_ALL_MESSAGE_TEMPLATES'],

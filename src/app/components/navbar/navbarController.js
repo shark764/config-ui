@@ -800,13 +800,9 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
         });
       }
 
-      if (
-        UserPermissions.hasPermissionInList(PermissionGroups.viewAgentStateMonitoring) &&
-        $location.search()['alpha'] &&
-        !isActiveExternalTenant
-      ) {
+      if (UserPermissions.hasPermissionInList(PermissionGroups.viewAgentStateMonitoring) && !isActiveExternalTenant) {
         items.push({
-          label: $translate.instant('navbar.reports.agentStateMonitoring.title') + ' (Alpha)',
+          label: $translate.instant('navbar.reports.agentStateMonitoring.title'),
           stateLink: 'content.reporting.agentStateMonitoring',
           id: 'agent-state-monitoring-link',
           order: 8

@@ -6,7 +6,8 @@ angular.module('liveopsConfigPanel').directive('sdkListener', [
   '$translate',
   '$state',
   'apiHostname',
-  function(Session, $rootScope, $translate, $state, apiHostname) {
+  'Alert',
+  function(Session, $rootScope, $translate, $state, apiHostname, Alert) {
     var tenantIsSet = false;
     return {
       restrict: 'E',
@@ -56,7 +57,11 @@ angular.module('liveopsConfigPanel').directive('sdkListener', [
                         'Cannot find original requestor iframe for subscription: ',
                         event.data.command + ' for tenant id ' + subscribedTenant
                       );
+                      Alert.error($translate.instant('navbar.reports.agentStateMonitoring.subscription.fail'));
                       CxEngage.unsubscribe(window.cxSubscriptions[event.data.command + subscribedTenant]);
+                      CxEngage.reporting.bulkRemoveStatSubscription({
+                        statIds: ['resource-capacity', 'resource-state-list', 'interactions-in-conversation-list']
+                      });
                     }
                   }
                 );
