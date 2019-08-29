@@ -25,6 +25,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Flows
 - Logi reportings
 
+## [4.81.7-develop] - 2019-08-28
+### Fixed
+- <no-jira> - Fixed support tools flow debugger state change
+
 ## [4.81.6-develop] - 2019-08-28
 ### Changed
 - SDK version bump to 8.61.1.
