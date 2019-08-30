@@ -936,6 +936,22 @@ angular.module('liveopsConfigPanel').config([
           ]
         }
       })
+      .state('content.reporting.agentStateMonitoring', {
+        url: '/agentStateMonitoring',
+        title: 'Reporting - Agent State Monitoring',
+        templateUrl: 'app/components/reports/agentStateMonitoring/agentStateMonitoring.html',
+        controller: 'AgentStateMonitoringController',
+        reloadOnSearch: false,
+        resolve: {
+          hasPermission: [
+            'UserPermissions',
+            'PermissionGroups',
+            function(UserPermissions, PermissionGroups) {
+              return UserPermissions.resolvePermissions(PermissionGroups.viewAgentStateMonitoring);
+            }
+          ]
+        }
+      })
       .state('invite-accept', {
         url: '/invite-accept?userid&userId&tenantId&tenantid&token',
         title: 'Accept Invite',
