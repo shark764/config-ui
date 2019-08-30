@@ -7,7 +7,8 @@ angular.module('liveopsConfigPanel').directive('sdkListener', [
   '$window',
   '$state',
   'apiHostname',
-  function(Session, $rootScope, $translate, $window, $state, apiHostname) {
+  'Alert',
+  function(Session, $rootScope, $translate, $window, $state, apiHostname, Alert) {
     var tenantIsSet = false;
     return {
       restrict: 'E',
@@ -27,31 +28,42 @@ angular.module('liveopsConfigPanel').directive('sdkListener', [
                 window.cxSubscriptions[event.data.command + subscribedTenant] = CxEngage.subscribe(
                   event.data.command,
                   function(error, topic, response) {
-                    if (location.hash.indexOf('#/reporting/interactionMonitoring') < 0) {
+                    if (
+                      location.hash.indexOf('#/reporting/interactionMonitoring') < 0 &&
+                      location.hash.indexOf('#/reporting/agentStateMonitoring') < 0
+                    ) {
                       if (event.data.command === 'cxengage/reporting/batch-response') {
                         CxEngage.unsubscribe(window.cxSubscriptions[event.data.command]);
                       }
-                      CxEngage.reporting.removeStatSubscription({ statId: 'interactions-in-conversation-list' });
+                      CxEngage.reporting.bulkRemoveStatSubscription({
+                        statIds: ['resource-capacity', 'resource-state-list', 'interactions-in-conversation-list']
+                      });
                     }
 
                     try {
-                      event.source.postMessage(
-                        {
-                          subscription: {
-                            error: error,
-                            topic: topic,
-                            response: response,
-                            messageId: event.data.messageId
-                          }
-                        },
-                        '*'
-                      );
+                      if (event.source !== undefined) {
+                        event.source.postMessage(
+                          {
+                            subscription: {
+                              error: error,
+                              topic: topic,
+                              response: response,
+                              messageId: event.data.messageId
+                            }
+                          },
+                          '*'
+                        );
+                      }
                     } catch (error) {
                       console.warn(
                         'Cannot find original requestor iframe for subscription: ',
-                        event.data.command + 'for tenant id ' + subscribedTenant
+                        event.data.command + ' for tenant id ' + subscribedTenant
                       );
+                      Alert.error($translate.instant('navbar.reports.agentStateMonitoring.subscription.fail'));
                       CxEngage.unsubscribe(window.cxSubscriptions[event.data.command + subscribedTenant]);
+                      CxEngage.reporting.bulkRemoveStatSubscription({
+                        statIds: ['resource-capacity', 'resource-state-list', 'interactions-in-conversation-list']
+                      });
                     }
                   }
                 );
@@ -159,7 +171,8 @@ angular.module('liveopsConfigPanel').directive('sdkListener', [
                     response: {
                       tenant: JSON.parse(window.localStorage.getItem('LIVEOPS-PREFERENCE-KEY')).tenant,
                       tenants: JSON.parse(window.localStorage.getItem('LIVEOPS-SESSION-KEY')).tenants,
-                      platformPermissions: JSON.parse(window.localStorage.getItem('LIVEOPS-SESSION-KEY')).platformPermissions,
+                      platformPermissions: JSON.parse(window.localStorage.getItem('LIVEOPS-SESSION-KEY'))
+                        .platformPermissions,
                       agentId: CxEngage.session.getActiveUserId(),
                       token: CxEngage.dumpState().authentication.token,
                       baseUrl: apiHostname
@@ -348,8 +361,7 @@ angular.module('liveopsConfigPanel').directive('sdkListener', [
                 }, 2000);
               }
             }
-          }
-          else if (
+          } else if (
             event.origin.indexOf('birst') > -1 &&
             (event.origin.indexOf('localhost') > -1 ||
               event.origin.indexOf('cxengage') > -1 ||
@@ -358,9 +370,8 @@ angular.module('liveopsConfigPanel').directive('sdkListener', [
           ) {
             console.log(event.data);
             console.log($window.addApp);
-            if (event.data && event.data.id && event.data.type && event.data.tenantId)
-            {
-              $window.addApp(event.data)
+            if (event.data && event.data.id && event.data.type && event.data.tenantId) {
+              $window.addApp(event.data);
             }
           }
         };

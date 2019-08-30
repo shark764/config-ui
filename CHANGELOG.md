@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Queues
 - Chat Widgets
 - Transfer Lists
+- Agent State Monitoring
+- Business Hours
+- API Keys
+- Flow Debugger
 
 ## [Beta User Acceptance Testing]
 - Users Page
@@ -20,6 +24,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Dispatch Mappings
 - Flows
 - Logi reportings
+
+## [4.76.0] - 2019-08-30
+### Added
+- CXV1-18905 - Main Agent State Monitoring Table.
+- CXV1-18732 - Add flows debug page to configUI-2.
+- CXV1-18407 - Added tenants page to config-2.
+### Changed
+- SDK version bump to 8.61.1.
+### Fixed
+- CXV1-19694 - Update Config UI to send Flow Debugger designerHostname constant.
+- CXV1-19185 - Update WebRTC Region Support
+- <no-jira> - Fixed support tools flow debugger state change
+- <no-jira> - Adding PLATFORM_VIEW_ALL_USERS permission to allow platform view only to see users page.
 
 ## [4.75.9-1] - 2019-07-29
 - CXV1-18978 - Update Config UI messages and recordings to be compatible with Chrome 76 (Upcoming BETA)
