@@ -815,7 +815,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
         !isActiveExternalTenant
       ) {
         items.push({
-          label: '(Beta) ' + $translate.instant('navbar.reports.logi.standard.title'),
+          label: '(Early Access) ' + $translate.instant('navbar.reports.logi.standard.title'),
           stateLink: 'content.reporting.logiStandard',
           id: 'logi-standard-reports-link',
           order: 9
@@ -827,7 +827,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
         !isActiveExternalTenant
       ) {
         items.push({
-          label: '(Beta) ' + $translate.instant('navbar.reports.logi.advanced.title'),
+          label: '(Early Access) ' + $translate.instant('navbar.reports.logi.advanced.title'),
           stateLink: 'content.reporting.logiAdvanced',
           id: 'logi-advanced-reports-link',
           order: 10

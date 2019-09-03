@@ -25,6 +25,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Flows
 - Logi reportings
 
+## [4.76.1] - 2019-09-03
+- CXV1-19733 - Change "Beta" to "Early Access" in navbar dropdown.
+- CXV1-17996 - Adding userTimezoneOffset to Logi token
+
 ## [4.76.0] - 2019-08-30
 ### Added
 - CXV1-18905 - Main Agent State Monitoring Table.

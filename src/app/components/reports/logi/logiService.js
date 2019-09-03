@@ -16,7 +16,8 @@ angular.module('liveopsConfigPanel').service('Logi', [
           timezone: timezone,
           username: username,
           tenantId: tenantId,
-          tenantName: tenantName
+          tenantName: tenantName,
+          userTimezoneOffset: new Date().getTimezoneOffset()
         }
       });
     };
@@ -27,6 +28,7 @@ angular.module('liveopsConfigPanel').service('Logi', [
         url: apiHostname + '/v1/tenants/' + tenantId + '/reporting-token/CxEngageSSM',
         params: {
           timezone: timezone,
+          userTimezoneOffset: new Date().getTimezoneOffset(),
           tenantId: tenantId,
           tenantName: tenantName,
           userId: userId,
