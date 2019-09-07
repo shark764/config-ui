@@ -516,6 +516,25 @@ angular.module('liveopsConfigPanel').config([
           ]
         }
       })
+      .state('content.configuration.hours2', {
+        url: '/hours2',
+        title: 'Configuration - Business Hours Management',
+        templateUrl: 'app/components/configuration/hours2/hours.html',
+        controller: 'hoursController2',
+        reloadOnSearch: false,
+        resolve: {
+          hasPermission: [
+            'UserPermissions',
+            'PermissionGroups',
+            function(UserPermissions, PermissionGroups) {
+              return (
+                UserPermissions.hasPermissionInList(PermissionGroups.viewBusinessHours) ||
+                UserPermissions.resolvePermissions(PermissionGroups.manageBusinessHours)
+              );
+            }
+          ]
+        }
+      })
       .state('content.configuration.keys', {
         url: '/keys?id',
         title: 'Configuration - API Keys',
@@ -527,6 +546,22 @@ angular.module('liveopsConfigPanel').config([
             'UserPermissions',
             'PermissionGroups',
             function(UserPermissions, PermissionGroups) {
+              return UserPermissions.resolvePermissions(PermissionGroups.viewAppCreds);
+            }
+          ]
+        }
+      })
+      .state('content.configuration.keys2', {
+        url: '/keys2',
+        title: 'Configuration - API Keys',
+        templateUrl: 'app/components/configuration/keys2/keys.html',
+        controller: 'keysController2',
+        reloadOnSearch: false,
+        resolve: {
+          hasPermission: [
+            'UserPermissions',
+            'PermissionGroups',
+            function (UserPermissions, PermissionGroups) {
               return UserPermissions.resolvePermissions(PermissionGroups.viewAppCreds);
             }
           ]
@@ -544,6 +579,21 @@ angular.module('liveopsConfigPanel').config([
             'PermissionGroups',
             function(UserPermissions, PermissionGroups) {
               return UserPermissions.resolvePermissions(PermissionGroups.viewMessageTemplates);
+            }
+          ]
+        }
+      })
+      .state('content.configuration.messageTemplates2', {
+        url: '/messageTemplates2',
+        title: 'Configuration - Message Templates',
+        templateUrl: 'app/components/configuration/messageTemplates2/messageTemplates.html',
+        controller: 'messageTemplatesController2',
+        reloadOnSearch: false,
+        resolve: {
+          hasPermission: [
+            'UserPermissions',
+            function(UserPermissions) {
+              return UserPermissions.resolvePermissions(['VIEW_ALL_MESSAGE_TEMPLATES']);
             }
           ]
         }

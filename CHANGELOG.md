@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Business Hours
 - API Keys
 - Flow Debugger
+- Message Templates
 
 ## [Beta User Acceptance Testing]
 - Users Page
@@ -24,6 +25,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Dispatch Mappings
 - Flows
 - Logi reportings
+
+## [4.77.0] - 2019-09-06
+### Added
+- <no-jira> - Added API keys page into alpha
+- <no-jira> - Added business hours page into alpha
+- <no-jira> - Added message templates page into alpha
+### Changed
+- SDK version bump to 8.64.3.
 
 ## [4.76.1] - 2019-09-03
 - CXV1-19733 - Change "Beta" to "Early Access" in navbar dropdown.

@@ -530,6 +530,21 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
         });
       }
 
+      
+      if (
+        (UserPermissions.hasPermissionInList(PermissionGroups.viewBusinessHours) ||
+        UserPermissions.hasPermissionInList(PermissionGroups.manageBusinessHours)) &&
+        $location.search()['alpha'] &&
+        !isActiveExternalTenant
+      ) {
+        items.push({
+          label: $translate.instant('navbar.configuration.hours.title') + ' (alpha)',
+          stateLink: 'content.configuration.hours2',
+          id: 'template-configuration-link',
+          order: 18
+        });
+      }
+
       if (UserPermissions.hasPermissionInList(PermissionGroups.viewCustomStats) && !isActiveExternalTenant) {
         items.push({
           label: $translate.instant('navbar.configuration.slas.title'),
@@ -545,6 +560,19 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
           stateLink: 'content.configuration.keys',
           id: 'key-configuration-link',
           order: 7
+        });
+      }
+
+
+      if (UserPermissions.hasPermissionInList(PermissionGroups.viewAppCreds) &&
+          $location.search()['alpha'] &&
+          !isActiveExternalTenant
+      ) {
+        items.push({
+          label: $translate.instant('navbar.configuration.keys.title') + ' (alpha)',
+          stateLink: 'content.configuration.keys2',
+          id: 'template-configuration-link',
+          order: 19
         });
       }
 
@@ -576,6 +604,19 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
           stateLink: 'content.configuration.messageTemplates',
           id: 'template-configuration-link',
           order: 9
+        });
+      }
+
+      if (
+        UserPermissions.hasPermission('VIEW_ALL_MESSAGE_TEMPLATES') &&
+        $location.search()['alpha'] &&
+        !isActiveExternalTenant
+      ) {
+        items.push({
+          label: $translate.instant('navbar.configuration.messageTemplates.title') + ' (alpha)',
+          stateLink: 'content.configuration.messageTemplates2',
+          id: 'template-configuration-link',
+          order: 17
         });
       }
 
