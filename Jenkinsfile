@@ -1,5 +1,5 @@
 #!groovy​
-@Library('sprockets@2.1.0') _
+@Library('sprockets@2.9.4') _
 
 import common
 import git
@@ -18,26 +18,8 @@ def f = new frontend()
 def commiter = ''
 def lastCommitMsg = ''
 
-@NonCPS
-def stop_previous_builds(job_name, build_num) {
-  def job = Jenkins.instance.getItemByFullName(job_name)
-  def new_builds = job.getNewBuilds()
-
-  for (int i = 0; i < new_builds.size(); i++) {
-    def build = new_builds.get(i);
-    if (build.getNumber().toInteger() != build_num) {
-      if (build.isBuilding()) {
-        build.doStop()
-      }
-    }
-  }
-}
-
-try {
-  stop_previous_builds(env.JOB_NAME, env.BUILD_NUMBER.toInteger())
-} catch (Exception e) {
-  sh "echo ${e}"
-}
+//This will stop all old builds so that things are not running in parallel.
+c.stop_previous_builds(env.JOB_NAME, env.BUILD_NUMBER.toInteger())
 
 node(){
   pwd = pwd()
@@ -52,6 +34,8 @@ pipeline {
         script {
           n.export()
           build_version = readFile('version')
+          buildTool = c.getBuildTool()
+          props = c.exportProperties(buildTool)
           sh "git log -2 --pretty=%B > lastCommitMsg"
           lastCommitMsg = readFile('lastCommitMsg').trim()
           sh "git log -2 --pretty=format:'%an' > commiter"

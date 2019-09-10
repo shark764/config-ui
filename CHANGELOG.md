@@ -26,6 +26,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Flows
 - Logi reportings
 
+## [4.77.1] - 2019-09-06
+### Added
+- updated jenkinsfile to stop old builds correctly
+
 ## [4.77.0] - 2019-09-06
 ### Added
 - <no-jira> - Added API keys page into alpha
