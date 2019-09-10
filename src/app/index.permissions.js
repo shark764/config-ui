@@ -59,6 +59,7 @@
     viewReasons: ['READ_PRESENCE_REASONS'],
     viewReasonLists: ['READ_REASON_LIST'],
     viewFlows: ['VIEW_ALL_FLOWS'],
+    viewFlowDebugLogs:  ['VIEW_FLOW_DEBUG_LOGS','PLATFORM_VIEW_FLOW_DEBUG_LOGS'],
     viewDispositions: ['READ_DISPOSITIONS'],
     viewDispositionLists: ['READ_DISPOSITION_LIST'],
     viewQueues: ['VIEW_ALL_FLOWS'],

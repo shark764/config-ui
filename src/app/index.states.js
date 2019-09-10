@@ -682,6 +682,22 @@ angular.module('liveopsConfigPanel').config([
           ]
         }
       })
+      .state('content.flows.flowDebugLogs', {
+        url: '/flowDebugLogs',
+        title: 'Flows Debug Logs',
+        templateUrl: 'app/components/flows/flowDebugLogs/flowDebugLogs.html',
+        controller: 'flowDebugLogsController',
+        reloadOnSearch: false,
+        resolve: {
+          hasPermission: [
+            'UserPermissions',
+            'PermissionGroups',
+            function(UserPermissions, PermissionGroups) {
+              return UserPermissions.resolvePermissions(PermissionGroups.viewFlowDebugLogs);
+            }
+          ]
+        }
+      })
       .state('content.flows.queues', {
         url: '/queues?id',
         title: 'Flows - Queue Management',
@@ -1456,18 +1472,18 @@ angular.module('liveopsConfigPanel').config([
           ]
         }
       })
-      .state('content.support.debug', {
-        url: '/debugger',
-        title: 'Flow Debugger',
-        templateUrl: 'app/components/supportTool/flowDebugger/flowDebuggerPage.html',
-        controller: 'DebuggerPageController',
+      .state('content.support.flowDebugger', {
+        url: '/FlowDebugger',
+        title: 'Flow Debug Logs',
+        templateUrl: 'app/components/flows/flowDebugger/flowDebuggerPage.html',
+        controller: 'flowDebuggerController',
         reloadOnSearch: false,
         resolve: {
           hasPermission: [
             'UserPermissions',
             'PermissionGroups',
             function(UserPermissions, PermissionGroups) {
-              return UserPermissions.resolvePermissions(PermissionGroups.viewConfigDebugTool);
+              return UserPermissions.resolvePermissions(PermissionGroups.viewFlowDebugger);
             }
           ]
         }

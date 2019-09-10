@@ -706,6 +706,15 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
         });
       }
 
+      if (UserPermissions.hasPermissionInList(PermissionGroups.viewFlowDebugLogs) && !isActiveExternalTenant) {
+        items.push({
+          label: $translate.instant('navbar.flows.flowDebugLogs.title'),
+          stateLink: 'content.flows.flowDebugLogs',
+          id: 'flow-Debugger-link',
+          order: 8
+        });
+      }
+
       if (UserPermissions.hasPermissionInList(PermissionGroups.viewDispositions)) {
         items.push({
           label: $translate.instant('navbar.flows.dispositions.title'),

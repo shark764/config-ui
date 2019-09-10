@@ -205,6 +205,7 @@
   "navbar.flows.medialists.title": "Media Lists",
   "navbar.flows.media.title": "Media",
   "navbar.flows.dispatchmappings.title": "Dispatch Mappings",
+  "navbar.flows.flowDebugLogs.title": "Flow Debug Logs",
   "navbar.help.help": "Help",
   "navbar.help.api": "API Documentation",
   "navbar.reports.title": "Reporting",
