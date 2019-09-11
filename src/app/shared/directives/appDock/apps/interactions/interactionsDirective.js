@@ -29,16 +29,10 @@ angular.module('liveopsConfigPanel')
           scope.setSelectedItem = function (item) {
             scope.selectedItem = item;
           };
-
+            
           scope.setSelectedArtifact = function (artifact) {
-            CxEngage.entities.getArtifact({
-              interactionId: scope.config.id,
-              tenantId: scope.config.tenantId,
-              artifactId: artifact.artifactId
-            }, function(error, topic, response){
-              scope.$apply(function(){
-                scope.selectedItem = response;
-              });
+            scope.$apply(function(){
+              scope.selectedItem = artifact;
             });
           };
 
@@ -140,7 +134,7 @@ angular.module('liveopsConfigPanel')
           }
 
           function recordings() {
-            CxEngage.entities.getArtifacts({
+            CxEngage.entities.getRecordings({
               interactionId: scope.config.id,
               tenantId: scope.config.tenantId
             }, function(error, topic, response){
@@ -149,25 +143,18 @@ angular.module('liveopsConfigPanel')
                 scope.isLoadingAppDock = false;
               }
 
-              scope.artifacts = _.filter(response.results, function(item) {
-                return item.artifactType === 'audio-recording' ||
-                       item.artifactType === 'qm-audio-recording' ||
-                       item.artifactType === 'qm-screen-recording';
-              });
+              if (response && response.length > 0) {
 
-              if (scope.artifacts.length > 0) {
-                CxEngage.entities.getArtifact({
-                  interactionId: scope.config.id,
-                  tenantId: scope.config.tenantId,
-                  artifactId: scope.artifacts[0].artifactId
-                }, function(error, topic, response){
-                  scope.isLoadingAppDock = false;
-                  scope.showNoResultsMsg = false;
-                  tenantTimezone();
-                  
-                  scope.setSelectedItem(response);
-                  scope.$emit('appDockDataLoaded');
+                scope.artifacts = _.map(response, function (d) {
+                  d.durationHMMSS = new Date(d.duration * 1000).toISOString().substr(11, 8);
+                  return d;
                 });
+
+                scope.isLoadingAppDock = false;
+                scope.showNoResultsMsg = false;
+                tenantTimezone();
+                scope.setSelectedItem(scope.artifacts[0]);
+                scope.$emit('appDockDataLoaded');
               } else {
                 scope.isLoadingAppDock = false;
                 scope.showNoResultsMsg = true;

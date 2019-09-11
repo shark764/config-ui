@@ -11,13 +11,15 @@
       ng-click="setSelectedArtifact(artifact)">
 
       <div class="md-list-item-text" layout="column">
-        <h3 class="artifact-label" layout-align="start" title="{{artifact.artifactSubtype || 'appdock.conference' | translate}}">
-          {{artifact.artifactSubtype || 'appdock.conference' | translate}}
+        <h3 class="artifact-label" layout-align="start" title="{{artifact.artifactType || 'appdock.conference' | translate}}">
+          {{artifact.participantAdditionalInfo.participantType || 'appdock.conference' | translate}} {{'appdock.recording' | translate}}
         </h3>
-        <h2 class="artifact-label" title="{{artifact.name || 'appdock.recording' | translate}}">
-          {{artifact.name || 'appdock.recording' | translate}}
+        <h2 class="artifact-label" title="{{'appdock.recording' | translate}}">
+          {{artifact.participantAdditionalInfo.agentName || artifact.participantAdditionalInfo.extension || 'appdock.recording'| translate}}
         </h2>
-        <h4 ng-show="artifact.timestamp">{{artifact.timestamp | convertToTimezone:TimezoneValHolder.tenantTimezone:'MMM D, YYYY hh:mm:ss A'}}</h4>
+        <h4 class="artifact-label" title="{{appdock.recording.duration | translate}}">
+          {{'appdock.recording.duration' | translate}}: {{artifact.durationHMMSS}}
+        </h4>
       </div>
     </md-list-item>
   </md-list>
@@ -28,14 +30,14 @@
     <md-content layout-padding layout-margin>
 
       <div class="heading-container">
-        <h1 class="md-headline">{{'appdock.recordingsHdr' | translate}}</h1>
-        <h3 class="md-subhead"><strong>{{'appdock.interactionId' | translate}}:</strong> {{configData.id}}</h3>
+        <h1 class="md-headline">{{selectedItem.participantAdditionalInfo.participantType}} {{'appdock.recording' | translate}}: {{selectedItem.participantAdditionalInfo.agentName || selectedItem.participantAdditionalInfo.extension || 'appdock.audioRecordings.details.customer' | translate}}
+        </h1>
       </div>
 
       <md-divider></md-divider>
 
       <div layout="row" ng-if="selectedItem.artifactType === 'audio-recording' && !selectedItem.softDeleted">
-        <audio id="audio-player" controls oncontextmenu="return false;" name="recordingAudio" ng-src="{{selectedItem.files[0].url | trustUrl}}"></audio>
+        <audio id="audio-player" controls oncontextmenu="return false;" name="recordingAudio" ng-src="{{selectedItem.files[0].url | trustUrl}}" style="width: 100%" ></audio>
       </div>
 
       <div layout="row" ng-if="selectedItem.artifactType === 'qm-audio-recording' && !selectedItem.softDeleted">
@@ -62,11 +64,21 @@
 
       <div layout="row">
         <div flex="10">
-          <label layout-fill>{{'appdock.audioRecordings.details.dateTime' | translate}}</label>
+          <label layout-fill>{{'appdock.audioRecordings.details.startTime' | translate }}</label>
         </div>
 
         <div flex="90">
-          <p>{{selectedItem.created | convertToTimezone:TimezoneValHolder.tenantTimezone:'MMM D, YYYY hh:mm:ss A'}}</p>
+          <p>{{selectedItem.interaction.created | convertToTimezone:TimezoneValHolder.tenantTimezone:'MMM D, YYYY hh:mm:ss A'}}</p>
+        </div>
+      </div>
+
+      <div layout="row">
+        <div flex="10">
+          <label layout-fill>{{'appdock.audioRecordings.details.participant' | translate }}</label>
+        </div>
+
+        <div flex="90">
+          <p>{{selectedItem.participantAdditionalInfo.participantType || 'appdock.audioRecordings.details.customer' | translate}}</p>
         </div>
       </div>
     </md-content>

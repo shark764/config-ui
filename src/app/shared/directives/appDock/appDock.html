@@ -15,7 +15,7 @@
           ng-class="{'tab-closed': showApps, 'tab-open': !showApps}">
 
           <md-tab
-            label="{{'appdock.audioRecordings.tabs.interactions' | translate}}"
+            label="{{'appdock.audioRecordings.tabs.interaction' | translate}}: {{app.id}}"
             ng-if="app.type === 'voice' || app.type === 'messaging' || app.type === 'sms'"
             ng-click="toggleAppsDisplay()">
 
