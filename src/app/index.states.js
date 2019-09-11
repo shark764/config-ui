@@ -684,7 +684,7 @@ angular.module('liveopsConfigPanel').config([
       })
       .state('content.flows.flowDebugLogs', {
         url: '/flowDebugLogs',
-        title: 'Flows Debug Logs',
+        title: 'Flow Debug Logs',
         templateUrl: 'app/components/flows/flowDebugLogs/flowDebugLogs.html',
         controller: 'flowDebugLogsController',
         reloadOnSearch: false,
@@ -1472,18 +1472,18 @@ angular.module('liveopsConfigPanel').config([
           ]
         }
       })
-      .state('content.support.flowDebugger', {
-        url: '/FlowDebugger',
-        title: 'Flow Debug Logs',
-        templateUrl: 'app/components/flows/flowDebugger/flowDebuggerPage.html',
-        controller: 'flowDebuggerController',
+      .state('content.support.debug', {
+        url: '/debugger',
+        title: 'Flow Debugger',
+        templateUrl: 'app/components/supportTool/flowDebugger/flowDebuggerPage.html',
+        controller: 'DebuggerPageController',
         reloadOnSearch: false,
         resolve: {
           hasPermission: [
             'UserPermissions',
             'PermissionGroups',
             function(UserPermissions, PermissionGroups) {
-              return UserPermissions.resolvePermissions(PermissionGroups.viewFlowDebugger);
+              return UserPermissions.resolvePermissions(PermissionGroups.viewConfigDebugTool);
             }
           ]
         }
