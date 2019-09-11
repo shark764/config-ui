@@ -1212,11 +1212,17 @@ angular.module('liveopsConfigPanel').config([
             'Session',
             '$q',
             '$translate',
-            function(UserPermissions, RealtimeDashboardsSettings, RealtimeDashboard, Session, $q, $translate) {
+            '$stateParams',
+            function(UserPermissions, RealtimeDashboardsSettings, RealtimeDashboard, Session, $q, $translate, $stateParams) {
               var deferred = $q.defer();
-
+              var withoutActiveDashboard = false;
+              RealtimeDashboardsSettings.mockDashboards.forEach(function(item){
+                if($stateParams.dashboardId == item.id){
+                  withoutActiveDashboard = true;
+                }
+              });
               var fetchDashboards = function() {
-                CxEngage.entities.getDashboards({ excludeInactive: true }, function(error, topic, response) {
+                CxEngage.entities.getDashboards({ excludeInactive: true, withoutActiveDashboard: withoutActiveDashboard }, function(error, topic, response) {
                   if (!error) {
                     // Add category attribute to each dashboard so they can be grouped together in the dropdown
                     response.result.forEach(function(item) {

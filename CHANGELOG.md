@@ -26,6 +26,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Flows
 - Logi reportings
 
+
+## [4.78.2] - 2019-09-11
+### Fixed
+- CXV1-19123 - Fixed fetch all dashboards routes is timing out.
+
 ## [4.78.1] - 2019-09-11
 ### Added
 -Fixed Debugger link broken in 4.78.0
