@@ -131,6 +131,21 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
         ) {
           goTo = newBetaFeatures.users ? 'content.management.users2' : 'content.management.users';
           messageKey = 'permissions.unauthorized.message';
+        } else if ($state.includes('content.configuration.keys') || $state.includes('content.configuration.keys2')) {
+          goTo = newBetaFeatures.apiKeys ? 'content.configuration.keys2' : 'content.configuration.keys';
+          messageKey = newBetaFeatures.apiKeys
+            ? 'permissions.betaFeatures.enabled.message'
+            : 'permissions.betaFeatures.disabled.message';
+        } else if ($state.includes('content.configuration.hours') || $state.includes('content.configuration.hours2')) {
+          goTo = newBetaFeatures.businessHours ? 'content.configuration.hours2' : 'content.configuration.hours';
+          messageKey = newBetaFeatures.businessHours
+            ? 'permissions.betaFeatures.enabled.message'
+            : 'permissions.betaFeatures.disabled.message';
+        } else if ($state.includes('content.configuration.messageTemplates') || $state.includes('content.configuration.messageTemplates2')) {
+          goTo = newBetaFeatures.messageTemplates ? 'content.configuration.messageTemplates2' : 'content.configuration.messageTemplates';
+          messageKey = newBetaFeatures.messageTemplates
+            ? 'permissions.betaFeatures.enabled.message'
+            : 'permissions.betaFeatures.disabled.message';
         }
 
         $state.go(goTo, { id: null, messageKey: messageKey }, { reload: true, inherit: false });
@@ -524,24 +539,11 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
       ) {
         items.push({
           label: $translate.instant('navbar.configuration.bh.title'),
-          stateLink: 'content.configuration.hours',
+          stateLink: Session.betaFeatures.businessHours && !isActiveExternalTenant ?
+            'content.configuration.hours2' :
+            'content.configuration.hours',
           id: 'hours-configuration-link',
           order: 5
-        });
-      }
-
-      
-      if (
-        (UserPermissions.hasPermissionInList(PermissionGroups.viewBusinessHours) ||
-        UserPermissions.hasPermissionInList(PermissionGroups.manageBusinessHours)) &&
-        $location.search()['alpha'] &&
-        !isActiveExternalTenant
-      ) {
-        items.push({
-          label: $translate.instant('navbar.configuration.hours.title') + ' (alpha)',
-          stateLink: 'content.configuration.hours2',
-          id: 'template-configuration-link',
-          order: 18
         });
       }
 
@@ -557,22 +559,11 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
       if (UserPermissions.hasPermissionInList(PermissionGroups.viewAppCreds)) {
         items.push({
           label: $translate.instant('navbar.configuration.keys.title'),
-          stateLink: 'content.configuration.keys',
+          stateLink: Session.betaFeatures.apiKeys && !isActiveExternalTenant ?
+            'content.configuration.keys2' :
+            'content.configuration.keys',
           id: 'key-configuration-link',
           order: 7
-        });
-      }
-
-
-      if (UserPermissions.hasPermissionInList(PermissionGroups.viewAppCreds) &&
-          $location.search()['alpha'] &&
-          !isActiveExternalTenant
-      ) {
-        items.push({
-          label: $translate.instant('navbar.configuration.keys.title') + ' (alpha)',
-          stateLink: 'content.configuration.keys2',
-          id: 'template-configuration-link',
-          order: 19
         });
       }
 
@@ -601,22 +592,11 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
       if (UserPermissions.hasPermissionInList(PermissionGroups.viewMessageTemplates)) {
         items.push({
           label: $translate.instant('navbar.configuration.messageTemplates.title'),
-          stateLink: 'content.configuration.messageTemplates',
+          stateLink: Session.betaFeatures.messageTemplates && !isActiveExternalTenant ?
+            'content.configuration.messageTemplates2' :
+            'content.configuration.messageTemplates',
           id: 'template-configuration-link',
           order: 9
-        });
-      }
-
-      if (
-        UserPermissions.hasPermission('VIEW_ALL_MESSAGE_TEMPLATES') &&
-        $location.search()['alpha'] &&
-        !isActiveExternalTenant
-      ) {
-        items.push({
-          label: $translate.instant('navbar.configuration.messageTemplates.title') + ' (alpha)',
-          stateLink: 'content.configuration.messageTemplates2',
-          id: 'template-configuration-link',
-          order: 17
         });
       }
 
