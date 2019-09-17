@@ -919,7 +919,7 @@ angular.module('liveopsConfigPanel').config([
       })
       .state('content.reports', {
         url: '/reports?id',
-        title: 'Reporting - Historical Dashboards',
+        title: 'Reporting - Historical Dashboards (EOL 12/19)',
         templateUrl: 'app/components/reports/reports.html',
         controller: 'ReportsController'
       })
@@ -1061,7 +1061,7 @@ angular.module('liveopsConfigPanel').config([
       })
       .state('content.custom-dashboards-management', {
         url: '/realtime-dashboards?id',
-        title: 'Reporting - Custom Realtime Dashboards',
+        title: 'Reporting - Custom Realtime Dashboards (EOL 12/19)',
         templateUrl: 'app/components/reporting/realtime/realtimeDashboardManagement/realtimeDashboardsManagement.html',
         controller: 'RealtimeDashboardsManagementController',
         reloadOnSearch: false,
@@ -1186,7 +1186,7 @@ angular.module('liveopsConfigPanel').config([
       })
       .state('content.realtime-dashboards-management-viewer', {
         url: '/realtime-dashboards/viewer/:dashboardId',
-        title: 'Reporting - Realtime Dashboards',
+        title: 'Reporting - Realtime Dashboards (EOL 12/19)',
         templateUrl: 'app/components/reporting/realtime/realtimeDashboards.html',
         controller: 'RealtimeDashboardsController',
         reloadOnSearch: false,

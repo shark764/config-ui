@@ -841,11 +841,10 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
       // //////////////////////////////////////////
       if (
         UserPermissions.hasPermissionInList(PermissionGroups.viewConfigReportingBI) &&
-        Session.betaFeatures.logiStandard &&
         !isActiveExternalTenant
       ) {
         items.push({
-          label: '(Early Access) ' + $translate.instant('navbar.reports.logi.standard.title'),
+          label: $translate.instant('navbar.reports.logi.standard.title'),
           stateLink: 'content.reporting.logiStandard',
           id: 'logi-standard-reports-link',
           order: 9
@@ -853,11 +852,10 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
       }
       if (
         UserPermissions.hasPermissionInList(PermissionGroups.viewConfigReportingBI) &&
-        Session.betaFeatures.logiAdvanced &&
         !isActiveExternalTenant
       ) {
         items.push({
-          label: '(Early Access) ' + $translate.instant('navbar.reports.logi.advanced.title'),
+          label: $translate.instant('navbar.reports.logi.advanced.title'),
           stateLink: 'content.reporting.logiAdvanced',
           id: 'logi-advanced-reports-link',
           order: 10

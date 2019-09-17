@@ -30,6 +30,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API Keys
 - Message Templates
 
+## [4.79.3] - 2019-09-16
+### Changed
+- CXV1-19961 - To change the names in the UI for reporting.
+
 ## [4.79.2] - 2019-09-13
 ### Added
 - <no-jira> - Adding Business Hours, Api Keys and Message Templates page to beta features.
