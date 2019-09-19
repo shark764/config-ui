@@ -30,6 +30,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API Keys
 - Message Templates
 
+## [4.79.4] - 2019-09-16
+### Fixed
+- Cxv1 19123  - Fixed the realtime dashboard timeout problem by only fetch the data that it needed.
+
 ## [4.79.3] - 2019-09-16
 ### Changed
 - CXV1-19961 - To change the names in the UI for reporting.
