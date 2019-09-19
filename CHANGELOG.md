@@ -30,6 +30,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API Keys
 - Message Templates
 
+
+## [4.79.5] - 2019-09-17
+### Changed
+- CXV1-18813 - Bump Soundwave to 3.2.8 which locks Twilio SDK to v1.4.24
+
 ## [4.79.4] - 2019-09-16
 ### Fixed
 - Cxv1 19123  - Fixed the realtime dashboard timeout problem by only fetch the data that it needed.
