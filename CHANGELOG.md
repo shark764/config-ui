@@ -30,17 +30,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API Keys
 - Message Templates
 
+## [4.79.7] - 2019-09-20
+### Fixed
+- CXV1-19987 - Allow Flow Debug Logs page when using external tenant
+
 ## [4.79.6] - 2019-09-20
 ### Changed
 - CXV1-19961 - To change the names in the UI for reporting (Removed EOL from Realtime Dashboards and Custom Realtime Dashboards).
-
-## [4.79.5] - 2019-09-17
 ### Changed
 - CXV1-18813 - Bump Soundwave to 3.2.8 which locks Twilio SDK to v1.4.24
 
 ## [4.79.4] - 2019-09-16
 ### Fixed
-- Cxv1 19123  - Fixed the realtime dashboard timeout problem by only fetch the data that it needed.
+- CXV1-19123 - Fixed the realtime dashboard timeout problem by only fetch the data that it needed.
 
 ## [4.79.3] - 2019-09-16
 ### Changed

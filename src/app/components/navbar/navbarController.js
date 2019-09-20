@@ -686,7 +686,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
         });
       }
 
-      if (UserPermissions.hasPermissionInList(PermissionGroups.viewFlowDebugLogs) && !isActiveExternalTenant) {
+      if (UserPermissions.hasPermissionInList(PermissionGroups.viewFlowDebugLogs)) {
         items.push({
           label: $translate.instant('navbar.flows.flowDebugLogs.title'),
           stateLink: 'content.flows.flowDebugLogs',
