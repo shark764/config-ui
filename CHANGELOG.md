@@ -30,6 +30,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API Keys
 - Message Templates
 
+## [4.79.6] - 2019-09-20
+### Changed
+- CXV1-19961 - To change the names in the UI for reporting (Removed EOL from Realtime Dashboards and Custom Realtime Dashboards).
 
 ## [4.79.5] - 2019-09-17
 ### Changed
