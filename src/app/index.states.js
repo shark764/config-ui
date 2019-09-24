@@ -68,11 +68,8 @@ angular.module('liveopsConfigPanel').config([
             '$q',
             function(UserPermissions, PermissionGroups, $q) {
               return $q.all(
-                UserPermissions.resolvePermissions(
-                  PermissionGroups.viewUsers.concat(PermissionGroups.manageUserSkillsAndGroups)
-                ),
-                UserPermissions.resolvePermissions(PermissionGroups.viewUsers.concat(PermissionGroups.viewUsersConfig)),
-                UserPermissions.resolvePermissions(PermissionGroups.manageUsers.concat(['PLATFORM_CONFIG_USERS_VIEW'])) //See TITAN2-4897 for why we do this extra check
+                UserPermissions.resolvePermissions(PermissionGroups.manageUsers.concat(PermissionGroups.viewUsers)),
+                UserPermissions.resolvePermissions(PermissionGroups.manageUserSkillsAndGroups.concat(['PLATFORM_CONFIG_USERS_VIEW'])) //See TITAN2-4897 for why we do this extra check
               );
             }
           ]
@@ -91,11 +88,8 @@ angular.module('liveopsConfigPanel').config([
             '$q',
             function(UserPermissions, PermissionGroups, $q) {
               return $q.all(
-                UserPermissions.resolvePermissions(
-                  PermissionGroups.viewUsers.concat(PermissionGroups.manageUserSkillsAndGroups)
-                ),
-                UserPermissions.resolvePermissions(PermissionGroups.viewUsers.concat(PermissionGroups.viewUsersConfig)),
-                UserPermissions.resolvePermissions(PermissionGroups.manageUsers.concat(['PLATFORM_CONFIG_USERS_VIEW'])) //See TITAN2-4897 for why we do this extra check
+                UserPermissions.resolvePermissions(PermissionGroups.manageUsers.concat(PermissionGroups.viewUsers)),
+                UserPermissions.resolvePermissions(PermissionGroups.manageUserSkillsAndGroups.concat(['PLATFORM_CONFIG_USERS_VIEW'])) //See TITAN2-4897 for why we do this extra check
               );
             }
           ]

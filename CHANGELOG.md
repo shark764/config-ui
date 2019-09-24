@@ -30,6 +30,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API Keys
 - Message Templates
 
+## [4.79.9] - 2019-09-24
+## Fixed
+- Merging Q2MR4 into master
+
 ## [4.79.8] - 2019-09-24
 ### Fixed
 - CXV1-15581 - setSelectedArtifact should be setSelectedItem on recording clicks
@@ -96,6 +100,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - CXV1-19185 - Update WebRTC Region Support
 - <no-jira> - Fixed support tools flow debugger state change
 - <no-jira> - Adding PLATFORM_VIEW_ALL_USERS permission to allow platform view only to see users page.
+
+## [4.75.10-1] - 2019-09-11
+- Fixed permissions to allow supervisors to view Users page
+
+## [4.75.10] - 2019-08-30
+- CXV1-19733 - Change "Beta" to "Early Access" in navbar dropdown.
+- CXV1-17996 - Adding userTimezoneOffset to Logi token
 
 ## [4.75.9-1] - 2019-07-29
 - CXV1-18978 - Update Config UI messages and recordings to be compatible with Chrome 76 (Upcoming BETA)
