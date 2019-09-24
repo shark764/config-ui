@@ -29,12 +29,6 @@ angular.module('liveopsConfigPanel')
           scope.setSelectedItem = function (item) {
             scope.selectedItem = item;
           };
-            
-          scope.setSelectedArtifact = function (artifact) {
-            scope.$apply(function(){
-              scope.selectedItem = artifact;
-            });
-          };
 
           // using this as a "bridge" to pass timezone val down to ng-include html
           scope.TimezoneValHolder = {};

@@ -30,6 +30,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API Keys
 - Message Templates
 
+## [4.79.8] - 2019-09-24
+### Fixed
+- CXV1-15581 - setSelectedArtifact should be setSelectedItem on recording clicks
+
 ## [4.79.7] - 2019-09-20
 ### Fixed
 - CXV1-19987 - Allow Flow Debug Logs page when using external tenant
@@ -52,8 +56,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - <no-jira> - Adding Business Hours, Api Keys and Message Templates page to beta features.
 
-## [4.79.1] - 2019-09-11
-### Added
+## [4.79.0] - 2019-09-11
+### Fixed
 - CXV1-15581 - Identification updates for recordings in appdock
 
 ## [4.78.1] - 2019-09-11
