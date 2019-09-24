@@ -30,6 +30,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API Keys
 - Message Templates
 
+## [4.79.10] - 2019-09-24
+### Fixed
+- bulk-remove-stat-subscriptions sdk fix
+
 ## [4.79.9] - 2019-09-24
 ## Fixed
 - Merging Q2MR4 into master
