@@ -30,6 +30,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API Keys
 - Message Templates
 
+## [4.79.11] - 2019-09-25
+### Changed
+- SDK version bump to 9.1.0.
+### Fixed
+- CXV1-19962 - Frequent loss of Subscription ID for Agent State Table.
+
 ## [4.79.10] - 2019-09-24
 ### Fixed
 - bulk-remove-stat-subscriptions sdk fix

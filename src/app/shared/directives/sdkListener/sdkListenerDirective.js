@@ -30,13 +30,17 @@ angular.module('liveopsConfigPanel').directive('sdkListener', [
                   function(error, topic, response) {
                     if (
                       location.hash.indexOf('#/reporting/interactionMonitoring') < 0 &&
-                      location.hash.indexOf('#/reporting/agentStateMonitoring') < 0
+                      location.hash.indexOf('#/reporting/agentStateMonitoring') < 0 &&
+                      event.data.command === 'cxengage/reporting/batch-response'
                     ) {
-                      if (event.data.command === 'cxengage/reporting/batch-response') {
-                        CxEngage.unsubscribe(window.cxSubscriptions[event.data.command]);
-                      }
+                      CxEngage.unsubscribe(window.cxSubscriptions[event.data.command + subscribedTenant]);
+                    }
+                    if (location.hash.indexOf('#/reporting/interactionMonitoring') < 0) {
+                      CxEngage.reporting.removeStatSubscription({ statId: 'interactions-in-conversation-list' });
+                    }
+                    if (location.hash.indexOf('#/reporting/agentStateMonitoring') < 0) {
                       CxEngage.reporting.bulkRemoveStatSubscription({
-                        statIds: ['resource-capacity', 'resource-state-list', 'interactions-in-conversation-list']
+                        statIds: ['resource-capacity', 'resource-state-list']
                       });
                     }
 
