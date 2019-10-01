@@ -142,16 +142,18 @@
       ng-if="tlc.selectedContact.contactType === 'email'"></form-error>
     <form-error
       field="forms.contactForm.endpoint"
-      error-type-phone-number="{{'transferLists.contact.details.PSTNerror' | translate}}"
-      ng-if="tlc.selectedContact.contactType === 'PSTN'"></form-error>
-    <form-error
-      field="forms.contactForm.endpoint"
       error-type-pattern="{{'details.extensions.sipformat.error' | translate}}"
       ng-if="tlc.selectedContact.contactType === 'SIP'"></form-error>
     </form-error>
     <form-error
       field="forms.contactForm.endpoint"
       error-type-required="{{'details.endpoint.error' | translate}}" ></form-error>
+    <div
+      class="lo-error"
+      role="alert"
+      ng-if='tlc.mappingVoiceValPatternError'>
+      {{'transferLists.contact.details.PSTNerror' | translate}}
+    </div>  
     <div class="lo-error" ng-show="tlc.flowError">{{'transferLists.contact.details.flowError' | translate}}</div>
     <div class="lo-error" ng-show="tlc.queueError">{{'transferLists.contact.details.queueError' | translate}}</div>
     <div>
@@ -180,11 +182,13 @@
       <input
         required="true"
         ng-if="tlc.selectedContact.contactType === 'PSTN'"
-        type="tel"
+        type="text"
         ng-model="tlc.selectedContact.endpoint"
         name="endpoint"
+        ng-blur="tlc.patternWarn(tlc.selectedContact.endpoint)"
+        ng-focus="tlc.clearPatternWarnings()"
         ng-disabled="!(['MANAGE_ALL_TRANSFER_LISTS'] | hasPermission)"/>
-
+        
       <type-ahead
         items="tlc.fetchFlows()"
         ng-show="tlc.selectedContact.contactType === 'flow'"
@@ -213,6 +217,7 @@
     value="{{'value.save' | translate}}"
     ng-disabled="forms.contactForm.$invalid
     || ! forms.contactForm.$dirty
+    || (tlc.mappingVoiceValPatternError)
     || !tlc.selectedContact.endpoint
     || ((tlc.selectedContact.coldTransfer === 'false' || angular.isUndefined(tlc.selectedContact.coldTransfer)) && (tlc.selectedContact.warmTransfer === 'false' || angular.isUndefined(tlc.selectedContact.warmTransfer)))"
     lo-submit="tlc.saveContact()"

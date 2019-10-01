@@ -30,6 +30,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API Keys
 - Message Templates
 
+## [4.79.12] - 2019-09-26
+### Fixed
+- CXV1-18341 833 Numbers not valid in Transfer Lists
+
 ## [4.79.11] - 2019-09-25
 ### Changed
 - SDK version bump to 9.1.0.

@@ -13,6 +13,25 @@ angular.module('liveopsConfigPanel')
     vm.sipPattern = '[s|S]{1}[i|I]{1}[p|P]{1}:.*';
     vm.formsFilled = false;
     vm.disableDoneLink = false;
+    vm.mappingVoiceValPatternError = false;
+
+    vm.patternWarn = function (string) {
+      try{ 
+        if (
+        string &&
+        string.length > 0 ) {
+          if (vm.selectedContact.contactType === 'PSTN' && !window.phoneUtils.isPossibleNumber (string)){
+            vm.mappingVoiceValPatternError = true;
+          }
+        }
+      } catch (error){
+        vm.mappingVoiceValPatternError = true;
+      }
+    };
+
+    vm.clearPatternWarnings = function () {
+      vm.mappingVoiceValPatternError = false;
+    };
 
     vm.sortableOptions = {
       update: function () {
