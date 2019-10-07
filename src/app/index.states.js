@@ -920,7 +920,7 @@ angular.module('liveopsConfigPanel').config([
       // Logi standard and advanced reports
       .state('content.reporting.logiStandard', {
         url: '/cxengage-standard',
-        title: 'Reporting - Logi - Standard Reports',
+        title: 'Reporting - Standard Reports',
         templateUrl: 'app/components/reports/logi/standard/logi_standard.html',
         controller: 'LogiStandardController',
         reloadOnSearch: false,
@@ -936,7 +936,7 @@ angular.module('liveopsConfigPanel').config([
       })
       .state('content.reporting.logiAdvanced', {
         url: '/cxengage-advanced',
-        title: 'Reporting - Logi - Advanced Reports',
+        title: 'Reporting - Advanced Reports',
         templateUrl: 'app/components/reports/logi/advanced/logi_advanced.html',
         controller: 'LogiAdvancedController',
         reloadOnSearch: false,

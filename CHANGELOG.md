@@ -30,6 +30,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API Keys
 - Message Templates
 
+## [4.79.13] - 2019-10-05
+- CXV1-20213 - Remove the word 'Logi' in tab description
+
 ## [4.79.12] - 2019-09-26
 ### Fixed
 - CXV1-18341 833 Numbers not valid in Transfer Lists
