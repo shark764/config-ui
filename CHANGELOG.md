@@ -30,6 +30,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API Keys
 - Message Templates
 
+## [4.79.15] - 2019-10-17
+## Changed
+- Bump sdk version to 9.2.1 
+
 ## [4.79.14] - 2019-10-10
 - CXV1-20110 - Fix tenant menu position
 
