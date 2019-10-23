@@ -30,6 +30,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API Keys
 - Message Templates
 
+## [4.79.16] - 2019-10-22
+## Changed
+- Hide title from "edit" in integrations listeners 
+
 ## [4.79.15] - 2019-10-17
 ## Changed
 - Bump sdk version to 9.2.1 

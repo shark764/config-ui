@@ -1,6 +1,6 @@
 {
   "name": "config-ui",
-  "version": "4.79.15",
+  "version": "4.79.16",
   "scripts": {
     "start": "gulp serve",
     "test": "gulp test",
@@ -16,7 +16,7 @@
     "chalk": "~0.5.1",
     "concat-stream": "^1.5.1",
     "del": "~1.1.1",
-    "gulp": "~3.8.10",
+    "gulp": "^3.8.11",
     "gulp-angular-filesort": "~1.0.4",
     "gulp-angular-templatecache": "~1.5.0",
     "gulp-angular-translate": "^0.1.4",

@@ -1,5 +1,5 @@
 <div class="divider-header">
-  <h4>{{'listeners' | translate}}</h4>
+  <h4>{{'Listeners' | translate}}</h4>
   <a id="show-create-new-listener" ng-if="('MANAGE_ALL_PROVIDERS' | hasPermission)" ng-hide="createNewListener" class="btn pull-right" ng-click="addNewListener()" title="{{'flow.details.version.add.alt' | translate}}"><i class="fa fa-plus"></i></a>
 </div>
 
@@ -53,7 +53,7 @@
     <td ng-if="!listener.$original.active">Disabled</td>
     <td>{{listener.$original.created | date:'medium'}}</td>
     <td>
-      <a class="edit" ng-if="('MANAGE_ALL_PROVIDERS' | hasPermission)" ng-click="editListener(listener)" title="{{'flow.listener.edit.alt' | translate}}">edit</a>
+      <a class="edit" ng-if="('MANAGE_ALL_PROVIDERS' | hasPermission)" ng-click="editListener(listener)" title ng-blind="{{'flow.listener.edit.alt' | translate}}">Edit</a>
     </td>
   </tr>
 </table>
