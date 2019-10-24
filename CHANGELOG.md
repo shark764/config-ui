@@ -30,6 +30,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API Keys
 - Message Templates
 
+## [4.79.17] - 2019-10-24
+## Added 
+- CXV1-20402 - Add reasons to navbar and expose it as Beta feature
+
 ## [4.79.16] - 2019-10-22
 ## Changed
 - Hide title from "edit" in integrations listeners 

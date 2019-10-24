@@ -146,6 +146,11 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
           messageKey = newBetaFeatures.messageTemplates
             ? 'permissions.betaFeatures.enabled.message'
             : 'permissions.betaFeatures.disabled.message';
+        } else if ($state.includes('content.management.reasons') || $state.includes('content.management.reasons2')) {
+          goTo = newBetaFeatures.reasons ? 'content.management.reasons2' : 'content.management.reasons';
+          messageKey = newBetaFeatures.reasons
+            ? 'permissions.betaFeatures.enabled.message'
+            : 'permissions.betaFeatures.disabled.message';
         }
 
         $state.go(goTo, { id: null, messageKey: messageKey }, { reload: true, inherit: false });
@@ -398,23 +403,15 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
       if (UserPermissions.hasPermissionInList(PermissionGroups.viewReasons)) {
         items.push({
           label: $translate.instant('navbar.management.reasons.title'),
-          stateLink: 'content.management.reasons',
+          stateLink: Session.betaFeatures.reasons && !isActiveExternalTenant ?
+          'content.management.reasons2' :
+          'content.management.reasons',
           id: 'reasons-management-link',
           order: 2
         });
       }
 
-      if (
-        UserPermissions.hasPermissionInList(PermissionGroups.viewReasons) &&
-        $location.search()['alpha'] &&
-        !isActiveExternalTenant
-      ) {
-        items.push({
-          label: $translate.instant('navbar.management.reasons.title') + ' (Alpha UAT)  ',
-          stateLink: 'content.management.reasons2',
-          id: 'reasons-management-link2'
-        });
-      }
+   
 
       if (UserPermissions.hasPermissionInList(PermissionGroups.viewReasonLists)) {
         items.push({
