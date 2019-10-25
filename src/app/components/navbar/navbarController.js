@@ -151,6 +151,16 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
           messageKey = newBetaFeatures.reasons
             ? 'permissions.betaFeatures.enabled.message'
             : 'permissions.betaFeatures.disabled.message';
+        } else if ($state.includes('content.management.reasonLists') || $state.includes('content.management.reasonLists2')) {
+          goTo = newBetaFeatures.reasonLists ? 'content.management.reasonLists2' : 'content.management.reasonLists';
+          messageKey = newBetaFeatures.reasonLists
+            ? 'permissions.betaFeatures.enabled.message'
+            : 'permissions.betaFeatures.disabled.message';
+        } else if ($state.includes('content.configuration.transferLists') || $state.includes('content.configuration.transferLists2')) {
+          goTo = newBetaFeatures.transferLists ? 'content.configuration.transferLists2' : 'content.configuration.transferLists';
+          messageKey = newBetaFeatures.transferLists
+            ? 'permissions.betaFeatures.enabled.message'
+            : 'permissions.betaFeatures.disabled.message';
         }
 
         $state.go(goTo, { id: null, messageKey: messageKey }, { reload: true, inherit: false });
@@ -411,16 +421,17 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
         });
       }
 
-   
-
       if (UserPermissions.hasPermissionInList(PermissionGroups.viewReasonLists)) {
         items.push({
           label: $translate.instant('navbar.management.reasons.lists.title'),
-          stateLink: 'content.management.reasonLists',
+          stateLink: Session.betaFeatures.reasonLists && !isActiveExternalTenant ?
+           'content.management.reasonLists2':
+           'content.management.reasonLists',
           id: 'reason-lists-management-link',
           order: 3
         });
       }
+
 
       if (UserPermissions.hasPermissionInList(PermissionGroups.manageRoles)) {
         items.push({
@@ -475,17 +486,6 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
         });
       }
 
-      if (
-        UserPermissions.hasPermissionInList(PermissionGroups.viewReasonLists) &&
-        $location.search()['alpha'] &&
-        !isActiveExternalTenant
-      ) {
-        items.push({
-          label: $translate.instant('navbar.management.reasons.lists.title') + ' (Alpha UAT)  ',
-          stateLink: 'content.management.reasonLists2',
-          id: 'reason-lists-management-link2'
-        });
-      }
 
       return items;
     };
@@ -567,24 +567,15 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
       if (UserPermissions.hasPermission('VIEW_ALL_TRANSFER_LISTS')) {
         items.push({
           label: $translate.instant('navbar.configuration.transferLists.title'),
-          stateLink: 'content.configuration.transferLists',
+          stateLink: Session.betaFeatures.transferLists && !isActiveExternalTenant ?
+          'content.configuration.transferLists2' :
+          'content.configuration.transferLists',
           id: 'transferList-configuration-link',
           order: 8
         });
       }
 
-      if (
-        UserPermissions.hasPermission('VIEW_ALL_TRANSFER_LISTS') &&
-        $location.search()['alpha'] &&
-        !isActiveExternalTenant
-      ) {
-        items.push({
-          label: $translate.instant('navbar.configuration.transferLists.title') + ' (alpha)',
-          stateLink: 'content.configuration.transferLists2',
-          id: 'transferList-configuration-link',
-          order: 16
-        });
-      }
+   
 
       if (UserPermissions.hasPermissionInList(PermissionGroups.viewMessageTemplates)) {
         items.push({
