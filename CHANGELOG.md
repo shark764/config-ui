@@ -30,8 +30,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API Keys
 - Message Templates
 
+## [4.79.20] - 2019-11-07
+## Changed
+- <no-jira> - Bump sdk version to 9.3.1 
+
 ## [4.79.19] - 2019-11-06
-## Added 
+## Added
 - CXV1-20596 - Pass config2 selectedEntityId param to config-ui URL
 
 ## [4.79.18] - 2019-10-25
