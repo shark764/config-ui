@@ -236,6 +236,21 @@ angular.module('liveopsConfigPanel').directive('sdkListener', [
                   },
                   '*'
                 );
+              } else if (event.data.module === 'updateURLWithQueryString') {
+                // update URL when an entity is selected & de-selected in config2
+                if (event.data.entityId !== '') {
+                  if (/.+?id=/.test(window.location.href)) {
+                  // If an entity is selected on top of an active entity selection,
+                  // replace previously selected entityId in the URL with the newly selected entityId
+                    window.location.href = /.+?(?=\?id=)/.exec(window.location.href)[0] + '?' + event.data.entityId;
+                } else {
+                    // if there is no previously selectedEntityId, append if to the URL
+                    window.location.href = window.location.href + '?' + event.data.entityId;
+                  }
+                } else {
+                  // remove id from the URL:
+                  window.location.href = /.+?(?=\?id=)/.exec(window.location.href)[0] + '';
+                }
               } else if (event.data.command === 'getMonitoredInteraction') {
                 console.log('[SDK Listener] Asking the SDK for:', event.data.command);
                 var monitoredId = CxEngage[event.data.module][event.data.command]();

@@ -30,6 +30,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API Keys
 - Message Templates
 
+## [4.79.19] - 2019-11-06
+## Added 
+- CXV1-20596 - Pass config2 selectedEntityId param to config-ui URL
+
 ## [4.79.18] - 2019-10-25
 ## Added
 - CXV1-20403 - Add Reason Lists to navbar and expose it as Beta feature
