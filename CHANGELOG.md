@@ -30,9 +30,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API Keys
 - Message Templates
 
+## [4.79.21] - 2019-11-20
+## Changed
+- <no-jira> - Bump sdk version to 9.3.2
+### Fixed
+- CXV1-18938 - Update error messaging on Config UI Login page.
+
 ## [4.79.20] - 2019-11-07
 ## Changed
-- <no-jira> - Bump sdk version to 9.3.1 
+- <no-jira> - Bump sdk version to 9.3.1
 
 ## [4.79.19] - 2019-11-06
 ## Added
