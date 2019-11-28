@@ -524,7 +524,8 @@ angular.module('liveopsConfigPanel').controller('UsersController', [
         ((tenantUser && tenantUser.$user && tenantUser.$user.isNew()) ||
           UserPermissions.hasPermission('MANAGE_ALL_USERS') ||
           (UserPermissions.hasPermission('PLATFORM_MANAGE_USER_ACCOUNT') &&
-            (_.has($scope, 'selectedTenantUser.$user.id') && Session.user.id === $scope.selectedTenantUser.$user.id)) ||
+            _.has($scope, 'selectedTenantUser.$user.id') &&
+            Session.user.id === $scope.selectedTenantUser.$user.id) ||
           UserPermissions.hasPermission('PLATFORM_MANAGE_ALL_USERS'))
       );
     };

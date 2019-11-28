@@ -141,8 +141,13 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
           messageKey = newBetaFeatures.businessHours
             ? 'permissions.betaFeatures.enabled.message'
             : 'permissions.betaFeatures.disabled.message';
-        } else if ($state.includes('content.configuration.messageTemplates') || $state.includes('content.configuration.messageTemplates2')) {
-          goTo = newBetaFeatures.messageTemplates ? 'content.configuration.messageTemplates2' : 'content.configuration.messageTemplates';
+        } else if (
+          $state.includes('content.configuration.messageTemplates') ||
+          $state.includes('content.configuration.messageTemplates2')
+        ) {
+          goTo = newBetaFeatures.messageTemplates
+            ? 'content.configuration.messageTemplates2'
+            : 'content.configuration.messageTemplates';
           messageKey = newBetaFeatures.messageTemplates
             ? 'permissions.betaFeatures.enabled.message'
             : 'permissions.betaFeatures.disabled.message';
@@ -151,14 +156,37 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
           messageKey = newBetaFeatures.reasons
             ? 'permissions.betaFeatures.enabled.message'
             : 'permissions.betaFeatures.disabled.message';
-        } else if ($state.includes('content.management.reasonLists') || $state.includes('content.management.reasonLists2')) {
+        } else if (
+          $state.includes('content.management.reasonLists') ||
+          $state.includes('content.management.reasonLists2')
+        ) {
           goTo = newBetaFeatures.reasonLists ? 'content.management.reasonLists2' : 'content.management.reasonLists';
           messageKey = newBetaFeatures.reasonLists
             ? 'permissions.betaFeatures.enabled.message'
             : 'permissions.betaFeatures.disabled.message';
-        } else if ($state.includes('content.configuration.transferLists') || $state.includes('content.configuration.transferLists2')) {
-          goTo = newBetaFeatures.transferLists ? 'content.configuration.transferLists2' : 'content.configuration.transferLists';
+        } else if (
+          $state.includes('content.configuration.transferLists') ||
+          $state.includes('content.configuration.transferLists2')
+        ) {
+          goTo = newBetaFeatures.transferLists
+            ? 'content.configuration.transferLists2'
+            : 'content.configuration.transferLists';
           messageKey = newBetaFeatures.transferLists
+            ? 'permissions.betaFeatures.enabled.message'
+            : 'permissions.betaFeatures.disabled.message';
+        } else if ($state.includes('content.flows.dispositions') || $state.includes('content.flows.dispositions2')) {
+          goTo = newBetaFeatures.dispositions ? 'content.flows.dispositions2' : 'content.flows.dispositions';
+          messageKey = newBetaFeatures.dispositions
+            ? 'permissions.betaFeatures.enabled.message'
+            : 'permissions.betaFeatures.disabled.message';
+        } else if (
+          $state.includes('content.flows.dispositionLists') ||
+          $state.includes('content.flows.dispositionLists2')
+        ) {
+          goTo = newBetaFeatures.dispositionLists
+            ? 'content.flows.dispositionLists2'
+            : 'content.flows.dispositionLists';
+          messageKey = newBetaFeatures.dispositionLists
             ? 'permissions.betaFeatures.enabled.message'
             : 'permissions.betaFeatures.disabled.message';
         }
@@ -218,7 +246,8 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
               var isCxTenant =
                 targetSessionTenant &&
                 targetTenant.password !== false &&
-                (currentMeTenant && currentMeTenant.password !== false);
+                currentMeTenant &&
+                currentMeTenant.password !== false;
 
               var className;
               var iconClass;
@@ -413,9 +442,10 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
       if (UserPermissions.hasPermissionInList(PermissionGroups.viewReasons)) {
         items.push({
           label: $translate.instant('navbar.management.reasons.title'),
-          stateLink: Session.betaFeatures.reasons && !isActiveExternalTenant ?
-          'content.management.reasons2' :
-          'content.management.reasons',
+          stateLink:
+            Session.betaFeatures.reasons && !isActiveExternalTenant
+              ? 'content.management.reasons2'
+              : 'content.management.reasons',
           id: 'reasons-management-link',
           order: 2
         });
@@ -424,14 +454,14 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
       if (UserPermissions.hasPermissionInList(PermissionGroups.viewReasonLists)) {
         items.push({
           label: $translate.instant('navbar.management.reasons.lists.title'),
-          stateLink: Session.betaFeatures.reasonLists && !isActiveExternalTenant ?
-           'content.management.reasonLists2':
-           'content.management.reasonLists',
+          stateLink:
+            Session.betaFeatures.reasonLists && !isActiveExternalTenant
+              ? 'content.management.reasonLists2'
+              : 'content.management.reasonLists',
           id: 'reason-lists-management-link',
           order: 3
         });
       }
-
 
       if (UserPermissions.hasPermissionInList(PermissionGroups.manageRoles)) {
         items.push({
@@ -486,7 +516,6 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
         });
       }
 
-
       return items;
     };
 
@@ -536,9 +565,10 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
       ) {
         items.push({
           label: $translate.instant('navbar.configuration.bh.title'),
-          stateLink: Session.betaFeatures.businessHours && !isActiveExternalTenant ?
-            'content.configuration.hours2' :
-            'content.configuration.hours',
+          stateLink:
+            Session.betaFeatures.businessHours && !isActiveExternalTenant
+              ? 'content.configuration.hours2'
+              : 'content.configuration.hours',
           id: 'hours-configuration-link',
           order: 5
         });
@@ -556,9 +586,10 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
       if (UserPermissions.hasPermissionInList(PermissionGroups.viewAppCreds)) {
         items.push({
           label: $translate.instant('navbar.configuration.keys.title'),
-          stateLink: Session.betaFeatures.apiKeys && !isActiveExternalTenant ?
-            'content.configuration.keys2' :
-            'content.configuration.keys',
+          stateLink:
+            Session.betaFeatures.apiKeys && !isActiveExternalTenant
+              ? 'content.configuration.keys2'
+              : 'content.configuration.keys',
           id: 'key-configuration-link',
           order: 7
         });
@@ -567,22 +598,22 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
       if (UserPermissions.hasPermission('VIEW_ALL_TRANSFER_LISTS')) {
         items.push({
           label: $translate.instant('navbar.configuration.transferLists.title'),
-          stateLink: Session.betaFeatures.transferLists && !isActiveExternalTenant ?
-          'content.configuration.transferLists2' :
-          'content.configuration.transferLists',
+          stateLink:
+            Session.betaFeatures.transferLists && !isActiveExternalTenant
+              ? 'content.configuration.transferLists2'
+              : 'content.configuration.transferLists',
           id: 'transferList-configuration-link',
           order: 8
         });
       }
 
-   
-
       if (UserPermissions.hasPermissionInList(PermissionGroups.viewMessageTemplates)) {
         items.push({
           label: $translate.instant('navbar.configuration.messageTemplates.title'),
-          stateLink: Session.betaFeatures.messageTemplates && !isActiveExternalTenant ?
-            'content.configuration.messageTemplates2' :
-            'content.configuration.messageTemplates',
+          stateLink:
+            Session.betaFeatures.messageTemplates && !isActiveExternalTenant
+              ? 'content.configuration.messageTemplates2'
+              : 'content.configuration.messageTemplates',
           id: 'template-configuration-link',
           order: 9
         });
@@ -686,7 +717,10 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
       if (UserPermissions.hasPermissionInList(PermissionGroups.viewDispositions)) {
         items.push({
           label: $translate.instant('navbar.flows.dispositions.title'),
-          stateLink: 'content.flows.dispositions',
+          stateLink:
+            Session.betaFeatures.dispositions && !isActiveExternalTenant
+              ? 'content.flows.dispositions2'
+              : 'content.flows.dispositions',
           id: 'dispositions-flows-link',
           order: 2
         });
@@ -695,7 +729,10 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
       if (UserPermissions.hasPermissionInList(PermissionGroups.viewDispositions)) {
         items.push({
           label: $translate.instant('navbar.flows.dispositions.lists.title'),
-          stateLink: 'content.flows.dispositionLists',
+          stateLink:
+            Session.betaFeatures.dispositionLists && !isActiveExternalTenant
+              ? 'content.flows.dispositionLists2'
+              : 'content.flows.dispositionLists',
           id: 'disposition-lists-flows-link',
           order: 3
         });
@@ -827,10 +864,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
       // LOGI Reports
       // Logi standard and advanced reports
       // //////////////////////////////////////////
-      if (
-        UserPermissions.hasPermissionInList(PermissionGroups.viewConfigReportingBI) &&
-        !isActiveExternalTenant
-      ) {
+      if (UserPermissions.hasPermissionInList(PermissionGroups.viewConfigReportingBI) && !isActiveExternalTenant) {
         items.push({
           label: $translate.instant('navbar.reports.logi.standard.title'),
           stateLink: 'content.reporting.logiStandard',
@@ -838,10 +872,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
           order: 9
         });
       }
-      if (
-        UserPermissions.hasPermissionInList(PermissionGroups.viewConfigReportingBI) &&
-        !isActiveExternalTenant
-      ) {
+      if (UserPermissions.hasPermissionInList(PermissionGroups.viewConfigReportingBI) && !isActiveExternalTenant) {
         items.push({
           label: $translate.instant('navbar.reports.logi.advanced.title'),
           stateLink: 'content.reporting.logiAdvanced',

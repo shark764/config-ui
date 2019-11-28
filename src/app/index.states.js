@@ -69,7 +69,9 @@ angular.module('liveopsConfigPanel').config([
             function(UserPermissions, PermissionGroups, $q) {
               return $q.all(
                 UserPermissions.resolvePermissions(PermissionGroups.manageUsers.concat(PermissionGroups.viewUsers)),
-                UserPermissions.resolvePermissions(PermissionGroups.manageUserSkillsAndGroups.concat(['PLATFORM_CONFIG_USERS_VIEW'])) //See TITAN2-4897 for why we do this extra check
+                UserPermissions.resolvePermissions(
+                  PermissionGroups.manageUserSkillsAndGroups.concat(['PLATFORM_CONFIG_USERS_VIEW'])
+                ) //See TITAN2-4897 for why we do this extra check
               );
             }
           ]
@@ -89,7 +91,9 @@ angular.module('liveopsConfigPanel').config([
             function(UserPermissions, PermissionGroups, $q) {
               return $q.all(
                 UserPermissions.resolvePermissions(PermissionGroups.manageUsers.concat(PermissionGroups.viewUsers)),
-                UserPermissions.resolvePermissions(PermissionGroups.manageUserSkillsAndGroups.concat(['PLATFORM_CONFIG_USERS_VIEW'])) //See TITAN2-4897 for why we do this extra check
+                UserPermissions.resolvePermissions(
+                  PermissionGroups.manageUserSkillsAndGroups.concat(['PLATFORM_CONFIG_USERS_VIEW'])
+                ) //See TITAN2-4897 for why we do this extra check
               );
             }
           ]
@@ -555,7 +559,7 @@ angular.module('liveopsConfigPanel').config([
           hasPermission: [
             'UserPermissions',
             'PermissionGroups',
-            function (UserPermissions, PermissionGroups) {
+            function(UserPermissions, PermissionGroups) {
               return UserPermissions.resolvePermissions(PermissionGroups.viewAppCreds);
             }
           ]
@@ -743,8 +747,9 @@ angular.module('liveopsConfigPanel').config([
       .state('content.flows.dispositions2', {
         url: '/dispositions2',
         title: 'Flows - Disposition Management',
-        templateUrl: '/app/components/configuration/dispositions2/dispositions2.html',
+        templateUrl: 'app/components/flows/dispositions/dispositions2/dispositions2.html',
         controller: 'dispositionsController2',
+        reloadOnSearch: false,
         resolve: {
           hasPermission: [
             'UserPermissions',
@@ -760,6 +765,22 @@ angular.module('liveopsConfigPanel').config([
         title: 'Flows - Disposition List Management',
         templateUrl: 'app/components/flows/dispositions/dispositionLists/dispositionLists.html',
         controller: 'dispositionListsController as dlc',
+        reloadOnSearch: false,
+        resolve: {
+          hasPermission: [
+            'UserPermissions',
+            'PermissionGroups',
+            function(UserPermissions, PermissionGroups) {
+              return UserPermissions.resolvePermissions(PermissionGroups.viewDispositionLists);
+            }
+          ]
+        }
+      })
+      .state('content.flows.dispositionLists2', {
+        url: '/dispositionLists2',
+        title: 'Flows - Disposition List Management',
+        templateUrl: 'app/components/flows/dispositions/dispositionLists2/dispositionLists2.html',
+        controller: 'dispositionListsController2',
         reloadOnSearch: false,
         resolve: {
           hasPermission: [
@@ -1207,84 +1228,95 @@ angular.module('liveopsConfigPanel').config([
             '$q',
             '$translate',
             '$stateParams',
-            function(UserPermissions, RealtimeDashboardsSettings, RealtimeDashboard, Session, $q, $translate, $stateParams) {
+            function(
+              UserPermissions,
+              RealtimeDashboardsSettings,
+              RealtimeDashboard,
+              Session,
+              $q,
+              $translate,
+              $stateParams
+            ) {
               var deferred = $q.defer();
               var withoutActiveDashboard = true;
-              
+
               var isStandardDashbaord = false;
-              for(var i = 0; i< RealtimeDashboardsSettings.mockDashboards.length; i++){
-                if($stateParams.dashboardId == RealtimeDashboardsSettings.mockDashboards[i].id){
+              for (var i = 0; i < RealtimeDashboardsSettings.mockDashboards.length; i++) {
+                if ($stateParams.dashboardId == RealtimeDashboardsSettings.mockDashboards[i].id) {
                   isStandardDashbaord = true;
                 }
               }
               var fetchDashboards = function() {
-                CxEngage.entities.getDashboards({ excludeInactive: true, withoutActiveDashboard: withoutActiveDashboard}, function(error, topic, response) {
-                  if (!error) {
-                    // Add category attribute to each dashboard so they can be grouped together in the dropdown
-                    var allPromise = response.result.map(function (item) {
-                      item.dashboardCategory = $translate.instant('realtimeDashboards.category.custom');
-                      var defer2 = $q.defer();
-                        if($stateParams.dashboardId == item.id && !isStandardDashbaord){
-                          CxEngage.entities.getEntity({path: ["dashboards", item.id]}, function(err, topic1, resp){
-                            if(!err){
+                CxEngage.entities.getDashboards(
+                  { excludeInactive: true, withoutActiveDashboard: withoutActiveDashboard },
+                  function(error, topic, response) {
+                    if (!error) {
+                      // Add category attribute to each dashboard so they can be grouped together in the dropdown
+                      var allPromise = response.result.map(function(item) {
+                        item.dashboardCategory = $translate.instant('realtimeDashboards.category.custom');
+                        var defer2 = $q.defer();
+                        if ($stateParams.dashboardId == item.id && !isStandardDashbaord) {
+                          CxEngage.entities.getEntity({ path: ['dashboards', item.id] }, function(err, topic1, resp) {
+                            if (!err) {
                               item.activeDashboard = resp.result.activeDashboard;
                               item.activeDashboard.id = item.id;
                               item.activeDashboard.name = item.name;
                               defer2.resolve(item);
-                            }else{
-                                defer2.reject();
+                            } else {
+                              defer2.reject();
                             }
                           });
-                        }else{
-                            defer2.resolve(item);
+                        } else {
+                          defer2.resolve(item);
                         }
-                      
-                      return defer2.promise;
-                    });
 
-                    $q.all(allPromise).then(function(customDashboards){
-                      RealtimeDashboardsSettings.mockDashboards.forEach(function(item) {
-                        item.dashboardCategory = $translate.instant('realtimeDashboards.category.standard');
+                        return defer2.promise;
                       });
-                      window.allDashboards = _.sortBy(
-                        _.union(customDashboards, RealtimeDashboardsSettings.mockDashboards),
-                        'name'
-                      );
-                      var allDashboardsMapped = window.allDashboards.map(function(item) {
-                        return { id: item.id, name: item.name, dashboardCategory: item.dashboardCategory };
-                      });
-  
-                      if (!UserPermissions.hasPermission('VIEW_ALL_REALTIME_DASHBOARDS')) {
-                        CxEngage.entities.getDataAccessMember(
-                          {
-                            dataAccessMemberId: Session.user.id
-                          },
-                          function(error, topic, response) {
-                            if (response.result && response.result.length) {
-                              var controlledReports = _.filter(response.result, function(report) {
-                                return report.reportType === 'realtime';
-                              });
-  
-                              var assignedDashboards = [];
-  
-                              _.forEach(controlledReports, function(report) {
-                                assignedDashboards.push(report.realtimeReportName);
-                              });
-  
-                              var filteredDashboards = _.filter(allDashboardsMapped, function(dashboard) {
-                                return _.includes(assignedDashboards, dashboard.name);
-                              });
-                            }
-  
-                            deferred.resolve(filteredDashboards);
-                          }
+
+                      $q.all(allPromise).then(function(customDashboards) {
+                        RealtimeDashboardsSettings.mockDashboards.forEach(function(item) {
+                          item.dashboardCategory = $translate.instant('realtimeDashboards.category.standard');
+                        });
+                        window.allDashboards = _.sortBy(
+                          _.union(customDashboards, RealtimeDashboardsSettings.mockDashboards),
+                          'name'
                         );
-                      } else {
-                        deferred.resolve(allDashboardsMapped);
-                      }
-                    });
-                  } //end of if.
-                }); // end of CxEngage.entities.getDashboards()
+                        var allDashboardsMapped = window.allDashboards.map(function(item) {
+                          return { id: item.id, name: item.name, dashboardCategory: item.dashboardCategory };
+                        });
+
+                        if (!UserPermissions.hasPermission('VIEW_ALL_REALTIME_DASHBOARDS')) {
+                          CxEngage.entities.getDataAccessMember(
+                            {
+                              dataAccessMemberId: Session.user.id
+                            },
+                            function(error, topic, response) {
+                              if (response.result && response.result.length) {
+                                var controlledReports = _.filter(response.result, function(report) {
+                                  return report.reportType === 'realtime';
+                                });
+
+                                var assignedDashboards = [];
+
+                                _.forEach(controlledReports, function(report) {
+                                  assignedDashboards.push(report.realtimeReportName);
+                                });
+
+                                var filteredDashboards = _.filter(allDashboardsMapped, function(dashboard) {
+                                  return _.includes(assignedDashboards, dashboard.name);
+                                });
+                              }
+
+                              deferred.resolve(filteredDashboards);
+                            }
+                          );
+                        } else {
+                          deferred.resolve(allDashboardsMapped);
+                        }
+                      });
+                    } //end of if.
+                  }
+                ); // end of CxEngage.entities.getDashboards()
               }; //end of fetchDashboards
 
               CxEngage.session.getActiveTenantId(function(error, topic, response) {
