@@ -30,6 +30,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API Keys
 - Message Templates
 
+## [4.79.23] - 2019-12-02
+## Changed
+- <no-jira> - Bump sdk version to 9.3.4.
+
 ## [4.79.22] - 2019-11-21
 ## Added
 - CXV1-20540 - Add Dispositions to navbar and expose it as Beta feature
