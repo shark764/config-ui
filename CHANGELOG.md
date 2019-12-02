@@ -30,6 +30,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API Keys
 - Message Templates
 
+## [4.80.0] - 2019-12-02
+## Added
+- CXV1-20396 - Chat widgets
+
 ## [4.79.24] - 2019-12-02
 ## Fixed
 - CXV1-11871 - Unable to update Business Hours to include exceptions after a set time of day

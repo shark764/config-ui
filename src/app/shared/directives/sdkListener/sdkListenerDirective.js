@@ -267,86 +267,10 @@ angular.module('liveopsConfigPanel').directive('sdkListener', [
                 }
               } else {
                 console.log('[SDK Listener] Asking the SDK for:', event.data);
-                if (event.data.topic === 'cxengage/entities/get-chat-widgets-response') {
-                  const response = {
-                    result: [
-                      {
-                        name: 'Widget1',
-                        description: 'Support website widget',
-                        shared: true,
-                        active: true,
-                        id: '0000-0000-0000-0001',
-                        fontFamily: 'arial',
-                        fontSize: '12pt',
-                        inputs: ['Name', 'Description'],
-                        welcome: 'hero',
-                        headerColor: '#584D8F',
-                        headerTextIcons: '#19B348',
-                        chatbg: '#19B348',
-                        agentHeader: '#E21115',
-                        agentText: '#2ED996',
-                        customerHeader: '#C3B92F',
-                        customerText: '#0D4B2E',
-                        systemText: '#22194Dff',
-                        buttonText: '#fff',
-                        iconColor: '#ccc',
-                        borderColor: '#194D4C',
-                        urls: ['*.example.com', 'subdomain.example.com', 'example.com']
-                      },
-                      {
-                        name: 'Widget 2',
-                        description: 'Sales website widget',
-                        shared: true,
-                        active: true,
-                        id: '0000-0000-0000-0002',
-                        fontFamily: 'arial',
-                        fontSize: '12pt',
-                        inputs: [],
-                        welcome: 'hero',
-                        headerColor: '#fff',
-                        headerTextIcons: '#ccc',
-                        chatbg: '#fff',
-                        agentHeader: '#ccc',
-                        agentText: '',
-                        customerHeader: '',
-                        customerText: '',
-                        systemText: '',
-                        buttonText: '',
-                        iconColor: '',
-                        borderColor: '',
-                        urls: []
-                      }
-                    ]
-                  };
-                  event.source.postMessage(
-                    {
-                      topic: [event.data.topic],
-                      response: response,
-                      messageId: event.data.messageId
-                    },
-                    '*'
-                  );
-                } else {
-                  if (CxEngage[event.data.module][event.data.command] === undefined) {
-                    CxEngage.api[event.data.crudAction](
-                      { path: event.data.path, body: event.data.data, customTopic: event.data.topic },
-                      function(error, topic, response) {
-                        if (event.source !== undefined) {
-                          console.log('[SDK Listener] SDK sending back:', event.data.messageId, error, topic, response);
-                          event.source.postMessage(
-                            {
-                              error: error,
-                              topic: topic,
-                              response: response,
-                              messageId: event.data.messageId
-                            },
-                            '*'
-                          );
-                        }
-                      }
-                    );
-                  } else {
-                    CxEngage[event.data.module][event.data.command](event.data.data, function(error, topic, response) {
+                if (CxEngage[event.data.module][event.data.command] === undefined) {
+                  CxEngage.api[event.data.crudAction](
+                    { path: event.data.path, body: event.data.data, customTopic: event.data.topic },
+                    function(error, topic, response) {
                       if (event.source !== undefined) {
                         console.log('[SDK Listener] SDK sending back:', event.data.messageId, error, topic, response);
                         event.source.postMessage(
@@ -359,8 +283,23 @@ angular.module('liveopsConfigPanel').directive('sdkListener', [
                           '*'
                         );
                       }
-                    });
-                  }
+                    }
+                  );
+                } else {
+                  CxEngage[event.data.module][event.data.command](event.data.data, function(error, topic, response) {
+                    if (event.source !== undefined) {
+                      console.log('[SDK Listener] SDK sending back:', event.data.messageId, error, topic, response);
+                      event.source.postMessage(
+                        {
+                          error: error,
+                          topic: topic,
+                          response: response,
+                          messageId: event.data.messageId
+                        },
+                        '*'
+                      );
+                    }
+                  });
                 }
               }
             } else {

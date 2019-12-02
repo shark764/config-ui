@@ -654,8 +654,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
       }
 
       if (
-        UserPermissions.hasPermissionInList(PermissionGroups.accessAllEmailTemplates) &&
-        $location.search()['alpha'] &&
+        UserPermissions.hasPermission('WEB_INTEGRATIONS_APP_READ') &&
         !isActiveExternalTenant
       ) {
         items.push({
