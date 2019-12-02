@@ -51,6 +51,15 @@ angular.module('liveopsConfigPanel')
               return;
             }
 
+            //validate if date is correctly formatted to midnight UTC
+            var localDate = new Date(exception.date);
+            var localDateISO = localDate.toISOString();
+            if (!localDateISO.includes("T00:00:00.000Z")) {
+                var formattedDate = localDateISO.slice(0,10);
+                localDateISO = formattedDate + "T00:00:00.000Z";
+            }
+            exception.date = new Date(localDateISO);
+
             promises.push(exception.save({
               tenantId: Session.tenant.tenantId,
               businessHourId: hours.id
