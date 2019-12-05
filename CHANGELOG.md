@@ -30,57 +30,61 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API Keys
 - Message Templates
 
+## [4.80.2](https://github.com/serenovallc/config-ui/compare/4.80.1...4.80.2) - 2019-12-05
+### Added
+- [CXV1-20121](https://liveops.atlassian.net/browse/CXV1-20121) Added BYOC support in the Twilio integration page.
+
 ## [4.80.1] - 2019-12-04
-## Fixed
+### Fixed
 - CXV1-20612 - Remove entityId from the URL when navigated between pages
 - CXV1-20611 - Display sidepanel entity form while accessing config-ui & config2 URL with id
 
 ## [4.80.0] - 2019-12-02
-## Added
+### Added
 - CXV1-20396 - Chat widgets
 
 ## [4.79.24] - 2019-12-02
-## Fixed
+### Fixed
 - CXV1-11871 - Unable to update Business Hours to include exceptions after a set time of day
 
 ## [4.79.23] - 2019-12-02
-## Changed
+### Changed
 - <no-jira> - Bump sdk version to 9.3.4.
 
 ## [4.79.22] - 2019-11-21
-## Added
+### Added
 - CXV1-20540 - Add Dispositions to navbar and expose it as Beta feature
 - CXV1-20541 - Add Disposition Lists to navbar and expose it as Beta feature
 
 ## [4.79.21] - 2019-11-20
-## Changed
+### Changed
 - <no-jira> - Bump sdk version to 9.3.2
 ### Fixed
 - CXV1-18938 - Update error messaging on Config UI Login page.
 
 ## [4.79.20] - 2019-11-07
-## Changed
+### Changed
 - <no-jira> - Bump sdk version to 9.3.1
 
 ## [4.79.19] - 2019-11-06
-## Added
+### Added
 - CXV1-20596 - Pass config2 selectedEntityId param to config-ui URL
 
 ## [4.79.18] - 2019-10-25
-## Added
+### Added
 - CXV1-20403 - Add Reason Lists to navbar and expose it as Beta feature
 - CXV1-20427 - Add Transfer List page to beta features and expose it in navbar.
 
 ## [4.79.17] - 2019-10-24
-## Added 
+### Added 
 - CXV1-20402 - Add reasons to navbar and expose it as Beta feature
 
 ## [4.79.16] - 2019-10-22
-## Changed
+### Changed
 - Hide title from "edit" in integrations listeners 
 
 ## [4.79.15] - 2019-10-17
-## Changed
+### Changed
 - Bump sdk version to 9.2.1 
 
 ## [4.79.14] - 2019-10-10

@@ -39,7 +39,7 @@
     </div>
 
     <div class="input-group">
-      <label class="textarea-label">{{'value.description' | translate}}</label>
+      <label class="textarea-label">{{'value.description' | translate}} </label>
       <div>
         <textarea ng-model="selectedIntegration.description">
         </textarea>
@@ -76,7 +76,7 @@
 
     <div class="input-group">
       <label>{{'integration.details.properties.authToken' | translate}} *</label>
-      <form-error field="forms.detailsForm.authToken" error-type-required="{{'integration.authtoken.error' | translate}}" ></form-error>
+      <form-error field="forms.detailsForm.authToken" error-type-required="{{'integration.authid.error' | translate}}" ></form-error>
       <div>
         <input ng-required="true" type="password" ng-model="selectedIntegration.properties.authToken" name="authToken"/>
       </div>
@@ -93,7 +93,7 @@
       </div>
 
       <div>
-        <label>{{'integration.details.properties.defaultRegionForced' | translate}}</label>
+        <label>{{'integration.details.properties.defaultRegionForced' | translate}} </label>
         <toggle ng-disabled="!('MANAGE_ALL_PROVIDERS' | hasPermission)"
             ng-model="selectedIntegration.properties.forceRegion"
             name="forceRegion"/>
@@ -101,7 +101,7 @@
     </div>
 
     <div class="input-group">
-      <label>{{'integration.details.properties.webRTC' | translate}}</label>
+      <label>{{'integration.details.properties.webRTC' | translate}} </label>
       <div>
         <toggle ng-required="true" ng-model="selectedIntegration.properties.webRtc" ng-disabled="!('MANAGE_ALL_PROVIDERS' | hasPermission)"/>
       </div>
@@ -573,4 +573,10 @@
   <div ng-if="customTypesHideShowFields(selectedIntegration, 'salesforce') || selectedIntegration.type == 'facebook' || selectedIntegration.type == 'email'">
     <integration-listeners integration="selectedIntegration" fetch-listeners="fetchListeners()"></integration-listeners>
   </div>
+
+  <!-- Global Dial Parameters in integration == Twilio -->
+  <div ng-if="customTypesHideShowFields(selectedIntegration, 'twilio') || selectedIntegration.type == 'twilio'">
+    <integration-global-dial-parameters integration="selectedIntegration" get-global-dial-parameters="{{selectedIntegration.properties.globalDialParams}}"></integration-global-dial-parameters>
+  </div>
+
 </div>

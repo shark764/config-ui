@@ -168,6 +168,18 @@ angular.module('liveopsConfigPanel')
         });
       };
 
+      $scope.createGlobalDialParams = function() {
+        $scope.globalDialParams = new GlobalDialParameter({
+          tenantId: Session.tenant.tenantId,
+          integrationId: $scope.integration.id,
+          properties: {
+            globalDialParams: $scope.integration.properties.globalDialParams,
+            key: $scope.key,
+            value: $scope.value
+          }
+        });
+      }
+
       $scope.$on(loEvents.tableControls.itemCreate, function () {
         $scope.createIntegration();
       });
