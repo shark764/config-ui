@@ -8,7 +8,8 @@ angular.module('liveopsConfigPanel').directive('sdkListener', [
   '$state',
   'apiHostname',
   'Alert',
-  function(Session, $rootScope, $translate, $window, $state, apiHostname, Alert) {
+  '$location',
+  function(Session, $rootScope, $translate, $window, $state, apiHostname, Alert, $location) {
     var tenantIsSet = false;
     return {
       restrict: 'E',
@@ -237,20 +238,39 @@ angular.module('liveopsConfigPanel').directive('sdkListener', [
                   '*'
                 );
               } else if (event.data.module === 'updateURLWithQueryString') {
-                // update URL when an entity is selected & de-selected in config2
+                // we could have used $state to update the URl but it's takig a whle to update the URL, that is why using window.location.href
                 if (event.data.entityId !== '') {
-                  if (/.+?id=/.test(window.location.href)) {
-                  // If an entity is selected on top of an active entity selection,
-                  // replace previously selected entityId in the URL with the newly selected entityId
-                    window.location.href = /.+?(?=\?id=)/.exec(window.location.href)[0] + '?' + event.data.entityId;
-                } else {
+                  if ($location.search().id) {
+                    // If an entity is selected on top of an active entity selection,
+                    // replace previously selected entityId in the URL with the newly selected entityId
+                    window.location.href = /.+?(?=\?id=)/.exec(window.location.href)[0] + '?id=' + event.data.entityId;
+                  } else {
                     // if there is no previously selectedEntityId, append if to the URL
-                    window.location.href = window.location.href + '?' + event.data.entityId;
+                    window.location.href = window.location.href + '?id=' + event.data.entityId;
                   }
                 } else {
-                  // remove id from the URL:
-                  window.location.href = /.+?(?=\?id=)/.exec(window.location.href)[0] + '';
+                  if ($location.search().id) {
+                    // remove id from the URL:
+                    window.location.href = /.+?(?=\?id=)/.exec(window.location.href)[0] + '';
+                  }
                 }
+                event.source.postMessage(
+                  {
+                    topic: 'urlParamUpdated',
+                    response: event.data.entityId,
+                    messageId: event.data.messageId
+                  },
+                  '*'
+                );
+              } else if (event.data.module === 'getUrlParamId') {
+                event.source.postMessage(
+                  {
+                    topic: 'urlParamUpdated',
+                    response: $location.search().id,
+                    messageId: event.data.messageId
+                  },
+                  '*'
+                );
               } else if (event.data.command === 'getMonitoredInteraction') {
                 console.log('[SDK Listener] Asking the SDK for:', event.data.command);
                 var monitoredId = CxEngage[event.data.module][event.data.command]();

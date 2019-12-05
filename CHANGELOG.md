@@ -30,6 +30,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API Keys
 - Message Templates
 
+## [4.80.1] - 2019-12-04
+## Fixed
+- CXV1-20612 - Remove entityId from the URL when navigated between pages
+- CXV1-20611 - Display sidepanel entity form while accessing config-ui & config2 URL with id
+
 ## [4.80.0] - 2019-12-02
 ## Added
 - CXV1-20396 - Chat widgets
