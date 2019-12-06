@@ -54,13 +54,18 @@ angular.module('liveopsConfigPanel')
       }
 
       $scope.addNewGlobalDialParameter = function(){      
+        //cannot have duplicate keys.
+        if($scope.integration.properties.globalDialParams[$scope.newGlobalDialParamsKey]) {
+          Alert.error($translate.instant('integration.globalDialParameter.duplicateKeyError'));
+          $scope.newGlobalDialParamsKey = "";
+        } else {
+          addPropertytToGlobalDialParameter($scope.newGlobalDialParamsKey, $scope.newGlobalDialParamsValue);
 
-        addPropertytToGlobalDialParameter($scope.newGlobalDialParamsKey, $scope.newGlobalDialParamsValue);
+          saveGlobalDialParameter();
 
-        saveGlobalDialParameter();
-
-        $scope.newGlobalDialParamsKey = "";
-        $scope.newGlobalDialParamsValue = "";
+          $scope.newGlobalDialParamsKey = "";
+          $scope.newGlobalDialParamsValue = "";
+        }
       };
 
       function deleteGlobalDialParameter(key) {

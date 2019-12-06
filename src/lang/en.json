@@ -733,6 +733,7 @@
   "integration.details.properties.globalDialParameters": "Global Dial Parameters",
   "integration.globalDialParameter.create.title": "Create new Global Dial Parameter",
   "integration.globalDialParameter.edit.title": "Edit Global Dial Parameter",
+  "integration.globalDialParameter.duplicateKeyError": "Key already exists. Cannot have duplicates.",
   "integration.details.properties.key": "Key",
   "integration.details.properties.value": "Value",
   "integration.details.properties.actions": "Actions",
