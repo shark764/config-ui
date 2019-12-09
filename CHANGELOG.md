@@ -30,7 +30,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API Keys
 - Message Templates
 
-## [4.80.3](https://github.com/serenovallc/config-ui/compare/4.80.2...4.80.3) - 2019-12-06
+## [4.80.4](https://github.com/serenovallc/config-ui/compare/4.80.2...4.80.4) - 2019-12-06
 ### Fixed
 - Can no longer add duplicate key value in Integration->Twilio->Global Dial Params
 

@@ -11,7 +11,6 @@ def service = 'Config-UI'
 def docker_tag = BUILD_TAG.toLowerCase()
 def pr = env.CHANGE_ID
 def c = new common()
-def h = new hipchat()
 def n = new node()
 def f = new frontend()
 
@@ -46,6 +45,7 @@ pipeline {
     stage ('Setup Docker') {
       steps {
         sh 'echo "Stage Description: Sets up docker image for use in the next stages"'
+        sh "rm -rf ${pwd}/build || true"        
         sh "mkdir build -p"
         sh "docker build -t ${docker_tag} -f Dockerfile ."
         sh "docker run --rm -t -d --name=${docker_tag} --mount type=bind,src=$HOME/.ssh,dst=/home/node/.ssh,readonly --mount type=bind,src=${pwd}/build,dst=/home/node/mount ${docker_tag}"
@@ -88,23 +88,6 @@ pipeline {
         sh "aws s3 sync build/dist/ s3://frontend-prs.cxengagelabs.net/config-ui/${pr}/ --delete"
         script {
           f.invalidate("E23K7T1ARU8K88")
-          hipchatSend(color: 'GREEN',
-                      credentialId: 'HipChat-API-Token',
-                      message: "<b>${service} PR${pr} | PR was linted, unit tested, built and is ready for code review </b><br/><a href=\"http://jenkins.cxengagelabs.net/blue/organizations/jenkins/Serenova%2Fconfig-ui/activity\">Build Activity</a><br/><a href=\"https://github.com/SerenovaLLC/${service}/pull/${pr}\">Pull Request</a><br/><a href=\"https://frontend-prs.cxengagelabs.net/config-ui/${pr}/index.html\">Test Build</a>",
-                      notify: true,
-                      room: 'Admin/Supervisor Experience',
-                      sendAs: 'Jenkins',
-                      server: 'api.hipchat.com',
-                      textFormat: false,
-                      v2enabled: false)
-          hipchatSend(credentialId: 'HipChat-API-Token',
-                      message: "@nick @DHernandez @mjones @RandhalRamirez  ^^^^ ${lastCommitMsg}",
-                      notify: true,
-                      room: 'Admin/Supervisor Experience',
-                      sendAs: 'Jenkins',
-                      server: 'api.hipchat.com',
-                      textFormat: true,
-                      v2enabled: false)
         }
       }
     }
@@ -126,23 +109,6 @@ pipeline {
           }
           script {
             f.invalidate("E23K7T1ARU8K88")
-            hipchatSend(color: 'GREEN',
-                      credentialId: 'HipChat-API-Token',
-                      message: "<b>${service} PR${pr} | PR successfully built and deployed to QE, ready to be tested! </b><br/><a href=\"http://jenkins.cxengagelabs.net/blue/organizations/jenkins/Serenova%2Fconfig-ui/activity\">Build Activity</a><br/><a href=\"https://github.com/SerenovaLLC/${service}/pull/${pr}\">Pull Request</a><br/><a href=\"https://frontend-prs.cxengagelabs.net/config-ui/${pr}/index.html\">Test Build</a>",
-                      notify: true,
-                      room: 'Admin/Supervisor Experience',
-                      sendAs: 'Jenkins',
-                      server: 'api.hipchat.com',
-                      textFormat: false,
-                      v2enabled: false)
-            hipchatSend(credentialId: 'HipChat-API-Token',
-                        message: "@JWilliams @RDominguez  ^^^^ ${lastCommitMsg}",
-                        notify: true,
-                        room: 'Admin/Supervisor Experience',
-                        sendAs: 'Jenkins',
-                        server: 'api.hipchat.com',
-                        textFormat: true,
-                        v2enabled: false)
           }
         }
       }
@@ -153,15 +119,6 @@ pipeline {
         timeout(time: 5, unit: 'DAYS') {
           script {
             input message: 'Testing complete?', submittedParameter: 'submitter'
-            hipchatSend(color: 'GREEN',
-                        credentialId: 'HipChat-API-Token',
-                        message: "<a href=\"${pullRequest.url}\"><b>${service}#${pr} - ${pullRequest.title} (${pullRequest.createdBy}) is ready to be merged</b></a> <br/> <a href=\"${BUILD_URL}\">Link to Build</a>",
-                        notify: true,
-                        room: 'frontendprs',
-                        sendAs: 'Jenkins',
-                        server: 'api.hipchat.com',
-                        textFormat: false,
-                        v2enabled: false)
           }
         }
       }
@@ -172,8 +129,6 @@ pipeline {
         sh 'echo "Makes a github tagged release under a new branch with the same name as the tag version"'
         git url: "git@github.com:SerenovaLLC/${service}", branch: "${BRANCH_NAME}"
         sh 'git checkout -b build-${BUILD_TAG}'
-        sh 'git add -f build/dist/* '
-        sh "git commit -m 'release ${build_version}'"
         script {
           if (build_version.contains("SNAPSHOT")) {
             sh "if git tag --list | grep ${build_version}; then git tag -d ${build_version}; git push origin :refs/tags/${build_version}; fi"
@@ -187,7 +142,7 @@ pipeline {
       when { anyOf {branch 'master'; branch 'develop'; branch 'release'; branch 'hotfix'}}
       steps {
         sh 'echo "Stage Description: Syncs a copy of the build folder to > s3://cxengagelabs-jenkins/frontend/{{service}}/{{version}}/"'
-        sh "aws s3 sync ./build/dist s3://cxengagelabs-jenkins/frontend/${service}/${build_version}/ --delete"
+        sh "aws s3 sync build/dist s3://cxengagelabs-jenkins/frontend/${service}/${build_version}/ --delete"
 
       }
     }
@@ -217,14 +172,6 @@ pipeline {
         def jobType = 'hipchat message goes here based on jenkins job type'
         def notifyPpl = 'ppl to @ in hipchat that should action this notification'
         if (env.BRANCH_NAME == "master") {
-          hipchatSend(credentialId: 'HipChat-API-Token',
-                      message: "Config-ui |  `${lastCommitMsg}` from ${commiter} (merged)",
-                      notify: true,
-                      room: 'Admin/Supervisor Experience',
-                      sendAs: 'Jenkins',
-                      server: 'api.hipchat.com',
-                      textFormat: true,
-                      v2enabled: false)
         } else {
           sh "echo 'No notification needed'"
         }
@@ -232,15 +179,7 @@ pipeline {
     }
     failure {
       script {
-        hipchatSend(color:'RED',
-                    credentialId: 'HipChat-API-Token',
-                    message: "${service} Jenkins Job Failed!  Check out the <a href=\"http://jenkins.cxengagelabs.net/blue/organizations/jenkins/Serenova%2F${service}/activity\">build activity</a><br/>${lastCommitMsg} | ${commiter}",
-                    notify: true,
-                    room: 'Admin/Supervisor Experience',
-                    sendAs: 'Jenkins',
-                    server: 'api.hipchat.com',
-                    textFormat: false,
-                    v2enabled: false)
+        echo 'Script Failed'
       }
     }
     unstable {
