@@ -155,7 +155,6 @@ pipeline {
           f.confFile("dev", "${build_version}") // make conf file
           f.deploy("dev","config") // push to s3
           f.invalidate("E3MJXQEHZTM4FB") // invalidate cloudfront
-          h.hipchatDeployServiceSuccess("${service}", "dev", "${build_version}", "${env.BUILD_USER}")
         }
       }
     }
