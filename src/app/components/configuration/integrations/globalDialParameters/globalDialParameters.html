@@ -1,10 +1,10 @@
-<div disable-contents="!('TWILIO_GLOBAL_DIAL_PARAMS_MANAGE' | hasPermission)" ng-init="initChecks()"> 
+<div disable-contents="!(['TWILIO_GLOBAL_DIAL_PARAMS_MANAGE', 'PLATFORM_TWILIO_GLOBAL_DIAL_PARAMS_MANAGE'] | hasPermission)" ng-init="initChecks()"> 
 <!--there are several ng-if for permissions on this page-->
   <div >
     <div class="divider-header">
       <h4>{{'integration.details.properties.globalDialSettings' | translate}}</h4>
-        <a id="add-extension-prefix" ng-if="('TWILIO_GLOBAL_DIAL_PARAMS_MANAGE' | hasPermission)" ng-hide="showExtensionPrefix" class="btn pull-right" ng-click="showNewPrefixExtensionField()" title="{{'integration.globalDialParams.extensionPrefix.addButton' | translate}}"><i class="fa fa-plus"></i></a>
-        <a id="remove-extension-prefix" ng-if="('TWILIO_GLOBAL_DIAL_PARAMS_MANAGE' | hasPermission)" ng-hide="!showExtensionPrefix" class="btn pull-right" ng-click="deletePrefixExtension()" title="{{'integration.globalDialParams.extensionPrefix.minusButton' | translate}}"><i class="fa fa-minus"></i></a>
+        <a id="add-extension-prefix" ng-if="(['TWILIO_GLOBAL_DIAL_PARAMS_MANAGE', 'PLATFORM_TWILIO_GLOBAL_DIAL_PARAMS_MANAGE'] | hasPermission)" ng-hide="showExtensionPrefix" class="btn pull-right" ng-click="showNewPrefixExtensionField()" title="{{'integration.globalDialParams.extensionPrefix.addButton' | translate}}"><i class="fa fa-plus"></i></a>
+        <a id="remove-extension-prefix" ng-if="(['TWILIO_GLOBAL_DIAL_PARAMS_MANAGE', 'PLATFORM_TWILIO_GLOBAL_DIAL_PARAMS_MANAGE'] | hasPermission)" ng-hide="!showExtensionPrefix" class="btn pull-right" ng-click="deletePrefixExtension()" title="{{'integration.globalDialParams.extensionPrefix.minusButton' | translate}}"><i class="fa fa-minus"></i></a>
     </div>
 
     <div ng-show="showExtensionPrefix">
@@ -23,7 +23,7 @@
 
   <div class="divider-header">
     <h4>{{'integration.details.properties.globalDialParameters' | translate}}</h4>
-    <a id="show-create-new-globalDialParameter" ng-if="('TWILIO_GLOBAL_DIAL_PARAMS_MANAGE' | hasPermission) || ('TWILIO_GLOBAL_DIAL_PARAMS_MANAGE' | hasPermission)" ng-hide="createNewGlobalDialParameter" class="btn pull-right" ng-click="showNewGlobalDialParamFields()" title="{{'integration.globalDialParams.addProperty' | translate}}"><i class="fa fa-plus"></i></a>
+    <a id="show-create-new-globalDialParameter" ng-if="(['TWILIO_GLOBAL_DIAL_PARAMS_MANAGE', 'PLATFORM_TWILIO_GLOBAL_DIAL_PARAMS_MANAGE'] | hasPermission)" ng-hide="createNewGlobalDialParameter" class="btn pull-right" ng-click="showNewGlobalDialParamFields()" title="{{'integration.globalDialParams.addProperty' | translate}}"><i class="fa fa-plus"></i></a>
   </div>
 
   <div ng-show="createNewGlobalDialParameter">
@@ -56,19 +56,19 @@
       <tr>
         <th>{{'integration.details.properties.key' | translate}}</th>
         <th>{{'integration.details.properties.value' | translate}}</th>
-        <th ng-if="('TWILIO_GLOBAL_DIAL_PARAMS_MANAGE' | hasPermission)"></th>
-        <th ng-if="('TWILIO_GLOBAL_DIAL_PARAMS_MANAGE' | hasPermission)">{{'integration.details.properties.actions' | translate}}</th>
-        <th ng-if="('TWILIO_GLOBAL_DIAL_PARAMS_MANAGE' | hasPermission)"></th>
+        <th ng-if="(['TWILIO_GLOBAL_DIAL_PARAMS_MANAGE', 'PLATFORM_TWILIO_GLOBAL_DIAL_PARAMS_MANAGE'] | hasPermission)"></th>
+        <th ng-if="(['TWILIO_GLOBAL_DIAL_PARAMS_MANAGE', 'PLATFORM_TWILIO_GLOBAL_DIAL_PARAMS_MANAGE'] | hasPermission)">{{'integration.details.properties.actions' | translate}}</th>
+        <th ng-if="(['TWILIO_GLOBAL_DIAL_PARAMS_MANAGE', 'PLATFORM_TWILIO_GLOBAL_DIAL_PARAMS_MANAGE'] | hasPermission)"></th>
       </tr>
     </thead>
     <tr ng-repeat="(key, value) in integration.properties.globalDialParams">
       <td>{{key}}</td>
       <td>{{value}}</td>
-      <td ng-if="('TWILIO_GLOBAL_DIAL_PARAMS_MANAGE' | hasPermission)"></td>
-      <td ng-if="('TWILIO_GLOBAL_DIAL_PARAMS_MANAGE' | hasPermission)">
+      <td ng-if="(['TWILIO_GLOBAL_DIAL_PARAMS_MANAGE', 'PLATFORM_TWILIO_GLOBAL_DIAL_PARAMS_MANAGE'] | hasPermission)"></td>
+      <td ng-if="(['TWILIO_GLOBAL_DIAL_PARAMS_MANAGE', 'PLATFORM_TWILIO_GLOBAL_DIAL_PARAMS_MANAGE'] | hasPermission)">
         <a class="edit" ng-click="editGlobalDialParameter(key)" title="{{'flow.globalDialParameter.edit.alt' | translate}}">edit</a>
       </td>
-      <td ng-if="('TWILIO_GLOBAL_DIAL_PARAMS_MANAGE' | hasPermission)">
+      <td ng-if="(['TWILIO_GLOBAL_DIAL_PARAMS_MANAGE', 'PLATFORM_TWILIO_GLOBAL_DIAL_PARAMS_MANAGE'] | hasPermission)">
         <a class="delete" ng-click="deleteGlobalDialParameter(key)" title="{{'flow.globalDialParameter.delete.alt' | translate}}">delete</a>
       </td>
     </tr>
@@ -97,7 +97,6 @@
         <input id="create-flow-version-btn" ng-disabled="editGlobalDialParameterForm.$invalid"
           lo-submit="updateGlobalDialParameter()" type="submit" class="btn btn-primary" value="{{ 'value.update' | translate }}"/>
       </div>
-    </ng-form>
+    </ng-form> 
   </div>
 </div>
-</body>

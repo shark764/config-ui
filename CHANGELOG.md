@@ -30,6 +30,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API Keys
 - Message Templates
 
+## [4.80.6](https://github.com/serenovallc/config-ui/compare/4.80.5...4.80.6) - 2019-12-09
+### Fixed
+- [CXV1-20121](https://liveops.atlassian.net/browse/CXV1-20121) platform permissions for Global Dial Params is now available
+
 ## [4.80.5](https://github.com/serenovallc/config-ui/compare/4.80.4...4.80.5) - 2019-12-09
 ### Changed
 - CXV1-20858 - Updated EOL date to "Q1 2020"
