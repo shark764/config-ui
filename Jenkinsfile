@@ -148,14 +148,71 @@ pipeline {
     }
     stage ('Deploy') {
       when { anyOf {branch 'master'; branch 'develop'; branch 'release'; branch 'hotfix'}}
-      steps {
-        script {
-          f.pull("${service}", "${build_version}") // pull down version of site from s3
-          f.versionFile("${build_version}") // make version file
-          f.confFile("dev", "${build_version}") // make conf file
-          f.deploy("dev","config") // push to s3
-          f.invalidate("E3MJXQEHZTM4FB") // invalidate cloudfront
-        }
+       steps {
+        build job: 'Deploy - Front-End', parameters: [
+          [
+            $class: 'StringParameterValue',
+            name: 'Service',
+            value: "Config-UI"
+          ],
+          [
+            $class: 'StringParameterValue',
+            name: 'RefreshRate',
+            value: "5000"
+          ],
+          [
+            $class: 'StringParameterValue',
+            name: 'Version',
+            value: build_version
+          ],
+          [
+            $class: 'StringParameterValue',
+            name: 'Environment',
+            value: 'dev'
+          ],
+          [
+            $class: 'BooleanParameterValue',
+            name: 'blastSqsOutput',
+            value: true
+          ],
+          [
+            $class: 'StringParameterValue',
+            name: 'logLevel',
+            value: 'debug'
+          ]
+        ]
+        build job: 'Deploy - Front-End', parameters: [
+          [
+              $class: 'StringParameterValue',
+              name: 'Service',
+              value: "Config-UI"
+          ],
+          [
+              $class: 'StringParameterValue',
+              name: 'RefreshRate',
+              value: "5000"
+          ],
+          [
+              $class: 'StringParameterValue',
+              name: 'Version',
+              value: build_version
+          ],
+          [
+              $class: 'StringParameterValue',
+              name: 'Environment',
+              value: 'qe'
+          ],
+          [
+              $class: 'BooleanParameterValue',
+              name: 'blastSqsOutput',
+              value: true
+          ],
+          [
+              $class: 'StringParameterValue',
+              name: 'logLevel',
+              value: 'debug'
+          ]
+        ]
       }
     }
   }

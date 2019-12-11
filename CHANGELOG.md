@@ -30,6 +30,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API Keys
 - Message Templates
 
+## [4.80.7](https://github.com/serenovallc/config-ui/compare/4.80.6...4.80.7) - 2019-12-10
+### Changed
+- <no-jira> - Updated Jenkinsfile 'Deploy' to utilize 'Deploy - Front-End' job
+
 ## [4.80.6](https://github.com/serenovallc/config-ui/compare/4.80.5...4.80.6) - 2019-12-09
 ### Fixed
 - [CXV1-20121](https://liveops.atlassian.net/browse/CXV1-20121) platform permissions for Global Dial Params is now available
