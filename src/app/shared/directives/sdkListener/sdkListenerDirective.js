@@ -142,17 +142,19 @@ angular.module('liveopsConfigPanel').directive('sdkListener', [
                 };
 
                 silentMonitorCall(event);
-              } else if (event.data.module.includes('FlowDesigner.draftPublished')) {
+              } else if (event.data.module === 'FlowDesigner.draftPublished') {
+                // Call to open Flow Designer from Config-UI2
                 $state.go('content.flows.editor', {
                   flowId: event.data.data.flowId,
                   draftId: event.data.data.draftId
                 });
-              } else if (event.data.module.includes('FlowDesigner.openPublishedVersion')) {
+              } else if (event.data.module === 'FlowDesigner.openPublishedVersion') {
+                // Call to open Flow Designer from Config-UI2
                 $state.go('content.flows.view', {
                   flowId: event.data.data.flowId,
                   versionId: event.data.data.versionId
                 });
-              } else if (event.data.module.includes('interactions')) {
+              } else if (event.data.module && event.data.module.includes('interactions')) {
                 CxEngage.interactions[event.data.module.split('.')[1]][event.data.command](event.data.data, function(
                   error,
                   topic,
@@ -202,7 +204,7 @@ angular.module('liveopsConfigPanel').directive('sdkListener', [
               } else if (event.data.module === 'setLocalStorage') {
                 localStorage.setItem(event.data.data.key, event.data.data.value);
                 location.reload();
-              } else if (event.data.module.includes('Logi.impersonateTenantUser')) {
+              } else if (event.data.module && event.data.module.includes('Logi.impersonateTenantUser')) {
                 sessionStorage.setItem(
                   'LOGI-USER-IMPERSONATE',
                   JSON.stringify({
@@ -215,14 +217,8 @@ angular.module('liveopsConfigPanel').directive('sdkListener', [
 
                 $state.go(
                   'content.reporting.logiAdvanced',
-                  {
-                    id: null,
-                    messageKey: 'user.details.reporting.impersonated'
-                  },
-                  {
-                    reload: true,
-                    inherit: false
-                  }
+                  { id: null, messageKey: 'user.details.reporting.impersonated' },
+                  { reload: true, inherit: false }
                 );
               } else if (event.data.module === 'setBetaFeatures') {
                 location.reload();
@@ -285,7 +281,7 @@ angular.module('liveopsConfigPanel').directive('sdkListener', [
                     '*'
                   );
                 }
-              } else {
+              } else if (event.data.module !== undefined) {
                 console.log('[SDK Listener] Asking the SDK for:', event.data);
                 if (CxEngage[event.data.module][event.data.command] === undefined) {
                   CxEngage.api[event.data.crudAction](

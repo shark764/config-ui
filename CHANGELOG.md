@@ -30,6 +30,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API Keys
 - Message Templates
 
+## [4.81.0] - 2019-12-11
+### Added
+- CXV1-20520 - Config-UI 2 Enable Pages as Platform Default.
+
 ## [4.80.7](https://github.com/serenovallc/config-ui/compare/4.80.6...4.80.7) - 2019-12-10
 ### Changed
 - <no-jira> - Updated Jenkinsfile 'Deploy' to utilize 'Deploy - Front-End' job

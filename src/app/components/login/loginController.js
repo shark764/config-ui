@@ -49,19 +49,7 @@ angular
 
       function redirectUponLogin() {
         if (UserPermissions.hasPermissionInList(['MANAGE_ALL_SKILLS', 'MANAGE_ALL_GROUPS'])) {
-          $http({
-            method: 'GET',
-            url: apiHostname + '/v1/tenants/' + Session.tenant.tenantId + '/settings/betaFeatures/value',
-            headers: {
-              Authorization: 'Token ' + Session.token
-            }
-          }).then(function(data) {
-            if (data.data.result.users) {
-              $state.go('content.management.users2');
-            } else {
-              $state.go('content.management.users');
-            }
-          });
+          $state.go('content.management.users');
         } else {
           $state.go('content.userprofile');
         }

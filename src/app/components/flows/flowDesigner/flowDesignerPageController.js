@@ -1,17 +1,26 @@
 'use strict';
 
-angular.module('liveopsConfigPanel')
-  .controller('DesignerPageController', ['$scope', '$window', '$state', '$sce', 'Session', 'UserPermissions', 'apiHostname', 'designerHostname',
-    function($scope, $window, $state, $sce, Session, UserPermissions, apiHostname, designerHostname) {
-      /* globals window */
+angular.module('liveopsConfigPanel').controller('DesignerPageController', [
+  '$scope',
+  '$window',
+  '$state',
+  '$sce',
+  'Session',
+  'UserPermissions',
+  'apiHostname',
+  'designerHostname',
+  '$location',
+  function($scope, $window, $state, $sce, Session, UserPermissions, apiHostname, designerHostname, $location) {
+    /* globals window */
 
-      $scope.designerHostname = $sce.trustAsResourceUrl(designerHostname);
+    $scope.designerHostname = $sce.trustAsResourceUrl(designerHostname);
 
-      function ProcessMessage(event){
-        switch(event.data.message){
-          case 'FlowDesigner.ready':
-            event.source.focus();
-            event.source.postMessage({
+    function ProcessMessage(event) {
+      switch (event.data.message) {
+        case 'FlowDesigner.ready':
+          event.source.focus();
+          event.source.postMessage(
+            {
               message: 'FlowDesigner.start',
               data: {
                 apiToken: Session.token,
@@ -21,22 +30,21 @@ angular.module('liveopsConfigPanel')
                 flowId: $state.params.flowId,
                 draftId: $state.params.draftId
               }
-            }, '*');
-            break;
-          case 'FlowDesigner.versionPublished':
-            if (Session.betaFeatures.flows) {
-              $state.go('content.flows.flowManagement2', {}, {reload: true});
-            } else {
-              $state.go('content.flows.flowManagement', {}, {reload: true});
-            }
+            },
+            '*'
+          );
           break;
-        }
+        case 'FlowDesigner.versionPublished':
+          $location.search({ id: $state.params.flowId });
+          $state.go('content.flows.flowManagement', {}, { reload: true });
+          break;
       }
-
-      window.addEventListener('message', ProcessMessage);
-
-      $scope.$on('$destroy', function(){
-        window.removeEventListener('message', ProcessMessage);
-      });
     }
-  ]);
+
+    window.addEventListener('message', ProcessMessage);
+
+    $scope.$on('$destroy', function() {
+      window.removeEventListener('message', ProcessMessage);
+    });
+  }
+]);

@@ -55,8 +55,8 @@ angular.module('liveopsConfigPanel').config([
         title: 'User Management',
         controller: 'ManagementController'
       })
-      .state('content.management.users', {
-        url: '/users?id',
+      .state('content.management.usersOld', {
+        url: '/users-old?id',
         title: 'User Management - Users',
         templateUrl: 'app/components/management/users/users.html',
         controller: 'UsersController',
@@ -77,8 +77,8 @@ angular.module('liveopsConfigPanel').config([
           ]
         }
       })
-      .state('content.management.users2', {
-        url: '/users2',
+      .state('content.management.users', {
+        url: '/users?id',
         title: 'User Management - Users',
         templateUrl: 'app/components/management/users2/users.html',
         controller: 'usersController2',
@@ -99,8 +99,8 @@ angular.module('liveopsConfigPanel').config([
           ]
         }
       })
-      .state('content.management.roles', {
-        url: '/roles?id',
+      .state('content.management.rolesOld', {
+        url: '/roles-old?id',
         title: 'User Management - Role Management',
         templateUrl: 'app/components/management/roles/roles.html',
         controller: 'RolesController',
@@ -115,8 +115,8 @@ angular.module('liveopsConfigPanel').config([
           ]
         }
       })
-      .state('content.management.roles2', {
-        url: '/roles2',
+      .state('content.management.roles', {
+        url: '/roles?id',
         title: 'User Management - Role Management',
         templateUrl: 'app/components/management/roles2/roles2.html',
         controller: 'rolesController2',
@@ -131,8 +131,8 @@ angular.module('liveopsConfigPanel').config([
           ]
         }
       })
-      .state('content.management.skills', {
-        url: '/skills?id',
+      .state('content.management.skillsOld', {
+        url: '/skills-old?id',
         title: 'User Management - Skill Management',
         templateUrl: 'app/components/management/skills/skills.html',
         controller: 'SkillsController',
@@ -151,8 +151,8 @@ angular.module('liveopsConfigPanel').config([
           ]
         }
       })
-      .state('content.management.skills2', {
-        url: '/skills2',
+      .state('content.management.skills', {
+        url: '/skills?id',
         title: 'User Management - Skill Management',
         templateUrl: 'app/components/management/skills2/skills.html',
         controller: 'skillsController2',
@@ -171,11 +171,11 @@ angular.module('liveopsConfigPanel').config([
           ]
         }
       })
-      .state('content.management.groups2', {
-        url: '/groups2',
+      .state('content.management.groupsOld', {
+        url: '/groups-old?id',
         title: 'User Management - Group Management',
-        templateUrl: 'app/components/management/groups2/groups.html',
-        controller: 'groupsController2',
+        templateUrl: 'app/components/management/groups/groups.html',
+        controller: 'GroupsController',
         reloadOnSearch: false,
         resolve: {
           hasPermission: [
@@ -192,10 +192,10 @@ angular.module('liveopsConfigPanel').config([
         }
       })
       .state('content.management.groups', {
-        url: '/groups',
+        url: '/groups?id',
         title: 'User Management - Group Management',
-        templateUrl: 'app/components/management/groups/groups.html',
-        controller: 'GroupsController',
+        templateUrl: 'app/components/management/groups2/groups.html',
+        controller: 'groupsController2',
         reloadOnSearch: false,
         resolve: {
           hasPermission: [
@@ -268,7 +268,7 @@ angular.module('liveopsConfigPanel').config([
         }
       })
       .state('content.configuration.outboundIdentifiers', {
-        url: '/outboundIdentifiers',
+        url: '/outboundIdentifiers?id',
         title: 'Configuration - Outbound Identifiers',
         templateUrl: 'app/components/configuration/outboundIdentifiers/outboundIdentifiers.html',
         controller: 'outboundIdentifiersController',
@@ -284,7 +284,7 @@ angular.module('liveopsConfigPanel').config([
         }
       })
       .state('content.configuration.dataAccessReports', {
-        url: '/dataAccessReports',
+        url: '/dataAccessReports?id',
         title: 'Configuration - Data Access Reports',
         templateUrl: 'app/components/configuration/dataAccessReports/dataAccessReports.html',
         controller: 'dataAccessReportsController',
@@ -300,7 +300,7 @@ angular.module('liveopsConfigPanel').config([
         }
       })
       .state('content.configuration.chatWidgets', {
-        url: '/chatWidgets',
+        url: '/chatWidgets?id',
         title: 'Configuration - Chat Widgets',
         templateUrl: 'app/components/configuration/chatWidgets/chatWidgets.html',
         controller: 'chatWidgetsController',
@@ -316,7 +316,7 @@ angular.module('liveopsConfigPanel').config([
         }
       })
       .state('content.configuration.outboundIdentifierLists', {
-        url: '/outboundIdentifierLists',
+        url: '/outboundIdentifierLists?id',
         title: 'Configuration - Outbound Identifier Lists',
         templateUrl: 'app/components/configuration/outboundIdentifierLists/outboundIdentifierLists.html',
         controller: 'outboundIdentifierListsController',
@@ -327,21 +327,6 @@ angular.module('liveopsConfigPanel').config([
             'PermissionGroups',
             function(UserPermissions, PermissionGroups) {
               return UserPermissions.resolvePermissions(PermissionGroups.viewOutboundIdentifiers);
-            }
-          ]
-        }
-      })
-      .state('content.beta', {
-        url: '/betaFeatures',
-        title: 'Configuration - Beta Features',
-        templateUrl: 'app/components/configuration/betaFeatures/betaFeatures.html',
-        controller: 'betaFeaturesController',
-        resolve: {
-          hasPermission: [
-            'UserPermissions',
-            'PermissionGroups',
-            function(UserPermissions, PermissionGroups) {
-              return UserPermissions.resolvePermissions(PermissionGroups.readAllMode);
             }
           ]
         }
@@ -363,7 +348,7 @@ angular.module('liveopsConfigPanel').config([
         }
       })
       .state('content.configuration.slas', {
-        url: '/slas',
+        url: '/slas?id',
         title: 'Configuration - SLA',
         templateUrl: 'app/components/configuration/slas/slas.html',
         controller: 'slasController as slas',
@@ -415,8 +400,8 @@ angular.module('liveopsConfigPanel').config([
         abstract: true,
         template: '<ui-view />'
       })
-      .state('content.management.reasons', {
-        url: '/reasons?id',
+      .state('content.management.reasonsOld', {
+        url: '/reasons-old?id',
         title: 'User Management - Presence Reasons ',
         templateUrl: 'app/components/management/reasons/reasons.html',
         controller: 'reasonsController as rc',
@@ -431,8 +416,8 @@ angular.module('liveopsConfigPanel').config([
           ]
         }
       })
-      .state('content.management.reasons2', {
-        url: '/reasons2',
+      .state('content.management.reasons', {
+        url: '/reasons?id',
         title: 'User Management - Presence Reasons ',
         templateUrl: 'app/components/management/reasons2/reasons.html',
         controller: 'reasonsController2',
@@ -447,8 +432,8 @@ angular.module('liveopsConfigPanel').config([
           ]
         }
       })
-      .state('content.management.reasonLists', {
-        url: '/reasonLists?id',
+      .state('content.management.reasonListsOld', {
+        url: '/reasonLists-old?id',
         title: 'User Management - Presence Reasons Lists',
         templateUrl: 'app/components/management/reasons/reasonLists/reasonLists.html',
         controller: 'reasonListsController as rlc',
@@ -463,8 +448,8 @@ angular.module('liveopsConfigPanel').config([
           ]
         }
       })
-      .state('content.management.reasonLists2', {
-        url: '/reasonLists2',
+      .state('content.management.reasonLists', {
+        url: '/reasonLists?id',
         title: 'User Management - Presence Reasons Lists',
         templateUrl: 'app/components/management/reasons/reasonLists2/reasonLists.html',
         controller: 'reasonListsController2',
@@ -495,8 +480,8 @@ angular.module('liveopsConfigPanel').config([
           ]
         }
       })
-      .state('content.configuration.hours', {
-        url: '/hours?id',
+      .state('content.configuration.hoursOld', {
+        url: '/hours-old?id',
         title: 'Configuration - Business Hours Management',
         templateUrl: 'app/components/configuration/hours/hours.html',
         controller: 'hoursController as hc',
@@ -514,8 +499,8 @@ angular.module('liveopsConfigPanel').config([
           ]
         }
       })
-      .state('content.configuration.hours2', {
-        url: '/hours2',
+      .state('content.configuration.hours', {
+        url: '/hours?id',
         title: 'Configuration - Business Hours Management',
         templateUrl: 'app/components/configuration/hours2/hours.html',
         controller: 'hoursController2',
@@ -533,8 +518,8 @@ angular.module('liveopsConfigPanel').config([
           ]
         }
       })
-      .state('content.configuration.keys', {
-        url: '/keys?id',
+      .state('content.configuration.keysOld', {
+        url: '/keys-old?id',
         title: 'Configuration - API Keys',
         templateUrl: 'app/components/configuration/keys/keys.html',
         controller: 'keysController as kc',
@@ -549,8 +534,8 @@ angular.module('liveopsConfigPanel').config([
           ]
         }
       })
-      .state('content.configuration.keys2', {
-        url: '/keys2',
+      .state('content.configuration.keys', {
+        url: '/keys?id',
         title: 'Configuration - API Keys',
         templateUrl: 'app/components/configuration/keys2/keys.html',
         controller: 'keysController2',
@@ -565,8 +550,8 @@ angular.module('liveopsConfigPanel').config([
           ]
         }
       })
-      .state('content.configuration.messageTemplates', {
-        url: '/messageTemplates?id',
+      .state('content.configuration.messageTemplatesOld', {
+        url: '/messageTemplates-old?id',
         title: 'Configuration - Message Templates',
         templateUrl: 'app/components/configuration/messageTemplates/messageTemplates.html',
         controller: 'messageTemplatesController as mtc',
@@ -581,8 +566,8 @@ angular.module('liveopsConfigPanel').config([
           ]
         }
       })
-      .state('content.configuration.messageTemplates2', {
-        url: '/messageTemplates2',
+      .state('content.configuration.messageTemplates', {
+        url: '/messageTemplates?id',
         title: 'Configuration - Message Templates',
         templateUrl: 'app/components/configuration/messageTemplates2/messageTemplates.html',
         controller: 'messageTemplatesController2',
@@ -596,8 +581,8 @@ angular.module('liveopsConfigPanel').config([
           ]
         }
       })
-      .state('content.configuration.transferLists', {
-        url: '/transferLists?id',
+      .state('content.configuration.transferListsOld', {
+        url: '/transferLists-old?id',
         title: 'Configuration - Transfer Lists',
         templateUrl: 'app/components/configuration/transferLists/transferLists.html',
         controller: 'transferListsController as tlc',
@@ -611,8 +596,8 @@ angular.module('liveopsConfigPanel').config([
           ]
         }
       })
-      .state('content.configuration.transferLists2', {
-        url: '/transferLists2',
+      .state('content.configuration.transferLists', {
+        url: '/transferLists?id',
         title: 'Configuration - Transfer Lists',
         templateUrl: 'app/components/configuration/transferLists2/transferLists.html',
         controller: 'transferListsController2',
@@ -648,8 +633,8 @@ angular.module('liveopsConfigPanel').config([
         templateUrl: 'app/components/flows/flows.html',
         controller: 'FlowsController'
       })
-      .state('content.flows.flowManagement', {
-        url: '/management?id',
+      .state('content.flows.flowManagementOld', {
+        url: '/management-old?id',
         title: 'Flows - Flow Management',
         templateUrl: 'app/components/flows/flowManagement/flowManagement.html',
         controller: 'FlowManagementController',
@@ -664,8 +649,8 @@ angular.module('liveopsConfigPanel').config([
           ]
         }
       })
-      .state('content.flows.flowManagement2', {
-        url: '/flows2',
+      .state('content.flows.flowManagement', {
+        url: '/management?id',
         title: 'Flows - Flow Management',
         templateUrl: 'app/components/flows2/flows2.html',
         controller: 'flowsController2',
@@ -728,8 +713,8 @@ angular.module('liveopsConfigPanel').config([
           ]
         }
       })
-      .state('content.flows.dispositions', {
-        url: '/dispositions?id',
+      .state('content.flows.dispositionsOld', {
+        url: '/dispositions-old?id',
         title: 'Flows - Disposition Management',
         templateUrl: 'app/components/flows/dispositions/dispositions.html',
         controller: 'dispositionsController as dc',
@@ -744,8 +729,8 @@ angular.module('liveopsConfigPanel').config([
           ]
         }
       })
-      .state('content.flows.dispositions2', {
-        url: '/dispositions2',
+      .state('content.flows.dispositions', {
+        url: '/dispositions?id',
         title: 'Flows - Disposition Management',
         templateUrl: 'app/components/flows/dispositions/dispositions2/dispositions2.html',
         controller: 'dispositionsController2',
@@ -760,8 +745,8 @@ angular.module('liveopsConfigPanel').config([
           ]
         }
       })
-      .state('content.flows.dispositionLists', {
-        url: '/dispositionLists?id',
+      .state('content.flows.dispositionListsOld', {
+        url: '/dispositionLists-old?id',
         title: 'Flows - Disposition List Management',
         templateUrl: 'app/components/flows/dispositions/dispositionLists/dispositionLists.html',
         controller: 'dispositionListsController as dlc',
@@ -776,8 +761,8 @@ angular.module('liveopsConfigPanel').config([
           ]
         }
       })
-      .state('content.flows.dispositionLists2', {
-        url: '/dispositionLists2',
+      .state('content.flows.dispositionLists', {
+        url: '/dispositionLists?id',
         title: 'Flows - Disposition List Management',
         templateUrl: 'app/components/flows/dispositions/dispositionLists2/dispositionLists2.html',
         controller: 'dispositionListsController2',
@@ -824,8 +809,8 @@ angular.module('liveopsConfigPanel').config([
           ]
         }
       })
-      .state('content.flows.dispatchMappings', {
-        url: '/dispatchMappings?id',
+      .state('content.flows.dispatchMappingsOld', {
+        url: '/dispatchMappings-old?id',
         title: 'Flows - Dispatch Mapping Management',
         templateUrl: 'app/components/flows/dispatchMappings/dispatchMappings.html',
         controller: 'DispatchMappingsController',
@@ -840,8 +825,8 @@ angular.module('liveopsConfigPanel').config([
           ]
         }
       })
-      .state('content.flows.dispatchMappings2', {
-        url: '/dispatchMappings2',
+      .state('content.flows.dispatchMappings', {
+        url: '/dispatchMappings?id',
         title: 'Flows - Dispatch Mapping Management',
         templateUrl: 'app/components/flows/dispatchMappings2/dispatchMappings.html',
         controller: 'dispatchMappingsController2',
