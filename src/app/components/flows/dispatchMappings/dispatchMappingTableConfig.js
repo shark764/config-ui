@@ -67,7 +67,7 @@ angular.module('liveopsConfigPanel')
         'orderBy': '$original.name',
         'title': $translate.instant('dispatchmappings.table.title'),
         'helpLink': CustomDomainSvc.getHelpURL('/Help/Content/Managing%20Flows/Dispatch_mapping.htm'),
-        'sref': 'content.flows.dispatchMappings',
+        'sref': 'content.flows.dispatchMappingsOld',
         'showCreate': function() {
           return UserPermissions.hasPermission('MAP_ALL_CONTACT_POINTS');
         },

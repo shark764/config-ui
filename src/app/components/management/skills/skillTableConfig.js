@@ -50,7 +50,7 @@ angular.module('liveopsConfigPanel')
         'orderBy': '$original.name',
         'title': $translate.instant('skill.table.title'),
         'helpLink': CustomDomainSvc.getHelpURL('/Help/Content/Managing%20Users/Creating_Skills.htm'),
-        'sref': 'content.management.skills',
+        'sref': 'content.management.skillsOld',
         'showBulkActions': function() {
           return UserPermissions.hasPermission('MANAGE_ALL_SKILLS');
         },

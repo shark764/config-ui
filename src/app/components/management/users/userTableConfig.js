@@ -50,7 +50,7 @@ angular.module('liveopsConfigPanel')
             'checked': false
           }],
           'orderBy': '$user.$original.lastName',
-          'sref': 'content.management.users',
+          'sref': 'content.management.usersOld',
           'title': $translate.instant('user.table.title'),
           'helpLink': CustomDomainSvc.getHelpURL('/Help/Content/Managing%20Users/Adding_users.htm'),
           'searchOn': [{

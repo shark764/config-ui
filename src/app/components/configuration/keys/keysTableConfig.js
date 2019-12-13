@@ -39,7 +39,7 @@ angular.module('liveopsConfigPanel')
       'orderBy': '$original.name',
       'title': $translate.instant('keys.table.title'),
       'helpLink': CustomDomainSvc.getHelpURL('/Help/Content/Configuration/API%20Key%20Management/Creating_API_Keys.htm'),
-      'sref': 'content.configuration.keys',
+      'sref': 'content.configuration.keysOld',
       'showCreate': function() {
         return UserPermissions.hasPermission('MANAGE_ALL_APP_CREDENTIALS');
       },
