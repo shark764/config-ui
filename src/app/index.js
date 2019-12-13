@@ -50,7 +50,7 @@ angular.module('liveopsConfigPanel', [
       $locationProvider.hashPrefix('');
     }
   ])
-  .run(['queryCache', '$rootScope', '$state', '$stateParams', '$animate', 'Branding', 'CustomDomain', 'AuthService', 'Session', '$location', '$window', '$timeout', function(queryCache, $rootScope, $state, $stateParams, $animate, Branding, CustomDomain, AuthService, Session, $location, $window, $timeout) {
+  .run(['queryCache', '$rootScope', '$state', '$stateParams', '$animate', 'Branding', 'CustomDomain', 'AuthService', 'Session', '$location', '$window', '$timeout', '$translate', 'Alert', function(queryCache, $rootScope, $state, $stateParams, $animate, Branding, CustomDomain, AuthService, Session, $location, $window, $timeout, $translate, Alert) {
     var debugTimeout;
 
     /*global localStorage: false */
@@ -147,6 +147,17 @@ angular.module('liveopsConfigPanel', [
             tenantId: '6c84fb90-12c4-11e1-840d-7b25c5ee775a'
           });
         }, localStorage.getItem('TOKEN-EXPIRATION-DEBUG') * 1000);
+      }
+
+      // when the current config2 form is dirty, show confirmation modal & don't navigate to a different page:
+      var config2Iframe = document.getElementById('secondaryIframes');
+      if (config2Iframe && (sessionStorage.getItem('REDUX_DIRTY_FORM'))) {
+        Alert.confirm($translate.instant('unsavedchanges.nav.warning'),
+          angular.noop,
+          function () {
+            e.preventDefault();
+          }
+        );
       }
 
     });

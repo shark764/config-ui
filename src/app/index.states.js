@@ -97,7 +97,8 @@ angular.module('liveopsConfigPanel').config([
               );
             }
           ]
-        }
+        },
+        params: {config2: true}
       })
       .state('content.management.rolesOld', {
         url: '/roles-old?id',
@@ -129,7 +130,8 @@ angular.module('liveopsConfigPanel').config([
               return UserPermissions.resolvePermissions(PermissionGroups.manageRoles);
             }
           ]
-        }
+        },
+        params: {config2: true}
       })
       .state('content.management.skillsOld', {
         url: '/skills-old?id',
@@ -169,7 +171,8 @@ angular.module('liveopsConfigPanel').config([
               );
             }
           ]
-        }
+        },
+        params: {config2: true}
       })
       .state('content.management.groupsOld', {
         url: '/groups-old?id',
@@ -189,7 +192,7 @@ angular.module('liveopsConfigPanel').config([
               );
             }
           ]
-        }
+        },
       })
       .state('content.management.groups', {
         url: '/groups?id',
@@ -209,7 +212,8 @@ angular.module('liveopsConfigPanel').config([
               );
             }
           ]
-        }
+        },
+        params: {config2: true}
       })
       .state('content.management.capacityRules', {
         url: '/capacityRules?id',
@@ -265,7 +269,8 @@ angular.module('liveopsConfigPanel').config([
               return UserPermissions.resolvePermissions(PermissionGroups.accessAllLists);
             }
           ]
-        }
+        },
+        params: {config2: true}
       })
       .state('content.configuration.outboundIdentifiers', {
         url: '/outboundIdentifiers?id',
@@ -281,7 +286,8 @@ angular.module('liveopsConfigPanel').config([
               return UserPermissions.resolvePermissions(PermissionGroups.viewOutboundIdentifiers);
             }
           ]
-        }
+        },
+        params: {config2: true}
       })
       .state('content.configuration.dataAccessReports', {
         url: '/dataAccessReports?id',
@@ -297,7 +303,8 @@ angular.module('liveopsConfigPanel').config([
               return UserPermissions.resolvePermissions(PermissionGroups.viewCustomStats);
             }
           ]
-        }
+        },
+        params: {config2: true}
       })
       .state('content.configuration.chatWidgets', {
         url: '/chatWidgets?id',
@@ -313,7 +320,8 @@ angular.module('liveopsConfigPanel').config([
               return UserPermissions.resolvePermissions(PermissionGroups.viewOutboundIdentifiers);
             }
           ]
-        }
+        },
+        params: {config2: true}
       })
       .state('content.configuration.outboundIdentifierLists', {
         url: '/outboundIdentifierLists?id',
@@ -329,7 +337,8 @@ angular.module('liveopsConfigPanel').config([
               return UserPermissions.resolvePermissions(PermissionGroups.viewOutboundIdentifiers);
             }
           ]
-        }
+        },
+        params: {config2: true}
       })
       .state('content.configuration.emailTemplates', {
         url: '/emailTemplates?id',
@@ -345,7 +354,8 @@ angular.module('liveopsConfigPanel').config([
               return UserPermissions.resolvePermissions(PermissionGroups.accessAllEmailTemplates);
             }
           ]
-        }
+        },
+        params: {config2: true}
       })
       .state('content.configuration.slas', {
         url: '/slas?id',
@@ -361,7 +371,8 @@ angular.module('liveopsConfigPanel').config([
               return UserPermissions.resolvePermissions(PermissionGroups.viewCustomStats);
             }
           ]
-        }
+        },
+        params: {config2: true}
       })
       .state('content.configuration.contactAttributes', {
         url: '/contactAttributes?id',
@@ -430,7 +441,8 @@ angular.module('liveopsConfigPanel').config([
               return UserPermissions.resolvePermissions(PermissionGroups.viewReasons);
             }
           ]
-        }
+        },
+        params: {config2: true}
       })
       .state('content.management.reasonListsOld', {
         url: '/reasonLists-old?id',
@@ -462,7 +474,8 @@ angular.module('liveopsConfigPanel').config([
               return UserPermissions.resolvePermissions(PermissionGroups.viewReasonLists);
             }
           ]
-        }
+        },
+        params: {config2: true}
       })
       .state('content.configuration.integrations', {
         url: '/integrations?id',
@@ -516,7 +529,8 @@ angular.module('liveopsConfigPanel').config([
               );
             }
           ]
-        }
+        },
+        params: {config2: true}
       })
       .state('content.configuration.keysOld', {
         url: '/keys-old?id',
@@ -548,7 +562,8 @@ angular.module('liveopsConfigPanel').config([
               return UserPermissions.resolvePermissions(PermissionGroups.viewAppCreds);
             }
           ]
-        }
+        },
+        params: {config2: true}
       })
       .state('content.configuration.messageTemplatesOld', {
         url: '/messageTemplates-old?id',
@@ -579,7 +594,8 @@ angular.module('liveopsConfigPanel').config([
               return UserPermissions.resolvePermissions(['VIEW_ALL_MESSAGE_TEMPLATES']);
             }
           ]
-        }
+        },
+        params: {config2: true}
       })
       .state('content.configuration.transferListsOld', {
         url: '/transferLists-old?id',
@@ -609,7 +625,8 @@ angular.module('liveopsConfigPanel').config([
               return UserPermissions.resolvePermissions(['VIEW_ALL_TRANSFER_LISTS']);
             }
           ]
-        }
+        },
+        params: {config2: true}
       })
       .state('content.configuration.identityProviders', {
         url: '/identityProviders?id',
@@ -663,7 +680,8 @@ angular.module('liveopsConfigPanel').config([
               return UserPermissions.resolvePermissions(PermissionGroups.viewFlows);
             }
           ]
-        }
+        },
+        params: {config2: true}
       })
       .state('content.flows.flowDebugLogs', {
         url: '/flowDebugLogs',
@@ -679,7 +697,8 @@ angular.module('liveopsConfigPanel').config([
               return UserPermissions.resolvePermissions(PermissionGroups.viewFlowDebugLogs);
             }
           ]
-        }
+        },
+        params: {config2: true}
       })
       .state('content.flows.queues', {
         url: '/queues?id',
@@ -711,7 +730,8 @@ angular.module('liveopsConfigPanel').config([
               return UserPermissions.resolvePermissions(PermissionGroups.viewQueues);
             }
           ]
-        }
+        },
+        params: {config2: true}
       })
       .state('content.flows.dispositionsOld', {
         url: '/dispositions-old?id',
@@ -743,7 +763,8 @@ angular.module('liveopsConfigPanel').config([
               return UserPermissions.resolvePermissions(PermissionGroups.viewDispositions);
             }
           ]
-        }
+        },
+        params: {config2: true}
       })
       .state('content.flows.dispositionListsOld', {
         url: '/dispositionLists-old?id',
@@ -775,7 +796,8 @@ angular.module('liveopsConfigPanel').config([
               return UserPermissions.resolvePermissions(PermissionGroups.viewDispositionLists);
             }
           ]
-        }
+        },
+        params: {config2: true}
       })
       .state('content.flows.media', {
         url: '/media?id',
@@ -839,7 +861,8 @@ angular.module('liveopsConfigPanel').config([
               return UserPermissions.resolvePermissions(PermissionGroups.viewDispatchMappings);
             }
           ]
-        }
+        },
+        params: {config2: true}
       })
       .state('content.flows.versions', {
         url: '/versions?id',

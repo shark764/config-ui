@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('routeLoadingIndicator', ['$timeout', 'loEvents', function($timeout, loEvents) {
+  .directive('routeLoadingIndicator', ['$timeout', 'loEvents', '$stateParams', function($timeout, loEvents, $stateParams) {
     return {
       restrict: 'E',
       // for some reason; we can't load template URLs while resolves are firing
@@ -26,11 +26,15 @@ angular.module('liveopsConfigPanel')
         };
 
         $scope.$on('$stateChangeStart', function(event) {
-          $timeout.cancel($scope.timeout);
 
-          $scope.timeout = $timeout(function() {
-            transitionStarted(event);
-          }, 100);
+          // when performing preventDefault on config2 route change, donot execute transitionStarted as the loadinig state remains there forever
+          if (!event.defaultPrevented && !$stateParams.config2) {
+            $timeout.cancel($scope.timeout);
+
+            $scope.timeout = $timeout(function() {
+              transitionStarted(event);
+            }, 100);
+          }
         });
 
         $scope.$on('$stateChangeSuccess', transitionDone);

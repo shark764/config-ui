@@ -30,6 +30,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API Keys
 - Message Templates
 
+## [4.81.1] - 2019-12-12
+### Added
+- CXV1-20513 - Display alert in config-ui while navigating between config2 pages when the form is dirty
+
 ## [4.81.0] - 2019-12-11
 ### Added
 - CXV1-20520 - Config-UI 2 Enable Pages as Platform Default.

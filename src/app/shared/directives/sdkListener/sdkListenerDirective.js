@@ -9,12 +9,12 @@ angular.module('liveopsConfigPanel').directive('sdkListener', [
   'apiHostname',
   'Alert',
   '$location',
-  function(Session, $rootScope, $translate, $window, $state, apiHostname, Alert, $location) {
+  function (Session, $rootScope, $translate, $window, $state, apiHostname, Alert, $location) {
     var tenantIsSet = false;
     return {
       restrict: 'E',
-      link: function() {
-        var sdkListener = function(event) {
+      link: function () {
+        var sdkListener = function (event) {
           if (
             event.origin.indexOf('logi') === -1 &&
             event.origin.indexOf('birst') === -1 &&
@@ -28,7 +28,7 @@ angular.module('liveopsConfigPanel').directive('sdkListener', [
                 var subscribedTenant = CxEngage.session.getActiveTenantId();
                 window.cxSubscriptions[event.data.command + subscribedTenant] = CxEngage.subscribe(
                   event.data.command,
-                  function(error, topic, response) {
+                  function (error, topic, response) {
                     if (
                       location.hash.indexOf('#/reporting/interactionMonitoring') < 0 &&
                       location.hash.indexOf('#/reporting/agentStateMonitoring') < 0 &&
@@ -80,7 +80,7 @@ angular.module('liveopsConfigPanel').directive('sdkListener', [
                   });
                   tenantIsSet = true;
                 }
-                var silentMonitorCall = function(event) {
+                var silentMonitorCall = function (event) {
                   if (CxEngage.interactions.voice) {
                     var monitoredInteraction = CxEngage.session.getMonitoredInteraction();
                     var defaultExtensionProvider = CxEngage.session.getDefaultExtension().provider;
@@ -106,7 +106,7 @@ angular.module('liveopsConfigPanel').directive('sdkListener', [
                         $translate.instant('interactionMonitoring.switchInteraction')
                       );
                       if (confirmedToSwitchInteraction) {
-                        CxEngage.interactions.voice.resourceRemove({ interactionId: monitoredInteraction }, function() {
+                        CxEngage.interactions.voice.resourceRemove({ interactionId: monitoredInteraction }, function () {
                           document.getElementById('supervisorToolbar').contentWindow.postMessage(
                             {
                               subscription: {
@@ -135,7 +135,7 @@ angular.module('liveopsConfigPanel').directive('sdkListener', [
                       }
                     }
                   } else {
-                    setTimeout(function() {
+                    setTimeout(function () {
                       silentMonitorCall(event);
                     }, 500);
                   }
@@ -155,7 +155,7 @@ angular.module('liveopsConfigPanel').directive('sdkListener', [
                   versionId: event.data.data.versionId
                 });
               } else if (event.data.module && event.data.module.includes('interactions')) {
-                CxEngage.interactions[event.data.module.split('.')[1]][event.data.command](event.data.data, function(
+                CxEngage.interactions[event.data.module.split('.')[1]][event.data.command](event.data.data, function (
                   error,
                   topic,
                   response
@@ -234,7 +234,7 @@ angular.module('liveopsConfigPanel').directive('sdkListener', [
                   '*'
                 );
               } else if (event.data.module === 'updateURLWithQueryString') {
-                // we could have used $state to update the URl but it's takig a whle to update the URL, that is why using window.location.href
+                // Here we are updating URL along with the state because url is getting updated after a pause with the state update 
                 if (event.data.entityId !== '') {
                   if ($location.search().id) {
                     // If an entity is selected on top of an active entity selection,
@@ -250,6 +250,7 @@ angular.module('liveopsConfigPanel').directive('sdkListener', [
                     window.location.href = /.+?(?=\?id=)/.exec(window.location.href)[0] + '';
                   }
                 }
+                $state.go($state.current.name, {id: event.data.entityId}, {notify: false});
                 event.source.postMessage(
                   {
                     topic: 'urlParamUpdated',
@@ -267,6 +268,40 @@ angular.module('liveopsConfigPanel').directive('sdkListener', [
                   },
                   '*'
                 );
+              } else if (event.data.module === 'setDirtyFormIdInSessionStorage') {
+                var existingStorageItems = JSON.parse(sessionStorage.getItem('REDUX_DIRTY_FORM'));
+                var updatedItems = existingStorageItems ? existingStorageItems : {};
+                updatedItems[event.data.formId]= true;
+
+                sessionStorage.setItem('REDUX_DIRTY_FORM', JSON.stringify(updatedItems));
+                event.source.postMessage(
+                  {
+                    response: event.data.formId,
+                    messageId: event.data.messageId
+                  },
+                  '*'
+                );
+              } else if (event.data.module === 'removeDirtyFormIdFromSessionStorage') {
+                if (event.data.formId) {
+                  var existingStorageItems = JSON.parse(sessionStorage.getItem('REDUX_DIRTY_FORM'));
+                  var updatedItems = {};
+                  var key;
+                  for (key in existingStorageItems) {
+                    if (key !== event.data.formId) {
+                      updatedItems[key] = existingStorageItems[key];
+                    }
+                  }
+                  Object.keys(updatedItems).length === 0 ? sessionStorage.removeItem('REDUX_DIRTY_FORM') : sessionStorage.setItem('REDUX_DIRTY_FORM', JSON.stringify(updatedItems));
+                  event.source.postMessage(
+                    {
+                      response: event.data.formId,
+                      messageId: event.data.messageId
+                    },
+                    '*'
+                  );
+                } else {
+                  sessionStorage.removeItem('REDUX_DIRTY_FORM');
+                }
               } else if (event.data.command === 'getMonitoredInteraction') {
                 console.log('[SDK Listener] Asking the SDK for:', event.data.command);
                 var monitoredId = CxEngage[event.data.module][event.data.command]();
@@ -286,7 +321,7 @@ angular.module('liveopsConfigPanel').directive('sdkListener', [
                 if (CxEngage[event.data.module][event.data.command] === undefined) {
                   CxEngage.api[event.data.crudAction](
                     { path: event.data.path, body: event.data.data, customTopic: event.data.topic },
-                    function(error, topic, response) {
+                    function (error, topic, response) {
                       if (event.source !== undefined) {
                         console.log('[SDK Listener] SDK sending back:', event.data.messageId, error, topic, response);
                         event.source.postMessage(
@@ -302,7 +337,7 @@ angular.module('liveopsConfigPanel').directive('sdkListener', [
                     }
                   );
                 } else {
-                  CxEngage[event.data.module][event.data.command](event.data.data, function(error, topic, response) {
+                  CxEngage[event.data.module][event.data.command](event.data.data, function (error, topic, response) {
                     if (event.source !== undefined) {
                       console.log('[SDK Listener] SDK sending back:', event.data.messageId, error, topic, response);
                       event.source.postMessage(
@@ -324,12 +359,12 @@ angular.module('liveopsConfigPanel').directive('sdkListener', [
                   '[SDK Listener] No tenant set yet. Trying again. Setting to Session.tenant.tenantId:',
                   Session.tenant.tenantId
                 );
-                CxEngage.session.setActiveTenant({ tenantId: Session.tenant.tenantId, noSession: true }, function() {
+                CxEngage.session.setActiveTenant({ tenantId: Session.tenant.tenantId, noSession: true }, function () {
                   console.log('[SDK Listener] SDK tenant set to:', CxEngage.session.getActiveTenantId());
                   sdkListener(event);
                 });
               } else {
-                setTimeout(function() {
+                setTimeout(function () {
                   console.log('Session id is not yet set in angular, waiting for session to be ready.');
                   sdkListener(event);
                 }, 2000);
