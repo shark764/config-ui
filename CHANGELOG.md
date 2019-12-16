@@ -30,6 +30,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API Keys
 - Message Templates
 
+## [4.81.3] - 2019-12-13
+### Changed
+- CXV1-20108 - Extensions saved multiple times in a session won't throw error
+
 ## [4.81.2] - 2019-12-13
 ### Fixed
 - <no-jira> - Old Config1 pages were redirecting to new pages when clicking on row.

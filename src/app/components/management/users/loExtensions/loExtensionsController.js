@@ -53,6 +53,7 @@ angular.module('liveopsConfigPanel')
         delete $scope.tenantUser.invitationStatus;
         delete $scope.tenantUser.activeExtension;
         delete $scope.tenantUser.platformStatus;
+        delete $scope.tenantUser.capacityRuleId;
 
         return $scope.tenantUser.save({
           tenantId: Session.tenant.tenantId
