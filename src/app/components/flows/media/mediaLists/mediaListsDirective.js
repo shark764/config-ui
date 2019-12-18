@@ -133,20 +133,8 @@ angular.module('liveopsConfigPanel')
                   scope.form.source.$setDirty();
                   scope.form.source.$setTouched();
                 }
-                scope.addBtnEnabled = true;
-
-              } else {
-                if (scope.list.source.length > 0) {
-                  // this prevents disabling of the add button in cases
-                  // when the user has put focus on the multipicker
-                  // but not made a selection
-                  if (angular.isUndefined(selectedId) || angular.isUndefined(mediaList)) {
-                    scope.addBtnEnabled = false;
-                  }
-                } else {
-                  scope.addBtnEnabled = true;
-                }
               }
+              setAddBtn(scope.list.source);
             };
           };
 
@@ -161,7 +149,6 @@ angular.module('liveopsConfigPanel')
               // was selected during the course of that function's execution
               selectedId = clickData.targetScope.selectedItem.id;
             }
-            scope.addBtnEnabled = true;
           });
 
           scope.initMediaList = function (mediaList) {
