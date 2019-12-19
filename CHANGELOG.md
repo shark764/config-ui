@@ -30,6 +30,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API Keys
 - Message Templates
 
+## [4.81.5] - 2019-12-18
+### Changed
+- CXV1-20980 - Fixed the Global Dial Params is not defined at the initial statge.
+
 ## [4.81.4] - 2019-12-17
 ### Changed
 - CXV1-20656 - Add button enabled properly on page load.

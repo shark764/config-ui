@@ -13,7 +13,7 @@ angular.module('liveopsConfigPanel')
         }
         if($scope.integration.properties.globalDialParams == "") {
           //want gloablDialParams to be {} and not "" when empty
-          delete $scope.integration.properties.globalDialParams;
+          $scope.integration.properties.globalDialParams = {};
         }
       }
 
@@ -55,7 +55,7 @@ angular.module('liveopsConfigPanel')
 
       $scope.addNewGlobalDialParameter = function(){      
         //cannot have duplicate keys.
-        if($scope.integration.properties.globalDialParams[$scope.newGlobalDialParamsKey]) {
+        if(!(typeof $scope.integration.properties.globalDialParams === 'undefined') && ($scope.integration.properties.globalDialParams[$scope.newGlobalDialParamsKey])) {
           Alert.error($translate.instant('integration.globalDialParameter.duplicateKeyError'));
           $scope.newGlobalDialParamsKey = "";
         } else {
