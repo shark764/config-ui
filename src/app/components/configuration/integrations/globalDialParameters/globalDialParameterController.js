@@ -4,40 +4,22 @@ angular.module('liveopsConfigPanel')
   .controller('GlobalDialParameterController', ['$scope', 'Session', 'Integration', 'Alert', '$translate',
     function($scope, Session, Integration, Alert, $translate) {
 
-      $scope.createNewGlobalDialParameter = false; //the plus-sign button is displayed when this is false.
+      //the plus-sign button form is displayed when this is false. Create GDP form is displayed when true.
+      $scope.createNewGlobalDialParameter = false;
 
       $scope.initChecks = function() {
         if($scope.integration.properties.extensionPrefix == "") {
-          //should never have an empty extensionPrefix value. Remove it if there is.
+          //should never have an empty extensionPrefix value in the json obj. Remove it if there is.
           delete $scope.integration.properties.extensionPrefix;
         }
         if($scope.integration.properties.globalDialParams == "") {
-          //want gloablDialParams to be {} and not "" when empty
+          //want gloablDialParams to be {} and not "" when empty in the json obj.
           $scope.integration.properties.globalDialParams = {};
         }
       }
 
-      //if there is an extension prefix, then display the value. If not, then hide textbox and show plus button.
-      if($scope.integration.properties.extensionPrefix) {
-        $scope.showExtensionPrefix = true;
-      } else {
-        $scope.showExtensionPrefix = false;
-      }
-
       $scope.showNewGlobalDialParamFields = function() {
         $scope.createNewGlobalDialParameter = true;
-      }
-      
-      $scope.showNewPrefixExtensionField = function() {
-        $scope.showExtensionPrefix = true;
-      }
-
-      $scope.deletePrefixExtension = function() {
-        if (confirm( $translate.instant('integration.globalDialParams.confirmDeleteGlobalDialSettings') )) {
-          delete $scope.integration.properties.extensionPrefix;
-          $scope.showExtensionPrefix = false;
-          saveGlobalDialParameter();
-        }
       }
 
       function addPropertytToGlobalDialParameter(key, value) {
@@ -53,26 +35,22 @@ angular.module('liveopsConfigPanel')
         angular.extend($scope.integration.properties.globalDialParams, addNewGlobalDialParamTempObj); 
       }
 
-      $scope.addNewGlobalDialParameter = function(){      
+      $scope.addNewGlobalDialParameter = function(){
         //cannot have duplicate keys.
-        if(!(typeof $scope.integration.properties.globalDialParams === 'undefined') && ($scope.integration.properties.globalDialParams[$scope.newGlobalDialParamsKey])) {
-          Alert.error($translate.instant('integration.globalDialParameter.duplicateKeyError'));
-          $scope.newGlobalDialParamsKey = "";
+        if($scope.integration.properties.globalDialParams[$scope.newGlobalDialParamsKey]) {
+          Alert.error($translate.instant('integration.globalDialParameter.duplicateKeyError'))
+          $scope.newGlobalDialParamsKey = ""
         } else {
-          addPropertytToGlobalDialParameter($scope.newGlobalDialParamsKey, $scope.newGlobalDialParamsValue);
+          addPropertytToGlobalDialParameter($scope.newGlobalDialParamsKey, $scope.newGlobalDialParamsValue)
 
-          saveGlobalDialParameter();
-
-          $scope.newGlobalDialParamsKey = "";
-          $scope.newGlobalDialParamsValue = "";
+          $scope.newGlobalDialParamsKey = ""
+          $scope.newGlobalDialParamsValue = ""
+          $scope.createNewGlobalDialParameter = false
         }
       };
 
       function deleteGlobalDialParameter(key) {
-        if (confirm($translate.instant('integration.globalDialParams.confirmDeleteGlobalDialParam'))) {
-          delete $scope.integration.properties.globalDialParams[key];
-          saveGlobalDialParameter();
-        }
+        delete $scope.integration.properties.globalDialParams[key];
       }
 
       $scope.deleteGlobalDialParameter = function(key) {
@@ -92,49 +70,9 @@ angular.module('liveopsConfigPanel')
         //deletes the pair in the json obj before adding a new pair.
         delete $scope.integration.properties.globalDialParams[$scope.oldKey]; //delete first in case the old and new keys are the same
         addPropertytToGlobalDialParameter($scope.newKey, $scope.newValue);
-        saveGlobalDialParameter();
+
+        $scope.editSelectedGlobalDialParameter = false
       }
-
-      $scope.saveGlobalDialParameter = function(){
-        saveGlobalDialParameter();
-      }
-
-      function saveGlobalDialParameter() {
-
-        if($scope.integration.description == null) {
-          //on a fresh tenant account integration.description: null
-          //backend will not allow description to be null, but does allow being an empty string.
-          $scope.integration.description = "";
-        }
-
-        $scope.integration.save()
-        .then(function(){
-          Alert.success($translate.instant('value.saveSuccess'));
-          reset();
-        }, function() {
-          Alert.error($translate.instant('value.saveFail'));
- 
-          if(($scope.integration.properties.accountSid == null) || 
-             ($scope.integration.properties.authToken) == null) {
-            Alert.error($translate.instant('integration.globalDialParams.requireFields'));
-          }
-        });
-      };
-
-      function reset(){
-        $scope.createGlobalDialParameterForm.$setPristine();
-        $scope.createGlobalDialParameterForm.$setUntouched();
-        $scope.editGlobalDialParameterForm.$setPristine();
-        $scope.editGlobalDialParameterForm.$setUntouched();
-        $scope.editSelectedGlobalDialParameter = false;
-        $scope.createNewGlobalDialParameter = false;
-        $scope.selectedGlobalDialParameter = undefined;
-      }
-
-      $scope.$watch('integration', function(newVal, oldVal){
-        if(newVal === oldVal){ return; }
-        reset();
-      });
     }
   ]
 );

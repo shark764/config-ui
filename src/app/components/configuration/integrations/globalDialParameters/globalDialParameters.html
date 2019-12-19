@@ -2,32 +2,26 @@
 <!--there are several ng-if for permissions on this page-->
   <div >
     <div class="divider-header">
-      <h4>{{'integration.details.properties.globalDialSettings' | translate}}</h4>
-        <a id="add-extension-prefix" ng-if="(['TWILIO_GLOBAL_DIAL_PARAMS_MANAGE', 'PLATFORM_TWILIO_GLOBAL_DIAL_PARAMS_MANAGE'] | hasPermission)" ng-hide="showExtensionPrefix" class="btn pull-right" ng-click="showNewPrefixExtensionField()" title="{{'integration.globalDialParams.extensionPrefix.addButton' | translate}}"><i class="fa fa-plus"></i></a>
-        <a id="remove-extension-prefix" ng-if="(['TWILIO_GLOBAL_DIAL_PARAMS_MANAGE', 'PLATFORM_TWILIO_GLOBAL_DIAL_PARAMS_MANAGE'] | hasPermission)" ng-hide="!showExtensionPrefix" class="btn pull-right" ng-click="deletePrefixExtension()" title="{{'integration.globalDialParams.extensionPrefix.minusButton' | translate}}"><i class="fa fa-minus"></i></a>
+      <h4>{{'integration.details.properties.globalDialSettings' | translate}}</h4> <!--Global Dial Settings-->
     </div>
-
-    <div ng-show="showExtensionPrefix">
-      <div class="input-group">
-          <label>{{'integration.globalDialParams.extensionPrefix.label' | translate}}</label>
-          <form-error field="forms.detailsForm.extensionPrefix" error-type-required="{{'integration.globalDialParams.extensionPrefix.error' | translate}}" ></form-error>
-        <div>
-          <input type="text" pattern="\d{5}" placeholder="5 Digit Number" title="5 Digit Number" ng-model="integration.properties.extensionPrefix" name="extensionPrefix" />
-        </div>
-        <div>
-          <label><small>{{'integration.globalDialParams.requiredFields' | translate}}</small></label>
-        </div>
+<!--Global Dial Settings - extension prefix-->
+    <div class="input-group">
+      <label ng-algin="left">{{'integration.globalDialParams.extensionPrefix.label' | translate}}</label>
+      <form-error field="forms.detailsForm.extensionPrefix" error-type-required="{{'integration.globalDialParams.extensionPrefix.error' | translate}}" ></form-error>
+      <div>
+        <input type="text" maxlength="5" size="15" pattern="\d{5}" placeholder="5 Digit Number" title="5 Digit Number" ng-model="integration.properties.extensionPrefix" name="extensionPrefix" />
       </div>
+      <label ng-algin="right"><small>{{'integration.details.properties.globalDialSettings.example' | translate}}</small></label>
     </div>
   </div>
-
+<!--Global Dial Parameters-->
   <div class="divider-header">
     <h4>{{'integration.details.properties.globalDialParameters' | translate}}</h4>
     <a id="show-create-new-globalDialParameter" ng-if="(['TWILIO_GLOBAL_DIAL_PARAMS_MANAGE', 'PLATFORM_TWILIO_GLOBAL_DIAL_PARAMS_MANAGE'] | hasPermission)" ng-hide="createNewGlobalDialParameter" class="btn pull-right" ng-click="showNewGlobalDialParamFields()" title="{{'integration.globalDialParams.addProperty' | translate}}"><i class="fa fa-plus"></i></a>
   </div>
 
+  <!--Create New Global Dial Param-->
   <div ng-show="createNewGlobalDialParameter">
-
     <div class="divider-header">
       <h4>{{'integration.globalDialParameter.create.title' | translate }}</h4>
     </div>
@@ -66,7 +60,7 @@
       <td>{{value}}</td>
       <td ng-if="(['TWILIO_GLOBAL_DIAL_PARAMS_MANAGE', 'PLATFORM_TWILIO_GLOBAL_DIAL_PARAMS_MANAGE'] | hasPermission)"></td>
       <td ng-if="(['TWILIO_GLOBAL_DIAL_PARAMS_MANAGE', 'PLATFORM_TWILIO_GLOBAL_DIAL_PARAMS_MANAGE'] | hasPermission)">
-        <a class="edit" ng-click="editGlobalDialParameter(key)" title="{{'flow.globalDialParameter.edit.alt' | translate}}">edit</a>
+        <a class="edit" ng-model="integration.properties.globalDialParams" ng-click="editGlobalDialParameter(key)" title="{{'flow.globalDialParameter.edit.alt' | translate}}">edit</a>
       </td>
       <td ng-if="(['TWILIO_GLOBAL_DIAL_PARAMS_MANAGE', 'PLATFORM_TWILIO_GLOBAL_DIAL_PARAMS_MANAGE'] | hasPermission)">
         <a class="delete" ng-click="deleteGlobalDialParameter(key)" title="{{'flow.globalDialParameter.delete.alt' | translate}}">delete</a>
@@ -79,24 +73,24 @@
       <h4>{{'integration.globalDialParameter.edit.title' | translate }}</h4>
     </div>
     <ng-form name="editGlobalDialParameterForm" separate-validation lo-form-submit>
-      <div class="input-group">
-        <label>{{'integration.details.properties.key' | translate}} *</label>
+      <div class="input-group"> <!--Edit Global Dial Parameters-->
+        <label>{{'integration.details.properties.key' | translate}} *</label>        
         <form-error field="editGlobalDialParameterForm.key" error-type-required="{{'value.error.key.required' | translate}}"></form-error>
         <input ng-required="true" type="text" ng-model="newKey" name="key"></input>
       </div>
 
       <div class="input-group">
-          <label>{{'integration.details.properties.value' | translate}} *</label>
-          <form-error field="editGlobalDialParameterForm.value" error-type-required="{{'value.error.value.required' | translate}}"></form-error>
-          <input ng-required="true" type="text" ng-model="newValue"  name="value"></input>
+        <label>{{'integration.details.properties.value' | translate}} *</label>
+        <form-error field="editGlobalDialParameterForm.value" error-type-required="{{'value.error.value.required' | translate}}"></form-error>
+        <input ng-required="true" type="text" ng-model="newValue"  name="value"></input>
       </div>
 
       <div class="flow-controls input-group">
         <label></label>
         <input id="cancel-flow-version-btn" type="button" ng-click="editSelectedGlobalDialParameter = false" class="btn" value="{{'value.cancel' | translate}}" />
-        <input id="create-flow-version-btn" ng-disabled="editGlobalDialParameterForm.$invalid"
-          lo-submit="updateGlobalDialParameter()" type="submit" class="btn btn-primary" value="{{ 'value.update' | translate }}"/>
+        <input id="create-flow-version-btn" ng-disabled="!(newKey && newValue)"
+        lo-submit="updateGlobalDialParameter()" type="submit" class="btn btn-primary" value="{{ 'value.update' | translate }}"/>
       </div>
-    </ng-form> 
+    </ng-form>
   </div>
 </div>

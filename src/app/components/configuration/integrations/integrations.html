@@ -60,7 +60,7 @@
       <input id="submit-details-btn" class="btn btn-primary"
         type="submit"
         value="{{'value.submit' | translate}}"
-        ng-disabled="forms.detailsForm.$invalid || ! forms.detailsForm.$dirty"
+        ng-disabled="(forms.detailsForm.$invalid || ! forms.detailsForm.$dirty ) && updateSubmitBtn !== true"
         lo-submit="submit()"
         lo-submit-spinner
         lo-submit-spinner-status="selectedIntegration.$busy">

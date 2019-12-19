@@ -9,6 +9,7 @@ angular.module('liveopsConfigPanel')
       $scope.handleAuthMethodSelect = integrationSvc.handleAuthMethodSelect;
       $scope.deleteExtraneousData = integrationSvc.deleteExtraneousData;
       $scope.authenticationTypes = integrationSvc.authenticationTypes;
+      $scope.enableButton = true;
 
       $scope.customIntegrationTypes = [
         {
@@ -196,6 +197,12 @@ angular.module('liveopsConfigPanel')
         }
       });
 
+      $scope.$watch('selectedIntegration.properties.globalDialParams', function(oldval, newval) {
+        if ((oldval !== newval) && (typeof newval !== 'undefined')) {
+          $scope.updateSubmitBtn = true;
+        }
+      }, true);
+
       $scope.submit = function () {
         // we will use this variable after saving to set the auth type select bac to what it was
         var tempSelectedAuthType = $scope.selectedIntegration.authType;
@@ -212,6 +219,7 @@ angular.module('liveopsConfigPanel')
         })
         .then(function () {
           Alert.success($translate.instant('value.saveSuccess'));
+          $scope.updateSubmitBtn = false;
         }, function (err) {
           Alert.error($translate.instant('value.saveFail'));
           $scope.showDuplicateMsg = false;
