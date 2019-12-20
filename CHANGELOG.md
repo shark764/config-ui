@@ -30,6 +30,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API Keys
 - Message Templates
 
+## [4.82.1](https://github.com/serenovallc/config-ui/compare/4.82.0...4.82.1) - 2019-12-20
+### Fixed
+- [CXV1-20980](https://liveops.atlassian.net/browse/CXV1-20980) fixed issue where new tenant will not add any global dial params.
+
 ## [4.82.0] - 2019-12-20
 ### Updated
 - CXV1-20991 - App dock to use artifact API instead of old messaging API to include support for Smooch messaging transcripts
