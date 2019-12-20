@@ -41,6 +41,13 @@
   padding-top: 10px;
 }
 
+#global-dial-settings-label {
+  width: 200px; 
+  padding-right: 10px; 
+  padding-left: 10px; 
+  vertical-align: middle;
+}
+
 #auth-method-select {
   option:empty {
     display:none;

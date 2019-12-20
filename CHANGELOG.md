@@ -30,6 +30,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API Keys
 - Message Templates
 
+## [4.81.7](https://github.com/serenovallc/config-ui/compare/4.81.6...4.81.7) - 2019-12-19
+### Fixed
+- [CXV1-20121](https://liveops.atlassian.net/browse/CXV1-20121) minior style UI change for Global Dial Params for integration -> twilio.
+
 ## [4.81.6](https://github.com/serenovallc/config-ui/compare/4.81.5...4.81.6) - 2019-12-19
 ### Fixed
 - [CXV1-20121](https://liveops.atlassian.net/browse/CXV1-20121) Some changes to UI for Global Dial Params for integration -> twilio.
