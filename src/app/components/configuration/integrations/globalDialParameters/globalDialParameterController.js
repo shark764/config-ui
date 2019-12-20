@@ -12,7 +12,8 @@ angular.module('liveopsConfigPanel')
           //should never have an empty extensionPrefix value in the json obj. Remove it if there is.
           delete $scope.integration.properties.extensionPrefix;
         }
-        if($scope.integration.properties.globalDialParams == "") {
+        if( ($scope.integration.properties.globalDialParams == "") ||  
+            (typeof $scope.integration.properties.globalDialParams == 'undefined')){
           //want gloablDialParams to be {} and not "" when empty in the json obj.
           $scope.integration.properties.globalDialParams = {};
         }
