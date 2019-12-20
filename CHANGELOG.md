@@ -30,6 +30,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API Keys
 - Message Templates
 
+## [4.82.0] - 2019-12-20
+### Updated
+- CXV1-20991 - App dock to use artifact API instead of old messaging API to include support for Smooch messaging transcripts
+
 ## [4.81.7](https://github.com/serenovallc/config-ui/compare/4.81.6...4.81.7) - 2019-12-19
 ### Fixed
 - [CXV1-20121](https://liveops.atlassian.net/browse/CXV1-20121) minior style UI change for Global Dial Params for integration -> twilio.

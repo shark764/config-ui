@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .directive('interactions', ['$sce', '$q', '$translate', '$interval', 'Recording', 'Messaging', 'MessagingFrom','TenantUser', 'Tenant', 'Session',
-    function ($sce, $q, $translate, $interval, Recording, Messaging, MessagingFrom, TenantUser, Tenant, Session) {
+  .directive('interactions', ['$http', '$sce', '$q', '$translate', '$interval', 'MessagingFrom','TenantUser', 'Tenant', 'Session',
+    function ($http, $sce, $q, $translate, $interval, MessagingFrom, TenantUser, Tenant, Session) {
       return {
         restrict: 'E',
         transclude: true,
@@ -70,21 +70,37 @@ angular.module('liveopsConfigPanel')
             }
           }
 
-          // try to get message transcripts, which might result in a 404
           function messages() {
-            var messaging = Messaging.cachedQuery({
-              tenantId: scope.config.tenantId,
+            CxEngage.reporting.getTranscripts({
               interactionId: scope.config.id
-            }, 'Messaging' + scope.interactionId, true);
-
-            return $q.when(messaging.$promise).then(function (response) {
-              return $q.all(
-                _.map(response, function (val, key) {
-                  if (val.payload.from !== 'CxEngage') {
-                      var tenantId = response[key].payload.tenantId ? response[key].payload.tenantId : false;
-                      
+            }, function(error, topic, response) {
+              if (error || !response || !response.length || !response[0].url) {
+                console.error('Failed to get transcript record', error, response);
+                if (error && error.data && error.data.apiResponse && (error.data.apiResponse.status === 401 || error.data.apiResponse.status === 403)) {
+                  scope.showNoPermissionsMsg = true;
+                } else {
+                  scope.showNoResultsMsg = true;
+                }
+                scope.isLoadingAppDock = false;
+                return;
+              }
+              $http({
+                method: 'GET',
+                url: response[0].url,
+              }).then(function(response) {
+                scope.isLoadingAppDock = false;
+                scope.showNoResultsMsg = false;
+                tenantTimezone();
+                response = response.data;
+                $q.all(
+                  _.map(response, function(val, key) {
+                    if (val.payload.metadata && val.payload.metadata.source === 'smooch') {
+                      response[key].payload.userName = response[key].payload.metadata.name;
+                      return;
+                    }
+                    if (val.payload.from !== 'CxEngage') {
+                      var tenantId = response[key].payload['tenant-id'] ? response[key].payload['tenant-id'] : false;
                       if ( tenantId && response[key].payload.metadata !== null && response[key].payload.metadata.type === 'agent' ){
-                        
                         var agentId = response[key].payload.from;
                         var userDetails = TenantUser.cachedGet({
                           tenantId: tenantId,
@@ -106,24 +122,22 @@ angular.module('liveopsConfigPanel')
                           response[key].payload.userName = response[key].payload.from;
                         });
                       }
-                  }
-                })
-              ).then(function () {
-                scope.isLoadingAppDock = false;
-                return response;
-              }, function (reason){
-                if(reason.status === 401 || reason.status === 403){
+                    }
+                  })
+                ).then(function () {
+                  scope.interactionData = response;
+                  scope.setSelectedItem(response);
+                  scope.$emit('appDockDataLoaded');
+                });
+              }, function urlErrorCallback(reason) {
+                console.error('Failed to load transcript URL', reason);
+                if (reason.status === 401 || reason.status === 403) {
                   scope.showNoPermissionsMsg = true;
+                } else {
+                  scope.showNoResultsMsg = true;
                 }
                 scope.isLoadingAppDock = false;
-                return reason;
-              })
-            }, function (err) {
-               if (err.status === 401 || err.status === 403) {
-                 scope.showNoPermissionsMsg = true;
-               }
-              scope.isLoadingAppDock = false;
-              return err;
+              });
             });
           }
 
@@ -206,55 +220,8 @@ angular.module('liveopsConfigPanel')
             $interval.cancel(getRecordingUrl);
           });
 
-          function fetchInteractionData() {
-            var interactionData;
-
-            switch(scope.config.type) {
-              case 'messaging':
-                interactionData = messages();
-                break;
-              case 'sms':
-                interactionData = messages();
-                break;
-              default:
-                interactionData = [];
-            }
-
-            return interactionData;
-          }
-
-          // once we've attempted to get both, set interactionData to
-          // be the first response that's actually an array
           if (scope.config.type !== 'voice') {
-            $q.all([
-                fetchInteractionData(),
-                tenantTimezone()
-              ])
-              .then(function (interactionsResponse) {
-
-                scope.interactionData = _.find(interactionsResponse, function (item) {
-                  return angular.isArray(item);
-                });
-
-                // if none of the API calls got us the expected array of
-                // data, then that means there is no data for the given
-                // interaction, so show the error message
-                if (!angular.isArray(scope.interactionData) || (angular.isArray(scope.interactionData) && scope.interactionData.length < 1)) {
-                    scope.isLoadingAppDock = false;
-                    if(scope.showNoPermissionsMsg === false){
-                        scope.showNoResultsMsg = true;
-                    }
-                } else {
-                  scope.isLoadingAppDock = false;
-                  // otherwise, if no item has been selected yet, then automatically
-                  // set the first item to display its data on load
-                  if (!scope.selectedItem) {
-                    scope.setSelectedItem(scope.interactionData[0]);
-                  }
-                }
-
-                scope.$emit('appDockDataLoaded');
-              });
+            messages();
           } else {
             recordings();
           }
