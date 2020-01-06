@@ -12,7 +12,7 @@
     ],
     viewUsers: ['VIEW_ALL_USERS', 'PLATFORM_VIEW_ALL_USERS'],
     viewUsersConfig: ['CONFIG_USERS_VIEW', 'PLATFORM_CONFIG_USERS_VIEW'],
-    manageUserSkillsAndGroups: ['MANAGE_ALL_GROUPS', 'MANAGE_ALL_SKILLS'],
+    manageUserSkillsAndGroups: ['MANAGE_ALL_GROUPS', 'MANAGE_ALL_USER_SKILLS'],
     manageRoles: [
       'PLATFORM_MANAGE_ALL_TENANTS_ENROLLMENT',
       'PLATFORM_CREATE_TENANT_ROLES',
