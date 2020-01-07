@@ -47,11 +47,17 @@ angular.module('liveopsConfigPanel')
           $scope.newGlobalDialParamsKey = ""
           $scope.newGlobalDialParamsValue = ""
           $scope.createNewGlobalDialParameter = false
+
+          //a change to the GDP table has been made, so make the parent form, in integrations.html, $dirty
+          $scope.forms.detailsForm.$setDirty()
         }
       };
 
       function deleteGlobalDialParameter(key) {
         delete $scope.integration.properties.globalDialParams[key];
+
+        //a change to the GDP table has been made, so make the parent form, in integrations.html, $dirty
+        $scope.forms.detailsForm.$setDirty()
       }
 
       $scope.deleteGlobalDialParameter = function(key) {
@@ -73,6 +79,9 @@ angular.module('liveopsConfigPanel')
         addPropertytToGlobalDialParameter($scope.newKey, $scope.newValue);
 
         $scope.editSelectedGlobalDialParameter = false
+
+        //a change to the GDP table has been made, so make the parent form, in integrations.html, $dirty
+        $scope.forms.detailsForm.$setDirty()
       }
     }
   ]

@@ -30,7 +30,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API Keys
 - Message Templates
 
-## [4.82.2] - 2020-01-03
+## [4.82.3](https://github.com/serenovallc/config-ui/compare/4.82.2...4.82.3) - 2020-01-07
+### Fixed
+- [CXV1-21048](https://liveops.atlassian.net/browse/CXV1-21048) added warning msgs for Add and Update of an unsaved Global Dial Param.
+
+## [4.82.2](https://github.com/serenovallc/config-ui/compare/4.82.1...4.82.2) - 2020-01-03
 ### Fixed
 - [CXV1-18941](https://liveops.atlassian.net/browse/CXV1-18941) fixed role based permissions issue around users page
 

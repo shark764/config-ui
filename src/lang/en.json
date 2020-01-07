@@ -734,6 +734,8 @@
   "integration.globalDialParameter.create.title": "Create new Global Dial Parameter",
   "integration.globalDialParameter.edit.title": "Edit Global Dial Parameter",
   "integration.globalDialParameter.duplicateKeyError": "That Key already exists. Cannot have duplicate Keys.",
+  "integration.globalDialParameter.edit.tooltip": "Edit this Global Dial Parameter",
+  "integration.globalDialParameter.delete.tooltip": "Delete this Global Dial Parameter",
   "integration.details.properties.key": "Key",
   "integration.details.properties.value": "Value",
   "integration.details.properties.actions": "Actions",

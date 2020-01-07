@@ -1,6 +1,6 @@
 <div disable-contents="!(['TWILIO_GLOBAL_DIAL_PARAMS_MANAGE', 'PLATFORM_TWILIO_GLOBAL_DIAL_PARAMS_MANAGE'] | hasPermission)" ng-init="initChecks()"> 
 <!--there are several ng-if for permissions on this page-->
-  <div >
+  <div>
     <div class="divider-header">
       <h4>{{'integration.details.properties.globalDialSettings' | translate}}</h4> <!--Global Dial Settings-->
     </div>
@@ -26,7 +26,7 @@
       <h4>{{'integration.globalDialParameter.create.title' | translate }}</h4>
     </div>
 
-    <ng-form name="createGlobalDialParameterForm" ng-submit="addNewGlobalDialParameter()" separate-validation lo-form-submit>
+    <ng-form name="createGlobalDialParameterForm" ng-submit="addNewGlobalDialParameter()" lo-form-submit>
       <div class="input-group">
         <label>{{'integration.details.properties.key' | translate}} *</label>
         <form-error field="createGlobalDialParameterForm.properties[key]" error-type-required="{{('value.error.properties.' + key + '.required') | translate}}"></form-error>
@@ -60,10 +60,10 @@
       <td>{{value}}</td>
       <td ng-if="(['TWILIO_GLOBAL_DIAL_PARAMS_MANAGE', 'PLATFORM_TWILIO_GLOBAL_DIAL_PARAMS_MANAGE'] | hasPermission)"></td>
       <td ng-if="(['TWILIO_GLOBAL_DIAL_PARAMS_MANAGE', 'PLATFORM_TWILIO_GLOBAL_DIAL_PARAMS_MANAGE'] | hasPermission)">
-        <a class="edit" ng-model="integration.properties.globalDialParams" ng-click="editGlobalDialParameter(key)" title="{{'flow.globalDialParameter.edit.alt' | translate}}">edit</a>
+        <a class="edit" ng-model="integration.properties.globalDialParams" ng-click="editGlobalDialParameter(key)" title="{{'integration.globalDialParameter.edit.tooltip' | translate}}">{{'integration.details.properties.edit' | translate}}</a>
       </td>
       <td ng-if="(['TWILIO_GLOBAL_DIAL_PARAMS_MANAGE', 'PLATFORM_TWILIO_GLOBAL_DIAL_PARAMS_MANAGE'] | hasPermission)">
-        <a class="delete" ng-click="deleteGlobalDialParameter(key)" title="{{'flow.globalDialParameter.delete.alt' | translate}}">delete</a>
+        <a class="delete" ng-click="deleteGlobalDialParameter(key)" title="{{'integration.globalDialParameter.delete.tooltip' | translate}}">{{'integration.details.properties.delete' | translate}}</a>
       </td>
     </tr>
   </table>
@@ -72,7 +72,7 @@
     <div class="divider-header">
       <h4>{{'integration.globalDialParameter.edit.title' | translate }}</h4>
     </div>
-    <ng-form name="editGlobalDialParameterForm" separate-validation lo-form-submit>
+    <ng-form name="editGlobalDialParameterForm" lo-form-submit>
       <div class="input-group"> <!--Edit Global Dial Parameters-->
         <label>{{'integration.details.properties.key' | translate}} *</label>        
         <form-error field="editGlobalDialParameterForm.key" error-type-required="{{'value.error.key.required' | translate}}"></form-error>
