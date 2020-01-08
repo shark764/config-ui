@@ -48,16 +48,16 @@ angular.module('liveopsConfigPanel')
           $scope.newGlobalDialParamsValue = ""
           $scope.createNewGlobalDialParameter = false
 
-          //a change to the GDP table has been made, so make the parent form, in integrations.html, $dirty
+          //a change to the GDP table has been made, so make the parent form (in integrations.html) $dirty
           $scope.forms.detailsForm.$setDirty()
         }
       };
 
       function deleteGlobalDialParameter(key) {
-        delete $scope.integration.properties.globalDialParams[key];
+        //a change to the GDP table has been made, so $setDirty() the form to display a warning msg if the user leaves the page with unsaved changes
+        $scope.sendAlertForm.$setDirty()
 
-        //a change to the GDP table has been made, so make the parent form, in integrations.html, $dirty
-        $scope.forms.detailsForm.$setDirty()
+        delete $scope.integration.properties.globalDialParams[key];
       }
 
       $scope.deleteGlobalDialParameter = function(key) {
@@ -79,8 +79,8 @@ angular.module('liveopsConfigPanel')
         addPropertytToGlobalDialParameter($scope.newKey, $scope.newValue);
 
         $scope.editSelectedGlobalDialParameter = false
-
-        //a change to the GDP table has been made, so make the parent form, in integrations.html, $dirty
+        
+        //a change to the GDP table has been made, so make the parent form (in integrations.html) $dirty
         $scope.forms.detailsForm.$setDirty()
       }
     }

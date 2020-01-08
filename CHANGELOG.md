@@ -30,6 +30,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API Keys
 - Message Templates
 
+## [4.82.5](https://github.com/serenovallc/config-ui/compare/4.82.4...4.82.5) - 2020-01-08
+### Fixed
+- [CXV1-21048](https://liveops.atlassian.net/browse/CXV1-21048) fixed warning msg for an unsaved deletion of a Global Dial Param.
+
 ## [4.82.4] - 2020-01-08
 ### Changed
 - <no-jira> - Bump sdk version to 9.4.2.
