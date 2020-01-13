@@ -30,12 +30,12 @@
       <div class="input-group">
         <label>{{'integration.details.properties.key' | translate}} *</label>
         <form-error field="createGlobalDialParameterForm.properties[key]" error-type-required="{{('value.error.properties.' + key + '.required') | translate}}"></form-error>
-        <input ng-required="true" type="text" ng-model="newGlobalDialParamsKey" name="key"></input>
+        <input type="text" ng-model="newGlobalDialParamsKey" name="key"></input>
       </div>
       <div class="input-group">
           <label>{{'integration.details.properties.value' | translate}} *</label>
           <form-error field="createGlobalDialParameterForm.properties[value]" error-type-required="{{('value.error.properties.' + key + '.required') | translate}}"></form-error>
-          <input ng-required="true" type="text" ng-model="newGlobalDialParamsValue " name="value"></input>
+          <input type="text" ng-model="newGlobalDialParamsValue " name="value"></input>
       </div>
       <div class="flow-controls input-group">
         <input id="cancel-flow-version-btn" type="button" ng-click="createNewGlobalDialParameter = false" class="btn" value="{{'value.cancel' | translate}}" />
@@ -78,13 +78,13 @@
       <div class="input-group"> <!--Edit Global Dial Parameters-->
         <label>{{'integration.details.properties.key' | translate}} *</label>        
         <form-error field="editGlobalDialParameterForm.key" error-type-required="{{'value.error.key.required' | translate}}"></form-error>
-        <input ng-required="true" type="text" ng-model="newKey" name="key"></input>
+        <input type="text" ng-model="newKey" name="key"></input>
       </div>
 
       <div class="input-group">
         <label>{{'integration.details.properties.value' | translate}} *</label>
         <form-error field="editGlobalDialParameterForm.value" error-type-required="{{'value.error.value.required' | translate}}"></form-error>
-        <input ng-required="true" type="text" ng-model="newValue"  name="value"></input>
+        <input type="text" ng-model="newValue"  name="value"></input>
       </div>
 
       <div class="flow-controls input-group">
