@@ -17,8 +17,8 @@ angular.module('liveopsConfigPanel')
    *  * title (string): The title of the page. Also used as the key for storing the user's column preferences. Defaults to undefined
    */
 
-  .directive('tableControls', ['$rootScope', 'loEvents', 'DirtyForms', 'Session', '$q',
-    function($rootScope, loEvents, DirtyForms, Session, $q) {
+  .directive('tableControls', ['$rootScope', 'loEvents', 'DirtyForms', 'Session', '$q', 'CustomDomain',
+    function($rootScope, loEvents, DirtyForms, Session, $q, CustomDomain) {
       return {
         restrict: 'E',
         scope: {
@@ -81,6 +81,11 @@ angular.module('liveopsConfigPanel')
                 $scope.greaterOrLessThan.unit = $scope.config.greaterOrLessThan.units[0];
               }
             }
+          });
+
+          $scope.$on('changeTenant', function() {
+            var CustomDomainSvc = new CustomDomain();
+            $scope.config.helpLink = CustomDomainSvc.getHelpURL($scope.config.baseHelpLink);
           });
 
           $scope.$on('dropdown:item:checked', function() {

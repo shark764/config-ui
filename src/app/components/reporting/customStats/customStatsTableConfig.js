@@ -28,6 +28,7 @@ angular.module('liveopsConfigPanel')
         'orderBy': '$original.name',
         'title': $translate.instant('customStat.table.title'),
         'helpLink': CustomDomainSvc.getHelpURL('/Help/Content/Reporting/Realtime/Realtime_Report_Types.htm'),
+        'baseHelpLink': '/Help/Content/Reporting/Realtime/Realtime_Report_Types.htm',
         'sref': 'content.reporting.custom-stats',
         'showBulkActions': false,
         'showCreate': function() {

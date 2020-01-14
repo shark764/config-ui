@@ -39,6 +39,7 @@ angular.module('liveopsConfigPanel')
       'orderBy': '$original.name',
       'title': $translate.instant('queue.table.title'),
       'helpLink': CustomDomainSvc.getHelpURL('/Help/Content/Managing%20Flows/Create_queue.htm'),
+      'baseHelpLink': '/Help/Content/Managing%20Flows/Create_queue.htm',
       'sref': 'content.flows.queues',
       'showBulkActions': function() {
         return UserPermissions.hasPermission('MANAGE_ALL_QUEUES');

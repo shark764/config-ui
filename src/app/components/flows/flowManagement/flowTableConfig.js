@@ -41,6 +41,7 @@ angular.module('liveopsConfigPanel')
         'orderBy': '$original.name',
         'title': $translate.instant('flow.table.title'),
         'helpLink': CustomDomainSvc.getHelpURL('/Help/Content/Managing%20Flows/Flow_overview.htm'),
+        'baseHelpLink': '/Help/Content/Managing%20Flows/Flow_overview.htm',
         'sref': 'content.flows.flowManagementOld',
         'showBulkActions': function() {
           return UserPermissions.hasPermission('MANAGE_ALL_FLOWS');

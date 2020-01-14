@@ -38,6 +38,7 @@ angular.module('liveopsConfigPanel')
       'orderBy': '$original.name',
       'title': $translate.instant('media.table.title'),
       'helpLink': CustomDomainSvc.getHelpURL('/Help/Content/Managing%20Flows/Media/Adding%20Media.htm'),
+      'baseHelpLink': '/Help/Content/Managing%20Flows/Media/Adding%20Media.htm',
       'helpLinkLanguages': CustomDomainSvc.getHelpURL('/Help/Content/Resources/Supported_Languages.htm'),
       'helpLinkVoices': CustomDomainSvc.getHelpURL('/Help/Content/Resources/Supported_Languages.htm'),
       'sref': 'content.flows.media',

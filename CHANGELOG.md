@@ -30,6 +30,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API Keys
 - Message Templates
 
+## [4.82.7](https://github.com/serenovallc/config-ui/compare/4.82.6...4.82.7) - 2020-01-13
+### Fixed
+- [CXV1-17071](https://liveops.atlassian.net/browse/CXV1-17017) Protected Brandings - Help Link url persists through switching tenants
+
 ## [4.82.6](https://github.com/serenovallc/config-ui/compare/4.82.5...4.82.6) - 2020-01-13
 ### Fixed
 - [CXV1-21048](https://liveops.atlassian.net/browse/CXV1-21048) fixed bug that is not being about to update Details in Integrations -> Twilio.

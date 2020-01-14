@@ -16,6 +16,7 @@ angular.module('liveopsConfigPanel')
         'orderBy': '$original.name',
         'title': $translate.instant('realtimeDashboards.table.title'),
         'helpLink': CustomDomainSvc.getHelpURL('/Help/Content/Reporting/Realtime/Custom/Creating_dashboards.htm'),
+        'baseHelpLink': '/Help/Content/Reporting/Realtime/Custom/Creating_dashboards.htm',
         'sref': 'content.custom-dashboards-management',
         'showBulkActions': false,
         'showCreate': function() {

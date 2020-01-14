@@ -60,6 +60,7 @@ angular.module('liveopsConfigPanel')
       'orderBy': '$original.name',
       'title' : $translate.instant('reasons.table.title'),
       'helpLink': CustomDomainSvc.getHelpURL('/Help/Content/Managing%20Users/Presence%20Reasons/Creating_Reasons.htm'),
+      'baseHelpLink': '/Help/Content/Managing%20Users/Presence%20Reasons/Creating_Reasons.htm',
       'sref': 'content.management.reasonsOld',
       'showCreate': function () {
         return UserPermissions.hasPermission('CREATE_PRESENCE_REASONS');

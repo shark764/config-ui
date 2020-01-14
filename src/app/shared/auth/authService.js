@@ -1,7 +1,7 @@
 'use strict';
 angular.module('liveopsConfigPanel')
-  .service('AuthService', ['$http', '$q', '$translate', 'CustomDomain', 'Session', 'apiHostname', 'User', '$state', '$location', 'Token', 'CxEngageConfig', '$stateParams', '$timeout',
-    function ($http, $q, $translate, CustomDomain, Session, apiHostname, User, $state, $location, Token, CxEngageConfig, $stateParams, $timeout) {
+  .service('AuthService', ['$rootScope', '$http', '$q', '$translate', 'CustomDomain', 'Session', 'apiHostname', 'User', '$state', '$location', 'Token', 'CxEngageConfig', '$stateParams', '$timeout',
+    function ($rootScope, $http, $q, $translate, CustomDomain, Session, apiHostname, User, $state, $location, Token, CxEngageConfig, $stateParams, $timeout) {
       /* globals localStorage */
       var self = this;
       var loginFunctionFromController;
@@ -14,14 +14,19 @@ angular.module('liveopsConfigPanel')
       angular.isFunction(CxEngage.initialize);
 
       this.updateDomain = function (tenant) {
-        CustomDomain.cachedGet({
+        CustomDomain.get({
           tenantId: tenant.tenantId
         }).$promise.then(function(domain){
           if (domain && domain.value && !angular.isObject(domain.value)) {
             Session.domain = domain;
+            $rootScope.$broadcast('changeTenant');
           } else {
             Session.domain = '';
+            $rootScope.$broadcast('changeTenant');
           }
+        }).catch(function(error) {
+            Session.domain = '';
+            $rootScope.$broadcast('changeTenant');
         });
       };
 

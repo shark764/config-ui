@@ -30,6 +30,7 @@ angular.module('liveopsConfigPanel')
       'orderBy': '$original.name',
       'title': $translate.instant('role.table.title'),
       'helpLink': CustomDomainSvc.getHelpURL('/Help/Content/Managing%20Users/Adding_roles.htm'),
+      'baseHelpLink': '/Help/Content/Managing%20Users/Adding_roles.htm',
       'sref': 'content.management.rolesOld',
       'showBulkActions': false,
       'showCreate': function() {

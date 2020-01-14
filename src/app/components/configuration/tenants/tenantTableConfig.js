@@ -54,6 +54,7 @@ angular.module('liveopsConfigPanel')
           'orderBy': '$original.name',
           'title': $translate.instant('tenant.table.title'),
           'helpLink': CustomDomainSvc.getHelpURL('/Help/Content/Configuration/Creating_Tenants.htm'),
+          'baseHelpLink': '/Help/Content/Configuration/Creating_Tenants.htm',
           'sref': 'content.configuration.tenants',
           'showBulkActions': function() {
             return UserPermissions.hasPermissionInList(['PLATFORM_MANAGE_ALL_TENANTS']);

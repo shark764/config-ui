@@ -33,6 +33,7 @@ angular.module('liveopsConfigPanel')
       'orderBy': '$original.name',
       'title': $translate.instant('capacityRules.table.title'),
       'helpLink': CustomDomainSvc.getHelpURL('/Help/Content/Managing%20Users/Capacity_Rules/Creating_Capacity_Rules.htm'),
+      'baseHelpLink': '/Help/Content/Managing%20Users/Capacity_Rules/Creating_Capacity_Rules.htm',
       'sref': 'content.management.capacityRules',
       'showBulkActions': function() {
         return false;

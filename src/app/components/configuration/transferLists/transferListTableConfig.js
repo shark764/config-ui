@@ -34,6 +34,7 @@ angular.module('liveopsConfigPanel')
       'orderBy': '$original.name',
       'title' : $translate.instant('transferLists.table.title'),
       'helpLink': CustomDomainSvc.getHelpURL('/Help/Content/Configuration/Transfer_Lists/Creating_Transfer_Lists.htm'),
+      'baseHelpLink': '/Help/Content/Configuration/Transfer_Lists/Creating_Transfer_Lists.htm',
       'sref': 'content.configuration.transferListsOld',
       'showCreate': function () {
         return UserPermissions.hasPermission('MANAGE_ALL_TRANSFER_LISTS');

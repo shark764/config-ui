@@ -60,6 +60,7 @@ angular.module('liveopsConfigPanel')
       'orderBy': '$original.name',
       'title' : $translate.instant('dispositions.table.title'),
       'helpLink': CustomDomainSvc.getHelpURL('/Help/Content/Managing%20Flows/Dispositions/Creating_Dispositions.htm'),
+      'baseHelpLink': '/Help/Content/Managing%20Flows/Dispositions/Creating_Dispositions.htm',
       'sref': 'content.flows.dispositionsOld',
       'showCreate': function () {
         return UserPermissions.hasPermission('CREATE_DISPOSITIONS');

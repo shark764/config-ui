@@ -53,6 +53,7 @@ angular.module('liveopsConfigPanel')
       'orderBy': '$original.objectName',
       'title': $translate.instant('contactAttributes.table.title'),
       'helpLink': CustomDomainSvc.getHelpURL('/Help/Content/Configuration/ContactAttributes.htm'),
+      'baseHelpLink': '/Help/Content/Configuration/ContactAttributes.htm',
       'sref': 'content.configuration.contactAttributes',
       'showCreate': function() {
         return UserPermissions.hasPermission('CONTACTS_ATTRIBUTES_CREATE');

@@ -81,6 +81,7 @@ angular.module('liveopsConfigPanel')
       'orderBy': '$original.name',
       'title' : $translate.instant('reasonLists.table.title'),
       'helpLink': CustomDomainSvc.getHelpURL('/Help/Content/Managing%20Users/Presence%20Reasons/Creating_Presence_Reason_Lists.htm'),
+      'baseHelpLink': '/Help/Content/Managing%20Users/Presence%20Reasons/Creating_Presence_Reason_Lists.htm',
       'sref': 'content.management.reasonListsOld',
       'showCreate': function () {
         return UserPermissions.hasPermission('CREATE_REASON_LIST');

@@ -45,6 +45,7 @@ angular.module('liveopsConfigPanel')
       'orderBy': '$original.name',
       'title': $translate.instant('messageTemplates.table.title'),
       'helpLink': CustomDomainSvc.getHelpURL('/Help/Content/Configuration/Messaging_Templates/Creating_Messaging_Templates.htm'),
+      'baseHelpLink': '/Help/Content/Configuration/Messaging_Templates/Creating_Messaging_Templates.htm',
       'sref': 'content.configuration.messageTemplatesOld',
       'showCreate': function() {
         return UserPermissions.hasPermission('MANAGE_ALL_MESSAGE_TEMPLATES');

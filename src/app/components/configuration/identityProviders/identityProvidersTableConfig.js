@@ -34,6 +34,7 @@ angular.module('liveopsConfigPanel')
       'orderBy': '$original.name',
       'title' : $translate.instant('identityProviders.table.title'),
       'helpLink' : CustomDomainSvc.getHelpURL('/Help/Content/Configuration/SSO/IdentityProviders.htm'),
+      'baseHelpLink' : '/Help/Content/Configuration/SSO/IdentityProviders.htm',
       'sref' : 'content.configuration.identityProviders',
       'showCreate': function () {
         return UserPermissions.hasPermissionInList(PermissionGroups.manageIdentityProviders);

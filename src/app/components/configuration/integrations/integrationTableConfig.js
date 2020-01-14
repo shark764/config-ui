@@ -39,6 +39,7 @@ angular.module('liveopsConfigPanel')
       'orderBy': '$original.type',
       'title': $translate.instant('integration.table.title'),
       'helpLink': CustomDomainSvc.getHelpURL('/Help/Content/Configuration/Integrations/Creating_Integrations.htm'),
+      'baseHelpLink': '/Help/Content/Configuration/Integrations/Creating_Integrations.htm',
       'sref': 'content.configuration.integrations',
       'showCreate': function() {
         return UserPermissions.hasPermission('MANAGE_ALL_PROVIDERS');

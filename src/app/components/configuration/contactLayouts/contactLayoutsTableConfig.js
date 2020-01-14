@@ -34,6 +34,7 @@ angular.module('liveopsConfigPanel')
       'reverseSort': true,
       'title': $translate.instant('contactLayouts.table.title'),
       'helpLink': CustomDomainSvc.getHelpURL('/Help/Content/Configuration/ContactLayouts.htm'),
+      'baseHelpLink': '/Help/Content/Configuration/ContactLayouts.htm',
       'sref': 'content.configuration.contactLayouts',
       'showCreate': function() {
         return UserPermissions.hasPermission('CONTACTS_LAYOUTS_CREATE');

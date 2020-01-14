@@ -77,6 +77,7 @@ angular.module('liveopsConfigPanel')
           }],
         title: $translate.instant('silentMonitoring.table.title'),
         helpLink: CustomDomainSvc.getHelpURL('/Help/Content/Monitoring/Silent%20Monitoring/Silent-monitoring.htm'),
+        baseHelpLink: '/Help/Content/Monitoring/Silent%20Monitoring/Silent-monitoring.htm',
         orderBy: 'activeParticipants',
         reverseSort: 'true',
         showBulkActions: false,
