@@ -30,6 +30,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API Keys
 - Message Templates
 
+## [4.82.8](https://github.com/serenovallc/config-ui/compare/4.82.7...4.82.8) - 2020-01-14
+### Fixed
+- [CXV1-21348](https://liveops.atlassian.net/browse/CXV1-21348) edit global dial params now cannot make duplicate key.  code clean up
+
 ## [4.82.7](https://github.com/serenovallc/config-ui/compare/4.82.6...4.82.7) - 2020-01-13
 ### Fixed
 - [CXV1-17071](https://liveops.atlassian.net/browse/CXV1-17017) Protected Brandings - Help Link url persists through switching tenants

@@ -39,8 +39,8 @@
       </div>
       <div class="flow-controls input-group">
         <input id="cancel-flow-version-btn" type="button" ng-click="createNewGlobalDialParameter = false" class="btn" value="{{'value.cancel' | translate}}" />
-        <input id="create-flow-version-btn" ng-disabled="createGlobalDialParameterForm.$invalid || !createGlobalDialParameterForm.$dirty"
-          type="submit" lo-submit="addNewGlobalDialParameter()" class="btn btn-primary" value="{{ 'value.create' | translate }}"/>
+        <input id="create-flow-version-btn" ng-disabled="createGlobalDialParameterForm.$invalid || !(newGlobalDialParamsKey && newGlobalDialParamsValue)"
+          type="submit" ng-click="addNewGlobalDialParameter()" class="btn btn-primary" value="{{ 'value.create' | translate }}"/>
       </div>
     </ng-form>
   </div>
@@ -75,7 +75,7 @@
       <h4>{{'integration.globalDialParameter.edit.title' | translate }}</h4>
     </div>
     <ng-form name="editGlobalDialParameterForm" lo-form-submit>
-      <div class="input-group"> <!--Edit Global Dial Parameters-->
+      <div class="input-group">
         <label>{{'integration.details.properties.key' | translate}} *</label>        
         <form-error field="editGlobalDialParameterForm.key" error-type-required="{{'value.error.key.required' | translate}}"></form-error>
         <input type="text" ng-model="newKey" name="key"></input>
@@ -90,8 +90,8 @@
       <div class="flow-controls input-group">
         <label></label>
         <input id="cancel-flow-version-btn" type="button" ng-click="editSelectedGlobalDialParameter = false" class="btn" value="{{'value.cancel' | translate}}" />
-        <input id="create-flow-version-btn" ng-disabled="!(newKey && newValue)"
-        lo-submit="updateGlobalDialParameter()" type="submit" class="btn btn-primary" value="{{ 'value.update' | translate }}"/>
+        <input id="create-flow-version-btn" ng-disabled="!(newKey && newValue) || !editGlobalDialParameterForm.$dirty"
+        ng-click="updateGlobalDialParameter()" type="submit" class="btn btn-primary" value="{{ 'value.update' | translate }}"/>
       </div>
     </ng-form>
   </div>

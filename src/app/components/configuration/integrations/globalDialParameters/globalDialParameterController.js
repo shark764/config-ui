@@ -36,10 +36,18 @@ angular.module('liveopsConfigPanel')
         angular.extend($scope.integration.properties.globalDialParams, addNewGlobalDialParamTempObj); 
       }
 
+      function duplicateKey(key) {
+        if($scope.integration.properties.globalDialParams[key]) {
+          Alert.error($translate.instant('integration.globalDialParameter.duplicateKeyError'))
+          return true
+        } else {
+          return false
+        }
+      }
+
       $scope.addNewGlobalDialParameter = function(){
         //cannot have duplicate keys.
-        if($scope.integration.properties.globalDialParams[$scope.newGlobalDialParamsKey]) {
-          Alert.error($translate.instant('integration.globalDialParameter.duplicateKeyError'))
+        if(duplicateKey($scope.newGlobalDialParamsKey)) {
           $scope.newGlobalDialParamsKey = ""
         } else {
           addPropertytToGlobalDialParameter($scope.newGlobalDialParamsKey, $scope.newGlobalDialParamsValue)
@@ -47,16 +55,12 @@ angular.module('liveopsConfigPanel')
           $scope.newGlobalDialParamsKey = ""
           $scope.newGlobalDialParamsValue = ""
           $scope.createNewGlobalDialParameter = false
-
-          //a change to the GDP table has been made, so make the parent form (in integrations.html) $dirty
-          $scope.forms.detailsForm.$setDirty()
         }
       };
 
       function deleteGlobalDialParameter(key) {
         //a change to the GDP table has been made, so $setDirty() the form to display a warning msg if the user leaves the page with unsaved changes
         $scope.sendAlertForm.$setDirty()
-
         delete $scope.integration.properties.globalDialParams[key];
       }
 
@@ -74,14 +78,16 @@ angular.module('liveopsConfigPanel')
       }
 
       $scope.updateGlobalDialParameter = function() { //fires when the update button is pressed when editing value
-        //deletes the pair in the json obj before adding a new pair.
-        delete $scope.integration.properties.globalDialParams[$scope.oldKey]; //delete first in case the old and new keys are the same
-        addPropertytToGlobalDialParameter($scope.newKey, $scope.newValue);
+        if (($scope.newKey != $scope.oldKey) && (duplicateKey($scope.newKey))) {
+            $scope.newKey = $scope.oldKey
+            $scope.newValue =$scope.integration.properties.globalDialParams[$scope.oldKey]
+        } else {
+          //deletes the pair in the json obj before adding a new pair.
+          delete $scope.integration.properties.globalDialParams[$scope.oldKey]; //delete first in case the old and new keys are the same
+          addPropertytToGlobalDialParameter($scope.newKey, $scope.newValue);
 
-        $scope.editSelectedGlobalDialParameter = false
-        
-        //a change to the GDP table has been made, so make the parent form (in integrations.html) $dirty
-        $scope.forms.detailsForm.$setDirty()
+          $scope.editSelectedGlobalDialParameter = false
+        }
       }
     }
   ]
