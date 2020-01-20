@@ -78,6 +78,7 @@
     viewIdentityProviders: ['IDENTITY_PROVIDERS_READ'],
     viewQualityManagement: ['QM_ENABLE'],
     viewOutboundIdentifiers: ['OUTBOUND_IDENTIFIER_READ'],
+    viewChatWidgets: ['WEB_INTEGRATIONS_APP_READ'],
     betaFeatures: ['TENANT_FEATURES_UPDATE', 'PLATFORM_MANAGE_ALL_TENANTS'],
 
     readAllMode: [

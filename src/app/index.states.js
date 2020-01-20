@@ -317,7 +317,7 @@ angular.module('liveopsConfigPanel').config([
             'UserPermissions',
             'PermissionGroups',
             function(UserPermissions, PermissionGroups) {
-              return UserPermissions.resolvePermissions(PermissionGroups.viewOutboundIdentifiers);
+              return UserPermissions.resolvePermissions(PermissionGroups.viewChatWidgets);
             }
           ]
         },

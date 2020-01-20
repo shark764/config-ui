@@ -30,6 +30,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API Keys
 - Message Templates
 
+## [4.82.9](https://github.com/serenovallc/config-ui/compare/4.82.8...4.82.9) - 2020-01-20
+### Fixed
+- [CXV1-21383](https://liveops.atlassian.net/browse/CXV1-21383) Fix chat widget page read permission
+
 ## [4.82.8](https://github.com/serenovallc/config-ui/compare/4.82.7...4.82.8) - 2020-01-14
 ### Fixed
 - [CXV1-21348](https://liveops.atlassian.net/browse/CXV1-21348) edit global dial params now cannot make duplicate key.  code clean up
