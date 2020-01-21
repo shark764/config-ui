@@ -19,7 +19,7 @@
 
       <li class="divider"></li>
 
-      <li ng-show="managementDropConfig.length > 0" id="users-nav-link" ng-class="{ active: isActive('/management')}">
+      <li ng-show="managementDropConfig && managementDropConfig.length > 0" id="users-nav-link" ng-class="{ active: isActive('/management')}">
         <dropdown
           id="managementDropConfig"
           items="managementDropConfig"
@@ -33,7 +33,7 @@
       </li>
 
       <li
-        ng-show="configurationDropConfig.length > 0"
+        ng-show="configurationDropConfig && configurationDropConfig.length > 0"
         id="tenants-nav-link"
         ng-class="{ active: isActive('/configuration')}"
       >
@@ -49,7 +49,7 @@
         ></dropdown>
       </li>
 
-      <li ng-show="flowsDropConfig.length > 0" id="flows-nav-link" ng-class="{ active: isActive('/flows')}">
+      <li ng-show="flowsDropConfig && flowsDropConfig.length > 0" id="flows-nav-link" ng-class="{ active: isActive('/flows')}">
         <dropdown
           id="flowsDropConfig"
           items="flowsDropConfig"
@@ -62,7 +62,7 @@
         ></dropdown>
       </li>
 
-      <li id="reporting-nav-link" ng-class="{ active: isActive('/reporting') || isActive('/realtime-dashboards')}">
+      <li id="reporting-nav-link" ng-show="reportingDropConfig && reportingDropConfig.length > 0" ng-class="{ active: isActive('/reporting') || isActive('/realtime-dashboards')}">
         <dropdown
           id="reportingNavLinkConfig"
           items="reportingDropConfig"
