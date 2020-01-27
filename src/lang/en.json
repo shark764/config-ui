@@ -1397,6 +1397,7 @@
   "realtimeDashboards.form.statistic": "Statistic",
   "realtimeDashboards.form.responseKey": "Response Key",
   "realtimeDashboards.form.aggregateFunction": "Aggregate Function",
+  "realtimeDashboards.form.defaultNoSourceSwitcher": "-None-",
   "realtimeDashboards.form.queueSourceSwitcher": "Queue Source Switcher",
   "realtimeDashboards.form.resourceSourceSwitcher": "Resource Source Switcher",
   "realtimeDashboards.form.skillSourceSwitcher": "Skill Source Switcher",

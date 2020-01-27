@@ -30,6 +30,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API Keys
 - Message Templates
 
+## [4.82.12](https://github.com/serenovallc/config-ui/compare/4.82.11...4.82.12) - 2020-01-24
+### Fixed
+- [CXV1-15069](https://liveops.atlassian.net/browse/CXV1-15069) Adding translation for default no source switcher option text.
+
 ## [4.82.11](https://github.com/serenovallc/config-ui/compare/4.82.10...4.82.11) - 2020-01-21
 ### Fixed
 - [CXV1-16123](https://liveops.atlassian.net/browse/CXV1-16123) Updating realtime-dashboards version
