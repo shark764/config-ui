@@ -385,7 +385,7 @@
   "group.table.remove.member": "Member successfully removed!",
   "group.table.remove.member.error": "Error removing member!",
   "group.readonly.warning": "This group is inherited and cannot be edited",
-  "capacityRules.table.title": "Capacity Rules Managment",
+  "capacityRules.table.title": "Capacity Rules Management",
   "capacityRule.details.disable.confirm": "This will disable this capacity rule. Do you want to continue?",
   "capacityRule.details.enable.confirm": "This will enable this capacity rule. Do you want to continue?",
   "capacityRule.details.creating": "Creating new Capacity Rule",
