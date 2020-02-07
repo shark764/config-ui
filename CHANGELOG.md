@@ -30,6 +30,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API Keys
 - Message Templates
 
+## [4.82.14] - 2020-02-06
+### Fixed
+- [CXV1-20237](https://liveops.atlassian.net/browse/CXV1-20237) Real Time Dashboards - Modifying a Widget clears the Switcher configuration.
+
 ## [4.82.13] - 2020-02-04
 ### Fixed
 - [CXV1-21507](https://liveops.atlassian.net/browse/CXV1-21507) Corrected spelling of Managment on Capacity Rules Management page
