@@ -30,6 +30,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API Keys
 - Message Templates
 
+
+## [4.82.15](https://github.com/serenovallc/config-ui/compare/4.82.14...4.82.15) - 2020-02-07
+### Fixed
+- [CXV1-21415](https://liveops.atlassian.net/browse/CXV1-21415) Playback window handles interactions with CXQM recordings better.
+
 ## [4.82.14] - 2020-02-06
 ### Fixed
 - [CXV1-20237](https://liveops.atlassian.net/browse/CXV1-20237) Real Time Dashboards - Modifying a Widget clears the Switcher configuration.

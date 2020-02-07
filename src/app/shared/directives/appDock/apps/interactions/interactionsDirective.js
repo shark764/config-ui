@@ -107,10 +107,10 @@ angular.module('liveopsConfigPanel')
                           id: agentId
                         },'TenantUserCached', true);
                         return  $q.when(userDetails.$promise).then(function (userDetailsResponse) {
-                            response[key].payload.userName = userDetailsResponse.$user.firstName+' '+userDetailsResponse.$user.lastName; 
+                            response[key].payload.userName = userDetailsResponse.$user.firstName+' '+userDetailsResponse.$user.lastName;
                         }, function (err) {
                           response[key].payload.userName = response[key].payload.from;
-                        });                  
+                        });
                       } else {
                         var fromUser = MessagingFrom.cachedGet({
                           tenantId: scope.config.tenantId,
@@ -153,13 +153,21 @@ angular.module('liveopsConfigPanel')
 
               if (response && response.length > 0) {
 
-                scope.artifacts = _.map(response, function (d) {
-                  d.durationHMMSS = new Date(d.duration * 1000).toISOString().substr(11, 8);
-                  return d;
-                });
+                scope.artifacts = response
+                                  .filter(function (d) {
+                                    return !d.engageRecorder;
+                                  })
+                                  .map(function (d) {
+                                    d.durationHMMSS = new Date(d.duration * 1000).toISOString().substr(11, 8);
+                                    return d;
+                                  });
 
                 scope.isLoadingAppDock = false;
-                scope.showNoResultsMsg = false;
+                if (scope.artifacts && scope.artifacts.length > 0) {
+                  scope.showNoResultsMsg = false;
+                } else {
+                  scope.showNoResultsMsg = true;
+                }
                 tenantTimezone();
                 scope.setSelectedItem(scope.artifacts[0]);
                 scope.$emit('appDockDataLoaded');
