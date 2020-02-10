@@ -655,6 +655,14 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
         });
       }
 
+      if (UserPermissions.hasPermissionInList(PermissionGroups.viewCustomAttributes)) {
+        items.push({
+          label: $translate.instant('navbar.flows.customAttributes.title'),
+          stateLink: 'content.flows.customAttributes',
+          id: 'custom-attributes-configuration-link',
+          order: 9
+        });
+      }
       return items;
     };
 

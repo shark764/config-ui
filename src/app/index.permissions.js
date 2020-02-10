@@ -65,6 +65,7 @@
     viewQueues: ['VIEW_ALL_FLOWS'],
     viewMedia: ['VIEW_ALL_MEDIA'],
     viewDispatchMappings: ['VIEW_ALL_CONTACT_POINTS'],
+    viewCustomAttributes: ['INTERACTION_ATTRIBUTES_CONFIG_READ'],
     viewDashboards: ['VIEW_ALL_REALTIME_DASHBOARDS'],
     viewConfigReportingBI: ['CONFIG_REPORTING_BI_VIEW'],
     viewAssignedReports: ['VIEW_ALL_REALTIME_DASHBOARDS', 'ASSIGNED_REPORTS_READ'],

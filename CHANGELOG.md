@@ -30,6 +30,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API Keys
 - Message Templates
 
+## [4.83.0](https://github.com/serenovallc/config-ui/compare/4.82.14...4.83.0) - 2020-02-09
+### Fixed
+- <no-jira> - Add Custom Attributes entity to config-ui
 
 ## [4.82.15](https://github.com/serenovallc/config-ui/compare/4.82.14...4.82.15) - 2020-02-07
 ### Fixed

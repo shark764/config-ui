@@ -887,6 +887,23 @@ angular.module('liveopsConfigPanel').config([
         reloadOnSearch: false,
         resolve: {}
       })
+      .state('content.flows.customAttributes', {
+        url: '/customAttributes?id',
+        title: 'Flows - Custom Attributes Management',
+        templateUrl: 'app/components/flows/customAttributes2/customAttributes.html',
+        controller: 'customAttributesController2',
+        reloadOnSearch: false,
+        resolve: {
+          hasPermission: [
+            'UserPermissions',
+            'PermissionGroups',
+            function(UserPermissions, PermissionGroups) {
+              return UserPermissions.resolvePermissions(PermissionGroups.viewCustomAttributes);
+            }
+          ]
+        },
+        params: {config2: true}
+      })
       .state('login', {
         url: '/login?messageKey&tenantId&sso',
         title: 'Login',
@@ -1545,6 +1562,6 @@ angular.module('liveopsConfigPanel').config([
             }
           ]
         }
-      });
+      })
   }
 ]);
