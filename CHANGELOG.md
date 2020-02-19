@@ -30,6 +30,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API Keys
 - Message Templates
 
+## [4.83.1](https://github.com/serenovallc/config-ui/compare/4.83.0...4.83.1) - 2020-02-18
+### Fixed
+- [CXV1-11262](https://liveops.atlassian.net/browse/CXV1-11262) Making the Text field adjustable in Media side-window pane (Config-UI)
+
 ## [4.83.0](https://github.com/serenovallc/config-ui/compare/4.82.14...4.83.0) - 2020-02-09
 ### Fixed
 - <no-jira> - Add Custom Attributes entity to config-ui

@@ -107,11 +107,11 @@
     error-type-required="{{'media.details.source.error' | translate}}">
   </form-error>
 
-  <input id="tts-source-field" type="text" name="sourcetts"
+  <textarea id="tts-source-field" type="text" name="sourcetts"
     ng-required="selectedMedia.type === 'tts'"
     ng-disabled="!('MANAGE_ALL_MEDIA' | hasPermission)"
     ng-model="selectedMedia.source">
-  </input>
+  </textarea>
 </div>
 
 <div class="input-group" ng-show="selectedMedia.type === 'tts'">
