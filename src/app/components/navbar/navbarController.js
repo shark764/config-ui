@@ -297,7 +297,22 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
       return items;
     }
 
+    function getLauncherDropdownItems() {
+      var items = [];
+      if(UserPermissions.hasPermission('PLATFORM_CXWFM_VIEW_ALL')){
+        items.push({
+          label: "CxEngage WFM",
+          onClick: function() {
+            var url = 'SerenovaWFM: foo=bar';
+            $window.location.href= url;
+          }
+        })
+      }
+      return items;
+    }
+
     $scope.userDropdownItems = getUserDropdownItems();
+    $scope.launcherDropdownItems = getLauncherDropdownItems();
 
     $scope.userHelpItems = [
       {

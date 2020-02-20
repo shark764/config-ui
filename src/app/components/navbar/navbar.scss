@@ -11,6 +11,14 @@ navbar {
   height: $navbar-height;
 }
 
+html #topnav > ul > li:not(#welcome):not(#helpMenu)#launcher .label-icon {
+  color: #CCC !important;
+}
+
+#topnav > ul > li:hover#launcher:not(#welcome):not(#helpMenu) .label-icon {
+  color: #fff !important;
+}
+
 #topnav {
   clear: both;
   height: $navbar-height;
@@ -153,7 +161,7 @@ navbar {
       }
     }
 
-    li:not(#welcome):not(#helpMenu) {
+    li:not(#welcome):not(#helpMenu):not(#launcher) {
       dropdown:not(#tenant-dropdown){
         .dropdown {
           right: auto;
@@ -182,6 +190,51 @@ navbar {
   position: absolute !important;
   right: 97px;
   font-size: 11px;
+
+  &:hover {
+    .drop-label, .label-icon {
+      color: white;
+
+    }
+    span {
+      @include box-shadow(none  !important);
+    }
+  }
+
+  .drop-label {
+    color: $light-grey;
+
+    div {
+      padding: 10px;
+
+      span {
+        max-width: 300px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: table-cell;
+      }
+
+      i {
+      display: table-cell;
+      font-size: 20px;
+      color: $light-grey;}
+    }
+  }
+
+  .dropdown-container {
+    z-index: 20;
+  }
+}
+
+#launcher {
+  padding: 0;
+  position: absolute !important;
+  right: 140px;
+  font-size: 11px;
+
+  .label-icon {
+    color: #ccc !important;
+  }
 
   &:hover {
     .drop-label, .label-icon {

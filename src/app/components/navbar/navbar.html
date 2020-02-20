@@ -98,7 +98,17 @@
           {{ 'navbar.qualityManagement.title' | translate }}
         </a>
       </li>
-
+      <li id="launcher" ng-show="launcherDropdownItems.length > 0">
+        
+        <dropdown
+          id="user-launch-dropdown"
+          items="launcherDropdownItems"
+          dropdown-title=""
+          expand-icon="fa fa-rocket"
+          collapse-icon="fa fa-rocket"
+        >
+        </dropdown>
+      </li>
       <li id="welcome">
         <dropdown
           id="user-settings-dropdown"
