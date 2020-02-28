@@ -30,6 +30,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API Keys
 - Message Templates
 
+## [4.83.3] - 2020-02-26
+### Fixed
+- [CXV1-2970](https://liveops.atlassian.net/browse/CXV1-2970) Custom Realtime Dashboards | Value Format should be auto assigned 
+
 ## [4.83.2](https://github.com/serenovallc/config-ui/compare/4.83.1...4.83.2) - 2020-02-20
 - [CXV1-21503](https://liveops.atlassian.net/browse/CXV1-21503) Add CXWFM Launcher
 
