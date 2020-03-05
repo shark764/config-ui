@@ -18,8 +18,23 @@
             {{message.payload.userName}}
           </strong>
 
-          <p layout="column">
+          <p layout="column" ng-if="message.payload.body.text">
             <em>{{message.payload.body.text}}</em>
+          </p>
+
+          <p layout="column" ng-if="message.payload.body.file.mediaType && !message.payload.body.file.mediaUrl" class="file-not-found">
+            <em>{{'appdock.otherInteractionMessage' | translate}}</em>
+          </p>
+
+          <p layout="column" ng-if="message.payload.body.file.mediaUrl">
+            <a ng-href="{{message.payload.body.file.mediaUrl}}" target="_blank">
+              <img
+                ng-if="message.payload.body.file.mediaUrl && message.payload.body.file.mediaType.startsWith('image/')"
+                ng-src="{{message.payload.body.file.mediaUrl}}"
+                alt="Attachment preview..."
+              />
+              <em>{{message.payload.body.file.filename}}</em>
+            </a>
           </p>
 
         </md-list-item>

@@ -1452,6 +1452,8 @@
   "appdock.recording.duration": "Duration",
   "appdock.custom": "Custom",
   "appdock.conference": "Conference",
+  "appdock.otherInteractionMessage": "Attachment in other interaction",
+  "appdock.fileNotFoundInTranscript": "File not found in transcript",
   "loFormAlert.reservedWord": " is a reserved word",
   "title.text.explain": "Authentication is required to switch to this tenant",
   "interactionMonitoring.confirmEnd": "Ok to switch tenants? Your current call will end.",

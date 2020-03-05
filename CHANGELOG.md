@@ -30,6 +30,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API Keys
 - Message Templates
 
+## [4.84.0] - 2020-03-03
+### Added
+- [CXV1-21429](https://liveops.atlassian.net/browse/CXV1-21429) Render attachments in transcript in config ui/reporting.
+
 ## [4.83.3] - 2020-02-26
 ### Fixed
 - [CXV1-2970](https://liveops.atlassian.net/browse/CXV1-2970) Custom Realtime Dashboards | Value Format should be auto assigned 

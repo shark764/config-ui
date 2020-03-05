@@ -74,9 +74,16 @@ angular.module('liveopsConfigPanel')
             CxEngage.reporting.getTranscripts({
               interactionId: scope.config.id
             }, function(error, topic, response) {
-              if (error || !response || !response.length || !response[0].url) {
+              var files = response;
+              var transcript = getTranscript(files);
+              if (error || !response || !response.length || !transcript.url) {
                 console.error('Failed to get transcript record', error, response);
-                if (error && error.data && error.data.apiResponse && (error.data.apiResponse.status === 401 || error.data.apiResponse.status === 403)) {
+                if (
+                  error &&
+                  error.data &&
+                  error.data.apiResponse &&
+                  (error.data.apiResponse.status === 401 || error.data.apiResponse.status === 403)
+                ) {
                   scope.showNoPermissionsMsg = true;
                 } else {
                   scope.showNoResultsMsg = true;
@@ -86,7 +93,7 @@ angular.module('liveopsConfigPanel')
               }
               $http({
                 method: 'GET',
-                url: response[0].url,
+                url: transcript.url
               }).then(function(response) {
                 scope.isLoadingAppDock = false;
                 scope.showNoResultsMsg = false;
@@ -96,6 +103,15 @@ angular.module('liveopsConfigPanel')
                   _.map(response, function(val, key) {
                     if (val.payload.metadata && val.payload.metadata.source === 'smooch') {
                       response[key].payload.userName = response[key].payload.metadata.name;
+                      if (response[key].payload.body.file.mediaType) {
+                        var file = getFileMetadata(files, response[key].payload.body.id);
+                        if (file) {
+                          response[key].payload.body.file = _.merge(response[key].payload.body.file, {
+                            filename: file.filename,
+                            mediaUrl: file.url
+                          });
+                        }
+                      }
                       return;
                     }
                     if (val.payload.from !== 'CxEngage') {
@@ -138,6 +154,22 @@ angular.module('liveopsConfigPanel')
                 }
                 scope.isLoadingAppDock = false;
               });
+            });
+          }
+
+          function getTranscript(files) {
+            var transcript = _.find(files, function(file) {
+              return file && file.metadata && file.metadata.transcript;
+            });
+            if (!transcript) {
+              return files[0];
+            }
+            return transcript;
+          }
+
+          function getFileMetadata(files, messageId) {
+            return _.find(files, function(file) {
+              return file && file.metadata && file.metadata.messageId === messageId;
             });
           }
 
