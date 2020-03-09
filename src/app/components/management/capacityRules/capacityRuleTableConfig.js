@@ -15,8 +15,7 @@ angular.module('liveopsConfigPanel')
         'header': {
           'display': $translate.instant('value.details.activeVersion')
         },
-        'name': 'activeVersion',
-        'transclude': true,
+        'name': '$original.activeRule.name',
         'sortOn': 'activeFlow.name'
         }, {
         'header': {

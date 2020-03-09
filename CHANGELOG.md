@@ -30,6 +30,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API Keys
 - Message Templates
 
+## [4.84.1] - 2020-03-09
+### Fixed
+- [CXV1-11648](https://liveops.atlassian.net/browse/CXV1-11648) Active versions are not displayed for capacity Rules 
+
 ## [4.84.0] - 2020-03-03
 ### Added
 - [CXV1-21429](https://liveops.atlassian.net/browse/CXV1-21429) Render attachments in transcript in config ui/reporting.
