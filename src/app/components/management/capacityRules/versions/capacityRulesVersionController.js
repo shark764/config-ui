@@ -41,6 +41,7 @@ angular.module('liveopsConfigPanel')
 
       $scope.$watch('capacityRule', function(newValue){
         if (newValue){
+          $scope.hideCreateNew();
           $scope.getVersions();
           $scope.capacityRule.reset();
         }

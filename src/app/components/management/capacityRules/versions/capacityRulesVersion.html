@@ -3,7 +3,7 @@
     <h4>{{'flow.details.versions.create.title' | translate }}</h4>
   </div>
 
-  <ng-form name="createVersionForm" separate-validation lo-form-submit>
+  <ng-form name="createVersionForm" separate-validation lo-form-submit unsaved-changes-warning>
     <div class="input-group">
       <label>{{'value.name' | translate}} *</label>
       <form-error field="createVersionForm.name" error-type-required="{{'value.error.name.required' | translate}}"></form-error>

@@ -1,5 +1,5 @@
 #!groovy​
-@Library('sprockets@2.9.4') _
+@Library('sprockets') _
 
 import common
 import git

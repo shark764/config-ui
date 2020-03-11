@@ -30,6 +30,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API Keys
 - Message Templates
 
+## [4.84.2] - 2020-03-10
+### Fixed
+- [CXV1-7994](https://liveops.atlassian.net/browse/CXV1-7994) Switching to a new capacity rule when creating a version does not give warning
+- [CXV1-12734](https://liveops.atlassian.net/browse/CXV1-12734) While creating new versions of capacity rules, navigating between CR shares state
+- Use latest sprockets to hopefully fix deploys
+
 ## [4.84.1] - 2020-03-09
 ### Fixed
 - [CXV1-11648](https://liveops.atlassian.net/browse/CXV1-11648) Active versions are not displayed for capacity Rules 
