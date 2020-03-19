@@ -108,8 +108,12 @@ angular.module('liveopsConfigPanel')
                         if (file) {
                           response[key].payload.body.file = _.merge(response[key].payload.body.file, {
                             filename: file.filename,
-                            mediaUrl: file.url
+                            mediaUrl: file.url,
                           });
+                        } else {
+                          // If artifact file url doesn't exist,
+                          // we delete smooch one
+                          delete response[key].payload.body.file.mediaUrl;
                         }
                       }
                       return;

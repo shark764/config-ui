@@ -23,7 +23,7 @@
           </p>
 
           <p layout="column" ng-if="message.payload.body.file.mediaType && !message.payload.body.file.mediaUrl" class="file-not-found">
-            <em>{{'appdock.otherInteractionMessage' | translate}}</em>
+            <em>{{'appdock.fileNotFoundInTranscript' | translate}}</em>
           </p>
 
           <p layout="column" ng-if="message.payload.body.file.mediaUrl">

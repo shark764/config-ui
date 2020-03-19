@@ -30,6 +30,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API Keys
 - Message Templates
 
+## [4.84.3] - 2020-03-17
+### Fixed
+- [CXV1-21818](https://liveops.atlassian.net/browse/CXV1-21818) Error message for non-existing files in transcript was changed | Transcripts no longer contain previous messages.
+
 ## [4.84.2] - 2020-03-10
 ### Fixed
 - [CXV1-7994](https://liveops.atlassian.net/browse/CXV1-7994) Switching to a new capacity rule when creating a version does not give warning
