@@ -43,8 +43,8 @@ angular.module('liveopsConfigPanel')
    *  * stateKey (string): The name of the URL param that identifies an item. Defaults to 'id'
    *  * sref (string): Optional name of the state to go to when clicking a table row. Defaults to undefined
    */
-  .directive('loResourceTable', ['$rootScope', '$filter', '$location', '$parse', 'loEvents', 'DirtyForms',
-    function($rootScope, $filter, $location, $parse, loEvents, DirtyForms) {
+  .directive('loResourceTable', ['$rootScope', '$filter', '$location', '$parse', 'loEvents', 'DirtyForms', 'Session', '$timeout',
+    function($rootScope, $filter, $location, $parse, loEvents, DirtyForms, Session, $timeout) {
       return {
         restrict: 'E',
         scope: {
@@ -61,7 +61,8 @@ angular.module('liveopsConfigPanel')
             $rootScope.$broadcast('silentMonitoring', interactionId);
           };
         }],
-        link: function($scope) {
+        link: function($scope, element) {
+          $scope.customAttributesFields = undefined;
           $scope.forceGlobalLoading = $rootScope.forceGlobalLoading;
           var parseResourceKey = angular.noop;
           var parseStateKey = angular.noop;
@@ -72,6 +73,14 @@ angular.module('liveopsConfigPanel')
               return;
             }
 
+            $scope.config.fields.forEach(function (field) {
+              if(field.subMenu && field.header.options) {
+                // custom-attributes fields should be displayed only when the main custom-attributes filter is checked in the table-controls
+                $scope.isCustomAttrFieldsChecked = field.checked;
+                // assign current logged in tenant custom-attributes values to customAttributesFields scope variable
+                $scope.customAttributesFields = field.header.options;
+              }
+            });
             $scope.showBulkActions = angular.isDefined($scope.config.showBulkActions) ? $scope.config.showBulkActions : true;
             $scope.reverseSortOrder = $scope.config.reverseSort;
             $scope.orderBy = $scope.config.orderBy;
@@ -81,7 +90,61 @@ angular.module('liveopsConfigPanel')
             //Function for getting the id values out of object maps
             parseResourceKey = $parse($scope.resourceKey);
             parseStateKey = $parse($scope.stateKey);
+          }, true);
+
+          $scope.$watch('customAttributesFields', function(newFields, prevFields) {
+            if(!$scope.removingDuplicateFilter) {
+              // look for the custom-attribute whose searchValue has been changed from the previous update
+              var searchField = $scope.customAttributesFields && $scope.customAttributesFields.find(function(newField) {
+                if(newField.checked) {
+                  return prevFields && prevFields.find(function(prevField) {
+                    return (newField.id === prevField.id && newField.searchValue !== prevField.searchValue);
+                  });
+                }
+              });
+              $scope.activeCustomAttrSearchField = (searchField && searchField.searchValue) ? searchField : $scope.activeCustomAttrSearchField;
+              if($scope.activeCustomAttrSearchField) {
+                filterCustomAttributeItems();
+              }
+            };
+            $scope.removingDuplicateFilter = false;
+          }, true);
+
+          $scope.$watch('activeCustomAttrSearchField', function(newAttr, oldAttr) {
+            // when a search is performing on top of another search, remove the searchValue from the previous custom-attribute field
+            if((newAttr && oldAttr) && (newAttr.id !== oldAttr.id)) {
+              $scope.removingDuplicateFilter = true;
+              oldAttr.searchValue = '';
+            };
           });
+
+          function filterCustomAttributeItems() {
+            $scope.items && $scope.items.forEach(function(item) {
+              // perform the interaction filter with respect to the active custom-attribute value searchQuery:
+              var interactionIncludesAttributeInSearch = item.customAttributes && item.customAttributes.find(function(atr) {
+                return (atr && atr.attributeEntityId === $scope.activeCustomAttrSearchField.id);
+              });
+              // if the interaction includes activeCustomAttrSearchField, perform the search: 
+              if(interactionIncludesAttributeInSearch && interactionIncludesAttributeInSearch.value) {
+                var searchValueExists = interactionIncludesAttributeInSearch.value.join().toString().replace(/,/g, '').toLowerCase().includes($scope.activeCustomAttrSearchField.searchValue.toLowerCase());
+                item.checked = searchValueExists ? true : false;
+              } else {
+                // if the interaction doesnot include the custom-attribute that is currently under search, display the interaction when the search value is empty string or hide the interaction when there is a search
+                var searchValue = $scope.activeCustomAttrSearchField.searchValue;
+                item.checked = (!searchValue || searchValue === '--') ? true : false;
+              }
+            });
+          };
+
+          $scope.openSearchInput = function(option) {
+            if(!option.showSearchInpt) {
+              $timeout(function() {
+                var input = element.find('.field-header-input');
+                input.focus();
+              });
+            };
+            option.showSearchInpt = !option.showSearchInpt;
+          };
 
           $scope.$on('created:resource', function(event, item) {
             if ($scope.selected && item && item.id === $scope.selected.id){
@@ -121,6 +184,12 @@ angular.module('liveopsConfigPanel')
           };
 
           $scope.parse = function(item, field) {
+            if (field.subMenuHeaders) {
+              var attribute = item.customAttributes && item.customAttributes.find(function(atr) {
+                return field.id === atr.attributeEntityId;
+              });
+              return attribute ? attribute.value.sort().join(', ') : '--';
+            }
             if (field.resolve) {
               return field.resolve(item);
             } else if (field.name) {
@@ -145,7 +214,10 @@ angular.module('liveopsConfigPanel')
             if (!$scope.items || ($scope.items.$promise && !$scope.items.$resolved)) {
               return;
             }
-
+            // interactions which have custom-attributes should be filtered by the input searchValue
+            if($scope.config.preferenceKey === 'interactionsInQueueList' && $scope.activeCustomAttrSearchField) {
+              filterCustomAttributeItems();
+            }
             if (parseStateKey($location.search())) { //If the item id URL param exists
               //Init the selected item based on URL param
               var params = {};

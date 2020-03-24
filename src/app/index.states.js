@@ -898,7 +898,7 @@ angular.module('liveopsConfigPanel').config([
             'UserPermissions',
             'PermissionGroups',
             function(UserPermissions, PermissionGroups) {
-              return UserPermissions.resolvePermissions(PermissionGroups.viewCustomAttributes);
+              return UserPermissions.hasPermissionInList(PermissionGroups.manageCustomAttributes);
             }
           ]
         },

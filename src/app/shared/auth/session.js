@@ -194,9 +194,16 @@ angular.module('liveopsConfigPanel').service('Session', [
       var excludedFields = ['channelType', 'direction'];
 
       Object.keys(self.columnPreferences).forEach(function(key) {
-        _.forEach(self.columnPreferences[key], function(field) {
+        _.forEach(self.columnPreferences[key], function(field, idx, fields) {
           if (field.header && field.header.options && !_.includes(excludedFields, field.name)) {
-            field.header.options = [];
+            if(field.name === 'customAttributes') {
+              // custom attributes are tenant specific, erase them while switching to a new tenant
+              if(field.tenantId !== self.tenant.tenantId) {
+                fields.splice(idx, 1);
+              }
+            } else {
+              field.header.options = [];
+            }
           }
         });
       });

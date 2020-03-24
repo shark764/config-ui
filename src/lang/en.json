@@ -1415,6 +1415,8 @@
   "realtimeDashboards.switcher.widget.allQueues": "All Queues",
   "realtimeDashboards.switcher.widget.lockedQueue": "Lock to Queue",
   "realtimeDashboards.dashboards.selected.failure": "Not a valid parameter. Redirecting to standard dashboard &ldquo;Overview Dashboard&rdquo;",
+  "realtimeDashboards.dashboards.subMenu.addItems.heading": "Add {{item}}",
+  "realtimeDashboards.dashboards.subMenu.addItems.helpText": "you can add up to 3 {{item}}",
   "customStat.table.title": "Custom Statistics",
   "customStat.version.title": "Versions",
   "customStat.draft.title": "Drafts",

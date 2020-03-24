@@ -62,6 +62,34 @@ angular.module('liveopsConfigPanel')
             }
           }
 
+          function getCustomAttributesFromLocalStorage(preferenceKey) {
+            var storedItems = JSON.parse(localStorage.getItem('LIVEOPS-PREFERENCE-KEY'));
+            var storedCustomAttribute = storedItems && storedItems.columnPreferences[preferenceKey] && storedItems.columnPreferences[preferenceKey].find(function (opt) {
+              return opt.name === 'customAttributes';
+            });
+            $scope.config.fields.forEach(function (field) {
+              if (field.name === 'customAttributes') {
+                if(!storedCustomAttribute) {
+                  // set customAttributes in to the local storage for the initial render as they are tenant specific
+                  setColumnPreferences();
+                } else {
+                  // Assign checked value to the customAttribute field from the local storage:
+                  field.checked = (angular.isUndefined(storedCustomAttribute.checked) ? false : storedCustomAttribute.checked);
+                  
+                  // Assign checked value to the customAttribute field options from the local storage:
+                  field.header && field.header.options && field.header.options.length > 0 && field.header.options.forEach(function(option, idx) {
+                    var storedOption = storedCustomAttribute.header.options && storedCustomAttribute.header.options.length > 0 && storedCustomAttribute.header.options.find(function(opt) {
+                      return opt.id === option.id;
+                    });
+                    if (storedOption) {
+                      field.header.options[idx].checked = (angular.isUndefined(storedOption.checked) ? false : storedOption.checked);
+                    }
+                  });
+                }
+              }
+            });
+          };
+
           $scope.$watch('config', function(newConfig) {
             if (!newConfig) {
               console.warn('Table-controls config is not defined. Value is: ', newConfig);
@@ -118,7 +146,7 @@ angular.module('liveopsConfigPanel')
             }
             
             var preferenceKey = $scope.config.preferenceKey ? $scope.config.preferenceKey : $scope.config.title;
-            
+            getCustomAttributesFromLocalStorage(preferenceKey);
 
             for (var fieldIndex = 0; fieldIndex < $scope.config.fields.length; fieldIndex++) {
 
@@ -130,7 +158,7 @@ angular.module('liveopsConfigPanel')
 
               //If for whatever reason options get added without a checked property
               //add it and default it to true.
-              if ($scope.config.fields[fieldIndex].header && $scope.config.fields[fieldIndex].header.options) {
+              if ($scope.config.fields[fieldIndex].header && $scope.config.fields[fieldIndex].header.options && !$scope.config.fields[fieldIndex].subMenu) {
                 _.forEach($scope.config.fields[fieldIndex].header.options, function(option){
                   if (!_.has(option, 'checked')) {
                     option.checked = true;
@@ -143,9 +171,9 @@ angular.module('liveopsConfigPanel')
 
                 validateColumnPreferenceCache(preferenceKey);
 
-                for (var storeOptionIndex = 0; storeOptionIndex < Session.columnPreferences[preferenceKey].length; storeOptionIndex++) {
+                for (var storeOptionIndex = 0; Session.columnPreferences[preferenceKey] && storeOptionIndex < Session.columnPreferences[preferenceKey].length; storeOptionIndex++) {
                   var storedOption = Session.columnPreferences[preferenceKey][storeOptionIndex];
-                  if (_.has(storedOption, 'header.display') &&  ($scope.config.fields[fieldIndex].header.display === storedOption.header.display)) {
+                  if (_.has(storedOption, 'header.display') && !storedOption.subMenu && ($scope.config.fields[fieldIndex].header.display === storedOption.header.display)) {
                     $scope.config.fields[fieldIndex].checked = (angular.isUndefined(storedOption.checked) ? true : storedOption.checked);
                   }
                 }

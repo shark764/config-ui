@@ -30,6 +30,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API Keys
 - Message Templates
 
+## [4.85.0] - 2020-03-20
+### Added
+- [CXV1-21080](https://liveops.atlassian.net/browse/CXV1-21080) - Add Custom Interaction Attributes to Realtime Dashboards.
+
 ## [4.84.3] - 2020-03-17
 ### Fixed
 - [CXV1-21818](https://liveops.atlassian.net/browse/CXV1-21818) Error message for non-existing files in transcript was changed | Transcripts no longer contain previous messages.

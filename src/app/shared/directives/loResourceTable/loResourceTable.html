@@ -22,7 +22,7 @@
       </th>
       <th class="sortable-header"
         ng-repeat="field in config.fields"
-        ng-if="field.checked !== false"
+        ng-if="!field.subMenu && field.checked !== false"
         ng-class="{'filter-header': !!field.header.options}"
         ng-click="sortTable(field)">
 
@@ -47,6 +47,26 @@
           </filter-dropdown>
         </div>
       </th>
+      
+      <th class="sortable-header"
+          ng-repeat="option in customAttributesFields track by $index"
+          ng-if="!!isCustomAttrFieldsChecked && option.checked === true"
+          ng-class="{'filter-header': option.checked === true}"
+          ng-mouseleave="option.showSearchInpt = false">
+
+        <i class="sort-icon fa pull-left"
+          ng-show="orderBy == option.name || orderBy == option.sortOn"
+          ng-class="{'fa-arrow-up' : reverseSortOrder, 'fa-arrow-down': ! reverseSortOrder}">
+        </i>
+
+        <div class="filter-header-content">
+          <div class="filter-header-name custom-header" title="{{option.name}}">{{option.name}}</div>
+          <span class="field-header-search" ng-class="{'active-search-icon': !!option.searchValue}" ng-click="openSearchInput(option)"><i class="fa fa-search"></i></span>
+          <div ng-hide="!option.showSearchInpt" class="field-header-input-container">
+            <input class="field-header-input" ng-keydown="$event.keyCode === 13 && openSearchInput(option)" type="text" placeholder="Search..." ng-model="option.searchValue" />
+          </div>
+        </div>
+      </th>
     </tr>
   </thead>
 
@@ -62,6 +82,7 @@
         greaterOrLessThanFilter:config.greaterOrLessThan.path:greaterOrLessThan.comparison:greaterOrLessThan.value:greaterOrLessThan.unit.value |
         orderBy:orderBy:reverseSortOrder))"
       ng-init="item.$index = $index"
+      ng-if="item.customAttributes ? item.checked !== false : true"
       ng-class="{selected: item === selected, 'lo-highlight': item === selected}">
 
       <td id="bulk-actions-select-table-cell" class="check-col"
@@ -71,7 +92,7 @@
         <input type="checkbox" ng-checked="item.checked"/>
       </td>
 
-      <td ng-if="field.checked"
+      <td ng-if="!field.subMenu && field.checked"
           ng-repeat="field in config.fields"
           ng-click="onSelectItem(item)"
           ng-switch="!!config.sref">
@@ -119,6 +140,28 @@
             <span ng-if="!field.transclude"
                   title="{{parse(item, field)}}">
               {{parse(item, field)}}
+            </span>
+          </span>
+        </div>
+      </td>
+
+      <td
+        ng-repeat="option in customAttributesFields"
+        ng-if="!!isCustomAttrFieldsChecked && option.checked === true"
+        ng-click="onSelectItem(item)">
+
+        <div>
+          <span>
+            <lo-resource-table-cell
+              name="{{option.value}}"
+              ng-if="option.transclude"
+              item="item"
+              options="item.customAttributes">
+            </lo-resource-table-cell>
+  
+            <span ng-if="!option.transclude" 
+                  title="{{parse(item, option)}}">
+              {{parse(item, option)}}
             </span>
           </span>
         </div>
