@@ -63,6 +63,14 @@ angular.module('liveopsConfigPanel')
             username: username,
             password: password
           });
+          //just for testing purposes, to have a customized ttl for session token
+          if (localStorage.getItem('TOKEN-EXPIRATION-DEBUG')) {
+            token = new TokenService({
+              username: username,
+              password: password,
+              ttl: parseInt(localStorage.getItem('TOKEN-EXPIRATION-DEBUG'))
+            });
+          }
 
           return token.save().then(function (response) {
             return response.token;

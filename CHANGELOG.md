@@ -30,6 +30,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API Keys
 - Message Templates
 
+## [4.86.0] - 2020-03-26
+### Fixed
+- [CXV1-21512](https://liveops.atlassian.net/browse/CXV1-21512) - Config UI loading from cached data instead of active data.
+
 ## [4.85.0] - 2020-03-20
 ### Added
 - [CXV1-21080](https://liveops.atlassian.net/browse/CXV1-21080) - Add Custom Interaction Attributes to Realtime Dashboards.

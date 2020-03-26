@@ -23,6 +23,9 @@ angular.module('liveopsConfigPanel').directive('sdkListener', [
               event.origin.indexOf('identity') > -1 ||
               event.origin.indexOf('cxengagelabs') > -1)
           ) {
+            if (CxEngage.session.getActiveTenantId() !== Session.tenant.tenantId) {
+              CxEngage.session.setActiveTenant({ tenantId: Session.tenant.tenantId, noSession: true });
+            }
             if (CxEngage.session.getActiveTenantId()) {
               if (event.data.module === 'subscribe') {
                 var subscribedTenant = CxEngage.session.getActiveTenantId();
