@@ -959,7 +959,7 @@ angular.module('liveopsConfigPanel').config([
       })
       .state('content.reports', {
         url: '/reports?id',
-        title: 'Reporting - Historical Dashboards (EOL Q1 2020)',
+        title: 'Reporting - Historical Dashboards (EOL 6/1/2020)',
         templateUrl: 'app/components/reports/reports.html',
         controller: 'ReportsController'
       })
