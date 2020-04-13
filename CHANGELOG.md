@@ -30,6 +30,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API Keys
 - Message Templates
 
+## [4.86.2] - 2020-04-07
+### Fixed
+- [CXV1-21711](https://liveops.atlassian.net/browse/CXV1-21711) - Skills and Groups not available on platform view only.
+
 ## [4.86.1] - 2020-04-02
 ### Fixed
 - [CXV1-22081](https://liveops.atlassian.net/browse/CXV1-22081) - CxEV2 Reporting - Change the EOL date from the Reporting menu.
