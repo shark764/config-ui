@@ -30,6 +30,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API Keys
 - Message Templates
 
+## [4.86.5] - 2020-04-15
+### Changed
+- [CXV1-22133] (https://liveops.atlassian.net/browse/CXV1-22133) - Rename the Advanced Report (V2) option from the Reporting menu.
+
 ## [4.86.4] - 2020-04-15
 ### Fixed
 - <no-Jira> - upadated new teams webhooks in jenkinsfile.

@@ -219,7 +219,7 @@
   "navbar.reports.agentStateMonitoring.title": "Agent State Monitoring",
   "navbar.reports.agentStateMonitoring.subscription.fail": "Subscription to statistical data of agents failed unexpectedly. Please reload page.",
   "navbar.reports.logi.standard.title": "Standard Reports (V2)",
-  "navbar.reports.logi.advanced.title": "Advanced Reports (V2)",
+  "navbar.reports.logi.advanced.title": "Historical Reporting V2",
   "navbar.qualityManagement.title": "Quality Management",
   "navbar.welcome": "Hello, {{displayName}}",
   "navbar.logout": "Log Out",

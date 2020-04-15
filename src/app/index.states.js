@@ -981,9 +981,10 @@ angular.module('liveopsConfigPanel').config([
       //    ]
       //  }
       //})
+      //CXV1-22133 - Rename the Advanced Report (V2) option from the Reporting menu.
       .state('content.reporting.logiAdvanced', {
         url: '/cxengage-advanced',
-        title: 'Reporting - Advanced Reports',
+        title: 'Reporting - Historical Reporting',
         templateUrl: 'app/components/reports/logi/advanced/logi_advanced.html',
         controller: 'LogiAdvancedController',
         reloadOnSearch: false,
