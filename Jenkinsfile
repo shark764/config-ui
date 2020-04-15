@@ -3,7 +3,7 @@
 
 import common
 import git
-import hipchat
+import teams
 import node
 import frontend
 
@@ -11,6 +11,7 @@ def service = 'Config-UI'
 def docker_tag = BUILD_TAG.toLowerCase()
 def pr = env.CHANGE_ID
 def c = new common()
+def mt = new teams()
 def n = new node()
 def f = new frontend()
 
@@ -88,6 +89,7 @@ pipeline {
         sh "aws s3 sync build/dist/ s3://frontend-prs.cxengagelabs.net/config-ui/${pr}/ --delete"
         script {
           f.invalidate("E23K7T1ARU8K88")
+          office365ConnectorSend status:"Ready for review", message:"<a href=\"https://frontend-prs.cxengagelabs.net/config-ui/${pr}/index.html\">Config-UI 1 Dev Preview</a>", webhookUrl:"https://outlook.office.com/webhook/046fbedf-24a1-4c79-8e4a-3f73437d9de5@1d8e6215-577d-492c-9fe9-b3c9e7d65fdd/JenkinsCI/26ba2757836d431c8310fbfbfbb905dc/4060fcf8-0939-4695-932a-b8d400889db6"
         }
       }
     }
@@ -109,6 +111,7 @@ pipeline {
           }
           script {
             f.invalidate("E23K7T1ARU8K88")
+            office365ConnectorSend status:"Ready for QE", color:"f6c342", message:"<a href=\"https://frontend-prs.cxengagelabs.net/config-ui/${pr}/index.html\">Config-UI 1 QE Preview</a>", webhookUrl:"https://outlook.office.com/webhook/046fbedf-24a1-4c79-8e4a-3f73437d9de5@1d8e6215-577d-492c-9fe9-b3c9e7d65fdd/JenkinsCI/26ba2757836d431c8310fbfbfbb905dc/4060fcf8-0939-4695-932a-b8d400889db6"
           }
         }
       }
@@ -119,6 +122,7 @@ pipeline {
         timeout(time: 5, unit: 'DAYS') {
           script {
             input message: 'Testing complete?', submittedParameter: 'submitter'
+            office365ConnectorSend status:"Ready to be merged", color:"67ab49", webhookUrl:"https://outlook.office.com/webhook/046fbedf-24a1-4c79-8e4a-3f73437d9de5@1d8e6215-577d-492c-9fe9-b3c9e7d65fdd/JenkinsCI/26ba2757836d431c8310fbfbfbb905dc/4060fcf8-0939-4695-932a-b8d400889db6"
           }
         }
       }
@@ -218,24 +222,27 @@ pipeline {
   }
   post {
     always {
-      sh "docker rmi ${docker_tag} --force"
       script {
+        try {
+          sh "docker rmi ${docker_tag} --force"
+        } catch(e) {
+          sh 'echo "Failed to remove docker image"'
+        }
         c.cleanup()
       }
     }
     success {
       script {
-        def jobType = 'hipchat message goes here based on jenkins job type'
-        def notifyPpl = 'ppl to @ in hipchat that should action this notification'
-        if (env.BRANCH_NAME == "master") {
-        } else {
-          sh "echo 'No notification needed'"
-        }
+        mt.teamsPullRequestSuccess("${service}", 
+                                   "${build_version}", 
+                                   "https://outlook.office.com/webhook/046fbedf-24a1-4c79-8e4a-3f73437d9de5@1d8e6215-577d-492c-9fe9-b3c9e7d65fdd/JenkinsCI/26ba2757836d431c8310fbfbfbb905dc/4060fcf8-0939-4695-932a-b8d400889db6")
       }
     }
     failure {
       script {
-        echo 'Script Failed'
+        mt.teamsPullRequestFailure("${service}", 
+                                   "${build_version}", 
+                                   "https://outlook.office.com/webhook/046fbedf-24a1-4c79-8e4a-3f73437d9de5@1d8e6215-577d-492c-9fe9-b3c9e7d65fdd/JenkinsCI/26ba2757836d431c8310fbfbfbb905dc/4060fcf8-0939-4695-932a-b8d400889db6")
       }
     }
     unstable {
