@@ -963,23 +963,24 @@ angular.module('liveopsConfigPanel').config([
         templateUrl: 'app/components/reports/reports.html',
         controller: 'ReportsController'
       })
+      //CXV1-22138 Hide Standard Reports section
       // Logi standard and advanced reports
-      .state('content.reporting.logiStandard', {
-        url: '/cxengage-standard',
-        title: 'Reporting - Standard Reports',
-        templateUrl: 'app/components/reports/logi/standard/logi_standard.html',
-        controller: 'LogiStandardController',
-        reloadOnSearch: false,
-        resolve: {
-          hasPermission: [
-            'UserPermissions',
-            'PermissionGroups',
-            function(UserPermissions, PermissionGroups) {
-              return UserPermissions.resolvePermissions(PermissionGroups.viewConfigReportingBI);
-            }
-          ]
-        }
-      })
+      //.state('content.reporting.logiStandard', {
+      //  url: '/cxengage-standard',
+      //  title: 'Reporting - Standard Reports',
+      //  templateUrl: 'app/components/reports/logi/standard/logi_standard.html',
+      //  controller: 'LogiStandardController',
+      //  reloadOnSearch: false,
+      //  resolve: {
+      //    hasPermission: [
+      //      'UserPermissions',
+      //      'PermissionGroups',
+      //      function(UserPermissions, PermissionGroups) {
+      //        return UserPermissions.resolvePermissions(PermissionGroups.viewConfigReportingBI);
+      //      }
+      //    ]
+      //  }
+      //})
       .state('content.reporting.logiAdvanced', {
         url: '/cxengage-advanced',
         title: 'Reporting - Advanced Reports',

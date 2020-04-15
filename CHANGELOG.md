@@ -30,6 +30,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API Keys
 - Message Templates
 
+## [4.86.3] - 2020-04-13
+### Changed
+- [CXV1-22138](https://liveops.atlassian.net/browse/CXV1-22138) - CxE V2 Reporting - Hide Standard Reports section
+
 ## [4.86.2] - 2020-04-07
 ### Fixed
 - [CXV1-21711](https://liveops.atlassian.net/browse/CXV1-21711) - Skills and Groups not available on platform view only.

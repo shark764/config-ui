@@ -753,14 +753,15 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
       // LOGI Reports
       // Logi standard and advanced reports
       // //////////////////////////////////////////
-      if (UserPermissions.hasPermissionInList(PermissionGroups.viewConfigReportingBI)) {
-        items.push({
-          label: $translate.instant('navbar.reports.logi.standard.title'),
-          stateLink: 'content.reporting.logiStandard',
-          id: 'logi-standard-reports-link',
-          order: 9
-        });
-      }
+      //CXV1-22138 Hide Standard Reports section
+      //if (UserPermissions.hasPermissionInList(PermissionGroups.viewConfigReportingBI)) {
+      //  items.push({
+      //    label: $translate.instant('navbar.reports.logi.standard.title'),
+      //    stateLink: 'content.reporting.logiStandard',
+      //    id: 'logi-standard-reports-link',
+      //    order: 9
+      //  });
+      //}
       if (UserPermissions.hasPermissionInList(PermissionGroups.viewConfigReportingBI)) {
         items.push({
           label: $translate.instant('navbar.reports.logi.advanced.title'),
