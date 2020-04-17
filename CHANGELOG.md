@@ -30,6 +30,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API Keys
 - Message Templates
 
+## [4.86.8] - 2020-04-16
+### Fixed
+- [CXV1-22099](https://liveops.atlassian.net/browse/CXV1-22099) - App Dock - Add name and subtype in artifacts view.
+
 ## [4.86.7] - 2020-04-16
 ### Fixed
 - [CXV1-22180](https://liveops.atlassian.net/browse/CXV1-22180) - Filtering on Custom Attribute columns in Realtime Reporting includes empty results.

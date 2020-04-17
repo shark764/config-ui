@@ -12,10 +12,10 @@
 
       <div class="md-list-item-text" layout="column">
         <h3 class="artifact-label" layout-align="start" title="{{artifact.artifactType || 'appdock.conference' | translate}}">
-          {{artifact.participantAdditionalInfo.participantType || 'appdock.conference' | translate}} {{'appdock.recording' | translate}}
+          {{artifact.participantAdditionalInfo.participantType || artifact.artifactSubtype || 'appdock.conference' | translate}} {{!artifact.artifactSubtype && 'appdock.recording' | translate}}
         </h3>
         <h2 class="artifact-label" title="{{'appdock.recording' | translate}}">
-          {{artifact.participantAdditionalInfo.agentName || artifact.participantAdditionalInfo.extension || 'appdock.recording'| translate}}
+          {{artifact.participantAdditionalInfo.agentName || artifact.participantAdditionalInfo.extension || artifact.name || 'appdock.recording'| translate}}
         </h2>
         <h4 class="artifact-label" title="{{appdock.recording.duration | translate}}">
           {{'appdock.recording.duration' | translate}}: {{artifact.durationHMMSS}}
@@ -30,7 +30,7 @@
     <md-content layout-padding layout-margin>
 
       <div class="heading-container">
-        <h1 class="md-headline">{{selectedItem.participantAdditionalInfo.participantType}} {{'appdock.recording' | translate}}: {{selectedItem.participantAdditionalInfo.agentName || selectedItem.participantAdditionalInfo.extension || 'appdock.audioRecordings.details.customer' | translate}}
+        <h1 class="md-headline">{{selectedItem.participantAdditionalInfo.participantType || selectedItem.artifactSubtype}} {{!selectedItem.artifactSubtype && 'appdock.recording' | translate}}: {{selectedItem.participantAdditionalInfo.agentName || selectedItem.participantAdditionalInfo.extension || selectedItem.name || 'appdock.audioRecordings.details.customer' | translate}}
         </h1>
       </div>
 
