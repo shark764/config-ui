@@ -30,6 +30,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API Keys
 - Message Templates
 
+## [4.86.7] - 2020-04-16
+### Fixed
+- [CXV1-22180](https://liveops.atlassian.net/browse/CXV1-22180) - Filtering on Custom Attribute columns in Realtime Reporting includes empty results.
+
 ## [4.86.6] - 2020-04-15
 ### Changed
 - Update realtime-dashboards to 5.10.1

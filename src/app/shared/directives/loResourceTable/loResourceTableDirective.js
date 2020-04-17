@@ -79,6 +79,9 @@ angular.module('liveopsConfigPanel')
                 $scope.isCustomAttrFieldsChecked = field.checked;
                 // assign current logged in tenant custom-attributes values to customAttributesFields scope variable
                 $scope.customAttributesFields = field.header.options;
+                $scope.isAnyCustomAttributeChecked = $scope.customAttributesFields.some(function(option) {
+                  return option.checked === true;
+                });
               }
             });
             $scope.showBulkActions = angular.isDefined($scope.config.showBulkActions) ? $scope.config.showBulkActions : true;
@@ -129,7 +132,7 @@ angular.module('liveopsConfigPanel')
                 var searchValueExists = interactionIncludesAttributeInSearch.value.join().toString().replace(/,/g, '').toLowerCase().includes($scope.activeCustomAttrSearchField.searchValue.toLowerCase());
                 item.checked = searchValueExists ? true : false;
               } else {
-                // if the interaction doesnot include the custom-attribute that is currently under search, display the interaction when the search value is empty string or hide the interaction when there is a search
+                // if the interaction doesnot includes activeCustomAttrSearchField, then hide the interaction:
                 var searchValue = $scope.activeCustomAttrSearchField.searchValue;
                 item.checked = (!searchValue || searchValue === '--') ? true : false;
               }

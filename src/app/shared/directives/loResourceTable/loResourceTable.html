@@ -82,7 +82,7 @@
         greaterOrLessThanFilter:config.greaterOrLessThan.path:greaterOrLessThan.comparison:greaterOrLessThan.value:greaterOrLessThan.unit.value |
         orderBy:orderBy:reverseSortOrder))"
       ng-init="item.$index = $index"
-      ng-if="item.customAttributes ? item.checked !== false : true"
+      ng-if="(item.customAttributes || (!item.customAttributes && !!isCustomAttrFieldsChecked && !!isAnyCustomAttributeChecked)) ? item.checked !== false : true"
       ng-class="{selected: item === selected, 'lo-highlight': item === selected}">
 
       <td id="bulk-actions-select-table-cell" class="check-col"
