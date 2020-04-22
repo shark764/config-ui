@@ -30,6 +30,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API Keys
 - Message Templates
 
+## [4.87.0] - 2020-04-21
+### Added
+- [CXV1-18500](https://liveops.atlassian.net/browse/CXV1-18500) - Config 2 | Integrations Page - Main List.
+
 ## [4.86.9] - 2020-04-17
 ### Changed
 - [CXV1-14033](https://liveops.atlassian.net/browse/CXV1-14033) - Product Name should be a read only field in the UI.

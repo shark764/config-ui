@@ -493,6 +493,22 @@ angular.module('liveopsConfigPanel').config([
           ]
         }
       })
+      .state('content.configuration.integrations2', {
+        url: '/integrations2',
+        title: 'Configuration - Integration Management',
+        templateUrl: 'app/components/configuration/integrations2/integrations.html',
+        controller: 'integrationsController2',
+        reloadOnSearch: false,
+        resolve: {
+          hasPermission: [
+            'UserPermissions',
+            'PermissionGroups',
+            function(UserPermissions, PermissionGroups) {
+              return UserPermissions.resolvePermissions(PermissionGroups.viewIntegrations);
+            }
+          ]
+        }
+      })
       .state('content.configuration.hoursOld', {
         url: '/hours-old?id',
         title: 'Configuration - Business Hours Management',

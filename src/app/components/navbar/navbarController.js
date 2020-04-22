@@ -467,6 +467,19 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
         });
       }
 
+      if (
+        UserPermissions.hasPermissionInList(PermissionGroups.viewIntegrations) &&
+        $location.search()['alpha'] &&
+        !isActiveExternalTenant
+      ) {
+        items.push({
+          label: $translate.instant('navbar.configuration.integrations.title') + ' (alpha)',
+          stateLink: 'content.configuration.integrations2',
+          id: 'integrations-configuration-link2',
+          order: 16
+        });
+      }
+
       if (UserPermissions.hasPermissionInList(PermissionGroups.accessAllLists)) {
         items.push({
           label: $translate.instant('navbar.configuration.lists.title'),
