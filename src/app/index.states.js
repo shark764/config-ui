@@ -1320,10 +1320,36 @@ angular.module('liveopsConfigPanel').config([
                         RealtimeDashboardsSettings.mockDashboards.forEach(function(item) {
                           item.dashboardCategory = $translate.instant('realtimeDashboards.category.standard');
                         });
-                        window.allDashboards = _.sortBy(
-                          _.union(customDashboards, RealtimeDashboardsSettings.mockDashboards),
-                          'name'
-                        );
+
+                        // CXV1-12884 - Dropdown order
+                        //  - Standard Dashboards: overview-dashboard first, followed by all other dashboards
+                        //      sorted alphabetically, then all tables sorted alphabetically.
+                        //  - Custom Dashboards: all custom dashboards sorted alphabetically.
+                        // Sort all dashboards + tables
+                        customDashboards = _.sortBy(customDashboards, 'name');
+                        var standardDashboards = _.sortBy(RealtimeDashboardsSettings.mockDashboards, 'name');
+                        // Separate tables from dashboards
+                        var standardDashboardIds = [
+                          'overview-dashboard',
+                          'interactions-dashboard',
+                          'queues-dashboard',
+                          'resources-dashboard'
+                        ];
+                        var isStandardDashboard = function(dashboard) {
+                          return _.contains(standardDashboardIds, dashboard.id);
+                        };
+                        var standardTables = _.reject(standardDashboards, isStandardDashboard);
+                        standardDashboards = _.filter(standardDashboards, isStandardDashboard);
+                        // Get overview-dashboard and push it to the top of the dashboard list.
+                        var isOverviewDashboard = function(dashboard) {
+                          return dashboard.id == 'overview-dashboard';
+                        };
+                        var overviewDashboard = _.find(standardDashboards, isOverviewDashboard);
+                        standardDashboards = _.reject(standardDashboards, isOverviewDashboard);
+                        standardDashboards.unshift(overviewDashboard);
+                        // Combine all dashboards for display.
+                        window.allDashboards = _.union(standardDashboards, standardTables, customDashboards)
+
                         var allDashboardsMapped = window.allDashboards.map(function(item) {
                           return { id: item.id, name: item.name, dashboardCategory: item.dashboardCategory };
                         });
