@@ -30,6 +30,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API Keys
 - Message Templates
 
+## [4.87.2] - 2020-04-24
+### Fixed
+- [CXV1-16021](https://liveops.atlassian.net/browse/CXV1-16021) - After enabling several options the side panel can´t display correctly the elements.
+
 ## [4.87.1] - 2020-04-20
 ### Fixed
 - [CXV1-12884](https://liveops.atlassian.net/browse/CXV1-12884) - Realttime Dashboard selection now lacks previous organization

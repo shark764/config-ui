@@ -118,6 +118,7 @@ lo-resource-table {
   width: 45%;
   float: right;
   margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 .dashboard-cancel {
@@ -126,6 +127,7 @@ lo-resource-table {
   width: 45%;
   float: left;
   margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 .selector-title {
@@ -391,7 +393,8 @@ div[gridster-item] {
   top: -20px;
   right: 0;
   width: 350px;
-  height: 100vh;
+  height: 85vh;
+  overflow-y: auto;
   z-index: 8;
   bottom: 0;
   box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12);
