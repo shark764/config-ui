@@ -30,6 +30,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API Keys
 - Message Templates
 
+## [4.87.4] - 2020-04-24
+### Fixed
+- [CXV1-21773](https://liveops.atlassian.net/browse/CXV1-21773) - Cannot call postMessage of null.
+
 ## [4.87.3] - 2020-04-29
 ### Fixed
 - [CXV1-14912](https://liveops.atlassian.net/browse/CXV1-14912) - Media - Issues when switching between media types

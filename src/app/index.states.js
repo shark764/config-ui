@@ -995,7 +995,10 @@ angular.module('liveopsConfigPanel').config([
       //        return UserPermissions.resolvePermissions(PermissionGroups.viewConfigReportingBI);
       //      }
       //    ]
-      //  }
+      //  },
+      // onExit: ['$window', function($window){
+      //   $window.EmbeddedReporting.remove('logiContainer');
+      // }]
       //})
       //CXV1-22133 - Rename the Advanced Report (V2) option from the Reporting menu.
       .state('content.reporting.logiAdvanced', {
@@ -1012,7 +1015,10 @@ angular.module('liveopsConfigPanel').config([
               return UserPermissions.resolvePermissions(PermissionGroups.viewConfigReportingBI);
             }
           ]
-        }
+        },
+        onExit: ['$window', function($window){
+          $window.EmbeddedReporting.remove('ssmContainer');
+        }]
       })
       .state('content.billing', {
         url: '/billing-reports?id',
