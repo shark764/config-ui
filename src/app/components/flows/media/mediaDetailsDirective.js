@@ -193,6 +193,15 @@ angular.module('liveopsConfigPanel')
             });
           };
 
+          $scope.$watch('selectedMedia.type', function (newType, oldType) {
+            // If type switches from audio to TTS or vice versa, clear source.
+            // This prevents TTS and audio source URL from crosstalking.
+            if ((newType === 'tts' && oldType === 'audio') ||
+                (newType === 'audio' && oldType === 'tts')) {
+              $scope.selectedMedia.source = '';
+            }
+          });
+
           // the following two watches prevent the audiosourcefile from getting placed
           // inside a media item where it doesn't belong
           $scope.$watch('selectedMedia.source', function (source) {
