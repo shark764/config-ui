@@ -30,11 +30,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API Keys
 - Message Templates
 
+## [4.87.7] - 2020-04-30	
+### Fixed	
+- [CXV1-22304](https://liveops.atlassian.net/browse/CXV1-22304) - Reverting Allow Supervisor Toolbar to subscribe to messages without an active tenant	
+### Changed	
+- <no-jira> - Bump SDK version 9.7.4 -> 9.7.6. See SDK Changelog.
 
-## [4.87.6] - 2020-04-30
-### Fixed
-- [CXV1-22304](https://liveops.atlassian.net/browse/CXV1-22304) - Allow Supervisor Toolbar to subscribe to messages without an active tenant
-### Changed
+## [4.87.6] - 2020-04-30	
+### Fixed	
+- [CXV1-22304](https://liveops.atlassian.net/browse/CXV1-22304) - Allow Supervisor Toolbar to subscribe to messages without an active tenant	
+### Changed	
 - <no-jira> - Bump SDK version 9.7.3 -> 9.7.4. See SDK Changelog.
 
 ## [4.87.5] - 2020-04-24
