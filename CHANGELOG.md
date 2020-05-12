@@ -30,6 +30,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API Keys
 - Message Templates
 
+## [4.87.8] - 2020-05-12
+### Fixed
+- [CXV1-22423](https://liveops.atlassian.net/browse/CXV1-22423) - secureKey needs to be passed in as an option to the embeded app and not as a link parameter
+
 ## [4.87.7] - 2020-04-30	
 ### Fixed	
 - [CXV1-22304](https://liveops.atlassian.net/browse/CXV1-22304) - Reverting Allow Supervisor Toolbar to subscribe to messages without an active tenant	

@@ -77,7 +77,8 @@ angular.module('liveopsConfigPanel').controller('LogiAdvancedController', [
             .then(function(response) {
               EmbeddedReporting.create('ssmContainer', {
                 applicationUrl: response.data.logiBaseUrl,
-                linkParams: { rdSecurekey: response.data.secureToken, tenantID: Session.tenant.tenantId },
+                secureKey: response.data.secureToken,
+                linkParams: { tenantID: Session.tenant.tenantId },
                 report: 'InfoGo.goHome',
                 autoSizing: 'width'
               });
