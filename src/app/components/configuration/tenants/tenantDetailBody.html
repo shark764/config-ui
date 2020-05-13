@@ -187,7 +187,7 @@
     <div class="input-group">
       <label></label>
       <div>
-        <input ng-model="brandingForm.styles.productName" type="text" ng-disabled="(['PLATFORM_MANAGE_PRODUCT_NAME'] | hasPermission)"></input>
+        <input ng-model="brandingForm.styles.productName" type="text" ng-disabled="! (['PLATFORM_MANAGE_PRODUCT_NAME'] | hasPermission)"></input>
       </div>
     </div>
   </div>
