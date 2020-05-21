@@ -279,6 +279,20 @@ angular.module('liveopsConfigPanel')
               }
             });
           };
+
+          $scope.comparedTo = function(v1, v2) {
+            var tempArray = [];
+            tempArray = [v1.value, v2.value];
+
+            var collator = new Intl.Collator(undefined, {numeric: true, sensitivity: 'base'});
+            tempArray.sort(collator.compare);
+
+            if (tempArray[0] === v1.value) {
+                return -1;
+            } else {
+                return 1;
+            }
+          };
         }
       };
     }

@@ -30,6 +30,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API Keys
 - Message Templates
 
+## [4.87.10] - 2020-05-18
+### Fixed
+- [CXV1-17704](https://liveops.atlassian.net/browse/CXV1-17704) - Queues and Transfer List from Config UI aren't sort in alphabetical order.
+
 ## [4.87.9] - 2020-05-13
 ### Fixed
 - [CXV1-14033](https://liveops.atlassian.net/browse/CXV1-14033) - Product Name should be a read only field in the UI.

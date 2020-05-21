@@ -80,7 +80,7 @@
         selectedTableOptions:config.fields |
         search:config.searchOn:searchQuery |
         greaterOrLessThanFilter:config.greaterOrLessThan.path:greaterOrLessThan.comparison:greaterOrLessThan.value:greaterOrLessThan.unit.value |
-        orderBy:orderBy:reverseSortOrder))"
+        orderBy:orderBy:reverseSortOrder:comparedTo))"
       ng-init="item.$index = $index"
       ng-if="(item.customAttributes || (!item.customAttributes && !!isCustomAttrFieldsChecked && !!isAnyCustomAttributeChecked)) ? item.checked !== false : true"
       ng-class="{selected: item === selected, 'lo-highlight': item === selected}">
