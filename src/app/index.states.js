@@ -255,6 +255,38 @@ angular.module('liveopsConfigPanel').config([
           ]
         }
       })
+      .state('content.configuration.tenants2', {
+        url: '/tenants2?id',
+        title: 'Configuration - Tenant Management',
+        templateUrl: 'app/components/configuration/tenants2/tenants.html',
+        controller: 'tenantsController2',
+        reloadOnSearch: false,
+        resolve: {
+          hasPermission: [
+            'UserPermissions',
+            'PermissionGroups',
+            function(UserPermissions, PermissionGroups) {
+              return UserPermissions.resolvePermissions(PermissionGroups.viewTenants);
+            }
+          ]
+        },
+        params: {config2: true}
+      })
+      .state('content.beta', {	
+        url: '/early-access-features',	
+        title: 'Configuration - Early Access Features',	
+        templateUrl: 'app/components/configuration/betaFeatures/betaFeatures.html',	
+        controller: 'betaFeaturesController',	
+        resolve: {	
+          hasPermission: [	
+            'UserPermissions',	
+            'PermissionGroups',	
+            function(UserPermissions, PermissionGroups) {	
+              return UserPermissions.resolvePermissions(PermissionGroups.readAllMode);	
+            }	
+          ]	
+        }	
+      })
       .state('content.configuration.genericLists', {
         url: '/lists?id',
         title: 'Configuration - Lists',

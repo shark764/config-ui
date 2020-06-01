@@ -1,5 +1,5 @@
 <div ng-switch="Session.isAuthenticated()">
-  <nav id="topnav" class="clear lo-main-bg" ng-show="brandingIsSet">
+  <nav id="topnav" class="clear lo-main-bg" ng-show="checkedForBetaFeatures && brandingIsSet">
     <ul class="clear" ng-switch-when="true">
       <li>
         <a ng-href="#/" title="Home" id="logo">

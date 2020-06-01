@@ -73,59 +73,79 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
       var goTo = $state.current;
       var messageKey = '';
 
-      if ($state.includes('content.realtime-dashboards-management-editor')) {
-        goTo = 'content.custom-dashboards-management';
-      } else if ($state.includes('content.flows.editor')) {
-        goTo = 'content.flows.flowManagement';
-      } else if (
-        $state.includes('content.flows.dispatchMappings') ||
-        $state.includes('content.flows.dispatchMappingsOld')
-      ) {
-        goTo = 'content.flows.dispatchMappings';
-      } else if (
-        $state.includes('content.flows.flowManagement') ||
-        $state.includes('content.flows.flowManagementOld')
-      ) {
-        goTo = 'content.flows.flowManagement';
-      } else if ($state.includes('content.management.groups') || $state.includes('content.management.groupsOld')) {
-        goTo = 'content.management.groups';
-      } else if ($state.includes('content.management.roles') || $state.includes('content.management.rolesOld')) {
-        goTo = 'content.management.roles';
-      } else if ($state.includes('content.management.skills') || $state.includes('content.management.skillsOld')) {
-        goTo = 'content.management.skills';
-      } else if ($state.includes('content.management.users') || $state.includes('content.management.usersOld')) {
-        goTo = 'content.management.users';
-      } else if ($state.includes('content.configuration.keys') || $state.includes('content.configuration.keysOld')) {
-        goTo = 'content.configuration.keys';
-      } else if ($state.includes('content.configuration.hours') || $state.includes('content.configuration.hoursOld')) {
-        goTo = 'content.configuration.hours';
-      } else if (
-        $state.includes('content.configuration.messageTemplates') ||
-        $state.includes('content.configuration.messageTemplatesOld')
-      ) {
-        goTo = 'content.configuration.messageTemplates';
-      } else if ($state.includes('content.management.reasons') || $state.includes('content.management.reasonsOld')) {
-        goTo = 'content.management.reasons';
-      } else if (
-        $state.includes('content.management.reasonLists') ||
-        $state.includes('content.management.reasonListsOld')
-      ) {
-        goTo = 'content.management.reasonLists';
-      } else if (
-        $state.includes('content.configuration.transferLists') ||
-        $state.includes('content.configuration.transferListsOld')
-      ) {
-        goTo = 'content.configuration.transferLists';
-      } else if ($state.includes('content.flows.dispositions') || $state.includes('content.flows.dispositionsOld')) {
-        goTo = 'content.flows.dispositions';
-      } else if (
-        $state.includes('content.flows.dispositionLists') ||
-        $state.includes('content.flows.dispositionListsOld')
-      ) {
-        goTo = 'content.flows.dispositionLists';
-      }
+      $http({
+        method: 'GET',
+        url: apiHostname + '/v1/tenants/' + Session.tenant.tenantId + '/settings/betaFeatures/value',
+        headers: {
+          Authorization: 'Token ' + Session.token
+        }
+      }).then(function (data) {
+        var newBetaFeatures = data.data.result;
 
-      $state.go(goTo, { id: null, messageKey: messageKey }, { reload: true, inherit: false });
+        if ($state.includes('content.realtime-dashboards-management-editor')) {
+          goTo = 'content.custom-dashboards-management';
+        } else if ($state.includes('content.flows.editor')) {
+          goTo = 'content.flows.flowManagement';
+        } else if (
+          $state.includes('content.flows.dispatchMappings') ||
+          $state.includes('content.flows.dispatchMappingsOld')
+        ) {
+          goTo = 'content.flows.dispatchMappings';
+        } else if (
+          $state.includes('content.flows.flowManagement') ||
+          $state.includes('content.flows.flowManagementOld')
+        ) {
+          goTo = 'content.flows.flowManagement';
+        } else if ($state.includes('content.management.groups') || $state.includes('content.management.groupsOld')) {
+          goTo = 'content.management.groups';
+        } else if ($state.includes('content.management.roles') || $state.includes('content.management.rolesOld')) {
+          goTo = 'content.management.roles';
+        } else if ($state.includes('content.management.skills') || $state.includes('content.management.skillsOld')) {
+          goTo = 'content.management.skills';
+        } else if ($state.includes('content.management.users') || $state.includes('content.management.usersOld')) {
+          goTo = 'content.management.users';
+        } else if ($state.includes('content.configuration.keys') || $state.includes('content.configuration.keysOld')) {
+          goTo = 'content.configuration.keys';
+        } else if ($state.includes('content.configuration.hours') || $state.includes('content.configuration.hoursOld')) {
+          goTo = 'content.configuration.hours';
+        } else if (
+          $state.includes('content.configuration.messageTemplates') ||
+          $state.includes('content.configuration.messageTemplatesOld')
+        ) {
+          goTo = 'content.configuration.messageTemplates';
+        } else if ($state.includes('content.management.reasons') || $state.includes('content.management.reasonsOld')) {
+          goTo = 'content.management.reasons';
+        } else if (
+          $state.includes('content.management.reasonLists') ||
+          $state.includes('content.management.reasonListsOld')
+        ) {
+          goTo = 'content.management.reasonLists';
+        } else if (
+          $state.includes('content.configuration.transferLists') ||
+          $state.includes('content.configuration.transferListsOld')
+        ) {
+          goTo = 'content.configuration.transferLists';
+        } else if ($state.includes('content.flows.dispositions') || $state.includes('content.flows.dispositionsOld')) {
+          goTo = 'content.flows.dispositions';
+        } else if (
+          $state.includes('content.flows.dispositionLists') ||
+          $state.includes('content.flows.dispositionListsOld')
+        ) {
+          goTo = 'content.flows.dispositionLists';
+        } else if ($state.includes('content.configuration.tenants') || $state.includes('content.configuration.tenants2')) {
+          goTo = newBetaFeatures.tenants ? 'content.configuration.tenants2' : 'content.configuration.tenants';
+          messageKey = newBetaFeatures.tenants
+            ? 'permissions.betaFeatures.enabled.message'
+            : 'permissions.betaFeatures.disabled.message';
+        } else if ($state.includes('content.configuration.integrations') || $state.includes('content.configuration.integrations2')) {
+          goTo = newBetaFeatures.integrations ? 'content.configuration.integrations2' : 'content.configuration.integrations';
+          messageKey = newBetaFeatures.integrations
+            ? 'permissions.betaFeatures.enabled.message'
+            : 'permissions.betaFeatures.disabled.message';
+        }
+
+        $state.go(goTo, { id: null, messageKey: messageKey }, { reload: true, inherit: false });
+      });
     }
 
     function switchTenant(targetSessionTenant) {
@@ -294,6 +314,16 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
         }
       ];
 
+      if (UserPermissions.hasPermissionInList(PermissionGroups.betaFeatures) && !isTenantSetForReadAllMode()) {
+        items.push({
+          label: ' Early Access Features',
+          onClick: function () {
+            $state.transitionTo('content.beta');
+          },
+          iconClass: 'fa fa-exclamation'
+        });
+      }
+
       return items;
     }
 
@@ -344,6 +374,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
       $scope.currentTenantNavbarConfig = null;
       $scope.updateTopbarConfig();
     });
+    $scope.checkedForBetaFeatures = false;
     $scope.brandingIsSet = false;
 
     $rootScope.$on(loEvents.session.tenants.updated, function() {
@@ -443,7 +474,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
       if (UserPermissions.hasPermissionInList(PermissionGroups.viewTenants)) {
         items.push({
           label: $translate.instant('navbar.configuration.tenants.title'),
-          stateLink: 'content.configuration.tenants',
+          stateLink: Session.betaFeatures.tenants && !isActiveExternalTenant ? 'content.configuration.tenants2' : 'content.configuration.tenants',
           id: 'tenants-configuration-link',
           order: 1
         });
@@ -461,7 +492,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
       if (UserPermissions.hasPermissionInList(PermissionGroups.viewIntegrations)) {
         items.push({
           label: $translate.instant('navbar.configuration.integrations.title'),
-          stateLink: 'content.configuration.integrations',
+          stateLink: Session.betaFeatures.integrations && !isActiveExternalTenant ? 'content.configuration.integrations2' : 'content.configuration.integrations',
           id: 'integrations-configuration-link',
           order: 3
         });
@@ -822,10 +853,10 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
       $scope.userDropdownItems = getUserDropdownItems();
     };
 
-    $scope.updateBranding = function() {
+    $scope.updateBranding = function(tenantId) {
       Branding.get(
         {
-          tenantId: Session.tenant.tenantId
+          tenantId: tenantId ? tenantId : Session.tenant.tenantId
         },
         function(response) {
           if (response.active) {
@@ -840,7 +871,51 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
       );
     };
 
-    $scope.updateBranding();
-    $scope.updateTopbarConfig();
+    Session.betaFeatures = {};
+    $http({
+      method: 'GET',
+      url: apiHostname + '/v1/tenants/' + Session.tenant.tenantId + '/settings/betaFeatures/value',
+      headers: {
+        Authorization: 'Token ' + Session.token
+      }
+    })
+      .then(function (data) {
+        Session.betaFeatures = data.data.result;
+        $scope.checkedForBetaFeatures = true;
+
+        $scope.updateBranding();
+        $scope.updateTopbarConfig();
+      })
+      .catch(function (error) {
+        console.error(error);
+      });
+
+    $rootScope.$on('tenantBrandingUpdated', function (event, tenantId) {
+      if(Session.tenant.tenantId === tenantId) {
+        $scope.updateBranding(tenantId);
+      }
+    });
+
+    $rootScope.$on('switchTenant', function (event, tenantId, tenantName) {
+
+      Session.setTenant({
+        tenantId: tenantId,
+        tenantName: tenantName + ' *',
+        tenantPermissions: PermissionGroups.readAllMode
+      });
+
+      if ($scope.currentTenantNavbarConfig !== null) {
+        var tenantDropdownItems = $scope.tenantDropdownItems;
+        tenantDropdownItems.push($scope.currentTenantNavbarConfig);
+        $scope.tenantDropdownItems = tenantDropdownItems;
+      }
+      $scope.currentTenantNavbarConfig = null;
+      $scope.updateTopbarConfig();
+      $scope.updateBranding(tenantId);
+
+      // Removing impersonate tenant data from sessionStorage
+      // when setting tenant as active
+      sessionStorage.removeItem('LOGI-USER-IMPERSONATE');
+    });
   }
 ]);

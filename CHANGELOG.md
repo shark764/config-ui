@@ -30,6 +30,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API Keys
 - Message Templates
 
+## [4.88.0] - 2020-05-25
+### Fixed
+- CXV1-18405 - Add Tenants and Integrations pages as early access pages.
+
 ## [4.87.10] - 2020-05-18
 ### Fixed
 - [CXV1-17704](https://liveops.atlassian.net/browse/CXV1-17704) - Queues and Transfer List from Config UI aren't sort in alphabetical order.

@@ -266,7 +266,7 @@ angular.module('liveopsConfigPanel').directive('sdkListener', [
                 event.source.postMessage(
                   {
                     topic: 'urlParamUpdated',
-                    response: $location.search().id,
+                    response: event.data.entityId !== $location.search().id ? $location.search().id : undefined,
                     messageId: event.data.messageId
                   },
                   '*'
@@ -274,7 +274,7 @@ angular.module('liveopsConfigPanel').directive('sdkListener', [
               } else if (event.data.module === 'setDirtyFormIdInSessionStorage') {
                 var existingStorageItems = JSON.parse(sessionStorage.getItem('REDUX_DIRTY_FORM'));
                 var updatedItems = existingStorageItems ? existingStorageItems : {};
-                updatedItems[event.data.formId]= true;
+                updatedItems[event.data.formId] = true;
 
                 sessionStorage.setItem('REDUX_DIRTY_FORM', JSON.stringify(updatedItems));
                 event.source.postMessage(
@@ -319,7 +319,12 @@ angular.module('liveopsConfigPanel').directive('sdkListener', [
                     '*'
                   );
                 }
-              } else if (event.data.module !== undefined) {
+              } else if (event.data.module === 'tenantBrandingUpdated') {
+                $rootScope.$emit('tenantBrandingUpdated', event.data.tenantId);
+              } else if (event.data.module === 'switchTenant') {
+                $rootScope.$emit('switchTenant', event.data.tenantId, event.data.tenantName);
+              }
+              else if (event.data.module !== undefined) {
                 console.log('[SDK Listener] Asking the SDK for:', event.data);
                 if (CxEngage[event.data.module][event.data.command] === undefined) {
                   CxEngage.api[event.data.crudAction](
