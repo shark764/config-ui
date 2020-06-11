@@ -30,6 +30,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API Keys
 - Message Templates
 
+## [4.88.1] - 2020-06-09
+### Fixed
+- <no-Jira> - Bump sdk to version 9.9.1
+
 ## [4.88.0] - 2020-05-25
 ### Fixed
 - CXV1-18405 - Add Tenants and Integrations pages as early access pages.
