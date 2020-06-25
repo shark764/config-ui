@@ -326,7 +326,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
         }
       ];
 
-      if (UserPermissions.hasPermissionInList(PermissionGroups.betaFeatures) && !isTenantSetForReadAllMode()) {
+      if (UserPermissions.hasPermissionInList(PermissionGroups.betaFeatures)) {
         items.push({
           label: ' Early Access Features',
           onClick: function () {
@@ -335,7 +335,6 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
           iconClass: 'fa fa-exclamation'
         });
       }
-
       return items;
     }
 
@@ -384,7 +383,9 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
         $scope.tenantDropdownItems = tenantDropdownItems;
       }
       $scope.currentTenantNavbarConfig = null;
-      $scope.updateTopbarConfig();
+      
+      getBetaFeatures();
+      //$scope.updateTopbarConfig();
     });
     $scope.checkedForBetaFeatures = false;
     $scope.brandingIsSet = false;
@@ -750,15 +751,18 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
         });
 
         // Grouping historical dashboards with realtime for now. Need to find out why there's no historical dashboards permissions
-        items.push({
-          label: $translate.instant('navbar.reports.hd.title'),
-          stateLink: 'content.reports',
-          stateLinkParams: {
-            id: 'historical-dashboards'
-          },
-          id: 'reports-management-link',
-          order: 3
-        });
+
+        if(Session.betaFeatures.birst !== true){
+          items.push({
+            label: $translate.instant('navbar.reports.hd.title'),
+            stateLink: 'content.reports',
+            stateLinkParams: {
+              id: 'historical-dashboards'
+            },
+            id: 'reports-management-link',
+            order: 3
+          });
+        }
       }
 
       if (UserPermissions.hasPermissionInList(PermissionGroups.viewDashboards)) {
@@ -883,33 +887,40 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
       );
     };
 
-    Session.betaFeatures = {};
-    $http({
-      method: 'GET',
-      url: apiHostname + '/v1/tenants/' + Session.tenant.tenantId + '/settings/betaFeatures/value',
-      headers: {
-        Authorization: 'Token ' + Session.token
-      }
-    })
-      .then(function (data) {
-        Session.betaFeatures = data.data.result;
-        $scope.checkedForBetaFeatures = true;
-
-        $scope.updateBranding();
-        $scope.updateTopbarConfig();
+    function getBetaFeatures(){
+      Session.betaFeatures = {};
+      $http({
+        method: 'GET',
+        url: apiHostname + '/v1/tenants/' + Session.tenant.tenantId + '/settings/betaFeatures/value',
+        headers: {
+          Authorization: 'Token ' + Session.token
+        }
       })
-      .catch(function (error) {
-        $scope.checkedForBetaFeatures = true;
-        $scope.updateBranding();
-        $scope.updateTopbarConfig();
-        console.error(error);
-      });
+        .then(function (data) {
+          Session.betaFeatures = data.data.result;
+          $scope.checkedForBetaFeatures = true;
+
+          $scope.updateBranding();
+          $scope.updateTopbarConfig();
+        })
+        .catch(function (error) {
+          $scope.checkedForBetaFeatures = true;
+          $scope.updateBranding();
+          $scope.updateTopbarConfig();
+          console.error(error);
+        });
+    };
+
+    getBetaFeatures();
+
+    
 
     $rootScope.$on('tenantBrandingUpdated', function (event, tenantId) {
       if (Session.tenant.tenantId === tenantId) {
         $scope.updateBranding(tenantId);
       }
     });
+
 
     $rootScope.$on('switchTenant', function (event, tenantId, tenantName) {
 
@@ -925,6 +936,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
         $scope.tenantDropdownItems = tenantDropdownItems;
       }
       $scope.currentTenantNavbarConfig = null;
+      
       $scope.updateTopbarConfig();
       $scope.updateBranding(tenantId);
 

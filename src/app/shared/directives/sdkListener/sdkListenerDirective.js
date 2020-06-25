@@ -323,6 +323,10 @@ angular.module('liveopsConfigPanel').directive('sdkListener', [
                 $rootScope.$emit('tenantBrandingUpdated', event.data.tenantId);
               } else if (event.data.module === 'switchTenant') {
                 $rootScope.$emit('switchTenant', event.data.tenantId, event.data.tenantName);
+                $rootScope.$emit('readAllMode');
+                // Removing impersonate tenant data from sessionStorage
+                // when setting tenant as active
+                sessionStorage.removeItem('LOGI-USER-IMPERSONATE');
               }
               else if (event.data.module !== undefined) {
                 console.log('[SDK Listener] Asking the SDK for:', event.data);
