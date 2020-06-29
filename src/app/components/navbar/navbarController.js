@@ -749,10 +749,11 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
           id: 'realtime-dashboard-link',
           order: 1
         });
+      }
 
         // Grouping historical dashboards with realtime for now. Need to find out why there's no historical dashboards permissions
-
-        if(Session.betaFeatures.birst !== true){
+      if (UserPermissions.hasPermissionInList(PermissionGroups.viewAssignedReports) || UserPermissions.hasPermissionInList(PermissionGroups.accessAllTenants)) {
+        if(Session.betaFeatures.birst === true){
           items.push({
             label: $translate.instant('navbar.reports.hd.title'),
             stateLink: 'content.reports',
