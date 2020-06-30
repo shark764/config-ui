@@ -30,6 +30,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API Keys
 - Message Templates
 
+## [4.88.4] - 2020-06-30
+### Fixed
+- <no-Jira> - Bump sdk to version 9.9.3
+
 ## [4.88.3] - 2020-06-28
 ### Fixed
 - <CXV1-22758> -  Changed behaviour to *add* Birst Link based on beta feature toggle
