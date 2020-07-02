@@ -639,7 +639,7 @@ angular.module('liveopsConfigPanel').config([
           hasPermission: [
             'UserPermissions',
             function(UserPermissions) {
-              return UserPermissions.resolvePermissions(['VIEW_ALL_MESSAGE_TEMPLATES']);
+              return UserPermissions.resolvePermissions(['VIEW_ALL_MESSAGE_TEMPLATES', 'PLATFORM_VIEW_ALL']);
             }
           ]
         },
