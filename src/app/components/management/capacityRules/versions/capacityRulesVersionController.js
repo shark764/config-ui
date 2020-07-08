@@ -1,8 +1,9 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('CapacityRulesVersionsController', ['$scope', 'Session', 'CapacityRuleVersion',
-    function($scope, Session, CapacityRuleVersion) {
+  .controller('CapacityRulesVersionsController', ['$rootScope', '$scope', 'Session', 'CapacityRuleVersion',
+    function($rootScope, $scope, Session, CapacityRuleVersion) {
+      $scope.forms = {};
 
       function getDefaultVersion(){
         return new CapacityRuleVersion({
@@ -21,6 +22,23 @@ angular.module('liveopsConfigPanel')
       $scope.addVersion = function(){
         $scope.selectedVersion = getDefaultVersion();
         $scope.createNewVersion = true;
+      };
+
+      $rootScope.isVersionFormDirty = function() {
+        if ($scope.forms.createVersionForm) {
+            return $scope.forms.createVersionForm.$dirty;
+        } else {
+            return false;
+        }
+      };
+
+      $rootScope.resetVersionForm = function(){
+        $scope.forms.createVersionForm.$setUntouched();
+        $scope.forms.createVersionForm.$setPristine();
+        $scope.forms.createVersionForm.$dirty = false;
+
+        $scope.selectedVersion = null;
+        $scope.createNewVersion = false;
       };
 
       $scope.saveVersion = function() {

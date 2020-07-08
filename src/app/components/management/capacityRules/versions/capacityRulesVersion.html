@@ -3,10 +3,10 @@
     <h4>{{'flow.details.versions.create.title' | translate }}</h4>
   </div>
 
-  <ng-form name="createVersionForm" separate-validation lo-form-submit unsaved-changes-warning>
+  <ng-form name="forms.createVersionForm" separate-validation lo-form-submit unsaved-changes-warning>
     <div class="input-group">
       <label>{{'value.name' | translate}} *</label>
-      <form-error field="createVersionForm.name" error-type-required="{{'value.error.name.required' | translate}}"></form-error>
+      <form-error field="forms.createVersionForm.name" error-type-required="{{'value.error.name.required' | translate}}"></form-error>
       <input ng-required="true" type="text" ng-model="selectedVersion.name" name="name"></input>
     </div>
 
@@ -27,7 +27,7 @@
     <div class="flow-controls input-group">
       <input id="cancel-flow-version-btn" type="button" ng-click="hideCreateNew()" class="btn" value="{{'value.cancel' | translate}}" />
       <input id="create-flow-version-btn" type="submit" class="btn btn-primary"
-        ng-disabled="(createVersionForm.$invalid || !createVersionForm.$dirty || createVersionForm.ruleSet.$invalid)"
+        ng-disabled="(forms.createVersionForm.$invalid || !forms.createVersionForm.$dirty || forms.createVersionForm.ruleSet.$invalid)"
         lo-submit="saveVersion()" value="{{ 'value.create' | translate }}"/>
     </div>
   </ng-form>

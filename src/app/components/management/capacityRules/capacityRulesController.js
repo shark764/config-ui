@@ -1,10 +1,11 @@
 'use strict';
 
 angular.module('liveopsConfigPanel')
-  .controller('CapacityRulesController', ['$scope', 'Session', 'CapacityRule', 'CapacityRuleVersion', 'capacityRulesTableConfig', 'loEvents',
-    function($scope, Session, CapacityRule, CapacityRuleVersion, capacityRulesTableConfig, loEvents) {
+  .controller('CapacityRulesController', ['$rootScope', '$scope', 'Session', 'CapacityRule', 'CapacityRuleVersion', 'capacityRulesTableConfig', 'Modal', '$translate', 'Alert', 'loEvents',
+    function($rootScope, $scope, Session, CapacityRule, CapacityRuleVersion, capacityRulesTableConfig, Modal, $translate, Alert, loEvents) {
       $scope.Session = Session;
       $scope.tableConfig = capacityRulesTableConfig;
+      $scope.forms = {};
 
       $scope.getVersions = function() {
         if (!$scope.selectedCapacityRule || $scope.selectedCapacityRule.isNew()) {
@@ -48,8 +49,40 @@ angular.module('liveopsConfigPanel')
       };
 
       $scope.submit = function() {
-        return $scope.selectedCapacityRule.save();
+        return $scope.selectedCapacityRule.save()
+        .then(function(capacityRule) {
+            if (capacityRule.updated === null) {
+                Alert.success($translate.instant('value.saveSuccessCreate'));
+            } else {
+                Alert.success($translate.instant('value.saveSuccess'));
+            }
+
+            $scope.forms.detailsForm.$setUntouched();
+            $scope.forms.detailsForm.$setPristine();
+            $scope.forms.detailsForm.$dirty = false;
+        });
       };
 
+      $scope.confirmCancel = function() {
+        if (($scope.forms.detailsForm && $scope.forms.detailsForm.$dirty) || $rootScope.isVersionFormDirty()) {
+            return Modal.showConfirm({
+                message: $translate.instant('unsavedchanges.nav.warning'),
+                okCallback: reset
+            });
+        } else {
+            reset();
+        }
+      };
+
+      function reset() {
+        if ($rootScope.isVersionFormDirty()) {
+            $rootScope.resetVersionForm();
+        }
+
+        $scope.forms.detailsForm.$setUntouched();
+        $scope.forms.detailsForm.$setPristine();
+        $scope.selectedCapacityRule = null;
+        $scope.forms.detailsForm.$dirty = false;
+      }
     }
   ]);

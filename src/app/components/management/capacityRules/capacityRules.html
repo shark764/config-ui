@@ -38,7 +38,6 @@
     ng-model="selectedCapacityRule"
     ng-resource="selectedCapacityRule"
     lo-form-submit
-    lo-form-cancel
     lo-form-alert>
 
     <ng-form name="forms.headerForm" separate-validation>
@@ -54,11 +53,11 @@
     <div class="detail-controls">
       <input id="cancel-details-btn" type="button" class="btn"
         value="{{'value.cancel' | translate}}"
-        lo-cancel>
+        ng-click="confirmCancel()">
       </input>
       <input id="submit-details-btn" class="btn btn-primary"
         type="submit" value="{{'value.submit' | translate}}"
-        ng-disabled="forms.detailsForm.$invalid || ! forms.detailsForm.$dirty"
+        ng-disabled="forms.detailsForm.$invalid || !forms.detailsForm.$dirty"
         lo-submit="submit()"
         lo-submit-spinner
         lo-submit-spinner-status="selectedCapacityRule.$busy">

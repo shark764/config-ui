@@ -30,6 +30,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API Keys
 - Message Templates
 
+## [4.88.6] - 2020-07-06
+### Fixed
+- [CXV1-22105](https://liveops.atlassian.net/browse/CXV1-22105) - Incorrect unsaved chages warning when using capacity rules
+
 ## [4.88.5] - 2020-07-02
 ### Fixed
 - [CXV1-17519](https://liveops.atlassian.net/browse/CXV1-17519) - Allow user with PLATFORM_VIEW_ALL permissions to view all config-ui pages
