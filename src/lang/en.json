@@ -349,7 +349,7 @@
   "user.details.getUserAuthSettings.fail": "Sorry! We were unable to get this user's authentication settings.",
   "user.details.reporting.header": "Reporting Settings",
   "user.details.reporting.setAsImpersonated": "Manage reports on behalf of this user",
-  "user.details.reporting.impersonated": "This Tenant User has been setted as impersonated for reporting.",
+  "user.details.reporting.impersonated": "This Tenant User has been impersonated for reporting.",
   "user.details.reporting.impersonate.warning": "This will only impersonate this Tenant User for Reporting purpose. When session ends or switching to another tenant, you will use your active Tenant again.",
   "users.details.capacityRule.select": "Select a capacity rule",
   "users.details.capacityRule.inactive": "Inactive",
