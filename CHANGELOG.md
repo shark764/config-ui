@@ -30,6 +30,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API Keys
 - Message Templates
 
+## [4.88.8] - 2020-07-21
+### Fixed
+- [CXV1-13650](https://liveops.atlassian.net/browse/CXV1-13650) - Config UI - "Please enter a password" needs updated
+
 ## [4.88.7] - 2020-07-13
 ### Fixed
 - [CXV1-22458](https://liveops.atlassian.net/browse/CXV1-22458) - Impersonation banner needs updated
