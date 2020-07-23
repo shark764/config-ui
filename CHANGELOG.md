@@ -30,6 +30,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API Keys
 - Message Templates
 
+## [4.88.10] - 2020-07-21
+### Fixed
+- [CXV1-16289](https://liveops.atlassian.net/browse/CXV1-16289) - Realtime - Resource Dashboard - Agent Hold Time displayed twice under different names.
+
 ## [4.88.9] - 2020-07-16
 ### Fixed
 - [CXV1-12866](https://liveops.atlassian.net/browse/CXV1-12866) - Real Time Dashboard In Queue Time reset to 00:00:00.
