@@ -30,6 +30,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API Keys
 - Message Templates
 
+## [4.88.11] - 2020-07-23
+### Fixed
+- [CXV1-16682](https://liveops.atlassian.net/browse/CXV1-16682) - Realtime dashboard source switcher Agent and Queue list ordering is case sensitive where all uppercase show before all lowercase.
+
 ## [4.88.10] - 2020-07-21
 ### Fixed
 - [CXV1-16289](https://liveops.atlassian.net/browse/CXV1-16289) - Realtime - Resource Dashboard - Agent Hold Time displayed twice under different names.
