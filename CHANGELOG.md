@@ -30,6 +30,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API Keys
 - Message Templates
 
+## [4.89.0] - 2020-07-31
+### Fixed
+- [CXV1-20166](https://liveops.atlassian.net/browse/CXV1-20166) - Add contact-layouts & contact-attributes config2 entity pages to navbar.
+
 ## [4.88.11] - 2020-07-23
 ### Fixed
 - [CXV1-16682](https://liveops.atlassian.net/browse/CXV1-16682) - Realtime dashboard source switcher Agent and Queue list ordering is case sensitive where all uppercase show before all lowercase.

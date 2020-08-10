@@ -409,8 +409,8 @@ angular.module('liveopsConfigPanel').config([
       .state('content.configuration.contactAttributes', {
         url: '/contactAttributes?id',
         title: 'Configuration - Contact Attribute Management',
-        templateUrl: 'app/components/configuration/contactAttributes/contactAttributes.html',
-        controller: 'contactAttributesController as cac',
+        templateUrl: 'app/components/configuration/contactAttributes2/contactAttributes.html',
+        controller: 'contactAttributesController2',
         reloadOnSearch: false,
         resolve: {
           hasPermission: [
@@ -420,13 +420,14 @@ angular.module('liveopsConfigPanel').config([
               return UserPermissions.resolvePermissions(PermissionGroups.viewContactAttributes);
             }
           ]
-        }
+        },
+        params: {config2: true}
       })
       .state('content.configuration.contactLayouts', {
         url: '/contactLayouts?id',
         title: 'Configuration - Contact Layout Management',
-        templateUrl: 'app/components/configuration/contactLayouts/contactLayouts.html',
-        controller: 'contactLayoutsController as clc',
+        templateUrl: 'app/components/configuration/contactLayouts2/contactLayouts.html',
+        controller: 'contactLayoutsController2',
         reloadOnSearch: false,
         resolve: {
           hasPermission: [
@@ -436,7 +437,8 @@ angular.module('liveopsConfigPanel').config([
               return UserPermissions.resolvePermissions(PermissionGroups.viewContactLayouts);
             }
           ]
-        }
+        },
+        params: {config2: true}
       })
       .state('content.configuration.code', {
         url: '/code',
