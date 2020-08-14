@@ -28,56 +28,56 @@ angular.module('liveopsConfigPanel').directive('sdkListener', [
                   CxEngage.session.setActiveTenant({ tenantId: Session.tenant.tenantId, noSession: true });
                 }
             }
-            if (CxEngage.session.getActiveTenantId()) {
-              if (event.data.module === 'subscribe') {
-                var subscribedTenant = CxEngage.session.getActiveTenantId();
-                window.cxSubscriptions[event.data.command + subscribedTenant] = CxEngage.subscribe(
-                  event.data.command,
-                  function (error, topic, response) {
-                    if (
-                      location.hash.indexOf('#/reporting/interactionMonitoring') < 0 &&
-                      location.hash.indexOf('#/reporting/agentStateMonitoring') < 0 &&
-                      event.data.command === 'cxengage/reporting/batch-response'
-                    ) {
-                      CxEngage.unsubscribe(window.cxSubscriptions[event.data.command + subscribedTenant]);
-                    }
-                    if (location.hash.indexOf('#/reporting/interactionMonitoring') < 0) {
-                      CxEngage.reporting.removeStatSubscription({ statId: 'interactions-in-conversation-list' });
-                    }
-                    if (location.hash.indexOf('#/reporting/agentStateMonitoring') < 0) {
-                      CxEngage.reporting.bulkRemoveStatSubscription({
-                        statIds: ['resource-capacity', 'resource-state-list']
-                      });
-                    }
-
-                    try {
-                      if (event.source !== undefined) {
-                        event.source.postMessage(
-                          {
-                            subscription: {
-                              error: error,
-                              topic: topic,
-                              response: response,
-                              messageId: event.data.messageId
-                            }
-                          },
-                          '*'
-                        );
-                      }
-                    } catch (error) {
-                      console.warn(
-                        'Cannot find original requestor iframe for subscription: ',
-                        event.data.command + ' for tenant id ' + subscribedTenant
-                      );
-                      Alert.error($translate.instant('navbar.reports.agentStateMonitoring.subscription.fail'));
-                      CxEngage.unsubscribe(window.cxSubscriptions[event.data.command + subscribedTenant]);
-                      CxEngage.reporting.bulkRemoveStatSubscription({
-                        statIds: ['resource-capacity', 'resource-state-list', 'interactions-in-conversation-list']
-                      });
-                    }
+            if (event.data.module === 'subscribe') {
+              var subscribedTenant = CxEngage.session.getActiveTenantId() ? CxEngage.session.getActiveTenantId() : Session.tenant.tenantId;
+              window.cxSubscriptions[event.data.command + subscribedTenant] = CxEngage.subscribe(
+                event.data.command,
+                function (error, topic, response) {
+                  if (
+                    location.hash.indexOf('#/reporting/interactionMonitoring') < 0 &&
+                    location.hash.indexOf('#/reporting/agentStateMonitoring') < 0 &&
+                    event.data.command === 'cxengage/reporting/batch-response'
+                  ) {
+                    CxEngage.unsubscribe(window.cxSubscriptions[event.data.command + subscribedTenant]);
                   }
-                );
-              } else if (event.data.module === 'monitorCall') {
+                  if (location.hash.indexOf('#/reporting/interactionMonitoring') < 0) {
+                    CxEngage.reporting.removeStatSubscription({ statId: 'interactions-in-conversation-list' });
+                  }
+                  if (location.hash.indexOf('#/reporting/agentStateMonitoring') < 0) {
+                    CxEngage.reporting.bulkRemoveStatSubscription({
+                      statIds: ['resource-capacity', 'resource-state-list']
+                    });
+                  }
+
+                  try {
+                    if (event.source !== undefined) {
+                      event.source.postMessage(
+                        {
+                          subscription: {
+                            error: error,
+                            topic: topic,
+                            response: response,
+                            messageId: event.data.messageId
+                          }
+                        },
+                        '*'
+                      );
+                    }
+                  } catch (error) {
+                    console.warn(
+                      'Cannot find original requestor iframe for subscription: ',
+                      event.data.command + ' for tenant id ' + subscribedTenant
+                    );
+                    Alert.error($translate.instant('navbar.reports.agentStateMonitoring.subscription.fail'));
+                    CxEngage.unsubscribe(window.cxSubscriptions[event.data.command + subscribedTenant]);
+                    CxEngage.reporting.bulkRemoveStatSubscription({
+                      statIds: ['resource-capacity', 'resource-state-list', 'interactions-in-conversation-list']
+                    });
+                  }
+                }
+              );
+            } else if (CxEngage.session.getActiveTenantId()) {
+              if (event.data.module === 'monitorCall') {
                 if (!tenantIsSet) {
                   CxEngage.session.setActiveTenant({
                     tenantId: CxEngage.session.getActiveTenantId(),
@@ -88,8 +88,6 @@ angular.module('liveopsConfigPanel').directive('sdkListener', [
                 var silentMonitorCall = function (event) {
                   if (CxEngage.interactions.voice) {
                     var monitoredInteraction = CxEngage.session.getMonitoredInteraction();
-                    var defaultExtensionProvider = CxEngage.session.getDefaultExtension().provider;
-
                     if (monitoredInteraction === null) {
                       document.getElementById('supervisorToolbar').contentWindow.postMessage(
                         {
@@ -97,8 +95,8 @@ angular.module('liveopsConfigPanel').directive('sdkListener', [
                             topic: 'monitorCall',
                             response: {
                               interactionId: event.data.data.interactionId,
+                              chosenExtension: event.data.data.chosenExtension,
                               status: 'startingSession',
-                              defaultExtensionProvider: defaultExtensionProvider,
                               transitionCall: false
                             },
                             messageId: event.data.messageId
@@ -119,7 +117,6 @@ angular.module('liveopsConfigPanel').directive('sdkListener', [
                                 response: {
                                   interactionId: event.data.data.interactionId,
                                   status: 'startingSession',
-                                  defaultExtensionProvider: defaultExtensionProvider,
                                   transitionCall: true
                                 },
                                 messageId: event.data.messageId

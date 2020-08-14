@@ -807,15 +807,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
           });
         }
       }
-
-      if (UserPermissions.hasPermissionInList(PermissionGroups.viewInteractionMonitoring)) {
-        items.push({
-          label: $translate.instant('navbar.reports.silentMonitoring.title'),
-          stateLink: 'content.reporting.silentMonitoring',
-          id: 'silent-monitoring-link',
-          order: 6
-        });
-      }
+      
       if (UserPermissions.hasPermissionInList(PermissionGroups.viewInteractionMonitoring)) {
         items.push({
           label: $translate.instant('navbar.reports.interactionMonitoring.title'),
