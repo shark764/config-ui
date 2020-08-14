@@ -11,15 +11,15 @@
 
     <form id="user-form" name="userForm"
       separate-validation
-      ng-model="tenantUser"
-      ng-resource="tenantUser"
+      ng-model="userData"
+      ng-resource="userData"
       lo-form-submit
       lo-form-alert>
 
       <div>
         <label>{{'details.email' | translate}}</label>
         <div>
-          <input readonly ng-disabled="true" ng-model="tenantUser.$user.email" name="email" type="text"></input>
+          <input readonly ng-disabled="true" ng-model="userData.email" name="email" type="text"></input>
         </div>
       </div>
       <div>
@@ -27,7 +27,7 @@
         <div>
           <form-error field="userForm.firstName"
             error-type-required="{{'details.firstName.error' | translate}}"></form-error>
-          <input ng-required="true" ng-model="tenantUser.$user.firstName" name="firstName" type="text"></input>
+          <input ng-required="true" ng-model="userData.firstName" name="firstName" type="text"></input>
         </div>
       </div>
       <div>
@@ -35,7 +35,7 @@
         <div>
           <form-error field="userForm.lastName"
             error-type-required="{{'details.lastName.error' | translate}}"></form-error>
-          <input ng-required="true" ng-model="tenantUser.$user.lastName" name="lastName" type="text"></input>
+          <input ng-required="true" ng-model="userData.lastName" name="lastName" type="text"></input>
         </div>
       </div>
       <div ng-show="resettingPassword || userForm.currentPassword.$error.api">
@@ -46,7 +46,7 @@
           </form-error>
 
           <input autocomplete="off" name="currentPassword" type="password"
-            ng-model="tenantUser.$user.currentPassword"
+            ng-model="userData.currentPassword"
             ng-required="userForm.currentPassword.$dirty && userForm.currentPassword.$invalid"/>
         </div>
       </div>
@@ -64,7 +64,7 @@
           </form-error>
 
           <input autocomplete="off" name="newPassword" type="password"
-                 ng-model="tenantUser.$user.password"
+                 ng-model="userData.password"
                  ng-show="resettingPassword || userForm.newPassword.$error.api"
                  ng-required="userForm.newPassword.$dirty && userForm.currentPassword.$invalid"/>
 
@@ -74,27 +74,29 @@
 
       <div id="default-tenant">
         <label>{{'details.defaultTenant' | translate}}</label>
-        <div>
+        <div ng-show="userData.defaultTenant || userTenantList.length">
           <select
             name="defaultTenant"
-            ng-model="tenantUser.$user.defaultTenant"
+            ng-model="userData.defaultTenant"
             ng-options="tenant.tenantId as tenant.name for tenant in userTenantList">
             <option
               ng-disabled="true"
               value=""
-              ng-selected="!tenantUser.$user.defaultTenant">
+              ng-selected="!userData.defaultTenant">
                 {{'details.noDefaultTenant' | translate}}
             </option>
           </select>
         </div>
+        <div ng-show="!userData.defaultTenant && userTenantList.length === 0" class="no-tenant-assigned">{{'details.noTenantAssigned' | translate}}</div>
+
       </div>
 
-      <div class="submit-wrapper">
+      <div class="submit-wrapper" ng-show="userData.defaultTenant || userTenantList.length">
         <input type="submit" lo-submit="submit()" id="save-user-details-btn" class="btn btn-primary"
         ng-disabled="userForm.$invalid || ! userForm.$dirty" value="{{'value.update' | translate}}"/>
       </div>
 
-      <div>
+      <div ng-show="userData.defaultTenant || userTenantList.length">
         <label>{{'value.supervisor' | translate}}</label>
         <div>
           <span ng-if="!noSupervisor">{{supervisorName}}</span>
@@ -106,6 +108,7 @@
 
 
     <ng-form id="user-extensions-section" name="extensionsForm"
+      ng-show="userData.defaultTenant || userTenantList.length"
       ng-resource="tenantUser"
       ng-model="tenantUser"
       lo-form-submit
@@ -121,37 +124,41 @@
             ('MANAGE_MY_EXTENSIONS' | hasPermission)
           )">
       </lo-extensions>
-    <ng-form>
+    </ng-form>
 
-    <div class="divider-header">
-      <h4 id="user-skills-header">{{'details.skills.title' | translate}}</h4>
+    <div ng-show="userData.defaultTenant || userTenantList.length">
+      <div class="divider-header">
+        <h4 id="user-skills-header">{{'details.skills.title' | translate}}</h4>
+      </div>
+      <p id="no-user-skills" class="null" ng-if="tenantUser.$skills.length == 0">{{'profile.skills.none' | translate}}</p>
+      <table max-height="300" class="table" ng-show="tenantUser.$skills.length > 0">
+        <thead>
+          <tr>
+            <th>{{'value.name' | translate}}</th>
+            <th style="text-align:right">{{'skill.details.proficiency' | translate}}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="userSkill in tenantUser.$skills | orderBy:'name'">
+            <td>{{userSkill.name}}</td>
+            <td style="text-align:right">{{userSkill.proficiency > 0 ? userSkill.proficiency : "-"}}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-    <p id="no-user-skills" class="null" ng-if="tenantUser.$skills.length == 0">{{'profile.skills.none' | translate}}</p>
-    <table max-height="300" class="table" ng-show="tenantUser.$skills.length > 0">
-      <thead>
-        <tr>
-          <th>{{'value.name' | translate}}</th>
-          <th style="text-align:right">{{'skill.details.proficiency' | translate}}</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr ng-repeat="userSkill in tenantUser.$skills | orderBy:'name'">
-          <td>{{userSkill.name}}</td>
-          <td style="text-align:right">{{userSkill.proficiency > 0 ? userSkill.proficiency : "-"}}</td>
-        </tr>
-      </tbody>
-    </table>
 
-    <div class="divider-header">
-      <h4 id="user-groups-header">{{'details.groups.title' | translate}}</h4>
-    </div>
-    <p id="no-user-groups" ng-show="tenantUser.$groups.length === 0" class="null"
-      translate="profile.usergroups.none">
-    </p>
-    <div id="tag-wrapper" class="clear" ng-class="{collapsed : collapsed}">
-      <div id="tags-inside" class="clear">
-        <div ng-repeat="userGroup in tenantUser.$groups" class="tag">
-          {{userGroup.name}}
+    <div ng-show="userData.defaultTenant || userTenantList.length">
+      <div class="divider-header">
+        <h4 id="user-groups-header">{{'details.groups.title' | translate}}</h4>
+      </div>
+      <p id="no-user-groups" ng-show="tenantUser.$groups.length === 0" class="null"
+        translate="profile.usergroups.none">
+      </p>
+      <div id="tag-wrapper" class="clear" ng-class="{collapsed : collapsed}">
+        <div id="tags-inside" class="clear">
+          <div ng-repeat="userGroup in tenantUser.$groups" class="tag">
+            {{userGroup.name}}
+          </div>
         </div>
       </div>
     </div>

@@ -235,6 +235,7 @@
   "details.login": "Login",
   "details.defaultTenant": "Default tenant",
   "details.noDefaultTenant": "Select default tenant...",
+  "details.noTenantAssigned": "You have not been assigned any tenants",
   "details.firstName": "First Name",
   "details.resendInvitation": "Resend Invitation",
   "details.firstName.error": "Please enter a first name",

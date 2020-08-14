@@ -44,13 +44,20 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
     var vm = this;
     $scope.hovering = false;
     $scope.Session = Session;
-    $scope.showQualityManagemant = UserPermissions.hasPermissionInList(PermissionGroups.viewQualityManagement);
-    $scope.showSupportTool = UserPermissions.hasPermissionInList(PermissionGroups.viewConfigSupport);
     $scope.hoverTracker = [];
     $scope.currentTenantNavbarConfig = null;
     var MeSvc = new Me();
 
-    var CustomDomainSvc = new CustomDomain();
+    const checkSessionTenantId = Session.tenant.tenantId !== "";
+
+    if (checkSessionTenantId) {
+        $scope.showQualityManagemant = UserPermissions.hasPermissionInList(PermissionGroups.viewQualityManagement);
+        $scope.showSupportTool = UserPermissions.hasPermissionInList(PermissionGroups.viewConfigSupport);
+    }
+
+    if (checkSessionTenantId) {
+        var CustomDomainSvc = new CustomDomain();
+    }
 
     function isTenantSetForReadAllMode() {
       // Controls whether the active tenant in session is not one
@@ -182,12 +189,18 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
       var currentSessionTenant = _.find(Session.tenants, { tenantId: Session.tenant.tenantId });
 
       if (
-        !Session.tenant ||
+        (!Session.tenant ||
         !Session.tenant.tenantId ||
-        (currentSessionTenant && currentSessionTenant.tenantActive === false)
+        (currentSessionTenant && currentSessionTenant.tenantActive === false)) &&
+        Session.tenants.length
       ) {
         // reset to the first tenant in the list
         Session.setTenant(Session.tenants[0]);
+      }
+
+      $scope.tenantDropdownVisible = true;
+      if (!Session.tenants.length) {
+        $scope.tenantDropdownVisible = false;
       }
 
       var allTenants = Me.cachedQuery(null, 'Me', true);
@@ -326,14 +339,16 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
         }
       ];
 
-      if (UserPermissions.hasPermissionInList(PermissionGroups.betaFeatures)) {
-        items.push({
-          label: ' Early Access Features',
-          onClick: function () {
-            $state.transitionTo('content.beta');
-          },
-          iconClass: 'fa fa-exclamation'
-        });
+      if (checkSessionTenantId) {
+        if (UserPermissions.hasPermissionInList(PermissionGroups.betaFeatures)) {
+          items.push({
+            label: ' Early Access Features',
+            onClick: function () {
+              $state.transitionTo('content.beta');
+            },
+            iconClass: 'fa fa-exclamation'
+          });
+        }
       }
       return items;
     }
@@ -353,13 +368,20 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
     }
 
     $scope.userDropdownItems = getUserDropdownItems();
-    $scope.launcherDropdownItems = getLauncherDropdownItems();
+    if (checkSessionTenantId) {
+        $scope.launcherDropdownItems = getLauncherDropdownItems();
+    }
 
     $scope.userHelpItems = [
       {
         label: $translate.instant('navbar.help.help'),
         onClick: function() {
-          var url = CustomDomainSvc.getHelpURL('/Help/Content/Home.htm');
+          var url = "";
+          if (CustomDomainSvc) {
+            url = CustomDomainSvc.getHelpURL('/Help/Content/Home.htm');
+          } else {
+            url = "http://docs.cxengage.net";
+          }
           $window.open(url);
         }
       },
@@ -485,12 +507,14 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
       var isActiveExternalTenant = isTenantSetForReadAllMode();
 
       if (UserPermissions.hasPermissionInList(PermissionGroups.viewTenants)) {
-        items.push({
-          label: $translate.instant('navbar.configuration.tenants.title'),
-          stateLink: Session.betaFeatures.tenants && !isActiveExternalTenant ? 'content.configuration.tenants2' : 'content.configuration.tenants',
-          id: 'tenants-configuration-link',
-          order: 1
-        });
+        if (Session.betaFeatures) {
+            items.push({
+              label: $translate.instant('navbar.configuration.tenants.title'),
+              stateLink: Session.betaFeatures.tenants && !isActiveExternalTenant ? 'content.configuration.tenants2' : 'content.configuration.tenants',
+              id: 'tenants-configuration-link',
+              order: 1
+            });
+        }
       }
 
       if (UserPermissions.hasPermissionInList(PermissionGroups.viewIdentityProviders)) {
@@ -753,7 +777,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
 
         // Grouping historical dashboards with realtime for now. Need to find out why there's no historical dashboards permissions
       if (UserPermissions.hasPermissionInList(PermissionGroups.viewAssignedReports) || UserPermissions.hasPermissionInList(PermissionGroups.accessAllTenants)) {
-        if(Session.betaFeatures.birst === true){
+        if(Session.betaFeatures && Session.betaFeatures.birst === true){
           items.push({
             label: $translate.instant('navbar.reports.hd.title'),
             stateLink: 'content.reports',
@@ -871,32 +895,38 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
     };
 
     $scope.updateBranding = function(tenantId) {
-      Branding.get(
-        {
-          tenantId: tenantId ? tenantId : Session.tenant.tenantId
-        },
-        function(response) {
-          if (response.active) {
-            Branding.set(response);
+      if (checkSessionTenantId) {
+        Branding.get(
+          {
+            tenantId: tenantId ? tenantId : Session.tenant.tenantId
+          },
+          function(response) {
+            if (response.active) {
+              Branding.set(response);
+              $scope.brandingIsSet = true;
+            }
+          },
+          function() {
+            Branding.set({});
             $scope.brandingIsSet = true;
           }
-        },
-        function() {
-          Branding.set({});
-          $scope.brandingIsSet = true;
-        }
-      );
+        );
+      } else {
+        Branding.set({});
+        $scope.brandingIsSet = true;
+      }
     };
 
     function getBetaFeatures(){
-      Session.betaFeatures = {};
-      $http({
-        method: 'GET',
-        url: apiHostname + '/v1/tenants/' + Session.tenant.tenantId + '/settings/betaFeatures/value',
-        headers: {
-          Authorization: 'Token ' + Session.token
-        }
-      })
+      if (checkSessionTenantId) {
+        Session.betaFeatures = {};
+        $http({
+          method: 'GET',
+          url: apiHostname + '/v1/tenants/' + Session.tenant.tenantId + '/settings/betaFeatures/value',
+          headers: {
+            Authorization: 'Token ' + Session.token
+           }
+        })
         .then(function (data) {
           Session.betaFeatures = data.data.result;
           $scope.checkedForBetaFeatures = true;
@@ -910,6 +940,10 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
           $scope.updateTopbarConfig();
           console.error(error);
         });
+      } else {
+        $scope.checkedForBetaFeatures = true;
+        $scope.updateBranding();
+      }
     };
 
     getBetaFeatures();

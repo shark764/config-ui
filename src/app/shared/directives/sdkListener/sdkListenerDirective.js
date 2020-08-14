@@ -23,8 +23,10 @@ angular.module('liveopsConfigPanel').directive('sdkListener', [
               event.origin.indexOf('identity') > -1 ||
               event.origin.indexOf('cxengagelabs') > -1)
           ) {
-            if (CxEngage.session.getActiveTenantId() !== Session.tenant.tenantId) {
-              CxEngage.session.setActiveTenant({ tenantId: Session.tenant.tenantId, noSession: true });
+            if (Session.tenant !== null && Session.tenant.tenantId !== "") {
+                if (CxEngage.session.getActiveTenantId() !== Session.tenant.tenantId) {
+                  CxEngage.session.setActiveTenant({ tenantId: Session.tenant.tenantId, noSession: true });
+                }
             }
             if (CxEngage.session.getActiveTenantId()) {
               if (event.data.module === 'subscribe') {
@@ -367,19 +369,23 @@ angular.module('liveopsConfigPanel').directive('sdkListener', [
               }
             } else {
               if (Session.tenant) {
-                console.log(
-                  '[SDK Listener] No tenant set yet. Trying again. Setting to Session.tenant.tenantId:',
-                  Session.tenant.tenantId
-                );
-                CxEngage.session.setActiveTenant({ tenantId: Session.tenant.tenantId, noSession: true }, function () {
-                  console.log('[SDK Listener] SDK tenant set to:', CxEngage.session.getActiveTenantId());
-                  sdkListener(event);
-                });
+                if (Session.tenant.tenantId !== "") {
+                    console.log(
+                      '[SDK Listener] No tenant set yet. Trying again. Setting to Session.tenant.tenantId:',
+                      Session.tenant.tenantId
+                    );
+                    CxEngage.session.setActiveTenant({ tenantId: Session.tenant.tenantId, noSession: true }, function () {
+                      console.log('[SDK Listener] SDK tenant set to:', CxEngage.session.getActiveTenantId());
+                      sdkListener(event);
+                    });
+                }
               } else {
-                setTimeout(function () {
-                  console.log('Session id is not yet set in angular, waiting for session to be ready.');
-                  sdkListener(event);
-                }, 2000);
+                if (Session.tenants && Session.tenants.length) {
+                    setTimeout(function () {
+                      console.log('Session id is not yet set in angular, waiting for session to be ready.');
+                      sdkListener(event);
+                    }, 2000);
+                }
               }
             }
           } else if (

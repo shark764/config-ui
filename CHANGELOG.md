@@ -30,6 +30,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API Keys
 - Message Templates
 
+## [4.89.1] - 2020-08-12
+### Fixed
+- [CXV1-15471](https://liveops.atlassian.net/browse/CXV1-15471) - Users with no enabled tenants when trying to log into config-ui, do not get an error, chrome browser crashes
+
 ## [4.89.0] - 2020-07-31
 ### Fixed
 - [CXV1-20166](https://liveops.atlassian.net/browse/CXV1-20166) - Add contact-layouts & contact-attributes config2 entity pages to navbar.

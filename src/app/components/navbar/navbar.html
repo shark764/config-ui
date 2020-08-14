@@ -14,10 +14,11 @@
           items="tenantDropdownItems"
           label="{{ Session.tenant.tenantName }}"
           title="{{ Session.tenant.tenantName }}"
+          ng-show="tenantDropdownVisible"
         ></dropdown>
       </li>
 
-      <li class="divider"></li>
+      <li class="divider" ng-show="tenantDropdownVisible"></li>
 
       <li ng-show="managementDropConfig && managementDropConfig.length > 0" id="users-nav-link" ng-class="{ active: isActive('/management')}">
         <dropdown
