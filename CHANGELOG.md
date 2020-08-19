@@ -30,6 +30,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API Keys
 - Message Templates
 
+## [4.89.3] - 2020-08-18
+### Fixed
+- [CXV1-15268](https://lifesize.atlassian.net/browse/CXV1-15268) - Incorrect data mapping in queue sla widget (RTD version bump)
+
 ## [4.89.2] - 2020-08-14
 ### Fixed
 - [CXV1-22456](https://liveops.atlassian.net/browse/CXV1-22456) - Return SDK listener subscription changes
