@@ -30,6 +30,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API Keys
 - Message Templates
 
+## [4.89.4] - 2020-08-19
+### Fixed
+- <no-Jira> - Changed the logic of displaying window prompt when the current config2 form isDirty.
+
 ## [4.89.3] - 2020-08-18
 ### Fixed
 - [CXV1-15268](https://lifesize.atlassian.net/browse/CXV1-15268) - Incorrect data mapping in queue sla widget (RTD version bump)

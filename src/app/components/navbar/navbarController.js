@@ -240,7 +240,15 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
                 className: className,
                 iconClass: iconClass,
                 title: title,
-                onClick: function() {
+                onClick: function () {
+                  if ($rootScope.isConfig2FormDirty) {
+                    var discardChanges = window.confirm($translate.instant('unsavedchanges.nav.warning'));
+                    if (discardChanges) {
+                      $rootScope.isConfig2FormDirty = false;
+                    } else {
+                      return;
+                    }
+                  }
                   DirtyForms.confirmIfDirty(function() {
                     // Make sure that we only switch without forcing re-auth
                     // if we are switching from one *CxEngage* IDP to another.
@@ -970,6 +978,10 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
       // Removing impersonate tenant data from sessionStorage
       // when setting tenant as active
       sessionStorage.removeItem('LOGI-USER-IMPERSONATE');
+    });
+
+    $rootScope.$on('setIsConfig2FormDirty', function (event, isDirty) {
+      $rootScope.isConfig2FormDirty = isDirty;
     });
   }
 ]);

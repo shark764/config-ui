@@ -541,7 +541,8 @@ angular.module('liveopsConfigPanel').config([
               return UserPermissions.resolvePermissions(PermissionGroups.viewIntegrations);
             }
           ]
-        }
+        },
+        params: {config2: true}
       })
       .state('content.configuration.hoursOld', {
         url: '/hours-old?id',

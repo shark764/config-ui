@@ -270,40 +270,16 @@ angular.module('liveopsConfigPanel').directive('sdkListener', [
                   },
                   '*'
                 );
-              } else if (event.data.module === 'setDirtyFormIdInSessionStorage') {
-                var existingStorageItems = JSON.parse(sessionStorage.getItem('REDUX_DIRTY_FORM'));
-                var updatedItems = existingStorageItems ? existingStorageItems : {};
-                updatedItems[event.data.formId] = true;
-
-                sessionStorage.setItem('REDUX_DIRTY_FORM', JSON.stringify(updatedItems));
+              } else if (event.data.module === 'setIsCurrentConfig2FormDirty') {
+                $rootScope.$emit('setIsConfig2FormDirty', event.data.isDirty);
                 event.source.postMessage(
                   {
-                    response: event.data.formId,
+                    topic: 'isFormDirtyUpdatedInConfig1',
+                    response: event.data.isDirty,
                     messageId: event.data.messageId
                   },
                   '*'
                 );
-              } else if (event.data.module === 'removeDirtyFormIdFromSessionStorage') {
-                if (event.data.formId) {
-                  var existingStorageItems = JSON.parse(sessionStorage.getItem('REDUX_DIRTY_FORM'));
-                  var updatedItems = {};
-                  var key;
-                  for (key in existingStorageItems) {
-                    if (key !== event.data.formId) {
-                      updatedItems[key] = existingStorageItems[key];
-                    }
-                  }
-                  Object.keys(updatedItems).length === 0 ? sessionStorage.removeItem('REDUX_DIRTY_FORM') : sessionStorage.setItem('REDUX_DIRTY_FORM', JSON.stringify(updatedItems));
-                  event.source.postMessage(
-                    {
-                      response: event.data.formId,
-                      messageId: event.data.messageId
-                    },
-                    '*'
-                  );
-                } else {
-                  sessionStorage.removeItem('REDUX_DIRTY_FORM');
-                }
               } else if (event.data.command === 'getMonitoredInteraction') {
                 console.log('[SDK Listener] Asking the SDK for:', event.data.command);
                 var monitoredId = CxEngage[event.data.module][event.data.command]();

@@ -150,11 +150,12 @@ angular.module('liveopsConfigPanel', [
       }
 
       // when the current config2 form is dirty, show confirmation modal & don't navigate to a different page:
-      var config2Iframe = document.getElementById('secondaryIframes');
-      if (config2Iframe && (sessionStorage.getItem('REDUX_DIRTY_FORM'))) {
+      if ($rootScope.isConfig2FormDirty) {
         Alert.confirm($translate.instant('unsavedchanges.nav.warning'),
-          angular.noop,
-          function () {
+          function() {
+            $rootScope.isConfig2FormDirty = false;
+          },
+          function() {
             e.preventDefault();
           }
         );
