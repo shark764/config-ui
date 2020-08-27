@@ -396,7 +396,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
       {
         label: $translate.instant('navbar.help.api'),
         onClick: function() {
-          var url = 'https://api-docs.cxengage.net/';
+          var url = 'https://api-docs.cxengage.net/Rest/Default.htm';
           $window.open(url);
         }
       }

@@ -30,6 +30,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API Keys
 - Message Templates
 
+## [4.89.5] - 2020-08-26
+### Fixed
+- CXV1-15939 - Update URL for API Documentation under ? Menu.
+
 ## [4.89.4] - 2020-08-19
 ### Fixed
 - <no-Jira> - Changed the logic of displaying window prompt when the current config2 form isDirty.
