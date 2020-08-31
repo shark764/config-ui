@@ -43,7 +43,7 @@ angular.module('liveopsConfigPanel', [
       $translateProvider
         .useSanitizeValueStrategy('escaped')
         .useLocalStorage()
-        .preferredLanguage('en');
+        .preferredLanguage('en-US');
 
       qProvider.errorOnUnhandledRejections(false);
 

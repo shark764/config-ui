@@ -7,7 +7,7 @@ angular.module('liveopsConfigPanel')
   .config(['$translateProvider', function($translateProvider) {
     $translateProvider
       .useStaticFilesLoader({
-        prefix: '/lang/',
+        prefix: '/translations/',
         suffix: '.json'
       });
   }]);

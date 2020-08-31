@@ -9,7 +9,7 @@ var options = {
   dist: 'dist',
   tmp: '.tmp',
   e2e: 'e2e',
-  lang: 'src/lang',
+  lang: '.tmp/translations',
   configShared: 'bower_components/liveops-config-panel-shared',
   soundwaveImages: 'bower_components/agent-phone-panel/build/images',
   fonts: 'bower_components/font-awesome/fonts',

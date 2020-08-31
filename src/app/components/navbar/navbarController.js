@@ -332,14 +332,14 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
     function getUserDropdownItems() {
       var items = [
         {
-          label: $translate.instant('navbar.logout'),
+          label: $translate.instant('navigation.logout'),
           onClick: function() {
             $scope.logout();
           },
           iconClass: 'fa fa-sign-out'
         },
         {
-          label: $translate.instant('navbar.profile'),
+          label: $translate.instant('navigation.profile'),
           onClick: function() {
             $state.transitionTo('content.userprofile');
           },
@@ -348,9 +348,10 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
       ];
 
       if (checkSessionTenantId) {
+        // TODO: Add translation in here
         if (UserPermissions.hasPermissionInList(PermissionGroups.betaFeatures)) {
           items.push({
-            label: ' Early Access Features',
+            label: $translate.instant('navigation.earlyAccess'),
             onClick: function () {
               $state.transitionTo('content.beta');
             },
@@ -382,7 +383,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
 
     $scope.userHelpItems = [
       {
-        label: $translate.instant('navbar.help.help'),
+        label: $translate.instant('navigation.help.help'),
         onClick: function() {
           var url = "";
           if (CustomDomainSvc) {
@@ -394,7 +395,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
         }
       },
       {
-        label: $translate.instant('navbar.help.api'),
+        label: $translate.instant('navigation.help.api'),
         onClick: function() {
           var url = 'https://api-docs.cxengage.net/Rest/Default.htm';
           $window.open(url);
@@ -438,7 +439,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
         UserPermissions.hasPermissionInList(PermissionGroups.manageUsers)
       ) {
         items.push({
-          label: $translate.instant('navbar.management.users.title'),
+          label: $translate.instant('navigation.management.users'),
           stateLink: 'content.management.users',
           id: 'user-management-link',
           order: 1
@@ -447,7 +448,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
 
       if (UserPermissions.hasPermissionInList(PermissionGroups.viewReasons)) {
         items.push({
-          label: $translate.instant('navbar.management.reasons.title'),
+          label: $translate.instant('navigation.management.reasons'),
           stateLink: 'content.management.reasons',
           id: 'reasons-management-link',
           order: 2
@@ -456,7 +457,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
 
       if (UserPermissions.hasPermissionInList(PermissionGroups.viewReasonLists)) {
         items.push({
-          label: $translate.instant('navbar.management.reasons.lists.title'),
+          label: $translate.instant('navigation.management.reasonsList'),
           stateLink: 'content.management.reasonLists',
           id: 'reason-lists-management-link',
           order: 3
@@ -465,7 +466,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
 
       if (UserPermissions.hasPermissionInList(PermissionGroups.manageRoles)) {
         items.push({
-          label: $translate.instant('navbar.management.roles.title'),
+          label: $translate.instant('navigation.management.roles'),
           stateLink: 'content.management.roles',
           id: 'role-management-link',
           order: 4
@@ -478,7 +479,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
         UserPermissions.hasPermissionInList(PermissionGroups.manageSkills)
       ) {
         items.push({
-          label: $translate.instant('navbar.management.skills.title'),
+          label: $translate.instant('navigation.management.skills'),
           stateLink: 'content.management.skills',
           id: 'skill-management-link',
           order: 5
@@ -491,7 +492,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
         UserPermissions.hasPermissionInList(PermissionGroups.manageGroups)
       ) {
         items.push({
-          label: $translate.instant('navbar.management.groups.title'),
+          label: $translate.instant('navigation.management.groups'),
           stateLink: 'content.management.groups',
           id: 'group-management-link',
           order: 6
@@ -500,7 +501,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
 
       if (UserPermissions.hasPermissionInList(PermissionGroups.manageCapacityRules)) {
         items.push({
-          label: $translate.instant('navbar.management.capacityRules.title'),
+          label: $translate.instant('navigation.management.capacityRules'),
           stateLink: 'content.management.capacityRules',
           id: 'capacity-rules-management-link',
           order: 7
@@ -517,7 +518,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
       if (UserPermissions.hasPermissionInList(PermissionGroups.viewTenants)) {
         if (Session.betaFeatures) {
             items.push({
-              label: $translate.instant('navbar.configuration.tenants.title'),
+              label: $translate.instant('navigation.configuration.tenants'),
               stateLink: Session.betaFeatures.tenants && !isActiveExternalTenant ? 'content.configuration.tenants2' : 'content.configuration.tenants',
               id: 'tenants-configuration-link',
               order: 1
@@ -527,7 +528,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
 
       if (UserPermissions.hasPermissionInList(PermissionGroups.viewIdentityProviders)) {
         items.push({
-          label: $translate.instant('navbar.configuration.tenants.identityProviders'),
+          label: $translate.instant('navigation.configuration.identityProviders'),
           stateLink: 'content.configuration.identityProviders',
           id: 'identity-providers-configuration-link',
           order: 2
@@ -536,7 +537,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
 
       if (UserPermissions.hasPermissionInList(PermissionGroups.viewIntegrations)) {
         items.push({
-          label: $translate.instant('navbar.configuration.integrations.title'),
+          label: $translate.instant('navigation.configuration.integrations'),
           stateLink: Session.betaFeatures.integrations && !isActiveExternalTenant ? 'content.configuration.integrations2' : 'content.configuration.integrations',
           id: 'integrations-configuration-link',
           order: 3
@@ -549,7 +550,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
         !isActiveExternalTenant
       ) {
         items.push({
-          label: $translate.instant('navbar.configuration.integrations.title') + ' (alpha)',
+          label: $translate.instant('navigation.configuration.integrations') + ' (alpha)',
           stateLink: 'content.configuration.integrations2',
           id: 'integrations-configuration-link2',
           order: 16
@@ -558,7 +559,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
 
       if (UserPermissions.hasPermissionInList(PermissionGroups.accessAllLists)) {
         items.push({
-          label: $translate.instant('navbar.configuration.lists.title'),
+          label: $translate.instant('navigation.configuration.lists'),
           stateLink: 'content.configuration.genericLists',
           id: 'lists-configuration-link',
           order: 4
@@ -570,7 +571,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
         UserPermissions.hasPermissionInList(PermissionGroups.manageBusinessHours)
       ) {
         items.push({
-          label: $translate.instant('navbar.configuration.bh.title'),
+          label: $translate.instant('navigation.configuration.businessHours'),
           stateLink: 'content.configuration.hours',
           id: 'hours-configuration-link',
           order: 5
@@ -579,7 +580,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
 
       if (UserPermissions.hasPermissionInList(PermissionGroups.viewCustomStats)) {
         items.push({
-          label: $translate.instant('navbar.configuration.slas.title'),
+          label: $translate.instant('navigation.configuration.slas'),
           stateLink: 'content.configuration.slas',
           id: 'slas-configuration-link',
           order: 6
@@ -588,7 +589,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
 
       if (UserPermissions.hasPermissionInList(PermissionGroups.viewAppCreds)) {
         items.push({
-          label: $translate.instant('navbar.configuration.keys.title'),
+          label: $translate.instant('navigation.configuration.apiKeys'),
           stateLink: 'content.configuration.keys',
           id: 'key-configuration-link',
           order: 7
@@ -597,7 +598,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
 
       if (UserPermissions.hasPermission('VIEW_ALL_TRANSFER_LISTS')) {
         items.push({
-          label: $translate.instant('navbar.configuration.transferLists.title'),
+          label: $translate.instant('navigation.configuration.transferLists'),
           stateLink: 'content.configuration.transferLists',
           id: 'transferList-configuration-link',
           order: 8
@@ -606,7 +607,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
 
       if (UserPermissions.hasPermissionInList(PermissionGroups.viewMessageTemplates)) {
         items.push({
-          label: $translate.instant('navbar.configuration.messageTemplates.title'),
+          label: $translate.instant('navigation.configuration.messageTemplates'),
           stateLink: 'content.configuration.messageTemplates',
           id: 'template-configuration-link',
           order: 9
@@ -615,7 +616,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
 
       if (UserPermissions.hasPermissionInList(PermissionGroups.accessAllEmailTemplates)) {
         items.push({
-          label: $translate.instant('navbar.configuration.emailTemplates.title'),
+          label: $translate.instant('navigation.configuration.emailTemplates'),
           stateLink: 'content.configuration.emailTemplates',
           id: 'emailTemplates-configuration-link',
           order: 10
@@ -623,7 +624,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
       }
       if (UserPermissions.hasPermissionInList(PermissionGroups.viewOutboundIdentifiers)) {
         items.push({
-          label: $translate.instant('navbar.configuration.outboundIdentifiers.title'),
+          label: $translate.instant('navigation.configuration.outboundIdentifiers'),
           stateLink: 'content.configuration.outboundIdentifiers',
           id: 'outboundIdentifiers-configuration-link',
           order: 11
@@ -632,7 +633,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
 
       if (UserPermissions.hasPermissionInList(PermissionGroups.viewOutboundIdentifiers)) {
         items.push({
-          label: $translate.instant('navbar.configuration.outboundIdentifierLists.title'),
+          label: $translate.instant('navigation.configuration.outboundIdentifierLists'),
           stateLink: 'content.configuration.outboundIdentifierLists',
           id: 'outboundIdentifierLists-configuration-link',
           order: 12
@@ -641,7 +642,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
 
       if (UserPermissions.hasPermission('WEB_INTEGRATIONS_APP_READ')) {
         items.push({
-          label: $translate.instant('navbar.configuration.chatWidgets.title'),
+          label: $translate.instant('navigation.configuration.chatWidgets'),
           stateLink: 'content.configuration.chatWidgets',
           id: 'chatWidgets-configuration-link',
           order: 13
@@ -651,7 +652,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
       if (appFlags.CONTACT_MANAGEMENT) {
         if (UserPermissions.hasPermissionInList(PermissionGroups.viewContactAttributes)) {
           items.push({
-            label: $translate.instant('navbar.configuration.contactAttributes.title'),
+            label: $translate.instant('navigation.configuration.contactAttributes'),
             stateLink: 'content.configuration.contactAttributes',
             id: 'contact-attributes-configuration-link',
             order: 14
@@ -660,7 +661,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
 
         if (UserPermissions.hasPermissionInList(PermissionGroups.viewContactLayouts)) {
           items.push({
-            label: $translate.instant('navbar.configuration.contactLayouts.title'),
+            label: $translate.instant('navigation.configuration.contactLayouts'),
             stateLink: 'content.configuration.contactLayouts',
             id: 'contact-layouts-configuration-link',
             order: 15
@@ -677,7 +678,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
 
       if (UserPermissions.hasPermissionInList(PermissionGroups.viewFlows)) {
         items.push({
-          label: $translate.instant('navbar.flows.title'),
+          label: $translate.instant('navigation.flows'),
           stateLink: 'content.flows.flowManagement',
           id: 'flow-management-link',
           order: 1
@@ -686,7 +687,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
 
       if (UserPermissions.hasPermissionInList(PermissionGroups.viewFlowDebugLogs)) {
         items.push({
-          label: $translate.instant('navbar.flows.flowDebugLogs.title'),
+          label: $translate.instant('navigation.flows.flowDebugLogs'),
           stateLink: 'content.flows.flowDebugLogs',
           id: 'flow-Debugger-link',
           order: 8
@@ -695,7 +696,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
 
       if (UserPermissions.hasPermissionInList(PermissionGroups.viewDispositions)) {
         items.push({
-          label: $translate.instant('navbar.flows.dispositions.title'),
+          label: $translate.instant('navigation.flows.dispositions'),
           stateLink: 'content.flows.dispositions',
           id: 'dispositions-flows-link',
           order: 2
@@ -704,7 +705,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
 
       if (UserPermissions.hasPermissionInList(PermissionGroups.viewDispositions)) {
         items.push({
-          label: $translate.instant('navbar.flows.dispositions.lists.title'),
+          label: $translate.instant('navigation.flows.dispositionsLists'),
           stateLink: 'content.flows.dispositionLists',
           id: 'disposition-lists-flows-link',
           order: 3
@@ -713,7 +714,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
 
       if (UserPermissions.hasPermissionInList(PermissionGroups.viewQueues)) {
         items.push({
-          label: $translate.instant('navbar.flows.queues.title'),
+          label: $translate.instant('navigation.flows.queues'),
           stateLink: 'content.flows.queues',
           id: 'queue-management-link',
           order: 4
@@ -725,7 +726,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
         !isActiveExternalTenant
       ) {
         items.push({
-          label: $translate.instant('navbar.flows.queues.title') + ' (Alpha)',
+          label: $translate.instant('navigation.flows.queues') + ' (Alpha)',
           stateLink: 'content.flows.queues2',
           id: 'queue-management-link',
           order: 4
@@ -734,7 +735,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
 
       if (UserPermissions.hasPermissionInList(PermissionGroups.viewMedia)) {
         items.push({
-          label: $translate.instant('navbar.flows.media.title'),
+          label: $translate.instant('navigation.flows.media'),
           stateLink: 'content.flows.media',
           id: 'media-management-link',
           order: 5
@@ -752,7 +753,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
 
       if (UserPermissions.hasPermissionInList(PermissionGroups.viewDispatchMappings)) {
         items.push({
-          label: $translate.instant('navbar.flows.dispatchmappings.title'),
+          label: $translate.instant('navigation.flows.dispatchmappings'),
           stateLink: 'content.flows.dispatchMappings',
           id: 'dispatch-mappings-configuration-link',
           order: 7
@@ -761,7 +762,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
 
       if (UserPermissions.hasPermissionInList(PermissionGroups.manageCustomAttributes)) {
         items.push({
-          label: $translate.instant('navbar.flows.customAttributes.title'),
+          label: $translate.instant('navigation.flows.customAttributes'),
           stateLink: 'content.flows.customAttributes',
           id: 'custom-attributes-configuration-link',
           order: 9
@@ -776,7 +777,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
 
       if (UserPermissions.hasPermissionInList(PermissionGroups.viewAssignedReports)) {
         items.push({
-          label: $translate.instant('navbar.reports.rtd.title'),
+          label: $translate.instant('navigation.reports.rtd'),
           stateLink: 'content.realtime-dashboards-management-viewer({dashboardId: "overview-dashboard"})',
           id: 'realtime-dashboard-link',
           order: 1
@@ -787,7 +788,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
       if (UserPermissions.hasPermissionInList(PermissionGroups.viewAssignedReports) || UserPermissions.hasPermissionInList(PermissionGroups.accessAllTenants)) {
         if(Session.betaFeatures && Session.betaFeatures.birst === true){
           items.push({
-            label: $translate.instant('navbar.reports.hd.title'),
+            label: $translate.instant('navigation.reports.historicalDashboards'),
             stateLink: 'content.reports',
             stateLinkParams: {
               id: 'historical-dashboards'
@@ -800,7 +801,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
 
       if (UserPermissions.hasPermissionInList(PermissionGroups.viewDashboards)) {
         items.push({
-          label: $translate.instant('navbar.reports.rtdCustom.title'),
+          label: $translate.instant('navigation.reports.rtdCustom'),
           stateLink: 'content.custom-dashboards-management',
           id: 'custom-realtime-dashboard-link',
           order: 2
@@ -808,7 +809,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
 
         if (UserPermissions.hasPermissionInList(PermissionGroups.viewCustomStats) && !isActiveExternalTenant) {
           items.push({
-            label: $translate.instant('navbar.configuration.dataAccessReports.title'),
+            label: $translate.instant('navigation.configuration.dataAccessReports'),
             stateLink: 'content.configuration.dataAccessReports',
             id: 'dataAccessReports-configuration-link',
             order: 4
@@ -818,7 +819,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
       
       if (UserPermissions.hasPermissionInList(PermissionGroups.viewInteractionMonitoring)) {
         items.push({
-          label: $translate.instant('navbar.reports.interactionMonitoring.title'),
+          label: $translate.instant('navigation.reports.interactionMonitoring'),
           stateLink: 'content.reporting.interactionMonitoring',
           id: 'interaction-monitoring-link',
           order: 7
@@ -827,7 +828,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
 
       if (UserPermissions.hasPermissionInList(PermissionGroups.viewAgentStateMonitoring)) {
         items.push({
-          label: $translate.instant('navbar.reports.agentStateMonitoring.title'),
+          label: $translate.instant('navigation.reports.agentStateMonitoring'),
           stateLink: 'content.reporting.agentStateMonitoring',
           id: 'agent-state-monitoring-link',
           order: 8
@@ -849,7 +850,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
       //}
       if (UserPermissions.hasPermissionInList(PermissionGroups.viewConfigReportingBI)) {
         items.push({
-          label: $translate.instant('navbar.reports.logi.advanced.title'),
+          label: $translate.instant('navigation.reports.logi.historicalReporting'),
           stateLink: 'content.reporting.logiAdvanced',
           id: 'logi-advanced-reports-link',
           order: 10
@@ -875,7 +876,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
 
       if (UserPermissions.hasPermissionInList(PermissionGroups.viewConfigDebugTool)) {
         items.push({
-          label: $translate.instant('navbar.support.debug'),
+          label: $translate.instant('navigation.support.debug'),
           stateLink: 'content.support.debug',
           id: 'flow-debugger-link',
           order: 1

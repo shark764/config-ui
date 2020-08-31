@@ -25,7 +25,7 @@
           id="managementDropConfig"
           items="managementDropConfig"
           collapse-icon="fa fa-caret-down"
-          label="{{ 'navbar.management.title' | translate }}"
+          label="{{ 'navigation.management' | translate }}"
           order-by="order"
           hovering="hovering"
           show-on-hover="true"
@@ -42,7 +42,7 @@
           id="configurationDropConfig"
           items="configurationDropConfig"
           collapse-icon="fa fa-caret-down"
-          label="{{ 'navbar.configuration.title' | translate }}"
+          label="{{ 'navigation.configuration' | translate }}"
           order-by="order"
           hovering="hovering"
           show-on-hover="true"
@@ -55,7 +55,7 @@
           id="flowsDropConfig"
           items="flowsDropConfig"
           collapse-icon="fa fa-caret-down"
-          label="{{ 'navbar.flows.title' | translate }}"
+          label="{{ 'navigation.flows' | translate }}"
           order-by="order"
           hovering="hovering"
           show-on-hover="true"
@@ -68,7 +68,7 @@
           id="reportingNavLinkConfig"
           items="reportingDropConfig"
           collapse-icon="fa fa-caret-down"
-          label="{{ 'navbar.reports.title' | translate }}"
+          label="{{ 'navigation.reports' | translate }}"
           order-by="order"
           hovering="hovering"
           show-on-hover="true"
@@ -81,7 +81,7 @@
           id="supportDropConfig"
           items="supportDropConfig"
           collapse-icon="fa fa-caret-down"
-          label="{{ 'navbar.support.title' | translate }}"
+          label="{{ 'navigation.support' | translate }}"
           order-by="order"
           hovering="hovering"
           show-on-hover="true"
@@ -96,7 +96,7 @@
         ng-class="{ active: isActive('/qualityManagement')}"
       >
         <a ui-sref="content.qualityManagement">
-          {{ 'navbar.qualityManagement.title' | translate }}
+          {{ 'navigation.qualityManagement' | translate }}
         </a>
       </li>
       <li id="launcher" ng-show="launcherDropdownItems.length > 0">
@@ -114,7 +114,7 @@
         <dropdown
           id="user-settings-dropdown"
           items="userDropdownItems"
-          dropdown-title="{{ 'navbar.welcome' | translate: Session.user }}"
+          dropdown-title="{{ 'navigation.welcome' | translate: Session.user }}"
           title="{{ Session.user.displayName }}"
           expand-icon="fa fa-gear"
           collapse-icon="fa fa-gear"
@@ -133,7 +133,7 @@
       </li>
       <li id="privacy">
         <div>
-          <a class="drop-label" target="_blank" href="https://www.serenova.com/privacy">Privacy</a>
+          <a class="drop-label" target="_blank" href="https://www.serenova.com/privacy">{{ 'navigation.privacy' | translate }}</a>
         </div>
       </li>
     </ul>

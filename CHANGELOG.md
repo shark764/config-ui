@@ -30,6 +30,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API Keys
 - Message Templates
 
+## [4.90.0] - 2020-08-26
+### Added
+- [CXV1-22911](https://lifesize.atlassian.net/browse/CXV1-22911) - Config 1 - Support Localization 
+- [CXV1-22913](https://lifesize.atlassian.net/browse/CXV1-22913) - Config 1 - Add translation to Navbar
+
 ## [4.89.5] - 2020-08-26
 ### Fixed
 - CXV1-15939 - Update URL for API Documentation under ? Menu.
