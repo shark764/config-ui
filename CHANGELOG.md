@@ -30,6 +30,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API Keys
 - Message Templates
 
+## [4.90.1] - 2020-09-02
+### Fixed
+- CXV1-21896 - Config UI | When creating/updating capacity rule, the Active version in the table shows null/empty.
+
 ## [4.90.0] - 2020-08-26
 ### Added
 - [CXV1-22911](https://lifesize.atlassian.net/browse/CXV1-22911) - Config 1 - Support Localization 

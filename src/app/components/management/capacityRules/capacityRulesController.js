@@ -60,6 +60,9 @@ angular.module('liveopsConfigPanel')
             $scope.forms.detailsForm.$setUntouched();
             $scope.forms.detailsForm.$setPristine();
             $scope.forms.detailsForm.$dirty = false;
+
+            const activeRule = _.find($scope.getVersions(), {version: capacityRule.activeVersion});
+            capacityRule.$original.activeRule = {name: activeRule.name, version: activeRule.version};
         });
       };
 
