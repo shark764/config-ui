@@ -30,6 +30,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API Keys
 - Message Templates
 
+## [4.90.2] - 2020-09-04
+### Fixed
+- [CXV1-17519](https://liveops.atlassian.net/browse/CXV1-17519) - Allow user with PLATFORM_VIEW_ALL permissions to view all config-ui pages
+
 ## [4.90.1] - 2020-09-02
 ### Fixed
 - CXV1-21896 - Config UI | When creating/updating capacity rule, the Active version in the table shows null/empty.

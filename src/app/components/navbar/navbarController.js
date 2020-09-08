@@ -614,7 +614,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
         });
       }
 
-      if (UserPermissions.hasPermissionInList(PermissionGroups.accessAllEmailTemplates)) {
+      if (UserPermissions.hasPermissionInList(PermissionGroups.accessAllEmailTemplates) && !isActiveExternalTenant) {
         items.push({
           label: $translate.instant('navigation.configuration.emailTemplates'),
           stateLink: 'content.configuration.emailTemplates',
@@ -622,7 +622,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
           order: 10
         });
       }
-      if (UserPermissions.hasPermissionInList(PermissionGroups.viewOutboundIdentifiers)) {
+      if (UserPermissions.hasPermissionInList(PermissionGroups.viewOutboundIdentifiers) && !isActiveExternalTenant) {
         items.push({
           label: $translate.instant('navigation.configuration.outboundIdentifiers'),
           stateLink: 'content.configuration.outboundIdentifiers',
@@ -631,7 +631,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
         });
       }
 
-      if (UserPermissions.hasPermissionInList(PermissionGroups.viewOutboundIdentifiers)) {
+      if (UserPermissions.hasPermissionInList(PermissionGroups.viewOutboundIdentifiers) && !isActiveExternalTenant) {
         items.push({
           label: $translate.instant('navigation.configuration.outboundIdentifierLists'),
           stateLink: 'content.configuration.outboundIdentifierLists',
