@@ -30,6 +30,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API Keys
 - Message Templates
 
+## [4.90.4] - 2020-09-16
+### Fixed
+- <no-Jira> - sdk version bump to 9.13.0
+
 ## [4.90.3] - 2020-09-10
 ### Fixed
 * [CXV1-15945](https://lifesize.atlassian.net/browse/CXV1-15945) - Realtime Dashboards - "Agent" dropdown filter options filter on name and not id
