@@ -162,7 +162,7 @@ angular
                 $scope.innerScope.error = $translate.instant('login.error');
                 break;
               default:
-                $scope.innerScope.error = $translate.instant('login.unexpected.error');
+                $scope.innerScope.error = $translate.instant('login.error.unexpected');
             }
           }
         );

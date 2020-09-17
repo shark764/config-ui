@@ -17,7 +17,7 @@
               error-type-required="{{'login.username.error' | translate}}"></form-error>
             <input
               type="text"
-              placeholder="{{'value.username' | translate}}"
+              placeholder="{{'login.username.placeholder' | translate}}"
               ng-model="innerScope.username"
               ng-required="true"
               name="username" />
@@ -28,7 +28,7 @@
           type="submit"
           ng-disabled="!innerScope.username"
           class='btn btn-primary lo-accent-border lo-accent-bg'>
-          {{'login.button' | translate}}
+          {{'forms.buttons.loginText' | translate}}
         </button>
 
       </div>

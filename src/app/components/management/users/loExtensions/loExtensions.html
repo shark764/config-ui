@@ -1,5 +1,5 @@
 <div class="divider-header">
-  <h4>{{'details.extensions' | translate}}</h4>
+  <h4>{{'user.details.extensions' | translate}}</h4>
   <button id="add-extension-btn" class="btn pull-right" type="button"
     ng-click="lec.createExtension()"
     ng-disabled="lec.creatingExtension !== false || lec.editingExtension !== null"
@@ -22,10 +22,10 @@
     <div class="input-group">
       <label></label>
       <div class="submit-controls">
-        <a class="btn" ng-click="lec.resetExtension()">{{'value.cancel' | translate}}</a>
+        <a class="btn" ng-click="lec.resetExtension()">{{'forms.buttons.cancelText' | translate}}</a>
         <a class="btn btn-primary"
           ng-click="add()"
-          ng-disabled="loExtensionsForm.$invalid">{{'value.save' | translate}}
+          ng-disabled="loExtensionsForm.$invalid">{{'forms.buttons.saveText' | translate}}
         </a>
       </div>
     </div>
@@ -42,7 +42,7 @@
     <div class="lo-extension-table-row" ng-class="{'default-extension': $index === 0}" ng-hide="lec.editingExtension === extension || hideTwilio(extension)">
 
       <div class="lo-extension-table-col control-col">
-        <div class="handle" title="{{'details.extension.drag.titletext' | translate}}">:::</div>
+        <div class="handle" title="{{'user.details.extensions.dragText' | translate}}">:::</div>
       </div>
 
       <div class="lo-extension-table-col small-col" dnd-nodrag>
@@ -50,18 +50,18 @@
       </div>
 
       <div class="lo-extension-table-col" dnd-nodrag>
-        {{::extension.provider | translate}}
-        <span ng-show="($index === 0)" class="primary">({{'details.primary' | translate}})</span>
+        {{extension.provider}}
+        <span ng-show="($index === 0)" class="primary">({{'user.details.extensions.primary' | translate}})</span>
       </div>
 
       <div class="lo-extension-table-col description" dnd-nodrag>
-        {{::extension.description | translate}}
+        {{extension.description}}
       </div>
 
       <div class="lo-extension-table-col small-col" dnd-nodrag>
         <a ng-click="editExtension(extension)"
           ng-show="lec.creatingExtension === false && lec.editingExtension === null">
-            ({{'value.edit' | translate}})
+            ({{'forms.buttons.editText' | translate}})
         </a>
       </div>
       <div class="lo-extension-table-col control-col" dnd-nodrag>
@@ -69,14 +69,14 @@
           ng-show="::extension.type !== 'webrtc'"
           ng-disabled="ngDisabled"
           ng-click="remove(extension)"
-          title="{{'value.remove' | translate}}">
+          title="{{'forms.buttons.removeText' | translate}}">
         </i>
       </div>
     </div>
 
     <div class="lo-extension-table-row edit-extension" ng-show="lec.editingExtension === extension">
       <div class="lo-extension-table-col control-col">
-        <div class="handle" title="{{'details.extension.drag.titletext' | translate}}">:::</div>
+        <div class="handle" title="{{'user.details.extensions.dragText' | translate}}">:::</div>
       </div>
 
       <ng-form name="extensions{{$index}}" separate-validation>
@@ -93,14 +93,14 @@
       <div class="input-group" dnd-nodrag>
         <label></label>
         <div class="submit-controls">
-          <a class="btn" ng-click="lec.cancelEditExtension(extension)">{{'value.cancel' | translate}}</a>
-          <a class="btn btn-primary" ng-click="lec.save()">{{'value.save' | translate}}</a>
+          <a class="btn" ng-click="lec.cancelEditExtension(extension)">{{'forms.buttons.cancelText' | translate}}</a>
+          <a class="btn btn-primary" ng-click="lec.save()">{{'forms.buttons.saveText' | translate}}</a>
         </div>
       </div>
     </div>
   </div>
 
   <div class="dndPlaceholder lo-highlight">
-    {{'details.extension.drop' | translate}}
+    {{'user.details.extensions.dropText' | translate}}
   </div>
 </div>

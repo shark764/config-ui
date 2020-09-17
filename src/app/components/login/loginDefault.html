@@ -13,22 +13,22 @@
           </div>
           <div class='input-group'>
             <form-error field="loginForm.email"
-            error-type-required="{{'details.email.error' | translate}}"></form-error>
-            <input type="text" placeholder="{{'value.email' | translate}}" ng-model="innerScope.username" ng-required="true" name="email" />
+            error-type-required="{{'fields.email.error' | translate}}"></form-error>
+            <input type="text" placeholder="{{'fields.email.placeholder' | translate}}" ng-model="innerScope.username" ng-required="true" name="email" />
           </div>
           <div class='input-group'>
             <form-error field="loginForm.password"
-            error-type-required="{{'details.password.error' | translate}}"></form-error>
-            <input type="password" placeholder="{{'value.password' | translate}}" ng-model="innerScope.password" ng-required="true" name="password"/>
+            error-type-required="{{'fields.password.error' | translate}}"></form-error>
+            <input type="password" placeholder="{{'fields.password.placeholder' | translate}}" ng-model="innerScope.password" ng-required="true" name="password"/>
           </div>
         </div>
       </div>
 
-      <input class='btn btn-primary lo-accent-border lo-accent-bg' type="submit" value="{{'login.button' | translate}}" />
+      <input class='btn btn-primary lo-accent-border lo-accent-bg' type="submit" value="{{'forms.buttons.loginText' | translate}}" />
 
     </form>
     <div class="login-links">
-      <p ng-show="innerScope.loginStatus.$$state.status == 1 && !innerScope.loggingIn" class="login-link"><a ui-sref="forgot-password">{{'details.password.forgot' | translate}}</a></p>
+      <p ng-show="innerScope.loginStatus.$$state.status == 1 && !innerScope.loggingIn" class="login-link"><a ui-sref="forgot-password">{{'login.password.forgot' | translate}}</a></p>
       <p ng-show="innerScope.loginStatus.$$state.status == 1 && !innerScope.loggingIn" class="login-link"><a ui-sref="login({sso: true})">{{'login.signInWithSso' | translate}}</a></p>
       <p ng-show="innerScope.loginStatus.$$state.status == 1 && !innerScope.loggingIn" class="login-link"><a target="_blank" href="https://www.serenova.com/privacy">{{'privacy' | translate}}</a></p>
     </div>

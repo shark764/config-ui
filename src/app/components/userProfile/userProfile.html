@@ -6,7 +6,7 @@
 
   <div class="wrapper" disable-contents="! ('PLATFORM_MANAGE_USER_ACCOUNT' | hasPermission)">
     <div class="divider-header first-header">
-      <h4>{{'details' | translate}}</h4>
+      <h4>{{'userProfile.details' | translate}}</h4>
     </div>
 
     <form id="user-form" name="userForm"
@@ -17,13 +17,13 @@
       lo-form-alert>
 
       <div>
-        <label>{{'details.email' | translate}}</label>
+        <label>{{'userProfile.details.email' | translate}}</label>
         <div>
           <input readonly ng-disabled="true" ng-model="userData.email" name="email" type="text"></input>
         </div>
       </div>
       <div>
-        <label>{{'details.firstName' | translate}} *</label>
+        <label>{{'userProfile.details.firstName' | translate}} *</label>
         <div>
           <form-error field="userForm.firstName"
             error-type-required="{{'details.firstName.error' | translate}}"></form-error>
@@ -31,7 +31,7 @@
         </div>
       </div>
       <div>
-        <label>{{'details.lastName' | translate}} *</label>
+        <label>{{'userProfile.details.lastName' | translate}} *</label>
         <div>
           <form-error field="userForm.lastName"
             error-type-required="{{'details.lastName.error' | translate}}"></form-error>
@@ -39,10 +39,10 @@
         </div>
       </div>
       <div ng-show="resettingPassword || userForm.currentPassword.$error.api">
-        <label>{{'details.password.current' | translate}}</label>
+        <label>{{'userProfile.details.password.current' | translate}}</label>
         <div>
           <form-error field="userForm.currentPassword"
-            error-type-required="{{'details.password.error' | translate}}">
+            error-type-required="{{'fields.password.error' | translate}}">
           </form-error>
 
           <input autocomplete="off" name="currentPassword" type="password"
@@ -52,15 +52,15 @@
       </div>
 
       <div ng-show="'PLATFORM_MANAGE_MY_PASSWORD' | hasPermission">
-        <label>{{'details.password.new' | translate}}</label>
+        <label>{{'userProfile.details.password.new' | translate}}</label>
         <div>
           <input id="reset-password-button" type="button" class="btn"
                  ng-hide="resettingPassword || userForm.password.$error.api"
                  ng-click="resettingPassword = true"
-                 value="{{'user.details.password.reset' | translate}}">
+                 value="{{'userProfile.details.password.reset' | translate}}">
 
           <form-error field="userForm.password"
-                      error-type-required="{{'details.password.error' | translate}}">
+                      error-type-required="{{'fields.password.error' | translate}}">
           </form-error>
 
           <input autocomplete="off" name="newPassword" type="password"
@@ -68,12 +68,12 @@
                  ng-show="resettingPassword || userForm.newPassword.$error.api"
                  ng-required="userForm.newPassword.$dirty && userForm.currentPassword.$invalid"/>
 
-          <p id="password-policy" ng-show="userForm.newPassword.$dirty || userForm.newPassword.$error.api"><small>{{'details.password.default.policy' | translate}}</small></p>
+          <p id="password-policy" ng-show="userForm.newPassword.$dirty || userForm.newPassword.$error.api"><small>{{'userProfile.details.password.policy' | translate}}</small></p>
         </div>
       </div>
 
       <div id="default-tenant">
-        <label>{{'details.defaultTenant' | translate}}</label>
+        <label>{{'userProfile.details.defaultTenant' | translate}}</label>
         <div ng-show="userData.defaultTenant || userTenantList.length">
           <select
             name="defaultTenant"
@@ -83,24 +83,24 @@
               ng-disabled="true"
               value=""
               ng-selected="!userData.defaultTenant">
-                {{'details.noDefaultTenant' | translate}}
+                {{'userProfile.details.noDefaultTenant' | translate}}
             </option>
           </select>
         </div>
-        <div ng-show="!userData.defaultTenant && userTenantList.length === 0" class="no-tenant-assigned">{{'details.noTenantAssigned' | translate}}</div>
+        <div ng-show="!userData.defaultTenant && userTenantList.length === 0" class="no-tenant-assigned">{{'userProfile.details.noTenantAssigned' | translate}}</div>
 
       </div>
 
       <div class="submit-wrapper" ng-show="userData.defaultTenant || userTenantList.length">
         <input type="submit" lo-submit="submit()" id="save-user-details-btn" class="btn btn-primary"
-        ng-disabled="userForm.$invalid || ! userForm.$dirty" value="{{'value.update' | translate}}"/>
+        ng-disabled="userForm.$invalid || ! userForm.$dirty" value="{{'forms.button.updateText' | translate}}"/>
       </div>
 
       <div ng-show="userData.defaultTenant || userTenantList.length">
-        <label>{{'value.supervisor' | translate}}</label>
+        <label>{{'userProfile.details.supervisor' | translate}}</label>
         <div>
           <span ng-if="!noSupervisor">{{supervisorName}}</span>
-          <span ng-if="noSupervisor" class="null">{{'value.noSupervisor' | translate}}</span>
+          <span ng-if="noSupervisor" class="null">{{'userProfile.details.noSupervisor' | translate}}</span>
         </div>
       </div>
 
@@ -128,14 +128,14 @@
 
     <div ng-show="userData.defaultTenant || userTenantList.length">
       <div class="divider-header">
-        <h4 id="user-skills-header">{{'details.skills.title' | translate}}</h4>
+        <h4 id="user-skills-header">{{'navigation.management.skills' | translate}}</h4>
       </div>
       <p id="no-user-skills" class="null" ng-if="tenantUser.$skills.length == 0">{{'profile.skills.none' | translate}}</p>
       <table max-height="300" class="table" ng-show="tenantUser.$skills.length > 0">
         <thead>
           <tr>
-            <th>{{'value.name' | translate}}</th>
-            <th style="text-align:right">{{'skill.details.proficiency' | translate}}</th>
+            <th>{{'tables.header.nameColumn' | translate}}</th>
+            <th style="text-align:right">{{'skills.proficiency' | translate}}</th>
           </tr>
         </thead>
         <tbody>
@@ -149,10 +149,10 @@
 
     <div ng-show="userData.defaultTenant || userTenantList.length">
       <div class="divider-header">
-        <h4 id="user-groups-header">{{'details.groups.title' | translate}}</h4>
+        <h4 id="user-groups-header">{{'navigation.management.groups' | translate}}</h4>
       </div>
-      <p id="no-user-groups" ng-show="tenantUser.$groups.length === 0" class="null"
-        translate="profile.usergroups.none">
+      <p id="no-user-groups" ng-show="tenantUser.$groups.length === 0" class="null">
+        {{'profile.usergroups.none' | translate}}
       </p>
       <div id="tag-wrapper" class="clear" ng-class="{collapsed : collapsed}">
         <div id="tags-inside" class="clear">

@@ -12,24 +12,24 @@
         ng-repeat="type in loExtensionTypes"
         ng-value="type.value"
         ng-show="!(lec.creatingExtension && type.value === 'webrtc') && !type.hidden">
-        {{type.display}}
+        {{::type.value | translate}}
       </option>
     </select>
   </label>
 
   <form-error field="form.type"
-    error-type-required="{{'details.extension.type.required' | translate}}" >
+    error-type-required="{{'user.details.extensions.type.required' | translate}}" >
   </form-error>
   <form-error field="form.provider"
-    error-type-required="{{'details.extension.provider.required' | translate}}" >
+    error-type-required="{{'user.details.extensions.provider.required' | translate}}" >
   </form-error>
   <form-error field="form.telValue"
-    error-type-required="{{'details.extension.value.required' | translate}}"
-    error-type-phone-number="{{'details.phoneNumber.error' | translate}}" >
+    error-type-required="{{'user.details.extensions.value.required' | translate}}"
+    error-type-phone-number="{{'fields.phoneNumber.error' | translate}}" >
   </form-error>
   <form-error field="form.sipValue"
-    error-type-required="{{'details.extension.value.required' | translate}}"
-    error-type-pattern="{{'details.extensions.sipformat.error' | translate}}" >
+    error-type-required="{{'user.details.extensions.value.required' | translate}}"
+    error-type-pattern="{{'fields.sipFormat.error' | translate}}" >
   </form-error>
   <div ng-show="extension.type == 'webrtc'" class="secondary-field-col">
     <select
@@ -46,7 +46,7 @@
         class="disabled"
         value=""
         ng-disabled="true">
-        {{'details.extension.provider' | translate}}
+        {{'user.details.extensions.provider' | translate}}
       </option>
     </select>
   </div>
@@ -56,7 +56,7 @@
       class="phone-number-col"
       ng-disabled="ngDisabled"
       ng-required="extension.type == 'pstn'"
-      placeholder="{{'details.extension.value' | translate}}"
+      placeholder="{{'user.details.extensions.value' | translate}}"
       ng-model="phoneNumber"
       ng-change="updateExtension()">
     </input>
@@ -68,7 +68,7 @@
       ng-disabled="ngDisabled"
       ng-required="extension.type == 'sip'"
       ng-pattern="sipPattern"
-      placeholder="{{'details.extension.value' | translate}}"
+      placeholder="{{'user.details.extensions.value' | translate}}"
       ng-model="sipExtension"
       ng-change="updateExtension()">
       </input>
@@ -76,15 +76,15 @@
 </div>
 
 <div class="input-group">
-  <label>{{'value.description' | translate}} *</label>
+  <label>{{'fields.description.placeholder' | translate}} *</label>
   <form-error field="form.extensiondescription"
-    error-type-required="{{'details.extension.description.required' | translate}}" >
+    error-type-required="{{'user.details.extension.description.required' | translate}}" >
   </form-error>
   <input type="text"
       ng-disabled="lec.editingExtension !== null && extension.provider === 'twilio'"
       ng-required="extension.provider !== 'twilio'"
       name="extensiondescription"
-      placeholder="{{'value.description' | translate}}"
+      placeholder="{{'fields.description.placeholder' | translate}}"
       ng-model="extension.description">
   </input>
 </div>

@@ -13,11 +13,10 @@
 angular.module('liveopsConfigPanel').service('Session', [
   'sessionKey',
   'preferenceKey',
-  '$translate',
   '$filter',
   '$rootScope',
   'loEvents',
-  function(sessionKey, preferenceKey, $translate, $filter, $rootScope, loEvents) {
+  function(sessionKey, preferenceKey, $filter, $rootScope, loEvents) {
     var self = this;
 
     this.userSessionKey = sessionKey;
@@ -76,8 +75,7 @@ angular.module('liveopsConfigPanel').service('Session', [
       } else {
         this.tenants = [
           {
-            tenantId: '',
-            name: $translate.instant('session.tenants.none')
+            tenantId: ''
           }
         ];
       }

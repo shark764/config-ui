@@ -9,12 +9,12 @@ angular.module('liveopsConfigPanel')
       ResetPassword.userInitiateReset($scope.email)
         .then(function() {
           $state.go('login', {
-            messageKey: 'details.password.emailSent'
+            messageKey: 'forgotPassword.emailSent'
           });
         })
         .catch(function() {
           $scope.loading = false;
-          $scope.error = $translate.instant('login.unexpected.error');
+          $scope.error = $translate.instant('login.error.unexpected');
         });
     };
 

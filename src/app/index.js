@@ -29,8 +29,8 @@ angular.module('liveopsConfigPanel', [
     'infinite-scroll',
     'angular-jwt'
   ])
-  .config(['$translateProvider', 'toastrConfig', '$qProvider', '$locationProvider',
-    function($translateProvider, toastrConfig, qProvider, $locationProvider) {
+  .config(['$translateProvider', 'toastrConfig', '$qProvider', '$locationProvider', 'languages',
+    function($translateProvider, toastrConfig, qProvider, $locationProvider, languages) {
       angular.extend(toastrConfig, {
         closeButton: true,
         timeout: 10000,
@@ -42,8 +42,21 @@ angular.module('liveopsConfigPanel', [
 
       $translateProvider
         .useSanitizeValueStrategy('escaped')
-        .useLocalStorage()
-        .preferredLanguage('en-US');
+        .uniformLanguageTag('bcp47')
+        .fallbackLanguage('en-US')
+        .determinePreferredLanguage(function() {
+          var browserLang = window.localStorage.getItem('locale') || languages.reduce(function(list, lang) { return list.concat(lang.value); }, [])
+            .find(function(val) {
+              return val === window.navigator.language || val.split('-')[0] === window.navigator.language.split('-')[0];
+            });
+
+          if (browserLang && location.hash.includes('alpha')) {
+            return browserLang;
+          }
+
+           // In here we should check the region so we return 'en-GB' or 'en-US' based on it
+           return "en-US";
+        });
 
       qProvider.errorOnUnhandledRejections(false);
 
