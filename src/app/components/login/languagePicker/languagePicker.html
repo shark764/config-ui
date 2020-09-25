@@ -1,0 +1,19 @@
+<div id="languague-picker-wrapper">
+    <div id="languague-picker-btn" ng-click="toggleSelector()">
+        <i class="fa fa-globe fa-2x"></i>
+    </div>
+    <div id="pop-up" ng-show="showSelector">
+        <span id="triangle"></span>
+        <div id="language-picker-selector-wrapper">
+            <div id="language-picker-selector-options-wrapper" ng-show="showOptions">
+                <p ng-class="{ option: true, selected: lang.value === selectedOption.value }" ng-repeat="lang in langs" ng-click="selectLanguage(lang.value)">{{ lang.label }}</span>
+            </div>
+            <div id="language-picker-selector" ng-click="toggleOptions()">
+                <span id="selected-option">{{ selectedOption.label }}</span>
+                <div id="arrow-zone">
+                    <div id="arrow"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

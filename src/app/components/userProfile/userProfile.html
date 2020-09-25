@@ -26,7 +26,7 @@
         <label>{{'userProfile.details.firstName' | translate}} *</label>
         <div>
           <form-error field="userForm.firstName"
-            error-type-required="{{'details.firstName.error' | translate}}"></form-error>
+            error-type-required="{{'userProfile.details.firstName.error' | translate}}"></form-error>
           <input ng-required="true" ng-model="userData.firstName" name="firstName" type="text"></input>
         </div>
       </div>
@@ -34,7 +34,7 @@
         <label>{{'userProfile.details.lastName' | translate}} *</label>
         <div>
           <form-error field="userForm.lastName"
-            error-type-required="{{'details.lastName.error' | translate}}"></form-error>
+            error-type-required="{{'userProfile.details.lastName.error' | translate}}"></form-error>
           <input ng-required="true" ng-model="userData.lastName" name="lastName" type="text"></input>
         </div>
       </div>
@@ -130,7 +130,7 @@
       <div class="divider-header">
         <h4 id="user-skills-header">{{'navigation.management.skills' | translate}}</h4>
       </div>
-      <p id="no-user-skills" class="null" ng-if="tenantUser.$skills.length == 0">{{'profile.skills.none' | translate}}</p>
+      <p id="no-user-skills" class="null" ng-if="tenantUser.$skills.length == 0">{{'userProfile.skills.none' | translate}}</p>
       <table max-height="300" class="table" ng-show="tenantUser.$skills.length > 0">
         <thead>
           <tr>
@@ -152,7 +152,7 @@
         <h4 id="user-groups-header">{{'navigation.management.groups' | translate}}</h4>
       </div>
       <p id="no-user-groups" ng-show="tenantUser.$groups.length === 0" class="null">
-        {{'profile.usergroups.none' | translate}}
+        {{'userProfile.userGroups.none' | translate}}
       </p>
       <div id="tag-wrapper" class="clear" ng-class="{collapsed : collapsed}">
         <div id="tags-inside" class="clear">

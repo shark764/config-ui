@@ -510,22 +510,22 @@ angular.module('liveopsConfigPanel.config', [])
 ])
 
 .constant('languages', [
-  { value: 'en-US', label: 'English (US)' },
+  { value: 'cs-CZ', label: 'Čeština (Czech Republic)' },
   { value: 'de-DE', label: 'Deutsche (Deutschland)' },
   { value: 'en-GB', label: 'English (Great Britain)' },
+  { value: 'en-US', label: 'English (US)' },
   { value: 'es-ES', label: 'Español (España)' }, // Castilian Spanish - Grande!!
   { value: 'fr-CA', label: 'Français (Canada)' },
   { value: 'fr-FR', label: 'Français (France)' },
+  { value: 'it-IT', label: 'Italiano (Italia)' },
+  { value: 'nl-NL', label: 'Nederlands (Nederland)' },
+  { value: 'nb-NO', label: 'Norsk (Norge)' }, // Standard Norwegian
   { value: 'pl-PL', label: 'Polski (Polska)' },
   { value: 'pt-BR', label: 'Português (Brasil)' },
-  { value: 'cs-CZ', label: 'Čeština (Czech Republic)' },
   { value: 'fi-FI', label: 'Suomi (Suomessa)' }, // Standard Finnish
-  { value: 'it-IT', label: 'Italiano (Italia)' },
-  { value: 'ja-JP', label: '日本語 (日本)' }, // Standard Japanese
-  { value: 'ko-KR', label: '한국어 (한국)' }, // Standard Korean
-  { value: 'nb-NO', label: 'Norsk (Norge)' }, // Standard Norwegian
-  { value: 'nl-NL', label: 'Nederlands (Nederland)' },
   { value: 'sv-SE', label: 'Svenska (Sverige)' }, // Standard Swedish
+  { value: 'ko-KR', label: '한국어 (한국)' }, // Standard Korean
+  { value: 'ja-JP', label: '日本語 (日本)' }, // Standard Japanese
   { value: 'zh-CN', label: '简体中文 (中国)' }, // Simplified Chinese
   { value: 'zh-TW', label: '繁體中文 (中文 - 台灣)' } // Traditional Chinese - Taiwan
 ]);

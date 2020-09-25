@@ -58,6 +58,7 @@ angular
       $scope.innerScope = {};
       $scope.isSso = Session.isSso;
       $scope.innerScope.idpLoginPageLogin = AuthService.idpLogin;
+      $scope.isAlpha = location.hash.includes('alpha');
 
       $scope.innerScope.loginStatus = {
         $$state: {

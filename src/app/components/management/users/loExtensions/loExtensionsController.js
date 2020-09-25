@@ -60,7 +60,7 @@ angular.module('liveopsConfigPanel')
         }).then(function(tenantUser) {
           $scope.tenantUser.roleId = roleId;
           vm.resetExtension();
-          Alert.success($translate.instant('details.extensions.success'));
+          Alert.success($translate.instant('user.details.extensions.sucess'));
           return tenantUser;
         }, function(response) {
           $scope.tenantUser.roleId = roleId;
@@ -83,7 +83,7 @@ angular.module('liveopsConfigPanel')
             unbindWatch();
           });
 
-          Alert.error($translate.instant('details.extensions.error'));
+          Alert.error($translate.instant('user.details.extensions.error'));
 
           $scope.tenantUser.reset();
           return $q.reject(response);

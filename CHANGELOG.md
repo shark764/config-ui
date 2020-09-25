@@ -30,6 +30,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API Keys
 - Message Templates
 
+## [4.91.2] - 2020-09-24
+### Fixed
+- [CXV1-22918](https://lifesize.atlassian.net/browse/CXV1-22918) - Config 1 - Login page Language Preference Button
+
 ## [4.91.1] - 2020-09-25
 ### Fixed
 - <no-Jira> - sdk version bump to 9.14.0

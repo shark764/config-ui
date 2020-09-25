@@ -45,17 +45,22 @@ angular.module('liveopsConfigPanel', [
         .uniformLanguageTag('bcp47')
         .fallbackLanguage('en-US')
         .determinePreferredLanguage(function() {
-          var browserLang = window.localStorage.getItem('locale') || languages.reduce(function(list, lang) { return list.concat(lang.value); }, [])
-            .find(function(val) {
-              return val === window.navigator.language || val.split('-')[0] === window.navigator.language.split('-')[0];
-            });
+          var browserLang = location.hash.includes('alpha') ?
+            window.localStorage.getItem('locale') || 
+              languages.reduce(function(list, lang) { return list.concat(lang.value); }, [])
+                .find(function(val) {
+                  return val === window.navigator.language || val.split('-')[0] === window.navigator.language.split('-')[0];
+                }) ||
+              'en-US' : // In the last step should be a function determining the region and returning the language key based on that(en-US or en-GB)
+              'en-US'; // If it's not alpha we always return english
 
-          if (browserLang && location.hash.includes('alpha')) {
-            return browserLang;
-          }
+          // Set on the local storage the selected language
+          if (location.hash.includes('alpha') && (!window.localStorage.getItem('locale') || window.localStorage.getItem('locale') === '')) {
+            window.localStorage.setItem('locale', browserLang);
+          }  
 
-           // In here we should check the region so we return 'en-GB' or 'en-US' based on it
-           return "en-US";
+          return browserLang;
+
         });
 
       qProvider.errorOnUnhandledRejections(false);
