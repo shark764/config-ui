@@ -30,6 +30,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API Keys
 - Message Templates
 
+## [4.91.1] - 2020-09-25
+### Fixed
+- <no-Jira> - sdk version bump to 9.14.0
+
 ## [4.91.0] - 2020-09-11
 ### Fixed
 - [CXV1-22917](https://lifesize.atlassian.net/browse/CXV1-22917) - Config 1 - Translate Login Page
