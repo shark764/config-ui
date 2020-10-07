@@ -30,6 +30,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API Keys
 - Message Templates
 
+## [4.92.0] - 2020-10-07
+### Fixed
+- [CXV1-23197](https://lifesize.atlassian.net/browse/CXV1-23197) - Config 1 - Point Navbar to new Business Hours page
+
 ## [4.91.2] - 2020-09-24
 ### Fixed
 - [CXV1-22918](https://lifesize.atlassian.net/browse/CXV1-22918) - Config 1 - Login page Language Preference Button
