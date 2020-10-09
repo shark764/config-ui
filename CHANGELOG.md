@@ -30,6 +30,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API Keys
 - Message Templates
 
+## [4.92.2] - 2020-10-08
+### Fixed
+- Updating SDK Logic to only pass 
+
 ## [4.92.1] - 2020-10-08
 ### Fixed
 - Changing Realtime Dashboards to 5.10.5-1

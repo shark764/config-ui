@@ -306,8 +306,16 @@ angular.module('liveopsConfigPanel').directive('sdkListener', [
               else if (event.data.module !== undefined) {
                 console.log('[SDK Listener] Asking the SDK for:', event.data);
                 if (CxEngage[event.data.module][event.data.command] === undefined) {
+                  var params = { 
+                    path: event.data.path, 
+                    body: event.data.data, 
+                    customTopic: event.data.topic
+                  }
+                  if(event.data.apiVersion){
+                    params.apiVersion = event.data.apiVersion;
+                  }
                   CxEngage.api[event.data.crudAction](
-                    { path: event.data.path, body: event.data.data, customTopic: event.data.topic, apiVersion: event.data.apiVersion},
+                    params,
                     function (error, topic, response) {
                       if (event.source !== undefined) {
                         console.log('[SDK Listener] SDK sending back:', event.data.messageId, error, topic, response);
