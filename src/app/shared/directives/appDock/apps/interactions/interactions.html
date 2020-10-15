@@ -4,20 +4,22 @@
     class="highlight-error"
     layout-padding
     layout-margin
-    layout-align="center center">
-      {{'appdock.audioRecordings.details.noInfo' | translate}}
-    </md-toolbar>
+    layout-align="center center"
+  >
+    {{'appdock.audioRecordings.details.noInfo' | translate}}
+  </md-toolbar>
 </div>
 
 <div layout="row" ng-if="showNoPermissionsMsg === true">
-    <md-toolbar
-      class="highlight-error"
-      layout-padding
-      layout-margin
-      layout-align="center center">
-        {{'appdock.messages.details.noPermissions' | translate}}
-      </md-toolbar>
-  </div>
+  <md-toolbar
+    class="highlight-error"
+    layout-padding
+    layout-margin
+    layout-align="center center"
+  >
+    {{'appdock.messages.details.noPermissions' | translate}}
+  </md-toolbar>
+</div>
 
 <section
   ng-if="configData.type === 'voice' && artifacts.length > 0 && (showNoResultsMsg !== true && showNoPermissionsMsg !== true) && !isLoadingAppDock"
@@ -25,8 +27,8 @@
   layout="row"
   flex
   layout-align="start start"
-  ng-include="'app/shared/directives/appDock/apps/interactions/audioRecordingContent.html'">
-</section>
+  ng-include="'app/shared/directives/appDock/apps/interactions/audioRecordingContent.html'"
+></section>
 
 <section
   ng-if="(configData.type === 'messaging' || configData.type === 'sms') && interactionData.length > 0 && (showNoResultsMsg !== true && showNoPermissionsMsg !== true) && !isLoadingAppDock"
@@ -34,6 +36,14 @@
   layout="row"
   flex
   layout-align="start start"
+  ng-include="'app/shared/directives/appDock/apps/interactions/messagingContent.html'"
+></section>
+
+<section
+  ng-if="(configData.type === 'email') && interactionData.length > 0 && (showNoResultsMsg !== true && showNoPermissionsMsg !== true) && !isLoadingAppDock"
+  id="email-content"
+  layout="row"
   flex
-  ng-include="'app/shared/directives/appDock/apps/interactions/messagingContent.html'">
-</section>
+  layout-align="start start"
+  ng-include="'app/shared/directives/appDock/apps/interactions/emailContent.html'"
+></section>

@@ -4,6 +4,7 @@ angular
   // .constant('apiHostname', 'http://localhost:9080')
   .constant('apiHostname', 'https://dev-api.cxengagelabs.net')
   .constant('designerHostname', 'https://dev-designer.cxengagelabs.net')
+  // .constant('designerHostname', 'http://localhost:1339')
   // .constant('debuggerHostname', 'http://localhost:4200')
   .constant('debuggerHostname', 'https://dev-debugger.cxengagelabs.net')
   .constant('config2Url', 'https://dev-config2.cxengagelabs.net')
@@ -16,6 +17,7 @@ angular
   .constant('helpDocsHostname', 'http://docs.cxengage.net')
   .constant('CxEngageConfig', {
     baseUrl: 'https://dev-api.cxengagelabs.net/v1/',
+    // baseUrl: 'http://localhost:9080/v1/',
     logLevel: 'debug',
     // environment is modified in the Jenkins deploy task, best not to override this
     environment: 'dev',

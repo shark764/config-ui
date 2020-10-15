@@ -1,0 +1,83 @@
+<md-sidenav
+  class="md-sidenav-left md-whiteframe-z2 email-artifacts-list"
+  md-component-id="left"
+  md-is-locked-open="true"
+>
+  <md-list flex>
+    <md-list-item
+      ng-repeat="email in interactionData"
+      ng-class="{'active-item': selectedItem.artifactId === email.artifactId}"
+      class="md-3-line"
+      ng-click="setSelectedItem(email)"
+    >
+      <div class="md-list-item-text" layout="column">
+        <h2 ng-if="$index === 0" class="artifact-label">
+          {{'appdock.email' | translate}}
+        </h2>
+        <h2 ng-if="$index === 1" class="artifact-label">
+          {{'appdock.reply' | translate}}
+        </h2>
+        <h3 class="artifact-label" layout-align="start">
+          {{'appdock.email.subject' | translate}}: {{email.subject}}
+        </h3>
+        <h4 class="artifact-label">
+          {{'appdock.created' | translate}}: {{email.created |
+          convertToTimezone:TimezoneValHolder.tenantTimezone:'MMM D, YYYY
+          hh:mm:ss A'}}
+        </h4>
+      </div>
+    </md-list-item>
+  </md-list>
+</md-sidenav>
+
+<md-content flex>
+  <md-card class="email-data-card" flex>
+    <md-content layout-padding layout-margin>
+      <div class="heading-container">
+        <h1 class="md-headline">{{'appdock.emailHdr' | translate}}</h1>
+        <h3 class="artifact-label">
+          {{'appdock.email.subject' | translate}}: {{selectedItem.subject}}
+        </h3>
+        <h4 ng-if="selectedItem.from.length > 0">
+          {{'appdock.email.from' | translate}}:
+          {{getSelectedEmailRecipients('from')}}
+        </h4>
+        <h4 ng-if="selectedItem.to.length > 0">
+          {{'appdock.email.to' | translate}}:
+          {{getSelectedEmailRecipients('to')}}
+        </h4>
+        <h4 ng-if="selectedItem.cc.length > 0">
+          {{'appdock.email.cc' | translate}}:
+          {{getSelectedEmailRecipients('cc')}}
+        </h4>
+        <h4 ng-if="selectedItem.bcc.length > 0">
+          {{'appdock.email.bcc' | translate}}:
+          {{getSelectedEmailRecipients('bcc')}}
+        </h4>
+      </div>
+
+      <md-divider></md-divider>
+
+      <div ng-if="selectedItem.attachments.length > 0">
+        <md-list-item
+          class="email-attachments-list"
+          ng-repeat="attachment in selectedItem.attachments"
+          layout-padding
+        >
+          <a
+            ng-if="attachment && attachment.url"
+            ng-href="{{attachment.url}}"
+            target="_blank"
+          >
+            <div>{{attachment.filename}}</div>
+          </a>
+        </md-list-item>
+        <br />
+      </div>
+
+      <md-divider></md-divider>
+
+      <div class="email-body">{{selectedItem.data}}</div>
+    </md-content>
+  </md-card>
+</md-content>

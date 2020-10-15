@@ -33,6 +33,24 @@ angular.module('liveopsConfigPanel')
           // using this as a "bridge" to pass timezone val down to ng-include html
           scope.TimezoneValHolder = {};
 
+          scope.getSelectedEmailRecipients = function (recipientType) {
+            if (scope.selectedItem[recipientType].length === 0) {
+              return;
+            }
+
+            return scope.selectedItem[recipientType]
+              .map(function (recipient) {
+                if (!recipient.name) {
+                  return recipient.address;
+                } else if (recipient.name === recipient.address) {
+                  return recipient.address;
+                } else {
+                  return recipient.name + ' <' + recipient.address + '>';
+                }
+              })
+              .join(', ');
+          };
+
           // since the messages API doesn't give us the user's name,
           // we have to hit a separate "from" endpoint, and this maps the
           // "name" ID # from the messages API to the name as specified in
@@ -225,6 +243,185 @@ angular.module('liveopsConfigPanel')
             });
           }
 
+          function emails() {
+            CxEngage.reporting.getEmailTranscripts(
+              {
+                interactionId: scope.config.id,
+                tenantId: scope.config.tenantId,
+              },
+              function (error, topic, response) {
+                if (error || !response || !response.length) {
+                  console.error(
+                    'Failed to get transcript record',
+                    error,
+                    response
+                  );
+                  if (
+                    error &&
+                    error.data &&
+                    error.data.apiResponse &&
+                    (error.data.apiResponse.status === 401 ||
+                      error.data.apiResponse.status === 403)
+                  ) {
+                    scope.showNoPermissionsMsg = true;
+                  } else {
+                    scope.showNoResultsMsg = true;
+                  }
+                  scope.isLoadingAppDock = false;
+                  return;
+                }
+
+                response = response.filter(function (artifact) {
+                  return artifact.files.length > 0;
+                });
+
+                var promisesObject = {};
+                response.forEach(function (artifact, index) {
+                  var plainEmail = _.find(artifact.files, function (file) {
+                    return (
+                      file &&
+                      ((file.contentType.includes('TEXT/PLAIN') &&
+                        file.filename === 'body') ||
+                        (file.contentType.includes('text/plain') &&
+                          file.filename === 'plainTextBody'))
+                    );
+                  });
+                  if (plainEmail) {
+                    var emailRequest = $http({
+                      method: 'GET',
+                      url: plainEmail.url,
+                      transformResponse: function (value) {
+                        return value;
+                      },
+                    });
+                    if (index === 0) {
+                      promisesObject.email = emailRequest;
+                    } else {
+                      promisesObject.reply = emailRequest;
+                    }
+                  } else {
+                    console.warn(
+                      'Unable to find email for ',
+                      artifact && artifact.artfactId,
+                      artifact
+                    );
+                  }
+                  var manifestEmail = _.find(artifact.files, function (file) {
+                    return (
+                      file &&
+                      file.contentType.includes('application/json') &&
+                      file.filename === 'manifest.json'
+                    );
+                  });
+                  if (manifestEmail) {
+                    var manifestRequest = $http({
+                      method: 'GET',
+                      url: manifestEmail.url,
+                      transformResponse: function (value) {
+                        return value;
+                      },
+                    });
+                    if (index === 0) {
+                      promisesObject.manifest = manifestRequest;
+                    } else {
+                      promisesObject.replyManifest = manifestRequest;
+                    }
+                  }
+                });
+
+                $q.all(promisesObject)
+                  .then(function (promisesResponse) {
+                    var emailResponses = [];
+                    var email = promisesResponse.email;
+                    if (email && promisesResponse.manifest) {
+                      var manifest = JSON.parse(promisesResponse.manifest.data);
+                      _.merge(email, {
+                        subject: manifest.subject,
+                        from: manifest.from,
+                        to: manifest.to,
+                        cc: manifest.cc,
+                        bcc: manifest.bcc,
+                      });
+                      emailResponses.push(email);
+                    }
+
+                    var reply = promisesResponse.reply;
+                    if (reply && promisesResponse.replyManifest) {
+                      var replyManifest = JSON.parse(
+                        promisesResponse.replyManifest.data
+                      );
+                      _.merge(reply, {
+                        subject: replyManifest.subject,
+                        from: replyManifest.from,
+                        to: replyManifest.to,
+                        cc: replyManifest.cc,
+                        bcc: replyManifest.bcc,
+                      });
+                      emailResponses.push(reply);
+                    }
+
+                    emailResponses.forEach(function (emailResponse, index) {
+                      if (emailResponse !== undefined) {
+                        var attachments = [];
+                        var artifact = response[index];
+
+                        artifact.files.forEach(function (file) {
+                          if (file && file.filename !== 'manifest.json') {
+                            if (file.contentType.includes('name=')) {
+                              file.filename = file.contentType.substring(
+                                file.contentType.indexOf('name=') + 5
+                              );
+                            } else if (
+                              (file.contentType.includes('TEXT/HTML') &&
+                                file.filename === 'body') ||
+                              (file.contentType.includes('text/html') &&
+                                file.filename === 'htmlBody')
+                            ) {
+                              file.filename += '.html';
+                            } else if (
+                              (file.contentType.includes('TEXT/PLAIN') &&
+                                file.filename === 'body') ||
+                              (file.contentType.includes('text/plain') &&
+                                file.filename === 'plainTextBody')
+                            ) {
+                              file.filename += '.txt';
+                            }
+                            attachments.push(file);
+                          }
+                        });
+
+                        _.merge(emailResponse, {
+                          artifactId: artifact.artifactId,
+                          created: artifact.created,
+                          attachments: attachments,
+                        });
+                      }
+                    });
+
+                    emailResponses = _.without(emailResponses, undefined);
+
+                    if (emailResponses.length > 0) {
+                      scope.interactionData = emailResponses;
+                      scope.setSelectedItem(emailResponses[0]);
+                      scope.showNoResultsMsg = false;
+                      tenantTimezone();
+                    } else {
+                      scope.showNoResultsMsg = true;
+                    }
+                    scope.isLoadingAppDock = false;
+                  })
+                  .catch(function (err) {
+                    console.error(
+                      'An error ocurred while fetching email transcript files',
+                      err
+                    );
+                    scope.isLoadingAppDock = false;
+                    scope.showNoResultsMsg = true;
+                  });
+              }
+            );
+          }
+
           scope.$on('appDockDataLoaded', function () {
             $interval.cancel(getRecordingUrl);
             var audioCurrentTime = 0;
@@ -264,7 +461,9 @@ angular.module('liveopsConfigPanel')
             $interval.cancel(getRecordingUrl);
           });
 
-          if (scope.config.type !== 'voice') {
+          if (scope.config.type === 'email') {
+            emails();
+          } else if (scope.config.type !== 'voice') {
             messages();
           } else {
             recordings();

@@ -16,7 +16,7 @@
 
           <md-tab
             label="{{'appdock.audioRecordings.tabs.interaction' | translate}}: {{app.id}}"
-            ng-if="app.type === 'voice' || app.type === 'messaging' || app.type === 'sms'"
+            ng-if="app.type === 'voice' || app.type === 'messaging' || app.type === 'sms' || app.type === 'email'"
             ng-click="toggleAppsDisplay()">
 
             <interactions config="app" ng-show="showApps"></interactions>
