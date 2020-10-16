@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Tenants
 - Integrations
 
+## [4.93.1] - 2020-10-08
+### Fixed
+- [CXV1-23073](https://lifesize.atlassian.net/browse/CXV1-23073) - Realtime Dashboard-Dropdowns filters order issue.
+
 ## [4.93.0] - 2020-10-12
 ### Added
 - [CXV1-23208](https://lifesize.atlassian.net/browse/CXV1-23208) - Adding email transcripts to addDock.
