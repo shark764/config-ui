@@ -109,6 +109,11 @@ loading {
     white-space: pre-wrap;
   }
 
+  .email-transcript-head h3,
+  .email-transcript-head h4 {
+    display: -webkit-inline-box;
+  }
+
   .email-attachments-list {
     display: -webkit-inline-box;
 

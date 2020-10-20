@@ -33,6 +33,10 @@ angular.module('liveopsConfigPanel')
           // using this as a "bridge" to pass timezone val down to ng-include html
           scope.TimezoneValHolder = {};
 
+          scope.renderHtml = function (htmlCode) {
+            return $sce.trustAsHtml(htmlCode);
+          };
+
           scope.getSelectedEmailRecipients = function (recipientType) {
             if (scope.selectedItem[recipientType].length === 0) {
               return;
@@ -40,9 +44,7 @@ angular.module('liveopsConfigPanel')
 
             return scope.selectedItem[recipientType]
               .map(function (recipient) {
-                if (!recipient.name) {
-                  return recipient.address;
-                } else if (recipient.name === recipient.address) {
+                if (!recipient.name || recipient.name === recipient.address) {
                   return recipient.address;
                 } else {
                   return recipient.name + ' <' + recipient.address + '>';
@@ -275,21 +277,36 @@ angular.module('liveopsConfigPanel')
                   return artifact.files.length > 0;
                 });
 
+                var renderBodyAs = 'html';
                 var promisesObject = {};
                 response.forEach(function (artifact, index) {
-                  var plainEmail = _.find(artifact.files, function (file) {
+                  var bodyFile = _.find(artifact.files, function (file) {
                     return (
                       file &&
-                      ((file.contentType.includes('TEXT/PLAIN') &&
+                      ((file.contentType.toLowerCase().includes('text/html') &&
                         file.filename === 'body') ||
-                        (file.contentType.includes('text/plain') &&
-                          file.filename === 'plainTextBody'))
+                        file.filename === 'htmlBody')
                     );
                   });
-                  if (plainEmail) {
+                  if (!bodyFile) {
+                    bodyFile = _.find(artifact.files, function (file) {
+                      return (
+                        file &&
+                        file.contentType.toLowerCase().includes('text/plain') &&
+                        (file.filename === 'body' ||
+                          file.filename === 'plainTextBody')
+                      );
+                    });
+                    renderBodyAs = 'plainText';
+                    console.warn(
+                      'Unable to find html file for email, using plainText file instead',
+                      artifact && artifact.artfactId
+                    );
+                  }
+                  if (bodyFile) {
                     var emailRequest = $http({
                       method: 'GET',
-                      url: plainEmail.url,
+                      url: bodyFile.url,
                       transformResponse: function (value) {
                         return value;
                       },
@@ -301,7 +318,7 @@ angular.module('liveopsConfigPanel')
                     }
                   } else {
                     console.warn(
-                      'Unable to find email for ',
+                      'Unable to find email for',
                       artifact && artifact.artfactId,
                       artifact
                     );
@@ -309,7 +326,9 @@ angular.module('liveopsConfigPanel')
                   var manifestEmail = _.find(artifact.files, function (file) {
                     return (
                       file &&
-                      file.contentType.includes('application/json') &&
+                      file.contentType
+                        .toLowerCase()
+                        .includes('application/json') &&
                       file.filename === 'manifest.json'
                     );
                   });
@@ -333,30 +352,36 @@ angular.module('liveopsConfigPanel')
                   .then(function (promisesResponse) {
                     var emailResponses = [];
                     var email = promisesResponse.email;
-                    if (email && promisesResponse.manifest) {
-                      var manifest = JSON.parse(promisesResponse.manifest.data);
-                      _.merge(email, {
-                        subject: manifest.subject,
-                        from: manifest.from,
-                        to: manifest.to,
-                        cc: manifest.cc,
-                        bcc: manifest.bcc,
-                      });
+                    if (email) {
+                      if (promisesResponse.manifest) {
+                        var manifest = JSON.parse(
+                          promisesResponse.manifest.data
+                        );
+                        _.merge(email, {
+                          subject: manifest.subject,
+                          from: manifest.from,
+                          to: manifest.to,
+                          cc: manifest.cc,
+                          bcc: manifest.bcc,
+                        });
+                      }
                       emailResponses.push(email);
                     }
 
                     var reply = promisesResponse.reply;
-                    if (reply && promisesResponse.replyManifest) {
-                      var replyManifest = JSON.parse(
-                        promisesResponse.replyManifest.data
-                      );
-                      _.merge(reply, {
-                        subject: replyManifest.subject,
-                        from: replyManifest.from,
-                        to: replyManifest.to,
-                        cc: replyManifest.cc,
-                        bcc: replyManifest.bcc,
-                      });
+                    if (reply) {
+                      if (promisesResponse.replyManifest) {
+                        var replyManifest = JSON.parse(
+                          promisesResponse.replyManifest.data
+                        );
+                        _.merge(reply, {
+                          subject: replyManifest.subject,
+                          from: replyManifest.from,
+                          to: replyManifest.to,
+                          cc: replyManifest.cc,
+                          bcc: replyManifest.bcc,
+                        });
+                      }
                       emailResponses.push(reply);
                     }
 
@@ -367,21 +392,20 @@ angular.module('liveopsConfigPanel')
 
                         artifact.files.forEach(function (file) {
                           if (file && file.filename !== 'manifest.json') {
+                            var fileContentType = file.contentType.toLowerCase();
                             if (file.contentType.includes('name=')) {
                               file.filename = file.contentType.substring(
                                 file.contentType.indexOf('name=') + 5
                               );
                             } else if (
-                              (file.contentType.includes('TEXT/HTML') &&
-                                file.filename === 'body') ||
-                              (file.contentType.includes('text/html') &&
+                              fileContentType.includes('text/html') &&
+                              (file.filename === 'body' ||
                                 file.filename === 'htmlBody')
                             ) {
                               file.filename += '.html';
                             } else if (
-                              (file.contentType.includes('TEXT/PLAIN') &&
-                                file.filename === 'body') ||
-                              (file.contentType.includes('text/plain') &&
+                              fileContentType.includes('text/plain') &&
+                              (file.filename === 'body' ||
                                 file.filename === 'plainTextBody')
                             ) {
                               file.filename += '.txt';
@@ -394,6 +418,7 @@ angular.module('liveopsConfigPanel')
                           artifactId: artifact.artifactId,
                           created: artifact.created,
                           attachments: attachments,
+                          renderBodyAs: renderBodyAs,
                         });
                       }
                     });

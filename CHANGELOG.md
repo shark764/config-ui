@@ -11,6 +11,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Tenants
 - Integrations
 
+## [4.93.2] - 2020-10-19
+### Changed
+- [CXV1-23246](https://lifesize.atlassian.net/browse/CXV1-23246) - Using html body file instead of plaintext for email transcripts.
+### Fixed
+- [CXV1-23240](https://lifesize.atlassian.net/browse/CXV1-23240) - Getting rid of uppercase transform of interaction-id in addDock.
+
 ## [4.93.1] - 2020-10-08
 ### Fixed
 - [CXV1-23073](https://lifesize.atlassian.net/browse/CXV1-23073) - Realtime Dashboard-Dropdowns filters order issue.

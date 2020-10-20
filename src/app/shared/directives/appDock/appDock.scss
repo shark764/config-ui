@@ -1,13 +1,13 @@
 $hdr-background: #07487a;
 
-#app-toolbar{
+#app-toolbar {
   width: 100%;
   position: fixed;
   bottom: 0;
   left: 0;
   padding: 0;
   margin: 0;
-  background: #FFF;
+  background: #fff;
 
   .heading-container {
     padding: {
@@ -48,7 +48,7 @@ md-tabs {
         &:after {
           font-family: FontAwesome;
           font-size: 1.2em;
-          content: " \f106";
+          content: ' \f106';
         }
       }
     }
@@ -60,7 +60,7 @@ md-tabs {
         &:after {
           font-family: FontAwesome;
           font-size: 1.2em;
-          content: " \f107";
+          content: ' \f107';
         }
       }
     }
@@ -83,16 +83,13 @@ md-tabs md-tabs-wrapper {
 md-tab-item {
   &.md-tab {
     cursor: pointer;
+    text-transform: none;
 
     &.md-active {
       cursor: pointer;
       color: #fff;
     }
   }
-}
-
-.app-dock-content {
-
 }
 
 .app-dock-content {
@@ -118,8 +115,6 @@ md-tab-item {
 }
 
 .tabs-box {
-
-
   md-content {
     background-color: transparent !important;
 
