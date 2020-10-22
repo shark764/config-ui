@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Tenants
 - Integrations
 
+## [4.93.3] - 2020-10-21
+### Changed
+- CXV1-23062 - Twilio Regions Update (Add Sydney, Frankfurt & Tokyo Interconnect Regions; Remove US West Coast region)
+
 ## [4.93.2] - 2020-10-19
 ### Changed
 - [CXV1-23246](https://lifesize.atlassian.net/browse/CXV1-23246) - Using html body file instead of plaintext for email transcripts.
