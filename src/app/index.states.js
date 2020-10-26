@@ -567,6 +567,26 @@ angular.module('liveopsConfigPanel').config([
         url: '/hours?id',
         title: 'Configuration - Business Hours Management',
         templateUrl: 'app/components/configuration/hours2/hours.html',
+        controller: 'hoursControllerTemp',
+        reloadOnSearch: false,
+        resolve: {
+          hasPermission: [
+            'UserPermissions',
+            'PermissionGroups',
+            function(UserPermissions, PermissionGroups) {
+              return (
+                UserPermissions.hasPermissionInList(PermissionGroups.viewBusinessHours) ||
+                UserPermissions.resolvePermissions(PermissionGroups.manageBusinessHours)
+              );
+            }
+          ]
+        },
+        params: {config2: true}
+      })
+      .state('content.configuration.hours2', {
+        url: '/hours2?id',
+        title: 'Configuration - Business Hours Management',
+        templateUrl: 'app/components/configuration/hours2/hours.html',
         controller: 'hoursController2',
         reloadOnSearch: false,
         resolve: {

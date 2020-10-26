@@ -121,7 +121,11 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
         goTo = 'content.management.users';
       } else if ($state.includes('content.configuration.keys') || $state.includes('content.configuration.keysOld')) {
         goTo = 'content.configuration.keys';
-      } else if ($state.includes('content.configuration.hours') || $state.includes('content.configuration.hoursOld')) {
+      } else if (
+        $state.includes('content.configuration.hours') ||
+        $state.includes('content.configuration.hours2') ||
+        $state.includes('content.configuration.hoursOld')
+      ) {
         goTo = 'content.configuration.hours';
       } else if (
         $state.includes('content.configuration.messageTemplates') ||
@@ -571,10 +575,15 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
         UserPermissions.hasPermissionInList(PermissionGroups.manageBusinessHours)
       ) {
         items.push({
-          label: $translate.instant('navigation.configuration.businessHours'),
-          stateLink: 'content.configuration.hours',
+          label:
+            $translate.instant('navigation.configuration.businessHours') +
+            ($location.search()['alpha'] && !isActiveExternalTenant ? ' (alpha)' : ''),
+          stateLink:
+            $location.search()['alpha'] && !isActiveExternalTenant
+              ? 'content.configuration.hours2'
+              : 'content.configuration.hours',
           id: 'hours-configuration-link',
-          order: 5
+          order: 5,
         });
       }
 
