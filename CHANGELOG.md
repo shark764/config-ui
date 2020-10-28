@@ -11,6 +11,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Tenants
 - Integrations
 
+## [4.93.5] - 2020-10-26
+### Changed
+- [CXV1-23299](https://lifesize.atlassian.net/browse/CXV1-23299) - Realtime Dashboard - In Conversation Time - Column Format
+- [CXV1-12866](https://lifesize.atlassian.net/browse/CXV1-12866) - Realtime Dashboard - In Queue Time reset to 00:00:00
+
 ## [4.93.4] - 2020-10-23
 ### Changed
 - CXV1-23293 - Adding Business Hours V2 accessible with alpha tag.
