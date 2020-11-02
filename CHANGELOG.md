@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Tenants
 - Integrations
 
+## [4.93.6] - 2020-10-29
+### Fixed
+* CCXV1-21456 - Config UI | Custom Realtime Dashboard | Statistic Widget stuck in loading icon stuck when update button is clicked.
+
 ## [4.93.5] - 2020-10-26
 ### Changed
 - [CXV1-23299](https://lifesize.atlassian.net/browse/CXV1-23299) - Realtime Dashboard - In Conversation Time - Column Format
