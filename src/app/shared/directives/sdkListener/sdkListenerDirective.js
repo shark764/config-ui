@@ -78,13 +78,6 @@ angular.module('liveopsConfigPanel').directive('sdkListener', [
               );
             } else if (CxEngage.session.getActiveTenantId()) {
               if (event.data.module === 'monitorCall') {
-                if (!tenantIsSet) {
-                  CxEngage.session.setActiveTenant({
-                    tenantId: CxEngage.session.getActiveTenantId(),
-                    silentMonitoring: true
-                  });
-                  tenantIsSet = true;
-                }
                 var silentMonitorCall = function (event) {
                   if (CxEngage.interactions.voice) {
                     var monitoredInteraction = CxEngage.session.getMonitoredInteraction();
@@ -143,7 +136,32 @@ angular.module('liveopsConfigPanel').directive('sdkListener', [
                   }
                 };
 
-                silentMonitorCall(event);
+                if (!tenantIsSet) {
+                  CxEngage.session.setActiveTenant({
+                    tenantId: CxEngage.session.getActiveTenantId(),
+                    silentMonitoring: true
+                  });
+                  // Wait for session start to prevent race condition between creating session and trying to
+                  // silent monitor a call.
+                  CxEngage.subscribe('cxengage/session/started', function (error, topic, response) {
+                    if (error) {
+                      console.log('[SDK Listener] Failed to create session for silent monitoring. Updating toolbar...');
+                      event.source.postMessage(
+                        {
+                          topic: ['monitorCall'],
+                          response: 'cancelled',
+                          messageId: event.data.messageId
+                        },
+                        '*'
+                      );
+                      return;
+                    }
+                    tenantIsSet = true;
+                    silentMonitorCall(event);
+                  })
+                } else {
+                  silentMonitorCall(event);
+                }
               } else if (event.data.module === 'FlowDesigner.draftPublished') {
                 // Call to open Flow Designer from Config-UI2
                 $state.go('content.flows.editor', {
