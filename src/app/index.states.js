@@ -58,6 +58,7 @@ angular.module('liveopsConfigPanel').config([
       .state('content.management.usersOld', {
         url: '/users-old?id',
         title: 'User Management - Users',
+        titleMessageId: 'title.management.users',
         templateUrl: 'app/components/management/users/users.html',
         controller: 'UsersController',
         reloadOnSearch: false,
@@ -80,6 +81,7 @@ angular.module('liveopsConfigPanel').config([
       .state('content.management.users', {
         url: '/users?id',
         title: 'User Management - Users',
+        titleMessageId: 'title.management.users',
         templateUrl: 'app/components/management/users2/users.html',
         controller: 'usersController2',
         reloadOnSearch: false,
@@ -103,6 +105,7 @@ angular.module('liveopsConfigPanel').config([
       .state('content.management.rolesOld', {
         url: '/roles-old?id',
         title: 'User Management - Role Management',
+        titleMessageId: 'title.management.roles',
         templateUrl: 'app/components/management/roles/roles.html',
         controller: 'RolesController',
         reloadOnSearch: false,
@@ -119,6 +122,7 @@ angular.module('liveopsConfigPanel').config([
       .state('content.management.roles', {
         url: '/roles?id',
         title: 'User Management - Role Management',
+        titleMessageId: 'title.management.roles',
         templateUrl: 'app/components/management/roles2/roles2.html',
         controller: 'rolesController2',
         reloadOnSearch: false,
@@ -136,6 +140,7 @@ angular.module('liveopsConfigPanel').config([
       .state('content.management.skillsOld', {
         url: '/skills-old?id',
         title: 'User Management - Skill Management',
+        titleMessageId: 'title.management.skills',
         templateUrl: 'app/components/management/skills/skills.html',
         controller: 'SkillsController',
         reloadOnSearch: false,
@@ -156,6 +161,7 @@ angular.module('liveopsConfigPanel').config([
       .state('content.management.skills', {
         url: '/skills?id',
         title: 'User Management - Skill Management',
+        titleMessageId: 'title.management.skills',
         templateUrl: 'app/components/management/skills2/skills.html',
         controller: 'skillsController2',
         reloadOnSearch: false,
@@ -177,6 +183,7 @@ angular.module('liveopsConfigPanel').config([
       .state('content.management.groupsOld', {
         url: '/groups-old?id',
         title: 'User Management - Group Management',
+        titleMessageId: 'title.management.groups',
         templateUrl: 'app/components/management/groups/groups.html',
         controller: 'GroupsController',
         reloadOnSearch: false,
@@ -197,6 +204,7 @@ angular.module('liveopsConfigPanel').config([
       .state('content.management.groups', {
         url: '/groups?id',
         title: 'User Management - Group Management',
+        titleMessageId: 'title.management.groups',
         templateUrl: 'app/components/management/groups2/groups.html',
         controller: 'groupsController2',
         reloadOnSearch: false,
@@ -218,6 +226,7 @@ angular.module('liveopsConfigPanel').config([
       .state('content.management.capacityRules', {
         url: '/capacityRules?id',
         title: 'User Management - Capacity Rules Management',
+        titleMessageId: 'title.management.capacityRules',
         templateUrl: 'app/components/management/capacityRules/capacityRules.html',
         controller: 'CapacityRulesController',
         reloadOnSearch: false,
@@ -242,6 +251,7 @@ angular.module('liveopsConfigPanel').config([
       .state('content.configuration.tenants', {
         url: '/tenants?id',
         title: 'Configuration - Tenant Management',
+        titleMessageId: 'title.configuration.tenants',
         templateUrl: 'app/components/configuration/tenants/tenants.html',
         controller: 'TenantsController as tc',
         reloadOnSearch: false,
@@ -258,6 +268,7 @@ angular.module('liveopsConfigPanel').config([
       .state('content.configuration.tenants2', {
         url: '/tenants2?id',
         title: 'Configuration - Tenant Management',
+        titleMessageId: 'title.configuration.tenants',
         templateUrl: 'app/components/configuration/tenants2/tenants.html',
         controller: 'tenantsController2',
         reloadOnSearch: false,
@@ -274,7 +285,8 @@ angular.module('liveopsConfigPanel').config([
       })
       .state('content.beta', {	
         url: '/early-access-features',	
-        title: 'Configuration - Early Access Features',	
+        title: 'Configuration - Early Access Features',
+        titleMessageId: 'title.beta',
         templateUrl: 'app/components/configuration/betaFeatures/betaFeatures.html',	
         controller: 'betaFeaturesController',	
         resolve: {	
@@ -290,6 +302,7 @@ angular.module('liveopsConfigPanel').config([
       .state('content.configuration.genericLists', {
         url: '/lists?id',
         title: 'Configuration - Lists',
+        titleMessageId: 'title.configuration.genericLists',
         templateUrl: 'app/components/configuration/genericLists/genericLists.html',
         controller: 'genericListsController',
         reloadOnSearch: false,
@@ -307,6 +320,7 @@ angular.module('liveopsConfigPanel').config([
       .state('content.configuration.outboundIdentifiers', {
         url: '/outboundIdentifiers?id',
         title: 'Configuration - Outbound Identifiers',
+        titleMessageId: 'title.configuration.outboundIdentifiers',
         templateUrl: 'app/components/configuration/outboundIdentifiers/outboundIdentifiers.html',
         controller: 'outboundIdentifiersController',
         reloadOnSearch: false,
@@ -324,6 +338,7 @@ angular.module('liveopsConfigPanel').config([
       .state('content.configuration.dataAccessReports', {
         url: '/dataAccessReports?id',
         title: 'Configuration - Data Access Reports',
+        titleMessageId: 'title.configuration.dataAccessReports',
         templateUrl: 'app/components/configuration/dataAccessReports/dataAccessReports.html',
         controller: 'dataAccessReportsController',
         reloadOnSearch: false,
@@ -341,6 +356,7 @@ angular.module('liveopsConfigPanel').config([
       .state('content.configuration.chatWidgets', {
         url: '/chatWidgets?id',
         title: 'Configuration - Chat Widgets',
+        titleMessageId: 'title.configuration.chatWidgets',
         templateUrl: 'app/components/configuration/chatWidgets/chatWidgets.html',
         controller: 'chatWidgetsController',
         reloadOnSearch: false,
@@ -358,6 +374,7 @@ angular.module('liveopsConfigPanel').config([
       .state('content.configuration.outboundIdentifierLists', {
         url: '/outboundIdentifierLists?id',
         title: 'Configuration - Outbound Identifier Lists',
+        titleMessageId: 'title.configuration.outboundIdentifierLists',
         templateUrl: 'app/components/configuration/outboundIdentifierLists/outboundIdentifierLists.html',
         controller: 'outboundIdentifierListsController',
         reloadOnSearch: false,
@@ -375,6 +392,7 @@ angular.module('liveopsConfigPanel').config([
       .state('content.configuration.emailTemplates', {
         url: '/emailTemplates?id',
         title: 'Configuration - Email Templates',
+        titleMessageId: 'title.configuration.emailTemplates',
         templateUrl: 'app/components/configuration/emailTemplates/emailTemplates.html',
         controller: 'emailTemplatesController',
         reloadOnSearch: false,
@@ -392,6 +410,7 @@ angular.module('liveopsConfigPanel').config([
       .state('content.configuration.slas', {
         url: '/slas?id',
         title: 'Configuration - SLA',
+        titleMessageId: 'title.configuration.slas',
         templateUrl: 'app/components/configuration/slas/slas.html',
         controller: 'slasController as slas',
         reloadOnSearch: false,
@@ -409,6 +428,7 @@ angular.module('liveopsConfigPanel').config([
       .state('content.configuration.contactAttributes', {
         url: '/contactAttributes?id',
         title: 'Configuration - Contact Attribute Management',
+        titleMessageId: 'title.configuration.contactAttributes',
         templateUrl: 'app/components/configuration/contactAttributes2/contactAttributes.html',
         controller: 'contactAttributesController2',
         reloadOnSearch: false,
@@ -426,6 +446,7 @@ angular.module('liveopsConfigPanel').config([
       .state('content.configuration.contactLayouts', {
         url: '/contactLayouts?id',
         title: 'Configuration - Contact Layout Management',
+        titleMessageId: 'title.configuration.contactLayouts',
         templateUrl: 'app/components/configuration/contactLayouts2/contactLayouts.html',
         controller: 'contactLayoutsController2',
         reloadOnSearch: false,
@@ -448,6 +469,7 @@ angular.module('liveopsConfigPanel').config([
       .state('content.management.reasonsOld', {
         url: '/reasons-old?id',
         title: 'User Management - Presence Reasons ',
+        titleMessageId: 'title.management.reasons',
         templateUrl: 'app/components/management/reasons/reasons.html',
         controller: 'reasonsController as rc',
         reloadOnSearch: false,
@@ -464,6 +486,7 @@ angular.module('liveopsConfigPanel').config([
       .state('content.management.reasons', {
         url: '/reasons?id',
         title: 'User Management - Presence Reasons ',
+        titleMessageId: 'title.management.reasons',
         templateUrl: 'app/components/management/reasons2/reasons.html',
         controller: 'reasonsController2',
         reloadOnSearch: false,
@@ -481,6 +504,7 @@ angular.module('liveopsConfigPanel').config([
       .state('content.management.reasonListsOld', {
         url: '/reasonLists-old?id',
         title: 'User Management - Presence Reasons Lists',
+        titleMessageId: 'title.management.reasonLists',
         templateUrl: 'app/components/management/reasons/reasonLists/reasonLists.html',
         controller: 'reasonListsController as rlc',
         reloadOnSearch: false,
@@ -497,6 +521,7 @@ angular.module('liveopsConfigPanel').config([
       .state('content.management.reasonLists', {
         url: '/reasonLists?id',
         title: 'User Management - Presence Reasons Lists',
+        titleMessageId: 'title.management.reasonLists',
         templateUrl: 'app/components/management/reasons/reasonLists2/reasonLists.html',
         controller: 'reasonListsController2',
         reloadOnSearch: false,
@@ -514,6 +539,7 @@ angular.module('liveopsConfigPanel').config([
       .state('content.configuration.integrations', {
         url: '/integrations?id',
         title: 'Configuration - Integration Management',
+        titleMessageId: 'title.configuration.integrations',
         templateUrl: 'app/components/configuration/integrations/integrations.html',
         controller: 'IntegrationsController',
         reloadOnSearch: false,
@@ -530,6 +556,7 @@ angular.module('liveopsConfigPanel').config([
       .state('content.configuration.integrations2', {
         url: '/integrations2',
         title: 'Configuration - Integration Management',
+        titleMessageId: 'title.configuration.integrations',
         templateUrl: 'app/components/configuration/integrations2/integrations.html',
         controller: 'integrationsController2',
         reloadOnSearch: false,
@@ -547,6 +574,7 @@ angular.module('liveopsConfigPanel').config([
       .state('content.configuration.hoursOld', {
         url: '/hours-old?id',
         title: 'Configuration - Business Hours Management',
+        titleMessageId: 'title.configuration.hours',
         templateUrl: 'app/components/configuration/hours/hours.html',
         controller: 'hoursController as hc',
         reloadOnSearch: false,
@@ -566,6 +594,7 @@ angular.module('liveopsConfigPanel').config([
       .state('content.configuration.hours', {
         url: '/hours?id',
         title: 'Configuration - Business Hours Management',
+        titleMessageId: 'title.configuration.hours',
         templateUrl: 'app/components/configuration/hours2/hours.html',
         controller: 'hoursControllerTemp',
         reloadOnSearch: false,
@@ -586,6 +615,7 @@ angular.module('liveopsConfigPanel').config([
       .state('content.configuration.hours2', {
         url: '/hours2?id',
         title: 'Configuration - Business Hours Management',
+        titleMessageId: 'title.configuration.hours',
         templateUrl: 'app/components/configuration/hours2/hours.html',
         controller: 'hoursController2',
         reloadOnSearch: false,
@@ -606,6 +636,7 @@ angular.module('liveopsConfigPanel').config([
       .state('content.configuration.keysOld', {
         url: '/keys-old?id',
         title: 'Configuration - API Keys',
+        titleMessageId: 'title.configuration.keys',
         templateUrl: 'app/components/configuration/keys/keys.html',
         controller: 'keysController as kc',
         reloadOnSearch: false,
@@ -622,6 +653,7 @@ angular.module('liveopsConfigPanel').config([
       .state('content.configuration.keys', {
         url: '/keys?id',
         title: 'Configuration - API Keys',
+        titleMessageId: 'title.configuration.keys',
         templateUrl: 'app/components/configuration/keys2/keys.html',
         controller: 'keysController2',
         reloadOnSearch: false,
@@ -639,6 +671,7 @@ angular.module('liveopsConfigPanel').config([
       .state('content.configuration.messageTemplatesOld', {
         url: '/messageTemplates-old?id',
         title: 'Configuration - Message Templates',
+        titleMessageId: 'title.configuration.messageTemplates',
         templateUrl: 'app/components/configuration/messageTemplates/messageTemplates.html',
         controller: 'messageTemplatesController as mtc',
         reloadOnSearch: false,
@@ -655,6 +688,7 @@ angular.module('liveopsConfigPanel').config([
       .state('content.configuration.messageTemplates', {
         url: '/messageTemplates?id',
         title: 'Configuration - Message Templates',
+        titleMessageId: 'title.configuration.messageTemplates',
         templateUrl: 'app/components/configuration/messageTemplates2/messageTemplates.html',
         controller: 'messageTemplatesController2',
         reloadOnSearch: false,
@@ -671,6 +705,7 @@ angular.module('liveopsConfigPanel').config([
       .state('content.configuration.transferListsOld', {
         url: '/transferLists-old?id',
         title: 'Configuration - Transfer Lists',
+        titleMessageId: 'title.configuration.transferLists',
         templateUrl: 'app/components/configuration/transferLists/transferLists.html',
         controller: 'transferListsController as tlc',
         reloadOnSearch: false,
@@ -686,6 +721,7 @@ angular.module('liveopsConfigPanel').config([
       .state('content.configuration.transferLists', {
         url: '/transferLists?id',
         title: 'Configuration - Transfer Lists',
+        titleMessageId: 'title.configuration.transferLists',
         templateUrl: 'app/components/configuration/transferLists2/transferLists.html',
         controller: 'transferListsController2',
         reloadOnSearch: false,
@@ -702,6 +738,7 @@ angular.module('liveopsConfigPanel').config([
       .state('content.configuration.identityProviders', {
         url: '/identityProviders?id',
         title: 'Configuration - Identity Providers',
+        titleMessageId: 'title.configuration.identityProviders',
         templateUrl: 'app/components/configuration/identityProviders/identityProviders.html',
         controller: 'identityProvidersController as idp',
         reloadOnSearch: false,
@@ -757,6 +794,7 @@ angular.module('liveopsConfigPanel').config([
       .state('content.flows.flowDebugLogs', {
         url: '/flowDebugLogs',
         title: 'Flow Debug Logs',
+        titleMessageId: 'title.flows.flowDebugLogs',
         templateUrl: 'app/components/flows/flowDebugLogs/flowDebugLogs.html',
         controller: 'flowDebugLogsController',
         reloadOnSearch: false,
@@ -774,6 +812,7 @@ angular.module('liveopsConfigPanel').config([
       .state('content.flows.queues', {
         url: '/queues?id',
         title: 'Flows - Queue Management',
+        titleMessageId: 'title.flows.queues',
         templateUrl: 'app/components/flows/queues/queues.html',
         controller: 'QueueController as qc',
         reloadOnSearch: false,
@@ -790,6 +829,7 @@ angular.module('liveopsConfigPanel').config([
       .state('content.flows.queues2', {
         url: '/queues2',
         title: 'Flows - Queue Management',
+        titleMessageId: 'title.flows.queues',
         templateUrl: 'app/components/configuration/queues2/queues2.html',
         controller: 'queuesController2 as qc',
         reloadOnSearch: false,
@@ -807,6 +847,7 @@ angular.module('liveopsConfigPanel').config([
       .state('content.flows.dispositionsOld', {
         url: '/dispositions-old?id',
         title: 'Flows - Disposition Management',
+        titleMessageId: 'title.flows.dispositions',
         templateUrl: 'app/components/flows/dispositions/dispositions.html',
         controller: 'dispositionsController as dc',
         reloadOnSearch: false,
@@ -840,6 +881,7 @@ angular.module('liveopsConfigPanel').config([
       .state('content.flows.dispositionListsOld', {
         url: '/dispositionLists-old?id',
         title: 'Flows - Disposition List Management',
+        titleMessageId: 'title.flows.dispositionLists',
         templateUrl: 'app/components/flows/dispositions/dispositionLists/dispositionLists.html',
         controller: 'dispositionListsController as dlc',
         reloadOnSearch: false,
@@ -856,6 +898,7 @@ angular.module('liveopsConfigPanel').config([
       .state('content.flows.dispositionLists', {
         url: '/dispositionLists?id',
         title: 'Flows - Disposition List Management',
+        titleMessageId: 'title.flows.dispositionLists',
         templateUrl: 'app/components/flows/dispositions/dispositionLists2/dispositionLists2.html',
         controller: 'dispositionListsController2',
         reloadOnSearch: false,
@@ -873,6 +916,7 @@ angular.module('liveopsConfigPanel').config([
       .state('content.flows.media', {
         url: '/media?id',
         title: 'Flows - Media Management',
+        titleMessageId: 'title.flows.media',
         templateUrl: 'app/components/flows/media/media.html',
         controller: 'MediaController',
         reloadOnSearch: false,
@@ -889,6 +933,7 @@ angular.module('liveopsConfigPanel').config([
       .state('content.flows.media-collections', {
         url: '/media-collections?id',
         title: 'Flows - Media Collection Management',
+        titleMessageId: 'title.flows.media-collections',
         templateUrl: 'app/components/flows/media-collections/media-collections.html',
         controller: 'MediaCollectionController',
         reloadOnSearch: false,
@@ -905,6 +950,7 @@ angular.module('liveopsConfigPanel').config([
       .state('content.flows.dispatchMappingsOld', {
         url: '/dispatchMappings-old?id',
         title: 'Flows - Dispatch Mapping Management',
+        titleMessageId: 'title.flows.dispatchMappings',
         templateUrl: 'app/components/flows/dispatchMappings/dispatchMappings.html',
         controller: 'DispatchMappingsController',
         reloadOnSearch: false,
@@ -921,6 +967,7 @@ angular.module('liveopsConfigPanel').config([
       .state('content.flows.dispatchMappings', {
         url: '/dispatchMappings?id',
         title: 'Flows - Dispatch Mapping Management',
+        titleMessageId: 'title.flows.dispatchMappings',
         templateUrl: 'app/components/flows/dispatchMappings2/dispatchMappings.html',
         controller: 'dispatchMappingsController2',
         reloadOnSearch: false,
@@ -938,6 +985,7 @@ angular.module('liveopsConfigPanel').config([
       .state('content.flows.versions', {
         url: '/versions?id',
         title: 'Flows - Flow Versions Management',
+        titleMessageId: 'title.flows.versions',
         templateUrl: 'app/components/flows/flowManagement/versions/versions.html',
         controller: 'VersionsController',
         reloadOnSearch: false
@@ -945,6 +993,7 @@ angular.module('liveopsConfigPanel').config([
       .state('content.flows.editor', {
         url: '/editor/:flowId/:draftId',
         title: 'Flows - Flow Draft',
+        titleMessageId: 'title.flows.editor',
         templateUrl: 'app/components/flows/flowDesigner/flowDesignerPage.html',
         controller: 'DesignerPageController',
         reloadOnSearch: false,
@@ -953,6 +1002,7 @@ angular.module('liveopsConfigPanel').config([
       .state('content.flows.view', {
         url: '/viewer/:flowId/:versionId',
         title: 'Flows - Flow Viewer',
+        titleMessageId: 'title.flows.view',
         templateUrl: 'app/components/flows/flowDesigner/flowViewerPage.html',
         controller: 'ViewerPageController',
         reloadOnSearch: false,
@@ -961,6 +1011,7 @@ angular.module('liveopsConfigPanel').config([
       .state('content.flows.customAttributes', {
         url: '/customAttributes?id',
         title: 'Flows - Custom Attributes Management',
+        titleMessageId: 'title.flows.customAttributes',
         templateUrl: 'app/components/flows/customAttributes2/customAttributes.html',
         controller: 'customAttributesController2',
         reloadOnSearch: false,
@@ -978,6 +1029,7 @@ angular.module('liveopsConfigPanel').config([
       .state('login', {
         url: '/login?messageKey&tenantId&sso',
         title: 'Login',
+        titleMessageId: 'title.login',
         templateUrl: 'app/components/login/login.html',
         controller: 'LoginController',
         isPublic: true
@@ -985,6 +1037,7 @@ angular.module('liveopsConfigPanel').config([
       .state('forgot-password', {
         url: '/forgot-password',
         title: 'Forgot Password',
+        titleMessageId: 'title.forgot-password',
         templateUrl: 'app/components/forgotPassword/forgotPassword.html',
         controller: 'ForgotPasswordController',
         isPublic: true
@@ -992,6 +1045,7 @@ angular.module('liveopsConfigPanel').config([
       .state('reset-password', {
         url: '/reset-password?userid&userId&token',
         title: 'Reset Password',
+        titleMessageId: 'title.reset-password',
         templateUrl: 'app/components/resetPassword/resetPassword.html',
         controller: 'ResetPasswordController',
         isPublic: true,
@@ -1024,6 +1078,7 @@ angular.module('liveopsConfigPanel').config([
       .state('content.userprofile', {
         url: '/userprofile',
         title: 'User Profile',
+        titleMessageId: 'title.userProfile',
         templateUrl: 'app/components/userProfile/userProfile.html',
         controller: 'UserProfileController',
         secure: true
@@ -1059,6 +1114,7 @@ angular.module('liveopsConfigPanel').config([
       .state('content.reporting.logiAdvanced', {
         url: '/cxengage-advanced',
         title: 'Reporting - Historical Reporting',
+        titleMessageId: 'title.reporting.logiAdvanced',
         templateUrl: 'app/components/reports/logi/advanced/logi_advanced.html',
         controller: 'LogiAdvancedController',
         reloadOnSearch: false,
@@ -1092,6 +1148,7 @@ angular.module('liveopsConfigPanel').config([
       .state('content.reporting.interactionMonitoring', {
         url: '/interactionMonitoring',
         title: 'Reporting - Interaction Monitoring',
+        titleMessageId: 'title.reporting.interactionMonitoring',
         templateUrl: 'app/components/reports/interactionMonitoring/interactionMonitoring.html',
         controller: 'InteractionMonitoringController',
         reloadOnSearch: false,
@@ -1108,6 +1165,7 @@ angular.module('liveopsConfigPanel').config([
       .state('content.reporting.agentStateMonitoring', {
         url: '/agentStateMonitoring',
         title: 'Reporting - Agent State Monitoring',
+        titleMessageId: 'title.reporting.agentStateMonitoring',
         templateUrl: 'app/components/reports/agentStateMonitoring/agentStateMonitoring.html',
         controller: 'AgentStateMonitoringController',
         reloadOnSearch: false,
@@ -1124,6 +1182,7 @@ angular.module('liveopsConfigPanel').config([
       .state('invite-accept', {
         url: '/invite-accept?userid&userId&tenantId&tenantid&token',
         title: 'Accept Invite',
+        titleMessageId: 'title.invite-accept',
         templateUrl: 'app/components/inviteAccept/inviteAccept.html',
         controller: 'InviteAcceptController',
         isPublic: true,
@@ -1165,6 +1224,7 @@ angular.module('liveopsConfigPanel').config([
       .state('content.custom-dashboards-management', {
         url: '/realtime-dashboards?id',
         title: 'Reporting - Custom Realtime Dashboards',
+        titleMessageId: 'title.custom-dashboards-management',
         templateUrl: 'app/components/reporting/realtime/realtimeDashboardManagement/realtimeDashboardsManagement.html',
         controller: 'RealtimeDashboardsManagementController',
         reloadOnSearch: false,
@@ -1189,6 +1249,7 @@ angular.module('liveopsConfigPanel').config([
       .state('content.realtime-dashboards-management-editor', {
         url: '/realtime-dashboards/editor/:dashboardId',
         title: 'Reporting - Custom Realtime Dashboards - Editor',
+        titleMessageId: 'title.realtime-dashboards-management-editor',
         templateUrl: 'app/components/reporting/realtime/realtimeDashboardEditor/realtimeDashboardsEditor.html',
         controller: 'realtimeDashboardsEditorController',
         resolve: {
@@ -1290,6 +1351,7 @@ angular.module('liveopsConfigPanel').config([
       .state('content.realtime-dashboards-management-viewer', {
         url: '/realtime-dashboards/viewer/:dashboardId',
         title: 'Reporting - Realtime Dashboards',
+        titleMessageId: 'title.realtime-dashboards-management-viewer',
         templateUrl: 'app/components/reporting/realtime/realtimeDashboards.html',
         controller: 'RealtimeDashboardsController',
         reloadOnSearch: false,
@@ -1474,6 +1536,7 @@ angular.module('liveopsConfigPanel').config([
       .state('content.reporting.custom-stats-editor', {
         url: '/custom-stats/editor/:customStatId/:draftId/?readOnly',
         title: 'Reporting - Custom Statistics - Editor',
+        titleMessageId: 'title.reporting.custom-stats-editor',
         templateUrl: 'app/components/reporting/customStatsEditor/customStatsEditor.html',
         controller: 'customStatsEditorController',
         resolve: {
@@ -1539,6 +1602,7 @@ angular.module('liveopsConfigPanel').config([
       .state('content.reporting.custom-stats-viewer', {
         url: '/custom-stats/viewer/:customStatId/:draftId/',
         title: 'Reporting - Custom Statistics - Viewer',
+        titleMessageId: 'title.reporting.custom-stats-viewer',
         templateUrl: 'app/components/reporting/customStatsEditor/customStatsEditor.html',
         controller: 'customStatsEditorController',
         resolve: {
@@ -1604,6 +1668,7 @@ angular.module('liveopsConfigPanel').config([
       .state('content.qualityManagement', {
         url: '/qualityManagement',
         title: 'Quality Management',
+        titleMessageId: 'title.qualityManagement',
         templateUrl: 'app/components/qualityManagement/qualityManagement.html',
         controller: 'qualityManagementController as qm',
         reloadOnSearch: false,
@@ -1639,6 +1704,7 @@ angular.module('liveopsConfigPanel').config([
       .state('content.support.debug', {
         url: '/debugger',
         title: 'Flow Debugger',
+        titleMessageId: 'title.support.debug',
         templateUrl: 'app/components/supportTool/flowDebugger/flowDebuggerPage.html',
         controller: 'DebuggerPageController',
         reloadOnSearch: false,

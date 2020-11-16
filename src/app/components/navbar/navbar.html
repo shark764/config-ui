@@ -99,14 +99,18 @@
           {{ 'navigation.qualityManagement' | translate }}
         </a>
       </li>
-      <li id="launcher" ng-show="launcherDropdownItems.length > 0">
-        
+      <li id="privacy">
+        <div>
+          <a class="drop-label" target="_blank" href="https://www.serenova.com/privacy">{{ 'navigation.privacy' | translate }}</a>
+        </div>
+      </li>
+      <li id="helpMenu">
         <dropdown
-          id="user-launch-dropdown"
-          items="launcherDropdownItems"
-          dropdown-title=""
-          expand-icon="fa fa-rocket"
-          collapse-icon="fa fa-rocket"
+          id="user-help-dropdown"
+          items="userHelpItems"
+          order-by="order"
+          expand-icon="fa fa-question-circle"
+          collapse-icon="fa fa-question-circle"
         >
         </dropdown>
       </li>
@@ -121,20 +125,16 @@
         >
         </dropdown>
       </li>
-      <li id="helpMenu">
+      <li id="launcher" ng-show="launcherDropdownItems.length > 0">
+        
         <dropdown
-          id="user-help-dropdown"
-          items="userHelpItems"
-          order-by="order"
-          expand-icon="fa fa-question-circle"
-          collapse-icon="fa fa-question-circle"
+          id="user-launch-dropdown"
+          items="launcherDropdownItems"
+          dropdown-title=""
+          expand-icon="fa fa-rocket"
+          collapse-icon="fa fa-rocket"
         >
         </dropdown>
-      </li>
-      <li id="privacy">
-        <div>
-          <a class="drop-label" target="_blank" href="https://www.serenova.com/privacy">{{ 'navigation.privacy' | translate }}</a>
-        </div>
       </li>
     </ul>
   </nav>

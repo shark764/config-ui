@@ -320,6 +320,11 @@ angular.module('liveopsConfigPanel').directive('sdkListener', [
                 // Removing impersonate tenant data from sessionStorage
                 // when setting tenant as active
                 sessionStorage.removeItem('LOGI-USER-IMPERSONATE');
+              } else if (event.data.module === 'config2ReadyToSetLocale') {
+                event.source.postMessage({
+                  message: 'changeLocale',
+                  locale: location.hash.indexOf('alpha') > -1 ? window.localStorage.getItem('locale') : 'en-US'
+                }, '*');
               }
               else if (event.data.module !== undefined) {
                 console.log('[SDK Listener] Asking the SDK for:', event.data);

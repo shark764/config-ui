@@ -45,7 +45,7 @@ angular.module('liveopsConfigPanel', [
         .uniformLanguageTag('bcp47')
         .fallbackLanguage('en-US')
         .determinePreferredLanguage(function() {
-          var browserLang = location.hash.includes('alpha') ?
+          var browserLang = location.hash.indexOf('alpha') > -1 ?
             window.localStorage.getItem('locale') || 
               languages.reduce(function(list, lang) { return list.concat(lang.value); }, [])
                 .find(function(val) {
@@ -190,7 +190,9 @@ angular.module('liveopsConfigPanel', [
       });
 
       queryCache.removeAll();
-      $rootScope.title = $state.current.title + ' | ' + $rootScope.productName;
+      $rootScope.title = ($state.current.titleMessageId ? 
+        $translate.instant($state.current.titleMessageId) : 
+        $state.current.title ) + ' | ' + $rootScope.productName;
       AuthService.setSsoMode(toState.name, $location);
     });
     $rootScope.$on('$stateChangeError', function() {
@@ -201,5 +203,10 @@ angular.module('liveopsConfigPanel', [
       console.error('State not found!');
       console.log(arguments);
     });
+    $rootScope.$on('$translateChangeSuccess', function() {
+      $rootScope.title = ($state.current.titleMessageId ? 
+        $translate.instant($state.current.titleMessageId) : 
+        $state.current.title ) + ' | ' + $rootScope.productName;
+    })
     $animate.enabled(false);
   }]);

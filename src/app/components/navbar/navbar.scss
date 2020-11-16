@@ -187,8 +187,7 @@ html #topnav > ul > li:not(#welcome):not(#helpMenu)#launcher .label-icon {
 
 #welcome {
   padding: 0;
-  position: absolute !important;
-  right: 97px;
+  float: right;
   font-size: 11px;
 
   &:hover {
@@ -228,8 +227,7 @@ html #topnav > ul > li:not(#welcome):not(#helpMenu)#launcher .label-icon {
 
 #launcher {
   padding: 0;
-  position: absolute !important;
-  right: 140px;
+  float: right;
   font-size: 11px;
 
   .label-icon {
@@ -286,8 +284,7 @@ html #topnav > ul > li:not(#welcome):not(#helpMenu)#launcher .label-icon {
 }
 
 #privacy {
-  position: absolute !important;
-  right: 5px;
+  float: right;
   font-size: 11px;
   div {
     padding-top: 17px;
@@ -301,8 +298,7 @@ html #topnav > ul > li:not(#welcome):not(#helpMenu)#launcher .label-icon {
 }
 
 #helpMenu {
-  position: absolute !important;
-  right: 57px;
+  float: right;
   font-size: 11px;
 
   &:hover {

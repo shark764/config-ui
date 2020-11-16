@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Tenants
 - Integrations
 
+## [4.93.9] - 2020
+### Fixed
+- [CXV1-23376](https://lifesize.atlassian.net/browse/CXV1-23376) - Config 1 - Adding localization to page titles and fixing some issues around components for localization.
+
 ## [4.93.8] - 2020-10-19
 ### Fixed
 - [CXV1-23137](https://lifesize.atlassian.net/browse/CXV1-23137) - Fix race condition between session creation and starting silent monitoring.
