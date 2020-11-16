@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Tenants
 - Integrations
 
+## [4.93.10] - 2020-11-10
+### Changed
+- [CXV1-23345](https://lifesize.atlassian.net/browse/CXV1-23345) - UI Cleanup Work for v1 Historical Reporting Removal.
+
 ## [4.93.9] - 2020
 ### Fixed
 - [CXV1-23376](https://lifesize.atlassian.net/browse/CXV1-23376) - Config 1 - Adding localization to page titles and fixing some issues around components for localization.
