@@ -1083,12 +1083,6 @@ angular.module('liveopsConfigPanel').config([
         controller: 'UserProfileController',
         secure: true
       })
-      .state('content.reports', {
-        url: '/reports?id',
-        title: 'Reporting - Historical Dashboards (EOL 6/1/2020)',
-        templateUrl: 'app/components/reports/reports.html',
-        controller: 'ReportsController'
-      })
       //CXV1-22138 Hide Standard Reports section
       // Logi standard and advanced reports
       //.state('content.reporting.logiStandard', {

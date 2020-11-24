@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Tenants
 - Integrations
 
+## [4.93.12] - 2020-11-24
+### Changed
+- [CXV1-23554](https://lifesize.atlassian.net/browse/CXV1-23554) - Removing Historical Dashboards from Navbar.
+
 ## [4.93.11] - 2020-11-18
 ### Changed
 - [CXV1-23275](https://lifesize.atlassian.net/browse/CXV1-23334) - Bump realtime-dashboards & config-shared versions for the custom attributes fix in dashbaords.

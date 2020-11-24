@@ -793,21 +793,6 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
         });
       }
 
-        // Grouping historical dashboards with realtime for now. Need to find out why there's no historical dashboards permissions
-      if (UserPermissions.hasPermissionInList(PermissionGroups.viewAssignedReports) || UserPermissions.hasPermissionInList(PermissionGroups.accessAllTenants)) {
-        if(Session.betaFeatures && Session.betaFeatures.birst === true){
-          items.push({
-            label: $translate.instant('navigation.reports.historicalDashboards'),
-            stateLink: 'content.reports',
-            stateLinkParams: {
-              id: 'historical-dashboards'
-            },
-            id: 'reports-management-link',
-            order: 3
-          });
-        }
-      }
-
       if (UserPermissions.hasPermissionInList(PermissionGroups.viewDashboards)) {
         items.push({
           label: $translate.instant('navigation.reports.rtdCustom'),
