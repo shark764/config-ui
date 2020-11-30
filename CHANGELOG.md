@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Tenants
 - Integrations
 
+## [4.93.13] - 2020-11-25
+### Changed
+- [CXV1-23411](https://lifesize.atlassian.net/browse/CXV1-23411) - Implement Email transcripts to show within an iframe in Historical Reporting.
+
 ## [4.93.12] - 2020-11-24
 ### Changed
 - [CXV1-23554](https://lifesize.atlassian.net/browse/CXV1-23554) - Removing Historical Dashboards from Navbar.

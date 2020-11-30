@@ -81,11 +81,7 @@
 
       <md-divider></md-divider>
 
-      <div
-        ng-if="selectedItem.renderBodyAs === 'html'"
-        ng-bind-html="renderHtml(selectedItem.data)"
-        class="email-body"
-      ></div>
+      <iframe id="renderEmailAsHtml" ng-if="selectedItem.renderBodyAs === 'html'" srcdoc="{{renderHtml(selectedItem.data)}}" >
       <div ng-if="selectedItem.renderBodyAs === 'plainText'" class="email-body">
         {{selectedItem.data}}
       </div>

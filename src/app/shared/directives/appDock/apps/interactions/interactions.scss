@@ -170,6 +170,9 @@ loading {
     }
   }
 
+  md-content {
+    overflow-x: hidden;
+  }
   .heading-container {
     .md-subhead {
       display: block;
@@ -178,5 +181,9 @@ loading {
         bottom: 10px;
       }
     }
+  }
+  iframe {
+    width: 100%;
+    border: none;
   }
 }
