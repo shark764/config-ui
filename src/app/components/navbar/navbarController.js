@@ -533,7 +533,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
       if (UserPermissions.hasPermissionInList(PermissionGroups.viewIdentityProviders)) {
         items.push({
           label: $translate.instant('navigation.configuration.identityProviders'),
-          stateLink: 'content.configuration.identityProviders',
+          stateLink: Session.betaFeatures.identityProviders && !isActiveExternalTenant ? 'content.configuration.identityProviders2' : 'content.configuration.identityProviders',
           id: 'identity-providers-configuration-link',
           order: 2
         });

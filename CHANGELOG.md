@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Tenants
 - Integrations
 
+## [4.93.14] - 2020-12-01
+### Changed
+- [CXV1-23567](https://lifesize.atlassian.net/browse/CXV1-23567) - Identity Providers - Add Beta feature to Config 1.
+
 ## [4.93.13] - 2020-11-25
 ### Changed
 - [CXV1-23411](https://lifesize.atlassian.net/browse/CXV1-23411) - Implement Email transcripts to show within an iframe in Historical Reporting.
