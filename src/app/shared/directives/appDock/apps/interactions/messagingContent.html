@@ -1,7 +1,6 @@
 <md-content flex ng-show="selectedItem">
   <md-card class="recording-data-card" flex>
     <md-content layout-padding layout-margin>
-
       <h1 class="md-headline">{{'appdock.transcriptsHdr' | translate}}</h1>
 
       <h3 class="md-subhead"><strong>ID:</strong> {{configData.id}}</h3>
@@ -9,7 +8,6 @@
 
       <md-list flex>
         <md-list-item ng-repeat="message in interactionData" layout-padding>
-
           <strong layout="column">
             [{{message.payload.timestamp | convertToTimezone:TimezoneValHolder.tenantTimezone:'MMM D, YYYY hh:mm:ss A'}}]
           </strong>
@@ -18,28 +16,28 @@
             {{message.payload.userName}}
           </strong>
 
-          <p layout="column" ng-if="message.payload.body.text">
-            <em>{{message.payload.body.text}}</em>
-          </p>
+          <div class="message-content">
+            <p layout="column" ng-if="message.payload.body.file.mediaType && !message.payload.body.file.mediaUrl" class="file-not-found">
+              <em>{{'appdock.fileNotFoundInTranscript' | translate}}</em>
+            </p>
 
-          <p layout="column" ng-if="message.payload.body.file.mediaType && !message.payload.body.file.mediaUrl" class="file-not-found">
-            <em>{{'appdock.fileNotFoundInTranscript' | translate}}</em>
-          </p>
+            <p layout="column" ng-if="message.payload.body.file.mediaUrl">
+              <a ng-href="{{message.payload.body.file.mediaUrl}}" title="{{message.payload.body.file.filename}}" target="_blank">
+                <img
+                  ng-if="message.payload.body.file.mediaUrl && message.payload.body.file.mediaType.startsWith('image/')"
+                  ng-src="{{message.payload.body.file.mediaUrl}}"
+                  alt="Attachment preview..."
+                />
+                <em>{{message.payload.body.file.filename}}</em>
+              </a>
+            </p>
 
-          <p layout="column" ng-if="message.payload.body.file.mediaUrl">
-            <a ng-href="{{message.payload.body.file.mediaUrl}}" target="_blank">
-              <img
-                ng-if="message.payload.body.file.mediaUrl && message.payload.body.file.mediaType.startsWith('image/')"
-                ng-src="{{message.payload.body.file.mediaUrl}}"
-                alt="Attachment preview..."
-              />
-              <em>{{message.payload.body.file.filename}}</em>
-            </a>
-          </p>
-
+            <p layout="column" ng-if="message.payload.body.text">
+              <em>{{message.payload.body.text}}</em>
+            </p>
+          </div>
         </md-list-item>
       </md-list>
-
     </md-content>
   </md-card>
 </md-content>

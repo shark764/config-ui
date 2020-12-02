@@ -123,11 +123,46 @@ angular.module('liveopsConfigPanel')
                   _.map(response, function(val, key) {
                     if (val.payload.metadata && val.payload.metadata.source === 'smooch') {
                       response[key].payload.userName = response[key].payload.metadata.name;
-                      if (response[key].payload.body.file.mediaType) {
-                        var file = getFileMetadata(files, response[key].payload.body.id);
+                      var messageBody = response[key].payload.body;
+                      if (messageBody.file.mediaType) {
+                        var file = getFileMetadata(files, messageBody.id);
                         if (file) {
-                          response[key].payload.body.file = _.merge(response[key].payload.body.file, {
-                            filename: file.filename,
+                          /**
+                           * Files message can be composed of a file and a caption
+                           */
+                          var filename = file.filename;
+                          var caption = messageBody.text;
+                          /**
+                           * For text / image messages we don't need to process the data
+                           * For file messages we need to check mediaType and caption
+                           */
+                          if (messageBody.contentType === 'file') {
+                            var ext = null;
+                            /**
+                             * When we receive a mp4 file, it can bring a caption depending on
+                             * how the customer attached the file.
+                             * When the file is attached as video, then we render the caption
+                             * and when attached as file, then we need to check if the caption
+                             * becomes the filename.
+                             */
+                            if (caption) {
+                              ext = caption.substring(caption.lastIndexOf('.') + 1).toLowerCase();
+                            }
+                            /**
+                             * If file is not a mp4 or the file is mp4 and caption contains the filename,
+                             * then we remove the caption and assign caption to filename
+                             */
+                            if (
+                              (messageBody.file.mediaType !== 'video/mp4' && caption) ||
+                              (messageBody.file.mediaType === 'video/mp4' && ext === 'mp4')
+                            ) {
+                              filename = caption.trim();
+                              delete response[key].payload.body.text;
+                            }
+                          }
+
+                          response[key].payload.body.file = _.merge(messageBody.file, {
+                            filename: filename,
                             mediaUrl: file.url,
                           });
                         } else {
@@ -455,13 +490,15 @@ angular.module('liveopsConfigPanel')
               var audioPlayer = document.getElementById('audio-player');
 
               // first off, rewind audio every time a new recording is selected
-              audioPlayer.onloadeddata = function () {
-                audioPlayer.currentTime = 0;
-              };
+              if (audioPlayer) {
+                audioPlayer.onloadeddata = function () {
+                  audioPlayer.currentTime = 0;
+                };
 
-              var audioIsPlaying = false;
-              if (!(audioPlayer.ended || audioPlayer.paused)) {
-                audioIsPlaying = true;
+                var audioIsPlaying = false;
+                if (!(audioPlayer.ended || audioPlayer.paused)) {
+                  audioIsPlaying = true;
+                }
               }
 
               if (scope.selectedItem && scope.selectedItem.url && audioPlayer && audioIsPlaying !== true) {

@@ -10,6 +10,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Beta User Acceptance Testing]
 - Tenants
 - Integrations
+- Identity Providers
+
+## [4.93.15] - 2020-11-30
+### Fixed
+- [CXV1-23446](https://lifesize.atlassian.net/browse/CXV1-23446) - Images and mp4 video files with caption are rendered properly.
+- [CXV1-23468](https://lifesize.atlassian.net/browse/CXV1-23468) - Non mp4 video files show proper filename and mp4 videos show caption when included in message.
 
 ## [4.93.14] - 2020-12-01
 ### Changed
