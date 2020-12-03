@@ -12,6 +12,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Integrations
 - Identity Providers
 
+## [4.93.16] - 2020-11-27
+### Fixed
+- [CXV1-23376](https://lifesize.atlassian.net/browse/CXV1-23376) - Config 1 - Adding localization to page titles and fixing some issues around components for localization. (Fixing issue with "Sing with SSO" string in other languages other than English)
 ## [4.93.15] - 2020-11-30
 ### Fixed
 - [CXV1-23446](https://lifesize.atlassian.net/browse/CXV1-23446) - Images and mp4 video files with caption are rendered properly.
