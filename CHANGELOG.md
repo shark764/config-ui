@@ -12,6 +12,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Integrations
 - Identity Providers
 
+## [4.93.17] - 2020-12-03
+### Updated
+- [CXV1-23621](https://lifesize.atlassian.net/browse/CXV1-23621) - Logi can now load using a custom baseurl passed as encoded url parameter.
+
 ## [4.93.16] - 2020-11-27
 ### Fixed
 - [CXV1-23376](https://lifesize.atlassian.net/browse/CXV1-23376) - Config 1 - Adding localization to page titles and fixing some issues around components for localization. (Fixing issue with "Sing with SSO" string in other languages other than English)

@@ -7,13 +7,21 @@ angular.module('liveopsConfigPanel').controller('LogiAdvancedController', [
   'Logi',
   '$translate',
   'Alert',
-  function($scope, $window, Session, Logi, $translate, Alert) {
+  '$location',
+  function($scope, $window, Session, Logi, $translate, Alert, $location) {
     $scope.iframeLoaded = false;
     var logiUrl = '';
 
+    var LogiBaseUrl = $location.search().logibaseurl;
+    if (LogiBaseUrl) {
+      console.log("%cUsing custom Logi base url", "color: DodgerBlue", LogiBaseUrl);
+    }
+
     Logi.getSsmBaseUrl(Session.tenant.tenantId)
       .then(function(response) {
-        logiUrl = response.data.logiBaseUrl + '/rdTemplate/rdEmbedApi/rdEmbed.js';
+        logiUrl =
+          (LogiBaseUrl || response.data.logiBaseUrl) +
+          '/rdTemplate/rdEmbedApi/rdEmbed.js';
 
         $scope.isUserImpersonated = sessionStorage.getItem('LOGI-USER-IMPERSONATE') !== null;
         $scope.tenantUserReporting = $scope.isUserImpersonated
@@ -72,11 +80,12 @@ angular.module('liveopsConfigPanel').controller('LogiAdvancedController', [
             Session.tenant.tenantName,
             $scope.tenantUserReporting.id,
             $scope.tenantUserReporting.displayName,
-            $scope.isUserImpersonated
+            $scope.isUserImpersonated,
+            LogiBaseUrl
           )
             .then(function(response) {
               EmbeddedReporting.create('ssmContainer', {
-                applicationUrl: response.data.logiBaseUrl,
+                applicationUrl: (LogiBaseUrl || response.data.logiBaseUrl),
                 secureKey: response.data.secureToken,
                 linkParams: { tenantID: Session.tenant.tenantId },
                 report: 'InfoGo.goHome',
@@ -99,11 +108,12 @@ angular.module('liveopsConfigPanel').controller('LogiAdvancedController', [
            */
           Logi.getSsmBaseUrl(Session.tenant.tenantId)
             .then(function(response) {
-              console.warn('Ssm base url', response.data.logiBaseUrl);
+              var logiBaseUrl = (LogiBaseUrl || response.data.logiBaseUrl)
+              console.warn('Ssm base url', logiBaseUrl);
               var ssmIframe = document.createElement('iframe');
               ssmIframe.style.display = 'none';
               ssmIframe.id = 'ssmLogoutIframe';
-              ssmIframe.src = response.data.logiBaseUrl + '/rdProcess.aspx?rdProcess=tasks&rdTaskID=Logout';
+              ssmIframe.src = logiBaseUrl + '/rdProcess.aspx?rdProcess=tasks&rdTaskID=Logout';
               document.body.appendChild(ssmIframe);
             })
             .catch(function(err) {
