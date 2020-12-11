@@ -44,6 +44,10 @@ angular.module('liveopsConfigPanel')
         });
 
         return CapacityRuleCopy.save(function(result){
+          const activeRule = _.find($scope.getVersions(), {version: result.activeVersion});
+          if(activeRule) {
+            $scope.selectedCapacityRule.$original.activeRule = {name: activeRule.name, version: activeRule.version};
+          }
           $scope.selectedCapacityRule.$original.active = result.active;
         });
       };
@@ -56,13 +60,14 @@ angular.module('liveopsConfigPanel')
             } else {
                 Alert.success($translate.instant('value.saveSuccess'));
             }
-
             $scope.forms.detailsForm.$setUntouched();
             $scope.forms.detailsForm.$setPristine();
             $scope.forms.detailsForm.$dirty = false;
 
             const activeRule = _.find($scope.getVersions(), {version: capacityRule.activeVersion});
-            capacityRule.$original.activeRule = {name: activeRule.name, version: activeRule.version};
+            if(activeRule) {
+              capacityRule.$original.activeRule = {name: activeRule.name, version: activeRule.version};
+            }
         });
       };
 

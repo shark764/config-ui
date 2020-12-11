@@ -12,6 +12,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Integrations
 - Identity Providers
 
+## [4.93.18] - 2020-12-09
+### Changed
+- [CXV1-21896](https://lifesize.atlassian.net/browse/CXV1-21896) - Config UI | Capacity Rules Management | When creating/updating capacity rule, the Active version in the table shows null/empty.
+
 ## [4.93.17] - 2020-12-03
 ### Updated
 - [CXV1-23621](https://lifesize.atlassian.net/browse/CXV1-23621) - Logi can now load using a custom baseurl passed as encoded url parameter.

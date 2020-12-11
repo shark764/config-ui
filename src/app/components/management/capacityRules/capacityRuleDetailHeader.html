@@ -2,6 +2,7 @@
   <toggle class="status-toggle" ng-model="selectedCapacityRule.active" name="active"
   confirm-disable-message="{{'capacityRule.details.disable.confirm' | translate}}"
   confirm-enable-message="{{'capacityRule.details.enable.confirm' | translate}}"
+  ng-disabled="!getVersions().length > 0"
   on-confirm="updateActive()"></toggle>
 
   <div class="info">
