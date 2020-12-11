@@ -769,7 +769,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
         });
       }
 
-      if (UserPermissions.hasPermissionInList(PermissionGroups.manageCustomAttributes)) {
+      if (UserPermissions.hasPermissionInList(PermissionGroups.readCustomAttributesPermissions)) {
         items.push({
           label: $translate.instant('navigation.flows.customAttributes'),
           stateLink: 'content.flows.customAttributes',

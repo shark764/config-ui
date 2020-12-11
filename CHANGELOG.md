@@ -12,6 +12,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Integrations
 - Identity Providers
 
+## [4.93.19] - 2020-12-09
+### Fixed
+- [CXV1-23443](https://lifesize.atlassian.net/browse/CXV1-23443) - Custom Attributes are duplicated in multiple table widget Custom Realtime Dashboards.
+- [CXV1-23454](https://lifesize.atlassian.net/browse/CXV1-23454) - Custom Attributes are duplicated in Interactions in Queue Table and custom realtime dashboards.
+
 ## [4.93.18] - 2020-12-09
 ### Changed
 - [CXV1-21896](https://lifesize.atlassian.net/browse/CXV1-21896) - Config UI | Capacity Rules Management | When creating/updating capacity rule, the Active version in the table shows null/empty.
@@ -23,6 +28,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [4.93.16] - 2020-11-27
 ### Fixed
 - [CXV1-23376](https://lifesize.atlassian.net/browse/CXV1-23376) - Config 1 - Adding localization to page titles and fixing some issues around components for localization. (Fixing issue with "Sing with SSO" string in other languages other than English)
+
 ## [4.93.15] - 2020-11-30
 ### Fixed
 - [CXV1-23446](https://lifesize.atlassian.net/browse/CXV1-23446) - Images and mp4 video files with caption are rendered properly.
