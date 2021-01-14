@@ -12,6 +12,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Integrations
 - Identity Providers
 
+## [4.93.20] - 2021-01-14
+### Updated
+- [CXV1-23197](https://lifesize.atlassian.net/browse/CXV1-23197) - Business Hours V2 page is set as default page. Removing alpha tag.
+
 ## [4.93.19] - 2020-12-09
 ### Fixed
 - [CXV1-23443](https://lifesize.atlassian.net/browse/CXV1-23443) - Custom Attributes are duplicated in multiple table widget Custom Realtime Dashboards.

@@ -575,15 +575,10 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
         UserPermissions.hasPermissionInList(PermissionGroups.manageBusinessHours)
       ) {
         items.push({
-          label:
-            $translate.instant('navigation.configuration.businessHours') +
-            ($location.search()['alpha'] && !isActiveExternalTenant ? ' (alpha)' : ''),
-          stateLink:
-            $location.search()['alpha'] && !isActiveExternalTenant
-              ? 'content.configuration.hours2'
-              : 'content.configuration.hours',
+          label: $translate.instant('navigation.configuration.businessHours'),
+          stateLink: 'content.configuration.hours',
           id: 'hours-configuration-link',
-          order: 5,
+          order: 5
         });
       }
 

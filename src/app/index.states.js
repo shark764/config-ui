@@ -596,7 +596,7 @@ angular.module('liveopsConfigPanel').config([
         title: 'Configuration - Business Hours Management',
         titleMessageId: 'title.configuration.hours',
         templateUrl: 'app/components/configuration/hours2/hours.html',
-        controller: 'hoursControllerTemp',
+        controller: 'hoursController2',
         reloadOnSearch: false,
         resolve: {
           hasPermission: [
@@ -613,11 +613,11 @@ angular.module('liveopsConfigPanel').config([
         params: {config2: true}
       })
       .state('content.configuration.hours2', {
-        url: '/hours2?id',
+        url: '/hours-old2?id',
         title: 'Configuration - Business Hours Management',
         titleMessageId: 'title.configuration.hours',
         templateUrl: 'app/components/configuration/hours2/hours.html',
-        controller: 'hoursController2',
+        controller: 'hoursControllerTemp',
         reloadOnSearch: false,
         resolve: {
           hasPermission: [
