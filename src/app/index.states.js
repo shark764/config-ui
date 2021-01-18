@@ -371,6 +371,24 @@ angular.module('liveopsConfigPanel').config([
         },
         params: {config2: true}
       })
+      .state('content.configuration.whatsappIntegrations', {
+        url: '/whatsappIntegrations?id',
+        title: 'Configuration - WhatsApp',
+        titleMessageId: 'title.configuration.whatsappIntegrations',
+        templateUrl: 'app/components/configuration/whatsappIntegrations/whatsappIntegrations.html',
+        controller: 'whatsappIntegrationsController',
+        reloadOnSearch: false,
+        resolve: {
+          hasPermission: [
+            'UserPermissions',
+            'PermissionGroups',
+            function(UserPermissions, PermissionGroups) {
+              return UserPermissions.resolvePermissions(PermissionGroups.viewWhatsappIntegrations);
+            }
+          ]
+        },
+        params: {config2: true}
+      })
       .state('content.configuration.outboundIdentifierLists', {
         url: '/outboundIdentifierLists?id',
         title: 'Configuration - Outbound Identifier Lists',

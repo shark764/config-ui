@@ -557,7 +557,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
           label: $translate.instant('navigation.configuration.integrations') + ' (alpha)',
           stateLink: 'content.configuration.integrations2',
           id: 'integrations-configuration-link2',
-          order: 16
+          order: 17
         });
       }
 
@@ -653,13 +653,29 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
         });
       }
 
+      if (
+        UserPermissions.hasPermissionInList(
+          PermissionGroups.viewWhatsappIntegrations
+        ) &&
+        !isActiveExternalTenant
+      ) {
+        items.push({
+          label: $translate.instant(
+            'navigation.configuration.whatsappIntegrations'
+          ),
+          stateLink: 'content.configuration.whatsappIntegrations',
+          id: 'whatsappIntegrations-configuration-link',
+          order: 14,
+        });
+      }
+
       if (appFlags.CONTACT_MANAGEMENT) {
         if (UserPermissions.hasPermissionInList(PermissionGroups.viewContactAttributes)) {
           items.push({
             label: $translate.instant('navigation.configuration.contactAttributes'),
             stateLink: 'content.configuration.contactAttributes',
             id: 'contact-attributes-configuration-link',
-            order: 14
+            order: 15
           });
         }
 
@@ -668,7 +684,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
             label: $translate.instant('navigation.configuration.contactLayouts'),
             stateLink: 'content.configuration.contactLayouts',
             id: 'contact-layouts-configuration-link',
-            order: 15
+            order: 16
           });
         }
       }

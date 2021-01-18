@@ -1,6 +1,6 @@
 {
   "name": "config-ui",
-  "version": "4.93.20",
+  "version": "4.94.0",
   "scripts": {
     "start": "gulp serve",
     "test": "gulp test",
@@ -73,6 +73,6 @@
   "dependencies": {
     "c3": "^0.4.11-rc4",
     "sauce-tunnel": "^2.2.3",
-    "serenova-client-strings": "^0.4.20"
+    "serenova-client-strings": "^0.4.24"
   }
 }

@@ -12,6 +12,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Integrations
 - Identity Providers
 
+## [4.94.0] - 2021-01-18
+### Added
+- [CXV1-21862](https://lifesize.atlassian.net/browse/CXV1-21862) - Adding new Whatsapp Configuration page to navbar.
+
 ## [4.93.20] - 2021-01-14
 ### Updated
 - [CXV1-23197](https://lifesize.atlassian.net/browse/CXV1-23197) - Business Hours V2 page is set as default page. Removing alpha tag.
