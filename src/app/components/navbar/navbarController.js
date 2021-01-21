@@ -644,7 +644,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
         });
       }
 
-      if (UserPermissions.hasPermission('WEB_INTEGRATIONS_APP_READ')) {
+      if (UserPermissions.hasPermissionInList(PermissionGroups.viewChatWidgets) && !isActiveExternalTenant) {
         items.push({
           label: $translate.instant('navigation.configuration.chatWidgets'),
           stateLink: 'content.configuration.chatWidgets',

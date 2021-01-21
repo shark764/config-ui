@@ -12,6 +12,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Integrations
 - Identity Providers
 
+## [4.94.1] - 2021-01-20
+### Fixed
+- [CXV1-23799](https://lifesize.atlassian.net/browse/CXV1-23799) - Fixing Chat Widget page not being shown wihth PLATFORM_VIEW_ALL permission.
+
 ## [4.94.0] - 2021-01-18
 ### Added
 - [CXV1-21862](https://lifesize.atlassian.net/browse/CXV1-21862) - Adding new Whatsapp Configuration page to navbar.
