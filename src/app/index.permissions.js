@@ -71,6 +71,7 @@
     viewBusinessHours: ['VIEW_ALL_BUSINESS_HOURS', 'PLATFORM_VIEW_ALL'],
     manageBusinessHours: ['MANAGE_ALL_BUSINESS_HOURS'],
     viewCampaigns: ['VIEW_CAMPAIGNS'],
+    viewCapacityRules: ['VIEW_ALL_CAPACITY_RULES'],
     viewReasons: ['READ_PRESENCE_REASONS', 'PLATFORM_VIEW_ALL'],
     viewReasonLists: ['READ_REASON_LIST', 'PLATFORM_VIEW_ALL'],
     viewFlows: ['VIEW_ALL_FLOWS', 'PLATFORM_VIEW_ALL'],

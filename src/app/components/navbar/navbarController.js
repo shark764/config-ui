@@ -503,10 +503,12 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
         });
       }
 
-      if (UserPermissions.hasPermissionInList(PermissionGroups.manageCapacityRules)) {
+      if (UserPermissions.hasPermissionInList(PermissionGroups.viewCapacityRules) ||
+          UserPermissions.hasPermissionInList(PermissionGroups.manageCapacityRules)) {
         items.push({
           label: $translate.instant('navigation.management.capacityRules'),
-          stateLink: 'content.management.capacityRules',
+          stateLink: Session.betaFeatures.capacityRules && !isActiveExternalTenant ? 
+            'content.management.capacityRules2' : 'content.management.capacityRules',
           id: 'capacity-rules-management-link',
           order: 7
         });

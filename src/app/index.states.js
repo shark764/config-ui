@@ -241,6 +241,25 @@ angular.module('liveopsConfigPanel').config([
           ]
         }
       })
+      .state('content.management.capacityRules2', {
+        url: '/capacityRules2',
+        title: 'User Management - Capacity Rules Management',
+        templateUrl: 'app/components/management/capacityRules2/capacityRules.html',
+        controller: 'capacityRulesController2',
+        reloadOnSearch: false,
+        resolve: {
+          hasPermission: [
+            'UserPermissions',
+            'PermissionGroups',
+            function(UserPermissions, PermissionGroups) {
+              return (
+                UserPermissions.hasPermissionInList(PermissionGroups.viewCapacityRules) ||
+                UserPermissions.resolvePermissions(PermissionGroups.manageCapacityRules)
+              );
+            }
+          ]
+        }
+      })
       .state('content.configuration', {
         abstract: true,
         url: '/configuration',
