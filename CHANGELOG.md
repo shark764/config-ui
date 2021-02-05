@@ -12,6 +12,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Integrations
 - Identity Providers
 
+## [4.95.1]-  2021-02-04
+### Fixed
+-[CXV1-23705]- SDK Version bump for SDK should not retry on 501 (Not implemented) responses
+
 ## [4.95.0] - 2021-01-28
 ### Fixed
 - [CXV1-23840](https://lifesize.atlassian.net/browse/CXV1-23840) - Capacity Rules - Add Beta feature to Config 1.
