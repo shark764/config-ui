@@ -302,21 +302,21 @@ angular.module('liveopsConfigPanel').config([
         },
         params: {config2: true}
       })
-      .state('content.beta', {	
-        url: '/early-access-features',	
+      .state('content.beta', {
+        url: '/early-access-features',
         title: 'Configuration - Early Access Features',
         titleMessageId: 'title.beta',
-        templateUrl: 'app/components/configuration/betaFeatures/betaFeatures.html',	
-        controller: 'betaFeaturesController',	
-        resolve: {	
-          hasPermission: [	
-            'UserPermissions',	
-            'PermissionGroups',	
-            function(UserPermissions, PermissionGroups) {	
-              return UserPermissions.resolvePermissions(PermissionGroups.readAllMode);	
-            }	
-          ]	
-        }	
+        templateUrl: 'app/components/configuration/betaFeatures/betaFeatures.html',
+        controller: 'betaFeaturesController',
+        resolve: {
+          hasPermission: [
+            'UserPermissions',
+            'PermissionGroups',
+            function(UserPermissions, PermissionGroups) {
+              return UserPermissions.resolvePermissions(PermissionGroups.readAllMode);
+            }
+          ]
+        }
       })
       .state('content.configuration.genericLists', {
         url: '/lists?id',
@@ -371,6 +371,78 @@ angular.module('liveopsConfigPanel').config([
           ]
         },
         params: {config2: true}
+      })
+      .state('content.wfm_planning', {
+        url: '/wfm/planning',
+        title: 'WFM Planning',
+        titleMessageId: 'navbar.wfm.title',
+        templateUrl: 'app/components/wfm/wfm.html',
+        controller: 'wfmController',
+        reloadOnSearch: false,
+        resolve: {
+          hasPermission: [
+            'UserPermissions',
+            'PermissionGroups',
+            function(UserPermissions, PermissionGroups) {
+              return UserPermissions.resolvePermissions(PermissionGroups.wfm);
+            }
+          ]
+        },
+        params: { link: 'planning' }
+      })
+      .state('content.wfm_forecasting', {
+        url: '/wfm/forecasting',
+        title: 'WFM Forecasting',
+        titleMessageId: 'navbar.wfm.title',
+        templateUrl: 'app/components/wfm/wfm.html',
+        controller: 'wfmController',
+        reloadOnSearch: false,
+        resolve: {
+          hasPermission: [
+            'UserPermissions',
+            'PermissionGroups',
+            function(UserPermissions, PermissionGroups) {
+              return UserPermissions.resolvePermissions(PermissionGroups.wfm);
+            }
+          ]
+        },
+        params: { link: 'forecasting' }
+      })
+      .state('content.wfm_agent', {
+        url: '/wfm/agent',
+        title: 'WFM Agent',
+        titleMessageId: 'navbar.wfm.title',
+        templateUrl: 'app/components/wfm/wfm.html',
+        controller: 'wfmController',
+        reloadOnSearch: false,
+        resolve: {
+          hasPermission: [
+            'UserPermissions',
+            'PermissionGroups',
+            function(UserPermissions, PermissionGroups) {
+              return UserPermissions.resolvePermissions(PermissionGroups.wfm);
+            }
+          ]
+        },
+        params: { link: 'agent' }
+      })
+      .state('content.wfm_admin', {
+        url: '/wfm/admin',
+        title: 'WFM Admin',
+        titleMessageId: 'navbar.wfm.title',
+        templateUrl: 'app/components/wfm/wfm.html',
+        controller: 'wfmController',
+        reloadOnSearch: false,
+        resolve: {
+          hasPermission: [
+            'UserPermissions',
+            'PermissionGroups',
+            function(UserPermissions, PermissionGroups) {
+              return UserPermissions.resolvePermissions(PermissionGroups.wfm);
+            }
+          ]
+        },
+        params: { link: 'admin' }
       })
       .state('content.configuration.chatWidgets', {
         url: '/chatWidgets?id',

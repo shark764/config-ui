@@ -418,7 +418,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
         $scope.tenantDropdownItems = tenantDropdownItems;
       }
       $scope.currentTenantNavbarConfig = null;
-      
+
       getBetaFeatures();
       //$scope.updateTopbarConfig();
     });
@@ -507,7 +507,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
           UserPermissions.hasPermissionInList(PermissionGroups.manageCapacityRules)) {
         items.push({
           label: $translate.instant('navigation.management.capacityRules'),
-          stateLink: Session.betaFeatures.capacityRules && !isActiveExternalTenant ? 
+          stateLink: Session.betaFeatures.capacityRules && !isActiveExternalTenant ?
             'content.management.capacityRules2' : 'content.management.capacityRules',
           id: 'capacity-rules-management-link',
           order: 7
@@ -823,7 +823,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
           });
         }
       }
-      
+
       if (UserPermissions.hasPermissionInList(PermissionGroups.viewInteractionMonitoring)) {
         items.push({
           label: $translate.instant('navigation.reports.interactionMonitoring'),
@@ -878,6 +878,43 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
       return items;
     };
 
+    vm.getWfmConfig = function() {
+      return [
+        $location.search()['alpha'] &&
+        UserPermissions.hasPermissionInList(PermissionGroups.wfm) &&
+        {
+          label: $translate.instant('navbar.wfm.planning'),
+          stateLink: 'content.wfm_planning',
+          id: 'wfm-planning-link',
+          order: 1
+        },
+        $location.search()['alpha'] &&
+        UserPermissions.hasPermissionInList(PermissionGroups.wfm) &&
+        {
+          label: $translate.instant('navbar.wfm.forecasting'),
+          stateLink: 'content.wfm_forecasting',
+          id: 'wfm-forecasting-link',
+          order: 2
+        },
+        $location.search()['alpha'] &&
+        UserPermissions.hasPermissionInList(PermissionGroups.wfm) &&
+        {
+          label: $translate.instant('navbar.wfm.agent'),
+          stateLink: 'content.wfm_agent',
+          id: 'wfm-agent-link',
+          order: 3
+        },
+        $location.search()['alpha'] &&
+        UserPermissions.hasPermissionInList(PermissionGroups.wfm) &&
+        {
+          label: $translate.instant('navbar.wfm.admin'),
+          stateLink: 'content.wfm_admin',
+          id: 'wfm-admin-link',
+          order: 4
+        },
+      ].filter(Boolean);
+    };
+
     vm.getSupportConfig = function() {
       var items = [];
 
@@ -898,6 +935,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
       $scope.configurationDropConfig = vm.getConfigurationConfig();
       $scope.flowsDropConfig = vm.getFlowsConfig();
       $scope.reportingDropConfig = vm.getReportingConfig();
+      $scope.wfmDropConfig = vm.getWfmConfig();
       $scope.supportDropConfig = vm.getSupportConfig();
       $scope.userDropdownItems = getUserDropdownItems();
     };
@@ -956,7 +994,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
 
     getBetaFeatures();
 
-    
+
 
     $rootScope.$on('tenantBrandingUpdated', function (event, tenantId) {
       if (Session.tenant.tenantId === tenantId) {
@@ -979,7 +1017,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
         $scope.tenantDropdownItems = tenantDropdownItems;
       }
       $scope.currentTenantNavbarConfig = null;
-      
+
       $scope.updateTopbarConfig();
       $scope.updateBranding(tenantId);
 

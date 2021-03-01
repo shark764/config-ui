@@ -76,6 +76,19 @@
         ></dropdown>
       </li>
 
+      <li id="wfm-nav-link" ng-show="wfmDropConfig && wfmDropConfig.length > 0" ng-class="{ active: isActive('/reporting') || isActive('/realtime-dashboards')}">
+        <dropdown
+          id="wfmNavLinkConfig"
+          items="wfmDropConfig"
+          collapse-icon="fa fa-caret-down"
+          label="{{ 'navbar.wfm.title' | translate }}"
+          order-by="order"
+          hovering="hovering"
+          show-on-hover="true"
+          hover-tracker="hoverTracker"
+        ></dropdown>
+      </li>
+
       <li ng-show="showSupportTool" ng-class="{ active: isActive('/support-tool') }">
         <dropdown
           id="supportDropConfig"
@@ -126,7 +139,7 @@
         </dropdown>
       </li>
       <li id="launcher" ng-show="launcherDropdownItems.length > 0">
-        
+
         <dropdown
           id="user-launch-dropdown"
           items="launcherDropdownItems"

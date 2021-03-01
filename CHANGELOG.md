@@ -12,6 +12,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Integrations
 - Identity Providers
 
+## [4.96.0]-  2021-02-26
+### Added
+-[CXV1-24076]- WFM links to WFM app in alpha phase
 ## [4.95.1]-  2021-02-04
 ### Fixed
 -[CXV1-23705]- SDK Version bump for SDK should not retry on 501 (Not implemented) responses
@@ -119,7 +122,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [4.92.2] - 2020-10-08
 ### Fixed
-- Updating SDK Logic to only pass 
+- Updating SDK Logic to only pass
 
 ## [4.92.1] - 2020-10-08
 ### Fixed
@@ -159,7 +162,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [4.90.0] - 2020-08-26
 ### Added
-- [CXV1-22911](https://lifesize.atlassian.net/browse/CXV1-22911) - Config 1 - Support Localization 
+- [CXV1-22911](https://lifesize.atlassian.net/browse/CXV1-22911) - Config 1 - Support Localization
 - [CXV1-22913](https://lifesize.atlassian.net/browse/CXV1-22913) - Config 1 - Add translation to Navbar
 
 ## [4.89.5] - 2020-08-26
@@ -249,16 +252,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - [CXV1-22423](https://liveops.atlassian.net/browse/CXV1-22423) - secureKey needs to be passed in as an option to the embeded app and not as a link parameter
 
-## [4.87.7] - 2020-04-30	
-### Fixed	
-- [CXV1-22304](https://liveops.atlassian.net/browse/CXV1-22304) - Reverting Allow Supervisor Toolbar to subscribe to messages without an active tenant	
-### Changed	
+## [4.87.7] - 2020-04-30
+### Fixed
+- [CXV1-22304](https://liveops.atlassian.net/browse/CXV1-22304) - Reverting Allow Supervisor Toolbar to subscribe to messages without an active tenant
+### Changed
 - <no-jira> - Bump SDK version 9.7.4 -> 9.7.6. See SDK Changelog.
 
-## [4.87.6] - 2020-04-30	
-### Fixed	
-- [CXV1-22304](https://liveops.atlassian.net/browse/CXV1-22304) - Allow Supervisor Toolbar to subscribe to messages without an active tenant	
-### Changed	
+## [4.87.6] - 2020-04-30
+### Fixed
+- [CXV1-22304](https://liveops.atlassian.net/browse/CXV1-22304) - Allow Supervisor Toolbar to subscribe to messages without an active tenant
+### Changed
 - <no-jira> - Bump SDK version 9.7.3 -> 9.7.4. See SDK Changelog.
 
 ## [4.87.5] - 2020-04-24
@@ -341,7 +344,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [4.84.1] - 2020-03-09
 ### Fixed
-- [CXV1-11648](https://liveops.atlassian.net/browse/CXV1-11648) Active versions are not displayed for capacity Rules 
+- [CXV1-11648](https://liveops.atlassian.net/browse/CXV1-11648) Active versions are not displayed for capacity Rules
 
 ## [4.84.0] - 2020-03-03
 ### Added
@@ -349,7 +352,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [4.83.3] - 2020-02-26
 ### Fixed
-- [CXV1-2970](https://liveops.atlassian.net/browse/CXV1-2970) Custom Realtime Dashboards | Value Format should be auto assigned 
+- [CXV1-2970](https://liveops.atlassian.net/browse/CXV1-2970) Custom Realtime Dashboards | Value Format should be auto assigned
 
 ## [4.83.2](https://github.com/serenovallc/config-ui/compare/4.83.1...4.83.2) - 2020-02-20
 - [CXV1-21503](https://liveops.atlassian.net/browse/CXV1-21503) Add CXWFM Launcher
@@ -520,16 +523,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - CXV1-20427 - Add Transfer List page to beta features and expose it in navbar.
 
 ## [4.79.17] - 2019-10-24
-### Added 
+### Added
 - CXV1-20402 - Add reasons to navbar and expose it as Beta feature
 
 ## [4.79.16] - 2019-10-22
 ### Changed
-- Hide title from "edit" in integrations listeners 
+- Hide title from "edit" in integrations listeners
 
 ## [4.79.15] - 2019-10-17
 ### Changed
-- Bump sdk version to 9.2.1 
+- Bump sdk version to 9.2.1
 
 ## [4.79.14] - 2019-10-10
 - CXV1-20110 - Fix tenant menu position
