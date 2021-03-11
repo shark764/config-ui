@@ -12,6 +12,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Integrations
 - Identity Providers
 
+## [4.96.1]-  2021-03-09
+### Fixed
+-[CXV1-24103]- WFM pages are now scrollable
+
 ## [4.96.0]-  2021-02-26
 ### Added
 -[CXV1-24076]- WFM links to WFM app in alpha phase
