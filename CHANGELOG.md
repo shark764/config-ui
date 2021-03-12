@@ -12,6 +12,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Integrations
 - Identity Providers
 
+## [4.96.2]-  2021-03-11
+### Updated
+-[CXV1-24110](https://lifesize.atlassian.net/browse/CXV1-24110) - Update the Privacy Policy links in Config-UI
+
 ## [4.96.1]-  2021-03-09
 ### Fixed
 -[CXV1-24103]- WFM pages are now scrollable
@@ -19,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [4.96.0]-  2021-02-26
 ### Added
 -[CXV1-24076]- WFM links to WFM app in alpha phase
+
 ## [4.95.1]-  2021-02-04
 ### Fixed
 -[CXV1-23705]- SDK Version bump for SDK should not retry on 501 (Not implemented) responses
