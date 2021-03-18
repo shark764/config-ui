@@ -105,6 +105,26 @@ loading {
       height: auto;
       max-width: 250px;
     }
+
+    p.quotedMessage {
+      background: #BDC1D6;
+      padding: 7px;
+      margin-bottom: 5px;
+      border-radius: 8px;
+      border: 1px solid #878999;
+      border-left: 4px solid #878999;
+      overflow: auto;
+    }
+
+    p.quotedMessage a {
+      margin-bottom: 5px;
+    }
+
+    p.quotedMessage img {
+      height: auto;
+      max-width: 50px;
+      margin-bottom: 5px;
+    }
   }
 }
 

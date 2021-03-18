@@ -124,6 +124,7 @@ angular.module('liveopsConfigPanel')
                     if (val.payload.metadata && val.payload.metadata.source === 'smooch') {
                       response[key].payload.userName = response[key].payload.metadata.name;
                       var messageBody = response[key].payload.body;
+
                       if (messageBody.file.mediaType) {
                         var file = getFileMetadata(files, messageBody.id);
                         if (file) {
@@ -170,6 +171,9 @@ angular.module('liveopsConfigPanel')
                           // we delete smooch one
                           delete response[key].payload.body.file.mediaUrl;
                         }
+                      }
+                      if (messageBody.quotedMessage && messageBody.quotedMessage.content) {
+                        getQuotedFile(messageBody.quotedMessage.content, response);
                       }
                       return;
                     }
@@ -230,6 +234,23 @@ angular.module('liveopsConfigPanel')
             return _.find(files, function(file) {
               return file && file.metadata && file.metadata.messageId === messageId;
             });
+          }
+
+          function getQuotedFile(content, messages) {
+            var fileName;
+            if (content) {
+              for (var i = 0; i < messages.length; i++) {
+                if (messages[i].payload.body.id === content.id) {
+                  if (messages[i].payload.body.file && messages[i].payload.body.file.mediaUrl) {
+                      content.file = messages[i].payload.body.file;
+                      break;
+                  }
+                }
+              }
+              if (content.file && content.file.mediaUrl && content.file.mediaUrl.includes("smooch")) {
+                delete content.file.mediaUrl;
+              }
+            }
           }
 
           function recordings() {

@@ -17,6 +17,27 @@
           </strong>
 
           <div class="message-content">
+            <p layout="column" class="quotedMessage" ng-if="message.payload.body.quotedMessage.content">
+              <em class="file-not-found"
+                  ng-if="(message.payload.body.quotedMessage.content.file &&
+                          message.payload.body.quotedMessage.content.file.mediaType &&
+                          !message.payload.body.quotedMessage.content.file.mediaUrl)">
+                {{'appdock.fileNotFoundInTranscript' | translate}}
+              </em>
+
+              <a ng-if="message.payload.body.quotedMessage.content.file.mediaUrl"
+                 ng-href="{{message.payload.body.quotedMessage.content.file.mediaUrl}}" target="_blank">
+                <img
+                  ng-if="message.payload.body.quotedMessage.content.file.mediaUrl && message.payload.body.quotedMessage.content.file.mediaType.startsWith('image/')"
+                  ng-src="{{message.payload.body.quotedMessage.content.file.mediaUrl}}"
+                  alt="Attachment preview..."
+                />
+                <em>{{message.payload.body.quotedMessage.content.file.filename}}</em>
+              </a>
+
+              <em ng-if="message.payload.body.quotedMessage.content.text">{{message.payload.body.quotedMessage.content.text}}</em>
+            </p>
+
             <p layout="column" ng-if="message.payload.body.file.mediaType && !message.payload.body.file.mediaUrl" class="file-not-found">
               <em>{{'appdock.fileNotFoundInTranscript' | translate}}</em>
             </p>

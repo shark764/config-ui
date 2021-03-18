@@ -12,6 +12,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Integrations
 - Identity Providers
 
+## [4.97.0] - 2021-03-16
+### Added
+- [CXV1-23911](https://lifesize.atlassian.net/browse/CXV1-23911) - Render quoted messages in chat transcript | Reporting | Config UI.
+
 ## [4.96.2]-  2021-03-11
 ### Updated
 -[CXV1-24110](https://lifesize.atlassian.net/browse/CXV1-24110) - Update the Privacy Policy links in Config-UI
