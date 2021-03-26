@@ -17,7 +17,8 @@
           </strong>
 
           <div class="message-content">
-            <p layout="column" class="quotedMessage" ng-if="message.payload.body.quotedMessage.content">
+            <p layout="column" class="quotedMessage" ng-if="message.payload.body.quotedMessage.content &&
+              message.payload.body.quotedMessage.content.type && message.payload.body.quotedMessage.content.type !== 'form'">
               <em class="file-not-found"
                   ng-if="(message.payload.body.quotedMessage.content.file &&
                           message.payload.body.quotedMessage.content.file.mediaType &&
