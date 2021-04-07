@@ -12,6 +12,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Integrations
 - Identity Providers
 
+## [4.98.0] - 2021-03-30
+### Changed
+- [CXV1-23673](https://lifesize.atlassian.net/browse/CXV1-23673) - Adding pagination to RTD tables | Reporting.
+
+
 ## [4.97.1] - 2021-03-24
 ### Fixed
 - [CXV1-24146](https://lifesize.atlassian.net/browse/CXV1-24146) - Quoted message feature for whatsapp affected the collect message in webchat | Reporting.

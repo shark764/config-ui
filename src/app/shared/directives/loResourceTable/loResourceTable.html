@@ -70,7 +70,7 @@
     </tr>
   </thead>
 
-  <tbody ng-class="{'forced-global-loading': forceGlobalLoading === true}">
+  <tbody ng-if="!paginate" ng-class="{'forced-global-loading': forceGlobalLoading === true}">
     <tr ng-if="!filtered.length">
       <td class="null" colspan="{{config.fields.length + 1}}">
         {{'table.results.none' | translate}}
@@ -160,6 +160,107 @@
             </lo-resource-table-cell>
   
             <span ng-if="!option.transclude" 
+                  title="{{parse(item, option)}}">
+              {{parse(item, option)}}
+            </span>
+          </span>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+
+  <tbody ng-if="!!paginate" ng-class="{'forced-global-loading': forceGlobalLoading === true}">
+    <tr ng-if="!items.length">
+      <td class="null" colspan="{{config.fields.length + 1}}">
+        {{'table.results.none' | translate}}
+      </td>
+    </tr>
+    <tr dir-paginate="item in (filtered = (items |
+        selectedTableOptions:config.fields |
+        search:config.searchOn:searchQuery |
+        greaterOrLessThanFilter:config.greaterOrLessThan.path:greaterOrLessThan.comparison:greaterOrLessThan.value:greaterOrLessThan.unit.value |
+        orderBy:orderBy:reverseSortOrder:comparedTo)) | itemsPerPage: pageSize"
+      current-page="currentPage"
+      pagination-id="loResourceTable"
+      ng-init="item.$index = $index"
+      ng-if="(item.customAttributes || (!item.customAttributes && !!isCustomAttrFieldsChecked && !!isAnyCustomAttributeChecked)) ? item.checked !== false : true"
+      ng-class="{selected: item === selected, 'lo-highlight': item === selected}">
+
+      <td id="bulk-actions-select-table-cell" class="check-col"
+        ng-show="showBulkActions"
+        ng-click="checkItem(item)">
+
+        <input type="checkbox" ng-checked="item.checked"/>
+      </td>
+
+      <td ng-if="!field.subMenu && field.checked"
+          ng-repeat="field in config.fields"
+          ng-click="onSelectItem(item)"
+          ng-switch="!!config.sref">
+        <!-- show hyperlinked content in table cell if a value exists in config.sref -->
+        <div ng-switch-when="true">
+          <a ui-sref="{{config.sref}}(stateParam(item))" ui-sref-args="{reload: true}">
+            <lo-resource-table-cell
+              name="{{field.name}}"
+              ng-if="field.transclude"
+              item="item"
+              options="field.header.options">
+            </lo-resource-table-cell>
+
+            <span ng-if="!field.transclude"
+                  title="{{parse(item, field)}}">
+              {{parse(item, field)}}
+            </span>
+          </a>
+        </div>
+
+        <!-- if a value doesn't exist in config.sref... -->
+        <div ng-switch-default ng-switch="!!field.actionLink">
+          <!-- if a value exists for field.actionLink, show content with the link specified TBD... -->
+          <span ng-switch-when="true">
+            <a ng-click="toggleToolbarVisibility(item.interactionId)">
+              <lo-resource-table-cell
+                name="{{field.linkText}}"
+                ng-if="field.transclude"
+                item="item"
+                options="field.header.options">
+              </lo-resource-table-cell>
+              {{field.linkText}}
+            </a>
+          </span>
+
+          <!-- otherwise, if no value exists for field.actionLink, then just show the unlinked version -->
+          <span ng-switch-default>
+            <lo-resource-table-cell
+              name="{{field.name}}"
+              ng-if="field.transclude"
+              item="item"
+              options="field.header.options">
+            </lo-resource-table-cell>
+
+            <span ng-if="!field.transclude"
+                  title="{{parse(item, field)}}">
+              {{parse(item, field)}}
+            </span>
+          </span>
+        </div>
+      </td>
+
+      <td
+        ng-repeat="option in customAttributesFields"
+        ng-if="!!isCustomAttrFieldsChecked && option.checked === true"
+        ng-click="onSelectItem(item)">
+
+        <div>
+          <span>
+            <lo-resource-table-cell
+              name="{{option.value}}"
+              ng-if="option.transclude"
+              item="item"
+              options="item.customAttributes">
+            </lo-resource-table-cell>
+  
+            <span ng-if="!option.transclude"
                   title="{{parse(item, option)}}">
               {{parse(item, option)}}
             </span>

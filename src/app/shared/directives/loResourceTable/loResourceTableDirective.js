@@ -52,7 +52,10 @@ angular.module('liveopsConfigPanel')
           items: '=', //Source list of items to be added to the table
           searchQuery: '=?', // (string) Optional search string passed to search filter for items. Matches determined by 'config.searchOn'
           greaterOrLessThan: '=?', // Optional filter object passed to filter items. Matches determined by 'config.searchOn'
-          selected: '=' //Expose the currently selected table item
+          selected: '=', //Expose the currently selected table item
+          paginate: '=?', // (boolean) Optional, true in case table will contain pagination
+          currentPage: '=?',  // (number) Optional, contains page what page should be shown first
+          pageSize: '=?', // (number) Optional, defines size of each page
         },
         templateUrl: 'app/shared/directives/loResourceTable/loResourceTable.html',
         transclude: true,

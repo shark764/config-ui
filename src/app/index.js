@@ -27,7 +27,8 @@ angular.module('liveopsConfigPanel', [
     'color.picker',
     'textAngular',
     'infinite-scroll',
-    'angular-jwt'
+    'angular-jwt',
+    'angularUtils.directives.dirPagination'
   ])
   .config(['$translateProvider', 'toastrConfig', '$qProvider', '$locationProvider', 'languages',
     function($translateProvider, toastrConfig, qProvider, $locationProvider, languages) {
