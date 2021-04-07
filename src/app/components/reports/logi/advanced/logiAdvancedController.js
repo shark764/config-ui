@@ -103,23 +103,6 @@ angular.module('liveopsConfigPanel').controller('LogiAdvancedController', [
           script.type = 'text/javascript';
           script.src = logiUrl;
 
-          /**
-           * Append iframe to the page to force logi to logout
-           */
-          Logi.getSsmBaseUrl(Session.tenant.tenantId)
-            .then(function(response) {
-              var logiBaseUrl = (LogiBaseUrl || response.data.logiBaseUrl)
-              console.warn('Ssm base url', logiBaseUrl);
-              var ssmIframe = document.createElement('iframe');
-              ssmIframe.style.display = 'none';
-              ssmIframe.id = 'ssmLogoutIframe';
-              ssmIframe.src = logiBaseUrl + '/rdProcess.aspx?rdProcess=tasks&rdTaskID=Logout';
-              document.body.appendChild(ssmIframe);
-            })
-            .catch(function(err) {
-              Alert.error(err);
-            });
-
           $(ssmContainer)
             .contents()
             .find('body')

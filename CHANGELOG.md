@@ -12,10 +12,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Integrations
 - Identity Providers
 
+## [4.98.1] - 2021-04-0-6
+## Updated
+- [CXV1-23291](https://lifesize.atlassian.net/browse/CXV1-23291) - Removed call to log out of Logi session.
+
 ## [4.98.0] - 2021-03-30
 ### Changed
 - [CXV1-23673](https://lifesize.atlassian.net/browse/CXV1-23673) - Adding pagination to RTD tables | Reporting.
-
 
 ## [4.97.1] - 2021-03-24
 ### Fixed
