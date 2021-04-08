@@ -12,7 +12,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Integrations
 - Identity Providers
 
-## [4.98.1] - 2021-04-0-6
+## [4.98.2] - 2021-04-08
+## Fixed
+- <no-Jira> - Removed duplicated version on bower.json file.
+
+## [4.98.1] - 2021-04-06
 ## Updated
 - [CXV1-23291](https://lifesize.atlassian.net/browse/CXV1-23291) - Removed call to log out of Logi session.
 
