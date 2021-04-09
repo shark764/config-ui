@@ -1365,7 +1365,8 @@ angular.module('liveopsConfigPanel').config([
         }
       })
       .state('content.realtime-dashboards-management-editor', {
-        url: '/realtime-dashboards/editor/:dashboardId',
+        // We should remove the beta feature flag when we deploy custom attributes for Interactions in Conversation Table in to production.
+        url: '/realtime-dashboards/editor/:dashboardId?beta',
         title: 'Reporting - Custom Realtime Dashboards - Editor',
         titleMessageId: 'title.realtime-dashboards-management-editor',
         templateUrl: 'app/components/reporting/realtime/realtimeDashboardEditor/realtimeDashboardsEditor.html',
@@ -1467,7 +1468,8 @@ angular.module('liveopsConfigPanel').config([
         }
       })
       .state('content.realtime-dashboards-management-viewer', {
-        url: '/realtime-dashboards/viewer/:dashboardId',
+        // We should remove the beta feature flag when we deploy custom attributes for Interactions in Conversation Table in to production.
+        url: '/realtime-dashboards/viewer/:dashboardId?beta',
         title: 'Reporting - Realtime Dashboards',
         titleMessageId: 'title.realtime-dashboards-management-viewer',
         templateUrl: 'app/components/reporting/realtime/realtimeDashboards.html',

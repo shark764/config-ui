@@ -197,9 +197,10 @@ angular.module('liveopsConfigPanel').service('Session', [
             if(field.name === 'customAttributes') {
               // custom attributes are tenant specific, erase them while switching to a new tenant
               if(field.tenantId !== self.tenant.tenantId) {
-                fields.splice(idx, 1);
+                field.header.options = [];
               }
-            } else {
+            }
+            else {
               field.header.options = [];
             }
           }

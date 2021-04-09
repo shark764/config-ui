@@ -12,6 +12,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Integrations
 - Identity Providers
 
+## [4.99.0] - 2020-04-09
+### Added
+* CC-502 - Add Custom Attributes to Interactions In Conversation Table under beta feature flag.
+
 ## [4.98.3] - 2021-04-05
 ### Fixed
 - [CXV1-23869](https://lifesize.atlassian.net/browse/CXV1-23869) - Supervisor toolbar is hidden when no interaction is being monitored | Interaction Monitor.
