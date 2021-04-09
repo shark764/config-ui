@@ -78,6 +78,8 @@ angular.module('liveopsConfigPanel').directive('sdkListener', [
               );
             } else if (CxEngage.session.getActiveTenantId()) {
               if (event.data.module === 'monitorCall') {
+                $rootScope.$emit('hasMonitoredInteraction', true);
+
                 var silentMonitorCall = function (event) {
                   if (CxEngage.interactions.voice) {
                     var monitoredInteraction = CxEngage.session.getMonitoredInteraction();
@@ -119,6 +121,7 @@ angular.module('liveopsConfigPanel').directive('sdkListener', [
                           );
                         });
                       } else {
+                        $rootScope.$emit('hasMonitoredInteraction', false);
                         event.source.postMessage(
                           {
                             topic: ['monitorCall'],
@@ -162,6 +165,8 @@ angular.module('liveopsConfigPanel').directive('sdkListener', [
                 } else {
                   silentMonitorCall(event);
                 }
+              } else if (event.data.module === 'monitorCallEnded') {
+                $rootScope.$emit('hasMonitoredInteraction', false);
               } else if (event.data.module === 'FlowDesigner.draftPublished') {
                 // Call to open Flow Designer from Config-UI2
                 $state.go('content.flows.editor', {

@@ -44,4 +44,9 @@ div#table-pane:not(.table-widget) {
   overflow: hidden;
   position: fixed;
   bottom: 0px;
+
+  &.toolbar-hidden {
+    position: relative;
+    z-index: 0;
+  }
 }
