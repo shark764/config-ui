@@ -81,38 +81,15 @@ pipeline {
         sh "docker cp ${docker_tag}:/home/node/app/dist build"
       }
     }
-    stage ('Preview PR (dev)') {
+    stage ('Preview PR (QE)') {
       when { changeRequest() }
       steps {
-        sh 'echo "Stage Description: Creates a temp build of the site in dev to review the changes"'
+        sh 'echo "Stage Description: Creates a temp build of the site in qe to review the changes"'
         sh "aws s3 rm s3://frontend-prs.cxengagelabs.net/config-ui/${pr}/ --recursive"
         sh "aws s3 sync build/dist/ s3://frontend-prs.cxengagelabs.net/config-ui/${pr}/ --delete"
         script {
           f.invalidate("E23K7T1ARU8K88")
-          office365ConnectorSend status:"Ready for review", message:"<a href=\"https://frontend-prs.cxengagelabs.net/config-ui/${pr}/index.html\">Config-UI 1 Dev Preview</a>", webhookUrl:"https://outlook.office.com/webhook/046fbedf-24a1-4c79-8e4a-3f73437d9de5@1d8e6215-577d-492c-9fe9-b3c9e7d65fdd/JenkinsCI/26ba2757836d431c8310fbfbfbb905dc/4060fcf8-0939-4695-932a-b8d400889db6"
-        }
-      }
-    }
-    stage ('Ready for QE?') {
-      when { changeRequest() }
-      steps {
-        timeout(time: 5, unit: 'DAYS') {
-          script {
-            input message: 'Ready for QE?', submittedParameter: 'submitter'
-            sh 'echo "Stage Description: Makes temp verion of the app pointing to qe env"'
-            def config = 'build/dist/app/env.js'
-            sh "find -name vendor-*.js > commandResult"
-            def vendor = readFile('commandResult').trim()
-            sh "aws s3 rm s3://frontend-prs.cxengagelabs.net/config-ui/${pr}/ --recursive"
-            sh "sed -i 's/dev/qe/g' ${config}"
-            sh "chmod 644 ${vendor}"
-            sh "sed -i 's/dev-api.cxengagelabs.net/qe-api.cxengagelabs.net/g' ${vendor}"
-            sh "aws s3 sync build/dist/ s3://frontend-prs.cxengagelabs.net/config-ui/${pr}/ --delete"
-          }
-          script {
-            f.invalidate("E23K7T1ARU8K88")
-            office365ConnectorSend status:"Ready for QE", color:"f6c342", message:"<a href=\"https://frontend-prs.cxengagelabs.net/config-ui/${pr}/index.html\">Config-UI 1 QE Preview</a>", webhookUrl:"https://outlook.office.com/webhook/046fbedf-24a1-4c79-8e4a-3f73437d9de5@1d8e6215-577d-492c-9fe9-b3c9e7d65fdd/JenkinsCI/26ba2757836d431c8310fbfbfbb905dc/4060fcf8-0939-4695-932a-b8d400889db6"
-          }
+          office365ConnectorSend status:"Ready for review", message:"<a href=\"https://frontend-prs.cxengagelabs.net/config-ui/${pr}/index.html\">Config-UI 1 QE Preview</a>", webhookUrl:"https://outlook.office.com/webhook/046fbedf-24a1-4c79-8e4a-3f73437d9de5@1d8e6215-577d-492c-9fe9-b3c9e7d65fdd/JenkinsCI/26ba2757836d431c8310fbfbfbb905dc/4060fcf8-0939-4695-932a-b8d400889db6"
         }
       }
     }
@@ -153,38 +130,6 @@ pipeline {
     stage ('Deploy') {
       when { anyOf {branch 'master'; branch 'develop'; branch 'release'; branch 'hotfix'}}
        steps {
-        build job: 'Deploy - Front-End', parameters: [
-          [
-            $class: 'StringParameterValue',
-            name: 'Service',
-            value: "Config-UI"
-          ],
-          [
-            $class: 'StringParameterValue',
-            name: 'RefreshRate',
-            value: "5000"
-          ],
-          [
-            $class: 'StringParameterValue',
-            name: 'Version',
-            value: build_version
-          ],
-          [
-            $class: 'StringParameterValue',
-            name: 'Environment',
-            value: 'dev'
-          ],
-          [
-            $class: 'BooleanParameterValue',
-            name: 'blastSqsOutput',
-            value: true
-          ],
-          [
-            $class: 'StringParameterValue',
-            name: 'logLevel',
-            value: 'debug'
-          ]
-        ]
         build job: 'Deploy - Front-End', parameters: [
           [
               $class: 'StringParameterValue',

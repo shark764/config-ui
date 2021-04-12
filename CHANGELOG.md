@@ -12,6 +12,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Integrations
 - Identity Providers
 
+## [4.99.1] - 2021-04-09
+### Fixed
+- <no-jira> - Updated the jenkins to QE environment
+
 ## [4.99.0] - 2020-04-09
 ### Added
 * CC-502 - Add Custom Attributes to Interactions In Conversation Table under beta feature flag.
@@ -27,6 +31,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [4.98.1] - 2021-04-06
 ## Updated
 - [CXV1-23291](https://lifesize.atlassian.net/browse/CXV1-23291) - Removed call to log out of Logi session.
+
 
 ## [4.98.0] - 2021-03-30
 ### Changed

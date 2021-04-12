@@ -5,7 +5,7 @@ angular
   .constant('designerHostname', 'https://qe-designer.cxengagelabs.net')
   .constant('debuggerHostname', 'https://qe-debugger.cxengagelabs.net')
   .constant('config2Url', 'https://qe-config2.cxengagelabs.net')
-  .constant('wfmUrl', 'https://cx-wfm-qe.cxengagelabs.net')
+  .constant('wfmUrl', 'https://cx-wfm-dev.cxengagelabs.net')
   .constant('qualityManagementUrl', 'https://qe-cxqm-web.cxengagelabs.net/Engage')
   .constant('s3BucketUrl', 'https://cxengagelabs-qe-configurator-images.s3.amazonaws.com')
   .constant('BIRST_URL', 'https://qe-birst.cxengagelabs.net')
