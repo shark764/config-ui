@@ -12,6 +12,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Integrations
 - Identity Providers
 
+## [4.99.2] - 2020-04-09
+### Fixed
+* CXV1-23990 - Entity ID is being added to URL on row selection | Integrations - Config-UI 2.
+
 ## [4.99.1] - 2021-04-09
 ### Fixed
 - <no-jira> - Updated the jenkins to QE environment

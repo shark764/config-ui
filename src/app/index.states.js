@@ -242,7 +242,7 @@ angular.module('liveopsConfigPanel').config([
         }
       })
       .state('content.management.capacityRules2', {
-        url: '/capacityRules2',
+        url: '/capacityRules2?id',
         title: 'User Management - Capacity Rules Management',
         templateUrl: 'app/components/management/capacityRules2/capacityRules.html',
         controller: 'capacityRulesController2',
@@ -663,7 +663,7 @@ angular.module('liveopsConfigPanel').config([
         }
       })
       .state('content.configuration.integrations2', {
-        url: '/integrations2',
+        url: '/integrations2?id',
         title: 'Configuration - Integration Management',
         titleMessageId: 'title.configuration.integrations',
         templateUrl: 'app/components/configuration/integrations2/integrations.html',
@@ -861,7 +861,7 @@ angular.module('liveopsConfigPanel').config([
         }
       })
       .state('content.configuration.identityProviders2', {
-        url: '/identityProviders2',
+        url: '/identityProviders2?id',
         title: 'Configuration - Identity Providers',
         templateUrl: 'app/components/configuration/identityProviders2/identityProviders.html',
         controller: 'identityProvidersController2 as idp',
@@ -951,7 +951,7 @@ angular.module('liveopsConfigPanel').config([
         }
       })
       .state('content.flows.queues2', {
-        url: '/queues2',
+        url: '/queues2?id',
         title: 'Flows - Queue Management',
         titleMessageId: 'title.flows.queues',
         templateUrl: 'app/components/configuration/queues2/queues2.html',
