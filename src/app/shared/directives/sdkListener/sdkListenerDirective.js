@@ -50,7 +50,10 @@ angular.module('liveopsConfigPanel').directive('sdkListener', [
                   }
 
                   try {
-                    if (event.source !== undefined) {
+                    if (!event.source) {
+                      console.warn('Cannot send postMessage to iframe due to source is not defined. This can happen during the teardown process of an iframe when navigating to a new page, the sender does not know the source.');
+                    }
+                    else {
                       event.source.postMessage(
                         {
                           subscription: {
