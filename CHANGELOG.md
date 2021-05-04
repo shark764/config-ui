@@ -12,11 +12,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Integrations
 - Identity Providers
 
-## [4.99.3] - 2020-04-23
+## [4.99.4] - 2021-05-03
+### Fixed
+* CXV1-24345 - Fixed silent monitoring Twilio initialization
+
+## [4.99.3] - 2021-04-23
 ### Fixed
 * CXV1-24318 - Navigating away from Interaction Monitoring is no longer throwing a subscription error.
 
-## [4.99.2] - 2020-04-09
+## [4.99.2] - 2021-04-09
 ### Fixed
 * CXV1-23990 - Entity ID is being added to URL on row selection | Integrations - Config-UI 2.
 
@@ -24,7 +28,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - <no-jira> - Updated the jenkins to QE environment
 
-## [4.99.0] - 2020-04-09
+## [4.99.0] - 2021-04-09
 ### Added
 * CC-502 - Add Custom Attributes to Interactions In Conversation Table under beta feature flag.
 
