@@ -12,6 +12,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Integrations
 - Identity Providers
 
+## [4.99.5] - 2021-05-11
+### Fixed
+* CXV1-24267 - Remove beta feature flag for Custom Attributes on Interactions in Conversation Table.
+
 ## [4.99.4] - 2021-05-03
 ### Fixed
 * CXV1-24345 - Fixed silent monitoring Twilio initialization
