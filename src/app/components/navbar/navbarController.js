@@ -79,16 +79,27 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
     function redirectToBetaPages(newBetaFeatures) {
       var goTo = $state.current;
       var messageKey = '';
+      // Opt-out pages: Only show disabled message if switching to old page
       if ($state.includes('content.configuration.tenants') || $state.includes('content.configuration.tenants2')) {
-        goTo = newBetaFeatures.tenants ? 'content.configuration.tenants2' : 'content.configuration.tenants';
-        messageKey = newBetaFeatures.tenants
-          ? 'permissions.betaFeatures.enabled.message'
-          : 'permissions.betaFeatures.disabled.message';
+        goTo = newBetaFeatures.tenants === false ? 'content.configuration.tenants' : 'content.configuration.tenants2';
+        if (newBetaFeatures.tenants === false) {
+          messageKey = 'permissions.betaFeatures.disabled.message';
+        }
       } else if ($state.includes('content.configuration.integrations') || $state.includes('content.configuration.integrations2')) {
-        goTo = newBetaFeatures.integrations ? 'content.configuration.integrations2' : 'content.configuration.integrations';
-        messageKey = newBetaFeatures.integrations
-          ? 'permissions.betaFeatures.enabled.message'
-          : 'permissions.betaFeatures.disabled.message';
+        goTo = newBetaFeatures.integrations === false ? 'content.configuration.integrations' : 'content.configuration.integrations2';
+        if (newBetaFeatures.integrations === false) {
+          messageKey = 'permissions.betaFeatures.disabled.message';
+        }
+      } else if ($state.includes('content.management.capacityRules') || $state.includes('content.management.capacityRules2')) {
+        goTo = newBetaFeatures.capacityRules === false ? 'content.management.capacityRules' : 'content.management.capacityRules2';
+        if (newBetaFeatures.capacityRules === false) {
+          messageKey = 'permissions.betaFeatures.disabled.message';
+        }
+      } else if ($state.includes('content.configuration.identityProviders') || $state.includes('content.configuration.identityProviders2')) {
+        goTo = newBetaFeatures.identityProviders === false ? 'content.configuration.identityProviders' : 'content.configuration.identityProviders2';
+        if (newBetaFeatures.identityProviders === false) {
+          messageKey = 'permissions.betaFeatures.disabled.message';
+        }
       }
       $state.go(goTo, { id: null, messageKey: messageKey }, { reload: true, inherit: false });
     }
@@ -507,8 +518,8 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
           UserPermissions.hasPermissionInList(PermissionGroups.manageCapacityRules)) {
         items.push({
           label: $translate.instant('navigation.management.capacityRules'),
-          stateLink: Session.betaFeatures.capacityRules && !isActiveExternalTenant ?
-            'content.management.capacityRules2' : 'content.management.capacityRules',
+          stateLink: Session.betaFeatures.capacityRules === false ?
+            'content.management.capacityRules' : 'content.management.capacityRules2',
           id: 'capacity-rules-management-link',
           order: 7
         });
@@ -525,7 +536,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
         if (Session.betaFeatures) {
             items.push({
               label: $translate.instant('navigation.configuration.tenants'),
-              stateLink: Session.betaFeatures.tenants && !isActiveExternalTenant ? 'content.configuration.tenants2' : 'content.configuration.tenants',
+              stateLink: Session.betaFeatures.tenants === false ? 'content.configuration.tenants' : 'content.configuration.tenants2',
               id: 'tenants-configuration-link',
               order: 1
             });
@@ -535,7 +546,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
       if (UserPermissions.hasPermissionInList(PermissionGroups.viewIdentityProviders)) {
         items.push({
           label: $translate.instant('navigation.configuration.identityProviders'),
-          stateLink: Session.betaFeatures.identityProviders && !isActiveExternalTenant ? 'content.configuration.identityProviders2' : 'content.configuration.identityProviders',
+          stateLink: Session.betaFeatures.identityProviders === false ? 'content.configuration.identityProviders' : 'content.configuration.identityProviders2',
           id: 'identity-providers-configuration-link',
           order: 2
         });
@@ -544,22 +555,9 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
       if (UserPermissions.hasPermissionInList(PermissionGroups.viewIntegrations)) {
         items.push({
           label: $translate.instant('navigation.configuration.integrations'),
-          stateLink: Session.betaFeatures.integrations && !isActiveExternalTenant ? 'content.configuration.integrations2' : 'content.configuration.integrations',
+          stateLink: Session.betaFeatures.integrations === false ? 'content.configuration.integrations' : 'content.configuration.integrations2',
           id: 'integrations-configuration-link',
           order: 3
-        });
-      }
-
-      if (
-        UserPermissions.hasPermissionInList(PermissionGroups.viewIntegrations) &&
-        $location.search()['alpha'] &&
-        !isActiveExternalTenant
-      ) {
-        items.push({
-          label: $translate.instant('navigation.configuration.integrations') + ' (alpha)',
-          stateLink: 'content.configuration.integrations2',
-          id: 'integrations-configuration-link2',
-          order: 17
         });
       }
 
