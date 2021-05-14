@@ -22,7 +22,7 @@
       </th>
       <th class="sortable-header"
         ng-repeat="field in config.fields"
-        ng-if="!field.subMenu && !field.betaFlagOff && field.checked !== false"
+        ng-if="!field.subMenu && field.checked !== false"
         ng-class="{'filter-header': !!field.header.options}"
         ng-click="sortTable(field)">
 

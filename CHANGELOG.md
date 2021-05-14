@@ -12,6 +12,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Integrations
 - Identity Providers
 
+## [4.100.1] - 2021-05-14
+### Fixed
+* CXV1-24433 - Custom attributes are not displayed in old Interactions in Conversation custom-dashboards.
+
 ## [4.100.0] - 2021-05-12
 ### Updated
 * CXV1-24415 - Default Tenants, Integrations, Identity Providers, Capacity Rules to phase 2 (opt-out)
