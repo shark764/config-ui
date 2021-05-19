@@ -12,6 +12,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Integrations
 - Identity Providers
 
+## [4.101.0] - 2021-05-19
+### Updated
+* CXV1-26871 - Use proper permissions to access new WFM pages, no longer need alpha flag to access wfm pages
+### Removed
+  no-jira - Removed un-used rocket wfm link when user is platform admin, no longer required
+
 ## [4.100.1] - 2021-05-14
 ### Fixed
 * CXV1-24433 - Custom attributes are not displayed in old Interactions in Conversation custom-dashboards.

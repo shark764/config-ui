@@ -377,24 +377,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
       return items;
     }
 
-    function getLauncherDropdownItems() {
-      var items = [];
-      if(UserPermissions.hasPermission('PLATFORM_CXWFM_VIEW_ALL')){
-        items.push({
-          label: "CxEngage WFM",
-          onClick: function() {
-            var url = 'SerenovaWFM: foo=bar';
-            $window.location.href= url;
-          }
-        })
-      }
-      return items;
-    }
-
     $scope.userDropdownItems = getUserDropdownItems();
-    if (checkSessionTenantId) {
-        $scope.launcherDropdownItems = getLauncherDropdownItems();
-    }
 
     $scope.userHelpItems = [
       {
@@ -878,7 +861,6 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
 
     vm.getWfmConfig = function() {
       return [
-        $location.search()['alpha'] &&
         UserPermissions.hasPermissionInList(PermissionGroups.wfm) &&
         {
           label: $translate.instant('navbar.wfm.planning'),
@@ -886,7 +868,6 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
           id: 'wfm-planning-link',
           order: 1
         },
-        $location.search()['alpha'] &&
         UserPermissions.hasPermissionInList(PermissionGroups.wfm) &&
         {
           label: $translate.instant('navbar.wfm.forecasting'),
@@ -894,7 +875,6 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
           id: 'wfm-forecasting-link',
           order: 2
         },
-        $location.search()['alpha'] &&
         UserPermissions.hasPermissionInList(PermissionGroups.wfm) &&
         {
           label: $translate.instant('navbar.wfm.agent'),
@@ -902,7 +882,6 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
           id: 'wfm-agent-link',
           order: 3
         },
-        $location.search()['alpha'] &&
         UserPermissions.hasPermissionInList(PermissionGroups.wfm) &&
         {
           label: $translate.instant('navbar.wfm.admin'),

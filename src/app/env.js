@@ -5,7 +5,7 @@ angular
   .constant('designerHostname', 'https://qe-designer.cxengagelabs.net')
   .constant('debuggerHostname', 'https://qe-debugger.cxengagelabs.net')
   .constant('config2Url', 'https://qe-config2.cxengagelabs.net')
-  .constant('wfmUrl', 'https://cx-wfm-dev.cxengagelabs.net')
+  .constant('wfmUrl', 'https://qe-cx-wfm.cxengagelabs.net')
   .constant('qualityManagementUrl', 'https://qe-cxqm-web.cxengagelabs.net/Engage')
   .constant('s3BucketUrl', 'https://cxengagelabs-qe-configurator-images.s3.amazonaws.com')
   .constant('BIRST_URL', 'https://qe-birst.cxengagelabs.net')
@@ -17,6 +17,7 @@ angular
   // .constant('designerHostname', 'http://localhost:1339')
   // .constant('debuggerHostname', 'http://localhost:4200')
   // .constant('config2Url', 'http://localhost:3000')
+  // .constant('wfmUrl', 'http://localhost:3006')
   .constant('CxEngageConfig', {
     baseUrl: 'https://qe-api.cxengagelabs.net/v1/',
     // baseUrl: 'http://localhost:9080/v1/',
