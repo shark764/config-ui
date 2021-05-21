@@ -652,13 +652,23 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
         });
       }
 
+      if (
+        UserPermissions.hasPermissionInList(PermissionGroups.viewFacebookIntegrations) && !isActiveExternalTenant) {
+        items.push({
+          label: $translate.instant('navigation.configuration.facebookIntegrations'),
+          stateLink: 'content.configuration.facebookIntegrations',
+          id: 'facebookIntegrations-configuration-link',
+          order: 15,
+        });
+      }
+
       if (appFlags.CONTACT_MANAGEMENT) {
         if (UserPermissions.hasPermissionInList(PermissionGroups.viewContactAttributes)) {
           items.push({
             label: $translate.instant('navigation.configuration.contactAttributes'),
             stateLink: 'content.configuration.contactAttributes',
             id: 'contact-attributes-configuration-link',
-            order: 15
+            order: 16
           });
         }
 
@@ -667,7 +677,7 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
             label: $translate.instant('navigation.configuration.contactLayouts'),
             stateLink: 'content.configuration.contactLayouts',
             id: 'contact-layouts-configuration-link',
-            order: 16
+            order: 17
           });
         }
       }

@@ -480,6 +480,24 @@ angular.module('liveopsConfigPanel').config([
         },
         params: {config2: true}
       })
+      .state('content.configuration.facebookIntegrations', {
+        url: '/facebookIntegrations?id',
+        title: 'Configuration - Facebook',
+        titleMessageId: 'title.configuration.facebookIntegrations',
+        templateUrl: 'app/components/configuration/facebookIntegrations/facebookIntegrations.html',
+        controller: 'facebookIntegrationsController',
+        reloadOnSearch: false,
+        resolve: {
+          hasPermission: [
+            'UserPermissions',
+            'PermissionGroups',
+            function(UserPermissions, PermissionGroups) {
+              return UserPermissions.resolvePermissions(PermissionGroups.viewFacebookIntegrations);
+            }
+          ]
+        },
+        params: {config2: true}
+      })
       .state('content.configuration.outboundIdentifierLists', {
         url: '/outboundIdentifierLists?id',
         title: 'Configuration - Outbound Identifier Lists',

@@ -12,6 +12,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Integrations
 - Identity Providers
 
+## [4.102.0] - 2021-05-20
+### Added
+* CXV1-26867 - Config-UI | Access to Facebook Integration page from Config 1
+
 ## [4.101.0] - 2021-05-19
 ### Updated
 * CXV1-26871 - Use proper permissions to access new WFM pages, no longer need alpha flag to access wfm pages

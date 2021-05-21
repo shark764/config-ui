@@ -200,6 +200,7 @@
   "navbar.configuration.outboundIdentifierLists.title": "Outbound Identifier Lists",
   "navbar.configuration.chatWidgets.title": "Chat Widgets",
   "navbar.configuration.whatsappIntegrations.title": "WhatsApp",
+  "navbar.configuration.facebookIntegrations.title": "Facebook",
   "navbar.flows.title": "Flows",
   "navbar.flows.queues.title": "Queues",
   "navbar.flows.dispositions.title": "Dispositions",

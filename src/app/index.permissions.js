@@ -96,6 +96,7 @@
     viewOutboundIdentifiers: ['OUTBOUND_IDENTIFIER_READ', 'PLATFORM_VIEW_ALL'],
     viewChatWidgets: ['WEB_INTEGRATIONS_APP_READ', 'PLATFORM_VIEW_ALL'],
     viewWhatsappIntegrations: ['WHATSAPP_INTEGRATIONS_APP_READ', 'PLATFORM_VIEW_ALL'],
+    viewFacebookIntegrations: ['FACEBOOK_INTEGRATIONS_APP_READ', 'PLATFORM_VIEW_ALL'],
     betaFeatures: ['TENANT_FEATURES_UPDATE', 'PLATFORM_MANAGE_ALL_TENANTS'],
 
     readAllMode: [
