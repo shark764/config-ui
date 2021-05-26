@@ -749,7 +749,8 @@ angular.module('liveopsConfigPanel').controller('NavbarController', [
       if (UserPermissions.hasPermissionInList(PermissionGroups.viewMedia)) {
         items.push({
           label: $translate.instant('navigation.flows.media'),
-          stateLink: 'content.flows.media',
+          stateLink: Session.betaFeatures.media && !isActiveExternalTenant ? 
+          'content.flows.media2' : 'content.flows.media',
           id: 'media-management-link',
           order: 5
         });

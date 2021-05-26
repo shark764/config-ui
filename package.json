@@ -1,6 +1,6 @@
 {
   "name": "config-ui",
-  "version": "4.102.0",
+  "version": "4.103.0",
   "scripts": {
     "start": "gulp serve",
     "test": "gulp test",

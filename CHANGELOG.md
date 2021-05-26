@@ -12,6 +12,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Integrations
 - Identity Providers
 
+## [4.103.0] - 2021-05-26
+### Added
+* CXV1-26874 - Add Media Navigation to Config 1
+
 ## [4.102.0] - 2021-05-20
 ### Added
 * CXV1-26867 - Config-UI | Access to Facebook Integration page from Config 1

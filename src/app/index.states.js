@@ -1072,6 +1072,23 @@ angular.module('liveopsConfigPanel').config([
           ]
         }
       })
+      .state('content.flows.media2', {
+        url: '/media2?id',
+        title: 'Flows - Media Management v2',
+        titleMessageId: 'title.flows.media',
+        templateUrl: 'app/components/flows/media2/media.html',
+        controller: 'mediaController2',
+        reloadOnSearch: false,
+        resolve: {
+          hasPermission: [
+            'UserPermissions',
+            'PermissionGroups',
+            function(UserPermissions, PermissionGroups) {
+              return UserPermissions.resolvePermissions(PermissionGroups.viewMedia);
+            }
+          ]
+        }
+      })
       .state('content.flows.media-collections', {
         url: '/media-collections?id',
         title: 'Flows - Media Collection Management',
