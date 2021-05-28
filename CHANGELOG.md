@@ -8,9 +8,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Queues
 
 ## [Beta User Acceptance Testing]
+- Media
+
+## [Phase Two Opt-out]
 - Tenants
 - Integrations
 - Identity Providers
+- Capacity Rues
+
+## [4.103.1] - 2021-05-27
+### Fixed
+* no-jira - sdk version bump to 10.1.0
 
 ## [4.103.0] - 2021-05-26
 ### Added
