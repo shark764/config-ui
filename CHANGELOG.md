@@ -16,6 +16,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Identity Providers
 - Capacity Rues
 
+## [4.103.2] - 2021-06-07
+### Fixed
+- CXV1-24319 - Fix SSO login in prod
+
 ## [4.103.1] - 2021-05-27
 ### Fixed
 * no-jira - sdk version bump to 10.1.0
