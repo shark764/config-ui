@@ -16,6 +16,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Identity Providers
 - Capacity Rues
 
+## [4.103.6] - 2021-07-20
+### Fixed
+* CXV1-24132 - Bumped SDK version to 10.1.5, where adding a capacity rule to the user will revoke all older rules
+
 ## [4.103.5] - 2021-07-07
 ### Fixed
 * CXV1-24132 - Bumped SDK version to 10.1.4, to revert changes
