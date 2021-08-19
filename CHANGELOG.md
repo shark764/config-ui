@@ -16,6 +16,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Identity Providers
 - Capacity Rues
 
+## [4.105.0] - 2021-06-23
+### Added
+* CXV1-26993 - Smooch Rich Messaging | Text Message Transcripts with shorthand and/or action buttons.
+* CXV1-26994 - Smooch Rich Messaging | Location Message Transcripts.
+* CXV1-26995 - Smooch Rich Messaging | Carousel Message Transcripts.
+* CXV1-26996 - Smooch Rich Messaging | List Message Transcripts.
+
 ## [4.104.0] - 2021-07-22
 ### Added
 * CXV1-26997 - Smooch Rich Messaging | Form Message with MULTIPLE FIELDS Transcripts.

@@ -166,7 +166,7 @@ angular.module('liveopsConfigPanel')
                             filename: filename,
                             mediaUrl: file.url,
                           });
-                        } else {
+                        } else if (response[key].payload.body.file.mediaUrl.includes('smooch')) {
                           // If artifact file url doesn't exist,
                           // we delete smooch one
                           delete response[key].payload.body.file.mediaUrl;
@@ -177,6 +177,12 @@ angular.module('liveopsConfigPanel')
                       }
                       if (messageBody.contentType === 'formResponse') {
                         getRichMessagesFormResponses(messageBody);
+                      }
+                      if (messageBody.contentType === 'location') {
+                        getRichMessagesLocation(messageBody);
+                      }
+                      if (messageBody.contentType === 'carousel' || messageBody.contentType === 'list') {
+                        getRichMessagesCarousel(messageBody);
                       }
                       return;
                     }
@@ -240,7 +246,6 @@ angular.module('liveopsConfigPanel')
           }
 
           function getQuotedFile(content, messages) {
-            var fileName;
             if (content) {
               for (var i = 0; i < messages.length; i++) {
                 if (messages[i].payload.body.id === content.id) {
@@ -250,7 +255,7 @@ angular.module('liveopsConfigPanel')
                   }
                 }
               }
-              if (content.file && content.file.mediaUrl && content.file.mediaUrl.includes("smooch")) {
+              if (content.file && content.file.mediaUrl && content.file.mediaUrl.includes('smooch')) {
                 delete content.file.mediaUrl;
               }
             }
@@ -266,6 +271,44 @@ angular.module('liveopsConfigPanel')
               // in case JSON.parse fails, catch the error and use message.text instead
               // (update contentType so it renders properly)
               message.contentType = 'text';
+            }
+          }
+
+          function getRichMessagesLocation(message) {
+            if (message.text.includes('\n')) {
+              var location = message.text.split('\n');
+              message.text = location[0];
+              message.locationUri = location[1];
+            }
+          }
+
+          function getRichMessagesCarousel(message) {
+            if (message.text.includes('\n\n')) {
+              message.carouselItems = [];
+              var carouselItems = message.text.split('\n\n');
+              carouselItems.forEach(function(carouselItem) {
+                if (carouselItem.includes('\n')) {
+                  var carouselItemsContent = [];
+                  var contentUri;
+                  var itemContents = carouselItem.split('\n');
+                  itemContents.forEach(function(itemContent) {
+                    if (itemContent.includes('http')) {
+                      const text = itemContent.substring(0, itemContent.indexOf('http'));
+                      const hyperlink = itemContent.substring(itemContent.indexOf('http'), itemContent.length);
+                      contentUri = {
+                        text: text,
+                        hyperlink: hyperlink
+                      };
+                    } else {
+                      carouselItemsContent.push(itemContent);
+                    }
+                  });
+                  message.carouselItems.push({
+                    itemContent: carouselItemsContent,
+                    contentUri: contentUri
+                  });
+                }
+              });
             }
           }
 

@@ -54,10 +54,6 @@
               </a>
             </p>
 
-            <p layout="column" ng-if="message.payload.body.text &&
-              !(message.payload.body.contentType === 'formResponse')">
-              <em>{{message.payload.body.text}}</em>
-            </p>
             <div layout="column" ng-if="message.payload.body.text && message.payload.body.contentType === 'formResponse'">
               <div ng-if="message.payload.body.formResponses" ng-repeat="response in message.payload.body.formResponses">
                 <p>
@@ -67,6 +63,38 @@
                   <em>{{response.text.trim()}}</em>
                 </p>
                 </br>
+              </div>
+            </div>
+            <div layout="column" ng-if="message.payload.body.contentType === 'carousel' || message.payload.body.contentType === 'list'">
+              <div ng-repeat="item in message.payload.body.carouselItems">
+                <p ng-repeat="content in item.itemContent">
+                  <em>{{content}}</em>
+                </p>
+                <p ng-if="item.contentUri">
+                  <em>{{item.contentUri.text}} <a ng-href="{{item.contentUri.hyperlink}}" target="_blank">{{item.contentUri.hyperlink}}</a></em>
+                </p>
+                </br>
+              </div>
+            </div>
+
+            <p layout="column" ng-if="message.payload.body.text && !message.payload.body.locationUri &&
+              !(message.payload.body.contentType === 'carousel' || message.payload.body.contentType === 'list' || message.payload.body.contentType === 'formResponse')">
+              <em>{{message.payload.body.text}}</em>
+            </p>
+            <p layout="column" ng-if="message.payload.body.text && message.payload.body.locationUri">
+              <em>{{message.payload.body.text}} <a ng-href="{{message.payload.body.locationUri}}" target="_blank">{{message.payload.body.locationUri}}</a></em>
+            </p>
+
+            <div ng-if="message.payload.body.actions && message.payload.body.actions.length > 0 &&
+              !(message.payload.body.contentType === 'carousel' || message.payload.body.contentType === 'list')">
+              <div class="richMessageLinkContainer" ng-repeat="item in message.payload.body.actions" ng-if="item.type === 'link'">
+                <p class="richMessageLink">
+                  {{item.text}}: <a ng-href="{{item.uri}}" target="_blank">{{item.uri}}</a>
+                </p>
+              </div>
+              <div class="richMessageReplyPostbackContainer" ng-repeat="item in message.payload.body.actions"
+                   ng-if="item.type === 'reply' || item.type === 'locationRequest' || item.type === 'postback'">
+                <p class="richMessageReplyPostback">{{item.text}}</p>
               </div>
             </div>
 
