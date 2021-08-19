@@ -175,6 +175,9 @@ angular.module('liveopsConfigPanel')
                       if (messageBody.quotedMessage && messageBody.quotedMessage.content) {
                         getQuotedFile(messageBody.quotedMessage.content, response);
                       }
+                      if (messageBody.contentType === 'formResponse') {
+                        getRichMessagesFormResponses(messageBody);
+                      }
                       return;
                     }
                     if (val.payload.from !== 'CxEngage') {
@@ -250,6 +253,19 @@ angular.module('liveopsConfigPanel')
               if (content.file && content.file.mediaUrl && content.file.mediaUrl.includes("smooch")) {
                 delete content.file.mediaUrl;
               }
+            }
+          }
+
+          function getRichMessagesFormResponses(message) {
+            try {
+              var responses = JSON.parse(message.text);
+              if (responses && responses.responses.length > 0) {
+                message.formResponses = responses.responses;
+              }
+            } catch (error) {
+              // in case JSON.parse fails, catch the error and use message.text instead
+              // (update contentType so it renders properly)
+              message.contentType = 'text';
             }
           }
 
@@ -493,7 +509,7 @@ angular.module('liveopsConfigPanel')
                   })
                   .catch(function (err) {
                     console.error(
-                      'An error ocurred while fetching email transcript files',
+                      'An error occurred while fetching email transcript files',
                       err
                     );
                     scope.isLoadingAppDock = false;

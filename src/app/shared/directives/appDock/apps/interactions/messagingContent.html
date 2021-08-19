@@ -54,9 +54,22 @@
               </a>
             </p>
 
-            <p layout="column" ng-if="message.payload.body.text">
+            <p layout="column" ng-if="message.payload.body.text &&
+              !(message.payload.body.contentType === 'formResponse')">
               <em>{{message.payload.body.text}}</em>
             </p>
+            <div layout="column" ng-if="message.payload.body.text && message.payload.body.contentType === 'formResponse'">
+              <div ng-if="message.payload.body.formResponses" ng-repeat="response in message.payload.body.formResponses">
+                <p>
+                  <em><b>{{response.name.trim()}}</b></em>
+                </p>
+                <p>
+                  <em>{{response.text.trim()}}</em>
+                </p>
+                </br>
+              </div>
+            </div>
+
           </div>
         </md-list-item>
       </md-list>

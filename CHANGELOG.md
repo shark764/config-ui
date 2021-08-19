@@ -16,6 +16,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Identity Providers
 - Capacity Rues
 
+## [4.104.0] - 2021-07-22
+### Added
+* CXV1-26997 - Smooch Rich Messaging | Form Message with MULTIPLE FIELDS Transcripts.
+
 ## [4.103.8] - 2021-08-12
 ### Fixed
 * CXV1-24132 - Bumped SDK version to 10.2.0
